@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.documents import iter_document_paths
 from mtl.record import aggregate
-from mtl.score import outcome, real_result
+from mtl.score import live_tilt, outcome, real_result
 
 CALL_STATUS = {
     'bullish': ('good', '#0ca30c', '▲'),
@@ -227,6 +227,7 @@ def ticker_strip(doc, live=None):
         </div>
         {live_price_html(a['key'], live)}
         <div class="tape-horizons">{horizons_html}</div>
+        {live_tilt_row_html(a, live)}
       </div>''')
     return "".join(items)
 
@@ -236,6 +237,34 @@ def tape_horizon_badge(h):
     return (f'<span class="tape-badge" style="--dot:{hexval}">'
             f'<span class="tape-badge-h">{h["h"]}D</span>'
             f'<span class="tape-badge-arrow">{arrow}</span></span>')
+
+
+def live_tilt_badge(h, live_price):
+    """Unscored: where the live price sits against this horizon's own
+    flat-zone bounds, right now - never written back to the horizon,
+    never graded, just refreshed with whatever the last run's live.json
+    snapshot (scheduled or workflow_dispatch) happened to see."""
+    tilt = live_tilt(live_price, h['flatLo'], h['flatHi'])
+    if tilt is None:
+        return ''
+    role, hexval, arrow = CALL_STATUS.get(tilt, ('flat', '#898781', '▬'))
+    return (f'<span class="tape-tilt-badge" style="--dot:{hexval}" '
+            f'title="unscored - where the live price sits vs this horizon\'s flat zone right now">'
+            f'<span class="tape-badge-h">{h["h"]}D</span>'
+            f'<span class="tape-badge-arrow">{arrow}</span></span>')
+
+
+def live_tilt_row_html(a, live):
+    if not live:
+        return ''
+    row = (live.get('prices') or {}).get(a['key'])
+    if not row or row.get('price') is None:
+        return ''
+    by_h = {h['h']: h for h in a['horizons']}
+    badges = "".join(live_tilt_badge(by_h[h], row['price']) for h in (1, 5, 10))
+    if not badges:
+        return ''
+    return f'<div class="tape-tilt-row"><span class="tape-tilt-label">live tilt</span>{badges}</div>'
 
 
 def stat_tiles(doc):
@@ -350,6 +379,13 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
   color: var(--dot); font-weight: 600;
 }}
 .tape-badge-h {{ font-family: ui-monospace, monospace; letter-spacing: 0.02em; }}
+.tape-tilt-row {{ display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: -2px; }}
+.tape-tilt-label {{ font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--masthead-ink-2); opacity: 0.75; }}
+.tape-tilt-badge {{
+  display: inline-flex; align-items: center; gap: 4px; font-size: 0.7rem;
+  padding: 1px 6px; border-radius: 6px; border: 1px dashed var(--dot);
+  background: transparent; color: var(--dot); font-weight: 600; opacity: 0.9;
+}}
 
 /* stat tiles */
 .stats {{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--hairline);
