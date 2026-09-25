@@ -70,6 +70,12 @@ def fetch_asset(key: str, s: str) -> dict:
         categories=[TODO] * JUDGMENT_CATEGORY_COUNT + [STRUCTURE_CATEGORY_NAME],
         stretchInputs=stretch_inputs_from_history(closes, as_of),
         structure=fetch_structure(ticker, s),
+        # The raw fetch ticker, recorded verbatim - TICKERS has changed
+        # once already (ETFs -> futures) and will again, so the report's
+        # display label needs to read this rather than assume a fixed
+        # symbol forever. Documents drafted before this field existed
+        # (e.g. 2026-09-24) fall back to render_html.py's static map.
+        ticker=ticker,
         volRegime=0, crowd=0, stretchDrivers=[], nullInputs=[TODO],
     )
 

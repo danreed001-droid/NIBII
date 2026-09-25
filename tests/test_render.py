@@ -4,7 +4,7 @@ import json
 import os
 
 from mtl.score import real_result
-from scripts.render_html import (call_log_section, live_note_html, live_price_html,
+from scripts.render_html import (call_log_section, display_ticker, live_note_html, live_price_html,
                                   pct_tone, render, ticker_strip, track_record_section)
 from scripts.settle import settle_document
 
@@ -155,3 +155,19 @@ def test_live_note_html_shows_fetchedAt_when_present():
     html = live_note_html({'fetchedAt': '2026-09-25T13:45:00Z', 'prices': {'equities': {'ticker': 'ES=F', 'price': 1}}})
     assert '2026-09-25T13:45:00Z' in html
     assert 'live-note' in html
+
+
+def test_display_ticker_prefers_the_documents_own_recorded_ticker():
+    # a document drafted after TICKERS switched to futures records its own
+    # ticker - that must win, even though it doesn't match the static map
+    a = {'key': 'bonds', 'ticker': 'ZN=F'}
+    assert display_ticker(a) == 'ZN=F'
+
+
+def test_display_ticker_falls_back_to_the_static_map_for_older_documents():
+    # 2026-09-24 predates the ticker field - it was drafted against TLT,
+    # and must never be relabeled to the current (different) TICKERS entry
+    a = {'key': 'bonds'}
+    assert display_ticker(a) == 'TLT'
+    a_none = {'key': 'bonds', 'ticker': None}
+    assert display_ticker(a_none) == 'TLT'

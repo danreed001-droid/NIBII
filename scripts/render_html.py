@@ -31,15 +31,20 @@ STRETCH_TONE = {
     'stretched-up': '#ec835a', 'extreme-up': '#d03b3b',
 }
 TICKER = {
-    # equities/gold keep a small-basis conceptual label (ES=F/GC=F trade
-    # close to ^GSPC/spot gold's own scale, same as the gold precedent).
-    # bonds/iwm/qqq show the real futures ticker instead of the old ETF
-    # label - NQ=F/RTY=F/ZN=F trade at a completely different scale than
-    # QQQ/IWM/TLT, so keeping the ETF label would show a wildly
-    # wrong-looking number under a familiar name (e.g. "QQQ: 30,902.00").
-    'equities': 'SPX', 'bonds': 'ZN=F', 'gold': 'XAU',
-    'dollar': 'DXY', 'iwm': 'RTY=F', 'qqq': 'NQ=F',
+    # Fallback ONLY - use display_ticker(a) wherever an asset dict is in
+    # scope, which prefers the document's own recorded a['ticker'] (see
+    # mtl.build.build_document). TICKERS in mtl/fetch.py has already
+    # changed once (ETFs -> futures) and will again; a static label here
+    # would drift out of sync with whichever ticker actually backed a
+    # given document's close - this map only fires for documents drafted
+    # before the ticker field existed (e.g. 2026-09-24).
+    'equities': 'SPX', 'bonds': 'TLT', 'gold': 'XAU',
+    'dollar': 'DXY', 'iwm': 'IWM', 'qqq': 'QQQ',
 }
+
+
+def display_ticker(a):
+    return a.get('ticker') or TICKER.get(a['key'], a['key'].upper())
 STRETCH_MIN, STRETCH_MAX = -6, 6
 E = html.escape
 
@@ -180,7 +185,7 @@ def asset_card(a, catalysts):
     <section class="asset">
       <header class="asset-head">
         <div>
-          <span class="asset-ticker">{E(TICKER.get(a['key'], a['key'].upper()))}</span>
+          <span class="asset-ticker">{E(display_ticker(a))}</span>
           <h2>{E(a['name'])}</h2>
           <p class="instrument">{E(a['instrument'])} · close {fmt_price(a['close'])}</p>
         </div>
@@ -217,7 +222,7 @@ def ticker_strip(doc, live=None):
         items.append(f'''
       <div class="tape-item" style="--dot:{hexval}">
         <div class="tape-head">
-          <span class="tape-ticker">{E(TICKER.get(a['key'], a['key'].upper()))}</span>
+          <span class="tape-ticker">{E(display_ticker(a))}</span>
           <span class="tape-price">{fmt_price(a['close'])}</span>
         </div>
         {live_price_html(a['key'], live)}
@@ -253,7 +258,7 @@ def stat_tiles(doc):
         tile('Bearish calls', n_bear, f'of 18') +
         tile('Flat / no-call', n_flat + n_nocall, f'of 18') +
         tile('Overlay reweighted', doc['overlay']['cellsChanged'], 'of 18 cells') +
-        tile('Most stretched', f"{TICKER.get(extreme['key'], extreme['key'].upper())} {extreme['stretch']['score']:+d}",
+        tile('Most stretched', f"{display_ticker(extreme)} {extreme['stretch']['score']:+d}",
              extreme['stretch']['label'], tone=ex_tone)
     )
 
@@ -727,7 +732,7 @@ def log_row(date, a, h):
     oc = outcome(h['ret'], h['band']) if settled else None
     return f'''<tr>
       <td class="log-date">{E(date)}</td>
-      <td class="log-ticker">{E(TICKER.get(a['key'], a['key'].upper()))}</td>
+      <td class="log-ticker">{E(display_ticker(a))}</td>
       <td>{h['h']}D</td>
       <td><span class="log-call"><span class="dot" style="--dot:{hexval}"></span>{arrow} {E(h['call'])}</span>
           <span class="log-conf">{E(h['confidence'])}</span></td>
