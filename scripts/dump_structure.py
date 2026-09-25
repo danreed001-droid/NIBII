@@ -23,12 +23,15 @@ from mtl.fetch import TICKERS
 from scripts.prepare_daily import fetch_structure
 
 
-def main(s: str):
+def main(s: str, out_path: str):
     out = {key: fetch_structure(TICKERS[key], s) for key in ASSET_ORDER}
-    print(json.dumps(out, indent=1))
+    with open(out_path, "w") as f:
+        json.dump(out, f, indent=1)
+        f.write("\n")
+    print(f"wrote {out_path}")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        raise SystemExit(f"usage: {sys.argv[0]} YYYY-MM-DD")
-    main(sys.argv[1])
+    if len(sys.argv) != 3:
+        raise SystemExit(f"usage: {sys.argv[0]} YYYY-MM-DD OUT_PATH")
+    main(sys.argv[1], sys.argv[2])
