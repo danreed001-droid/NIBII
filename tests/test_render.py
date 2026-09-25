@@ -4,7 +4,8 @@ import json
 import os
 
 from mtl.score import real_result
-from scripts.render_html import call_log_section, pct_tone, render, track_record_section
+from scripts.render_html import (call_log_section, live_note_html, live_price_html,
+                                  pct_tone, render, ticker_strip, track_record_section)
 from scripts.settle import settle_document
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -113,3 +114,44 @@ def test_call_log_caps_to_most_recent_sessions():
     html = call_log_section(many_docs)
     assert '14 most recent session' in html
     assert 'of 20 published total' in html
+
+
+def test_live_price_html_absent_without_a_snapshot():
+    assert live_price_html('equities', None) == ''
+    assert live_price_html('equities', {'prices': {}}) == ''
+    assert live_price_html('equities', {'prices': {'equities': {'ticker': 'ES=F', 'price': None}}}) == ''
+
+
+def test_live_price_html_shows_ticker_and_price_when_present():
+    live = {'prices': {'equities': {'ticker': 'ES=F', 'price': 7789.0}}}
+    html = live_price_html('equities', live)
+    assert 'ES=F' in html and '7,789.00' in html and 'tape-live' in html
+
+
+def test_ticker_strip_is_unchanged_without_a_live_snapshot():
+    # the call basis (a['close']) must never be affected by the live overlay
+    without_live = ticker_strip(PUB)
+    with_none = ticker_strip(PUB, None)
+    assert without_live == with_none
+    assert 'tape-live' not in without_live
+
+
+def test_ticker_strip_embeds_live_prices_when_given():
+    live = {'prices': {a['key']: {'ticker': 'X=F', 'price': 999.0} for a in PUB['assets']}}
+    html = ticker_strip(PUB, live)
+    assert html.count('tape-live') == len(PUB['assets'])
+    assert '999.00' in html
+    # the actual call basis price is still the document's own close, untouched
+    for a in PUB['assets']:
+        assert f"{a['close']:,.2f}" in html
+
+
+def test_live_note_html_empty_without_a_snapshot():
+    assert live_note_html(None) == ''
+    assert live_note_html({'prices': {}}) == ''
+
+
+def test_live_note_html_shows_fetchedAt_when_present():
+    html = live_note_html({'fetchedAt': '2026-09-25T13:45:00Z', 'prices': {'equities': {'ticker': 'ES=F', 'price': 1}}})
+    assert '2026-09-25T13:45:00Z' in html
+    assert 'live-note' in html

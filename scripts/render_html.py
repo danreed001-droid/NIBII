@@ -193,7 +193,21 @@ def asset_card(a, catalysts):
     </section>'''
 
 
-def ticker_strip(doc):
+def live_price_html(key, live):
+    """Small secondary line showing what the instrument is trading at right
+    now, from documents/live.json - a pure display overlay, never the basis
+    a call was actually made against (that's always a['close'], untouched).
+    None if no live snapshot exists or this key isn't in it."""
+    if not live:
+        return ''
+    row = (live.get('prices') or {}).get(key)
+    if not row or row.get('price') is None:
+        return ''
+    return (f'<span class="tape-live" title="live snapshot, not the call basis">'
+            f'live {E(row["ticker"])} {fmt_price(row["price"])}</span>')
+
+
+def ticker_strip(doc, live=None):
     items = []
     for a in doc['assets']:
         by_h = {h['h']: h for h in a['horizons']}
@@ -206,6 +220,7 @@ def ticker_strip(doc):
           <span class="tape-ticker">{E(TICKER.get(a['key'], a['key'].upper()))}</span>
           <span class="tape-price">{fmt_price(a['close'])}</span>
         </div>
+        {live_price_html(a['key'], live)}
         <div class="tape-horizons">{horizons_html}</div>
       </div>''')
     return "".join(items)
@@ -322,6 +337,7 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 .tape-head {{ display: flex; align-items: baseline; gap: 8px; }}
 .tape-ticker {{ font-family: ui-monospace, monospace; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--masthead-ink-2); }}
 .tape-price {{ font-family: ui-monospace, monospace; font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink); }}
+.tape-live {{ font-family: ui-monospace, monospace; font-size: 0.68rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink-2); opacity: 0.85; }}
 .tape-horizons {{ display: flex; gap: 6px; }}
 .tape-badge {{
   display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem;
@@ -503,6 +519,7 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
     <p class="updated">Last updated {generated_at}</p>
+    {live_note}
     <div class="tape">{tape}</div>
   </div>
 </div>
@@ -747,7 +764,14 @@ def call_log_section(all_docs: dict) -> str:
     <p class="log-caption">{E(caption)}</p>'''
 
 
-def render(doc: dict, all_docs: dict = None, generated_at: str = None) -> str:
+def live_note_html(live):
+    if not live or not live.get('prices'):
+        return ''
+    return (f'<p class="updated live-note">Live prices as of {E(live.get("fetchedAt", "?"))} '
+            f'- overlay only, never the basis a call was made against</p>')
+
+
+def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dict = None) -> str:
     news_log = doc.get('context', {}).get('newsLog', [])
     assets_html = "".join(
         asset_card(a, matching_catalysts(a['key'], news_log, doc['date']))
@@ -756,18 +780,27 @@ def render(doc: dict, all_docs: dict = None, generated_at: str = None) -> str:
     docs = all_docs or {doc['date']: doc}
     stamp = generated_at or datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     return PAGE.format(
-        date=doc['date'], tape=ticker_strip(doc), stats=stat_tiles(doc),
+        date=doc['date'], tape=ticker_strip(doc, live), stats=stat_tiles(doc),
         assets=assets_html, record=track_record_section(docs), log=call_log_section(docs),
-        generated_at=E(stamp),
+        generated_at=E(stamp), live_note=live_note_html(live),
     )
 
 
 def load_all_documents(documents_dir):
     docs = {}
     for path in sorted(glob.glob(os.path.join(documents_dir, "*.json"))):
+        if os.path.basename(path) == 'live.json':
+            continue  # a live-price snapshot, not a ledger document
         doc = json.load(open(path))
         docs[doc['date']] = doc
     return docs
+
+
+def load_live(documents_dir):
+    path = os.path.join(documents_dir, "live.json")
+    if not os.path.exists(path):
+        return None
+    return json.load(open(path))
 
 
 def main(s: str):
@@ -789,7 +822,8 @@ def main(s: str):
     documents_dir = os.path.join(root, "documents")
     doc = json.load(open(os.path.join(documents_dir, f"{s}.json")))
     all_docs = load_all_documents(documents_dir)
-    page = render(doc, all_docs)
+    live = load_live(documents_dir)
+    page = render(doc, all_docs, live=live)
 
     out_path = os.path.join(documents_dir, "latest.html")
     with open(out_path, "w") as f:

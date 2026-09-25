@@ -53,6 +53,18 @@ jobs:
             python scripts/prepare_daily.py "$S"
           fi
 
+      - name: Fetch a live price snapshot for the ticker strip
+        run: python scripts/fetch_live.py
+
+      - name: Re-render the latest published report with fresh live prices
+        run: |
+          LATEST=$(python scripts/latest_document_date.py)
+          if [ -n "$LATEST" ]; then
+            python scripts/render_html.py "$LATEST"
+          else
+            echo "no published document yet - nothing to render"
+          fi
+
       - name: Commit and push whatever changed
         run: |
           git config user.name "github-actions[bot]"
