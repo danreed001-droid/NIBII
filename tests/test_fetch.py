@@ -1,28 +1,34 @@
 """Pure-function tests for the yfinance data layer - no network required.
 
-Covers the yield*10 scaling fix and the plausibility guards, which exist
-because live scaling could not be spot-checked in the environment that wrote
-them (Yahoo Finance is blocked by that environment's outbound network
-policy). See the module docstring in mtl/fetch.py.
+The old yield*10 scaling assumption was live-verified wrong (2026-09-25,
+via GitHub Actions) and removed - see mtl/fetch.py's module docstring for
+the real values that disproved it. These tests now cover the corrected
+pass-through behavior and the plausibility guard that would have caught
+the original bug if it had ever run against real data.
 """
 import pytest
 
 from mtl.fetch import scaled_yield, rsi14, sma
 
 
-def test_x10_tickers_are_divided_by_ten():
-    assert scaled_yield(43.3, '^TNX') == 4.33
-    assert scaled_yield(21.5, '^FVX') == 2.15
-    assert scaled_yield(49.1, '^TYX') == 4.91
-
-
-def test_irx_is_not_scaled():
-    assert scaled_yield(5.3, '^IRX') == 5.3
+def test_yields_pass_through_unscaled():
+    # live-verified 2026-09-25: ^TNX printed 5.1620 directly as the percent
+    # yield, not 51.620 - Yahoo does not scale these by 10
+    assert scaled_yield(5.162, '^TNX') == 5.162
+    assert scaled_yield(5.025, '^FVX') == 5.025
+    assert scaled_yield(5.461, '^TYX') == 5.461
+    assert scaled_yield(4.068, '^IRX') == 4.068
 
 
 def test_scaled_yield_rejects_implausible_result():
+    # this is exactly the bug the old *10 divide would have caused: a real
+    # ~43% misread as plausible, or a real yield divided down to ~0.5% -
+    # the guard exists so a future format change fails loudly instead of
+    # publishing a silently wrong number
     with pytest.raises(ValueError):
-        scaled_yield(430.0, '^TNX')  # unscaled input passed by mistake -> 43.0%
+        scaled_yield(430.0, '^TNX')
+    with pytest.raises(ValueError):
+        scaled_yield(-1.0, '^TNX')
 
 
 def test_rsi_and_sma_unaffected_by_fetch_changes():

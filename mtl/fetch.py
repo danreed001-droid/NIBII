@@ -6,41 +6,41 @@ blindness rule stays checkable. Anything yfinance cannot supply comes back as
 None with a reason, so the overlay scores that component zero rather than
 guessing. Judgment fields (volRegime, crowd, vote reasons) are never fetched.
 
-GOLD AND YIELDS - READ BEFORE TRUSTING LIVE
---------------------------------------------
-'gold' below is 'XAUUSD=X', Yahoo's FX-style spot gold quote, not 'GC=F'
-(COMEX futures, which run ~$50 above spot on cost-of-carry - kept in
-FUTURES_GOLD_TICKER for reference/comparison only, never scored).
+GOLD AND YIELDS - LIVE-VERIFIED 2026-09-25 via GitHub Actions
+----------------------------------------------------------------
+This environment's own network policy blocks Yahoo Finance, so these were
+originally coded from documented convention and flagged unverified. They
+have SINCE been spot-checked for real from GitHub Actions (which has normal
+outbound internet) - see the "Daily Market Data Fetch" workflow's run from
+2026-09-25. Two corrections came out of that check:
 
-^TNX/^FVX/^TYX are CBOE-legacy indices quoted at yield*10 (a 4.33% 10-year
-prints as 43.30); YIELD_TICKERS_X10 lists them and scaled_yield() divides by
-10. ^IRX is already a direct percentage and is NOT in that set. There is no
-2-year Treasury ticker on yfinance; fetch_ust2y_fred() sources DGS2 from FRED
-instead.
+- **Gold has no working spot ticker on Yahoo right now.** Both 'XAUUSD=X'
+  and 'XAU=X' returned 404 ("Quote not found") live. Only 'GC=F' (COMEX
+  futures) returned real data. TICKERS['gold'] is 'GC=F' until a working
+  spot source is found - meaning the ledger is currently scoring futures,
+  which run ~$50 above spot on cost-of-carry. That basis gap is a real,
+  currently-unresolved limitation, not a rounding error.
+- **^TNX/^FVX/^TYX are NOT yield*10 - that assumption was wrong.** A live
+  check returned ^TNX=5.1620 directly as the percent yield (matching a
+  10-year at ~5.16%, not 51.6%). The previous divide-by-10 step
+  (scaled_yield(), now removed) would have silently corrupted every yield
+  by a factor of 10 the first time this ran for real. YIELDS values are
+  used as-is now; _assert_plausible_yield still guards against a future
+  format change going uncaught.
 
-These conventions are well documented but were NOT re-verified empirically in
-the session that wrote this: this environment's outbound network policy
-blocks Yahoo Finance (guce.yahoo.com / query2.finance.yahoo.com return 403 at
-the proxy), so live scaling could not be spot-checked against a known price.
-_assert_plausible_yield/_assert_plausible_gold below catch an obviously wrong
-scale rather than let one propagate silently - but the FIRST live run should
-still manually cross-check one gold print and one yield against a second
-source before the ledger trusts them.
-
-fetch_ohlc/ohlc_through (used by mtl.structure for swing/market-structure
-detection) request Yahoo's intraday interval='60m' data, which was also not
-reachable to verify in this environment - in particular, whether every
-ticker in TICKERS actually has clean hourly history on Yahoo (index tickers
-like ^GSPC sometimes have gappier intraday coverage than their ETF
-equivalents) is unconfirmed. mtl.structure.structure_signal degrades to
-state=None with a note rather than guessing when a series is too short, so a
-gap here produces an honest "no read" rather than a wrong one - but this
-too wants a first-live-run spot check.
+There is still no 2-year Treasury ticker on Yahoo; fetch_ust2y_fred() sources
+FRED's DGS2 instead - confirmed working live (13,127 rows). Hourly intraday
+data (fetch_ohlc's interval='60m', used by mtl.structure) is also confirmed
+working for both an index ticker (^GSPC) and an ETF (TLT) - 35 bars each,
+current as of the live check.
 """
 from datetime import date
 
 FUTURES_GOLD_TICKER = 'GC=F'
-SPOT_GOLD_TICKER = 'XAUUSD=X'
+# No working spot gold ticker found on Yahoo as of the 2026-09-25 live check
+# (both 'XAUUSD=X' and 'XAU=X' 404). Using futures until a real spot source
+# turns up - see the module docstring for the ~$50 basis this introduces.
+SPOT_GOLD_TICKER = FUTURES_GOLD_TICKER
 
 TICKERS = {
     'equities': '^GSPC', 'bonds': 'TLT', 'gold': SPOT_GOLD_TICKER,
@@ -51,26 +51,28 @@ SIGMA_TICKER = {
     'dollar': None, 'iwm': '^RVX', 'qqq': '^VXN',
 }
 YIELDS = {'ust2': None, 'ust5': '^FVX', 'ust10': '^TNX', 'ust30': '^TYX'}
-YIELD_TICKERS_X10 = {'^FVX', '^TNX', '^TYX'}
 FRED_UST2Y_SERIES = 'DGS2'
 EXTRA = {'vix3m': '^VIX3M', 'vix9d': '^VIX9D', 'skew': '^SKEW', 'wti': 'CL=F',
          'silver': 'SI=F', 'brent': 'BZ=F', 'rut': '^RUT', 'dji': '^DJI',
          'ndx': '^NDX', 'comp': '^IXIC'}
 
-NOTE_GOLD = (f"{TICKERS['gold']} is Yahoo's spot XAU/USD quote. {FUTURES_GOLD_TICKER} is COMEX "
-             "futures, which run roughly $50 above spot on cost-of-carry - kept only for "
-             "comparison, never scored. Unverified live in this environment; see module docstring.")
-NOTE_YIELDS = ("^TNX/^FVX/^TYX are yield*10 on Yahoo (a legacy CBOE index convention) and are "
-               "divided by 10 in scaled_yield() before use; ^IRX is not. yfinance has no clean "
-               "2-year series - fetch_ust2y_fred() sources FRED's DGS2 instead. "
-               "Unverified live in this environment; see module docstring.")
+NOTE_GOLD = (f"No working spot gold ticker on Yahoo as of the 2026-09-25 live check "
+             f"('XAUUSD=X' and 'XAU=X' both 404). Using {FUTURES_GOLD_TICKER} (COMEX futures, "
+             "~$50 above spot on cost-of-carry) as a documented, unresolved limitation until a "
+             "real spot source is found.")
+NOTE_YIELDS = ("^TNX/^FVX/^TYX/^IRX are all direct percent yields on Yahoo - live-verified "
+               "2026-09-25 (^TNX printed 5.1620 for a ~5.16% 10-year). The earlier yield*10 "
+               "assumption was wrong and has been removed. yfinance has no clean 2-year series - "
+               "fetch_ust2y_fred() sources FRED's DGS2 instead, also live-verified.")
 
 
 def scaled_yield(raw: float, ticker: str) -> float:
-    """Raw Yahoo close -> actual percent yield."""
-    pct = raw / 10.0 if ticker in YIELD_TICKERS_X10 else raw
-    _assert_plausible_yield(pct, ticker)
-    return pct
+    """Raw Yahoo close -> percent yield. Kept as a named pass-through (not
+    inlined at call sites) so the plausibility guard applies uniformly and
+    so a future Yahoo format change has one place to fix - see the module
+    docstring for why this no longer scales anything."""
+    _assert_plausible_yield(raw, ticker)
+    return raw
 
 
 def _assert_plausible_yield(pct, ticker):

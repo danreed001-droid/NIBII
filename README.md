@@ -131,25 +131,29 @@ Computing RSI and the moving averages from a close series removes that entire
 class of bug. `closes_through(ticker, S)` **enforces the blindness rule in code**
 — nothing dated after S is ever returned.
 
-Two traps `fetch.py` now resolves rather than just documents:
+Two traps here, **live-verified 2026-09-25** via the GitHub Actions fetch
+workflow (this environment's own network policy blocks Yahoo Finance, so the
+first version of this section was written from documented convention and
+flagged unverified — a real live check then caught a real bug in it):
 
-- **Gold.** `TICKERS['gold']` is `XAUUSD=X` (Yahoo's spot quote), not `GC=F`
-  (COMEX futures, ~$50 above spot on cost-of-carry — kept only as
-  `FUTURES_GOLD_TICKER` for comparison, never scored).
-- **Yields.** `^TNX`/`^FVX`/`^TYX` are yield×10 on Yahoo (a legacy CBOE index
-  convention); `scaled_yield()` divides by 10 before the value is used, and
-  `^IRX` is excluded from that scaling since it's already a direct
-  percentage. yfinance has no 2-year Treasury series, so `fetch_ust2y_fred()`
-  sources FRED's `DGS2` instead.
+- **Gold has no working spot ticker on Yahoo right now.** Both `XAUUSD=X`
+  and `XAU=X` — the two spot-quote candidates — returned 404 ("Quote not
+  found") live. Only `GC=F` (COMEX futures) returned real data.
+  `TICKERS['gold']` is `GC=F` until a working spot source turns up, which
+  means the ledger is currently scoring futures, running ~$50 above spot on
+  cost-of-carry — a real, open limitation, not a rounding error.
+- **`^TNX`/`^FVX`/`^TYX` are NOT yield×10 — that assumption was wrong.** A
+  live check returned `^TNX=5.1620` directly as the percent yield (a
+  ~5.16% 10-year, not 51.6%). The original divide-by-10 step would have
+  silently corrupted every yield by 10x the first time it ran for real.
+  `scaled_yield()` now passes values through unscaled; `^IRX` was already
+  correct. yfinance still has no 2-year Treasury series, so
+  `fetch_ust2y_fred()` sources FRED's `DGS2` instead — also confirmed
+  working live (13,127 rows).
 
-Both fixes are guarded by plausibility asserts (`_assert_plausible_yield`,
-`_assert_plausible_gold`) that raise rather than silently accept an
-obviously mis-scaled print. **They were not empirically re-verified against
-Yahoo Finance in the environment that wrote them** — Yahoo Finance is blocked
-by that environment's outbound network policy, so the scaling above rests on
-well-documented convention, not a live spot-check. Cross-check one gold print
-and one yield against a second source on the first real run before trusting
-them unattended.
+`_assert_plausible_yield`/`_assert_plausible_gold` still guard both paths,
+so a future Yahoo format change fails loudly instead of publishing a
+silently wrong number again.
 
 Also note the 52-week range here is on a **closing** basis over 252 sessions;
 vendor pages usually quote the wider intraday range.
@@ -204,13 +208,12 @@ call by itself outright, but at weight 3 it's the single most powerful
 category in the tally - materially different from every other category's
 weight of 1.
 
-Same caveat as the yield/gold fixes: this reads yfinance's `interval="60m"`
-endpoint, which was also unreachable to verify in the environment that
-wrote it - whether every ticker in `TICKERS` actually has clean hourly
-history on Yahoo (index tickers like `^GSPC` sometimes have gappier
-intraday coverage than their ETF equivalents) is unconfirmed. A gap
-degrades to `state=None` with a note rather than a wrong answer, but this
-wants a first-live-run spot check too.
+**Live-verified 2026-09-25** alongside the yield/gold check: `interval="60m"`
+returned clean hourly bars for both an index ticker (`^GSPC`, 35 rows) and
+an ETF (`TLT`, 35 rows), so intraday coverage isn't the gap it might have
+been. `structure_signal` still degrades to `state=None` with a note rather
+than guessing if a given ticker's series ever comes up short - that
+fallback stays even though the common case now checks out.
 
 ## News catalysts and pattern analysis
 
