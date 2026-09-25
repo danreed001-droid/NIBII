@@ -1,0 +1,59 @@
+name: Daily Market Data Fetch
+
+# Runs on GitHub's own infrastructure, which has normal outbound internet -
+# unlike the Claude Code Remote sandbox the daily-cycle Routine runs in,
+# which blocks Yahoo Finance at its network proxy. This workflow owns every
+# step that needs live market data; the Routine (see README's "The daily
+# cycle") picks up what this drafts and only does research/judgment, no
+# raw network calls of its own.
+
+on:
+  schedule:
+    # 11:15 UTC = 7:15am EDT / 6:15am EST, weekdays - safely before the
+    # 9:30am ET open in both DST states. GitHub Actions cron has no
+    # timezone support, so a single UTC time is used year-round.
+    - cron: '15 11 * * 1-5'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install -r requirements.txt
+
+      - name: Settle prior calls with now-available closes
+        run: python scripts/settle.py
+
+      - name: Determine session date and draft today's contracts if needed
+        id: session
+        run: |
+          S=$(python -c "from mtl.calendar_nyse import most_recent_completed_session as f; print(f())")
+          echo "s=$S" >> "$GITHUB_OUTPUT"
+          if [ -f "documents/$S.json" ] || [ -f "contracts/inputs.$S.json" ]; then
+            echo "$S already published or drafted - nothing to fetch"
+          else
+            python scripts/prepare_daily.py "$S"
+          fi
+
+      - name: Commit and push whatever changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+          else
+            git commit -m "Daily data fetch: settle + draft ${{ steps.session.outputs.s }}"
+            git push
+          fi

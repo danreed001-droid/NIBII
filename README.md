@@ -70,16 +70,38 @@ assert verify_document(doc) == []
 
 ## The daily cycle
 
+Split across two runtimes, on purpose - each does only what it's actually
+suited for:
+
+**GitHub Actions** (`.github/workflows/daily-fetch.yml`, weekday mornings,
+also runnable manually via `workflow_dispatch`) owns everything that needs
+live market data, because it runs on GitHub's own infrastructure with
+normal outbound internet - unlike a Claude Code Remote sandbox, which
+blocks Yahoo Finance at its network proxy:
+
 ```bash
-python scripts/prepare_daily.py 2026-09-25   # fetches data, drafts contracts/*.2026-09-25.json
-#  -> fill in every "TODO" field by hand: direction, driverNote, categories,
-#     volRegime, crowd, stretchDrivers, nullInputs, and all 216 judgment votes
-#     (category 13's 18 votes are already filled in - mechanical, not judgment)
-python scripts/publish.py 2026-09-25         # builds, verifies, writes documents/2026-09-25.json
-python scripts/render_html.py 2026-09-25     # writes documents/latest.html - overwritten each run.
-#  documents/<S>.json stays one file per day (the actual scored ledger);
-#  only this rendered display copy is disposable and collapsed to one file.
+python scripts/settle.py            # marks matured prior calls correct/incorrect
+python scripts/prepare_daily.py 2026-09-25   # fetches data, drafts contracts/*.2026-09-25.json,
+                                              # if not already drafted/published
+# commits and pushes whatever changed
 ```
+
+**The daily-cycle Routine** (a scheduled Claude session, firing ~20 minutes
+after the Actions job) owns everything that needs judgment, and makes no
+raw network calls of its own - it doesn't need to, since the numbers it
+needs are already sitting in the files the Actions job just pushed:
+
+```bash
+# fill in every "TODO" field by hand: direction, driverNote, categories,
+# volRegime, crowd, stretchDrivers, nullInputs, and all 216 judgment votes
+# (category 13's 18 votes are already filled in - mechanical, not judgment)
+python scripts/publish.py 2026-09-25         # builds, verifies, writes documents/2026-09-25.json
+python scripts/render_html.py 2026-09-25     # writes documents/latest.html + docs/index.html
+```
+
+If you're running this by hand instead, both halves work the same way from
+any machine with normal internet access - `prepare_daily.py` doesn't care
+who calls it.
 
 `prepare_daily.py` fetches everything `fetch.py` can compute from a close
 series (close, sigma-gauge close, RSI, MA50/MA200, 52-week range, and the
@@ -90,11 +112,13 @@ document, and only writes `documents/<S>.json` if `verify_document` returns
 no errors — it never publishes a document that fails its own audit.
 
 Documents live in `documents/` in this repository, not in the Artifact
-database: `ArtifactData` is internal to Claude, and there is no public
-endpoint a GitHub Action (or `publish.py` run standalone) can reach. The
-Claude task, when it drives this cycle, is a caller of these two scripts, not
-a separate runtime — `documents/2026-09-24.json` is the first entry, seeded
-from `golden/2026-09-24.published.json`.
+database: `ArtifactData` is internal to Claude, and the daily-cycle Routine
+still can't write documents there from a GitHub Action. `documents/latest.html`
+and `docs/index.html` (served by GitHub Pages) are both overwritten each run,
+not accumulated per day - `documents/<S>.json` is the one that stays
+one-file-per-day, since it's the actual scored ledger.
+`documents/2026-09-24.json` is the first entry, seeded from
+`golden/2026-09-24.published.json`.
 
 ## What `fetch.py` fixes
 
