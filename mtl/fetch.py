@@ -135,6 +135,15 @@ def closes_through(ticker, s: str, period="2y"):
     return [c for _, c in rows], (rows[-1][0] if rows else None)
 
 
+def close_on(key: str, date: str, period="2y"):
+    """The exact close for asset `key` (a TICKERS key) on `date`, or None if
+    there's no print for that date yet - a weekend/holiday, or a date whose
+    close hasn't happened relative to available data."""
+    closes, as_of = (gold_close_through(date, period=period) if key == 'gold'
+                     else closes_through(TICKERS[key], date, period=period))
+    return closes[-1] if (closes and as_of == date) else None
+
+
 def gold_close_through(s: str, period="2y"):
     """Spot XAU/USD closes through S, sanity-checked against a plausible range."""
     closes, as_of = closes_through(SPOT_GOLD_TICKER, s, period=period)

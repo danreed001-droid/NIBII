@@ -25,6 +25,24 @@ def next_trading_day(d):
     return d
 
 
+def previous_trading_day(d):
+    if isinstance(d, str):
+        d = date.fromisoformat(d)
+    d -= timedelta(days=1)
+    while not is_trading_day(d):
+        d -= timedelta(days=1)
+    return d
+
+
+def most_recent_completed_session(as_of=None) -> str:
+    """The most recently completed NYSE session's date, as of `as_of` (default
+    today). Used to pick S for a run that happens before today's close exists
+    - today itself is never returned, even if today is a trading day, since a
+    pre-close run has no close print for today yet."""
+    d = date.fromisoformat(as_of) if isinstance(as_of, str) else (as_of or date.today())
+    return previous_trading_day(d).isoformat()
+
+
 def add_trading_days(start, n: int) -> str:
     """n NYSE sessions after `start`, skipping weekends and holidays."""
     d = date.fromisoformat(start) if isinstance(start, str) else start
