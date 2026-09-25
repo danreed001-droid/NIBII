@@ -32,6 +32,50 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      - name: TEMP diagnose unverified tickers
+        run: |
+          python3 - <<'PYEOF'
+          import yfinance as yf
+
+          def probe(label, ticker, interval="1d", period="5d"):
+              try:
+                  df = yf.Ticker(ticker).history(interval=interval, period=period, auto_adjust=False)
+                  if df is None or df.empty:
+                      print(f"{label} ({ticker}, {interval}): EMPTY")
+                  else:
+                      last = df.tail(1)
+                      print(f"{label} ({ticker}, {interval}): OK rows={len(df)} last_close={float(last['Close'].iloc[0]):.4f} last_date={df.index[-1]}")
+              except Exception as e:
+                  print(f"{label} ({ticker}, {interval}): ERROR {e}")
+
+          print("=== gold spot candidates ===")
+          probe("gold XAUUSD=X", "XAUUSD=X")
+          probe("gold XAU=X", "XAU=X")
+          probe("gold GC=F (futures, for comparison)", "GC=F")
+
+          print("=== yields ===")
+          probe("10Y ^TNX", "^TNX")
+          probe("5Y ^FVX", "^FVX")
+          probe("30Y ^TYX", "^TYX")
+          probe("13wk ^IRX", "^IRX")
+
+          print("=== hourly intraday (for market structure) ===")
+          probe("SPX hourly", "^GSPC", interval="60m", period="5d")
+          probe("TLT hourly", "TLT", interval="60m", period="5d")
+
+          print("=== FRED DGS2 ===")
+          import urllib.request, csv, io
+          try:
+              url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2"
+              with urllib.request.urlopen(url, timeout=20) as resp:
+                  text = resp.read().decode('utf-8')
+              rows = list(csv.DictReader(io.StringIO(text)))
+              last = [r for r in rows if list(r.values())[1] not in (None, '.', '')][-1]
+              print(f"FRED DGS2: OK rows={len(rows)} last={last}")
+          except Exception as e:
+              print(f"FRED DGS2: ERROR {e}")
+          PYEOF
+
       - name: Settle prior calls with now-available closes
         run: python scripts/settle.py
 
