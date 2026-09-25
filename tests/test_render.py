@@ -60,7 +60,8 @@ def test_render_end_to_end_does_not_crash_with_settled_docs():
 def test_call_log_has_one_row_per_horizon_per_asset_before_settlement():
     html = call_log_section({PUB['date']: PUB})
     assert html.count('<tr>') == 19  # 1 header row + 6 assets x 3 horizons, none settled
-    assert html.count('log-pending') == 18
+    # 2 pending badges per unsettled row - actual_badge and result_badge each emit one
+    assert html.count('log-pending') == 36
     assert 'log-correct' not in html and 'log-wrong' not in html
 
 

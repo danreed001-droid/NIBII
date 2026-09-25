@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.record import aggregate
+from mtl.score import outcome
 
 CALL_STATUS = {
     'bullish': ('good', '#0ca30c', '▲'),
@@ -453,6 +454,7 @@ table.log td {{ padding: 9px 14px; border-bottom: 1px solid var(--hairline); whi
 table.log tbody tr:last-child td {{ border-bottom: none; }}
 table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, transparent); }}
 .log-date, .log-matures {{ font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; color: var(--ink-2); font-size: 0.8rem; }}
+.log-price {{ font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; color: var(--ink-2); font-size: 0.8rem; text-align: right; }}
 .log-ticker {{ font-family: ui-monospace, monospace; font-weight: 600; }}
 .log-call {{ display: inline-flex; align-items: center; gap: 5px; text-transform: capitalize; font-weight: 500; }}
 .log-call .dot {{ width: 7px; height: 7px; }}
@@ -650,9 +652,22 @@ def result_badge(settled, correct):
             else '<span class="log-wrong">✗ incorrect</span>')
 
 
+def actual_badge(h, settled):
+    """What really happened, independent of what was called - the same
+    outcome() classification settle_horizon graded the call against, so
+    this is never a second opinion, just the raw fact being shown."""
+    if not settled:
+        return '<span class="log-pending">pending</span>'
+    oc = outcome(h['ret'], h['band'])
+    role, hexval, arrow = CALL_STATUS.get(oc, ('flat', '#898781', '▬'))
+    return (f'<span class="log-call"><span class="dot" style="--dot:{hexval}"></span>{arrow} {E(oc)}</span>'
+            f'<span class="log-conf">{fmt_pct(h["ret"])}</span>')
+
+
 def log_row(date, a, h):
     role, hexval, arrow = CALL_STATUS.get(h['call'], ('flat', '#898781', '▬'))
     settled = h.get('maturityClose') is not None
+    end_price = fmt_price(h['maturityClose']) if settled else '—'
     return f'''<tr>
       <td class="log-date">{E(date)}</td>
       <td class="log-ticker">{E(TICKER.get(a['key'], a['key'].upper()))}</td>
@@ -660,6 +675,9 @@ def log_row(date, a, h):
       <td><span class="log-call"><span class="dot" style="--dot:{hexval}"></span>{arrow} {E(h['call'])}</span>
           <span class="log-conf">{E(h['confidence'])}</span></td>
       <td class="log-matures">{E(h['maturity'])}</td>
+      <td class="log-price">{fmt_price(a['close'])}</td>
+      <td class="log-price">{end_price}</td>
+      <td>{actual_badge(h, settled)}</td>
       <td>{result_badge(settled, h.get('correct'))}</td>
     </tr>'''
 
@@ -681,7 +699,7 @@ def call_log_section(all_docs: dict) -> str:
     return f'''
     <div class="log-wrap">
       <table class="log">
-        <thead><tr><th>Date</th><th>Asset</th><th>Horizon</th><th>Predicted</th><th>Matures</th><th>Result</th></tr></thead>
+        <thead><tr><th>Date</th><th>Asset</th><th>Horizon</th><th>Predicted</th><th>Matures</th><th>Start</th><th>End</th><th>Actual</th><th>Result</th></tr></thead>
         <tbody>{"".join(rows)}</tbody>
       </table>
     </div>
