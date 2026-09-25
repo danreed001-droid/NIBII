@@ -463,6 +463,7 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
 .log-noscore {{ color: var(--muted); font-size: 0.78rem; }}
 .log-correct {{ color: #0ca30c; font-weight: 600; }}
 .log-wrong {{ color: #d03b3b; font-weight: 600; }}
+.log-nocall {{ color: var(--gold); font-weight: 600; }}
 .log-caption {{ font-size: 0.78rem; color: var(--muted); margin: 10px 2px 0; }}
 
 .theme-toggle {{
@@ -652,22 +653,51 @@ def result_badge(settled, correct):
             else '<span class="log-wrong">✗ incorrect</span>')
 
 
-def actual_badge(h, settled):
+def actual_badge(oc, ret, settled):
     """What really happened, independent of what was called - the same
     outcome() classification settle_horizon graded the call against, so
     this is never a second opinion, just the raw fact being shown."""
     if not settled:
         return '<span class="log-pending">pending</span>'
-    oc = outcome(h['ret'], h['band'])
     role, hexval, arrow = CALL_STATUS.get(oc, ('flat', '#898781', '▬'))
     return (f'<span class="log-call"><span class="dot" style="--dot:{hexval}"></span>{arrow} {E(oc)}</span>'
-            f'<span class="log-conf">{fmt_pct(h["ret"])}</span>')
+            f'<span class="log-conf">{fmt_pct(ret)}</span>')
+
+
+def real_result(call, oc):
+    """Finer-grained than the stored `correct` flag (call == outcome,
+    straight equality). A directional call (bullish/bearish) that ends up
+    flat was never actually tested by the market - that's a push, "no
+    call", not a wrong call. Only a flat call against a real directional
+    move, or a directional call against the OPPOSITE direction, is a true
+    miss. None if there's no call to grade (no-call/None)."""
+    if call is None or call == 'no-call':
+        return None
+    if call == 'flat':
+        return 'incorrect' if oc in ('bullish', 'bearish') else 'correct'
+    if oc == 'flat':
+        return 'no-call'
+    return 'correct' if call == oc else 'incorrect'
+
+
+def real_result_badge(settled, call, oc):
+    if not settled:
+        return '<span class="log-pending">pending</span>'
+    rr = real_result(call, oc)
+    if rr is None:
+        return '<span class="log-noscore">not scored</span>'
+    if rr == 'correct':
+        return '<span class="log-correct">✓ correct</span>'
+    if rr == 'no-call':
+        return '<span class="log-nocall">– no call</span>'
+    return '<span class="log-wrong">✗ incorrect</span>'
 
 
 def log_row(date, a, h):
     role, hexval, arrow = CALL_STATUS.get(h['call'], ('flat', '#898781', '▬'))
     settled = h.get('maturityClose') is not None
     end_price = fmt_price(h['maturityClose']) if settled else '—'
+    oc = outcome(h['ret'], h['band']) if settled else None
     return f'''<tr>
       <td class="log-date">{E(date)}</td>
       <td class="log-ticker">{E(TICKER.get(a['key'], a['key'].upper()))}</td>
@@ -677,8 +707,9 @@ def log_row(date, a, h):
       <td class="log-matures">{E(h['maturity'])}</td>
       <td class="log-price">{fmt_price(a['close'])}</td>
       <td class="log-price">{end_price}</td>
-      <td>{actual_badge(h, settled)}</td>
+      <td>{actual_badge(oc, h.get('ret'), settled)}</td>
       <td>{result_badge(settled, h.get('correct'))}</td>
+      <td>{real_result_badge(settled, h['call'], oc)}</td>
     </tr>'''
 
 
@@ -699,7 +730,7 @@ def call_log_section(all_docs: dict) -> str:
     return f'''
     <div class="log-wrap">
       <table class="log">
-        <thead><tr><th>Date</th><th>Asset</th><th>Horizon</th><th>Predicted</th><th>Matures</th><th>Start</th><th>End</th><th>Actual</th><th>Result</th></tr></thead>
+        <thead><tr><th>Date</th><th>Asset</th><th>Horizon</th><th>Predicted</th><th>Matures</th><th>Start</th><th>End</th><th>Actual</th><th>Result</th><th>Real Result</th></tr></thead>
         <tbody>{"".join(rows)}</tbody>
       </table>
     </div>

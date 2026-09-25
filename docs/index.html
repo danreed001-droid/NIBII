@@ -212,6 +212,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
 .log-noscore { color: var(--muted); font-size: 0.78rem; }
 .log-correct { color: #0ca30c; font-weight: 600; }
 .log-wrong { color: #d03b3b; font-weight: 600; }
+.log-nocall { color: var(--gold); font-weight: 600; }
 .log-caption { font-size: 0.78rem; color: var(--muted); margin: 10px 2px 0; }
 
 .theme-toggle {
@@ -242,7 +243,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       </span>
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
-    <p class="updated">Last updated 2026-09-25 13:06 UTC</p>
+    <p class="updated">Last updated 2026-09-25 13:12 UTC</p>
     <div class="tape">
       <div class="tape-item" style="--dot:#d03b3b">
         <div class="tape-head">
@@ -777,7 +778,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
 
     <div class="log-wrap">
       <table class="log">
-        <thead><tr><th>Date</th><th>Asset</th><th>Horizon</th><th>Predicted</th><th>Matures</th><th>Start</th><th>End</th><th>Actual</th><th>Result</th></tr></thead>
+        <thead><tr><th>Date</th><th>Asset</th><th>Horizon</th><th>Predicted</th><th>Matures</th><th>Start</th><th>End</th><th>Actual</th><th>Result</th><th>Real Result</th></tr></thead>
         <tbody><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">SPX</td>
@@ -789,6 +790,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">—</td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
+      <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">SPX</td>
@@ -800,6 +802,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">—</td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
+      <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">SPX</td>
@@ -809,6 +812,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-matures">2026-10-08</td>
       <td class="log-price">7,704.13</td>
       <td class="log-price">—</td>
+      <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
@@ -822,6 +826,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">—</td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
+      <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">TLT</td>
@@ -833,6 +838,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">—</td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
+      <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">TLT</td>
@@ -842,6 +848,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-matures">2026-10-08</td>
       <td class="log-price">79.42</td>
       <td class="log-price">—</td>
+      <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
@@ -855,6 +862,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">4,334.20</td>
       <td><span class="log-call"><span class="dot" style="--dot:#0ca30c"></span>▲ bullish</span><span class="log-conf">+1.12%</span></td>
       <td><span class="log-wrong">✗ incorrect</span></td>
+      <td><span class="log-wrong">✗ incorrect</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">XAU</td>
@@ -866,6 +874,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">—</td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
+      <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">XAU</td>
@@ -875,6 +884,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-matures">2026-10-08</td>
       <td class="log-price">4,286.06</td>
       <td class="log-price">—</td>
+      <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
@@ -888,6 +898,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">100.99</td>
       <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span><span class="log-conf">-0.10%</span></td>
       <td><span class="log-wrong">✗ incorrect</span></td>
+      <td><span class="log-nocall">– no call</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">DXY</td>
@@ -899,6 +910,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">—</td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
+      <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">DXY</td>
@@ -910,6 +922,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">—</td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
+      <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">IWM</td>
@@ -919,6 +932,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-matures">2026-09-25</td>
       <td class="log-price">281.66</td>
       <td class="log-price">—</td>
+      <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
@@ -932,6 +946,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">—</td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
+      <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">IWM</td>
@@ -943,6 +958,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">—</td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
+      <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">QQQ</td>
@@ -952,6 +968,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-matures">2026-09-25</td>
       <td class="log-price">741.10</td>
       <td class="log-price">—</td>
+      <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
@@ -965,6 +982,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-price">—</td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
+      <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">QQQ</td>
@@ -974,6 +992,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td class="log-matures">2026-10-08</td>
       <td class="log-price">741.10</td>
       <td class="log-price">—</td>
+      <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
       <td><span class="log-pending">pending</span></td>
     </tr></tbody>

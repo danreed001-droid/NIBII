@@ -3,7 +3,7 @@ import copy
 import json
 import os
 
-from scripts.render_html import call_log_section, pct_tone, render, track_record_section
+from scripts.render_html import call_log_section, pct_tone, real_result, render, track_record_section
 from scripts.settle import settle_document
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -60,9 +60,10 @@ def test_render_end_to_end_does_not_crash_with_settled_docs():
 def test_call_log_has_one_row_per_horizon_per_asset_before_settlement():
     html = call_log_section({PUB['date']: PUB})
     assert html.count('<tr>') == 19  # 1 header row + 6 assets x 3 horizons, none settled
-    # 2 pending badges per unsettled row - actual_badge and result_badge each emit one
-    assert html.count('log-pending') == 36
-    assert 'log-correct' not in html and 'log-wrong' not in html
+    # 3 pending badges per unsettled row - actual_badge, result_badge and
+    # real_result_badge each emit one
+    assert html.count('log-pending') == 54
+    assert 'log-correct' not in html and 'log-wrong' not in html and 'log-nocall' not in html
 
 
 def test_call_log_shows_results_once_settled():
@@ -73,6 +74,33 @@ def test_call_log_shows_results_once_settled():
     assert ('log-correct' in html) or ('log-wrong' in html)
     # every row still names its own maturity date, independent of the others
     assert '2026-09-25' in html and '2026-10-01' in html and '2026-10-08' in html
+
+
+def test_real_result_directional_call_ending_flat_is_no_call_not_wrong():
+    # the market never actually tested the call - a push, not a miss
+    assert real_result('bullish', 'flat') == 'no-call'
+    assert real_result('bearish', 'flat') == 'no-call'
+
+
+def test_real_result_flat_call_against_a_real_move_is_incorrect():
+    assert real_result('flat', 'bullish') == 'incorrect'
+    assert real_result('flat', 'bearish') == 'incorrect'
+
+
+def test_real_result_opposite_direction_is_incorrect():
+    assert real_result('bearish', 'bullish') == 'incorrect'
+    assert real_result('bullish', 'bearish') == 'incorrect'
+
+
+def test_real_result_matching_call_is_correct():
+    assert real_result('bullish', 'bullish') == 'correct'
+    assert real_result('bearish', 'bearish') == 'correct'
+    assert real_result('flat', 'flat') == 'correct'
+
+
+def test_real_result_no_call_to_grade_is_none():
+    assert real_result(None, 'flat') is None
+    assert real_result('no-call', 'bullish') is None
 
 
 def test_call_log_caps_to_most_recent_sessions():
