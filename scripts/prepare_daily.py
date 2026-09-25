@@ -26,7 +26,12 @@ from mtl.build import ASSET_ORDER
 from mtl.drivers import driver_regime, pct_changes, bp_changes
 from mtl.fetch import (TICKERS, SIGMA_TICKER, YIELDS, closes_through,
                         gold_close_through, yield_through,
-                        stretch_inputs_from_history)
+                        stretch_inputs_from_history, ohlc_through)
+from mtl.structure import structure_signal, weekly_from_daily
+
+HOURLY_SWING_N = 3    # bars each side, for the 1D horizon's intraday read
+WEEKLY_SWING_N = 2    # bars each side, for the 5D/10D horizons' weekly read
+STRUCTURE_LOOKBACK = 4  # most recent labeled swings considered for the trend call
 
 TODO = "TODO: fill in before publish"
 CATEGORY_COUNT = 12
@@ -53,7 +58,23 @@ def fetch_asset(key: str, s: str) -> dict:
         close=closes[-1], sigma=sigma, sigmaSource=sigma_source,
         driverNote=TODO, categories=[TODO] * CATEGORY_COUNT,
         stretchInputs=stretch_inputs_from_history(closes, as_of),
+        structure=fetch_structure(ticker, s),
         volRegime=0, crowd=0, stretchDrivers=[], nullInputs=[TODO],
+    )
+
+
+def fetch_structure(ticker: str, s: str) -> dict:
+    """Market-structure read for both horizon groups: hourly bars for the
+    1D call (a day-ahead read has no business caring about a swing from
+    three weeks ago), weekly bars - resampled locally from the same
+    blindness-safe daily closes, not a second live request - for 5D/10D.
+    """
+    hourly = ohlc_through(ticker, s, interval="60m", period="60d")
+    daily = ohlc_through(ticker, s, interval="1d", period="2y")
+    weekly = weekly_from_daily(daily)
+    return dict(
+        hourly=structure_signal(hourly, n=HOURLY_SWING_N, lookback=STRUCTURE_LOOKBACK),
+        weekly=structure_signal(weekly, n=WEEKLY_SWING_N, lookback=STRUCTURE_LOOKBACK),
     )
 
 

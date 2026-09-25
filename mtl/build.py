@@ -58,6 +58,7 @@ def build_document(inputs: dict, votes: dict, generated_at=None, generation_lag=
             close=a['close'], sigma=a['sigma'], sigmaSource=a['sigmaSource'],
             driverNote=a.get('driverNote', ''), stretch=st,
             categories=a['categories'], horizons=horizons,
+            structure=a.get('structure'),
         ))
 
     ctx = dict(inputs.get('context') or {})

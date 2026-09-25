@@ -67,6 +67,27 @@ def vote_row(v):
             f'<span class="vote-text">{E(reason)}</span>{mark_html}</li>')
 
 
+STRUCTURE_TONE = {
+    'uptrend': '#0ca30c', 'downtrend': '#d03b3b', 'choppy': '#898781',
+}
+STRUCTURE_ARROW = {'uptrend': '▲', 'downtrend': '▼', 'choppy': '↔'}
+
+
+def structure_badge(sig, timeframe_label):
+    """sig is a mtl.structure.structure_signal() dict, or None if this
+    document predates the structure field (older published documents)."""
+    if not sig or sig.get('state') is None:
+        note = (sig or {}).get('note') or 'not enough bars yet'
+        return (f'<span class="struct-badge muted" title="{E(note)}">'
+                f'{E(timeframe_label)} structure: n/a</span>')
+    hexval = STRUCTURE_TONE.get(sig['state'], '#898781')
+    arrow = STRUCTURE_ARROW.get(sig['state'], '↔')
+    brk = ' · break' if sig.get('lastBreak') else ''
+    return (f'<span class="struct-badge" style="--dot:{hexval}">'
+            f'<span class="dot" aria-hidden="true"></span>'
+            f'{E(timeframe_label)}: {arrow} {E(sig["state"])}{brk}</span>')
+
+
 def horizon_block(a, h):
     votes_html = "".join(vote_row(v) for v in h['votes'])
     reversion = ""
@@ -74,6 +95,12 @@ def horizon_block(a, h):
         reversion = f'<p class="reversion">⚠ overlay applied — {E(h["reversionNote"])}</p>'
     elif h.get('reversionNote'):
         reversion = f'<p class="reversion muted">{E(h["reversionNote"])}</p>'
+
+    structure = a.get('structure') or {}
+    if h['h'] == 1:
+        struct_html = structure_badge(structure.get('hourly'), '1H')
+    else:
+        struct_html = structure_badge(structure.get('weekly'), 'Weekly')
 
     return f'''
     <div class="horizon">
@@ -86,6 +113,7 @@ def horizon_block(a, h):
         <span>{h['bull']} bull / {h['bear']} bear / {h['neutral']} neu · margin {h['margin']}</span>
         <span>flat zone {fmt_price(h['flatLo'])}–{fmt_price(h['flatHi'])}</span>
       </div>
+      <div class="struct-row">{struct_html}</div>
       {reversion}
       <details class="votes">
         <summary>12 votes</summary>
@@ -353,6 +381,13 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 .chip-arrow {{ color: var(--dot); font-size: 0.7rem; }}
 .chip-label {{ text-transform: capitalize; font-weight: 600; }}
 .chip-conf {{ color: var(--muted); font-size: 0.78rem; }}
+.struct-row {{ margin-top: 8px; }}
+.struct-badge {{
+  display: inline-flex; align-items: center; gap: 5px; font-size: 0.74rem;
+  color: var(--dot); font-weight: 600; text-transform: capitalize;
+}}
+.struct-badge.muted {{ color: var(--muted); font-weight: 400; text-transform: none; }}
+.struct-badge .dot {{ width: 6px; height: 6px; }}
 .horizon-stats {{
   display: flex; flex-direction: column; gap: 2px; margin-top: 10px;
   font-size: 0.78rem; color: var(--ink-2); font-variant-numeric: tabular-nums;

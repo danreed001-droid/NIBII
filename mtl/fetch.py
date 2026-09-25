@@ -26,6 +26,16 @@ _assert_plausible_yield/_assert_plausible_gold below catch an obviously wrong
 scale rather than let one propagate silently - but the FIRST live run should
 still manually cross-check one gold print and one yield against a second
 source before the ledger trusts them.
+
+fetch_ohlc/ohlc_through (used by mtl.structure for swing/market-structure
+detection) request Yahoo's intraday interval='60m' data, which was also not
+reachable to verify in this environment - in particular, whether every
+ticker in TICKERS actually has clean hourly history on Yahoo (index tickers
+like ^GSPC sometimes have gappier intraday coverage than their ETF
+equivalents) is unconfirmed. mtl.structure.structure_signal degrades to
+state=None with a note rather than guessing when a series is too short, so a
+gap here produces an honest "no read" rather than a wrong one - but this
+too wants a first-live-run spot check.
 """
 from datetime import date
 
@@ -133,6 +143,36 @@ def closes_through(ticker, s: str, period="2y"):
     rule is enforced here in code rather than left to discipline."""
     rows = [r for r in fetch_closes(ticker, period=period) if r[0] <= s]
     return [c for _, c in rows], (rows[-1][0] if rows else None)
+
+
+def fetch_ohlc(ticker, interval="1d", period="2y", start=None, end=None):
+    """OHLC bars as [(iso_timestamp, open, high, low, close)], oldest first.
+
+    interval='60m' (hourly) is subject to Yahoo's own intraday history limit
+    (roughly the trailing 730 days, tighter for finer intervals) - a 60d
+    period is comfortably inside that limit and far more bars than a swing
+    read over a few sessions needs.
+    """
+    import yfinance as yf
+    df = yf.Ticker(ticker).history(interval=interval, period=period, start=start,
+                                    end=end, auto_adjust=False)
+    if df is None or df.empty:
+        return []
+    out = []
+    for ts, row in zip(df.index, df.itertuples()):
+        o, h, l, c = row.Open, row.High, row.Low, row.Close
+        if c != c:  # NaN
+            continue
+        out.append((ts.isoformat(), float(o), float(h), float(l), float(c)))
+    return out
+
+
+def ohlc_through(ticker, s: str, interval="1d", period="2y"):
+    """OHLC bars dated on or before S. For an intraday interval this keeps
+    every bar within S's own session (S has already closed by the time this
+    runs) without ever reaching into S+1 - the blindness rule applies to the
+    calendar date, same as closes_through."""
+    return [r for r in fetch_ohlc(ticker, interval=interval, period=period) if r[0][:10] <= s]
 
 
 def close_on(key: str, date: str, period="2y"):

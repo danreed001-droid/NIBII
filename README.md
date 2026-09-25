@@ -60,6 +60,7 @@ assert verify_document(doc) == []
 | `record.py` | hit rate, edge units, by asset / horizon / tier, +4-vs-+3, overlay comparison **restricted to changed cells with retroactive documents segregated** |
 | `verify.py` | recomputes every derived field from scratch; `assert_no_reason_drift` catches a reason string changing during scoring |
 | `fetch.py` | yfinance (+ FRED for the 2-year) layer. Computes RSI and moving averages **locally** from the close series |
+| `structure.py` | swing highs/lows and HH/HL/LH/LL trend labeling - see "Market structure" below |
 | `build.py` | inputs + votes -> document |
 
 ## The daily cycle
@@ -122,6 +123,44 @@ them unattended.
 
 Also note the 52-week range here is on a **closing** basis over 252 sessions;
 vendor pages usually quote the wider intraday range.
+
+## Market structure
+
+`mtl/structure.py` turns the "higher highs and higher lows" / "lower highs
+and lower lows" read a trader does by eye on a candlestick chart into a
+deterministic computation: an N-bar fractal finds swing highs and lows
+(a bar is a swing high if its high is the max within N bars either side),
+then each new swing is labeled `HH`/`LH` (relative to the previous swing
+high) or `HL`/`LL` (relative to the previous swing low). The most recent
+labeled swings classify the state as `uptrend` (HH/HL only), `downtrend`
+(LH/LL only), or `choppy` (mixed) - `None` if too few swings exist yet,
+never a guess.
+
+The two horizon groups deliberately read different bar sizes:
+
+- **1D** reads **hourly** bars (`ohlc_through(ticker, S, interval="60m")`) -
+  a day-ahead call has no business caring about a swing from three weeks
+  ago.
+- **5D/10D** read **weekly** bars, resampled *locally* from the same
+  blindness-safe daily closes (`weekly_from_daily()`) rather than a second
+  live Yahoo request - one less thing that could disagree with the rest of
+  the document, and it can never leak data past S since it only ever sees
+  bars already filtered through S.
+
+`prepare_daily.py` computes both and stores them under each asset's
+`structure.hourly` / `structure.weekly`; `build.py` passes them through
+untouched (informational, like `stretchInputs` - not itself a vote), and
+the report shows a small `1H: ▲ uptrend` / `Weekly: ▼ downtrend` badge on
+each horizon. It's there for the model to *cite* when writing the "Trend
+structure" category vote, not a silent replacement for that judgment call.
+
+Same caveat as the yield/gold fixes: this reads yfinance's `interval="60m"`
+endpoint, which was also unreachable to verify in the environment that
+wrote it - whether every ticker in `TICKERS` actually has clean hourly
+history on Yahoo (index tickers like `^GSPC` sometimes have gappier
+intraday coverage than their ETF equivalents) is unconfirmed. A gap
+degrades to `state=None` with a note rather than a wrong answer, but this
+wants a first-live-run spot check too.
 
 ## News catalysts and pattern analysis
 
