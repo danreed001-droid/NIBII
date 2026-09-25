@@ -15,6 +15,22 @@ def _mark(call, oc):
     return call == oc
 
 
+def real_result(call, oc):
+    """Finer-grained than `correct` (straight call == outcome equality). A
+    directional call (bullish/bearish) that lands flat was never actually
+    tested by the market - that's a push, "no-call", not a wrong call.
+    Only a flat call against a real directional move, or a directional
+    call against the OPPOSITE direction, is a true miss.
+    Returns 'correct' | 'incorrect' | 'no-call' | None (nothing to grade)."""
+    if call is None or call == 'no-call':
+        return None
+    if call == 'flat':
+        return 'incorrect' if oc in ('bullish', 'bearish') else 'correct'
+    if oc == 'flat':
+        return 'no-call'
+    return 'correct' if call == oc else 'incorrect'
+
+
 def settle_horizon(horizon, basis_close, maturity_close, settlement_note=None):
     """Settle one horizon in place. Returns the outcome string."""
     h = horizon

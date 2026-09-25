@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.record import aggregate
-from mtl.score import outcome
+from mtl.score import outcome, real_result
 
 CALL_STATUS = {
     'bullish': ('good', '#0ca30c', '▲'),
@@ -429,6 +429,8 @@ footer a {{ color: var(--accent); }}
 .record-pct.flat {{ color: var(--ink-2); }}
 .record-n {{ color: var(--muted); font-size: 0.85rem; }}
 .record-edge {{ font-size: 0.85rem; color: var(--ink-2); }}
+.record-head-label {{ font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; margin: 0 0 6px; }}
+.record-row-real {{ color: var(--muted); font-size: 0.72rem; font-weight: 400; margin-left: 8px; }}
 .record-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px; }}
 @media (max-width: 620px) {{ .record-grid {{ grid-template-columns: 1fr 1fr; }} }}
 .record-block h3 {{ font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 8px; font-family: inherit; font-weight: 600; }}
@@ -590,12 +592,17 @@ def fmt_pct_or_dash(rate):
     return f"{rate['pct']:.1f}%" if rate['pct'] is not None else '—'
 
 
-def record_row(label, rate, edge=None):
+def record_row(label, rate, edge=None, real=None):
     n_txt = f"{rate['hits']}/{rate['n']}" if rate['n'] else '0/0'
     edge_txt = f" · edge {edge:+d}" if edge is not None and rate['n'] else ''
+    real_txt = ''
+    if real is not None and real['n']:
+        real_edge_txt = f" · edge {real['edge']:+d}" if real.get('edge') is not None else ''
+        real_txt = (f'<span class="record-row-real">real {fmt_pct_or_dash(real)} '
+                    f'({real["hits"]}/{real["n"]}{real_edge_txt})</span>')
     return (f'<div class="record-row"><span class="record-row-label">{E(label)}</span>'
             f'<span class="record-row-val">{fmt_pct_or_dash(rate)} '
-            f'<span class="record-row-n">({n_txt}{edge_txt})</span></span></div>')
+            f'<span class="record-row-n">({n_txt}{edge_txt})</span>{real_txt}</span></div>')
 
 
 def track_record_section(all_docs: dict) -> str:
@@ -606,12 +613,17 @@ def track_record_section(all_docs: dict) -> str:
                 'have closed. Come back after the next session close.</p></div>')
 
     overall = agg['overall']
+    overall_real = agg['overallReal']
     tone = pct_tone(overall['pct'])
-    by_horizon = "".join(record_row(HORIZON_LABEL[h], agg['byHorizon'][h], agg['byHorizon'][h]['edge'])
+    tone_real = pct_tone(overall_real['pct'])
+    by_horizon = "".join(record_row(HORIZON_LABEL[h], agg['byHorizon'][h], agg['byHorizon'][h]['edge'],
+                                     agg['byHorizon'][h]['real'])
                          for h in (1, 5, 10))
-    by_asset = "".join(record_row(TICKER.get(k, k.upper()), agg['byAsset'][k], agg['byAsset'][k]['edge'])
+    by_asset = "".join(record_row(TICKER.get(k, k.upper()), agg['byAsset'][k], agg['byAsset'][k]['edge'],
+                                   agg['byAsset'][k]['real'])
                        for k in ('equities', 'bonds', 'gold', 'dollar', 'iwm', 'qqq'))
-    by_call = "".join(record_row(t.capitalize(), agg['byCallType'][t])
+    by_call = "".join(record_row(t.capitalize(), agg['byCallType'][t], agg['byCallType'][t]['edge'],
+                                  agg['byCallType'][t]['real'])
                       for t in ('bullish', 'bearish', 'flat', 'no-call') if agg['byCallType'][t]['n'])
 
     overlay = agg['overlay']
@@ -626,10 +638,18 @@ def track_record_section(all_docs: dict) -> str:
 
     return f'''
     <div class="record">
+      <p class="record-head-label">Result</p>
       <div class="record-head">
         <span class="record-pct {tone}">{fmt_pct_or_dash(overall)}</span>
         <span class="record-n">{overall['hits']}/{overall['n']} settled calls correct</span>
         <span class="record-edge">edge {agg['overallEdge']:+d} units</span>
+      </div>
+      <p class="record-head-label">Real Result <span class="record-row-real">({agg['noCallCells']} directional
+        call{'s' if agg['noCallCells'] != 1 else ''} that landed flat excluded as no-call push{'es' if agg['noCallCells'] != 1 else ''}, not misses)</span></p>
+      <div class="record-head">
+        <span class="record-pct {tone_real}">{fmt_pct_or_dash(overall_real)}</span>
+        <span class="record-n">{overall_real['hits']}/{overall_real['n']} real-result calls correct</span>
+        <span class="record-edge">edge {agg['overallRealEdge']:+d} units</span>
       </div>
       <div class="record-grid">
         <div class="record-block"><h3>By horizon</h3>{by_horizon}</div>
@@ -662,22 +682,6 @@ def actual_badge(oc, ret, settled):
     role, hexval, arrow = CALL_STATUS.get(oc, ('flat', '#898781', '▬'))
     return (f'<span class="log-call"><span class="dot" style="--dot:{hexval}"></span>{arrow} {E(oc)}</span>'
             f'<span class="log-conf">{fmt_pct(ret)}</span>')
-
-
-def real_result(call, oc):
-    """Finer-grained than the stored `correct` flag (call == outcome,
-    straight equality). A directional call (bullish/bearish) that ends up
-    flat was never actually tested by the market - that's a push, "no
-    call", not a wrong call. Only a flat call against a real directional
-    move, or a directional call against the OPPOSITE direction, is a true
-    miss. None if there's no call to grade (no-call/None)."""
-    if call is None or call == 'no-call':
-        return None
-    if call == 'flat':
-        return 'incorrect' if oc in ('bullish', 'bearish') else 'correct'
-    if oc == 'flat':
-        return 'no-call'
-    return 'correct' if call == oc else 'incorrect'
 
 
 def real_result_badge(settled, call, oc):

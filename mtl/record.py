@@ -1,6 +1,8 @@
 """Record aggregation: hit rate, edge units, and the two experiments."""
 from collections import defaultdict
 
+from .score import real_result
+
 EDGE = {'strong': 3, 'solid': 2, 'lean': 1, 'flat-solid': 2, 'flat-lean': 1}
 ASSET_ORDER = ("equities", "bonds", "gold", "dollar", "iwm", "qqq")
 
@@ -15,9 +17,15 @@ def settled_cells(docs: dict) -> list:
                     continue
                 oc = ('bullish' if h['ret'] > h['band']
                       else 'bearish' if h['ret'] < -h['band'] else 'flat')
+                rr = real_result(h['call'], oc)
                 rows.append(dict(
                     date=date, asset=a['key'], h=h['h'],
                     call=h['call'], conf=h['confidence'], correct=h['correct'],
+                    # realResult is the 3-way label; realCorrect collapses it to
+                    # a bool for _rate()/_edge() - None (excluded) covers both
+                    # "nothing to grade" and a "no-call" push, neither a hit
+                    # nor a miss.
+                    realResult=rr, realCorrect=(rr == 'correct' if rr in ('correct', 'incorrect') else None),
                     shadowCall=h['shadowCall'], shadowCorrect=h['shadowCorrect'],
                     preCall=h.get('preReversionCall'), preConf=h.get('preReversionConfidence'),
                     preCorrect=h.get('preReversionCorrect'),
@@ -46,22 +54,29 @@ def _edge(rows, field='correct', conf='conf'):
     return t
 
 
+def _dual(rows):
+    """Result (strict call==outcome) and Real Result (no-call pushes
+    excluded rather than counted as misses) side by side, over the same
+    row set."""
+    return dict(**_rate(rows), edge=_edge(rows),
+                real=dict(**_rate(rows, 'realCorrect'), edge=_edge(rows, 'realCorrect')))
+
+
 def aggregate(docs: dict) -> dict:
     rows = settled_cells(docs)
-    out = dict(settledCells=len(rows), overall=_rate(rows), overallEdge=_edge(rows))
+    overall = _dual(rows)
+    out = dict(settledCells=len(rows),
+               noCallCells=sum(1 for r in rows if r['realResult'] == 'no-call'),
+               overall=overall, overallEdge=overall['edge'],
+               overallReal=overall['real'], overallRealEdge=overall['real']['edge'])
 
-    out['byAsset'] = {k: dict(**_rate([r for r in rows if r['asset'] == k]),
-                              edge=_edge([r for r in rows if r['asset'] == k]),
+    out['byAsset'] = {k: dict(**_dual([r for r in rows if r['asset'] == k]),
                               settled=len([r for r in rows if r['asset'] == k]))
                       for k in ASSET_ORDER}
-    out['byHorizon'] = {h: dict(**_rate([r for r in rows if r['h'] == h]),
-                                edge=_edge([r for r in rows if r['h'] == h]))
-                        for h in (1, 5, 10)}
+    out['byHorizon'] = {h: _dual([r for r in rows if r['h'] == h]) for h in (1, 5, 10)}
     tiers = sorted({r['conf'] for r in rows})
-    out['byConfidence'] = {t: dict(**_rate([r for r in rows if r['conf'] == t]),
-                                   edge=_edge([r for r in rows if r['conf'] == t]))
-                           for t in tiers}
-    out['byCallType'] = {t: _rate([r for r in rows if r['call'] == t])
+    out['byConfidence'] = {t: _dual([r for r in rows if r['conf'] == t]) for t in tiers}
+    out['byCallType'] = {t: _dual([r for r in rows if r['call'] == t])
                          for t in ('bullish', 'bearish', 'flat', 'no-call')}
 
     # +4 vs +3

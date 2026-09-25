@@ -178,6 +178,8 @@ footer a { color: var(--accent); }
 .record-pct.flat { color: var(--ink-2); }
 .record-n { color: var(--muted); font-size: 0.85rem; }
 .record-edge { font-size: 0.85rem; color: var(--ink-2); }
+.record-head-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; margin: 0 0 6px; }
+.record-row-real { color: var(--muted); font-size: 0.72rem; font-weight: 400; margin-left: 8px; }
 .record-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px; }
 @media (max-width: 620px) { .record-grid { grid-template-columns: 1fr 1fr; } }
 .record-block h3 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 8px; font-family: inherit; font-weight: 600; }
@@ -243,7 +245,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       </span>
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
-    <p class="updated">Last updated 2026-09-25 13:12 UTC</p>
+    <p class="updated">Last updated 2026-09-25 13:17 UTC</p>
     <div class="tape">
       <div class="tape-item" style="--dot:#d03b3b">
         <div class="tape-head">
@@ -755,15 +757,23 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
 <p class="section-label">Track record</p>
 
     <div class="record">
+      <p class="record-head-label">Result</p>
       <div class="record-head">
         <span class="record-pct critical">0.0%</span>
         <span class="record-n">0/2 settled calls correct</span>
         <span class="record-edge">edge -2 units</span>
       </div>
+      <p class="record-head-label">Real Result <span class="record-row-real">(1 directional
+        call that landed flat excluded as no-call push, not misses)</span></p>
+      <div class="record-head">
+        <span class="record-pct critical">0.0%</span>
+        <span class="record-n">0/1 real-result calls correct</span>
+        <span class="record-edge">edge -1 units</span>
+      </div>
       <div class="record-grid">
-        <div class="record-block"><h3>By horizon</h3><div class="record-row"><span class="record-row-label">1D</span><span class="record-row-val">0.0% <span class="record-row-n">(0/2 · edge -2)</span></span></div><div class="record-row"><span class="record-row-label">5D</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">10D</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div></div>
-        <div class="record-block"><h3>By asset</h3><div class="record-row"><span class="record-row-label">SPX</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">TLT</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">XAU</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">DXY</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">IWM</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">QQQ</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div></div>
-        <div class="record-block"><h3>By call type</h3><div class="record-row"><span class="record-row-label">Bullish</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1)</span></span></div><div class="record-row"><span class="record-row-label">Bearish</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1)</span></span></div></div>
+        <div class="record-block"><h3>By horizon</h3><div class="record-row"><span class="record-row-label">1D</span><span class="record-row-val">0.0% <span class="record-row-n">(0/2 · edge -2)</span><span class="record-row-real">real 0.0% (0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">5D</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">10D</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div></div>
+        <div class="record-block"><h3>By asset</h3><div class="record-row"><span class="record-row-label">SPX</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">TLT</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">XAU</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span><span class="record-row-real">real 0.0% (0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">DXY</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">IWM</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">QQQ</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div></div>
+        <div class="record-block"><h3>By call type</h3><div class="record-row"><span class="record-row-label">Bullish</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">Bearish</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span><span class="record-row-real">real 0.0% (0/1 · edge -1)</span></span></div></div>
       </div>
       
       <div class="record-block">

@@ -3,7 +3,8 @@ import copy
 import json
 import os
 
-from scripts.render_html import call_log_section, pct_tone, real_result, render, track_record_section
+from mtl.score import real_result
+from scripts.render_html import call_log_section, pct_tone, render, track_record_section
 from scripts.settle import settle_document
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
