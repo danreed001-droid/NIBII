@@ -46,6 +46,10 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
 h1 { font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }
 .date { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--masthead-ink-2); font-size: 0.95rem; }
 .subtitle { color: var(--masthead-ink-2); margin: 8px 0 0; font-size: 0.92rem; }
+.updated {
+  color: var(--masthead-ink-2); margin: 6px 0 0; font-size: 0.75rem;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; opacity: 0.85;
+}
 
 /* ticker strip */
 .tape {
@@ -230,6 +234,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       </span>
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a twelve-category vote model, with a stretch/mean-reversion overlay.</p>
+    <p class="updated">Last updated 2026-09-25 04:05 UTC</p>
     <div class="tape">
       <div class="tape-item" style="--dot:#898781">
         <div class="tape-head">

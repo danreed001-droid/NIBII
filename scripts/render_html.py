@@ -13,6 +13,7 @@ import html
 import json
 import os
 import sys
+from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.record import aggregate
@@ -267,6 +268,10 @@ code {{ font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }}
 h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 .date {{ font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--masthead-ink-2); font-size: 0.95rem; }}
 .subtitle {{ color: var(--masthead-ink-2); margin: 8px 0 0; font-size: 0.92rem; }}
+.updated {{
+  color: var(--masthead-ink-2); margin: 6px 0 0; font-size: 0.75rem;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; opacity: 0.85;
+}}
 
 /* ticker strip */
 .tape {{
@@ -451,6 +456,7 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
       </span>
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a twelve-category vote model, with a stretch/mean-reversion overlay.</p>
+    <p class="updated">Last updated {generated_at}</p>
     <div class="tape">{tape}</div>
   </div>
 </div>
@@ -647,16 +653,18 @@ def call_log_section(all_docs: dict) -> str:
     <p class="log-caption">{E(caption)}</p>'''
 
 
-def render(doc: dict, all_docs: dict = None) -> str:
+def render(doc: dict, all_docs: dict = None, generated_at: str = None) -> str:
     news_log = doc.get('context', {}).get('newsLog', [])
     assets_html = "".join(
         asset_card(a, matching_catalysts(a['key'], news_log, doc['date']))
         for a in doc['assets']
     )
     docs = all_docs or {doc['date']: doc}
+    stamp = generated_at or datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     return PAGE.format(
         date=doc['date'], tape=ticker_strip(doc), stats=stat_tiles(doc),
         assets=assets_html, record=track_record_section(docs), log=call_log_section(docs),
+        generated_at=E(stamp),
     )
 
 
