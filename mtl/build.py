@@ -1,14 +1,16 @@
 """Assemble a ledger document from researched inputs + authored votes.
 
 inputs.json carries every NUMBER and its provenance. votes.json carries the
-72 (side, reason) pairs. Everything else in the document is derived here.
+234 (side, reason) pairs (216 judgment + 18 mechanical - see
+mtl.structure.vote_from_signal). Everything else in the document is
+derived here.
 """
 from .bands import band, flat_zone
 from .resolve import resolve, SHADOW_THRESHOLD, DIRECTIONAL_THRESHOLD
 from .stretch import score_stretch, apply_overlay
 from .calendar_nyse import maturities
 
-SCHEMA = "multi-asset-v3"
+SCHEMA = "multi-asset-v4"  # v4: adds the weighted, mechanical 13th category (Market structure)
 ASSET_ORDER = ("equities", "bonds", "gold", "dollar", "iwm", "qqq")
 HORIZONS = (1, 5, 10)
 

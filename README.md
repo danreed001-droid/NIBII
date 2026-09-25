@@ -3,9 +3,9 @@
 The arithmetic half of the daily cross-asset "Market Tape Ledger" cycle, lifted
 out of the Claude prompt and into version control.
 
-A twelve-category vote model with a mean-reversion overlay calls **six markets**
-(SPX, TLT, spot gold, DXY, IWM, QQQ) bullish / bearish / flat over **1, 5 and 10
-NYSE sessions** — 18 cells a day.
+A thirteen-category vote model with a mean-reversion overlay calls **six
+markets** (SPX, TLT, spot gold, DXY, IWM, QQQ) bullish / bearish / flat over
+**1, 5 and 10 NYSE sessions** — 18 cells a day.
 
 ## Why this exists
 
@@ -16,18 +16,22 @@ how a tier table silently drifts. Extracting it buys two things:
 1. **Correctness.** `tests/test_golden.py` asserts the engine reproduces the
    published 2026-09-24 board — all 18 cells, all six stretch scores, both
    experiments — *exactly*. Any drift in a threshold or tier table fails CI.
-2. **Cost.** The model's daily job shrinks to research plus 72 vote reasons.
+2. **Cost.** The model's daily job shrinks to research plus 216 vote reasons
+   (the 13th category's votes are filled in mechanically - see "Market
+   structure" below - so the model's workload is unchanged even though the
+   category count went up).
 
 ## The split — this is the important part
 
 | Stays with the model (judgment) | Lives here (deterministic) |
 |---|---|
-| 72 `(side, reason)` pairs — 6 assets x 3 horizons x 12 categories | bands, flat zones |
-| Whether a fact is genuinely two-sided -> `neu` | tally -> margin -> call -> confidence tier |
+| 216 `(side, reason)` pairs — 6 assets x 3 horizons x 12 judgment categories | bands, flat zones |
+| Whether a fact is genuinely two-sided -> `neu` | tally (**weighted** - category 13 counts 3x) -> margin -> call -> confidence tier |
 | Turning news / calendar / auctions into signed votes | cluster downgrade (family map + notch table) |
 | Adjudicating vendor conflicts | shadow recompute at threshold 3 |
 | Whether a source's own language names a **documented extreme** (`volRegime`, `crowd`) | the four measurable stretch components |
 | The `dataNotes` narrative | overlay: rides / opposes / veto / dampen |
+| | market structure: HH/HL/LH/LL swing labeling, category 13's 18 votes (6 assets x 3 horizons), filled in mechanically |
 | | maturity dates, settlement, correctness flags, vote marks |
 | | driver regime (corr, beta, big-day subset) |
 | | the record, and the verifier |
@@ -36,7 +40,8 @@ The model emits two files; the engine derives everything else:
 
 ```
 contracts/inputs.<S>.json   every NUMBER, each with its provenance and date
-contracts/votes.<S>.json    the 72 (side, reason) pairs
+contracts/votes.<S>.json    216 judgment (side, reason) pairs + 18 mechanical
+                             ones (category 13) = 234 total
 ```
 
 ```python
@@ -68,7 +73,8 @@ assert verify_document(doc) == []
 ```bash
 python scripts/prepare_daily.py 2026-09-25   # fetches data, drafts contracts/*.2026-09-25.json
 #  -> fill in every "TODO" field by hand: direction, driverNote, categories,
-#     volRegime, crowd, stretchDrivers, nullInputs, and all 72 votes
+#     volRegime, crowd, stretchDrivers, nullInputs, and all 216 judgment votes
+#     (category 13's 18 votes are already filled in - mechanical, not judgment)
 python scripts/publish.py 2026-09-25         # builds, verifies, writes documents/2026-09-25.json
 python scripts/render_html.py 2026-09-25     # writes documents/latest.html - overwritten each run.
 #  documents/<S>.json stays one file per day (the actual scored ledger);
@@ -148,11 +154,31 @@ The two horizon groups deliberately read different bar sizes:
   bars already filtered through S.
 
 `prepare_daily.py` computes both and stores them under each asset's
-`structure.hourly` / `structure.weekly`; `build.py` passes them through
-untouched (informational, like `stretchInputs` - not itself a vote), and
-the report shows a small `1H: ▲ uptrend` / `Weekly: ▼ downtrend` badge on
-each horizon. It's there for the model to *cite* when writing the "Trend
-structure" category vote, not a silent replacement for that judgment call.
+`structure.hourly` / `structure.weekly`; `build.py` passes the raw signal
+through untouched too (informational, like `stretchInputs`), and the report
+shows a small `1H: ▲ uptrend` / `Weekly: ▼ downtrend` badge on each horizon.
+
+It feeds the vote model two ways, deliberately different:
+
+- **Category 13, "Market structure (HH/HL)," is fully mechanical and
+  weighted 3x** (`mtl.resolve.WEIGHT`): `uptrend` -> `bull`, `downtrend` ->
+  `bear`, `choppy`/unreadable -> `neu`, filled in by
+  `mtl.structure.vote_from_signal()` - never left for a model to judge,
+  since it's reporting a computed fact. At weight 3 this one category can
+  swing a call on its own (see the docstring in `mtl/resolve.py` and
+  `tests/test_weighted_voting.py`'s `test_13th_vote_alone_can_tip...`) -
+  that's the tradeoff of weighting it above 1, made deliberately, not a
+  side effect.
+- **Category 1, "Trend structure," stays judgment** - the model is
+  expected to *cite* the same structure read there too (its own MA/RSI
+  read plus the swing read, in one sourced sentence), but that vote is
+  still authored, not auto-filled.
+
+So the honest answer to "does HH/HL get marked bullish automatically": for
+category 13, yes, always, by design, worth 3 points. It doesn't decide the
+call by itself outright, but at weight 3 it's the single most powerful
+category in the tally - materially different from every other category's
+weight of 1.
 
 Same caveat as the yield/gold fixes: this reads yfinance's `interval="60m"`
 endpoint, which was also unreachable to verify in the environment that

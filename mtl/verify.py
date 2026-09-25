@@ -18,8 +18,9 @@ def verify_document(doc, stretch_inputs=None) -> list:
 
     for a in doc['assets']:
         key = a['key']
-        if len(a.get('categories', [])) != 12:
-            E(f"{key}: {len(a.get('categories', []))} categories, expected 12")
+        n_cat = len(a.get('categories', []))
+        if n_cat not in (12, 13):
+            E(f"{key}: {n_cat} categories, expected 12 or 13")
 
         st = a.get('stretch')
         if st:
@@ -44,8 +45,11 @@ def verify_document(doc, stretch_inputs=None) -> list:
         for h in a['horizons']:
             tag = f"{date}/{key}/h{h['h']}"
             votes = h['votes']
-            if len(votes) != 12:
-                E(f"{tag}: {len(votes)} votes, expected 12")
+            if len(votes) not in (12, 13):
+                E(f"{tag}: {len(votes)} votes, expected 12 or 13")
+                continue
+            if len(votes) != n_cat:
+                E(f"{tag}: {len(votes)} votes but {n_cat} categories - must match")
                 continue
 
             r = resolve(votes, DIRECTIONAL_THRESHOLD)

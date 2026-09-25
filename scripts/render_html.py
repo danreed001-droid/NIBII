@@ -116,7 +116,7 @@ def horizon_block(a, h):
       <div class="struct-row">{struct_html}</div>
       {reversion}
       <details class="votes">
-        <summary>12 votes</summary>
+        <summary>{len(h['votes'])} votes</summary>
         <ul>{votes_html}</ul>
       </details>
     </div>'''
@@ -490,7 +490,7 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
         </button>
       </span>
     </div>
-    <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a twelve-category vote model, with a stretch/mean-reversion overlay.</p>
+    <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
     <p class="updated">Last updated {generated_at}</p>
     <div class="tape">{tape}</div>
   </div>

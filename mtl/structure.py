@@ -136,3 +136,32 @@ def structure_signal(bars, n=3, lookback=4):
     return dict(state=trend_state(labeled, lookback=lookback), swings=labeled,
                 lastBreak=last_break(labeled, lookback=lookback), n=n, lookback=lookback,
                 bars=len(bars), note=None)
+
+
+CATEGORY_NAME = "Market structure (HH/HL)"
+
+_STATE_SIDE = {'uptrend': 'bull', 'downtrend': 'bear', 'choppy': 'neu'}
+
+
+def vote_from_signal(sig, timeframe_label):
+    """The mechanical vote for the Market structure category: this reports
+    a computed fact, not a judgment call, so it is never left for a model
+    to write. uptrend always votes bull, downtrend always votes bear,
+    choppy or an unreadable series (too few bars) always votes neu - there
+    is no discretion here by design."""
+    state = sig.get('state') if sig else None
+    side = _STATE_SIDE.get(state, 'neu')
+
+    if state is None:
+        reason = f"{timeframe_label} structure: {(sig or {}).get('note') or 'no read available'}."
+    elif state == 'choppy':
+        reason = f"{timeframe_label} structure is choppy - no consistent run of higher or lower swings."
+    else:
+        recent = [s for s in sig['swings'] if s['label']][-sig['lookback']:]
+        labels = '/'.join(s['label'] for s in recent) or state
+        brk = ''
+        if sig.get('lastBreak'):
+            brk = f" (a break of structure just printed: {sig['lastBreak']['label']})"
+        reason = f"{timeframe_label} structure is {state} - last labeled swings: {labels}{brk}."
+
+    return [side, reason]

@@ -3,11 +3,16 @@
 
 This is the "wire the daily cycle to the engine" half of the split described
 in the README: everything fetch.py can compute from a close series (close,
-sigma-gauge close, RSI, MA50/MA200, 52-week range) is filled in here. Every
-judgment field - direction, driverNote, categories, volRegime, crowd,
-stretchDrivers, nullInputs, and all 72 vote (side, reason) pairs - is left as
-an explicit TODO placeholder for the model to fill in before scripts/publish.py
-is run. This script never invents a vote or a judgment call.
+sigma-gauge close, RSI, MA50/MA200, 52-week range) is filled in here, plus
+the market-structure read (mtl/structure.py) from hourly/weekly bars. Every
+judgment field - direction, driverNote, the first 12 categories, volRegime,
+crowd, stretchDrivers, nullInputs, and 216 of the 234 vote (side, reason)
+pairs - is left as an explicit TODO placeholder for the model to fill in
+before scripts/publish.py is run. This script never invents a judgment
+call - but the 13th category (Market structure, weighted 3x in the tally -
+see mtl/resolve.py) and its 18 votes (6 assets x 3 horizons) ARE filled in
+here, mechanically, because that category reports a computed fact rather
+than asking for one; see mtl/structure.py.
 
 Requires network access to Yahoo Finance and (for the 2-year yield) FRED;
 neither is reachable from every environment. Run it somewhere that can reach
@@ -27,14 +32,16 @@ from mtl.drivers import driver_regime, pct_changes, bp_changes
 from mtl.fetch import (TICKERS, SIGMA_TICKER, YIELDS, closes_through,
                         gold_close_through, yield_through,
                         stretch_inputs_from_history, ohlc_through)
-from mtl.structure import structure_signal, weekly_from_daily
+from mtl.structure import CATEGORY_NAME as STRUCTURE_CATEGORY_NAME
+from mtl.structure import structure_signal, vote_from_signal, weekly_from_daily
 
 HOURLY_SWING_N = 3    # bars each side, for the 1D horizon's intraday read
 WEEKLY_SWING_N = 2    # bars each side, for the 5D/10D horizons' weekly read
 STRUCTURE_LOOKBACK = 4  # most recent labeled swings considered for the trend call
 
 TODO = "TODO: fill in before publish"
-CATEGORY_COUNT = 12
+JUDGMENT_CATEGORY_COUNT = 12  # categories 1-12: named and voted by the model
+TOTAL_CATEGORY_COUNT = 13     # + category 13, Market structure - named and voted mechanically
 DRIVER_WINDOW = 21  # trading sessions
 
 
@@ -56,7 +63,11 @@ def fetch_asset(key: str, s: str) -> dict:
     return dict(
         name=TODO, instrument=f"{ticker} close", direction=TODO,
         close=closes[-1], sigma=sigma, sigmaSource=sigma_source,
-        driverNote=TODO, categories=[TODO] * CATEGORY_COUNT,
+        driverNote=TODO,
+        # 12 judgment-named categories (the model fills these in) + the
+        # fixed, non-judgment 13th: it reports a computed fact, not
+        # something that needs naming.
+        categories=[TODO] * JUDGMENT_CATEGORY_COUNT + [STRUCTURE_CATEGORY_NAME],
         stretchInputs=stretch_inputs_from_history(closes, as_of),
         structure=fetch_structure(ticker, s),
         volRegime=0, crowd=0, stretchDrivers=[], nullInputs=[TODO],
@@ -109,10 +120,22 @@ def draft_inputs(s: str) -> dict:
     )
 
 
-def draft_votes() -> dict:
-    return {key: {str(h): [["neu", TODO] for _ in range(CATEGORY_COUNT)]
-                  for h in (1, 5, 10)}
-            for key in ASSET_ORDER}
+def draft_votes(assets: dict) -> dict:
+    """12 judgment votes stubbed TODO per horizon, plus the 13th (Market
+    structure) filled in mechanically right here - never left as a TODO,
+    since there's no judgment call to make: hourly structure for the 1D
+    horizon, weekly structure for 5D/10D, exactly as computed."""
+    votes = {}
+    for key in ASSET_ORDER:
+        structure = assets[key]['structure']
+        by_h = {}
+        for h in (1, 5, 10):
+            sig, timeframe = ((structure['hourly'], '1H') if h == 1
+                              else (structure['weekly'], 'Weekly'))
+            judgment = [["neu", TODO] for _ in range(JUDGMENT_CATEGORY_COUNT)]
+            by_h[str(h)] = judgment + [vote_from_signal(sig, timeframe)]
+        votes[key] = by_h
+    return votes
 
 
 def main(s: str):
@@ -124,11 +147,12 @@ def main(s: str):
         if os.path.exists(path):
             raise SystemExit(f"{path} already exists - remove it first if you mean to redraft")
 
+    inputs = draft_inputs(s)
     with open(inputs_path, "w") as f:
-        json.dump(draft_inputs(s), f, indent=1)
+        json.dump(inputs, f, indent=1)
         f.write("\n")
     with open(votes_path, "w") as f:
-        json.dump(draft_votes(), f, indent=1)
+        json.dump(draft_votes(inputs['assets']), f, indent=1)
         f.write("\n")
 
     print(f"drafted {inputs_path}")
