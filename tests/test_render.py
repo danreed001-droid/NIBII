@@ -3,9 +3,10 @@ import copy
 import json
 import os
 
-from mtl.score import real_result
+from mtl.score import live_tilt, real_result
 from scripts.render_html import (call_log_section, display_ticker, live_note_html, live_price_html,
-                                  pct_tone, render, ticker_strip, track_record_section)
+                                  live_tilt_badge, live_tilt_row_html, pct_tone, render, ticker_strip,
+                                  track_record_section)
 from scripts.settle import settle_document
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -171,3 +172,53 @@ def test_display_ticker_falls_back_to_the_static_map_for_older_documents():
     assert display_ticker(a) == 'TLT'
     a_none = {'key': 'bonds', 'ticker': None}
     assert display_ticker(a_none) == 'TLT'
+
+
+def test_live_tilt_classifies_against_the_horizons_own_flat_zone():
+    assert live_tilt(110, flat_lo=90, flat_hi=100) == 'bullish'
+    assert live_tilt(80, flat_lo=90, flat_hi=100) == 'bearish'
+    assert live_tilt(95, flat_lo=90, flat_hi=100) == 'flat'
+    assert live_tilt(None, flat_lo=90, flat_hi=100) is None
+
+
+def test_live_tilt_badge_is_unscored_and_never_touches_the_horizon():
+    h = dict(h=1, flatLo=90, flatHi=100, call='flat', correct=None, maturityClose=None)
+    before = copy.deepcopy(h)
+    html = live_tilt_badge(h, 110)
+    assert h == before  # the horizon dict itself is never mutated
+    assert 'tape-tilt-badge' in html
+    assert 'unscored' in html
+    assert '1D' in html
+
+
+def test_live_tilt_badge_empty_without_a_live_price():
+    h = dict(h=1, flatLo=90, flatHi=100, call='flat')
+    assert live_tilt_badge(h, None) == ''
+
+
+def test_live_tilt_row_only_appears_when_live_data_covers_the_asset():
+    a = PUB['assets'][0]
+    assert live_tilt_row_html(a, None) == ''
+    assert live_tilt_row_html(a, {'prices': {}}) == ''
+    live = {'prices': {a['key']: {'ticker': 'X=F', 'price': None}}}
+    assert live_tilt_row_html(a, live) == ''
+
+
+def test_live_tilt_row_renders_three_badges_when_live_price_present():
+    a = PUB['assets'][0]
+    live = {'prices': {a['key']: {'ticker': 'X=F', 'price': a['close'] * 10}}}  # force bullish everywhere
+    html = live_tilt_row_html(a, live)
+    assert html.count('tape-tilt-badge') == 3
+    assert 'live tilt' in html
+
+
+def test_ticker_strip_carries_the_live_tilt_row_but_never_alters_calls():
+    live = {'prices': {a['key']: {'ticker': 'X=F', 'price': a['close'] * 10} for a in PUB['assets']}}
+    with_live = ticker_strip(PUB, live)
+    without_live = ticker_strip(PUB, None)
+    assert with_live.count('tape-tilt-row') == len(PUB['assets'])
+    assert without_live.count('tape-tilt-row') == 0
+    # the scored, graded horizon badges (tape-badge) are identical either way -
+    # the live overlay only adds the separate tilt row, never touches these
+    assert with_live.count('tape-badge-h') - with_live.count('tape-tilt-badge') \
+        == without_live.count('tape-badge-h')

@@ -9,6 +9,23 @@ def outcome(ret, band):
     return 'flat'
 
 
+def live_tilt(live_price, flat_lo, flat_hi):
+    """Where a live price sits relative to a horizon's own flat-zone bounds,
+    right now - the exact same bullish/bearish/flat split outcome() uses for
+    real settlement, just read against whatever price is available this
+    instant instead of a maturity close. UNSCORED: this is never written to
+    correct/ret/maturityClose, never counted in the track record, and can
+    read differently the next time the same horizon is checked as the live
+    price moves. None if there's no live price to check."""
+    if live_price is None:
+        return None
+    if live_price > flat_hi:
+        return 'bullish'
+    if live_price < flat_lo:
+        return 'bearish'
+    return 'flat'
+
+
 def _mark(call, oc):
     if call is None or call == 'no-call':
         return None
