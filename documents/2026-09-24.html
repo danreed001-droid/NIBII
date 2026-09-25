@@ -3,25 +3,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
 <style>
+/* Dark is the default look regardless of OS preference - the toggle opts
+   into light, rather than the usual light-default/dark-opt-in pattern. */
 :root {
-  --bg: #f4f3ef; --surface: #fdfdfc; --ink: #0b0c0e; --ink-2: #52514e;
-  --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
-  --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0d0d0d; --surface: #17181a; --ink: #ffffff; --ink-2: #c3c2b7;
-    --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
-    --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
   --bg: #0d0d0d; --surface: #17181a; --ink: #ffffff; --ink-2: #c3c2b7;
   --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
   --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #f4f3ef; --surface: #fdfdfc; --ink: #0b0c0e; --ink-2: #52514e;
+  --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
+  --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
 body {
@@ -741,7 +735,7 @@ footer a { color: var(--accent); }
   var STORAGE_KEY = 'mtl-theme';
 
   function isDark(theme) {
-    return theme ? theme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return theme !== 'light'; // dark is the unconditional default; only an explicit "light" opts out
   }
   function apply(theme) {
     if (theme) { root.setAttribute('data-theme', theme); } else { root.removeAttribute('data-theme'); }
