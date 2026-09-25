@@ -9,10 +9,17 @@ name: Daily Market Data Fetch
 
 on:
   schedule:
-    # 11:15 UTC = 7:15am EDT / 6:15am EST, weekdays - safely before the
-    # 9:30am ET open in both DST states. GitHub Actions cron has no
-    # timezone support, so a single UTC time is used year-round.
-    - cron: '15 11 * * 1-5'
+    # Two runs/day now that TICKERS is all-futures (see mtl/fetch.py) and
+    # trades near 24h - a pre-open and a mid-afternoon read both see fresh
+    # prices, unlike the old single EOD-adjacent run. GitHub Actions cron
+    # has no timezone support, so each fixed UTC time drifts by an hour of
+    # ET local time across DST - both were chosen to land close to the
+    # target ET time in both states, never after it (never after 9:30am
+    # for the pre-open run):
+    # 13:15 UTC = 9:15am EDT / 8:15am EST - shortly before the 9:30am ET open.
+    - cron: '15 13 * * 1-5'
+    # 19:30 UTC = 3:30pm EDT / 2:30pm EST - mid-afternoon.
+    - cron: '30 19 * * 1-5'
   workflow_dispatch: {}
 
 permissions:
@@ -31,6 +38,9 @@ jobs:
           python-version: '3.11'
 
       - run: pip install -r requirements.txt
+
+      - name: TEMP diagnostic - verify candidate futures tickers
+        run: python scripts/verify_tickers.py ES=F NQ=F ZN=F DX=F RTY=F GC=F
 
       - name: Settle prior calls with now-available closes
         run: python scripts/settle.py
