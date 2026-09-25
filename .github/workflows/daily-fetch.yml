@@ -39,6 +39,9 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      - name: TEMP diagnostic - dump 2026-09-24 structure signals on the new tickers
+        run: python scripts/dump_structure.py 2026-09-24
+
       - name: Settle prior calls with now-available closes
         run: python scripts/settle.py
 
