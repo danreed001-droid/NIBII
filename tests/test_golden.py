@@ -3,6 +3,12 @@
 This is the proof that extracting the logic out of the model was faithful and
 not approximately right. If any threshold, tier table or overlay rule drifts,
 this fails.
+
+INP/VOT are frozen copies under golden/, not the live contracts/ files - the
+live ledger is meant to keep evolving (e.g. 2026-09-24 itself was later
+backfilled with a real, weighted 13th vote once the market-structure feature
+existed - see mtl/structure.py), but this regression anchor must never move
+out from under it.
 """
 import json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -11,8 +17,8 @@ from mtl.verify import verify_document
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUB = json.load(open(os.path.join(ROOT, 'golden/2026-09-24.published.json')))
-INP = json.load(open(os.path.join(ROOT, 'contracts/inputs.2026-09-24.json')))
-VOT = json.load(open(os.path.join(ROOT, 'contracts/votes.2026-09-24.json')))
+INP = json.load(open(os.path.join(ROOT, 'golden/2026-09-24.inputs.json')))
+VOT = json.load(open(os.path.join(ROOT, 'golden/2026-09-24.votes.json')))
 
 COMPARE = ('h', 'maturity', 'band', 'flatLo', 'flatHi', 'bull', 'bear', 'neutral',
            'margin', 'call', 'confidence', 'shadowCall', 'shadowConfidence',

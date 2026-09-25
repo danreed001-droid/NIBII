@@ -12,8 +12,11 @@ from mtl.verify import verify_document
 from scripts.prepare_daily import draft_votes
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INP = json.load(open(os.path.join(ROOT, 'contracts/inputs.2026-09-24.json')))
-VOT = json.load(open(os.path.join(ROOT, 'contracts/votes.2026-09-24.json')))
+# Frozen 12-category copies under golden/, not the live contracts/ files -
+# this test adds its own synthetic 13th category on top and needs a stable
+# 12-category starting point regardless of what the live ledger now has.
+INP = json.load(open(os.path.join(ROOT, 'golden/2026-09-24.inputs.json')))
+VOT = json.load(open(os.path.join(ROOT, 'golden/2026-09-24.votes.json')))
 
 
 def test_weight_defaults_to_one_everywhere_except_13():
