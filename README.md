@@ -69,7 +69,9 @@ python scripts/prepare_daily.py 2026-09-25   # fetches data, drafts contracts/*.
 #  -> fill in every "TODO" field by hand: direction, driverNote, categories,
 #     volRegime, crowd, stretchDrivers, nullInputs, and all 72 votes
 python scripts/publish.py 2026-09-25         # builds, verifies, writes documents/2026-09-25.json
-python scripts/render_html.py 2026-09-25     # writes documents/2026-09-25.html - the human-readable board
+python scripts/render_html.py 2026-09-25     # writes documents/latest.html - overwritten each run.
+#  documents/<S>.json stays one file per day (the actual scored ledger);
+#  only this rendered display copy is disposable and collapsed to one file.
 ```
 
 `prepare_daily.py` fetches everything `fetch.py` can compute from a close
