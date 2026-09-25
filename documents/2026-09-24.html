@@ -1,0 +1,489 @@
+<title>Market Tape Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e;
+  --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7;
+    --muted: #898781; --hairline: #2c2c2a; --accent: #3987e5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7;
+  --muted: #898781; --hairline: #2c2c2a; --accent: #3987e5;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding-inline: 16px; padding-block: 32px 64px; max-width: 880px; margin-inline: auto;
+}
+h1, h2 { font-family: "Fraunces", Georgia, serif; text-wrap: balance; margin: 0; }
+h1 { font-size: 2rem; font-weight: 600; }
+h2 { font-size: 1.15rem; font-weight: 600; }
+.header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
+.header-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; justify-content: space-between; }
+.date { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--ink-2); font-size: 0.95rem; }
+.subtitle { color: var(--ink-2); margin: 0; }
+.summary-row { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 16px 28px; }
+.summary-chip {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem;
+  padding: 4px 10px 4px 8px; border: 1px solid var(--hairline); border-radius: 999px;
+  color: var(--ink-2); background: var(--surface);
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex-shrink: 0; }
+.asset {
+  background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px;
+  padding: 20px; margin-bottom: 18px;
+}
+.asset-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.instrument { margin: 3px 0 0; color: var(--ink-2); font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+.stretch {
+  display: flex; align-items: baseline; gap: 6px; border-left: 3px solid var(--tone);
+  padding-left: 10px; white-space: nowrap;
+}
+.stretch-score { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 1.1rem; font-weight: 600; }
+.stretch-label { color: var(--ink-2); font-size: 0.85rem; }
+.driver-note { color: var(--ink-2); font-size: 0.92rem; margin: 12px 0 0; }
+.stretch-drivers { margin-top: 8px; }
+.stretch-drivers summary { cursor: pointer; color: var(--accent); font-size: 0.85rem; }
+.stretch-drivers ul { margin: 8px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 0.85rem; }
+.horizons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+@media (max-width: 620px) { .horizons { grid-template-columns: 1fr; } }
+.horizon { border: 1px solid var(--hairline); border-radius: 10px; padding: 12px; }
+.horizon-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.horizon-h { font-weight: 600; font-family: ui-monospace, monospace; }
+.horizon-maturity { font-size: 0.75rem; color: var(--muted); }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--hairline);
+  border-radius: 999px; padding: 4px 10px 4px 8px; font-size: 0.85rem;
+}
+.chip-label { text-transform: capitalize; font-weight: 500; }
+.chip-conf { color: var(--muted); font-size: 0.78rem; }
+.horizon-stats {
+  display: flex; flex-direction: column; gap: 2px; margin-top: 8px;
+  font-size: 0.78rem; color: var(--ink-2); font-variant-numeric: tabular-nums;
+}
+.reversion { font-size: 0.78rem; margin: 8px 0 0; color: var(--ink); }
+.reversion.muted { color: var(--muted); }
+.votes { margin-top: 10px; }
+.votes summary { cursor: pointer; color: var(--accent); font-size: 0.82rem; }
+.votes ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.vote { display: flex; align-items: flex-start; gap: 7px; font-size: 0.82rem; color: var(--ink-2); }
+.vote .dot { margin-top: 6px; }
+.vote-text { flex: 1; }
+.vote-mark { font-size: 0.7rem; white-space: nowrap; padding: 1px 6px; border-radius: 999px; }
+.vote-mark.hit { color: #0ca30c; border: 1px solid #0ca30c; }
+.vote-mark.miss { color: #d03b3b; border: 1px solid #d03b3b; }
+footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--hairline); color: var(--muted); font-size: 0.8rem; }
+footer a { color: var(--accent); }
+</style>
+
+<div class="header">
+  <div class="header-top">
+    <h1>Market Tape Ledger</h1>
+    <span class="date">2026-09-24</span>
+  </div>
+  <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a twelve-category vote model, with a stretch/mean-reversion overlay.</p>
+</div>
+<div class="summary-row"><span class="summary-chip" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span>2 bullish</span><span class="summary-chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span>8 bearish</span><span class="summary-chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>8 flat</span>
+  <span class="summary-chip">overlay changed 5 of 18 cells</span>
+  <span class="summary-chip">awaiting settlement</span>
+</div>
+
+
+    <section class="asset">
+      <header class="asset-head">
+        <div>
+          <h2>S&amp;P 500</h2>
+          <p class="instrument">SPX index close · close 7,704.13</p>
+        </div>
+        <div class="stretch" style="--tone:#898781">
+          <span class="stretch-score">+1</span>
+          <span class="stretch-label">neutral</span>
+        </div>
+      </header>
+      <p class="driver-note">Over the 21-session window the S&amp;P 500&#x27;s dominant driver is the 10-year yield (corr -0.639), with oil (-0.532) and the 2-year (-0.473) behind it; that sign is why Rates and Cross-asset both vote bear on a day the 10-year set a 19-year high and WTI rose 1.63%.</p>
+      <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 7704.13 is 7.11 daily-sigma above the 200-day average of 7198.56, past the +6 threshold.</li><li>Close of 7704.13 is within 2% of the 52-week high of 7816.7.</li><li>At 25.44% of S&amp;P 500 members above their 50-day average, breadth is below the 28.8% reading documented as the 5th percentile since 2010, a washed-out crowd whose rebuild pushes price up.</li></ul></details>
+      <div class="horizons">
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">1D</span>
+        <span class="horizon-maturity">matures 2026-09-25</span>
+      </div>
+      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <div class="horizon-stats">
+        <span>4 bull / 6 bear / 2 neu · margin 2</span>
+        <span>flat zone 7,666.10–7,742.16</span>
+      </div>
+      <p class="reversion muted">Stretch score 1 (neutral): the cell is flat, not a directional continuation bet, so the overlay took no action.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">SPX closed 7704.13, above its 20-day 7670.43, 50-day 7629.26 and 200-day 7198.56, with RSI(14) 53.72.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Only 25.44% of S&amp;P 500 members closed above their 50-day average, down 5.37 points in five sessions while the index finished flat, a widening negative divergence.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">VIX closed 15.67 with the VIX3M/VIX ratio at 1.176 and VIX1D at 12.10, so no near-term stress is priced into the front of the curve.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS was 273bp on 2026-09-23, only 2bp wider in two weeks, so credit is not confirming the rates shock.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 10-year closed at 5.124%, a 19-year high, and SPX daily returns carry a -0.639 correlation to the 10-year over the measured window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% earlier in the week after jobless claims printed 197k and new home sales jumped 6.4%.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">AAII bears were 48.1% against 32.7% bulls in the survey published 2026-09-24, a spread of -15.4 and a 33rd straight week with bearishness above the 31.5% historical average.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The corporate buyback blackout is in effect into late October, removing the largest structural bid for the whole window.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No S&amp;P 500 index-moving report lands Friday; Costco and Darden reported after Thursday bell, i.e. after the S close, so the blindness rule excludes their results.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading, second-tier prints that are not a direction.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The last week of September is the weakest ten-day stretch of the calendar year on the seasonal record.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 and Brent closed near 104.70, and SPX daily returns carry a -0.532 correlation to oil over the measured window.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">5D</span>
+        <span class="horizon-maturity">matures 2026-10-01</span>
+      </div>
+      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <div class="horizon-stats">
+        <span>4 bull / 6 bear / 2 neu · margin 2</span>
+        <span>flat zone 7,619.11–7,789.15</span>
+      </div>
+      <p class="reversion muted">Stretch score 1 (neutral): the cell is flat, not a directional continuation bet, so the overlay took no action.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">SPX at 7704.13 remains above its 20-day, 50-day and 200-day averages, with the 50-day 6.0% above the 200-day.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Only 45.12% of S&amp;P 500 members closed above their 200-day average, down 5.17 points in five sessions and now below half the index.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">VIX at 15.67 was exceeded on 43 of the prior 59 sessions while MOVE set a three-month record, a bond-vol/equity-vol divergence that is genuinely two-sided at one week.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp on 2026-09-23 is within 2bp of its two-week level and near the year tights.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 30-year closed at its highest since 2004 and the 3s, 10s and 30s refunding is announced 1 October inside the window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds are about 70% and December about 90%, and every hawkish repricing this month has come from data rather than the Fed.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">AAII bearishness of 48.1% remains above its 31.5% long-run average for a 33rd consecutive week.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Quarter-end falls on 30 September inside the window, and with TLT down 1.29% on the day and equities flat, rebalancing runs out of equities into duration.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Micron reports 30 September and Nike and Accenture 1 October; Micron is the largest single-name catalyst in the window and cuts both ways.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">August PCE lands 30 September and ISM manufacturing 1 October, into a week where each firm print lifted October hike odds and pushed equities lower.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The window spans the late-September seasonal trough into the first sessions of October, historically a positive turn.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI is up 13.7% since 25 August to 93.66 with Brent above 104, and SPX correlation to oil over the window is -0.532.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">10D</span>
+        <span class="horizon-maturity">matures 2026-10-08</span>
+      </div>
+      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <div class="horizon-stats">
+        <span>6 bull / 4 bear / 2 neu · margin 2</span>
+        <span>flat zone 7,583.88–7,824.38</span>
+      </div>
+      <p class="reversion muted">Stretch score 1 (neutral): the cell is flat, not a directional continuation bet, so the overlay took no action.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">SPX at 7704.13 sits 7.0% above its 200-day average of 7198.56 and above its 20-day and 50-day as well.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">At 25.44% of members above their 50-day, breadth is in the 5th percentile of readings since 2010, a washout that over two weeks has historically preceded lows rather than further decline.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The VIX3M/VIX ratio of 1.176 keeps the volatility term structure in contango across the whole window.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp is near the year tights and has not widened despite a 19-year high in the 10-year yield.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, after the 23 September 5-year note tailed 3.1bp, the second-biggest tail on record.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">December hike odds are about 90% with the dot plot at 4.1% for both 2026 and 2027.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">AAII bulls were 32.7% against 48.1% bears, with bearishness above its long-run average for a 33rd straight week.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The buyback blackout runs into late October, so the entire ten-day window has no corporate bid.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Micron on 30 September and Nike and Accenture on 1 October are the only index names inside the window; the Q3 season proper starts after it.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The September employment report lands 2 October inside the window and is the single largest two-way event on the calendar.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The first eight sessions of October are a documented positive-seasonality window following the late-September trough.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI at 93.66 with Brent above 104 keeps the oil channel negative, SPX correlation to oil being -0.532 over the window.</span></li></ul>
+      </details>
+    </div></div>
+    </section>
+    <section class="asset">
+      <header class="asset-head">
+        <div>
+          <h2>iShares 20+ Year Treasury ETF</h2>
+          <p class="instrument">TLT closing price · close 79.42</p>
+        </div>
+        <div class="stretch" style="--tone:#d03b3b">
+          <span class="stretch-score">-4</span>
+          <span class="stretch-label">extreme-down</span>
+        </div>
+      </header>
+      <p class="driver-note">TLT&#x27;s dominant driver is the 10-year yield (corr -0.828), with the 2-year at -0.623 and oil at -0.461; every hawkish and every oil-up fact therefore votes bear, and the bull votes are confined to quarter-end flows, the October seasonal and the documented rate-vol panic extreme.</p>
+      <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 79.42 is 4.34 daily-sigma below the 50-day average of 82.44.</li><li>Close of 79.42 is 8.76 daily-sigma below the 200-day average of 85.76, past the -6 threshold.</li><li>Close of 79.42 is within 2% of the 52-week low of 79.42.</li><li>TLT 30-day implied volatility sits at the 97.4th percentile with IV rank 92.4, and MOVE at 95.45 is above all 59 prior sessions, a documented panic extreme in rate volatility.</li><li>Asset managers held a record net long of 2,634,980 ten-year note futures in the 15 September COT, the largest in the twenty-year TFF history, a crowded long whose unwind pushes price down.</li></ul></details>
+      <div class="horizons">
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">1D</span>
+        <span class="horizon-maturity">matures 2026-09-25</span>
+      </div>
+      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">solid</span></span>
+      <div class="horizon-stats">
+        <span>0 bull / 9 bear / 3 neu · margin 9</span>
+        <span>flat zone 79.09–79.75</span>
+      </div>
+      <p class="reversion">⚠ overlay applied — Stretch score -4 (extreme-down): the bearish call rides an extreme reading with margin 9, so confidence was dropped from strong to solid.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">TLT closed at 79.42, an all-time and 52-week low, below its 50-day of 82.44 and 200-day of 85.76.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">2s10s flattened to 18.3bp from 21.1bp as the 2-year rose 4.6bp against the 10-year 1.4bp, the signature of front-end hawkish repricing.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">MOVE at 95.45 is above all 59 prior sessions and TLT 30-day implied volatility sits at the 97.4th percentile, an expanding vol shock and a documented capitulation marker at the same time.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp is near the year tights, so no flight-to-quality bid for Treasuries is forming.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 with Brent above 104, and TLT daily returns carry a -0.461 correlation to oil over the measured window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales, and TLT beta to the 2-year is -0.077% per basis point.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Asset managers held a record net long of 2,634,980 ten-year note futures on 15 September against leveraged funds short 1,868,126, a crowded long a contrarian fades.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 23 September 5-year auction saw indirect bids fall to 54.3% from a 65.2% average, with dealers taking 15.8%, evidence that foreign demand is stepping back.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday carries no coupon auction, and the 24 September 7-year result is not obtainable from a dated source.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading, second-tier for rates.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Late September is historically the weakest stretch of the year for Treasuries, and the quarter-end extension bid does not arrive until 30 September.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY closed 101.09, within 0.70% of a 52-week high, and the dollar +0.629 correlation to the 2-year confirms the same hawkish impulse lifting yields.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">5D</span>
+        <span class="horizon-maturity">matures 2026-10-01</span>
+      </div>
+      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">solid</span></span>
+      <div class="horizon-stats">
+        <span>2 bull / 9 bear / 1 neu · margin 7</span>
+        <span>flat zone 78.67–80.17</span>
+      </div>
+      <p class="reversion">⚠ overlay applied — Stretch score -4 (extreme-down): the bearish call rides an extreme reading with margin 7, so confidence was dropped from strong to solid.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">TLT at a record-low 79.42 is 3.7% below its 50-day and 7.4% below its 200-day.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">2s10s at 18.3bp is the flattest of the month, with the front end leading the move.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">MOVE set a three-month record at 95.45 and TLT implied volatility is at the 97.4th percentile, an extreme that is two-sided over one week.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp near the year tights means no recession bid for duration.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI is up 13.7% since 25 August to 93.66 and August PCE lands 30 September inside the window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">December hike odds are about 90% and the dot plot sits at 4.1% for both 2026 and 2027.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The record 2,634,980 asset-manager net long in ten-year futures on 15 September is a crowded position whose unwind pushes prices lower.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Quarter-end on 30 September brings index-extension and pension duration demand with TLT already 13.9% below its 52-week high of 92.19.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 2-, 5- and 7-year notes all settle 30 September inside the window, adding cash supply right after the 5-year tailed 3.1bp.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">August PCE on 30 September and ISM manufacturing on 1 October land in a week where every firm print has lifted hike odds.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">October is historically a better month for Treasuries than September, and the window crosses that turn.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY within 0.70% of a 52-week high, with a +0.629 correlation to the 2-year, marks the same hawkish impulse.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">10D</span>
+        <span class="horizon-maturity">matures 2026-10-08</span>
+      </div>
+      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <div class="horizon-stats">
+        <span>3 bull / 7 bear / 2 neu · margin 4</span>
+        <span>flat zone 78.36–80.48</span>
+      </div>
+      <p class="reversion">⚠ overlay applied — Stretch score -4 (extreme-down) and a marginal continuation call: the +4 threshold bearish call rode an extreme reading, so it was vetoed to flat.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">TLT closed at a record-low 79.42, below both its 50-day of 82.44 and its 200-day of 85.76.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">2s10s at 18.3bp is bear-flattening, so the long end is rising less than the front end, mildly supportive of duration, yet 30-year yields still set a 22-year high.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">TLT 30-day implied volatility at the 97.4th percentile with IV rank 92.4, and MOVE above all 59 prior sessions, is a documented panic extreme that historically marks capitulation rather than mid-move.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp near the year tights means credit is pricing no recession that would bid Treasuries.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI at 93.66 is up 13.7% since 25 August with Brent above 104, keeping headline inflation pressure on long yields.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">December hike odds of about 90% and dots at 4.1% through 2027 leave the policy path pointing higher with no FOMC inside the window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Asset managers record 2,634,980 net long in ten-year futures on 15 September is the crowd a contrarian fades.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">A 30-year yield at 5.41% to 5.48%, the highest since 2004, plus quarter-end index extension on 30 September, is the level that has drawn real-money duration buyers.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 3s, 10s and 30s refunding is announced 1 October and auctioned 6 to 8 October, straddling the maturity, after the second-biggest 5-year tail on record.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The September employment report on 2 October is the single largest two-way event inside the window.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">October is seasonally the strongest autumn month for Treasuries on the historical record.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY at 101.09, within 0.70% of a 52-week high and +0.629 correlated to the 2-year, marks a hawkish impulse still intact.</span></li></ul>
+      </details>
+    </div></div>
+    </section>
+    <section class="asset">
+      <header class="asset-head">
+        <div>
+          <h2>Spot gold</h2>
+          <p class="instrument">XAU/USD close · close 4,286.06</p>
+        </div>
+        <div class="stretch" style="--tone:#898781">
+          <span class="stretch-score">+0</span>
+          <span class="stretch-label">neutral</span>
+        </div>
+      </header>
+      <p class="driver-note">Gold&#x27;s dominant driver remains the 2-year yield (corr -0.594, beta -0.164% per bp, -0.799 on big 2Y days), with the dollar at -0.576 and oil at only -0.296; &#x27;higher oil supports gold&#x27; is therefore an invalid bull reason and the Cross-asset vote is signed bear through the hike-odds channel.</p>
+      
+      <div class="horizons">
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">1D</span>
+        <span class="horizon-maturity">matures 2026-09-25</span>
+      </div>
+      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">lean</span></span>
+      <div class="horizon-stats">
+        <span>2 bull / 6 bear / 4 neu · margin 4</span>
+        <span>flat zone 4,255.32–4,316.80</span>
+      </div>
+      <p class="reversion muted">Stretch score 0 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Spot gold closed 4286.06, below its 50-day of 4306.31 and 23.3% below the 28 January record of 5589.38.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Silver fell 1.50% to 63.99 against gold 0.06%, lifting the gold/silver ratio to 67.0 as the higher-beta metal leads the complex lower.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">GVZ closed 22.77 on 2026-09-23 and no percentile or named extreme for gold volatility is documented.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 10-year at 5.124% is a 19-year high and gold carries a -0.499 correlation to the 10-year over the measured window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY at 101.09 sits 0.70% below a 52-week high, and gold correlation to the dollar over the window is -0.576.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55%, and gold beta to the 2-year is -0.164% per basis point, so Thursday +4.6bp is a direct headwind.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">COMEX managed money net long was 133,116 contracts on 15 September, well short of the roughly 200,000 crowded zone, so the book is light enough to rebuild.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No central-bank purchase figure dated at or before the 24 September close is available for this window.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No dated physical premium or retail-flow reading for 24 September is obtainable.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading, second-tier for gold.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The last week of September into early October is seasonally firm for gold ahead of the Indian festival buying season.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66, and over this window gold correlation to oil is only -0.296 against -0.594 to the 2-year, so crude reaches gold through hike odds as a headwind rather than as an inflation hedge.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">5D</span>
+        <span class="horizon-maturity">matures 2026-10-01</span>
+      </div>
+      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">lean</span></span>
+      <div class="horizon-stats">
+        <span>2 bull / 6 bear / 4 neu · margin 4</span>
+        <span>flat zone 4,217.32–4,354.80</span>
+      </div>
+      <p class="reversion muted">Stretch score 0 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Gold at 4286.06 is below its 50-day of 4306.31 and 5.8% below its 200-day of 4549.87.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Silver 1.50% fall to 63.99 puts the gold/silver ratio at 67.0, the complex led lower by the higher-beta metal.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">GVZ at 22.77 on 2026-09-23 carries no documented percentile, so gold volatility gives no signal.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 30-year closed at its highest since 2004 and the 5-year cleared 5% for the first time since 2007, lifting the real-rate hurdle for a zero-coupon asset.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY RSI(14) near 71 with the index 0.70% below a 52-week high, against a -0.576 gold-dollar correlation over the window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">December hike odds of about 90% with the dot plot at 4.1% for 2026 and 2027 keep the policy path against gold.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Managed money net long of 133,116 contracts on 15 September is light against the crowded zone, leaving room for the book to rebuild.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No dated central-bank flow figure is available inside this window.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No dated physical or retail demand reading is obtainable for 24 September.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">August PCE on 30 September is the window live two-way inflation event for gold.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Late September into early October is seasonally firm for gold on Indian festival restocking.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Gold correlation to TLT over the window is +0.374, just under the 0.40 coherence threshold, and TLT set a record low, so the shared hike-odds driver is pulling both down together.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">10D</span>
+        <span class="horizon-maturity">matures 2026-10-08</span>
+      </div>
+      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-solid</span></span>
+      <div class="horizon-stats">
+        <span>3 bull / 4 bear / 5 neu · margin 1</span>
+        <span>flat zone 4,188.86–4,383.26</span>
+      </div>
+      <p class="reversion muted">Stretch score 0 (neutral): the cell is flat, not a directional continuation bet, so the overlay took no action.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Gold at 4286.06 sits 5.8% below its 200-day of 4549.87 and 23.3% below the January record.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The gold/silver ratio at 67.0 after silver 1.50% fall shows the complex without a leader.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">GVZ at 22.77 carries no documented percentile or named extreme.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, keeping upward pressure on long real yields.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY is overbought at RSI(14) near 71 and 0.70% below a 52-week high with a stretch score of +3, and its mean reversion would relieve gold given the -0.576 gold-dollar correlation.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">December hike odds are already about 90% and the 28 October FOMC falls outside the window, so little further hawkish repricing is available.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Managed money net long of 133,116 contracts on 15 September leaves the speculative book light enough to rebuild over two weeks.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No dated central-bank purchase figure is available for this window.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No dated physical or retail demand reading is obtainable.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The September employment report on 2 October is the window largest two-way event for hike odds.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">October is seasonally one of gold firmer months on Indian festival and Chinese holiday demand.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI is up 13.7% since 25 August yet gold correlation to oil is only -0.296 while its 2-year correlation is -0.594, so crude is transmitting hike odds rather than an inflation-hedge bid.</span></li></ul>
+      </details>
+    </div></div>
+    </section>
+    <section class="asset">
+      <header class="asset-head">
+        <div>
+          <h2>US Dollar Index</h2>
+          <p class="instrument">DXY close · close 101.09</p>
+        </div>
+        <div class="stretch" style="--tone:#d03b3b">
+          <span class="stretch-score">+3</span>
+          <span class="stretch-label">extreme-up</span>
+        </div>
+      </header>
+      <p class="driver-note">The dollar&#x27;s dominant driver is the 2-year yield (corr +0.629, +0.818 on big 2Y days), the only asset of the six with a positive rate correlation; rising hike odds are therefore signed bullish, and the risk-on facts (tight credit, the tariff truce) are the bear side.</p>
+      <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>RSI(14) of 70.8 is in the overbought band.</li><li>Close of 101.09 is 3.87 daily-sigma above the 50-day average of 99.94.</li><li>Close of 101.09 is 6.48 daily-sigma above the 200-day average of 99.18, past the +6 threshold.</li><li>Close of 101.09 is within 2% of the 52-week high of 101.8.</li><li>Speculative dollar longs were only 5.9bn dollars in the 15 September COT, described by Saxo as the lowest in 15 months, a vacated crowd whose rebuild pushes price up.</li></ul></details>
+      <div class="horizons">
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">1D</span>
+        <span class="horizon-maturity">matures 2026-09-25</span>
+      </div>
+      <span class="chip" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="chip-label">↑ bullish</span><span class="chip-conf">lean</span></span>
+      <div class="horizon-stats">
+        <span>7 bull / 2 bear / 3 neu · margin 5</span>
+        <span>flat zone 100.94–101.24</span>
+      </div>
+      <p class="reversion">⚠ overlay applied — Stretch score 3 (extreme-up): the bullish call rides an extreme reading with margin 5, so confidence was dropped from solid to lean.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY closed 101.09, above its 50-day of 99.94 and 200-day of 99.18 and 0.70% below a 52-week high of 101.80.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The index was flat at -0.01% after a 0.49% gain, and no dated 24 September cross rates for EUR, GBP and JPY are obtainable to confirm breadth.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The only implied-volatility reading available is EUR/USD 1-month at 4.72 dated 21 September, three sessions stale.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp plus a US-China tariff truce extended to 10 January is a risk-on backdrop that normally weighs on the dollar.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 2-year closed 4.941%, a cycle-high close, against an ECB deposit rate of 2.5% and a BoJ policy rate of 1.25%, and the dollar +0.629 correlation to the 2-year is its dominant driver.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The Fed hiked 25bp on 16 September with dots at 4.1% through 2027 while the ECB, BoE and BoJ are all on hold.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Speculative dollar longs were only 5.9bn dollars on 15 September, the lightest in 15 months, leaving a vacated book to rebuild.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The yen net long reached a 14-month high after a record two-week buying spree of 216k contracts, a crowded anti-dollar carry position.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The US-China truce extension and the Xi state visit reduce the tariff-driven safe-haven premium in the dollar.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading, second-tier for FX.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The dollar typically firms into quarter-end on funding demand, and 30 September is four sessions away.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Gold fell to 4286.06 and TLT to a record low while the dollar held near its high, the classic hawkish-repricing configuration given the -0.576 gold-dollar correlation.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">5D</span>
+        <span class="horizon-maturity">matures 2026-10-01</span>
+      </div>
+      <span class="chip" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="chip-label">↑ bullish</span><span class="chip-conf">lean</span></span>
+      <div class="horizon-stats">
+        <span>8 bull / 2 bear / 2 neu · margin 6</span>
+        <span>flat zone 100.75–101.43</span>
+      </div>
+      <p class="reversion">⚠ overlay applied — Stretch score 3 (extreme-up): the bullish call rides an extreme reading with margin 6, so confidence was dropped from solid to lean.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY holds above its 50-day of 99.94 and 200-day of 99.18, 0.70% below a 52-week high.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No dated 24 September cross rates for the majors are obtainable, so breadth across EUR, GBP and JPY cannot be confirmed.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The only implied-volatility reading is EUR/USD 1-month at 4.72 dated 21 September.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp with the tariff truce extended to 10 January keeps the risk backdrop dollar-negative.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 5-year cleared 5% for the first time since 2007 and the 30-year hit a 22-year high against a 2.5% ECB deposit rate.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds of about 70% and December about 90% for the Fed sit against the ECB, BoE and BoJ all on hold.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Speculative dollar longs of 5.9bn dollars on 15 September are the lightest in 15 months.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Quarter-end dollar funding demand falls on 30 September inside the window, with a 14-month-high yen long still to unwind.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The truce extension to 10 January removes a tariff cliff that had been supporting the dollar.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">August PCE on 30 September and ISM manufacturing on 1 October land in a week where every firm print lifted hike odds, and the dollar +0.629 correlation to the 2-year makes that dollar-positive.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The quarter-end funding bid falls on 30 September, inside the window.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Gold at 4286.06 and TLT at a record low against a dollar near its high confirms the hawkish-repricing configuration.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">10D</span>
+        <span class="horizon-maturity">matures 2026-10-08</span>
+      </div>
+      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <div class="horizon-stats">
+        <span>5 bull / 2 bear / 5 neu · margin 3</span>
+        <span>flat zone 100.61–101.57</span>
+      </div>
+      <p class="reversion muted">Stretch score 3 (extreme-up): the cell is flat, not a directional continuation bet, so the overlay took no action.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY holds above its 50-day of 99.94 and 200-day of 99.18, with both averages rising.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No dated 24 September cross rates are obtainable, so breadth against the majors cannot be assessed.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The only implied-volatility reading is EUR/USD 1-month at 4.72 dated 21 September.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp near the year tights with the tariff truce extended to January keeps risk appetite dollar-negative.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 3s, 10s and 30s refunding on 6 to 8 October keeps US long yields elevated against a 2.5% ECB deposit rate.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">December hike odds of about 90% and dots at 4.1% through 2027 against the ECB, BoE and BoJ on hold.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Speculative dollar longs of 5.9bn dollars, the lightest in 15 months, leave room for the book to rebuild.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Quarter-end funding demand passes on 30 September and unwinds afterwards, so the flow is two-sided across the full ten days.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The US-China truce extension and the Xi visit reduce the dollar safe-haven premium.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The September employment report on 2 October is the window largest two-way event for the front end.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Early October carries no consistent dollar seasonality once the quarter-end bid has passed.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">Gold 5.8% below its 200-day and TLT at a record low, with the -0.576 gold-dollar correlation intact, still point the same way.</span></li></ul>
+      </details>
+    </div></div>
+    </section>
+    <section class="asset">
+      <header class="asset-head">
+        <div>
+          <h2>iShares Russell 2000 ETF</h2>
+          <p class="instrument">IWM closing price · close 281.66</p>
+        </div>
+        <div class="stretch" style="--tone:#898781">
+          <span class="stretch-score">-1</span>
+          <span class="stretch-label">neutral</span>
+        </div>
+      </header>
+      <p class="driver-note">First measurement for IWM: dominant driver is the 10-year yield at -0.749, the strongest of the six assets, with the 2-year at -0.631 and beta -0.098% per bp against the S&amp;P 500&#x27;s -0.062%, confirming that small caps are about 1.6 times as rate-sensitive as large caps; the window is short, so treat the reading with care.</p>
+      <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 281.66 is 3.48 daily-sigma below the 50-day average of 294.56.</li></ul></details>
+      <div class="horizons">
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">1D</span>
+        <span class="horizon-maturity">matures 2026-09-25</span>
+      </div>
+      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">solid</span></span>
+      <div class="horizon-stats">
+        <span>2 bull / 8 bear / 2 neu · margin 6</span>
+        <span>flat zone 279.89–283.43</span>
+      </div>
+      <p class="reversion muted">Stretch score -1 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">IWM closed 281.66, below its 50-day of 294.56 though above its 200-day of 275.37, with RSI(14) at 34.41.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The Russell 2000 has fallen 5.33% over the past month against the S&amp;P 500 +0.67%, six points of underperformance.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">RVX at 19.97 against a VIX of 15.67 puts small-cap implied volatility 27% above large-cap, and RVX rose 6.3% on 23 September.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp is only 2bp wider in two weeks and near the year tights, the funding channel that matters most for small caps.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 2-year closed 4.941%, a cycle high, and IWM beta to the 2-year is -0.098% per basis point against the S&amp;P 500 -0.062%.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% after jobless claims of 197k and a 6.4% jump in new home sales.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">IWM RSI(14) of 34.41 and a Russell 2000 that was down 1.8% intraday before closing down only 0.11% mark an intraday reversal off a washed-out reading.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The buyback blackout into late October and quarter-end rebalancing on 30 September fall hardest on the least liquid part of the market.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No Russell 2000 index-moving report lands Friday.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The last week of September is the weakest ten-day stretch of the calendar year and small caps carry the highest beta to it.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 and IWM correlation to oil over the measured window is -0.476.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">5D</span>
+        <span class="horizon-maturity">matures 2026-10-01</span>
+      </div>
+      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">solid</span></span>
+      <div class="horizon-stats">
+        <span>3 bull / 8 bear / 1 neu · margin 5</span>
+        <span>flat zone 277.70–285.62</span>
+      </div>
+      <p class="reversion muted">Stretch score -1 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">IWM at 281.66 is 4.4% below its 50-day of 294.56 and 7.7% below its 52-week high of 305.18.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The Russell 2000 2026 lead over the S&amp;P 500 has compressed from about 9 points in mid-August to roughly 2 points.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">RVX at 19.97 against a VIX of 15.67 keeps small-cap volatility priced well above large-cap.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp near the year tights leaves small-cap funding conditions intact.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 30-year hit a 22-year high and the 5-year cleared 5% for the first time since 2007, and small-cap floating-rate debt reprices off the front end.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">December hike odds of about 90% with the dot plot at 4.1% through 2027.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">RSI(14) of 34.41 with the Russell 2000 down 5.33% in a month is a stretched-down tape that has begun to find bids.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Quarter-end rebalancing on 30 September plus the buyback blackout into late October remove the marginal bid.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No Russell 2000 index-level catalyst falls inside the window; small-cap Q3 reporting starts later in October.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">August PCE on 30 September and ISM manufacturing on 1 October are prints that each lifted hike odds this month.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The window crosses the late-September trough into early October, historically the strongest small-cap turn of the autumn.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI is up 13.7% since 25 August and IWM correlation to oil over the window is -0.476.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">10D</span>
+        <span class="horizon-maturity">matures 2026-10-08</span>
+      </div>
+      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <div class="horizon-stats">
+        <span>3 bull / 5 bear / 4 neu · margin 2</span>
+        <span>flat zone 276.06–287.26</span>
+      </div>
+      <p class="reversion muted">Stretch score -1 (neutral): the cell is flat, not a directional continuation bet, so the overlay took no action.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">IWM at 281.66 is 4.4% below a falling 50-day of 294.56.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The Russell 2000 is still up 15.35% year to date against the S&amp;P 500 13.53%, so the relative trend has compressed but not inverted.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">RVX at 19.97 sits above the VIX of 15.67 and rose 6.3% on 23 September, with no percentile extreme to argue mean reversion.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp near the year tights means credit is not validating a small-cap recession.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 3s, 10s and 30s refunding on 6 to 8 October falls inside the window, and IWM -0.749 correlation to the 10-year is the strongest of the six assets.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">December hike odds are already about 90% and the 28 October FOMC is outside the window, so little further repricing is available.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">RSI(14) of 34.41 with 25.44% of S&amp;P 500 members above their 50-day, a 5th-percentile washout, is the crowd a contrarian fades.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The buyback blackout runs into late October, so the window has no corporate bid.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No small-cap index catalyst falls inside the window.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The September employment report on 2 October is the window largest two-way event.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The first eight sessions of October are a documented positive small-cap seasonality window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI at 93.66 with Brent above 104 keeps the oil channel negative, IWM correlation to oil being -0.476.</span></li></ul>
+      </details>
+    </div></div>
+    </section>
+    <section class="asset">
+      <header class="asset-head">
+        <div>
+          <h2>Invesco QQQ Trust</h2>
+          <p class="instrument">QQQ closing price · close 741.10</p>
+        </div>
+        <div class="stretch" style="--tone:#d03b3b">
+          <span class="stretch-score">+3</span>
+          <span class="stretch-label">extreme-up</span>
+        </div>
+      </header>
+      <p class="driver-note">First measurement for QQQ: dominant driver is the 10-year yield at -0.654, with oil at -0.591 (the most negative of the six) and the 2-year at -0.507 on a beta of -0.099% per bp; QQQ&#x27;s 0.914 correlation to the S&amp;P 500 is far higher than IWM&#x27;s 0.741, so its divergences come from leadership and AI-capex news rather than from rates.</p>
+      <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 741.1 is 3.12 daily-sigma above the 50-day average of 711.42.</li><li>Close of 741.1 is 8.63 daily-sigma above the 200-day average of 664.41, past the +6 threshold.</li><li>Close of 741.1 is within 2% of the 52-week high of 748.65.</li></ul></details>
+      <div class="horizons">
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">1D</span>
+        <span class="horizon-maturity">matures 2026-09-25</span>
+      </div>
+      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">solid</span></span>
+      <div class="horizon-stats">
+        <span>2 bull / 8 bear / 2 neu · margin 6</span>
+        <span>flat zone 736.14–746.06</span>
+      </div>
+      <p class="reversion muted">Stretch score 3 (extreme-up): the bearish call points against the stretch, so the overlay left it untouched rather than rewarding the vote model twice.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">QQQ closed 741.10, above its 50-day of 711.42 and 200-day of 664.41 and 1.01% below its 52-week high of 748.65.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The top ten QQQ holdings are 46.91% of the fund and cap weighting has supplied 6.3 points of the 21.05% year-to-date return over equal weight, so the advance rests on a handful of names.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">VXN closed 21.24 against a VIX of 15.67, a ratio of 1.36, and VXN rose 2.3% on the session.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp, 2bp wider in two weeks, shows credit pricing no stress in AI capex financing.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 10-year at 5.124% is a 19-year high and QQQ carries a -0.654 correlation to the 10-year over the measured window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">QQQ RSI(14) of 63.22 sits below the 70 overbought line while AAII bears are still 48.1%, so there is no crowd extreme for a contrarian to fade.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The buyback blackout into late October removes the megacap bid that has driven the concentration.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Oracle force majeure notice on the 2.5GW Project Jupiter campus knocked the shares 5% to 6% and was the session largest Nasdaq drag, the first public crack in a marquee AI buildout.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The last week of September is the weakest ten-day stretch of the calendar year.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 and QQQ correlation to oil over the window is -0.591, the most negative of the six assets.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">5D</span>
+        <span class="horizon-maturity">matures 2026-10-01</span>
+      </div>
+      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">lean</span></span>
+      <div class="horizon-stats">
+        <span>3 bull / 7 bear / 2 neu · margin 4</span>
+        <span>flat zone 730.01–752.19</span>
+      </div>
+      <p class="reversion muted">Stretch score 3 (extreme-up): the bearish call points against the stretch, so the overlay left it untouched rather than rewarding the vote model twice.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">QQQ at 741.10 holds above its 50-day of 711.42 and 200-day of 664.41, 1.01% below its 52-week high.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Top-ten weight of 46.91% with the top five at 30.56% leaves the index dependent on a handful of megacaps.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">VXN at 21.24 against a VIX of 15.67 keeps Nasdaq volatility priced 36% above the broad market.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp near the year tights leaves AI capex financing conditions intact.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 30-year hit a 22-year high and the 5-year cleared 5% for the first time since 2007, and long-duration growth multiples discount off those levels.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">December hike odds of about 90% with the dot plot at 4.1% for 2026 and 2027.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">RSI(14) of 63.22 is below overbought and AAII bears are 48.1%, so there is no crowd extreme to fade.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Quarter-end on 30 September with the Nasdaq-100 up about 22% year to date against TLT at a record low makes this the rebalancing trade most likely to be sold.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Micron reports 30 September, the largest semiconductor read-through inside the window, and cuts both ways after the Oracle notice.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">August PCE on 30 September and ISM manufacturing on 1 October are prints that lifted hike odds each time this month.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The window crosses the late-September trough into the first sessions of October, historically a positive turn.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI is up 13.7% since 25 August and QQQ correlation to oil over the window is -0.591.</span></li></ul>
+      </details>
+    </div>
+    <div class="horizon">
+      <div class="horizon-head">
+        <span class="horizon-h">10D</span>
+        <span class="horizon-maturity">matures 2026-10-08</span>
+      </div>
+      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-solid</span></span>
+      <div class="horizon-stats">
+        <span>4 bull / 5 bear / 3 neu · margin 1</span>
+        <span>flat zone 725.42–756.78</span>
+      </div>
+      <p class="reversion muted">Stretch score 3 (extreme-up): the cell is flat, not a directional continuation bet, so the overlay took no action.</p>
+      <details class="votes">
+        <summary>12 votes</summary>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">QQQ at 741.10 sits above all its major averages, with the 50-day of 711.42 some 7.1% above the 200-day of 664.41.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Top-ten weight of 46.91% with equal weight lagging cap weight by 6.3 points year to date is a concentration that has historically been fragile over multi-week windows.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">VXN at 21.24 against a VIX of 15.67 is elevated but carries no documented percentile extreme.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp near the year tights shows credit pricing no stress in AI capex financing.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, after the second-biggest 5-year auction tail on record.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">December hike odds are already about 90% and no FOMC falls inside the window, so little further hawkish repricing is available.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">AAII bears of 48.1% and 25.44% of S&amp;P 500 members above their 50-day, a 5th-percentile washout, is a bearish crowd a contrarian fades.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The buyback blackout runs into late October, so the window has no corporate bid.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Micron on 30 September and Accenture on 1 October fall inside the window while the Oracle force majeure keeps AI capex financing in question throughout it.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">The September employment report on 2 October is the window largest two-way event.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">The first eight sessions of October are a documented positive-seasonality window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI at 93.66 with Brent above 104 keeps the oil channel negative, QQQ correlation to oil being -0.591.</span></li></ul>
+      </details>
+    </div></div>
+    </section>
+
+<footer>
+  Generated by <code>scripts/render_html.py</code> from <code>documents/2026-09-24.json</code> in
+  <a href="https://github.com/danreed001-droid/NIBII">danreed001-droid/NIBII</a>.
+  Every call here is reproducible: <code>mtl.build.build_document</code> derives it from
+  <code>contracts/inputs.2026-09-24.json</code> and <code>contracts/votes.2026-09-24.json</code>, and
+  <code>mtl.verify.verify_document</code> recomputes it independently. Unsettled cells show no
+  correctness mark until their maturity date passes.
+</footer>
