@@ -1,0 +1,23 @@
+name: Verify Ledger Engine
+
+on:
+  push:
+    paths: ['mtl/**', 'tests/**', 'contracts/**', 'golden/**', '.github/workflows/verify.yml']
+  pull_request:
+  workflow_dispatch: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pytest
+      - name: Golden fidelity test
+        run: python -m pytest tests/ -q
+      - name: Verify any committed documents
+        run: |
+          if [ -d documents ]; then python scripts/run_verify.py documents; else
+          echo "no documents/ directory yet - golden test is the gate"; fi

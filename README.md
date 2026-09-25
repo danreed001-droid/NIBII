@@ -1,0 +1,113 @@
+# Market Tape Ledger — deterministic engine
+
+The arithmetic half of the daily cross-asset "Market Tape Ledger" cycle, lifted
+out of the Claude prompt and into version control.
+
+A twelve-category vote model with a mean-reversion overlay calls **six markets**
+(SPX, TLT, spot gold, DXY, IWM, QQQ) bullish / bearish / flat over **1, 5 and 10
+NYSE sessions** — 18 cells a day.
+
+## Why this exists
+
+Everything here has exactly one correct output for a given input, so a model
+should not be re-deriving it by hand every morning. Re-deriving it by hand is
+how a tier table silently drifts. Extracting it buys two things:
+
+1. **Correctness.** `tests/test_golden.py` asserts the engine reproduces the
+   published 2026-09-24 board — all 18 cells, all six stretch scores, both
+   experiments — *exactly*. Any drift in a threshold or tier table fails CI.
+2. **Cost.** The model's daily job shrinks to research plus 72 vote reasons.
+
+## The split — this is the important part
+
+| Stays with the model (judgment) | Lives here (deterministic) |
+|---|---|
+| 72 `(side, reason)` pairs — 6 assets x 3 horizons x 12 categories | bands, flat zones |
+| Whether a fact is genuinely two-sided -> `neu` | tally -> margin -> call -> confidence tier |
+| Turning news / calendar / auctions into signed votes | cluster downgrade (family map + notch table) |
+| Adjudicating vendor conflicts | shadow recompute at threshold 3 |
+| Whether a source's own language names a **documented extreme** (`volRegime`, `crowd`) | the four measurable stretch components |
+| The `dataNotes` narrative | overlay: rides / opposes / veto / dampen |
+| | maturity dates, settlement, correctness flags, vote marks |
+| | driver regime (corr, beta, big-day subset) |
+| | the record, and the verifier |
+
+The model emits two files; the engine derives everything else:
+
+```
+contracts/inputs.<S>.json   every NUMBER, each with its provenance and date
+contracts/votes.<S>.json    the 72 (side, reason) pairs
+```
+
+```python
+from mtl.build import build_document
+from mtl.verify import verify_document
+
+doc = build_document(inputs, votes)
+assert verify_document(doc) == []
+```
+
+## Modules
+
+| Module | Owns |
+|---|---|
+| `bands.py` | `band(h) = 0.5 * (sigma/100) * sqrt(h/252)`, daily sigma, flat zones |
+| `resolve.py` | live gate (<7 -> no-call), margin, tier table, family map, cluster downgrade, shadow threshold |
+| `stretch.py` | stretch-v1: six components and their thresholds, label, `rides`/`opposes`/`none`, the margin-4 veto, the one-notch dampen. **Asserts the overlay can never flip a direction.** |
+| `score.py` | realized return, outcome vs band, `correct` / `shadowCorrect` / `preReversionCorrect`, vote marking, the `scored` flag |
+| `calendar_nyse.py` | NYSE sessions, +1/+5/+10 maturities, holiday rolls |
+| `drivers.py` | correlations, betas, big-2Y-day subset, dominance at \|corr\| >= 0.40, plus `check_vote_signs` |
+| `record.py` | hit rate, edge units, by asset / horizon / tier, +4-vs-+3, overlay comparison **restricted to changed cells with retroactive documents segregated** |
+| `verify.py` | recomputes every derived field from scratch; `assert_no_reason_drift` catches a reason string changing during scoring |
+| `fetch.py` | yfinance layer. Computes RSI and moving averages **locally** from the close series |
+| `build.py` | inputs + votes -> document |
+
+## What `fetch.py` fixes
+
+The ledger's own `dataNotes` kept recording the same failures: technical pages
+with the 200-day above spot, MA50 and MA200 collapsed onto the same value, RSI
+silently dated to a later session, four vendors quoting four different gold
+closes, Cboe's CDN two sessions stale, FRED lagging.
+
+Computing RSI and the moving averages from a close series removes that entire
+class of bug. `closes_through(ticker, S)` **enforces the blindness rule in code**
+— nothing dated after S is ever returned.
+
+Two traps `fetch.py` documents rather than hides:
+
+- **`GC=F` is COMEX futures, ~$50 above spot XAU/USD.** The ledger scores spot.
+- **`^TNX`/`^FVX`/`^TYX` are yield x10 on some feeds**, and yfinance has no clean
+  2-year series — source it explicitly.
+
+Also note the 52-week range here is on a **closing** basis over 252 sessions;
+vendor pages usually quote the wider intraday range.
+
+## Honest limits
+
+- **The engine cannot verify `volRegime` or `crowd`.** Both may only be non-zero
+  when a source *itself* names a percentile, a record, or a multi-year extreme.
+  They arrive as inputs and are recorded verbatim. `crowd` is capped at +/-2.
+- **It cannot write to the Artifact database.** `ArtifactData` is internal to
+  Claude; there is no public endpoint a GitHub Action can reach. Either the
+  Claude task stays the runner and calls this engine, or documents live in
+  `documents/` here and the Artifact page stops being the front end.
+- **`HOLIDAYS` in `calendar_nyse.py` is hand-maintained.** Extend it per year or
+  maturity dates will be wrong.
+- **The category record is noise below ~20 marked votes per category.**
+  `record.py` returns `byCategoryWarning` saying so; report it, don't rank it.
+
+## Test
+
+```bash
+pip install -r requirements.txt
+python -m pytest tests/ -q          # 4 passed - golden board reproduced exactly
+python scripts/run_verify.py documents
+```
+
+## Provenance
+
+`golden/2026-09-24.published.json` is the real document written on 2026-09-24
+(S = the 2026-09-24 close): TLT at a record-low 79.42 with a stretch score of
+-4 `extreme-down`, DXY and QQQ both +3 `extreme-up`, and the overlay changing
+5 of 18 cells — including a genuine veto of the bonds 10-day call. The
+contracts are the exact inputs and votes behind it.

@@ -1,0 +1,914 @@
+{
+ "equities": {
+  "1": [
+   [
+    "bull",
+    "SPX closed 7704.13, above its 20-day 7670.43, 50-day 7629.26 and 200-day 7198.56, with RSI(14) 53.72."
+   ],
+   [
+    "bear",
+    "Only 25.44% of S&P 500 members closed above their 50-day average, down 5.37 points in five sessions while the index finished flat, a widening negative divergence."
+   ],
+   [
+    "bull",
+    "VIX closed 15.67 with the VIX3M/VIX ratio at 1.176 and VIX1D at 12.10, so no near-term stress is priced into the front of the curve."
+   ],
+   [
+    "bull",
+    "High-yield OAS was 273bp on 2026-09-23, only 2bp wider in two weeks, so credit is not confirming the rates shock."
+   ],
+   [
+    "bear",
+    "The 10-year closed at 5.124%, a 19-year high, and SPX daily returns carry a -0.639 correlation to the 10-year over the measured window."
+   ],
+   [
+    "bear",
+    "October hike odds rose to about 70% from about 55% earlier in the week after jobless claims printed 197k and new home sales jumped 6.4%."
+   ],
+   [
+    "bull",
+    "AAII bears were 48.1% against 32.7% bulls in the survey published 2026-09-24, a spread of -15.4 and a 33rd straight week with bearishness above the 31.5% historical average."
+   ],
+   [
+    "bear",
+    "The corporate buyback blackout is in effect into late October, removing the largest structural bid for the whole window."
+   ],
+   [
+    "neu",
+    "No S&P 500 index-moving report lands Friday; Costco and Darden reported after Thursday bell, i.e. after the S close, so the blindness rule excludes their results."
+   ],
+   [
+    "neu",
+    "Friday brings only durable goods and the final University of Michigan reading, second-tier prints that are not a direction."
+   ],
+   [
+    "bear",
+    "The last week of September is the weakest ten-day stretch of the calendar year on the seasonal record."
+   ],
+   [
+    "bear",
+    "WTI rose 1.63% to 93.66 and Brent closed near 104.70, and SPX daily returns carry a -0.532 correlation to oil over the measured window."
+   ]
+  ],
+  "5": [
+   [
+    "bull",
+    "SPX at 7704.13 remains above its 20-day, 50-day and 200-day averages, with the 50-day 6.0% above the 200-day."
+   ],
+   [
+    "bear",
+    "Only 45.12% of S&P 500 members closed above their 200-day average, down 5.17 points in five sessions and now below half the index."
+   ],
+   [
+    "neu",
+    "VIX at 15.67 was exceeded on 43 of the prior 59 sessions while MOVE set a three-month record, a bond-vol/equity-vol divergence that is genuinely two-sided at one week."
+   ],
+   [
+    "bull",
+    "High-yield OAS of 273bp on 2026-09-23 is within 2bp of its two-week level and near the year tights."
+   ],
+   [
+    "bear",
+    "The 30-year closed at its highest since 2004 and the 3s, 10s and 30s refunding is announced 1 October inside the window."
+   ],
+   [
+    "bear",
+    "October hike odds are about 70% and December about 90%, and every hawkish repricing this month has come from data rather than the Fed."
+   ],
+   [
+    "bull",
+    "AAII bearishness of 48.1% remains above its 31.5% long-run average for a 33rd consecutive week."
+   ],
+   [
+    "bear",
+    "Quarter-end falls on 30 September inside the window, and with TLT down 1.29% on the day and equities flat, rebalancing runs out of equities into duration."
+   ],
+   [
+    "neu",
+    "Micron reports 30 September and Nike and Accenture 1 October; Micron is the largest single-name catalyst in the window and cuts both ways."
+   ],
+   [
+    "bear",
+    "August PCE lands 30 September and ISM manufacturing 1 October, into a week where each firm print lifted October hike odds and pushed equities lower."
+   ],
+   [
+    "bull",
+    "The window spans the late-September seasonal trough into the first sessions of October, historically a positive turn."
+   ],
+   [
+    "bear",
+    "WTI is up 13.7% since 25 August to 93.66 with Brent above 104, and SPX correlation to oil over the window is -0.532."
+   ]
+  ],
+  "10": [
+   [
+    "bull",
+    "SPX at 7704.13 sits 7.0% above its 200-day average of 7198.56 and above its 20-day and 50-day as well."
+   ],
+   [
+    "bull",
+    "At 25.44% of members above their 50-day, breadth is in the 5th percentile of readings since 2010, a washout that over two weeks has historically preceded lows rather than further decline."
+   ],
+   [
+    "bull",
+    "The VIX3M/VIX ratio of 1.176 keeps the volatility term structure in contango across the whole window."
+   ],
+   [
+    "bull",
+    "High-yield OAS of 273bp is near the year tights and has not widened despite a 19-year high in the 10-year yield."
+   ],
+   [
+    "bear",
+    "The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, after the 23 September 5-year note tailed 3.1bp, the second-biggest tail on record."
+   ],
+   [
+    "bear",
+    "December hike odds are about 90% with the dot plot at 4.1% for both 2026 and 2027."
+   ],
+   [
+    "bull",
+    "AAII bulls were 32.7% against 48.1% bears, with bearishness above its long-run average for a 33rd straight week."
+   ],
+   [
+    "bear",
+    "The buyback blackout runs into late October, so the entire ten-day window has no corporate bid."
+   ],
+   [
+    "neu",
+    "Micron on 30 September and Nike and Accenture on 1 October are the only index names inside the window; the Q3 season proper starts after it."
+   ],
+   [
+    "neu",
+    "The September employment report lands 2 October inside the window and is the single largest two-way event on the calendar."
+   ],
+   [
+    "bull",
+    "The first eight sessions of October are a documented positive-seasonality window following the late-September trough."
+   ],
+   [
+    "bear",
+    "WTI at 93.66 with Brent above 104 keeps the oil channel negative, SPX correlation to oil being -0.532 over the window."
+   ]
+  ]
+ },
+ "bonds": {
+  "1": [
+   [
+    "bear",
+    "TLT closed at 79.42, an all-time and 52-week low, below its 50-day of 82.44 and 200-day of 85.76."
+   ],
+   [
+    "bear",
+    "2s10s flattened to 18.3bp from 21.1bp as the 2-year rose 4.6bp against the 10-year 1.4bp, the signature of front-end hawkish repricing."
+   ],
+   [
+    "neu",
+    "MOVE at 95.45 is above all 59 prior sessions and TLT 30-day implied volatility sits at the 97.4th percentile, an expanding vol shock and a documented capitulation marker at the same time."
+   ],
+   [
+    "bear",
+    "High-yield OAS of 273bp is near the year tights, so no flight-to-quality bid for Treasuries is forming."
+   ],
+   [
+    "bear",
+    "WTI rose 1.63% to 93.66 with Brent above 104, and TLT daily returns carry a -0.461 correlation to oil over the measured window."
+   ],
+   [
+    "bear",
+    "October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales, and TLT beta to the 2-year is -0.077% per basis point."
+   ],
+   [
+    "bear",
+    "Asset managers held a record net long of 2,634,980 ten-year note futures on 15 September against leveraged funds short 1,868,126, a crowded long a contrarian fades."
+   ],
+   [
+    "bear",
+    "The 23 September 5-year auction saw indirect bids fall to 54.3% from a 65.2% average, with dealers taking 15.8%, evidence that foreign demand is stepping back."
+   ],
+   [
+    "neu",
+    "Friday carries no coupon auction, and the 24 September 7-year result is not obtainable from a dated source."
+   ],
+   [
+    "neu",
+    "Friday brings only durable goods and the final University of Michigan reading, second-tier for rates."
+   ],
+   [
+    "bear",
+    "Late September is historically the weakest stretch of the year for Treasuries, and the quarter-end extension bid does not arrive until 30 September."
+   ],
+   [
+    "bear",
+    "DXY closed 101.09, within 0.70% of a 52-week high, and the dollar +0.629 correlation to the 2-year confirms the same hawkish impulse lifting yields."
+   ]
+  ],
+  "5": [
+   [
+    "bear",
+    "TLT at a record-low 79.42 is 3.7% below its 50-day and 7.4% below its 200-day."
+   ],
+   [
+    "bear",
+    "2s10s at 18.3bp is the flattest of the month, with the front end leading the move."
+   ],
+   [
+    "neu",
+    "MOVE set a three-month record at 95.45 and TLT implied volatility is at the 97.4th percentile, an extreme that is two-sided over one week."
+   ],
+   [
+    "bear",
+    "High-yield OAS of 273bp near the year tights means no recession bid for duration."
+   ],
+   [
+    "bear",
+    "WTI is up 13.7% since 25 August to 93.66 and August PCE lands 30 September inside the window."
+   ],
+   [
+    "bear",
+    "December hike odds are about 90% and the dot plot sits at 4.1% for both 2026 and 2027."
+   ],
+   [
+    "bear",
+    "The record 2,634,980 asset-manager net long in ten-year futures on 15 September is a crowded position whose unwind pushes prices lower."
+   ],
+   [
+    "bull",
+    "Quarter-end on 30 September brings index-extension and pension duration demand with TLT already 13.9% below its 52-week high of 92.19."
+   ],
+   [
+    "bear",
+    "The 2-, 5- and 7-year notes all settle 30 September inside the window, adding cash supply right after the 5-year tailed 3.1bp."
+   ],
+   [
+    "bear",
+    "August PCE on 30 September and ISM manufacturing on 1 October land in a week where every firm print has lifted hike odds."
+   ],
+   [
+    "bull",
+    "October is historically a better month for Treasuries than September, and the window crosses that turn."
+   ],
+   [
+    "bear",
+    "DXY within 0.70% of a 52-week high, with a +0.629 correlation to the 2-year, marks the same hawkish impulse."
+   ]
+  ],
+  "10": [
+   [
+    "bear",
+    "TLT closed at a record-low 79.42, below both its 50-day of 82.44 and its 200-day of 85.76."
+   ],
+   [
+    "neu",
+    "2s10s at 18.3bp is bear-flattening, so the long end is rising less than the front end, mildly supportive of duration, yet 30-year yields still set a 22-year high."
+   ],
+   [
+    "bull",
+    "TLT 30-day implied volatility at the 97.4th percentile with IV rank 92.4, and MOVE above all 59 prior sessions, is a documented panic extreme that historically marks capitulation rather than mid-move."
+   ],
+   [
+    "bear",
+    "High-yield OAS of 273bp near the year tights means credit is pricing no recession that would bid Treasuries."
+   ],
+   [
+    "bear",
+    "WTI at 93.66 is up 13.7% since 25 August with Brent above 104, keeping headline inflation pressure on long yields."
+   ],
+   [
+    "bear",
+    "December hike odds of about 90% and dots at 4.1% through 2027 leave the policy path pointing higher with no FOMC inside the window."
+   ],
+   [
+    "bear",
+    "Asset managers record 2,634,980 net long in ten-year futures on 15 September is the crowd a contrarian fades."
+   ],
+   [
+    "bull",
+    "A 30-year yield at 5.41% to 5.48%, the highest since 2004, plus quarter-end index extension on 30 September, is the level that has drawn real-money duration buyers."
+   ],
+   [
+    "bear",
+    "The 3s, 10s and 30s refunding is announced 1 October and auctioned 6 to 8 October, straddling the maturity, after the second-biggest 5-year tail on record."
+   ],
+   [
+    "neu",
+    "The September employment report on 2 October is the single largest two-way event inside the window."
+   ],
+   [
+    "bull",
+    "October is seasonally the strongest autumn month for Treasuries on the historical record."
+   ],
+   [
+    "bear",
+    "DXY at 101.09, within 0.70% of a 52-week high and +0.629 correlated to the 2-year, marks a hawkish impulse still intact."
+   ]
+  ]
+ },
+ "gold": {
+  "1": [
+   [
+    "bear",
+    "Spot gold closed 4286.06, below its 50-day of 4306.31 and 23.3% below the 28 January record of 5589.38."
+   ],
+   [
+    "bear",
+    "Silver fell 1.50% to 63.99 against gold 0.06%, lifting the gold/silver ratio to 67.0 as the higher-beta metal leads the complex lower."
+   ],
+   [
+    "neu",
+    "GVZ closed 22.77 on 2026-09-23 and no percentile or named extreme for gold volatility is documented."
+   ],
+   [
+    "bear",
+    "The 10-year at 5.124% is a 19-year high and gold carries a -0.499 correlation to the 10-year over the measured window."
+   ],
+   [
+    "bear",
+    "DXY at 101.09 sits 0.70% below a 52-week high, and gold correlation to the dollar over the window is -0.576."
+   ],
+   [
+    "bear",
+    "October hike odds rose to about 70% from about 55%, and gold beta to the 2-year is -0.164% per basis point, so Thursday +4.6bp is a direct headwind."
+   ],
+   [
+    "bull",
+    "COMEX managed money net long was 133,116 contracts on 15 September, well short of the roughly 200,000 crowded zone, so the book is light enough to rebuild."
+   ],
+   [
+    "neu",
+    "No central-bank purchase figure dated at or before the 24 September close is available for this window."
+   ],
+   [
+    "neu",
+    "No dated physical premium or retail-flow reading for 24 September is obtainable."
+   ],
+   [
+    "neu",
+    "Friday brings only durable goods and the final University of Michigan reading, second-tier for gold."
+   ],
+   [
+    "bull",
+    "The last week of September into early October is seasonally firm for gold ahead of the Indian festival buying season."
+   ],
+   [
+    "bear",
+    "WTI rose 1.63% to 93.66, and over this window gold correlation to oil is only -0.296 against -0.594 to the 2-year, so crude reaches gold through hike odds as a headwind rather than as an inflation hedge."
+   ]
+  ],
+  "5": [
+   [
+    "bear",
+    "Gold at 4286.06 is below its 50-day of 4306.31 and 5.8% below its 200-day of 4549.87."
+   ],
+   [
+    "bear",
+    "Silver 1.50% fall to 63.99 puts the gold/silver ratio at 67.0, the complex led lower by the higher-beta metal."
+   ],
+   [
+    "neu",
+    "GVZ at 22.77 on 2026-09-23 carries no documented percentile, so gold volatility gives no signal."
+   ],
+   [
+    "bear",
+    "The 30-year closed at its highest since 2004 and the 5-year cleared 5% for the first time since 2007, lifting the real-rate hurdle for a zero-coupon asset."
+   ],
+   [
+    "bear",
+    "DXY RSI(14) near 71 with the index 0.70% below a 52-week high, against a -0.576 gold-dollar correlation over the window."
+   ],
+   [
+    "bear",
+    "December hike odds of about 90% with the dot plot at 4.1% for 2026 and 2027 keep the policy path against gold."
+   ],
+   [
+    "bull",
+    "Managed money net long of 133,116 contracts on 15 September is light against the crowded zone, leaving room for the book to rebuild."
+   ],
+   [
+    "neu",
+    "No dated central-bank flow figure is available inside this window."
+   ],
+   [
+    "neu",
+    "No dated physical or retail demand reading is obtainable for 24 September."
+   ],
+   [
+    "neu",
+    "August PCE on 30 September is the window live two-way inflation event for gold."
+   ],
+   [
+    "bull",
+    "Late September into early October is seasonally firm for gold on Indian festival restocking."
+   ],
+   [
+    "bear",
+    "Gold correlation to TLT over the window is +0.374, just under the 0.40 coherence threshold, and TLT set a record low, so the shared hike-odds driver is pulling both down together."
+   ]
+  ],
+  "10": [
+   [
+    "bear",
+    "Gold at 4286.06 sits 5.8% below its 200-day of 4549.87 and 23.3% below the January record."
+   ],
+   [
+    "bear",
+    "The gold/silver ratio at 67.0 after silver 1.50% fall shows the complex without a leader."
+   ],
+   [
+    "neu",
+    "GVZ at 22.77 carries no documented percentile or named extreme."
+   ],
+   [
+    "bear",
+    "The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, keeping upward pressure on long real yields."
+   ],
+   [
+    "bull",
+    "DXY is overbought at RSI(14) near 71 and 0.70% below a 52-week high with a stretch score of +3, and its mean reversion would relieve gold given the -0.576 gold-dollar correlation."
+   ],
+   [
+    "neu",
+    "December hike odds are already about 90% and the 28 October FOMC falls outside the window, so little further hawkish repricing is available."
+   ],
+   [
+    "bull",
+    "Managed money net long of 133,116 contracts on 15 September leaves the speculative book light enough to rebuild over two weeks."
+   ],
+   [
+    "neu",
+    "No dated central-bank purchase figure is available for this window."
+   ],
+   [
+    "neu",
+    "No dated physical or retail demand reading is obtainable."
+   ],
+   [
+    "neu",
+    "The September employment report on 2 October is the window largest two-way event for hike odds."
+   ],
+   [
+    "bull",
+    "October is seasonally one of gold firmer months on Indian festival and Chinese holiday demand."
+   ],
+   [
+    "bear",
+    "WTI is up 13.7% since 25 August yet gold correlation to oil is only -0.296 while its 2-year correlation is -0.594, so crude is transmitting hike odds rather than an inflation-hedge bid."
+   ]
+  ]
+ },
+ "dollar": {
+  "1": [
+   [
+    "bull",
+    "DXY closed 101.09, above its 50-day of 99.94 and 200-day of 99.18 and 0.70% below a 52-week high of 101.80."
+   ],
+   [
+    "neu",
+    "The index was flat at -0.01% after a 0.49% gain, and no dated 24 September cross rates for EUR, GBP and JPY are obtainable to confirm breadth."
+   ],
+   [
+    "neu",
+    "The only implied-volatility reading available is EUR/USD 1-month at 4.72 dated 21 September, three sessions stale."
+   ],
+   [
+    "bear",
+    "High-yield OAS of 273bp plus a US-China tariff truce extended to 10 January is a risk-on backdrop that normally weighs on the dollar."
+   ],
+   [
+    "bull",
+    "The 2-year closed 4.941%, a cycle-high close, against an ECB deposit rate of 2.5% and a BoJ policy rate of 1.25%, and the dollar +0.629 correlation to the 2-year is its dominant driver."
+   ],
+   [
+    "bull",
+    "The Fed hiked 25bp on 16 September with dots at 4.1% through 2027 while the ECB, BoE and BoJ are all on hold."
+   ],
+   [
+    "bull",
+    "Speculative dollar longs were only 5.9bn dollars on 15 September, the lightest in 15 months, leaving a vacated book to rebuild."
+   ],
+   [
+    "bull",
+    "The yen net long reached a 14-month high after a record two-week buying spree of 216k contracts, a crowded anti-dollar carry position."
+   ],
+   [
+    "bear",
+    "The US-China truce extension and the Xi state visit reduce the tariff-driven safe-haven premium in the dollar."
+   ],
+   [
+    "neu",
+    "Friday brings only durable goods and the final University of Michigan reading, second-tier for FX."
+   ],
+   [
+    "bull",
+    "The dollar typically firms into quarter-end on funding demand, and 30 September is four sessions away."
+   ],
+   [
+    "bull",
+    "Gold fell to 4286.06 and TLT to a record low while the dollar held near its high, the classic hawkish-repricing configuration given the -0.576 gold-dollar correlation."
+   ]
+  ],
+  "5": [
+   [
+    "bull",
+    "DXY holds above its 50-day of 99.94 and 200-day of 99.18, 0.70% below a 52-week high."
+   ],
+   [
+    "neu",
+    "No dated 24 September cross rates for the majors are obtainable, so breadth across EUR, GBP and JPY cannot be confirmed."
+   ],
+   [
+    "neu",
+    "The only implied-volatility reading is EUR/USD 1-month at 4.72 dated 21 September."
+   ],
+   [
+    "bear",
+    "High-yield OAS of 273bp with the tariff truce extended to 10 January keeps the risk backdrop dollar-negative."
+   ],
+   [
+    "bull",
+    "The 5-year cleared 5% for the first time since 2007 and the 30-year hit a 22-year high against a 2.5% ECB deposit rate."
+   ],
+   [
+    "bull",
+    "October hike odds of about 70% and December about 90% for the Fed sit against the ECB, BoE and BoJ all on hold."
+   ],
+   [
+    "bull",
+    "Speculative dollar longs of 5.9bn dollars on 15 September are the lightest in 15 months."
+   ],
+   [
+    "bull",
+    "Quarter-end dollar funding demand falls on 30 September inside the window, with a 14-month-high yen long still to unwind."
+   ],
+   [
+    "bear",
+    "The truce extension to 10 January removes a tariff cliff that had been supporting the dollar."
+   ],
+   [
+    "bull",
+    "August PCE on 30 September and ISM manufacturing on 1 October land in a week where every firm print lifted hike odds, and the dollar +0.629 correlation to the 2-year makes that dollar-positive."
+   ],
+   [
+    "bull",
+    "The quarter-end funding bid falls on 30 September, inside the window."
+   ],
+   [
+    "bull",
+    "Gold at 4286.06 and TLT at a record low against a dollar near its high confirms the hawkish-repricing configuration."
+   ]
+  ],
+  "10": [
+   [
+    "bull",
+    "DXY holds above its 50-day of 99.94 and 200-day of 99.18, with both averages rising."
+   ],
+   [
+    "neu",
+    "No dated 24 September cross rates are obtainable, so breadth against the majors cannot be assessed."
+   ],
+   [
+    "neu",
+    "The only implied-volatility reading is EUR/USD 1-month at 4.72 dated 21 September."
+   ],
+   [
+    "bear",
+    "High-yield OAS of 273bp near the year tights with the tariff truce extended to January keeps risk appetite dollar-negative."
+   ],
+   [
+    "bull",
+    "The 3s, 10s and 30s refunding on 6 to 8 October keeps US long yields elevated against a 2.5% ECB deposit rate."
+   ],
+   [
+    "bull",
+    "December hike odds of about 90% and dots at 4.1% through 2027 against the ECB, BoE and BoJ on hold."
+   ],
+   [
+    "bull",
+    "Speculative dollar longs of 5.9bn dollars, the lightest in 15 months, leave room for the book to rebuild."
+   ],
+   [
+    "neu",
+    "Quarter-end funding demand passes on 30 September and unwinds afterwards, so the flow is two-sided across the full ten days."
+   ],
+   [
+    "bear",
+    "The US-China truce extension and the Xi visit reduce the dollar safe-haven premium."
+   ],
+   [
+    "neu",
+    "The September employment report on 2 October is the window largest two-way event for the front end."
+   ],
+   [
+    "neu",
+    "Early October carries no consistent dollar seasonality once the quarter-end bid has passed."
+   ],
+   [
+    "bull",
+    "Gold 5.8% below its 200-day and TLT at a record low, with the -0.576 gold-dollar correlation intact, still point the same way."
+   ]
+  ]
+ },
+ "iwm": {
+  "1": [
+   [
+    "bear",
+    "IWM closed 281.66, below its 50-day of 294.56 though above its 200-day of 275.37, with RSI(14) at 34.41."
+   ],
+   [
+    "bear",
+    "The Russell 2000 has fallen 5.33% over the past month against the S&P 500 +0.67%, six points of underperformance."
+   ],
+   [
+    "bear",
+    "RVX at 19.97 against a VIX of 15.67 puts small-cap implied volatility 27% above large-cap, and RVX rose 6.3% on 23 September."
+   ],
+   [
+    "bull",
+    "High-yield OAS of 273bp is only 2bp wider in two weeks and near the year tights, the funding channel that matters most for small caps."
+   ],
+   [
+    "bear",
+    "The 2-year closed 4.941%, a cycle high, and IWM beta to the 2-year is -0.098% per basis point against the S&P 500 -0.062%."
+   ],
+   [
+    "bear",
+    "October hike odds rose to about 70% from about 55% after jobless claims of 197k and a 6.4% jump in new home sales."
+   ],
+   [
+    "bull",
+    "IWM RSI(14) of 34.41 and a Russell 2000 that was down 1.8% intraday before closing down only 0.11% mark an intraday reversal off a washed-out reading."
+   ],
+   [
+    "bear",
+    "The buyback blackout into late October and quarter-end rebalancing on 30 September fall hardest on the least liquid part of the market."
+   ],
+   [
+    "neu",
+    "No Russell 2000 index-moving report lands Friday."
+   ],
+   [
+    "neu",
+    "Friday brings only durable goods and the final University of Michigan reading."
+   ],
+   [
+    "bear",
+    "The last week of September is the weakest ten-day stretch of the calendar year and small caps carry the highest beta to it."
+   ],
+   [
+    "bear",
+    "WTI rose 1.63% to 93.66 and IWM correlation to oil over the measured window is -0.476."
+   ]
+  ],
+  "5": [
+   [
+    "bear",
+    "IWM at 281.66 is 4.4% below its 50-day of 294.56 and 7.7% below its 52-week high of 305.18."
+   ],
+   [
+    "bear",
+    "The Russell 2000 2026 lead over the S&P 500 has compressed from about 9 points in mid-August to roughly 2 points."
+   ],
+   [
+    "bear",
+    "RVX at 19.97 against a VIX of 15.67 keeps small-cap volatility priced well above large-cap."
+   ],
+   [
+    "bull",
+    "High-yield OAS of 273bp near the year tights leaves small-cap funding conditions intact."
+   ],
+   [
+    "bear",
+    "The 30-year hit a 22-year high and the 5-year cleared 5% for the first time since 2007, and small-cap floating-rate debt reprices off the front end."
+   ],
+   [
+    "bear",
+    "December hike odds of about 90% with the dot plot at 4.1% through 2027."
+   ],
+   [
+    "bull",
+    "RSI(14) of 34.41 with the Russell 2000 down 5.33% in a month is a stretched-down tape that has begun to find bids."
+   ],
+   [
+    "bear",
+    "Quarter-end rebalancing on 30 September plus the buyback blackout into late October remove the marginal bid."
+   ],
+   [
+    "neu",
+    "No Russell 2000 index-level catalyst falls inside the window; small-cap Q3 reporting starts later in October."
+   ],
+   [
+    "bear",
+    "August PCE on 30 September and ISM manufacturing on 1 October are prints that each lifted hike odds this month."
+   ],
+   [
+    "bull",
+    "The window crosses the late-September trough into early October, historically the strongest small-cap turn of the autumn."
+   ],
+   [
+    "bear",
+    "WTI is up 13.7% since 25 August and IWM correlation to oil over the window is -0.476."
+   ]
+  ],
+  "10": [
+   [
+    "bear",
+    "IWM at 281.66 is 4.4% below a falling 50-day of 294.56."
+   ],
+   [
+    "neu",
+    "The Russell 2000 is still up 15.35% year to date against the S&P 500 13.53%, so the relative trend has compressed but not inverted."
+   ],
+   [
+    "bear",
+    "RVX at 19.97 sits above the VIX of 15.67 and rose 6.3% on 23 September, with no percentile extreme to argue mean reversion."
+   ],
+   [
+    "bull",
+    "High-yield OAS of 273bp near the year tights means credit is not validating a small-cap recession."
+   ],
+   [
+    "bear",
+    "The 3s, 10s and 30s refunding on 6 to 8 October falls inside the window, and IWM -0.749 correlation to the 10-year is the strongest of the six assets."
+   ],
+   [
+    "neu",
+    "December hike odds are already about 90% and the 28 October FOMC is outside the window, so little further repricing is available."
+   ],
+   [
+    "bull",
+    "RSI(14) of 34.41 with 25.44% of S&P 500 members above their 50-day, a 5th-percentile washout, is the crowd a contrarian fades."
+   ],
+   [
+    "bear",
+    "The buyback blackout runs into late October, so the window has no corporate bid."
+   ],
+   [
+    "neu",
+    "No small-cap index catalyst falls inside the window."
+   ],
+   [
+    "neu",
+    "The September employment report on 2 October is the window largest two-way event."
+   ],
+   [
+    "bull",
+    "The first eight sessions of October are a documented positive small-cap seasonality window."
+   ],
+   [
+    "bear",
+    "WTI at 93.66 with Brent above 104 keeps the oil channel negative, IWM correlation to oil being -0.476."
+   ]
+  ]
+ },
+ "qqq": {
+  "1": [
+   [
+    "bull",
+    "QQQ closed 741.10, above its 50-day of 711.42 and 200-day of 664.41 and 1.01% below its 52-week high of 748.65."
+   ],
+   [
+    "bear",
+    "The top ten QQQ holdings are 46.91% of the fund and cap weighting has supplied 6.3 points of the 21.05% year-to-date return over equal weight, so the advance rests on a handful of names."
+   ],
+   [
+    "bear",
+    "VXN closed 21.24 against a VIX of 15.67, a ratio of 1.36, and VXN rose 2.3% on the session."
+   ],
+   [
+    "bull",
+    "High-yield OAS of 273bp, 2bp wider in two weeks, shows credit pricing no stress in AI capex financing."
+   ],
+   [
+    "bear",
+    "The 10-year at 5.124% is a 19-year high and QQQ carries a -0.654 correlation to the 10-year over the measured window."
+   ],
+   [
+    "bear",
+    "October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales."
+   ],
+   [
+    "neu",
+    "QQQ RSI(14) of 63.22 sits below the 70 overbought line while AAII bears are still 48.1%, so there is no crowd extreme for a contrarian to fade."
+   ],
+   [
+    "bear",
+    "The buyback blackout into late October removes the megacap bid that has driven the concentration."
+   ],
+   [
+    "bear",
+    "Oracle force majeure notice on the 2.5GW Project Jupiter campus knocked the shares 5% to 6% and was the session largest Nasdaq drag, the first public crack in a marquee AI buildout."
+   ],
+   [
+    "neu",
+    "Friday brings only durable goods and the final University of Michigan reading."
+   ],
+   [
+    "bear",
+    "The last week of September is the weakest ten-day stretch of the calendar year."
+   ],
+   [
+    "bear",
+    "WTI rose 1.63% to 93.66 and QQQ correlation to oil over the window is -0.591, the most negative of the six assets."
+   ]
+  ],
+  "5": [
+   [
+    "bull",
+    "QQQ at 741.10 holds above its 50-day of 711.42 and 200-day of 664.41, 1.01% below its 52-week high."
+   ],
+   [
+    "bear",
+    "Top-ten weight of 46.91% with the top five at 30.56% leaves the index dependent on a handful of megacaps."
+   ],
+   [
+    "bear",
+    "VXN at 21.24 against a VIX of 15.67 keeps Nasdaq volatility priced 36% above the broad market."
+   ],
+   [
+    "bull",
+    "High-yield OAS of 273bp near the year tights leaves AI capex financing conditions intact."
+   ],
+   [
+    "bear",
+    "The 30-year hit a 22-year high and the 5-year cleared 5% for the first time since 2007, and long-duration growth multiples discount off those levels."
+   ],
+   [
+    "bear",
+    "December hike odds of about 90% with the dot plot at 4.1% for 2026 and 2027."
+   ],
+   [
+    "neu",
+    "RSI(14) of 63.22 is below overbought and AAII bears are 48.1%, so there is no crowd extreme to fade."
+   ],
+   [
+    "bear",
+    "Quarter-end on 30 September with the Nasdaq-100 up about 22% year to date against TLT at a record low makes this the rebalancing trade most likely to be sold."
+   ],
+   [
+    "neu",
+    "Micron reports 30 September, the largest semiconductor read-through inside the window, and cuts both ways after the Oracle notice."
+   ],
+   [
+    "bear",
+    "August PCE on 30 September and ISM manufacturing on 1 October are prints that lifted hike odds each time this month."
+   ],
+   [
+    "bull",
+    "The window crosses the late-September trough into the first sessions of October, historically a positive turn."
+   ],
+   [
+    "bear",
+    "WTI is up 13.7% since 25 August and QQQ correlation to oil over the window is -0.591."
+   ]
+  ],
+  "10": [
+   [
+    "bull",
+    "QQQ at 741.10 sits above all its major averages, with the 50-day of 711.42 some 7.1% above the 200-day of 664.41."
+   ],
+   [
+    "bear",
+    "Top-ten weight of 46.91% with equal weight lagging cap weight by 6.3 points year to date is a concentration that has historically been fragile over multi-week windows."
+   ],
+   [
+    "neu",
+    "VXN at 21.24 against a VIX of 15.67 is elevated but carries no documented percentile extreme."
+   ],
+   [
+    "bull",
+    "High-yield OAS of 273bp near the year tights shows credit pricing no stress in AI capex financing."
+   ],
+   [
+    "bear",
+    "The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, after the second-biggest 5-year auction tail on record."
+   ],
+   [
+    "neu",
+    "December hike odds are already about 90% and no FOMC falls inside the window, so little further hawkish repricing is available."
+   ],
+   [
+    "bull",
+    "AAII bears of 48.1% and 25.44% of S&P 500 members above their 50-day, a 5th-percentile washout, is a bearish crowd a contrarian fades."
+   ],
+   [
+    "bear",
+    "The buyback blackout runs into late October, so the window has no corporate bid."
+   ],
+   [
+    "bear",
+    "Micron on 30 September and Accenture on 1 October fall inside the window while the Oracle force majeure keeps AI capex financing in question throughout it."
+   ],
+   [
+    "neu",
+    "The September employment report on 2 October is the window largest two-way event."
+   ],
+   [
+    "bull",
+    "The first eight sessions of October are a documented positive-seasonality window."
+   ],
+   [
+    "bear",
+    "WTI at 93.66 with Brent above 104 keeps the oil channel negative, QQQ correlation to oil being -0.591."
+   ]
+  ]
+ }
+}

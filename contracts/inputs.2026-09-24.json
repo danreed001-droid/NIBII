@@ -1,0 +1,631 @@
+{
+ "date": "2026-09-24",
+ "assetOrder": [
+  "equities",
+  "bonds",
+  "gold",
+  "dollar",
+  "iwm",
+  "qqq"
+ ],
+ "assets": {
+  "equities": {
+   "name": "S&P 500",
+   "instrument": "SPX index close",
+   "direction": "Bullish = index higher",
+   "close": 7704.13,
+   "sigma": 15.67,
+   "sigmaSource": "VIX close 15.67 on 2026-09-24 (Cboe/Investing.com)",
+   "driverNote": "Over the 21-session window the S&P 500's dominant driver is the 10-year yield (corr -0.639), with oil (-0.532) and the 2-year (-0.473) behind it; that sign is why Rates and Cross-asset both vote bear on a day the 10-year set a 19-year high and WTI rose 1.63%.",
+   "categories": [
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset"
+   ],
+   "stretchInputs": {
+    "asOf": "2026-09-23 close (Financhill); 52-week range through the 2026-09-24 close (Fool/StockInvest/DealPlexus)",
+    "high52w": 7816.7,
+    "low52w": 6316.91,
+    "ma200": 7198.56,
+    "ma50": 7629.26,
+    "rsi14": 53.72
+   },
+   "volRegime": 0,
+   "crowd": -1,
+   "stretchDrivers": [
+    "Close of 7704.13 is 7.11 daily-sigma above the 200-day average of 7198.56, past the +6 threshold.",
+    "Close of 7704.13 is within 2% of the 52-week high of 7816.7.",
+    "At 25.44% of S&P 500 members above their 50-day average, breadth is below the 28.8% reading documented as the 5th percentile since 2010, a washed-out crowd whose rebuild pushes price up."
+   ],
+   "nullInputs": []
+  },
+  "bonds": {
+   "name": "iShares 20+ Year Treasury ETF",
+   "instrument": "TLT closing price",
+   "direction": "Bullish = bond prices up, yields down",
+   "close": 79.42,
+   "sigma": 13.39,
+   "sigmaSource": "TLT 30-day ATM implied volatility 13.39, derived and carried from the 2026-09-23 document; no 2026-09-24 print obtainable (see dataNotes)",
+   "driverNote": "TLT's dominant driver is the 10-year yield (corr -0.828), with the 2-year at -0.623 and oil at -0.461; every hawkish and every oil-up fact therefore votes bear, and the bull votes are confined to quarter-end flows, the October seasonal and the documented rate-vol panic extreme.",
+   "categories": [
+    "Trend structure",
+    "Curve shape",
+    "Rate volatility",
+    "Credit",
+    "Real rates and inflation",
+    "Fed path",
+    "Positioning, contrarian",
+    "Flows and foreign demand",
+    "Supply and auctions",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset"
+   ],
+   "stretchInputs": {
+    "asOf": "RSI and moving averages through the 2026-09-23 close (Financhill); 52-week range through the 2026-09-24 close (stockanalysis.com)",
+    "high52w": 92.19,
+    "low52w": 79.42,
+    "ma200": 85.76,
+    "ma50": 82.44,
+    "rsi14": 37.95
+   },
+   "volRegime": -1,
+   "crowd": 1,
+   "stretchDrivers": [
+    "Close of 79.42 is 4.34 daily-sigma below the 50-day average of 82.44.",
+    "Close of 79.42 is 8.76 daily-sigma below the 200-day average of 85.76, past the -6 threshold.",
+    "Close of 79.42 is within 2% of the 52-week low of 79.42.",
+    "TLT 30-day implied volatility sits at the 97.4th percentile with IV rank 92.4, and MOVE at 95.45 is above all 59 prior sessions, a documented panic extreme in rate volatility.",
+    "Asset managers held a record net long of 2,634,980 ten-year note futures in the 15 September COT, the largest in the twenty-year TFF history, a crowded long whose unwind pushes price down."
+   ],
+   "nullInputs": []
+  },
+  "gold": {
+   "name": "Spot gold",
+   "instrument": "XAU/USD close",
+   "direction": "Bullish = gold higher",
+   "close": 4286.06,
+   "sigma": 22.77,
+   "sigmaSource": "GVZ close 22.77 on 2026-09-23 (YCharts); no confirmed 2026-09-24 close, a late-session print of 22.58 was rejected",
+   "driverNote": "Gold's dominant driver remains the 2-year yield (corr -0.594, beta -0.164% per bp, -0.799 on big 2Y days), with the dollar at -0.576 and oil at only -0.296; 'higher oil supports gold' is therefore an invalid bull reason and the Cross-asset vote is signed bear through the hike-odds channel.",
+   "categories": [
+    "Trend structure",
+    "Metals complex",
+    "Gold volatility",
+    "Real rates",
+    "Dollar",
+    "Fed path",
+    "Investor positioning",
+    "Official sector demand",
+    "Physical and retail demand",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset"
+   ],
+   "stretchInputs": {
+    "asOf": "RSI and moving averages through the 2026-09-23 close (TipRanks XAU/USD); 52-week range Investing.com",
+    "high52w": 5595.46,
+    "low52w": 3722.04,
+    "ma200": 4549.87,
+    "ma50": 4306.31,
+    "rsi14": 44.56
+   },
+   "volRegime": 0,
+   "crowd": 0,
+   "stretchDrivers": [],
+   "nullInputs": [
+    "volRegime (no percentile or named extreme available for GVZ)",
+    "crowd (COMEX managed money net long of 133,116 contracts on 15 September is well short of the roughly 200,000 crowded zone and shows no extreme)"
+   ]
+  },
+  "dollar": {
+   "name": "US Dollar Index",
+   "instrument": "DXY close",
+   "direction": "Bullish = stronger dollar",
+   "close": 101.09,
+   "sigma": 4.72,
+   "sigmaSource": "EUR/USD 1-month ATM implied volatility 4.72 dated 2026-09-21, carried; no newer print obtainable (3 sessions stale, inside the two-week window)",
+   "driverNote": "The dollar's dominant driver is the 2-year yield (corr +0.629, +0.818 on big 2Y days), the only asset of the six with a positive rate correlation; rising hike odds are therefore signed bullish, and the risk-on facts (tight credit, the tariff truce) are the bear side.",
+   "categories": [
+    "Trend structure",
+    "Breadth vs majors",
+    "FX volatility",
+    "Risk appetite and credit",
+    "Rate differentials",
+    "Central bank divergence",
+    "Positioning",
+    "Reserve and carry flows",
+    "Political and trade events",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset"
+   ],
+   "stretchInputs": {
+    "asOf": "DealPlexus snapshot 2026-09-24 05:48 ET, pre-US-session, i.e. through the 2026-09-23 close; cross-checked by FXStreet RSI 72.34",
+    "high52w": 101.8,
+    "low52w": 95.55,
+    "ma200": 99.18,
+    "ma50": 99.94,
+    "rsi14": 70.8
+   },
+   "volRegime": 0,
+   "crowd": -1,
+   "stretchDrivers": [
+    "RSI(14) of 70.8 is in the overbought band.",
+    "Close of 101.09 is 3.87 daily-sigma above the 50-day average of 99.94.",
+    "Close of 101.09 is 6.48 daily-sigma above the 200-day average of 99.18, past the +6 threshold.",
+    "Close of 101.09 is within 2% of the 52-week high of 101.8.",
+    "Speculative dollar longs were only 5.9bn dollars in the 15 September COT, described by Saxo as the lowest in 15 months, a vacated crowd whose rebuild pushes price up."
+   ],
+   "nullInputs": [
+    "crowd (the 14-month-high yen net long in the same 15 September COT is a second anti-dollar positioning extreme; it is treated as part of the one vacated-dollar-long signal rather than scored separately, consistent with the 2026-09-23 document, so crowd is -1 rather than -2)"
+   ]
+  },
+  "iwm": {
+   "name": "iShares Russell 2000 ETF",
+   "instrument": "IWM closing price",
+   "direction": "Bullish = IWM higher",
+   "close": 281.66,
+   "sigma": 19.97,
+   "sigmaSource": "RVX close 19.97 on 2026-09-23 (YCharts); FRED RVXCLS lags to 2026-09-22 at 18.78",
+   "driverNote": "First measurement for IWM: dominant driver is the 10-year yield at -0.749, the strongest of the six assets, with the 2-year at -0.631 and beta -0.098% per bp against the S&P 500's -0.062%, confirming that small caps are about 1.6 times as rate-sensitive as large caps; the window is short, so treat the reading with care.",
+   "categories": [
+    "Trend structure",
+    "Relative strength vs large caps",
+    "Volatility regime",
+    "Credit and funding",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset"
+   ],
+   "stretchInputs": {
+    "asOf": "RSI and moving averages through the 2026-09-23 close (Financhill); 52-week range through the 2026-09-24 close (stockanalysis.com)",
+    "high52w": 305.18,
+    "low52w": 228.9,
+    "ma200": 275.37,
+    "ma50": 294.56,
+    "rsi14": 34.41
+   },
+   "volRegime": 0,
+   "crowd": 0,
+   "stretchDrivers": [
+    "Close of 281.66 is 3.48 daily-sigma below the 50-day average of 294.56."
+   ],
+   "nullInputs": [
+    "volRegime (no percentile or named extreme available for RVX)",
+    "crowd (no source-documented small-cap positioning or sentiment extreme dated to 2026-09-24)"
+   ]
+  },
+  "qqq": {
+   "name": "Invesco QQQ Trust",
+   "instrument": "QQQ closing price",
+   "direction": "Bullish = QQQ higher",
+   "close": 741.1,
+   "sigma": 21.24,
+   "sigmaSource": "VXN close 21.24 on 2026-09-24 (moomoo, labelled Close Sep 24 16:00 ET)",
+   "driverNote": "First measurement for QQQ: dominant driver is the 10-year yield at -0.654, with oil at -0.591 (the most negative of the six) and the 2-year at -0.507 on a beta of -0.099% per bp; QQQ's 0.914 correlation to the S&P 500 is far higher than IWM's 0.741, so its divergences come from leadership and AI-capex news rather than from rates.",
+   "categories": [
+    "Trend structure",
+    "Leadership and concentration",
+    "Volatility regime",
+    "Credit",
+    "Real yields",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings and AI catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset"
+   ],
+   "stretchInputs": {
+    "asOf": "RSI and moving averages through the 2026-09-23 close (Financhill); 52-week range through the 2026-09-24 close (stockanalysis.com)",
+    "high52w": 748.65,
+    "low52w": 555.6,
+    "ma200": 664.41,
+    "ma50": 711.42,
+    "rsi14": 63.22
+   },
+   "volRegime": 0,
+   "crowd": 0,
+   "stretchDrivers": [
+    "Close of 741.1 is 3.12 daily-sigma above the 50-day average of 711.42.",
+    "Close of 741.1 is 8.63 daily-sigma above the 200-day average of 664.41, past the +6 threshold.",
+    "Close of 741.1 is within 2% of the 52-week high of 748.65."
+   ],
+   "nullInputs": [
+    "volRegime (no percentile or named extreme available for VXN)",
+    "crowd (no source-documented megacap-tech positioning or sentiment extreme dated to 2026-09-24)"
+   ]
+  }
+ },
+ "context": {
+  "aaiiAsOf": "survey week ending 2026-09-23, published 2026-09-24",
+  "aaiiBear": 48.1,
+  "aaiiBull": 32.7,
+  "aaiiNeutral": 19.2,
+  "aaiiNote": "Bull-bear spread -15.4, improved from -24.5. The 16-month-low-optimism extreme that the 2026-09-23 document scored has relaxed, so the AAII leg of the equity crowd component is no longer scored; bearishness is still above its 31.5% long-run average for a 33rd week.",
+  "auctions": [
+   "2026-09-22 2-year note $69bn: high yield 4.787%, tailed 0.2bp, bid-to-cover 2.63, graded in-line",
+   "2026-09-23 5-year note $70bn: high yield 5.033%, tailed 3.1bp (second-biggest tail on record), bid-to-cover 2.21 vs 2.33 average, indirects 54.3% vs 65.2% average, directs 29.9%, dealers 15.8%",
+   "2026-09-24 7-year note auctioned on S; no dated result obtainable",
+   "2-, 5- and 7-year all settle 2026-09-30, inside the 5- and 10-day horizons",
+   "3y/10y/30y refunding announced 2026-10-01 and auctioned 2026-10-06 to 10-08, inside the 10-day horizon",
+   "2026-09-25 carries no coupon auction"
+  ],
+  "boeBank": 3.75,
+  "bojPolicy": 1.25,
+  "breadth200": 45.12,
+  "breadth50": 25.44,
+  "breadth50Chg5d": -5.37,
+  "breadth50Pctile": 5,
+  "breadth50PctileNote": "The 5th-percentile-since-2010 label is sourced for the 28.8% reading of 2026-09-23; 25.44% is lower still, so the extreme holds a fortiori. No source applies extreme language to the 2026-09-24 print directly; thetrading.tools labels it only WEAK.",
+  "breadthAsOf": "2026-09-24",
+  "breadthUniverse": "S&P 500 members, official series $S5FI and $S5TH (eoddata.com); thetrading.tools' independent S&P 500 calculation agrees at 25.4% and 45.0%",
+  "brent": 104.7,
+  "cot": {
+   "asOf": "2026-09-15",
+   "goldManagedMoneyNet": 133116,
+   "jpyNetLongContracts": 120359,
+   "note": "The report covering Tuesday 2026-09-22 publishes Friday 2026-09-25 at 3:30pm ET, after S, so the 15 September report is still the latest available. CFTC's own release schedule confirms this. Saxo calls the 5.9bn dollar long the lowest in 15 months and the yen long a 14-month high after a record two-week buying spree of 216k contracts.",
+   "usdNetLongBn": 5.9,
+   "ust10AssetMgrNet": 2634980,
+   "ust10LevFundsNet": -1868126
+  },
+  "curve2s10s": 18.3,
+  "cutOdds": 0,
+  "dataNotes": [
+   "Run timing: this cycle fired at about 20:30 ET on 2026-09-24, the evening of S itself, rather than at 10:30 ET the following morning. That makes the blindness rule easier, not harder, because no session after S has opened; every figure here is dated at or before the 2026-09-24 close. Costco and Darden reported after the 16:00 bell on S and are therefore excluded from the vote facts even though they carry the date 2026-09-24.",
+   "Spot gold: Investing.com's XAU/USD table now shows a 2026-09-23 close of 4288.68, where the 2026-09-23 document recorded 4287.35 from the same feed's previous-close field. The 2026-09-23 horizon was scored on the STORED basis of 4287.35 against a 2026-09-24 close of 4286.06; the outcome is flat under either base. Vendor dispersion on S remains wide: TheStreet quotes 4293 (-0.56%), Investrade 4298.00 (-0.47%) and Kitco 4283.40 late-session. 4286.06 is recorded to keep the whole series on one vendor.",
+   "The 2026-09-24 30-year yield is the run's worst vendor conflict. Investing.com shows 5.409 (+0.7bp), which cannot be reconciled with TLT's actual -1.29% close; Investrade gives 5.446 and the news log 5.476, both of which reconcile via the -0.165 %/bp rule. Because a clean TLT price history was obtainable from stockanalysis.com this run, the driver regression uses actual TLT closes and the 30-year proxy the 2026-09-23 document had to rely on is retired. The Investing.com 30-year print for S is flagged unreliable.",
+   "The 2026-09-24 2-year is 4.941 on Investing.com against 4.918 from TheStreet and the news log and 4.89 from Saxo. Investing.com is used throughout so the regression series is internally consistent; the 2.3bp spread does not change any vote sign or any dominant-driver classification.",
+   "TLT 30-day implied volatility of 13.39 is carried unchanged from the 2026-09-23 document, where it was itself derived rather than sourced. No 2026-09-24 30-day ATM print exists on any source reached; HPSILab's 12.88% references the 7 October expiry, a different construction. One session stale, well inside the two-week window. The bond stretch components are insensitive to the choice: extension50 scores -2 for any sigma between about 11.2 and 15.5.",
+   "GVZ 22.77 is YCharts' confirmed 2026-09-23 close. A Google Finance print of 22.58 stamped 16:02 ET on 2026-09-24 was rejected because GVZ disseminates until 16:15 ET, so it is not a confirmed close. FRED GVZCLS lags to 23.59 on 2026-09-22. Gold was essentially unchanged on S, so the one-day-stale reading is close to right.",
+   "RVX 19.97 is YCharts' 2026-09-23 close; no 2026-09-24 print was obtainable and FRED RVXCLS lags to 2026-09-22. VXN 21.24 is moomoo's explicitly labelled 2026-09-24 close. Both are inside the two-week window. Because RVX is one day stale and rose 6.3% on 2026-09-23, the IWM bands here are probably slightly narrow.",
+   "EUR/USD 1-month implied volatility of 4.72 is carried from 2026-09-21; three sessions stale, inside the two-week window, and used as the dollar sigma. No CVIX or dated EUR/USD implied-volatility print was obtainable from any source reached.",
+   "The dollar oscillator component is the run's most consequential soft number. DealPlexus gives DXY RSI(14) 70.8 in a snapshot stamped 05:48 ET on 2026-09-24, i.e. reflecting the 2026-09-23 close, and its SMA50 and SMA200 reproduce the prior document's 99.94 and 99.18 exactly, which validates the page. FXStreet independently gives 72.34 but its price includes 2026-09-25 Asian trading. DXY was flat on S at -0.01%, so the S-dated RSI is close to 70.8, but it sits near the 70 threshold: a value of 69.9 would score oscillator 0, dropping the dollar stretch score from +3 to +2 and turning the h1 and h5 overlay actions from an extreme-ride dampening into a stretched-ride dampening. The call and confidence outcome is identical either way (one notch down in both cases), so the sensitivity does not change the board.",
+   "No SPX, TLT, gold, IWM or QQQ RSI or moving average computed through the 2026-09-24 close survived cross-checking; Financhill and TipRanks values through the 2026-09-23 close are used, with the date recorded. These are one session stale, not live-session contaminated, so they are recorded rather than nulled. Investing.com's technical pages were rejected again: the SPX page collapses MA50 and MA200 onto each other at 7681, the SPY page prints a 200-day above spot, and the gold page's MA200 of 4321 is 229 points away from the twice-confirmed 4550.",
+   "The SPX 52-week low of 6316.91 is newly obtainable this run (Fool, StockInvest and DealPlexus agree through the 2026-09-24 close), so the equities range component no longer carries a null sub-input as it did on 2026-09-23. It does not change the score: SPX is within 2% of its high, which fires +1 regardless.",
+   "The SPX 100-day moving average remains unobtainable; Financhill publishes no 100-day field and Investing.com's is corrupt. Recorded null. No category or overlay component depends on it.",
+   "High-yield OAS is FRED's 2026-09-23 value of 273bp; the 2026-09-24 print had not published. The two-week change of +2bp is measured against 271bp on 2026-09-09.",
+   "The Russell 2000's 2026-09-24 change is -0.09% to -0.11% on Investing.com, YCharts and Investrade against -0.17% on TheStreet, which prints no level. Unresolved, and immaterial: the ledger scores IWM on the ETF price of 281.66, confirmed by two sources.",
+   "The AAII survey published on 2026-09-24 (week ending 2026-09-23) is dated at or before S and is used: bulls 32.7, bears 48.1, neutrals 19.2. The prior document had noted it would publish after S; under this run's timing it is in scope.",
+   "Nasdaq-100 leadership concentration is measured by QQQ top-ten weight of 46.91% as of 2026-09-22 and by the cap-versus-equal-weight year-to-date spread (QQQ +21.05% against QQEW +14.71%). No source-dated share-of-return-from-top-N figure for late September 2026 was obtainable.",
+   "No source-documented positioning or sentiment extreme for small caps or megacap tech dated to 2026-09-24 was found, so the IWM and QQQ crowd components score zero and are listed in nullInputs. Their records begin with this document.",
+   "Cboe's CDN JSON and CSV endpoints returned the 2026-09-22 close for every index checked and FRED's Cboe series were all stuck at 2026-09-22, so neither is usable for S. moomoo.com/index/.SYMBOL-US and Google Finance INDEXCBOE quote pages did carry same-day timestamped prints and are recorded here as working sources for the next run. MarketWatch, Barron's, Finviz quote pages, wallstreetnumbers and Barchart /technical-analysis all failed to fetch."
+  ],
+  "dji": 51349.98,
+  "djiChgPct": -0.31,
+  "dotMedian2026": 4.1,
+  "dotMedian2027": 4.1,
+  "driverRegime": {
+   "bigDays": {
+    "corrs": {
+     "bonds": -0.627,
+     "dollar": 0.818,
+     "equities": -0.737,
+     "gold": -0.799,
+     "iwm": -0.745,
+     "qqq": -0.807
+    },
+    "dates": [
+     "2026-08-28",
+     "2026-09-03",
+     "2026-09-10",
+     "2026-09-11",
+     "2026-09-16",
+     "2026-09-18",
+     "2026-09-23"
+    ],
+    "n": 7
+   },
+   "equityFamily": {
+    "iwmVsQqq": 0.728,
+    "iwmVsSpx": 0.741,
+    "qqqVsSpx": 0.914
+   },
+   "goldVsDollar": {
+    "corr": -0.576
+   },
+   "goldVsTlt": {
+    "corr": 0.374,
+    "sameDirection": "13/21"
+   },
+   "hikeOddsPath": [
+    {
+     "date": "2026-08-28",
+     "reading": "about 57% for September after Warsh's hawkish Jackson Hole",
+     "source": "news log"
+    },
+    {
+     "date": "2026-09-16",
+     "reading": "FOMC delivers +25bp to 3.75-4.00%, unanimous 12-0, first hike since 2023",
+     "source": "news log"
+    },
+    {
+     "date": "2026-09-21",
+     "reading": "October about 53% (CME FedWatch)",
+     "source": "news log 2026-09-22 row"
+    },
+    {
+     "date": "2026-09-23",
+     "reading": "October about 75% after flash PMIs printed composite 58.4 (USAGOLD citing FedWatch); December toward 90%",
+     "source": "2026-09-23 document"
+    },
+    {
+     "date": "2026-09-24",
+     "reading": "October about 70% against about 55% earlier in the week after claims 197k and new home sales +6.4% (Investrade citing CME FedWatch)",
+     "source": "news log 2026-09-24 row"
+    }
+   ],
+   "method": "daily % change of each asset regressed on the daily change in the US 2-year and 10-year yields (basis points) and on the daily % change in WTI; a driver is dominant when |corr| >= 0.40",
+   "n": 21,
+   "notes": "Re-measured this run. Gold's link to the 2-year is essentially unchanged from the 2026-09-24 baseline (corr -0.594 versus -0.59, beta -0.164 versus -0.176). The gold-TLT correlation has decayed to +0.374, just BELOW the +0.40 coherence threshold, from +0.41 a session earlier, so the pair no longer qualifies as a shared-driver pair on the full window; on big 2-year days it is still +0.463 with 5 of 7 sessions in the same direction. The cross-asset coherence check was therefore run but not triggered. TLT's own driver has shifted from the front end to the long end this week (corr to the 10-year -0.828 against -0.623 to the 2-year), consistent with 30-year yields setting a 22-year high. This run uses actual TLT closes rather than the -0.165 x 30-year-yield proxy the 2026-09-23 document had to use, because a clean TLT history was obtainable from stockanalysis.com.",
+   "perAsset": {
+    "bonds": {
+     "allDominant": [
+      "2Y",
+      "10Y",
+      "oil"
+     ],
+     "beta2Y": -0.0769,
+     "corr10Y": -0.828,
+     "corr2Y": -0.623,
+     "corrOil": -0.461,
+     "dominantDriver": "10Y"
+    },
+    "dollar": {
+     "allDominant": [
+      "2Y"
+     ],
+     "beta2Y": 0.0379,
+     "corr10Y": 0.378,
+     "corr2Y": 0.629,
+     "corrOil": 0.031,
+     "dominantDriver": "2Y"
+    },
+    "equities": {
+     "allDominant": [
+      "2Y",
+      "10Y",
+      "oil"
+     ],
+     "beta2Y": -0.0622,
+     "corr10Y": -0.639,
+     "corr2Y": -0.473,
+     "corrOil": -0.532,
+     "dominantDriver": "10Y"
+    },
+    "gold": {
+     "allDominant": [
+      "2Y",
+      "10Y"
+     ],
+     "beta2Y": -0.1639,
+     "corr10Y": -0.499,
+     "corr2Y": -0.594,
+     "corrOil": -0.296,
+     "dominantDriver": "2Y"
+    },
+    "iwm": {
+     "allDominant": [
+      "2Y",
+      "10Y",
+      "oil"
+     ],
+     "beta2Y": -0.0976,
+     "corr10Y": -0.749,
+     "corr2Y": -0.631,
+     "corrOil": -0.476,
+     "dominantDriver": "10Y"
+    },
+    "qqq": {
+     "allDominant": [
+      "2Y",
+      "10Y",
+      "oil"
+     ],
+     "beta2Y": -0.0992,
+     "corr10Y": -0.654,
+     "corr2Y": -0.507,
+     "corrOil": -0.591,
+     "dominantDriver": "10Y"
+    }
+   },
+   "series": "spot gold XAU/USD and DXY from Investing.com daily tables; TLT, IWM and QQQ actual ETF closes from stockanalysis.com; SPX from Investing.com; 2Y and 10Y yields from Investing.com; WTI from Investing.com",
+   "window": "21 daily intervals, 2026-08-26 to 2026-09-24 (Labor Day 2026-09-07 skipped); all inputs dated at or before the S close"
+  },
+  "dxy": 101.09,
+  "dxy52wHigh": 101.8,
+  "dxy52wLow": 95.55,
+  "dxyChgPct": -0.01,
+  "dxyMa200": 99.18,
+  "dxyMa50": 99.94,
+  "dxyRsi14": 70.8,
+  "dxyTechAsOf": "DealPlexus snapshot 2026-09-24 05:48 ET, i.e. through the 2026-09-23 close; FXStreet independently gives RSI 72.34",
+  "earnings": [
+   "2026-09-24 Costco and Darden reported after the bell, i.e. after the S close, so their results are excluded by the blindness rule",
+   "2026-09-29 Carnival",
+   "2026-09-30 Micron",
+   "2026-10-01 Nike, Accenture"
+  ],
+  "ecbDeposit": 2.5,
+  "equityVolVsBondVol": "Saxo's 2026-09-24 options brief: MOVE above all 59 prior sessions while VIX at 15.18 was exceeded on 43 of them; long-bond implied volatility rose 12.11% on 2026-09-23",
+  "eurusd": 1.1386,
+  "events": [
+   "Jobless claims 197k vs 201k expected and new home sales 684k SAAR, +6.4% m/m vs 620k expected, both beats, lifting October hike odds",
+   "The US and China agreed to extend the tariff truce by two months to 2026-01-10 as Xi began a state visit to Washington",
+   "Oracle issued a force majeure notice to Blue Owl over the 2.5GW Project Jupiter AI data-centre campus; ORCL fell 5-6% and was the session's largest Nasdaq drag",
+   "Online travel agencies extended their slide on Meta's Muse booking agent (EXPE about -7%, ABNB -6% to -7.6%, BKNG about -5%); MGM fell 10% after Diller withdrew an $18bn bid",
+   "The 10-year set a 19-year high and the 30-year a 22-year high; indices clawed back a 0.2% to 0.8% morning decline (Russell 2000 was -1.8% at the worst) to finish little changed",
+   "Continuing resolution funds the US government to 2026-12-11, so no 1 October shutdown risk"
+  ],
+  "fedChair": "Kevin Warsh",
+  "fedFunds": "3.75-4.00%",
+  "fedSpeakers": [
+   "2026-09-24 Williams, Hammack, Paulson; a Fed official said some modest further tightening may be warranted",
+   "2026-09-25 Williams, Hammack",
+   "2026-09-23 Governor Barr said the Fed will likely need further hikes if inflation persists"
+  ],
+  "fxCrossAsOf": "2026-09-23; no dated 2026-09-24 cross rates obtainable, and DXY was flat at -0.01% on the day",
+  "fxVol": 4.72,
+  "fxVolAsOf": "2026-09-21",
+  "fxVolMeasure": "EUR/USD 1-month ATM implied volatility",
+  "gbpusd": 1.3243,
+  "gold": 4286.06,
+  "gold52wHigh": 5595.46,
+  "gold52wLow": 3722.04,
+  "goldAth": 5589.38,
+  "goldAthDate": "2026-01-28",
+  "goldChgPct": -0.06,
+  "goldMa200": 4549.87,
+  "goldMa50": 4306.31,
+  "goldPctBelowAth": -23.3,
+  "goldRsi14": 44.56,
+  "goldSilverRatio": 67,
+  "goldSource": "Investing.com XAU/USD daily table",
+  "goldTechAsOf": "2026-09-23 close (TipRanks XAU/USD; its 200-day of 4549.87 reproduces the prior document's 4550.09, which validates the source)",
+  "gvz": 22.77,
+  "gvzAsOf": "2026-09-23 (YCharts confirmed close)",
+  "hikeOddsDec": 90,
+  "hikeOddsDecAsOf": "2026-09-23 (USAGOLD citing CME FedWatch)",
+  "hikeOddsNote": "The 2026-09-23 document recorded October at 75% from USAGOLD. Investrade's 2026-09-24 note gives about 70% against about 55% earlier in the week. The two vendor paths are not reconcilable; the direction through the week is unambiguously higher and both prints sit in the 70-75% band, which is what the Fed-path votes turn on.",
+  "hikeOddsOct": 70,
+  "hikeOddsOctAsOf": "2026-09-24 (Investrade citing CME FedWatch)",
+  "hikeOddsOctPrior": 55,
+  "hyOAS": 273,
+  "hyOAS2wChg": 2,
+  "hyOASAsOf": "2026-09-23 (FRED BAMLH0A0HYM2; 2026-09-24 not yet published)",
+  "iwm": 281.66,
+  "iwm52wHigh": 305.18,
+  "iwm52wLow": 228.9,
+  "iwmChgPct": -0.09,
+  "iwmMa200": 275.37,
+  "iwmMa50": 294.56,
+  "iwmRsi14": 34.41,
+  "iwmTechAsOf": "2026-09-23 close (Financhill)",
+  "lastFomc": "2026-09-16: +25bp hike, unanimous 12-0, first hike since 2023",
+  "macroCalendar": [
+   "2026-09-25 durable goods, final U Michigan",
+   "2026-09-28 Dallas Fed manufacturing",
+   "2026-09-29 JOLTS, Case-Shiller",
+   "2026-09-30 August PCE, final Q2 GDP, Chicago PMI, quarter-end",
+   "2026-10-01 ISM manufacturing, jobless claims",
+   "2026-10-02 September employment report",
+   "2026-10-05 ISM services",
+   "2026-10-06 trade balance",
+   "2026-10-07 consumer credit",
+   "2026-10-08 jobless claims"
+  ],
+  "marketStructure": {
+   "buybackBlackout": "in effect into late October, covering all three horizons",
+   "lastOpex": "2026-09-18 quadruple witching (past)",
+   "nextOpex": "2026-10-16 (outside all horizons)",
+   "quarterEnd": "2026-09-30, inside the 5- and 10-day horizons"
+  },
+  "move": 95.45,
+  "moveAsOf": "2026-09-23",
+  "moveChgPct": 21.5,
+  "moveNote": "Saxo describes 95.45 as above all 59 prior sessions in its three-month store (prior range 68.16-83.90); no 2026-09-24 print obtainable.",
+  "nasdaqComposite": 26939.37,
+  "nasdaqCompositeChgPct": 0.01,
+  "ndx": 30470.29,
+  "ndxAsOf": "2026-09-23 (YCharts); no dated 2026-09-24 Nasdaq-100 index level obtainable",
+  "ndxConcentration": {
+   "asOf": "2026-09-22 (stockanalysis.com QQQ holdings)",
+   "capVsEqualWeightYtd": "QQQ +21.05% versus QQEW +14.71% year to date, so 6.34 points of 2026 return come from cap weighting",
+   "note": "No source-dated share-of-return-from-top-N figure for late September 2026 was obtainable; the cap-versus-equal-weight spread is used instead.",
+   "top10": "NVDA 8.26, AAPL 7.43, MSFT 5.54, MU 5.12, AMD 4.21, AMZN 4.12, META 3.28, GOOGL 3.09, TSLA 2.98, GOOG 2.88",
+   "top10Weight": 46.91,
+   "top5Weight": 30.56
+  },
+  "nextFomc": "2026-10-28",
+  "noCpiInWindow": "September CPI is 2026-10-14, outside all three horizons; the 2026-10-28 FOMC is also outside all three",
+  "oilNote": "WTI is up 13.7% since 2026-08-25, on Iran and Red Sea tension, with gains capped by talk of a phased Hormuz reopening.",
+  "pmiComposite": 58.4,
+  "pmiNote": "S&P Global flash September PMIs released 2026-09-23; services the strongest in over five years",
+  "pmiServices": 58.7,
+  "qqq": 741.1,
+  "qqq52wHigh": 748.65,
+  "qqq52wLow": 555.6,
+  "qqqChgPct": -0.01,
+  "qqqMa200": 664.41,
+  "qqqMa50": 711.42,
+  "qqqRsi14": 63.22,
+  "qqqTechAsOf": "2026-09-23 close (Financhill)",
+  "rut": 2835.57,
+  "rutChgPct": -0.11,
+  "rutChgPctNote": "TheStreet printed -0.17% with no level; Investing.com, YCharts and Investrade all give -0.09% to -0.11%. The unresolved discrepancy does not affect scoring, which uses the IWM ETF price.",
+  "rutVsSpx1m": "Russell 2000 -5.33% versus S&P 500 +0.67% over 2026-08-24 to 2026-09-24, six points of underperformance",
+  "rutVsSpxYtd": "Russell 2000 +15.35% versus S&P 500 +13.53% year to date (YCharts through 2026-09-24); the small-cap lead has compressed from about 9 points on 2026-08-13 to about 2 points",
+  "rvx": 19.97,
+  "rvxAsOf": "2026-09-23 (YCharts); FRED RVXCLS lags to 18.78 on 2026-09-22",
+  "rvxVixRatio": 1.27,
+  "silver": 63.99,
+  "silverAsOf": "2026-09-24 (TheStreet, -1.50%)",
+  "skew": 146.04,
+  "skewAsOf": "2026-09-24",
+  "spx": 7704.13,
+  "spx52wHigh": 7816.7,
+  "spx52wLow": 6316.91,
+  "spxAllTimeHigh": 7816.7,
+  "spxAthDate": "2026-08-13",
+  "spxChgPct": -0.02,
+  "spxMa100": null,
+  "spxMa20": 7670.43,
+  "spxMa200": 7198.56,
+  "spxMa50": 7629.26,
+  "spxRsi14": 53.72,
+  "spxTechAsOf": "2026-09-23 close (Financhill); no source produced a cross-checkable SPX RSI or moving average through the 2026-09-24 close",
+  "tlt": 79.42,
+  "tlt52wHigh": 92.19,
+  "tlt52wLow": 79.42,
+  "tltChgPct": -1.29,
+  "tltIv30": 13.39,
+  "tltIv30AsOf": "2026-09-23 (derived, carried from the 2026-09-23 document)",
+  "tltIv30Derived": true,
+  "tltIvPercentile": 97.4,
+  "tltIvRank": 92.4,
+  "tltIvRankAsOf": "2026-09-23 close (HPSILab snapshot 2026-09-24 00:41Z)",
+  "tltMa200": 85.76,
+  "tltMa50": 82.44,
+  "tltRecordLow": true,
+  "tltRsi14": 37.95,
+  "tltTechAsOf": "2026-09-23 close (Financhill)",
+  "usdcad": 1.4097,
+  "usdchf": 0.8244,
+  "usdjpy": 158.32,
+  "ust10": 5.124,
+  "ust10Note": "Investing.com 5.124 (+1.4bp), a fresh 19-year high; TheStreet gives 5.192 (+7.8bp) and BNN Bloomberg 'around 5.13'. Schwab calls it a 19-year high and 30-year yields 22-year highs.",
+  "ust2": 4.941,
+  "ust2Note": "Investing.com 4.941 (+4.6bp). TheStreet and the news log give 4.918 (+2.3bp) and Saxo 4.89. Investing.com is used for continuity with the driver regression series.",
+  "ust30": 5.409,
+  "ust30Note": "Investing.com 5.409 (+0.7bp) is inconsistent with TLT's actual -1.29% close; Investrade gives 5.446 and the news log 5.476, either of which reconciles with TLT via the -0.165 %/bp rule. The Investing.com 30-year print for 2026-09-24 is treated as unreliable.",
+  "vix": 15.67,
+  "vix1d": 12.1,
+  "vix3m": 18.43,
+  "vix3mDerived": false,
+  "vix3mRatio": 1.176,
+  "vix9d": 14.11,
+  "vixChgPct": 3.23,
+  "vxn": 21.24,
+  "vxnAsOf": "2026-09-24 (moomoo, labelled Close Sep 24 16:00 ET)",
+  "vxnVixRatio": 1.36,
+  "wti": 93.66,
+  "wtiChgPct": 1.63
+ }
+}
