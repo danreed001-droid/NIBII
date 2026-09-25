@@ -902,7 +902,7 @@
      "call": "bullish",
      "clusterDowngrade": false,
      "confidence": "lean",
-     "correct": null,
+     "correct": false,
      "families": [
       "A",
       "C",
@@ -914,66 +914,78 @@
      "h": 1,
      "margin": 5,
      "maturity": "2026-09-25",
-     "maturityClose": null,
+     "maturityClose": 100.98799896240234,
      "neutral": 3,
      "preReversionCall": "bullish",
      "preReversionConfidence": "solid",
-     "preReversionCorrect": null,
-     "ret": null,
+     "preReversionCorrect": false,
+     "ret": -0.001009,
      "reversionAligned": "rides",
      "reversionFlag": true,
      "reversionNote": "Stretch score 3 (extreme-up): the bullish call rides an extreme reading with margin 5, so confidence was dropped from solid to lean.",
      "shadowCall": "bullish",
      "shadowConfidence": "solid",
-     "shadowCorrect": null,
+     "shadowCorrect": false,
      "votes": [
       [
        "bull",
-       "DXY closed 101.09, above its 50-day of 99.94 and 200-day of 99.18 and 0.70% below a 52-week high of 101.80."
+       "DXY closed 101.09, above its 50-day of 99.94 and 200-day of 99.18 and 0.70% below a 52-week high of 101.80.",
+       false
       ],
       [
        "neu",
-       "The index was flat at -0.01% after a 0.49% gain, and no dated 24 September cross rates for EUR, GBP and JPY are obtainable to confirm breadth."
+       "The index was flat at -0.01% after a 0.49% gain, and no dated 24 September cross rates for EUR, GBP and JPY are obtainable to confirm breadth.",
+       null
       ],
       [
        "neu",
-       "The only implied-volatility reading available is EUR/USD 1-month at 4.72 dated 21 September, three sessions stale."
+       "The only implied-volatility reading available is EUR/USD 1-month at 4.72 dated 21 September, three sessions stale.",
+       null
       ],
       [
        "bear",
-       "High-yield OAS of 273bp plus a US-China tariff truce extended to 10 January is a risk-on backdrop that normally weighs on the dollar."
+       "High-yield OAS of 273bp plus a US-China tariff truce extended to 10 January is a risk-on backdrop that normally weighs on the dollar.",
+       false
       ],
       [
        "bull",
-       "The 2-year closed 4.941%, a cycle-high close, against an ECB deposit rate of 2.5% and a BoJ policy rate of 1.25%, and the dollar +0.629 correlation to the 2-year is its dominant driver."
+       "The 2-year closed 4.941%, a cycle-high close, against an ECB deposit rate of 2.5% and a BoJ policy rate of 1.25%, and the dollar +0.629 correlation to the 2-year is its dominant driver.",
+       false
       ],
       [
        "bull",
-       "The Fed hiked 25bp on 16 September with dots at 4.1% through 2027 while the ECB, BoE and BoJ are all on hold."
+       "The Fed hiked 25bp on 16 September with dots at 4.1% through 2027 while the ECB, BoE and BoJ are all on hold.",
+       false
       ],
       [
        "bull",
-       "Speculative dollar longs were only 5.9bn dollars on 15 September, the lightest in 15 months, leaving a vacated book to rebuild."
+       "Speculative dollar longs were only 5.9bn dollars on 15 September, the lightest in 15 months, leaving a vacated book to rebuild.",
+       false
       ],
       [
        "bull",
-       "The yen net long reached a 14-month high after a record two-week buying spree of 216k contracts, a crowded anti-dollar carry position."
+       "The yen net long reached a 14-month high after a record two-week buying spree of 216k contracts, a crowded anti-dollar carry position.",
+       false
       ],
       [
        "bear",
-       "The US-China truce extension and the Xi state visit reduce the tariff-driven safe-haven premium in the dollar."
+       "The US-China truce extension and the Xi state visit reduce the tariff-driven safe-haven premium in the dollar.",
+       false
       ],
       [
        "neu",
-       "Friday brings only durable goods and the final University of Michigan reading, second-tier for FX."
+       "Friday brings only durable goods and the final University of Michigan reading, second-tier for FX.",
+       null
       ],
       [
        "bull",
-       "The dollar typically firms into quarter-end on funding demand, and 30 September is four sessions away."
+       "The dollar typically firms into quarter-end on funding demand, and 30 September is four sessions away.",
+       false
       ],
       [
        "bull",
-       "Gold fell to 4286.06 and TLT to a record low while the dollar held near its high, the classic hawkish-repricing configuration given the -0.576 gold-dollar correlation."
+       "Gold fell to 4286.06 and TLT to a record low while the dollar held near its high, the classic hawkish-repricing configuration given the -0.576 gold-dollar correlation.",
+       false
       ]
      ]
     },
