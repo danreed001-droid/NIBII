@@ -1,34 +1,34 @@
 {
- "fetchedAt": "2026-09-25T16:43:15Z",
+ "fetchedAt": "2026-09-25T20:15:39Z",
  "prices": {
   "equities": {
    "ticker": "ES=F",
-   "price": 7807.5,
+   "price": 7804.75,
    "asOf": "2026-09-25"
   },
   "bonds": {
    "ticker": "ZN=F",
-   "price": 104.875,
+   "price": 105.015625,
    "asOf": "2026-09-25"
   },
   "gold": {
    "ticker": "GC=F",
-   "price": 4326.60009765625,
+   "price": 4326.5,
    "asOf": "2026-09-25"
   },
   "dollar": {
    "ticker": "DX-Y.NYB",
-   "price": 100.98400115966797,
+   "price": 101.0009994506836,
    "asOf": "2026-09-25"
   },
   "iwm": {
    "ticker": "RTY=F",
-   "price": 2870.10009765625,
+   "price": 2860.699951171875,
    "asOf": "2026-09-25"
   },
   "qqq": {
    "ticker": "NQ=F",
-   "price": 30921.5,
+   "price": 30893.75,
    "asOf": "2026-09-25"
   }
  }
