@@ -59,8 +59,32 @@ assert verify_document(doc) == []
 | `drivers.py` | correlations, betas, big-2Y-day subset, dominance at \|corr\| >= 0.40, plus `check_vote_signs` |
 | `record.py` | hit rate, edge units, by asset / horizon / tier, +4-vs-+3, overlay comparison **restricted to changed cells with retroactive documents segregated** |
 | `verify.py` | recomputes every derived field from scratch; `assert_no_reason_drift` catches a reason string changing during scoring |
-| `fetch.py` | yfinance layer. Computes RSI and moving averages **locally** from the close series |
+| `fetch.py` | yfinance (+ FRED for the 2-year) layer. Computes RSI and moving averages **locally** from the close series |
 | `build.py` | inputs + votes -> document |
+
+## The daily cycle
+
+```bash
+python scripts/prepare_daily.py 2026-09-25   # fetches data, drafts contracts/*.2026-09-25.json
+#  -> fill in every "TODO" field by hand: direction, driverNote, categories,
+#     volRegime, crowd, stretchDrivers, nullInputs, and all 72 votes
+python scripts/publish.py 2026-09-25         # builds, verifies, writes documents/2026-09-25.json
+```
+
+`prepare_daily.py` fetches everything `fetch.py` can compute from a close
+series (close, sigma-gauge close, RSI, MA50/MA200, 52-week range, and the
+driver-regime correlations) and leaves every judgment field as a `"TODO"`
+stub — it never invents a vote or a driver note. `publish.py` refuses to run
+if any `"TODO"` marker survives, refuses to overwrite an already-published
+document, and only writes `documents/<S>.json` if `verify_document` returns
+no errors — it never publishes a document that fails its own audit.
+
+Documents live in `documents/` in this repository, not in the Artifact
+database: `ArtifactData` is internal to Claude, and there is no public
+endpoint a GitHub Action (or `publish.py` run standalone) can reach. The
+Claude task, when it drives this cycle, is a caller of these two scripts, not
+a separate runtime — `documents/2026-09-24.json` is the first entry, seeded
+from `golden/2026-09-24.published.json`.
 
 ## What `fetch.py` fixes
 
@@ -73,11 +97,25 @@ Computing RSI and the moving averages from a close series removes that entire
 class of bug. `closes_through(ticker, S)` **enforces the blindness rule in code**
 — nothing dated after S is ever returned.
 
-Two traps `fetch.py` documents rather than hides:
+Two traps `fetch.py` now resolves rather than just documents:
 
-- **`GC=F` is COMEX futures, ~$50 above spot XAU/USD.** The ledger scores spot.
-- **`^TNX`/`^FVX`/`^TYX` are yield x10 on some feeds**, and yfinance has no clean
-  2-year series — source it explicitly.
+- **Gold.** `TICKERS['gold']` is `XAUUSD=X` (Yahoo's spot quote), not `GC=F`
+  (COMEX futures, ~$50 above spot on cost-of-carry — kept only as
+  `FUTURES_GOLD_TICKER` for comparison, never scored).
+- **Yields.** `^TNX`/`^FVX`/`^TYX` are yield×10 on Yahoo (a legacy CBOE index
+  convention); `scaled_yield()` divides by 10 before the value is used, and
+  `^IRX` is excluded from that scaling since it's already a direct
+  percentage. yfinance has no 2-year Treasury series, so `fetch_ust2y_fred()`
+  sources FRED's `DGS2` instead.
+
+Both fixes are guarded by plausibility asserts (`_assert_plausible_yield`,
+`_assert_plausible_gold`) that raise rather than silently accept an
+obviously mis-scaled print. **They were not empirically re-verified against
+Yahoo Finance in the environment that wrote them** — Yahoo Finance is blocked
+by that environment's outbound network policy, so the scaling above rests on
+well-documented convention, not a live spot-check. Cross-check one gold print
+and one yield against a second source on the first real run before trusting
+them unattended.
 
 Also note the 52-week range here is on a **closing** basis over 252 sessions;
 vendor pages usually quote the wider intraday range.
@@ -87,20 +125,19 @@ vendor pages usually quote the wider intraday range.
 - **The engine cannot verify `volRegime` or `crowd`.** Both may only be non-zero
   when a source *itself* names a percentile, a record, or a multi-year extreme.
   They arrive as inputs and are recorded verbatim. `crowd` is capped at +/-2.
-- **It cannot write to the Artifact database.** `ArtifactData` is internal to
-  Claude; there is no public endpoint a GitHub Action can reach. Either the
-  Claude task stays the runner and calls this engine, or documents live in
-  `documents/` here and the Artifact page stops being the front end.
 - **`HOLIDAYS` in `calendar_nyse.py` is hand-maintained.** Extend it per year or
   maturity dates will be wrong.
 - **The category record is noise below ~20 marked votes per category.**
   `record.py` returns `byCategoryWarning` saying so; report it, don't rank it.
+- **`prepare_daily.py` needs live network access** to Yahoo Finance and FRED,
+  which not every environment grants (this one doesn't) — run it somewhere
+  that can reach both.
 
 ## Test
 
 ```bash
 pip install -r requirements.txt
-python -m pytest tests/ -q          # 4 passed - golden board reproduced exactly
+python -m pytest tests/ -q          # golden board reproduced exactly, fetch scaling covered
 python scripts/run_verify.py documents
 ```
 
