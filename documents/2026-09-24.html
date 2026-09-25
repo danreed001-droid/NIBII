@@ -180,6 +180,28 @@ footer a { color: var(--accent); }
 .record-row-n { color: var(--muted); font-size: 0.75rem; font-weight: 400; }
 .record-caveat { font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 12px; margin-top: 4px; }
 
+/* call log */
+.log-wrap { overflow-x: auto; border: 1px solid var(--hairline); border-radius: 14px; }
+table.log { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: var(--surface); }
+table.log th {
+  text-align: left; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--muted); font-weight: 600; padding: 10px 14px; border-bottom: 1px solid var(--hairline);
+  white-space: nowrap; position: sticky; top: 0; background: var(--surface);
+}
+table.log td { padding: 9px 14px; border-bottom: 1px solid var(--hairline); white-space: nowrap; vertical-align: middle; }
+table.log tbody tr:last-child td { border-bottom: none; }
+table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.log-date, .log-matures { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; color: var(--ink-2); font-size: 0.8rem; }
+.log-ticker { font-family: ui-monospace, monospace; font-weight: 600; }
+.log-call { display: inline-flex; align-items: center; gap: 5px; text-transform: capitalize; font-weight: 500; }
+.log-call .dot { width: 7px; height: 7px; }
+.log-conf { color: var(--muted); font-size: 0.78rem; }
+.log-pending { color: var(--muted); font-size: 0.78rem; }
+.log-noscore { color: var(--muted); font-size: 0.78rem; }
+.log-correct { color: #0ca30c; font-weight: 600; }
+.log-wrong { color: #d03b3b; font-weight: 600; }
+.log-caption { font-size: 0.78rem; color: var(--muted); margin: 10px 2px 0; }
+
 .theme-toggle {
   display: inline-flex; align-items: center; justify-content: center;
   width: 30px; height: 30px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18);
@@ -720,6 +742,160 @@ footer a { color: var(--accent); }
 
 <p class="section-label">Track record</p>
 <div class="record"><p class="record-empty">No calls have matured and settled yet - the earliest published document is too recent for any 1-day horizon to have closed. Come back after the next session close.</p></div>
+
+<p class="section-label">Call log</p>
+
+    <div class="log-wrap">
+      <table class="log">
+        <thead><tr><th>Date</th><th>Asset</th><th>Horizon</th><th>Predicted</th><th>Matures</th><th>Result</th></tr></thead>
+        <tbody><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">SPX</td>
+      <td>1D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
+          <span class="log-conf">flat-lean</span></td>
+      <td class="log-matures">2026-09-25</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">SPX</td>
+      <td>5D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
+          <span class="log-conf">flat-lean</span></td>
+      <td class="log-matures">2026-10-01</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">SPX</td>
+      <td>10D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
+          <span class="log-conf">flat-lean</span></td>
+      <td class="log-matures">2026-10-08</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">TLT</td>
+      <td>1D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
+          <span class="log-conf">solid</span></td>
+      <td class="log-matures">2026-09-25</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">TLT</td>
+      <td>5D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
+          <span class="log-conf">solid</span></td>
+      <td class="log-matures">2026-10-01</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">TLT</td>
+      <td>10D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
+          <span class="log-conf">flat-lean</span></td>
+      <td class="log-matures">2026-10-08</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">XAU</td>
+      <td>1D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
+          <span class="log-conf">lean</span></td>
+      <td class="log-matures">2026-09-25</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">XAU</td>
+      <td>5D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
+          <span class="log-conf">lean</span></td>
+      <td class="log-matures">2026-10-01</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">XAU</td>
+      <td>10D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
+          <span class="log-conf">flat-solid</span></td>
+      <td class="log-matures">2026-10-08</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">DXY</td>
+      <td>1D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#0ca30c"></span>▲ bullish</span>
+          <span class="log-conf">lean</span></td>
+      <td class="log-matures">2026-09-25</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">DXY</td>
+      <td>5D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#0ca30c"></span>▲ bullish</span>
+          <span class="log-conf">lean</span></td>
+      <td class="log-matures">2026-10-01</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">DXY</td>
+      <td>10D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
+          <span class="log-conf">flat-lean</span></td>
+      <td class="log-matures">2026-10-08</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">IWM</td>
+      <td>1D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
+          <span class="log-conf">solid</span></td>
+      <td class="log-matures">2026-09-25</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">IWM</td>
+      <td>5D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
+          <span class="log-conf">solid</span></td>
+      <td class="log-matures">2026-10-01</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">IWM</td>
+      <td>10D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
+          <span class="log-conf">flat-lean</span></td>
+      <td class="log-matures">2026-10-08</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">QQQ</td>
+      <td>1D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
+          <span class="log-conf">solid</span></td>
+      <td class="log-matures">2026-09-25</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">QQQ</td>
+      <td>5D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
+          <span class="log-conf">lean</span></td>
+      <td class="log-matures">2026-10-01</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr><tr>
+      <td class="log-date">2026-09-24</td>
+      <td class="log-ticker">QQQ</td>
+      <td>10D</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
+          <span class="log-conf">flat-solid</span></td>
+      <td class="log-matures">2026-10-08</td>
+      <td><span class="log-pending">pending</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+    <p class="log-caption">showing the 1 most recent session(s) (18 calls)</p>
 
 <footer>
   Generated by <code>scripts/render_html.py</code> from <code>documents/2026-09-24.json</code> in

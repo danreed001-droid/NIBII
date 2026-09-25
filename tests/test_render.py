@@ -3,7 +3,7 @@ import copy
 import json
 import os
 
-from scripts.render_html import pct_tone, render, track_record_section
+from scripts.render_html import call_log_section, pct_tone, render, track_record_section
 from scripts.settle import settle_document
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -55,3 +55,31 @@ def test_render_end_to_end_does_not_crash_with_settled_docs():
     out = render(doc, {doc['date']: doc})
     assert '<title>Market Tape Ledger</title>' in out
     assert 'theme-toggle' in out
+
+
+def test_call_log_has_one_row_per_horizon_per_asset_before_settlement():
+    html = call_log_section({PUB['date']: PUB})
+    assert html.count('<tr>') == 19  # 1 header row + 6 assets x 3 horizons, none settled
+    assert html.count('log-pending') == 18
+    assert 'log-correct' not in html and 'log-wrong' not in html
+
+
+def test_call_log_shows_results_once_settled():
+    doc = copy.deepcopy(PUB)
+    settle_document(doc, close_fn=fake_close_fn)
+    html = call_log_section({doc['date']: doc})
+    assert 'log-pending' not in html
+    assert ('log-correct' in html) or ('log-wrong' in html)
+    # every row still names its own maturity date, independent of the others
+    assert '2026-09-25' in html and '2026-10-01' in html and '2026-10-08' in html
+
+
+def test_call_log_caps_to_most_recent_sessions():
+    many_docs = {}
+    for i in range(20):
+        d = copy.deepcopy(PUB)
+        d['date'] = f"2026-08-{i + 1:02d}"
+        many_docs[d['date']] = d
+    html = call_log_section(many_docs)
+    assert '14 most recent session' in html
+    assert 'of 20 published total' in html
