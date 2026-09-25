@@ -156,15 +156,26 @@ def asset_card(a, catalysts):
 def ticker_strip(doc):
     items = []
     for a in doc['assets']:
-        h1 = next(h for h in a['horizons'] if h['h'] == 1)
+        by_h = {h['h']: h for h in a['horizons']}
+        h1 = by_h[1]
         role, hexval, arrow = CALL_STATUS.get(h1['call'], ('flat', '#898781', '▬'))
+        horizons_html = "".join(tape_horizon_badge(by_h[h]) for h in (1, 5, 10))
         items.append(f'''
       <div class="tape-item" style="--dot:{hexval}">
-        <span class="tape-ticker">{E(TICKER.get(a['key'], a['key'].upper()))}</span>
-        <span class="tape-price">{fmt_price(a['close'])}</span>
-        <span class="tape-call">{arrow} {E(h1['call'])}</span>
+        <div class="tape-head">
+          <span class="tape-ticker">{E(TICKER.get(a['key'], a['key'].upper()))}</span>
+          <span class="tape-price">{fmt_price(a['close'])}</span>
+        </div>
+        <div class="tape-horizons">{horizons_html}</div>
       </div>''')
     return "".join(items)
+
+
+def tape_horizon_badge(h):
+    role, hexval, arrow = CALL_STATUS.get(h['call'], ('flat', '#898781', '▬'))
+    return (f'<span class="tape-badge" style="--dot:{hexval}">'
+            f'<span class="tape-badge-h">{h["h"]}D</span>'
+            f'<span class="tape-badge-arrow">{arrow}</span></span>')
 
 
 def stat_tiles(doc):
@@ -259,14 +270,21 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
   border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; overflow: hidden;
 }}
 .tape-item {{
-  flex: 1 1 140px; display: flex; flex-direction: column; gap: 2px;
+  flex: 1 1 150px; display: flex; flex-direction: column; gap: 8px;
   padding: 10px 14px; border-right: 1px solid rgba(255,255,255,0.12);
   border-top: 3px solid var(--dot);
 }}
 .tape-item:last-child {{ border-right: none; }}
+.tape-head {{ display: flex; align-items: baseline; gap: 8px; }}
 .tape-ticker {{ font-family: ui-monospace, monospace; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--masthead-ink-2); }}
 .tape-price {{ font-family: ui-monospace, monospace; font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink); }}
-.tape-call {{ font-size: 0.75rem; color: var(--dot); font-weight: 600; text-transform: capitalize; }}
+.tape-horizons {{ display: flex; gap: 6px; }}
+.tape-badge {{
+  display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem;
+  padding: 2px 7px; border-radius: 6px; background: color-mix(in srgb, var(--dot) 16%, transparent);
+  color: var(--dot); font-weight: 600;
+}}
+.tape-badge-h {{ font-family: ui-monospace, monospace; letter-spacing: 0.02em; }}
 
 /* stat tiles */
 .stats {{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--hairline);

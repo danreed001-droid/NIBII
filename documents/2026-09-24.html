@@ -53,14 +53,21 @@ h1 { font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }
   border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; overflow: hidden;
 }
 .tape-item {
-  flex: 1 1 140px; display: flex; flex-direction: column; gap: 2px;
+  flex: 1 1 150px; display: flex; flex-direction: column; gap: 8px;
   padding: 10px 14px; border-right: 1px solid rgba(255,255,255,0.12);
   border-top: 3px solid var(--dot);
 }
 .tape-item:last-child { border-right: none; }
+.tape-head { display: flex; align-items: baseline; gap: 8px; }
 .tape-ticker { font-family: ui-monospace, monospace; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--masthead-ink-2); }
 .tape-price { font-family: ui-monospace, monospace; font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink); }
-.tape-call { font-size: 0.75rem; color: var(--dot); font-weight: 600; text-transform: capitalize; }
+.tape-horizons { display: flex; gap: 6px; }
+.tape-badge {
+  display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem;
+  padding: 2px 7px; border-radius: 6px; background: color-mix(in srgb, var(--dot) 16%, transparent);
+  color: var(--dot); font-weight: 600;
+}
+.tape-badge-h { font-family: ui-monospace, monospace; letter-spacing: 0.02em; }
 
 /* stat tiles */
 .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--hairline);
@@ -158,34 +165,46 @@ footer a { color: var(--accent); }
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a twelve-category vote model, with a stretch/mean-reversion overlay.</p>
     <div class="tape">
       <div class="tape-item" style="--dot:#898781">
-        <span class="tape-ticker">SPX</span>
-        <span class="tape-price">7,704.13</span>
-        <span class="tape-call">▬ flat</span>
+        <div class="tape-head">
+          <span class="tape-ticker">SPX</span>
+          <span class="tape-price">7,704.13</span>
+        </div>
+        <div class="tape-horizons"><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
       <div class="tape-item" style="--dot:#d03b3b">
-        <span class="tape-ticker">TLT</span>
-        <span class="tape-price">79.42</span>
-        <span class="tape-call">▼ bearish</span>
+        <div class="tape-head">
+          <span class="tape-ticker">TLT</span>
+          <span class="tape-price">79.42</span>
+        </div>
+        <div class="tape-horizons"><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
       <div class="tape-item" style="--dot:#d03b3b">
-        <span class="tape-ticker">XAU</span>
-        <span class="tape-price">4,286.06</span>
-        <span class="tape-call">▼ bearish</span>
+        <div class="tape-head">
+          <span class="tape-ticker">XAU</span>
+          <span class="tape-price">4,286.06</span>
+        </div>
+        <div class="tape-horizons"><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
       <div class="tape-item" style="--dot:#0ca30c">
-        <span class="tape-ticker">DXY</span>
-        <span class="tape-price">101.09</span>
-        <span class="tape-call">▲ bullish</span>
+        <div class="tape-head">
+          <span class="tape-ticker">DXY</span>
+          <span class="tape-price">101.09</span>
+        </div>
+        <div class="tape-horizons"><span class="tape-badge" style="--dot:#0ca30c"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▲</span></span><span class="tape-badge" style="--dot:#0ca30c"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▲</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
       <div class="tape-item" style="--dot:#d03b3b">
-        <span class="tape-ticker">IWM</span>
-        <span class="tape-price">281.66</span>
-        <span class="tape-call">▼ bearish</span>
+        <div class="tape-head">
+          <span class="tape-ticker">IWM</span>
+          <span class="tape-price">281.66</span>
+        </div>
+        <div class="tape-horizons"><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
       <div class="tape-item" style="--dot:#d03b3b">
-        <span class="tape-ticker">QQQ</span>
-        <span class="tape-price">741.10</span>
-        <span class="tape-call">▼ bearish</span>
+        <div class="tape-head">
+          <span class="tape-ticker">QQQ</span>
+          <span class="tape-price">741.10</span>
+        </div>
+        <div class="tape-horizons"><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div></div>
   </div>
 </div>
