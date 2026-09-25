@@ -615,7 +615,7 @@
      "call": "bearish",
      "clusterDowngrade": false,
      "confidence": "lean",
-     "correct": null,
+     "correct": false,
      "families": [
       "A",
       "B",
@@ -626,66 +626,78 @@
      "h": 1,
      "margin": 4,
      "maturity": "2026-09-25",
-     "maturityClose": null,
+     "maturityClose": 4334.2001953125,
      "neutral": 4,
      "preReversionCall": "bearish",
      "preReversionConfidence": "lean",
-     "preReversionCorrect": null,
-     "ret": null,
+     "preReversionCorrect": false,
+     "ret": 0.011232,
      "reversionAligned": "none",
      "reversionFlag": false,
      "reversionNote": "Stretch score 0 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.",
      "shadowCall": "bearish",
      "shadowConfidence": "lean",
-     "shadowCorrect": null,
+     "shadowCorrect": false,
      "votes": [
       [
        "bear",
-       "Spot gold closed 4286.06, below its 50-day of 4306.31 and 23.3% below the 28 January record of 5589.38."
+       "Spot gold closed 4286.06, below its 50-day of 4306.31 and 23.3% below the 28 January record of 5589.38.",
+       false
       ],
       [
        "bear",
-       "Silver fell 1.50% to 63.99 against gold 0.06%, lifting the gold/silver ratio to 67.0 as the higher-beta metal leads the complex lower."
+       "Silver fell 1.50% to 63.99 against gold 0.06%, lifting the gold/silver ratio to 67.0 as the higher-beta metal leads the complex lower.",
+       false
       ],
       [
        "neu",
-       "GVZ closed 22.77 on 2026-09-23 and no percentile or named extreme for gold volatility is documented."
+       "GVZ closed 22.77 on 2026-09-23 and no percentile or named extreme for gold volatility is documented.",
+       null
       ],
       [
        "bear",
-       "The 10-year at 5.124% is a 19-year high and gold carries a -0.499 correlation to the 10-year over the measured window."
+       "The 10-year at 5.124% is a 19-year high and gold carries a -0.499 correlation to the 10-year over the measured window.",
+       false
       ],
       [
        "bear",
-       "DXY at 101.09 sits 0.70% below a 52-week high, and gold correlation to the dollar over the window is -0.576."
+       "DXY at 101.09 sits 0.70% below a 52-week high, and gold correlation to the dollar over the window is -0.576.",
+       false
       ],
       [
        "bear",
-       "October hike odds rose to about 70% from about 55%, and gold beta to the 2-year is -0.164% per basis point, so Thursday +4.6bp is a direct headwind."
+       "October hike odds rose to about 70% from about 55%, and gold beta to the 2-year is -0.164% per basis point, so Thursday +4.6bp is a direct headwind.",
+       false
       ],
       [
        "bull",
-       "COMEX managed money net long was 133,116 contracts on 15 September, well short of the roughly 200,000 crowded zone, so the book is light enough to rebuild."
+       "COMEX managed money net long was 133,116 contracts on 15 September, well short of the roughly 200,000 crowded zone, so the book is light enough to rebuild.",
+       true
       ],
       [
        "neu",
-       "No central-bank purchase figure dated at or before the 24 September close is available for this window."
+       "No central-bank purchase figure dated at or before the 24 September close is available for this window.",
+       null
       ],
       [
        "neu",
-       "No dated physical premium or retail-flow reading for 24 September is obtainable."
+       "No dated physical premium or retail-flow reading for 24 September is obtainable.",
+       null
       ],
       [
        "neu",
-       "Friday brings only durable goods and the final University of Michigan reading, second-tier for gold."
+       "Friday brings only durable goods and the final University of Michigan reading, second-tier for gold.",
+       null
       ],
       [
        "bull",
-       "The last week of September into early October is seasonally firm for gold ahead of the Indian festival buying season."
+       "The last week of September into early October is seasonally firm for gold ahead of the Indian festival buying season.",
+       true
       ],
       [
        "bear",
-       "WTI rose 1.63% to 93.66, and over this window gold correlation to oil is only -0.296 against -0.594 to the 2-year, so crude reaches gold through hike odds as a headwind rather than as an inflation hedge."
+       "WTI rose 1.63% to 93.66, and over this window gold correlation to oil is only -0.296 against -0.594 to the 2-year, so crude reaches gold through hike odds as a headwind rather than as an inflation hedge.",
+       false
       ]
      ]
     },
