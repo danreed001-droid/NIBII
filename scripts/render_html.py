@@ -677,21 +677,37 @@ def load_all_documents(documents_dir):
 
 
 def main(s: str):
-    """Renders the board for session date `s`, always to the same file
-    (documents/latest.html) - overwritten each run rather than accumulating
-    one HTML file per day. The underlying documents/<date>.json ledger is
-    NOT touched by this script and stays one file per day; that's the real
-    scored history the Track record / Call log sections are computed from,
-    and it has to persist. Only this rendered display copy is disposable.
+    """Renders the board for session date `s`, always to the same files
+    (documents/latest.html and docs/index.html) - overwritten each run
+    rather than accumulating one HTML file per day. The underlying
+    documents/<date>.json ledger is NOT touched by this script and stays
+    one file per day; that's the real scored history the Track record /
+    Call log sections are computed from, and it has to persist. Only these
+    rendered display copies are disposable.
+
+    docs/index.html exists because this repo's GitHub Pages is configured
+    to serve from the /docs folder on main - that's the file Pages
+    actually publishes at https://danreed001-droid.github.io/NIBII/.
+    documents/latest.html stays too, for the artifact-publish workflow and
+    anyone browsing the repo directly.
     """
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     documents_dir = os.path.join(root, "documents")
     doc = json.load(open(os.path.join(documents_dir, f"{s}.json")))
     all_docs = load_all_documents(documents_dir)
+    page = render(doc, all_docs)
+
     out_path = os.path.join(documents_dir, "latest.html")
     with open(out_path, "w") as f:
-        f.write(render(doc, all_docs))
+        f.write(page)
     print(f"wrote {out_path}")
+
+    docs_dir = os.path.join(root, "docs")
+    os.makedirs(docs_dir, exist_ok=True)
+    pages_path = os.path.join(docs_dir, "index.html")
+    with open(pages_path, "w") as f:
+        f.write(page)
+    print(f"wrote {pages_path}")
 
 
 if __name__ == "__main__":
