@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
-"""Settle matured horizons across every published document with a now-final close.
+"""Settle matured horizons across every published document.
 
-For each asset/horizon whose maturity date has a close print available and
-hasn't been settled yet, fetches that close and marks correctness in place.
-Never touches a horizon whose maturity hasn't happened yet, never re-derives
-a vote's side or reason (assert_no_reason_drift catches that if it happened),
-and aborts without writing if verification fails after settlement.
+For each asset/horizon whose maturity date has a print available and hasn't
+been settled yet, fetches it via mtl.fetch.close_on() and marks correctness
+in place. Since TICKERS is mostly futures (near-24h trading), "a print
+available" does not mean a finalized end-of-day close - it can be a live
+snapshot taken while that date's session is still in progress. That's
+intentional (confirmed 2026-09-25): this project wants continuous
+snapshot-based grading, not a wait for a formal close - see close_on()'s
+docstring. Never touches a horizon whose maturity hasn't happened yet,
+never re-derives a vote's side or reason (assert_no_reason_drift catches
+that if it happened), and aborts without writing if verification fails
+after settlement.
 
 Usage:
     python scripts/settle.py

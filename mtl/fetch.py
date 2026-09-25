@@ -215,9 +215,18 @@ def ohlc_through(ticker, s: str, interval="1d", period="2y"):
 
 
 def close_on(key: str, date: str, period="2y"):
-    """The exact close for asset `key` (a TICKERS key) on `date`, or None if
-    there's no print for that date yet - a weekend/holiday, or a date whose
-    close hasn't happened relative to available data."""
+    """The most recent available print for asset `key` (a TICKERS key) dated
+    `date`, or None if there's no print for that date yet - a weekend/
+    holiday, or a date too recent to have a row at all.
+
+    Intentional, not a bug: now that TICKERS is mostly futures (near-24h
+    trading), the row Yahoo returns for `date` while that date's session is
+    still in progress is a live snapshot, not a finalized end-of-day close -
+    and that's what this project wants (confirmed 2026-09-25): settlement
+    doesn't wait for a formal close, it grades against whatever print is
+    available once called. Calling this again later the same day can
+    return a different value for the same `date` as the snapshot moves.
+    """
     closes, as_of = (gold_close_through(date, period=period) if key == 'gold'
                      else closes_through(TICKERS[key], date, period=period))
     return closes[-1] if (closes and as_of == date) else None
