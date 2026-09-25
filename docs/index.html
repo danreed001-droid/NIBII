@@ -65,6 +65,7 @@ h1 { font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }
 .tape-head { display: flex; align-items: baseline; gap: 8px; }
 .tape-ticker { font-family: ui-monospace, monospace; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--masthead-ink-2); }
 .tape-price { font-family: ui-monospace, monospace; font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink); }
+.tape-live { font-family: ui-monospace, monospace; font-size: 0.68rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink-2); opacity: 0.85; }
 .tape-horizons { display: flex; gap: 6px; }
 .tape-badge {
   display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem;
@@ -245,20 +246,23 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       </span>
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
-    <p class="updated">Last updated 2026-09-25 13:17 UTC</p>
+    <p class="updated">Last updated 2026-09-25 13:31 UTC</p>
+    <p class="updated live-note">Live prices as of 2026-09-25T13:31:35Z - overlay only, never the basis a call was made against</p>
     <div class="tape">
       <div class="tape-item" style="--dot:#d03b3b">
         <div class="tape-head">
           <span class="tape-ticker">SPX</span>
           <span class="tape-price">7,704.13</span>
         </div>
+        <span class="tape-live" title="live snapshot, not the call basis">live ES=F 7,781.75</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
       <div class="tape-item" style="--dot:#d03b3b">
         <div class="tape-head">
-          <span class="tape-ticker">TLT</span>
+          <span class="tape-ticker">ZN=F</span>
           <span class="tape-price">79.42</span>
         </div>
+        <span class="tape-live" title="live snapshot, not the call basis">live ZN=F 104.84</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
       <div class="tape-item" style="--dot:#d03b3b">
@@ -266,6 +270,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="tape-ticker">XAU</span>
           <span class="tape-price">4,286.06</span>
         </div>
+        <span class="tape-live" title="live snapshot, not the call basis">live GC=F 4,325.50</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▼</span></span></div>
       </div>
       <div class="tape-item" style="--dot:#0ca30c">
@@ -273,27 +278,30 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="tape-ticker">DXY</span>
           <span class="tape-price">101.09</span>
         </div>
+        <span class="tape-live" title="live snapshot, not the call basis">live DX-Y.NYB 100.95</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#0ca30c"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▲</span></span><span class="tape-badge" style="--dot:#0ca30c"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▲</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
       <div class="tape-item" style="--dot:#d03b3b">
         <div class="tape-head">
-          <span class="tape-ticker">IWM</span>
+          <span class="tape-ticker">RTY=F</span>
           <span class="tape-price">281.66</span>
         </div>
+        <span class="tape-live" title="live snapshot, not the call basis">live RTY=F 2,862.10</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
       <div class="tape-item" style="--dot:#d03b3b">
         <div class="tape-head">
-          <span class="tape-ticker">QQQ</span>
+          <span class="tape-ticker">NQ=F</span>
           <span class="tape-price">741.10</span>
         </div>
+        <span class="tape-live" title="live snapshot, not the call basis">live NQ=F 30,864.00</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div></div>
   </div>
 </div>
 
 <div class="wrap">
-<div class="stats"><div class="stat-tile"><span class="stat-label">Bullish calls</span><span class="stat-value">2</span><span class=stat-sub>of 18</span></div><div class="stat-tile"><span class="stat-label">Bearish calls</span><span class="stat-value">9</span><span class=stat-sub>of 18</span></div><div class="stat-tile"><span class="stat-label">Flat / no-call</span><span class="stat-value">7</span><span class=stat-sub>of 18</span></div><div class="stat-tile"><span class="stat-label">Overlay reweighted</span><span class="stat-value">5</span><span class=stat-sub>of 18 cells</span></div><div class="stat-tile toned" style="--tone:#d03b3b"><span class="stat-label">Most stretched</span><span class="stat-value">TLT -4</span><span class=stat-sub>extreme-down</span></div></div>
+<div class="stats"><div class="stat-tile"><span class="stat-label">Bullish calls</span><span class="stat-value">2</span><span class=stat-sub>of 18</span></div><div class="stat-tile"><span class="stat-label">Bearish calls</span><span class="stat-value">9</span><span class=stat-sub>of 18</span></div><div class="stat-tile"><span class="stat-label">Flat / no-call</span><span class="stat-value">7</span><span class=stat-sub>of 18</span></div><div class="stat-tile"><span class="stat-label">Overlay reweighted</span><span class="stat-value">5</span><span class=stat-sub>of 18 cells</span></div><div class="stat-tile toned" style="--tone:#d03b3b"><span class="stat-label">Most stretched</span><span class="stat-value">ZN=F -4</span><span class=stat-sub>extreme-down</span></div></div>
 
 <p class="section-label">The board</p>
 
@@ -335,7 +343,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <p class="reversion muted">Stretch score 1 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.</p>
       <details class="votes">
         <summary>13 votes</summary>
-        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">SPX closed 7704.13, above its 20-day 7670.43, 50-day 7629.26 and 200-day 7198.56, with RSI(14) 53.72.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Only 25.44% of S&amp;P 500 members closed above their 50-day average, down 5.37 points in five sessions while the index finished flat, a widening negative divergence.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">VIX closed 15.67 with the VIX3M/VIX ratio at 1.176 and VIX1D at 12.10, so no near-term stress is priced into the front of the curve.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS was 273bp on 2026-09-23, only 2bp wider in two weeks, so credit is not confirming the rates shock.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 10-year closed at 5.124%, a 19-year high, and SPX daily returns carry a -0.639 correlation to the 10-year over the measured window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% earlier in the week after jobless claims printed 197k and new home sales jumped 6.4%.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">AAII bears were 48.1% against 32.7% bulls in the survey published 2026-09-24, a spread of -15.4 and a 33rd straight week with bearishness above the 31.5% historical average.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The corporate buyback blackout is in effect into late October, removing the largest structural bid for the whole window.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No S&amp;P 500 index-moving report lands Friday; Costco and Darden reported after Thursday bell, i.e. after the S close, so the blindness rule excludes their results.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading, second-tier prints that are not a direction.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The last week of September is the weakest ten-day stretch of the calendar year on the seasonal record.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 and Brent closed near 104.70, and SPX daily returns carry a -0.532 correlation to oil over the measured window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">1H structure is downtrend - last labeled swings: LH/LL/LL/LH.</span></li></ul>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">SPX closed 7704.13, above its 20-day 7670.43, 50-day 7629.26 and 200-day 7198.56, with RSI(14) 53.72.</span><span class="vote-mark hit">correct</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Only 25.44% of S&amp;P 500 members closed above their 50-day average, down 5.37 points in five sessions while the index finished flat, a widening negative divergence.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">VIX closed 15.67 with the VIX3M/VIX ratio at 1.176 and VIX1D at 12.10, so no near-term stress is priced into the front of the curve.</span><span class="vote-mark hit">correct</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS was 273bp on 2026-09-23, only 2bp wider in two weeks, so credit is not confirming the rates shock.</span><span class="vote-mark hit">correct</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 10-year closed at 5.124%, a 19-year high, and SPX daily returns carry a -0.639 correlation to the 10-year over the measured window.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% earlier in the week after jobless claims printed 197k and new home sales jumped 6.4%.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">AAII bears were 48.1% against 32.7% bulls in the survey published 2026-09-24, a spread of -15.4 and a 33rd straight week with bearishness above the 31.5% historical average.</span><span class="vote-mark hit">correct</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The corporate buyback blackout is in effect into late October, removing the largest structural bid for the whole window.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No S&amp;P 500 index-moving report lands Friday; Costco and Darden reported after Thursday bell, i.e. after the S close, so the blindness rule excludes their results.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading, second-tier prints that are not a direction.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The last week of September is the weakest ten-day stretch of the calendar year on the seasonal record.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 and Brent closed near 104.70, and SPX daily returns carry a -0.532 correlation to oil over the measured window.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">1H structure is downtrend - last labeled swings: LH/LL/LL/LH.</span><span class="vote-mark miss">wrong</span></li></ul>
       </details>
     </div>
     <div class="horizon">
@@ -376,7 +384,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
     <section class="asset">
       <header class="asset-head">
         <div>
-          <span class="asset-ticker">TLT</span>
+          <span class="asset-ticker">ZN=F</span>
           <h2>iShares 20+ Year Treasury ETF</h2>
           <p class="instrument">TLT closing price · close 79.42</p>
         </div>
@@ -411,7 +419,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <p class="reversion">⚠ overlay applied — Stretch score -4 (extreme-down): the bearish call rides an extreme reading with margin 9, so confidence was dropped from strong to solid.</p>
       <details class="votes">
         <summary>13 votes</summary>
-        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">TLT closed at 79.42, an all-time and 52-week low, below its 50-day of 82.44 and 200-day of 85.76.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">2s10s flattened to 18.3bp from 21.1bp as the 2-year rose 4.6bp against the 10-year 1.4bp, the signature of front-end hawkish repricing.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">MOVE at 95.45 is above all 59 prior sessions and TLT 30-day implied volatility sits at the 97.4th percentile, an expanding vol shock and a documented capitulation marker at the same time.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp is near the year tights, so no flight-to-quality bid for Treasuries is forming.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 with Brent above 104, and TLT daily returns carry a -0.461 correlation to oil over the measured window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales, and TLT beta to the 2-year is -0.077% per basis point.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Asset managers held a record net long of 2,634,980 ten-year note futures on 15 September against leveraged funds short 1,868,126, a crowded long a contrarian fades.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 23 September 5-year auction saw indirect bids fall to 54.3% from a 65.2% average, with dealers taking 15.8%, evidence that foreign demand is stepping back.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday carries no coupon auction, and the 24 September 7-year result is not obtainable from a dated source.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading, second-tier for rates.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Late September is historically the weakest stretch of the year for Treasuries, and the quarter-end extension bid does not arrive until 30 September.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY closed 101.09, within 0.70% of a 52-week high, and the dollar +0.629 correlation to the 2-year confirms the same hawkish impulse lifting yields.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">1H structure is choppy - no consistent run of higher or lower swings.</span></li></ul>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">TLT closed at 79.42, an all-time and 52-week low, below its 50-day of 82.44 and 200-day of 85.76.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">2s10s flattened to 18.3bp from 21.1bp as the 2-year rose 4.6bp against the 10-year 1.4bp, the signature of front-end hawkish repricing.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">MOVE at 95.45 is above all 59 prior sessions and TLT 30-day implied volatility sits at the 97.4th percentile, an expanding vol shock and a documented capitulation marker at the same time.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp is near the year tights, so no flight-to-quality bid for Treasuries is forming.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 with Brent above 104, and TLT daily returns carry a -0.461 correlation to oil over the measured window.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales, and TLT beta to the 2-year is -0.077% per basis point.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Asset managers held a record net long of 2,634,980 ten-year note futures on 15 September against leveraged funds short 1,868,126, a crowded long a contrarian fades.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 23 September 5-year auction saw indirect bids fall to 54.3% from a 65.2% average, with dealers taking 15.8%, evidence that foreign demand is stepping back.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday carries no coupon auction, and the 24 September 7-year result is not obtainable from a dated source.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading, second-tier for rates.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Late September is historically the weakest stretch of the year for Treasuries, and the quarter-end extension bid does not arrive until 30 September.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">DXY closed 101.09, within 0.70% of a 52-week high, and the dollar +0.629 correlation to the 2-year confirms the same hawkish impulse lifting yields.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">1H structure is choppy - no consistent run of higher or lower swings.</span></li></ul>
       </details>
     </div>
     <div class="horizon">
@@ -604,7 +612,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
     <section class="asset">
       <header class="asset-head">
         <div>
-          <span class="asset-ticker">IWM</span>
+          <span class="asset-ticker">RTY=F</span>
           <h2>iShares Russell 2000 ETF</h2>
           <p class="instrument">IWM closing price · close 281.66</p>
         </div>
@@ -639,7 +647,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <p class="reversion muted">Stretch score -1 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.</p>
       <details class="votes">
         <summary>13 votes</summary>
-        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">IWM closed 281.66, below its 50-day of 294.56 though above its 200-day of 275.37, with RSI(14) at 34.41.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The Russell 2000 has fallen 5.33% over the past month against the S&amp;P 500 +0.67%, six points of underperformance.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">RVX at 19.97 against a VIX of 15.67 puts small-cap implied volatility 27% above large-cap, and RVX rose 6.3% on 23 September.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp is only 2bp wider in two weeks and near the year tights, the funding channel that matters most for small caps.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 2-year closed 4.941%, a cycle high, and IWM beta to the 2-year is -0.098% per basis point against the S&amp;P 500 -0.062%.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% after jobless claims of 197k and a 6.4% jump in new home sales.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">IWM RSI(14) of 34.41 and a Russell 2000 that was down 1.8% intraday before closing down only 0.11% mark an intraday reversal off a washed-out reading.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The buyback blackout into late October and quarter-end rebalancing on 30 September fall hardest on the least liquid part of the market.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No Russell 2000 index-moving report lands Friday.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The last week of September is the weakest ten-day stretch of the calendar year and small caps carry the highest beta to it.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 and IWM correlation to oil over the measured window is -0.476.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">1H structure is choppy - no consistent run of higher or lower swings.</span></li></ul>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">IWM closed 281.66, below its 50-day of 294.56 though above its 200-day of 275.37, with RSI(14) at 34.41.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The Russell 2000 has fallen 5.33% over the past month against the S&amp;P 500 +0.67%, six points of underperformance.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">RVX at 19.97 against a VIX of 15.67 puts small-cap implied volatility 27% above large-cap, and RVX rose 6.3% on 23 September.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp is only 2bp wider in two weeks and near the year tights, the funding channel that matters most for small caps.</span><span class="vote-mark hit">correct</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 2-year closed 4.941%, a cycle high, and IWM beta to the 2-year is -0.098% per basis point against the S&amp;P 500 -0.062%.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% after jobless claims of 197k and a 6.4% jump in new home sales.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">IWM RSI(14) of 34.41 and a Russell 2000 that was down 1.8% intraday before closing down only 0.11% mark an intraday reversal off a washed-out reading.</span><span class="vote-mark hit">correct</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The buyback blackout into late October and quarter-end rebalancing on 30 September fall hardest on the least liquid part of the market.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">No Russell 2000 index-moving report lands Friday.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The last week of September is the weakest ten-day stretch of the calendar year and small caps carry the highest beta to it.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 and IWM correlation to oil over the measured window is -0.476.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">1H structure is choppy - no consistent run of higher or lower swings.</span></li></ul>
       </details>
     </div>
     <div class="horizon">
@@ -680,7 +688,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
     <section class="asset">
       <header class="asset-head">
         <div>
-          <span class="asset-ticker">QQQ</span>
+          <span class="asset-ticker">NQ=F</span>
           <h2>Invesco QQQ Trust</h2>
           <p class="instrument">QQQ closing price · close 741.10</p>
         </div>
@@ -715,7 +723,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <p class="reversion muted">Stretch score 3 (extreme-up): the bearish call points against the stretch, so the overlay left it untouched rather than rewarding the vote model twice.</p>
       <details class="votes">
         <summary>13 votes</summary>
-        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">QQQ closed 741.10, above its 50-day of 711.42 and 200-day of 664.41 and 1.01% below its 52-week high of 748.65.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The top ten QQQ holdings are 46.91% of the fund and cap weighting has supplied 6.3 points of the 21.05% year-to-date return over equal weight, so the advance rests on a handful of names.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">VXN closed 21.24 against a VIX of 15.67, a ratio of 1.36, and VXN rose 2.3% on the session.</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp, 2bp wider in two weeks, shows credit pricing no stress in AI capex financing.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 10-year at 5.124% is a 19-year high and QQQ carries a -0.654 correlation to the 10-year over the measured window.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">QQQ RSI(14) of 63.22 sits below the 70 overbought line while AAII bears are still 48.1%, so there is no crowd extreme for a contrarian to fade.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The buyback blackout into late October removes the megacap bid that has driven the concentration.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Oracle force majeure notice on the 2.5GW Project Jupiter campus knocked the shares 5% to 6% and was the session largest Nasdaq drag, the first public crack in a marquee AI buildout.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The last week of September is the weakest ten-day stretch of the calendar year.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 and QQQ correlation to oil over the window is -0.591, the most negative of the six assets.</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">1H structure is choppy - no consistent run of higher or lower swings.</span></li></ul>
+        <ul><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">QQQ closed 741.10, above its 50-day of 711.42 and 200-day of 664.41 and 1.01% below its 52-week high of 748.65.</span><span class="vote-mark hit">correct</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The top ten QQQ holdings are 46.91% of the fund and cap weighting has supplied 6.3 points of the 21.05% year-to-date return over equal weight, so the advance rests on a handful of names.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">VXN closed 21.24 against a VIX of 15.67, a ratio of 1.36, and VXN rose 2.3% on the session.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="vote-text">High-yield OAS of 273bp, 2bp wider in two weeks, shows credit pricing no stress in AI capex financing.</span><span class="vote-mark hit">correct</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The 10-year at 5.124% is a 19-year high and QQQ carries a -0.654 correlation to the 10-year over the measured window.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">QQQ RSI(14) of 63.22 sits below the 70 overbought line while AAII bears are still 48.1%, so there is no crowd extreme for a contrarian to fade.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The buyback blackout into late October removes the megacap bid that has driven the concentration.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">Oracle force majeure notice on the 2.5GW Project Jupiter campus knocked the shares 5% to 6% and was the session largest Nasdaq drag, the first public crack in a marquee AI buildout.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">Friday brings only durable goods and the final University of Michigan reading.</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">The last week of September is the weakest ten-day stretch of the calendar year.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-text">WTI rose 1.63% to 93.66 and QQQ correlation to oil over the window is -0.591, the most negative of the six assets.</span><span class="vote-mark miss">wrong</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-text">1H structure is choppy - no consistent run of higher or lower swings.</span></li></ul>
       </details>
     </div>
     <div class="horizon">
@@ -760,26 +768,26 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <p class="record-head-label">Result</p>
       <div class="record-head">
         <span class="record-pct critical">0.0%</span>
-        <span class="record-n">0/2 settled calls correct</span>
-        <span class="record-edge">edge -2 units</span>
+        <span class="record-n">0/6 settled calls correct</span>
+        <span class="record-edge">edge -10 units</span>
       </div>
       <p class="record-head-label">Real Result <span class="record-row-real">(1 directional
         call that landed flat excluded as no-call push, not misses)</span></p>
       <div class="record-head">
         <span class="record-pct critical">0.0%</span>
-        <span class="record-n">0/1 real-result calls correct</span>
-        <span class="record-edge">edge -1 units</span>
+        <span class="record-n">0/5 real-result calls correct</span>
+        <span class="record-edge">edge -9 units</span>
       </div>
       <div class="record-grid">
-        <div class="record-block"><h3>By horizon</h3><div class="record-row"><span class="record-row-label">1D</span><span class="record-row-val">0.0% <span class="record-row-n">(0/2 · edge -2)</span><span class="record-row-real">real 0.0% (0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">5D</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">10D</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div></div>
-        <div class="record-block"><h3>By asset</h3><div class="record-row"><span class="record-row-label">SPX</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">TLT</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">XAU</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span><span class="record-row-real">real 0.0% (0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">DXY</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">IWM</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">QQQ</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div></div>
-        <div class="record-block"><h3>By call type</h3><div class="record-row"><span class="record-row-label">Bullish</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">Bearish</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span><span class="record-row-real">real 0.0% (0/1 · edge -1)</span></span></div></div>
+        <div class="record-block"><h3>By horizon</h3><div class="record-row"><span class="record-row-label">1D</span><span class="record-row-val">0.0% <span class="record-row-n">(0/6 · edge -10)</span><span class="record-row-real">real 0.0% (0/5 · edge -9)</span></span></div><div class="record-row"><span class="record-row-label">5D</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div><div class="record-row"><span class="record-row-label">10D</span><span class="record-row-val">— <span class="record-row-n">(0/0)</span></span></div></div>
+        <div class="record-block"><h3>By asset</h3><div class="record-row"><span class="record-row-label">SPX</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -2)</span><span class="record-row-real">real 0.0% (0/1 · edge -2)</span></span></div><div class="record-row"><span class="record-row-label">ZN=F</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -2)</span><span class="record-row-real">real 0.0% (0/1 · edge -2)</span></span></div><div class="record-row"><span class="record-row-label">XAU</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span><span class="record-row-real">real 0.0% (0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">DXY</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">RTY=F</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -2)</span><span class="record-row-real">real 0.0% (0/1 · edge -2)</span></span></div><div class="record-row"><span class="record-row-label">NQ=F</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -2)</span><span class="record-row-real">real 0.0% (0/1 · edge -2)</span></span></div></div>
+        <div class="record-block"><h3>By call type</h3><div class="record-row"><span class="record-row-label">Bullish</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span></span></div><div class="record-row"><span class="record-row-label">Bearish</span><span class="record-row-val">0.0% <span class="record-row-n">(0/5 · edge -9)</span><span class="record-row-real">real 0.0% (0/5 · edge -9)</span></span></div></div>
       </div>
       
       <div class="record-block">
         <h3>Overlay effect (cells it actually changed)</h3>
-        <div class="record-row"><span class="record-row-label">Post-overlay</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -1)</span></span></div>
-        <div class="record-row"><span class="record-row-label">Pre-overlay (shadow)</span><span class="record-row-val">0.0% <span class="record-row-n">(0/1 · edge -2)</span></span></div>
+        <div class="record-row"><span class="record-row-label">Post-overlay</span><span class="record-row-val">0.0% <span class="record-row-n">(0/2 · edge -3)</span></span></div>
+        <div class="record-row"><span class="record-row-label">Pre-overlay (shadow)</span><span class="record-row-val">0.0% <span class="record-row-n">(0/2 · edge -5)</span></span></div>
       </div>
       <p class="record-caveat">Category denominators vary with how often each category voted directionally. Below roughly 20 marked votes per category these rankings invert on the next settlement and should be reported as not yet meaningful.</p>
     </div>
@@ -797,10 +805,10 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="log-conf">solid</span></td>
       <td class="log-matures">2026-09-25</td>
       <td class="log-price">7,704.13</td>
-      <td class="log-price">—</td>
-      <td><span class="log-pending">pending</span></td>
-      <td><span class="log-pending">pending</span></td>
-      <td><span class="log-pending">pending</span></td>
+      <td class="log-price">7,782.25</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#0ca30c"></span>▲ bullish</span><span class="log-conf">+1.01%</span></td>
+      <td><span class="log-wrong">✗ incorrect</span></td>
+      <td><span class="log-wrong">✗ incorrect</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
       <td class="log-ticker">SPX</td>
@@ -827,19 +835,19 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
-      <td class="log-ticker">TLT</td>
+      <td class="log-ticker">ZN=F</td>
       <td>1D</td>
       <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
           <span class="log-conf">solid</span></td>
       <td class="log-matures">2026-09-25</td>
       <td class="log-price">79.42</td>
-      <td class="log-price">—</td>
-      <td><span class="log-pending">pending</span></td>
-      <td><span class="log-pending">pending</span></td>
-      <td><span class="log-pending">pending</span></td>
+      <td class="log-price">104.84</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#0ca30c"></span>▲ bullish</span><span class="log-conf">+32.01%</span></td>
+      <td><span class="log-wrong">✗ incorrect</span></td>
+      <td><span class="log-wrong">✗ incorrect</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
-      <td class="log-ticker">TLT</td>
+      <td class="log-ticker">ZN=F</td>
       <td>5D</td>
       <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
           <span class="log-conf">solid</span></td>
@@ -851,7 +859,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
-      <td class="log-ticker">TLT</td>
+      <td class="log-ticker">ZN=F</td>
       <td>10D</td>
       <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
           <span class="log-conf">flat-lean</span></td>
@@ -935,19 +943,19 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
-      <td class="log-ticker">IWM</td>
+      <td class="log-ticker">RTY=F</td>
       <td>1D</td>
       <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
           <span class="log-conf">solid</span></td>
       <td class="log-matures">2026-09-25</td>
       <td class="log-price">281.66</td>
-      <td class="log-price">—</td>
-      <td><span class="log-pending">pending</span></td>
-      <td><span class="log-pending">pending</span></td>
-      <td><span class="log-pending">pending</span></td>
+      <td class="log-price">2,862.30</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#0ca30c"></span>▲ bullish</span><span class="log-conf">+916.23%</span></td>
+      <td><span class="log-wrong">✗ incorrect</span></td>
+      <td><span class="log-wrong">✗ incorrect</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
-      <td class="log-ticker">IWM</td>
+      <td class="log-ticker">RTY=F</td>
       <td>5D</td>
       <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
           <span class="log-conf">flat-lean</span></td>
@@ -959,7 +967,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
-      <td class="log-ticker">IWM</td>
+      <td class="log-ticker">RTY=F</td>
       <td>10D</td>
       <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
           <span class="log-conf">flat-solid</span></td>
@@ -971,19 +979,19 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
-      <td class="log-ticker">QQQ</td>
+      <td class="log-ticker">NQ=F</td>
       <td>1D</td>
       <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
           <span class="log-conf">solid</span></td>
       <td class="log-matures">2026-09-25</td>
       <td class="log-price">741.10</td>
-      <td class="log-price">—</td>
-      <td><span class="log-pending">pending</span></td>
-      <td><span class="log-pending">pending</span></td>
-      <td><span class="log-pending">pending</span></td>
+      <td class="log-price">30,866.00</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#0ca30c"></span>▲ bullish</span><span class="log-conf">+4064.89%</span></td>
+      <td><span class="log-wrong">✗ incorrect</span></td>
+      <td><span class="log-wrong">✗ incorrect</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
-      <td class="log-ticker">QQQ</td>
+      <td class="log-ticker">NQ=F</td>
       <td>5D</td>
       <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span>
           <span class="log-conf">lean</span></td>
@@ -995,7 +1003,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       <td><span class="log-pending">pending</span></td>
     </tr><tr>
       <td class="log-date">2026-09-24</td>
-      <td class="log-ticker">QQQ</td>
+      <td class="log-ticker">NQ=F</td>
       <td>10D</td>
       <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span>
           <span class="log-conf">flat-solid</span></td>

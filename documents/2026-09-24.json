@@ -512,62 +512,75 @@
      "votes": [
       [
        "bull",
-       "SPX closed 7704.13, above its 20-day 7670.43, 50-day 7629.26 and 200-day 7198.56, with RSI(14) 53.72."
+       "SPX closed 7704.13, above its 20-day 7670.43, 50-day 7629.26 and 200-day 7198.56, with RSI(14) 53.72.",
+       true
       ],
       [
        "bear",
-       "Only 25.44% of S&P 500 members closed above their 50-day average, down 5.37 points in five sessions while the index finished flat, a widening negative divergence."
+       "Only 25.44% of S&P 500 members closed above their 50-day average, down 5.37 points in five sessions while the index finished flat, a widening negative divergence.",
+       false
       ],
       [
        "bull",
-       "VIX closed 15.67 with the VIX3M/VIX ratio at 1.176 and VIX1D at 12.10, so no near-term stress is priced into the front of the curve."
+       "VIX closed 15.67 with the VIX3M/VIX ratio at 1.176 and VIX1D at 12.10, so no near-term stress is priced into the front of the curve.",
+       true
       ],
       [
        "bull",
-       "High-yield OAS was 273bp on 2026-09-23, only 2bp wider in two weeks, so credit is not confirming the rates shock."
+       "High-yield OAS was 273bp on 2026-09-23, only 2bp wider in two weeks, so credit is not confirming the rates shock.",
+       true
       ],
       [
        "bear",
-       "The 10-year closed at 5.124%, a 19-year high, and SPX daily returns carry a -0.639 correlation to the 10-year over the measured window."
+       "The 10-year closed at 5.124%, a 19-year high, and SPX daily returns carry a -0.639 correlation to the 10-year over the measured window.",
+       false
       ],
       [
        "bear",
-       "October hike odds rose to about 70% from about 55% earlier in the week after jobless claims printed 197k and new home sales jumped 6.4%."
+       "October hike odds rose to about 70% from about 55% earlier in the week after jobless claims printed 197k and new home sales jumped 6.4%.",
+       false
       ],
       [
        "bull",
-       "AAII bears were 48.1% against 32.7% bulls in the survey published 2026-09-24, a spread of -15.4 and a 33rd straight week with bearishness above the 31.5% historical average."
+       "AAII bears were 48.1% against 32.7% bulls in the survey published 2026-09-24, a spread of -15.4 and a 33rd straight week with bearishness above the 31.5% historical average.",
+       true
       ],
       [
        "bear",
-       "The corporate buyback blackout is in effect into late October, removing the largest structural bid for the whole window."
+       "The corporate buyback blackout is in effect into late October, removing the largest structural bid for the whole window.",
+       false
       ],
       [
        "neu",
-       "No S&P 500 index-moving report lands Friday; Costco and Darden reported after Thursday bell, i.e. after the S close, so the blindness rule excludes their results."
+       "No S&P 500 index-moving report lands Friday; Costco and Darden reported after Thursday bell, i.e. after the S close, so the blindness rule excludes their results.",
+       null
       ],
       [
        "neu",
-       "Friday brings only durable goods and the final University of Michigan reading, second-tier prints that are not a direction."
+       "Friday brings only durable goods and the final University of Michigan reading, second-tier prints that are not a direction.",
+       null
       ],
       [
        "bear",
-       "The last week of September is the weakest ten-day stretch of the calendar year on the seasonal record."
+       "The last week of September is the weakest ten-day stretch of the calendar year on the seasonal record.",
+       false
       ],
       [
        "bear",
-       "WTI rose 1.63% to 93.66 and Brent closed near 104.70, and SPX daily returns carry a -0.532 correlation to oil over the measured window."
+       "WTI rose 1.63% to 93.66 and Brent closed near 104.70, and SPX daily returns carry a -0.532 correlation to oil over the measured window.",
+       false
       ],
       [
        "bear",
-       "1H structure is downtrend - last labeled swings: LH/LL/LL/LH."
+       "1H structure is downtrend - last labeled swings: LH/LL/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 7782.25,
+     "ret": 0.01014,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false
     },
     {
      "h": 5,
@@ -1626,62 +1639,75 @@
      "votes": [
       [
        "bear",
-       "TLT closed at 79.42, an all-time and 52-week low, below its 50-day of 82.44 and 200-day of 85.76."
+       "TLT closed at 79.42, an all-time and 52-week low, below its 50-day of 82.44 and 200-day of 85.76.",
+       false
       ],
       [
        "bear",
-       "2s10s flattened to 18.3bp from 21.1bp as the 2-year rose 4.6bp against the 10-year 1.4bp, the signature of front-end hawkish repricing."
+       "2s10s flattened to 18.3bp from 21.1bp as the 2-year rose 4.6bp against the 10-year 1.4bp, the signature of front-end hawkish repricing.",
+       false
       ],
       [
        "neu",
-       "MOVE at 95.45 is above all 59 prior sessions and TLT 30-day implied volatility sits at the 97.4th percentile, an expanding vol shock and a documented capitulation marker at the same time."
+       "MOVE at 95.45 is above all 59 prior sessions and TLT 30-day implied volatility sits at the 97.4th percentile, an expanding vol shock and a documented capitulation marker at the same time.",
+       null
       ],
       [
        "bear",
-       "High-yield OAS of 273bp is near the year tights, so no flight-to-quality bid for Treasuries is forming."
+       "High-yield OAS of 273bp is near the year tights, so no flight-to-quality bid for Treasuries is forming.",
+       false
       ],
       [
        "bear",
-       "WTI rose 1.63% to 93.66 with Brent above 104, and TLT daily returns carry a -0.461 correlation to oil over the measured window."
+       "WTI rose 1.63% to 93.66 with Brent above 104, and TLT daily returns carry a -0.461 correlation to oil over the measured window.",
+       false
       ],
       [
        "bear",
-       "October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales, and TLT beta to the 2-year is -0.077% per basis point."
+       "October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales, and TLT beta to the 2-year is -0.077% per basis point.",
+       false
       ],
       [
        "bear",
-       "Asset managers held a record net long of 2,634,980 ten-year note futures on 15 September against leveraged funds short 1,868,126, a crowded long a contrarian fades."
+       "Asset managers held a record net long of 2,634,980 ten-year note futures on 15 September against leveraged funds short 1,868,126, a crowded long a contrarian fades.",
+       false
       ],
       [
        "bear",
-       "The 23 September 5-year auction saw indirect bids fall to 54.3% from a 65.2% average, with dealers taking 15.8%, evidence that foreign demand is stepping back."
+       "The 23 September 5-year auction saw indirect bids fall to 54.3% from a 65.2% average, with dealers taking 15.8%, evidence that foreign demand is stepping back.",
+       false
       ],
       [
        "neu",
-       "Friday carries no coupon auction, and the 24 September 7-year result is not obtainable from a dated source."
+       "Friday carries no coupon auction, and the 24 September 7-year result is not obtainable from a dated source.",
+       null
       ],
       [
        "neu",
-       "Friday brings only durable goods and the final University of Michigan reading, second-tier for rates."
+       "Friday brings only durable goods and the final University of Michigan reading, second-tier for rates.",
+       null
       ],
       [
        "bear",
-       "Late September is historically the weakest stretch of the year for Treasuries, and the quarter-end extension bid does not arrive until 30 September."
+       "Late September is historically the weakest stretch of the year for Treasuries, and the quarter-end extension bid does not arrive until 30 September.",
+       false
       ],
       [
        "bear",
-       "DXY closed 101.09, within 0.70% of a 52-week high, and the dollar +0.629 correlation to the 2-year confirms the same hawkish impulse lifting yields."
+       "DXY closed 101.09, within 0.70% of a 52-week high, and the dollar +0.629 correlation to the 2-year confirms the same hawkish impulse lifting yields.",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 104.84375,
+     "ret": 0.320118,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false
     },
     {
      "h": 5,
@@ -7068,62 +7094,75 @@
      "votes": [
       [
        "bear",
-       "IWM closed 281.66, below its 50-day of 294.56 though above its 200-day of 275.37, with RSI(14) at 34.41."
+       "IWM closed 281.66, below its 50-day of 294.56 though above its 200-day of 275.37, with RSI(14) at 34.41.",
+       false
       ],
       [
        "bear",
-       "The Russell 2000 has fallen 5.33% over the past month against the S&P 500 +0.67%, six points of underperformance."
+       "The Russell 2000 has fallen 5.33% over the past month against the S&P 500 +0.67%, six points of underperformance.",
+       false
       ],
       [
        "bear",
-       "RVX at 19.97 against a VIX of 15.67 puts small-cap implied volatility 27% above large-cap, and RVX rose 6.3% on 23 September."
+       "RVX at 19.97 against a VIX of 15.67 puts small-cap implied volatility 27% above large-cap, and RVX rose 6.3% on 23 September.",
+       false
       ],
       [
        "bull",
-       "High-yield OAS of 273bp is only 2bp wider in two weeks and near the year tights, the funding channel that matters most for small caps."
+       "High-yield OAS of 273bp is only 2bp wider in two weeks and near the year tights, the funding channel that matters most for small caps.",
+       true
       ],
       [
        "bear",
-       "The 2-year closed 4.941%, a cycle high, and IWM beta to the 2-year is -0.098% per basis point against the S&P 500 -0.062%."
+       "The 2-year closed 4.941%, a cycle high, and IWM beta to the 2-year is -0.098% per basis point against the S&P 500 -0.062%.",
+       false
       ],
       [
        "bear",
-       "October hike odds rose to about 70% from about 55% after jobless claims of 197k and a 6.4% jump in new home sales."
+       "October hike odds rose to about 70% from about 55% after jobless claims of 197k and a 6.4% jump in new home sales.",
+       false
       ],
       [
        "bull",
-       "IWM RSI(14) of 34.41 and a Russell 2000 that was down 1.8% intraday before closing down only 0.11% mark an intraday reversal off a washed-out reading."
+       "IWM RSI(14) of 34.41 and a Russell 2000 that was down 1.8% intraday before closing down only 0.11% mark an intraday reversal off a washed-out reading.",
+       true
       ],
       [
        "bear",
-       "The buyback blackout into late October and quarter-end rebalancing on 30 September fall hardest on the least liquid part of the market."
+       "The buyback blackout into late October and quarter-end rebalancing on 30 September fall hardest on the least liquid part of the market.",
+       false
       ],
       [
        "neu",
-       "No Russell 2000 index-moving report lands Friday."
+       "No Russell 2000 index-moving report lands Friday.",
+       null
       ],
       [
        "neu",
-       "Friday brings only durable goods and the final University of Michigan reading."
+       "Friday brings only durable goods and the final University of Michigan reading.",
+       null
       ],
       [
        "bear",
-       "The last week of September is the weakest ten-day stretch of the calendar year and small caps carry the highest beta to it."
+       "The last week of September is the weakest ten-day stretch of the calendar year and small caps carry the highest beta to it.",
+       false
       ],
       [
        "bear",
-       "WTI rose 1.63% to 93.66 and IWM correlation to oil over the measured window is -0.476."
+       "WTI rose 1.63% to 93.66 and IWM correlation to oil over the measured window is -0.476.",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 2862.300048828125,
+     "ret": 9.162253,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false
     },
     {
      "h": 5,
@@ -8198,62 +8237,75 @@
      "votes": [
       [
        "bull",
-       "QQQ closed 741.10, above its 50-day of 711.42 and 200-day of 664.41 and 1.01% below its 52-week high of 748.65."
+       "QQQ closed 741.10, above its 50-day of 711.42 and 200-day of 664.41 and 1.01% below its 52-week high of 748.65.",
+       true
       ],
       [
        "bear",
-       "The top ten QQQ holdings are 46.91% of the fund and cap weighting has supplied 6.3 points of the 21.05% year-to-date return over equal weight, so the advance rests on a handful of names."
+       "The top ten QQQ holdings are 46.91% of the fund and cap weighting has supplied 6.3 points of the 21.05% year-to-date return over equal weight, so the advance rests on a handful of names.",
+       false
       ],
       [
        "bear",
-       "VXN closed 21.24 against a VIX of 15.67, a ratio of 1.36, and VXN rose 2.3% on the session."
+       "VXN closed 21.24 against a VIX of 15.67, a ratio of 1.36, and VXN rose 2.3% on the session.",
+       false
       ],
       [
        "bull",
-       "High-yield OAS of 273bp, 2bp wider in two weeks, shows credit pricing no stress in AI capex financing."
+       "High-yield OAS of 273bp, 2bp wider in two weeks, shows credit pricing no stress in AI capex financing.",
+       true
       ],
       [
        "bear",
-       "The 10-year at 5.124% is a 19-year high and QQQ carries a -0.654 correlation to the 10-year over the measured window."
+       "The 10-year at 5.124% is a 19-year high and QQQ carries a -0.654 correlation to the 10-year over the measured window.",
+       false
       ],
       [
        "bear",
-       "October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales."
+       "October hike odds rose to about 70% from about 55% on Thursday firm claims and new home sales.",
+       false
       ],
       [
        "neu",
-       "QQQ RSI(14) of 63.22 sits below the 70 overbought line while AAII bears are still 48.1%, so there is no crowd extreme for a contrarian to fade."
+       "QQQ RSI(14) of 63.22 sits below the 70 overbought line while AAII bears are still 48.1%, so there is no crowd extreme for a contrarian to fade.",
+       null
       ],
       [
        "bear",
-       "The buyback blackout into late October removes the megacap bid that has driven the concentration."
+       "The buyback blackout into late October removes the megacap bid that has driven the concentration.",
+       false
       ],
       [
        "bear",
-       "Oracle force majeure notice on the 2.5GW Project Jupiter campus knocked the shares 5% to 6% and was the session largest Nasdaq drag, the first public crack in a marquee AI buildout."
+       "Oracle force majeure notice on the 2.5GW Project Jupiter campus knocked the shares 5% to 6% and was the session largest Nasdaq drag, the first public crack in a marquee AI buildout.",
+       false
       ],
       [
        "neu",
-       "Friday brings only durable goods and the final University of Michigan reading."
+       "Friday brings only durable goods and the final University of Michigan reading.",
+       null
       ],
       [
        "bear",
-       "The last week of September is the weakest ten-day stretch of the calendar year."
+       "The last week of September is the weakest ten-day stretch of the calendar year.",
+       false
       ],
       [
        "bear",
-       "WTI rose 1.63% to 93.66 and QQQ correlation to oil over the window is -0.591, the most negative of the six assets."
+       "WTI rose 1.63% to 93.66 and QQQ correlation to oil over the window is -0.591, the most negative of the six assets.",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 30866.0,
+     "ret": 40.6489,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false
     },
     {
      "h": 5,
