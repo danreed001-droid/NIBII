@@ -33,6 +33,37 @@ FRED's DGS2 instead - confirmed working live (13,127 rows). Hourly intraday
 data (fetch_ohlc's interval='60m', used by mtl.structure) is also confirmed
 working for both an index ticker (^GSPC) and an ETF (TLT) - 35 bars each,
 current as of the live check.
+
+EQUITIES/QQQ/BONDS/IWM SWITCHED TO FUTURES - LIVE-VERIFIED 2026-09-25 (2nd check)
+----------------------------------------------------------------------------------
+Switched TICKERS to front-month futures wherever one exists on Yahoo, so the
+1D horizon's "1H structure" read (mtl.structure) sees real overnight/pre-open
+price action instead of a series that goes quiet outside cash-market hours -
+live-verified same-day, all four returning 5 daily rows and 102-103 hourly
+bars each: ES=F (S&P 500 e-mini, 7789.0), NQ=F (Nasdaq-100 e-mini, 30902.0),
+ZN=F (10-Year T-Note, 104.875), RTY=F (Russell 2000 e-mini, 2864.5).
+
+Two things worth knowing about this switch:
+- **NQ=F and RTY=F are INDEX-LEVEL futures, not QQQ/IWM ETF prices** - a
+  completely different scale (NQ=F trades around 30,000+, QQQ around
+  $700; RTY=F around 2,800+, IWM around $230), not a small basis like
+  gold's. scripts/render_html.py's TICKER display map was updated to show
+  the real ticker (NQ=F, RTY=F) rather than the old ETF label, so the
+  report never shows an index-point price under an ETF's name.
+- **ZN=F is a materially different instrument than TLT, not just a
+  rescaled version of it.** TLT tracks 20+ Year Treasuries; ZN=F is
+  10-Year T-Note futures - shorter duration, different rate sensitivity,
+  different price convention (points and fractions, ~104-115, vs TLT's
+  ETF share price). "Bonds" now means 10-year rate exposure via futures,
+  not TLT's own duration profile - a real, ongoing framing change future
+  sessions' judgment votes need to write around, not a rounding error.
+
+**DX=F does NOT exist on Yahoo - live-verified 404, same failure mode as
+the gold-ticker check.** TICKERS['dollar'] stays 'DX-Y.NYB' (the ICE cash
+index). It is FX-derived and updates near-continuously across the trading
+day since the underlying currency crosses trade ~24h on weekdays, but it
+is not a discrete futures contract like the other four - dollar is the one
+asset that did NOT get a true futures swap in this pass.
 """
 from datetime import date
 
@@ -43,8 +74,8 @@ FUTURES_GOLD_TICKER = 'GC=F'
 SPOT_GOLD_TICKER = FUTURES_GOLD_TICKER
 
 TICKERS = {
-    'equities': '^GSPC', 'bonds': 'TLT', 'gold': SPOT_GOLD_TICKER,
-    'dollar': 'DX-Y.NYB', 'iwm': 'IWM', 'qqq': 'QQQ',
+    'equities': 'ES=F', 'bonds': 'ZN=F', 'gold': SPOT_GOLD_TICKER,
+    'dollar': 'DX-Y.NYB', 'iwm': 'RTY=F', 'qqq': 'NQ=F',
 }
 SIGMA_TICKER = {
     'equities': '^VIX', 'bonds': None, 'gold': '^GVZ',
@@ -64,6 +95,12 @@ NOTE_YIELDS = ("^TNX/^FVX/^TYX/^IRX are all direct percent yields on Yahoo - liv
                "2026-09-25 (^TNX printed 5.1620 for a ~5.16% 10-year). The earlier yield*10 "
                "assumption was wrong and has been removed. yfinance has no clean 2-year series - "
                "fetch_ust2y_fred() sources FRED's DGS2 instead, also live-verified.")
+NOTE_FUTURES = ("Equities/qqq/bonds/iwm switched to futures for 24h coverage - "
+                 "live-verified 2026-09-25: ES=F, NQ=F, ZN=F, RTY=F all returned real daily and "
+                 "hourly data. DX=F does not exist on Yahoo (404, live-verified) so dollar stays "
+                 "on DX-Y.NYB, the ICE cash index - the one asset without a true futures source. "
+                 "ZN=F is 10-Year T-Note futures, a different instrument and duration than TLT, "
+                 "not a rescaled version of it.")
 
 
 def scaled_yield(raw: float, ticker: str) -> float:

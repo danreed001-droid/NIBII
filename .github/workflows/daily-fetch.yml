@@ -39,9 +39,6 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: TEMP diagnostic - verify candidate futures tickers
-        run: python scripts/verify_tickers.py ES=F NQ=F ZN=F DX=F RTY=F GC=F
-
       - name: Settle prior calls with now-available closes
         run: python scripts/settle.py
 

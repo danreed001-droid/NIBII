@@ -4,8 +4,12 @@ The arithmetic half of the daily cross-asset "Market Tape Ledger" cycle, lifted
 out of the Claude prompt and into version control.
 
 A thirteen-category vote model with a mean-reversion overlay calls **six
-markets** (SPX, TLT, spot gold, DXY, IWM, QQQ) bullish / bearish / flat over
-**1, 5 and 10 NYSE sessions** — 18 cells a day.
+markets** (SPX, 10-year Treasury futures, spot gold, DXY, Russell 2000 futures,
+Nasdaq-100 futures) bullish / bearish / flat over **1, 5 and 10 NYSE sessions**
+— 18 cells a day. Priced via futures (`ES=F`/`ZN=F`/`GC=F`/`RTY=F`/`NQ=F`)
+rather than the cash index/ETF wherever one exists on Yahoo, for 24h coverage
+— see "What `fetch.py` fixes" below for what changed and why dollar is the
+exception.
 
 ## Why this exists
 
@@ -59,10 +63,10 @@ assert verify_document(doc) == []
 | `bands.py` | `band(h) = 0.5 * (sigma/100) * sqrt(h/252)`, daily sigma, flat zones |
 | `resolve.py` | live gate (<7 -> no-call), margin, tier table, family map, cluster downgrade, shadow threshold |
 | `stretch.py` | stretch-v1: six components and their thresholds, label, `rides`/`opposes`/`none`, the margin-4 veto, the one-notch dampen. **Asserts the overlay can never flip a direction.** |
-| `score.py` | realized return, outcome vs band, `correct` / `shadowCorrect` / `preReversionCorrect`, vote marking, the `scored` flag |
+| `score.py` | realized return, outcome vs band, `correct` / `shadowCorrect` / `preReversionCorrect`, `real_result` (3-way: correct/incorrect/no-call, a directional call landing flat is a push not a miss), vote marking, the `scored` flag |
 | `calendar_nyse.py` | NYSE sessions, +1/+5/+10 maturities, holiday rolls |
 | `drivers.py` | correlations, betas, big-2Y-day subset, dominance at \|corr\| >= 0.40, plus `check_vote_signs` |
-| `record.py` | hit rate, edge units, by asset / horizon / tier, +4-vs-+3, overlay comparison **restricted to changed cells with retroactive documents segregated** |
+| `record.py` | hit rate, edge units, by asset / horizon / tier, **each paired with a Real Result rate that excludes no-call pushes**, +4-vs-+3, overlay comparison **restricted to changed cells with retroactive documents segregated** |
 | `verify.py` | recomputes every derived field from scratch; `assert_no_reason_drift` catches a reason string changing during scoring |
 | `fetch.py` | yfinance (+ FRED for the 2-year) layer. Computes RSI and moving averages **locally** from the close series |
 | `structure.py` | swing highs/lows and HH/HL/LH/LL trend labeling - see "Market structure" below |
@@ -73,7 +77,8 @@ assert verify_document(doc) == []
 Split across two runtimes, on purpose - each does only what it's actually
 suited for:
 
-**GitHub Actions** (`.github/workflows/daily-fetch.yml`, weekday mornings,
+**GitHub Actions** (`.github/workflows/daily-fetch.yml`, twice on weekdays -
+pre-open and mid-afternoon, see "What `fetch.py` fixes" for the exact times -
 also runnable manually via `workflow_dispatch`) owns everything that needs
 live market data, because it runs on GitHub's own infrastructure with
 normal outbound internet - unlike a Claude Code Remote sandbox, which
@@ -154,6 +159,40 @@ flagged unverified — a real live check then caught a real bug in it):
 `_assert_plausible_yield`/`_assert_plausible_gold` still guard both paths,
 so a future Yahoo format change fails loudly instead of publishing a
 silently wrong number again.
+
+**Equities/qqq/bonds/iwm switched to futures for 24h coverage — live-verified
+2026-09-25 (a second check).** `TICKERS` now reads `ES=F` (S&P 500 e-mini),
+`NQ=F` (Nasdaq-100 e-mini), `ZN=F` (10-Year T-Note) and `RTY=F` (Russell 2000
+e-mini) instead of `^GSPC`/`QQQ`/`TLT`/`IWM` — all four confirmed live with
+real daily and hourly (`interval="60m"`) data, motivated by the 1D horizon's
+"1H structure" read needing real pre-open/overnight price action rather than
+a series that goes flat outside cash-market hours. Two things worth knowing:
+
+- `NQ=F`/`RTY=F` trade at **index level**, not the old ETF's share price
+  (NQ=F ~30,000+ vs QQQ ~$700; RTY=F ~2,800+ vs IWM ~$230) — a real scale
+  change, not a small basis like gold's. `scripts/render_html.py`'s display
+  label was updated to show the real futures ticker rather than the old ETF
+  name, so the report never shows an index-point price under a $-per-share
+  label.
+- `ZN=F` is **10-Year T-Note futures, a different instrument than TLT** (20+
+  Year Treasuries) — shorter duration, different rate sensitivity, a
+  different price convention entirely (points and fractions, ~104–115).
+  "Bonds" now means 10-year rate exposure via futures, not TLT's own
+  duration profile — an ongoing framing change for future sessions'
+  judgment votes to write around, not a rounding error.
+- `DX=F` **does not exist on Yahoo — live-verified 404**, the same failure
+  mode as the gold-ticker check. `TICKERS['dollar']` stays `DX-Y.NYB` (the
+  ICE cash index): it updates near-continuously since the underlying FX
+  crosses trade ~24h on weekdays, but it is not a discrete futures contract
+  like the other four — dollar is the one asset without a true futures swap.
+
+`.github/workflows/daily-fetch.yml` now runs **twice a day** rather than
+once — 13:15 UTC (9:15am EDT / 8:15am EST, before the 9:30am ET open) and
+19:30 UTC (3:30pm EDT / 2:30pm EST, mid-afternoon) — since the futures
+tickers above actually have something fresh to report at both times.
+`scripts/settle.py` and `scripts/prepare_daily.py` were already idempotent
+(skip an already-settled horizon / an already-drafted date), so the second
+run needed no script changes, just the added cron entry.
 
 Also note the 52-week range here is on a **closing** basis over 252 sessions;
 vendor pages usually quote the wider intraday range.

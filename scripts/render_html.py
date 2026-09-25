@@ -31,8 +31,14 @@ STRETCH_TONE = {
     'stretched-up': '#ec835a', 'extreme-up': '#d03b3b',
 }
 TICKER = {
-    'equities': 'SPX', 'bonds': 'TLT', 'gold': 'XAU',
-    'dollar': 'DXY', 'iwm': 'IWM', 'qqq': 'QQQ',
+    # equities/gold keep a small-basis conceptual label (ES=F/GC=F trade
+    # close to ^GSPC/spot gold's own scale, same as the gold precedent).
+    # bonds/iwm/qqq show the real futures ticker instead of the old ETF
+    # label - NQ=F/RTY=F/ZN=F trade at a completely different scale than
+    # QQQ/IWM/TLT, so keeping the ETF label would show a wildly
+    # wrong-looking number under a familiar name (e.g. "QQQ: 30,902.00").
+    'equities': 'SPX', 'bonds': 'ZN=F', 'gold': 'XAU',
+    'dollar': 'DXY', 'iwm': 'RTY=F', 'qqq': 'NQ=F',
 }
 STRETCH_MIN, STRETCH_MAX = -6, 6
 E = html.escape
