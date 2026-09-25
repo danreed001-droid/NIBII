@@ -14,9 +14,9 @@ import os
 import sys
 
 CALL_STATUS = {
-    'bullish': ('good', '#0ca30c', '↑'),
-    'bearish': ('critical', '#d03b3b', '↓'),
-    'flat': ('flat', '#898781', '→'),
+    'bullish': ('good', '#0ca30c', '▲'),
+    'bearish': ('critical', '#d03b3b', '▼'),
+    'flat': ('flat', '#898781', '▬'),
     'no-call': ('warning', '#fab219', '?'),
 }
 VOTE_MARK = {'bull': ('good', '#0ca30c'), 'bear': ('critical', '#d03b3b'), 'neu': ('flat', '#898781')}
@@ -24,6 +24,11 @@ STRETCH_TONE = {
     'extreme-down': '#d03b3b', 'stretched-down': '#ec835a', 'neutral': '#898781',
     'stretched-up': '#ec835a', 'extreme-up': '#d03b3b',
 }
+TICKER = {
+    'equities': 'SPX', 'bonds': 'TLT', 'gold': 'XAU',
+    'dollar': 'DXY', 'iwm': 'IWM', 'qqq': 'QQQ',
+}
+STRETCH_MIN, STRETCH_MAX = -6, 6
 E = html.escape
 
 
@@ -36,10 +41,10 @@ def fmt_pct(v):
 
 
 def call_chip(call, confidence):
-    role, hexval, arrow = CALL_STATUS.get(call, ('flat', '#898781', '→'))
+    role, hexval, arrow = CALL_STATUS.get(call, ('flat', '#898781', '▬'))
     return (f'<span class="chip" style="--dot:{hexval}">'
-            f'<span class="dot" aria-hidden="true"></span>'
-            f'<span class="chip-label">{arrow} {E(call)}</span>'
+            f'<span class="chip-arrow">{arrow}</span>'
+            f'<span class="chip-label">{E(call)}</span>'
             f'<span class="chip-conf">{E(confidence)}</span></span>')
 
 
@@ -98,9 +103,26 @@ def catalyst_item(c):
             f'</span></li>')
 
 
+def stretch_gauge(score, label):
+    tone = STRETCH_TONE.get(label, '#898781')
+    clamped = max(STRETCH_MIN, min(STRETCH_MAX, score))
+    pct = (clamped - STRETCH_MIN) / (STRETCH_MAX - STRETCH_MIN) * 100
+    return f'''
+        <div class="gauge" style="--tone:{tone}" role="img"
+             aria-label="stretch score {score}, {E(label)}">
+          <div class="gauge-track">
+            <span class="gauge-mid"></span>
+            <span class="gauge-marker" style="left:{pct:.1f}%"></span>
+          </div>
+          <div class="gauge-foot">
+            <span class="gauge-score">{score:+d}</span>
+            <span class="gauge-label">{E(label)}</span>
+          </div>
+        </div>'''
+
+
 def asset_card(a, catalysts):
     st = a['stretch']
-    tone = STRETCH_TONE.get(st['label'], '#898781')
     horizons_html = "".join(horizon_block(a, h) for h in a['horizons'])
     drivers_html = "".join(f'<li>{E(d)}</li>' for d in st.get('drivers', []))
     drivers_block = f'<ul class="drivers">{drivers_html}</ul>' if drivers_html else ''
@@ -118,19 +140,56 @@ def asset_card(a, catalysts):
     <section class="asset">
       <header class="asset-head">
         <div>
+          <span class="asset-ticker">{E(TICKER.get(a['key'], a['key'].upper()))}</span>
           <h2>{E(a['name'])}</h2>
           <p class="instrument">{E(a['instrument'])} · close {fmt_price(a['close'])}</p>
         </div>
-        <div class="stretch" style="--tone:{tone}">
-          <span class="stretch-score">{st['score']:+d}</span>
-          <span class="stretch-label">{E(st['label'])}</span>
-        </div>
+        {stretch_gauge(st['score'], st['label'])}
       </header>
       <p class="driver-note">{E(a['driverNote'])}</p>
       {f'<details class="stretch-drivers"><summary>why this stretch score</summary>{drivers_block}</details>' if drivers_block else ''}
       {catalysts_block}
       <div class="horizons">{horizons_html}</div>
     </section>'''
+
+
+def ticker_strip(doc):
+    items = []
+    for a in doc['assets']:
+        h1 = next(h for h in a['horizons'] if h['h'] == 1)
+        role, hexval, arrow = CALL_STATUS.get(h1['call'], ('flat', '#898781', '▬'))
+        items.append(f'''
+      <div class="tape-item" style="--dot:{hexval}">
+        <span class="tape-ticker">{E(TICKER.get(a['key'], a['key'].upper()))}</span>
+        <span class="tape-price">{fmt_price(a['close'])}</span>
+        <span class="tape-call">{arrow} {E(h1['call'])}</span>
+      </div>''')
+    return "".join(items)
+
+
+def stat_tiles(doc):
+    calls = [h['call'] for a in doc['assets'] for h in a['horizons']]
+    n_bull, n_bear = calls.count('bullish'), calls.count('bearish')
+    n_flat, n_nocall = calls.count('flat'), calls.count('no-call')
+
+    extreme = max(doc['assets'], key=lambda a: abs(a['stretch']['score']))
+    ex_tone = STRETCH_TONE.get(extreme['stretch']['label'], '#898781')
+
+    def tile(label, value, sub='', tone=None):
+        style = f' style="--tone:{tone}"' if tone else ''
+        cls = 'stat-tile toned' if tone else 'stat-tile'
+        return (f'<div class="{cls}"{style}><span class="stat-label">{E(label)}</span>'
+                f'<span class="stat-value">{value}</span>'
+                f'{f"<span class=stat-sub>{E(sub)}</span>" if sub else ""}</div>')
+
+    return (
+        tile('Bullish calls', n_bull, f'of 18') +
+        tile('Bearish calls', n_bear, f'of 18') +
+        tile('Flat / no-call', n_flat + n_nocall, f'of 18') +
+        tile('Overlay reweighted', doc['overlay']['cellsChanged'], 'of 18 cells') +
+        tile('Most stretched', f"{TICKER.get(extreme['key'], extreme['key'].upper())} {extreme['stretch']['score']:+d}",
+             extreme['stretch']['label'], tone=ex_tone)
+    )
 
 
 def summary_chips(doc):
@@ -148,75 +207,127 @@ def summary_chips(doc):
 PAGE = '''<title>Market Tape Ledger</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root {{
-  --bg: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e;
-  --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6;
+  --bg: #f4f3ef; --surface: #fdfdfc; --ink: #0b0c0e; --ink-2: #52514e;
+  --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
+  --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
   color-scheme: light;
 }}
 @media (prefers-color-scheme: dark) {{
   :root:not([data-theme="light"]) {{
-    --bg: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7;
-    --muted: #898781; --hairline: #2c2c2a; --accent: #3987e5;
+    --bg: #0d0d0d; --surface: #17181a; --ink: #ffffff; --ink-2: #c3c2b7;
+    --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
+    --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
     color-scheme: dark;
   }}
 }}
 :root[data-theme="dark"] {{
-  --bg: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7;
-  --muted: #898781; --hairline: #2c2c2a; --accent: #3987e5;
+  --bg: #0d0d0d; --surface: #17181a; --ink: #ffffff; --ink-2: #c3c2b7;
+  --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
+  --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   color-scheme: dark;
 }}
 * {{ box-sizing: border-box; }}
 body {{
-  background: var(--bg); color: var(--ink);
-  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
-  padding-inline: 16px; padding-block: 32px 64px; max-width: 880px; margin-inline: auto;
+  background: var(--bg); color: var(--ink); margin: 0;
+  font: 15px/1.55 "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
 }}
+.wrap {{ max-width: 920px; margin-inline: auto; padding-inline: 16px; padding-block: 0 64px; }}
 h1, h2 {{ font-family: "Fraunces", Georgia, serif; text-wrap: balance; margin: 0; }}
-h1 {{ font-size: 2rem; font-weight: 600; }}
-h2 {{ font-size: 1.15rem; font-weight: 600; }}
-.header {{ display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }}
-.header-top {{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; justify-content: space-between; }}
-.date {{ font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--ink-2); font-size: 0.95rem; }}
-.subtitle {{ color: var(--ink-2); margin: 0; }}
-.summary-row {{ display: flex; flex-wrap: wrap; gap: 8px; margin-block: 16px 28px; }}
-.summary-chip {{
-  display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem;
-  padding: 4px 10px 4px 8px; border: 1px solid var(--hairline); border-radius: 999px;
-  color: var(--ink-2); background: var(--surface);
+code {{ font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }}
+
+/* masthead */
+.masthead {{ background: var(--masthead-bg); color: var(--masthead-ink); }}
+.masthead-inner {{
+  max-width: 920px; margin-inline: auto; padding: 28px 16px 22px;
+  border-bottom: 2px solid var(--gold);
 }}
-.dot {{ width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex-shrink: 0; }}
+.eyebrow {{
+  font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600; margin: 0 0 6px;
+}}
+.masthead-top {{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; justify-content: space-between; }}
+h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
+.date {{ font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--masthead-ink-2); font-size: 0.95rem; }}
+.subtitle {{ color: var(--masthead-ink-2); margin: 8px 0 0; font-size: 0.92rem; }}
+
+/* ticker strip */
+.tape {{
+  display: flex; flex-wrap: wrap; gap: 0; margin-top: 20px;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; overflow: hidden;
+}}
+.tape-item {{
+  flex: 1 1 140px; display: flex; flex-direction: column; gap: 2px;
+  padding: 10px 14px; border-right: 1px solid rgba(255,255,255,0.12);
+  border-top: 3px solid var(--dot);
+}}
+.tape-item:last-child {{ border-right: none; }}
+.tape-ticker {{ font-family: ui-monospace, monospace; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--masthead-ink-2); }}
+.tape-price {{ font-family: ui-monospace, monospace; font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink); }}
+.tape-call {{ font-size: 0.75rem; color: var(--dot); font-weight: 600; text-transform: capitalize; }}
+
+/* stat tiles */
+.stats {{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--hairline);
+  border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; margin-top: -1px; }}
+@media (max-width: 720px) {{ .stats {{ grid-template-columns: repeat(2, 1fr); }} }}
+.stat-tile {{ background: var(--surface); padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }}
+.stat-tile.toned {{ border-top: 3px solid var(--tone); }}
+.stat-label {{ font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }}
+.stat-value {{ font-family: ui-monospace, monospace; font-size: 1.4rem; font-weight: 600; font-variant-numeric: tabular-nums; }}
+.stat-sub {{ font-size: 0.72rem; color: var(--ink-2); text-transform: capitalize; }}
+
+.section-label {{
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  font-weight: 600; margin: 36px 0 12px;
+}}
+
+/* asset cards */
 .asset {{
   background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px;
-  padding: 20px; margin-bottom: 18px;
+  padding: 22px; margin-bottom: 18px; box-shadow: 0 1px 2px rgba(11,12,14,0.04), 0 8px 20px -12px rgba(11,12,14,0.12);
 }}
-.asset-head {{ display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }}
+.asset-head {{ display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }}
+.asset-ticker {{
+  display: inline-block; font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.06em; color: var(--gold); background: color-mix(in srgb, var(--gold) 14%, transparent);
+  padding: 2px 7px; border-radius: 5px; margin-bottom: 6px;
+}}
 .instrument {{ margin: 3px 0 0; color: var(--ink-2); font-size: 0.88rem; font-variant-numeric: tabular-nums; }}
-.stretch {{
-  display: flex; align-items: baseline; gap: 6px; border-left: 3px solid var(--tone);
-  padding-left: 10px; white-space: nowrap;
+
+/* stretch gauge */
+.gauge {{ min-width: 190px; }}
+.gauge-track {{ position: relative; height: 6px; border-radius: 999px; background: var(--hairline); margin-bottom: 8px; }}
+.gauge-mid {{ position: absolute; left: 50%; top: -3px; width: 1px; height: 12px; background: var(--muted); }}
+.gauge-marker {{
+  position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--tone); border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--tone);
+  transform: translate(-50%, -50%);
 }}
-.stretch-score {{ font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 1.1rem; font-weight: 600; }}
-.stretch-label {{ color: var(--ink-2); font-size: 0.85rem; }}
-.driver-note {{ color: var(--ink-2); font-size: 0.92rem; margin: 12px 0 0; }}
+.gauge-foot {{ display: flex; align-items: baseline; gap: 8px; justify-content: flex-end; }}
+.gauge-score {{ font-family: ui-monospace, monospace; font-size: 1.15rem; font-weight: 600; color: var(--tone); }}
+.gauge-label {{ color: var(--ink-2); font-size: 0.85rem; }}
+
+.driver-note {{ color: var(--ink-2); font-size: 0.92rem; margin: 14px 0 0; }}
 .stretch-drivers {{ margin-top: 8px; }}
 .stretch-drivers summary {{ cursor: pointer; color: var(--accent); font-size: 0.85rem; }}
 .stretch-drivers ul {{ margin: 8px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 0.85rem; }}
-.horizons {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }}
+.horizons {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }}
 @media (max-width: 620px) {{ .horizons {{ grid-template-columns: 1fr; }} }}
 .horizon {{ border: 1px solid var(--hairline); border-radius: 10px; padding: 12px; }}
-.horizon-head {{ display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }}
-.horizon-h {{ font-weight: 600; font-family: ui-monospace, monospace; }}
-.horizon-maturity {{ font-size: 0.75rem; color: var(--muted); }}
+.horizon-head {{ display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }}
+.horizon-h {{ font-weight: 700; font-family: ui-monospace, monospace; letter-spacing: 0.02em; }}
+.horizon-maturity {{ font-size: 0.72rem; color: var(--muted); }}
 .chip {{
   display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--hairline);
   border-radius: 999px; padding: 4px 10px 4px 8px; font-size: 0.85rem;
 }}
-.chip-label {{ text-transform: capitalize; font-weight: 500; }}
+.chip-arrow {{ color: var(--dot); font-size: 0.7rem; }}
+.chip-label {{ text-transform: capitalize; font-weight: 600; }}
 .chip-conf {{ color: var(--muted); font-size: 0.78rem; }}
 .horizon-stats {{
-  display: flex; flex-direction: column; gap: 2px; margin-top: 8px;
+  display: flex; flex-direction: column; gap: 2px; margin-top: 10px;
   font-size: 0.78rem; color: var(--ink-2); font-variant-numeric: tabular-nums;
 }}
 .reversion {{ font-size: 0.78rem; margin: 8px 0 0; color: var(--ink); }}
@@ -225,12 +336,13 @@ h2 {{ font-size: 1.15rem; font-weight: 600; }}
 .votes summary {{ cursor: pointer; color: var(--accent); font-size: 0.82rem; }}
 .votes ul {{ list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }}
 .vote {{ display: flex; align-items: flex-start; gap: 7px; font-size: 0.82rem; color: var(--ink-2); }}
+.dot {{ width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex-shrink: 0; }}
 .vote .dot {{ margin-top: 6px; }}
 .vote-text {{ flex: 1; }}
 .vote-mark {{ font-size: 0.7rem; white-space: nowrap; padding: 1px 6px; border-radius: 999px; }}
 .vote-mark.hit {{ color: #0ca30c; border: 1px solid #0ca30c; }}
 .vote-mark.miss {{ color: #d03b3b; border: 1px solid #d03b3b; }}
-.catalysts {{ margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 12px; }}
+.catalysts {{ margin-top: 16px; border-top: 1px solid var(--hairline); padding-top: 12px; }}
 .catalysts summary {{ cursor: pointer; color: var(--accent); font-size: 0.85rem; }}
 .catalysts ul {{ list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }}
 .catalyst {{ display: flex; align-items: flex-start; gap: 8px; }}
@@ -242,18 +354,22 @@ footer {{ margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--hairl
 footer a {{ color: var(--accent); }}
 </style>
 
-<div class="header">
-  <div class="header-top">
-    <h1>Market Tape Ledger</h1>
-    <span class="date">{date}</span>
+<div class="masthead">
+  <div class="masthead-inner">
+    <p class="eyebrow">Daily Briefing</p>
+    <div class="masthead-top">
+      <h1>Market Tape Ledger</h1>
+      <span class="date">{date}</span>
+    </div>
+    <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a twelve-category vote model, with a stretch/mean-reversion overlay.</p>
+    <div class="tape">{tape}</div>
   </div>
-  <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a twelve-category vote model, with a stretch/mean-reversion overlay.</p>
-</div>
-<div class="summary-row">{summary}
-  <span class="summary-chip">overlay changed {changed} of 18 cells</span>
-  <span class="summary-chip">{scored_label}</span>
 </div>
 
+<div class="wrap">
+<div class="stats">{stats}</div>
+
+<p class="section-label">The board</p>
 {assets}
 
 <footer>
@@ -264,6 +380,7 @@ footer a {{ color: var(--accent); }}
   <code>mtl.verify.verify_document</code> recomputes it independently. Unsettled cells show no
   correctness mark until their maturity date passes.
 </footer>
+</div>
 '''
 
 
@@ -296,9 +413,7 @@ def render(doc: dict) -> str:
         for a in doc['assets']
     )
     return PAGE.format(
-        date=doc['date'], summary=summary_chips(doc),
-        changed=doc['overlay']['cellsChanged'],
-        scored_label="scored" if doc['scored'] else "awaiting settlement",
+        date=doc['date'], tape=ticker_strip(doc), stats=stat_tiles(doc),
         assets=assets_html,
     )
 

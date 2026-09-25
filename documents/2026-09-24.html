@@ -1,75 +1,127 @@
 <title>Market Tape Ledger</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e;
-  --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6;
+  --bg: #f4f3ef; --surface: #fdfdfc; --ink: #0b0c0e; --ink-2: #52514e;
+  --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
+  --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7;
-    --muted: #898781; --hairline: #2c2c2a; --accent: #3987e5;
+    --bg: #0d0d0d; --surface: #17181a; --ink: #ffffff; --ink-2: #c3c2b7;
+    --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
+    --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7;
-  --muted: #898781; --hairline: #2c2c2a; --accent: #3987e5;
+  --bg: #0d0d0d; --surface: #17181a; --ink: #ffffff; --ink-2: #c3c2b7;
+  --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
+  --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body {
-  background: var(--bg); color: var(--ink);
-  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
-  padding-inline: 16px; padding-block: 32px 64px; max-width: 880px; margin-inline: auto;
+  background: var(--bg); color: var(--ink); margin: 0;
+  font: 15px/1.55 "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
+.wrap { max-width: 920px; margin-inline: auto; padding-inline: 16px; padding-block: 0 64px; }
 h1, h2 { font-family: "Fraunces", Georgia, serif; text-wrap: balance; margin: 0; }
-h1 { font-size: 2rem; font-weight: 600; }
-h2 { font-size: 1.15rem; font-weight: 600; }
-.header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
-.header-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; justify-content: space-between; }
-.date { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--ink-2); font-size: 0.95rem; }
-.subtitle { color: var(--ink-2); margin: 0; }
-.summary-row { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 16px 28px; }
-.summary-chip {
-  display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem;
-  padding: 4px 10px 4px 8px; border: 1px solid var(--hairline); border-radius: 999px;
-  color: var(--ink-2); background: var(--surface);
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+
+/* masthead */
+.masthead { background: var(--masthead-bg); color: var(--masthead-ink); }
+.masthead-inner {
+  max-width: 920px; margin-inline: auto; padding: 28px 16px 22px;
+  border-bottom: 2px solid var(--gold);
 }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex-shrink: 0; }
+.eyebrow {
+  font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600; margin: 0 0 6px;
+}
+.masthead-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; justify-content: space-between; }
+h1 { font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }
+.date { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--masthead-ink-2); font-size: 0.95rem; }
+.subtitle { color: var(--masthead-ink-2); margin: 8px 0 0; font-size: 0.92rem; }
+
+/* ticker strip */
+.tape {
+  display: flex; flex-wrap: wrap; gap: 0; margin-top: 20px;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; overflow: hidden;
+}
+.tape-item {
+  flex: 1 1 140px; display: flex; flex-direction: column; gap: 2px;
+  padding: 10px 14px; border-right: 1px solid rgba(255,255,255,0.12);
+  border-top: 3px solid var(--dot);
+}
+.tape-item:last-child { border-right: none; }
+.tape-ticker { font-family: ui-monospace, monospace; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--masthead-ink-2); }
+.tape-price { font-family: ui-monospace, monospace; font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink); }
+.tape-call { font-size: 0.75rem; color: var(--dot); font-weight: 600; text-transform: capitalize; }
+
+/* stat tiles */
+.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--hairline);
+  border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; margin-top: -1px; }
+@media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+.stat-tile { background: var(--surface); padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.stat-tile.toned { border-top: 3px solid var(--tone); }
+.stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.stat-value { font-family: ui-monospace, monospace; font-size: 1.4rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat-sub { font-size: 0.72rem; color: var(--ink-2); text-transform: capitalize; }
+
+.section-label {
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  font-weight: 600; margin: 36px 0 12px;
+}
+
+/* asset cards */
 .asset {
   background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px;
-  padding: 20px; margin-bottom: 18px;
+  padding: 22px; margin-bottom: 18px; box-shadow: 0 1px 2px rgba(11,12,14,0.04), 0 8px 20px -12px rgba(11,12,14,0.12);
 }
-.asset-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.asset-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+.asset-ticker {
+  display: inline-block; font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.06em; color: var(--gold); background: color-mix(in srgb, var(--gold) 14%, transparent);
+  padding: 2px 7px; border-radius: 5px; margin-bottom: 6px;
+}
 .instrument { margin: 3px 0 0; color: var(--ink-2); font-size: 0.88rem; font-variant-numeric: tabular-nums; }
-.stretch {
-  display: flex; align-items: baseline; gap: 6px; border-left: 3px solid var(--tone);
-  padding-left: 10px; white-space: nowrap;
+
+/* stretch gauge */
+.gauge { min-width: 190px; }
+.gauge-track { position: relative; height: 6px; border-radius: 999px; background: var(--hairline); margin-bottom: 8px; }
+.gauge-mid { position: absolute; left: 50%; top: -3px; width: 1px; height: 12px; background: var(--muted); }
+.gauge-marker {
+  position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--tone); border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--tone);
+  transform: translate(-50%, -50%);
 }
-.stretch-score { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 1.1rem; font-weight: 600; }
-.stretch-label { color: var(--ink-2); font-size: 0.85rem; }
-.driver-note { color: var(--ink-2); font-size: 0.92rem; margin: 12px 0 0; }
+.gauge-foot { display: flex; align-items: baseline; gap: 8px; justify-content: flex-end; }
+.gauge-score { font-family: ui-monospace, monospace; font-size: 1.15rem; font-weight: 600; color: var(--tone); }
+.gauge-label { color: var(--ink-2); font-size: 0.85rem; }
+
+.driver-note { color: var(--ink-2); font-size: 0.92rem; margin: 14px 0 0; }
 .stretch-drivers { margin-top: 8px; }
 .stretch-drivers summary { cursor: pointer; color: var(--accent); font-size: 0.85rem; }
 .stretch-drivers ul { margin: 8px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 0.85rem; }
-.horizons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.horizons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
 @media (max-width: 620px) { .horizons { grid-template-columns: 1fr; } }
 .horizon { border: 1px solid var(--hairline); border-radius: 10px; padding: 12px; }
-.horizon-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-.horizon-h { font-weight: 600; font-family: ui-monospace, monospace; }
-.horizon-maturity { font-size: 0.75rem; color: var(--muted); }
+.horizon-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.horizon-h { font-weight: 700; font-family: ui-monospace, monospace; letter-spacing: 0.02em; }
+.horizon-maturity { font-size: 0.72rem; color: var(--muted); }
 .chip {
   display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--hairline);
   border-radius: 999px; padding: 4px 10px 4px 8px; font-size: 0.85rem;
 }
-.chip-label { text-transform: capitalize; font-weight: 500; }
+.chip-arrow { color: var(--dot); font-size: 0.7rem; }
+.chip-label { text-transform: capitalize; font-weight: 600; }
 .chip-conf { color: var(--muted); font-size: 0.78rem; }
 .horizon-stats {
-  display: flex; flex-direction: column; gap: 2px; margin-top: 8px;
+  display: flex; flex-direction: column; gap: 2px; margin-top: 10px;
   font-size: 0.78rem; color: var(--ink-2); font-variant-numeric: tabular-nums;
 }
 .reversion { font-size: 0.78rem; margin: 8px 0 0; color: var(--ink); }
@@ -78,12 +130,13 @@ h2 { font-size: 1.15rem; font-weight: 600; }
 .votes summary { cursor: pointer; color: var(--accent); font-size: 0.82rem; }
 .votes ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
 .vote { display: flex; align-items: flex-start; gap: 7px; font-size: 0.82rem; color: var(--ink-2); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex-shrink: 0; }
 .vote .dot { margin-top: 6px; }
 .vote-text { flex: 1; }
 .vote-mark { font-size: 0.7rem; white-space: nowrap; padding: 1px 6px; border-radius: 999px; }
 .vote-mark.hit { color: #0ca30c; border: 1px solid #0ca30c; }
 .vote-mark.miss { color: #d03b3b; border: 1px solid #d03b3b; }
-.catalysts { margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 12px; }
+.catalysts { margin-top: 16px; border-top: 1px solid var(--hairline); padding-top: 12px; }
 .catalysts summary { cursor: pointer; color: var(--accent); font-size: 0.85rem; }
 .catalysts ul { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .catalyst { display: flex; align-items: flex-start; gap: 8px; }
@@ -95,28 +148,71 @@ footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--hairli
 footer a { color: var(--accent); }
 </style>
 
-<div class="header">
-  <div class="header-top">
-    <h1>Market Tape Ledger</h1>
-    <span class="date">2026-09-24</span>
+<div class="masthead">
+  <div class="masthead-inner">
+    <p class="eyebrow">Daily Briefing</p>
+    <div class="masthead-top">
+      <h1>Market Tape Ledger</h1>
+      <span class="date">2026-09-24</span>
+    </div>
+    <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a twelve-category vote model, with a stretch/mean-reversion overlay.</p>
+    <div class="tape">
+      <div class="tape-item" style="--dot:#898781">
+        <span class="tape-ticker">SPX</span>
+        <span class="tape-price">7,704.13</span>
+        <span class="tape-call">▬ flat</span>
+      </div>
+      <div class="tape-item" style="--dot:#d03b3b">
+        <span class="tape-ticker">TLT</span>
+        <span class="tape-price">79.42</span>
+        <span class="tape-call">▼ bearish</span>
+      </div>
+      <div class="tape-item" style="--dot:#d03b3b">
+        <span class="tape-ticker">XAU</span>
+        <span class="tape-price">4,286.06</span>
+        <span class="tape-call">▼ bearish</span>
+      </div>
+      <div class="tape-item" style="--dot:#0ca30c">
+        <span class="tape-ticker">DXY</span>
+        <span class="tape-price">101.09</span>
+        <span class="tape-call">▲ bullish</span>
+      </div>
+      <div class="tape-item" style="--dot:#d03b3b">
+        <span class="tape-ticker">IWM</span>
+        <span class="tape-price">281.66</span>
+        <span class="tape-call">▼ bearish</span>
+      </div>
+      <div class="tape-item" style="--dot:#d03b3b">
+        <span class="tape-ticker">QQQ</span>
+        <span class="tape-price">741.10</span>
+        <span class="tape-call">▼ bearish</span>
+      </div></div>
   </div>
-  <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a twelve-category vote model, with a stretch/mean-reversion overlay.</p>
-</div>
-<div class="summary-row"><span class="summary-chip" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span>2 bullish</span><span class="summary-chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span>8 bearish</span><span class="summary-chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>8 flat</span>
-  <span class="summary-chip">overlay changed 5 of 18 cells</span>
-  <span class="summary-chip">awaiting settlement</span>
 </div>
 
+<div class="wrap">
+<div class="stats"><div class="stat-tile"><span class="stat-label">Bullish calls</span><span class="stat-value">2</span><span class=stat-sub>of 18</span></div><div class="stat-tile"><span class="stat-label">Bearish calls</span><span class="stat-value">8</span><span class=stat-sub>of 18</span></div><div class="stat-tile"><span class="stat-label">Flat / no-call</span><span class="stat-value">8</span><span class=stat-sub>of 18</span></div><div class="stat-tile"><span class="stat-label">Overlay reweighted</span><span class="stat-value">5</span><span class=stat-sub>of 18 cells</span></div><div class="stat-tile toned" style="--tone:#d03b3b"><span class="stat-label">Most stretched</span><span class="stat-value">TLT -4</span><span class=stat-sub>extreme-down</span></div></div>
+
+<p class="section-label">The board</p>
 
     <section class="asset">
       <header class="asset-head">
         <div>
+          <span class="asset-ticker">SPX</span>
           <h2>S&amp;P 500</h2>
           <p class="instrument">SPX index close · close 7,704.13</p>
         </div>
-        <div class="stretch" style="--tone:#898781">
-          <span class="stretch-score">+1</span>
-          <span class="stretch-label">neutral</span>
+        
+        <div class="gauge" style="--tone:#898781" role="img"
+             aria-label="stretch score 1, neutral">
+          <div class="gauge-track">
+            <span class="gauge-mid"></span>
+            <span class="gauge-marker" style="left:58.3%"></span>
+          </div>
+          <div class="gauge-foot">
+            <span class="gauge-score">+1</span>
+            <span class="gauge-label">neutral</span>
+          </div>
         </div>
       </header>
       <p class="driver-note">Over the 21-session window the S&amp;P 500&#x27;s dominant driver is the 10-year yield (corr -0.639), with oil (-0.532) and the 2-year (-0.473) behind it; that sign is why Rates and Cross-asset both vote bear on a day the 10-year set a 19-year high and WTI rose 1.63%.</p>
@@ -132,7 +228,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">1D</span>
         <span class="horizon-maturity">matures 2026-09-25</span>
       </div>
-      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <span class="chip" style="--dot:#898781"><span class="chip-arrow">▬</span><span class="chip-label">flat</span><span class="chip-conf">flat-lean</span></span>
       <div class="horizon-stats">
         <span>4 bull / 6 bear / 2 neu · margin 2</span>
         <span>flat zone 7,666.10–7,742.16</span>
@@ -148,7 +244,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">5D</span>
         <span class="horizon-maturity">matures 2026-10-01</span>
       </div>
-      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <span class="chip" style="--dot:#898781"><span class="chip-arrow">▬</span><span class="chip-label">flat</span><span class="chip-conf">flat-lean</span></span>
       <div class="horizon-stats">
         <span>4 bull / 6 bear / 2 neu · margin 2</span>
         <span>flat zone 7,619.11–7,789.15</span>
@@ -164,7 +260,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">10D</span>
         <span class="horizon-maturity">matures 2026-10-08</span>
       </div>
-      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <span class="chip" style="--dot:#898781"><span class="chip-arrow">▬</span><span class="chip-label">flat</span><span class="chip-conf">flat-lean</span></span>
       <div class="horizon-stats">
         <span>6 bull / 4 bear / 2 neu · margin 2</span>
         <span>flat zone 7,583.88–7,824.38</span>
@@ -179,12 +275,21 @@ footer a { color: var(--accent); }
     <section class="asset">
       <header class="asset-head">
         <div>
+          <span class="asset-ticker">TLT</span>
           <h2>iShares 20+ Year Treasury ETF</h2>
           <p class="instrument">TLT closing price · close 79.42</p>
         </div>
-        <div class="stretch" style="--tone:#d03b3b">
-          <span class="stretch-score">-4</span>
-          <span class="stretch-label">extreme-down</span>
+        
+        <div class="gauge" style="--tone:#d03b3b" role="img"
+             aria-label="stretch score -4, extreme-down">
+          <div class="gauge-track">
+            <span class="gauge-mid"></span>
+            <span class="gauge-marker" style="left:16.7%"></span>
+          </div>
+          <div class="gauge-foot">
+            <span class="gauge-score">-4</span>
+            <span class="gauge-label">extreme-down</span>
+          </div>
         </div>
       </header>
       <p class="driver-note">TLT&#x27;s dominant driver is the 10-year yield (corr -0.828), with the 2-year at -0.623 and oil at -0.461; every hawkish and every oil-up fact therefore votes bear, and the bull votes are confined to quarter-end flows, the October seasonal and the documented rate-vol panic extreme.</p>
@@ -200,7 +305,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">1D</span>
         <span class="horizon-maturity">matures 2026-09-25</span>
       </div>
-      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">solid</span></span>
+      <span class="chip" style="--dot:#d03b3b"><span class="chip-arrow">▼</span><span class="chip-label">bearish</span><span class="chip-conf">solid</span></span>
       <div class="horizon-stats">
         <span>0 bull / 9 bear / 3 neu · margin 9</span>
         <span>flat zone 79.09–79.75</span>
@@ -216,7 +321,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">5D</span>
         <span class="horizon-maturity">matures 2026-10-01</span>
       </div>
-      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">solid</span></span>
+      <span class="chip" style="--dot:#d03b3b"><span class="chip-arrow">▼</span><span class="chip-label">bearish</span><span class="chip-conf">solid</span></span>
       <div class="horizon-stats">
         <span>2 bull / 9 bear / 1 neu · margin 7</span>
         <span>flat zone 78.67–80.17</span>
@@ -232,7 +337,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">10D</span>
         <span class="horizon-maturity">matures 2026-10-08</span>
       </div>
-      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <span class="chip" style="--dot:#898781"><span class="chip-arrow">▬</span><span class="chip-label">flat</span><span class="chip-conf">flat-lean</span></span>
       <div class="horizon-stats">
         <span>3 bull / 7 bear / 2 neu · margin 4</span>
         <span>flat zone 78.36–80.48</span>
@@ -247,12 +352,21 @@ footer a { color: var(--accent); }
     <section class="asset">
       <header class="asset-head">
         <div>
+          <span class="asset-ticker">XAU</span>
           <h2>Spot gold</h2>
           <p class="instrument">XAU/USD close · close 4,286.06</p>
         </div>
-        <div class="stretch" style="--tone:#898781">
-          <span class="stretch-score">+0</span>
-          <span class="stretch-label">neutral</span>
+        
+        <div class="gauge" style="--tone:#898781" role="img"
+             aria-label="stretch score 0, neutral">
+          <div class="gauge-track">
+            <span class="gauge-mid"></span>
+            <span class="gauge-marker" style="left:50.0%"></span>
+          </div>
+          <div class="gauge-foot">
+            <span class="gauge-score">+0</span>
+            <span class="gauge-label">neutral</span>
+          </div>
         </div>
       </header>
       <p class="driver-note">Gold&#x27;s dominant driver remains the 2-year yield (corr -0.594, beta -0.164% per bp, -0.799 on big 2Y days), with the dollar at -0.576 and oil at only -0.296; &#x27;higher oil supports gold&#x27; is therefore an invalid bull reason and the Cross-asset vote is signed bear through the hike-odds channel.</p>
@@ -268,7 +382,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">1D</span>
         <span class="horizon-maturity">matures 2026-09-25</span>
       </div>
-      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">lean</span></span>
+      <span class="chip" style="--dot:#d03b3b"><span class="chip-arrow">▼</span><span class="chip-label">bearish</span><span class="chip-conf">lean</span></span>
       <div class="horizon-stats">
         <span>2 bull / 6 bear / 4 neu · margin 4</span>
         <span>flat zone 4,255.32–4,316.80</span>
@@ -284,7 +398,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">5D</span>
         <span class="horizon-maturity">matures 2026-10-01</span>
       </div>
-      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">lean</span></span>
+      <span class="chip" style="--dot:#d03b3b"><span class="chip-arrow">▼</span><span class="chip-label">bearish</span><span class="chip-conf">lean</span></span>
       <div class="horizon-stats">
         <span>2 bull / 6 bear / 4 neu · margin 4</span>
         <span>flat zone 4,217.32–4,354.80</span>
@@ -300,7 +414,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">10D</span>
         <span class="horizon-maturity">matures 2026-10-08</span>
       </div>
-      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-solid</span></span>
+      <span class="chip" style="--dot:#898781"><span class="chip-arrow">▬</span><span class="chip-label">flat</span><span class="chip-conf">flat-solid</span></span>
       <div class="horizon-stats">
         <span>3 bull / 4 bear / 5 neu · margin 1</span>
         <span>flat zone 4,188.86–4,383.26</span>
@@ -315,12 +429,21 @@ footer a { color: var(--accent); }
     <section class="asset">
       <header class="asset-head">
         <div>
+          <span class="asset-ticker">DXY</span>
           <h2>US Dollar Index</h2>
           <p class="instrument">DXY close · close 101.09</p>
         </div>
-        <div class="stretch" style="--tone:#d03b3b">
-          <span class="stretch-score">+3</span>
-          <span class="stretch-label">extreme-up</span>
+        
+        <div class="gauge" style="--tone:#d03b3b" role="img"
+             aria-label="stretch score 3, extreme-up">
+          <div class="gauge-track">
+            <span class="gauge-mid"></span>
+            <span class="gauge-marker" style="left:75.0%"></span>
+          </div>
+          <div class="gauge-foot">
+            <span class="gauge-score">+3</span>
+            <span class="gauge-label">extreme-up</span>
+          </div>
         </div>
       </header>
       <p class="driver-note">The dollar&#x27;s dominant driver is the 2-year yield (corr +0.629, +0.818 on big 2Y days), the only asset of the six with a positive rate correlation; rising hike odds are therefore signed bullish, and the risk-on facts (tight credit, the tariff truce) are the bear side.</p>
@@ -332,7 +455,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">1D</span>
         <span class="horizon-maturity">matures 2026-09-25</span>
       </div>
-      <span class="chip" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="chip-label">↑ bullish</span><span class="chip-conf">lean</span></span>
+      <span class="chip" style="--dot:#0ca30c"><span class="chip-arrow">▲</span><span class="chip-label">bullish</span><span class="chip-conf">lean</span></span>
       <div class="horizon-stats">
         <span>7 bull / 2 bear / 3 neu · margin 5</span>
         <span>flat zone 100.94–101.24</span>
@@ -348,7 +471,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">5D</span>
         <span class="horizon-maturity">matures 2026-10-01</span>
       </div>
-      <span class="chip" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="chip-label">↑ bullish</span><span class="chip-conf">lean</span></span>
+      <span class="chip" style="--dot:#0ca30c"><span class="chip-arrow">▲</span><span class="chip-label">bullish</span><span class="chip-conf">lean</span></span>
       <div class="horizon-stats">
         <span>8 bull / 2 bear / 2 neu · margin 6</span>
         <span>flat zone 100.75–101.43</span>
@@ -364,7 +487,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">10D</span>
         <span class="horizon-maturity">matures 2026-10-08</span>
       </div>
-      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <span class="chip" style="--dot:#898781"><span class="chip-arrow">▬</span><span class="chip-label">flat</span><span class="chip-conf">flat-lean</span></span>
       <div class="horizon-stats">
         <span>5 bull / 2 bear / 5 neu · margin 3</span>
         <span>flat zone 100.61–101.57</span>
@@ -379,12 +502,21 @@ footer a { color: var(--accent); }
     <section class="asset">
       <header class="asset-head">
         <div>
+          <span class="asset-ticker">IWM</span>
           <h2>iShares Russell 2000 ETF</h2>
           <p class="instrument">IWM closing price · close 281.66</p>
         </div>
-        <div class="stretch" style="--tone:#898781">
-          <span class="stretch-score">-1</span>
-          <span class="stretch-label">neutral</span>
+        
+        <div class="gauge" style="--tone:#898781" role="img"
+             aria-label="stretch score -1, neutral">
+          <div class="gauge-track">
+            <span class="gauge-mid"></span>
+            <span class="gauge-marker" style="left:41.7%"></span>
+          </div>
+          <div class="gauge-foot">
+            <span class="gauge-score">-1</span>
+            <span class="gauge-label">neutral</span>
+          </div>
         </div>
       </header>
       <p class="driver-note">First measurement for IWM: dominant driver is the 10-year yield at -0.749, the strongest of the six assets, with the 2-year at -0.631 and beta -0.098% per bp against the S&amp;P 500&#x27;s -0.062%, confirming that small caps are about 1.6 times as rate-sensitive as large caps; the window is short, so treat the reading with care.</p>
@@ -400,7 +532,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">1D</span>
         <span class="horizon-maturity">matures 2026-09-25</span>
       </div>
-      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">solid</span></span>
+      <span class="chip" style="--dot:#d03b3b"><span class="chip-arrow">▼</span><span class="chip-label">bearish</span><span class="chip-conf">solid</span></span>
       <div class="horizon-stats">
         <span>2 bull / 8 bear / 2 neu · margin 6</span>
         <span>flat zone 279.89–283.43</span>
@@ -416,7 +548,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">5D</span>
         <span class="horizon-maturity">matures 2026-10-01</span>
       </div>
-      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">solid</span></span>
+      <span class="chip" style="--dot:#d03b3b"><span class="chip-arrow">▼</span><span class="chip-label">bearish</span><span class="chip-conf">solid</span></span>
       <div class="horizon-stats">
         <span>3 bull / 8 bear / 1 neu · margin 5</span>
         <span>flat zone 277.70–285.62</span>
@@ -432,7 +564,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">10D</span>
         <span class="horizon-maturity">matures 2026-10-08</span>
       </div>
-      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-lean</span></span>
+      <span class="chip" style="--dot:#898781"><span class="chip-arrow">▬</span><span class="chip-label">flat</span><span class="chip-conf">flat-lean</span></span>
       <div class="horizon-stats">
         <span>3 bull / 5 bear / 4 neu · margin 2</span>
         <span>flat zone 276.06–287.26</span>
@@ -447,12 +579,21 @@ footer a { color: var(--accent); }
     <section class="asset">
       <header class="asset-head">
         <div>
+          <span class="asset-ticker">QQQ</span>
           <h2>Invesco QQQ Trust</h2>
           <p class="instrument">QQQ closing price · close 741.10</p>
         </div>
-        <div class="stretch" style="--tone:#d03b3b">
-          <span class="stretch-score">+3</span>
-          <span class="stretch-label">extreme-up</span>
+        
+        <div class="gauge" style="--tone:#d03b3b" role="img"
+             aria-label="stretch score 3, extreme-up">
+          <div class="gauge-track">
+            <span class="gauge-mid"></span>
+            <span class="gauge-marker" style="left:75.0%"></span>
+          </div>
+          <div class="gauge-foot">
+            <span class="gauge-score">+3</span>
+            <span class="gauge-label">extreme-up</span>
+          </div>
         </div>
       </header>
       <p class="driver-note">First measurement for QQQ: dominant driver is the 10-year yield at -0.654, with oil at -0.591 (the most negative of the six) and the 2-year at -0.507 on a beta of -0.099% per bp; QQQ&#x27;s 0.914 correlation to the S&amp;P 500 is far higher than IWM&#x27;s 0.741, so its divergences come from leadership and AI-capex news rather than from rates.</p>
@@ -468,7 +609,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">1D</span>
         <span class="horizon-maturity">matures 2026-09-25</span>
       </div>
-      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">solid</span></span>
+      <span class="chip" style="--dot:#d03b3b"><span class="chip-arrow">▼</span><span class="chip-label">bearish</span><span class="chip-conf">solid</span></span>
       <div class="horizon-stats">
         <span>2 bull / 8 bear / 2 neu · margin 6</span>
         <span>flat zone 736.14–746.06</span>
@@ -484,7 +625,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">5D</span>
         <span class="horizon-maturity">matures 2026-10-01</span>
       </div>
-      <span class="chip" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="chip-label">↓ bearish</span><span class="chip-conf">lean</span></span>
+      <span class="chip" style="--dot:#d03b3b"><span class="chip-arrow">▼</span><span class="chip-label">bearish</span><span class="chip-conf">lean</span></span>
       <div class="horizon-stats">
         <span>3 bull / 7 bear / 2 neu · margin 4</span>
         <span>flat zone 730.01–752.19</span>
@@ -500,7 +641,7 @@ footer a { color: var(--accent); }
         <span class="horizon-h">10D</span>
         <span class="horizon-maturity">matures 2026-10-08</span>
       </div>
-      <span class="chip" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="chip-label">→ flat</span><span class="chip-conf">flat-solid</span></span>
+      <span class="chip" style="--dot:#898781"><span class="chip-arrow">▬</span><span class="chip-label">flat</span><span class="chip-conf">flat-solid</span></span>
       <div class="horizon-stats">
         <span>4 bull / 5 bear / 3 neu · margin 1</span>
         <span>flat zone 725.42–756.78</span>
@@ -521,3 +662,4 @@ footer a { color: var(--accent); }
   <code>mtl.verify.verify_document</code> recomputes it independently. Unsettled cells show no
   correctness mark until their maturity date passes.
 </footer>
+</div>
