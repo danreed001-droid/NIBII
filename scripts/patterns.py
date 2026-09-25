@@ -24,10 +24,12 @@ rate from a cell below MIN_SAMPLES as a real finding.
 Usage:
     python scripts/patterns.py
 """
-import glob
 import json
 import os
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from mtl.documents import iter_document_paths
 
 MIN_SAMPLES = 15
 
@@ -51,7 +53,7 @@ def load_settled_horizons(documents_dir):
     """[(asset_key, doc_date, maturity_date, realized_outcome), ...] for
     every horizon that has actually settled (maturityClose is not None)."""
     out = []
-    for path in sorted(glob.glob(os.path.join(documents_dir, "*.json"))):
+    for path in iter_document_paths(documents_dir):
         doc = json.load(open(path))
         for a in doc['assets']:
             for h in a['horizons']:

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Verify every ledger document in a directory. Exit 1 on any failure."""
-import glob, json, os, sys
+import json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from mtl.documents import iter_document_paths
 from mtl.verify import verify_document
 from mtl.record import aggregate
 
 def main(d="documents"):
     docs, bad = {}, 0
-    for f in sorted(glob.glob(os.path.join(d, "*.json"))):
+    for f in iter_document_paths(d):
         doc = json.load(open(f))
         doc.pop('version', None)
         docs[doc['date']] = doc

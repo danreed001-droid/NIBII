@@ -11,12 +11,12 @@ Usage:
     python scripts/settle.py
 """
 import copy
-import glob
 import json
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from mtl.documents import iter_document_paths
 from mtl.fetch import close_on
 from mtl.score import document_fully_settled, settle_horizon
 from mtl.verify import assert_no_reason_drift, verify_document
@@ -44,7 +44,7 @@ def main():
     doc_dir = os.path.join(root, "documents")
     any_changed = False
 
-    for path in sorted(glob.glob(os.path.join(doc_dir, "*.json"))):
+    for path in iter_document_paths(doc_dir):
         doc = json.load(open(path))
         changed, before = settle_document(doc)
         if not changed:

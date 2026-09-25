@@ -8,7 +8,6 @@ Usage:
     python scripts/render_html.py 2026-09-24
     # -> documents/latest.html (overwritten each run - see main()'s docstring)
 """
-import glob
 import html
 import json
 import os
@@ -16,6 +15,7 @@ import sys
 from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from mtl.documents import iter_document_paths
 from mtl.record import aggregate
 from mtl.score import outcome, real_result
 
@@ -793,9 +793,7 @@ def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dic
 
 def load_all_documents(documents_dir):
     docs = {}
-    for path in sorted(glob.glob(os.path.join(documents_dir, "*.json"))):
-        if os.path.basename(path) == 'live.json':
-            continue  # a live-price snapshot, not a ledger document
+    for path in iter_document_paths(documents_dir):
         doc = json.load(open(path))
         docs[doc['date']] = doc
     return docs
