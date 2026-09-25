@@ -83,6 +83,14 @@ h2 { font-size: 1.15rem; font-weight: 600; }
 .vote-mark { font-size: 0.7rem; white-space: nowrap; padding: 1px 6px; border-radius: 999px; }
 .vote-mark.hit { color: #0ca30c; border: 1px solid #0ca30c; }
 .vote-mark.miss { color: #d03b3b; border: 1px solid #d03b3b; }
+.catalysts { margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 12px; }
+.catalysts summary { cursor: pointer; color: var(--accent); font-size: 0.85rem; }
+.catalysts ul { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.catalyst { display: flex; align-items: flex-start; gap: 8px; }
+.catalyst .dot { margin-top: 6px; }
+.catalyst-body { display: flex; flex-direction: column; gap: 2px; }
+.catalyst-meta { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+.catalyst-event { font-size: 0.85rem; color: var(--ink-2); }
 footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--hairline); color: var(--muted); font-size: 0.8rem; }
 footer a { color: var(--accent); }
 </style>
@@ -113,6 +121,11 @@ footer a { color: var(--accent); }
       </header>
       <p class="driver-note">Over the 21-session window the S&amp;P 500&#x27;s dominant driver is the 10-year yield (corr -0.639), with oil (-0.532) and the 2-year (-0.473) behind it; that sign is why Rates and Cross-asset both vote bear on a day the 10-year set a 19-year high and WTI rose 1.63%.</p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 7704.13 is 7.11 daily-sigma above the 200-day average of 7198.56, past the +6 threshold.</li><li>Close of 7704.13 is within 2% of the 52-week high of 7816.7.</li><li>At 25.44% of S&amp;P 500 members above their 50-day average, breadth is below the 28.8% reading documented as the 5th percentile since 2010, a washed-out crowd whose rebuild pushes price up.</li></ul></details>
+      
+      <details class="catalysts" open>
+        <summary>what's been moving this (2)</summary>
+        <ul><li class="catalyst" style="--dot:#eda100"><span class="dot" aria-hidden="true"></span><span class="catalyst-body"><span class="catalyst-meta">Market · High impact</span><span class="catalyst-event">Stocks close essentially flat after a choppy, sharply weaker open as the 10-year Treasury yield pushes to a fresh 19-year high and crude climbs again; AI/infrastructure names lag after Oracle&#x27;s force majeure notice while rates, not equities, stay the story. UPDATED with official closes (an earlier run today logged an intraday snapshot before the bell)</span></span></li><li class="catalyst" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="catalyst-body"><span class="catalyst-meta">Earnings · Medium impact</span><span class="catalyst-event">Online travel agencies extend their slide on fears Meta&#x27;s Muse AI agent will book hotels and compare prices directly, disintermediating the booking platforms; Meta gains on AI-agent monetisation plans. The selloff began 9/23 and carried into Thursday</span></span></li></ul>
+      </details>
       <div class="horizons">
     <div class="horizon">
       <div class="horizon-head">
@@ -176,6 +189,11 @@ footer a { color: var(--accent); }
       </header>
       <p class="driver-note">TLT&#x27;s dominant driver is the 10-year yield (corr -0.828), with the 2-year at -0.623 and oil at -0.461; every hawkish and every oil-up fact therefore votes bear, and the bull votes are confined to quarter-end flows, the October seasonal and the documented rate-vol panic extreme.</p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 79.42 is 4.34 daily-sigma below the 50-day average of 82.44.</li><li>Close of 79.42 is 8.76 daily-sigma below the 200-day average of 85.76, past the -6 threshold.</li><li>Close of 79.42 is within 2% of the 52-week low of 79.42.</li><li>TLT 30-day implied volatility sits at the 97.4th percentile with IV rank 92.4, and MOVE at 95.45 is above all 59 prior sessions, a documented panic extreme in rate volatility.</li><li>Asset managers held a record net long of 2,634,980 ten-year note futures in the 15 September COT, the largest in the twenty-year TFF history, a crowded long whose unwind pushes price down.</li></ul></details>
+      
+      <details class="catalysts" open>
+        <summary>what's been moving this (3)</summary>
+        <ul><li class="catalyst" style="--dot:#eda100"><span class="dot" aria-hidden="true"></span><span class="catalyst-body"><span class="catalyst-meta">Market · High impact</span><span class="catalyst-event">Stocks close essentially flat after a choppy, sharply weaker open as the 10-year Treasury yield pushes to a fresh 19-year high and crude climbs again; AI/infrastructure names lag after Oracle&#x27;s force majeure notice while rates, not equities, stay the story. UPDATED with official closes (an earlier run today logged an intraday snapshot before the bell)</span></span></li><li class="catalyst" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="catalyst-body"><span class="catalyst-meta">Macro · High impact</span><span class="catalyst-event">Firm US data lands on an already hawkish tape: weekly jobless claims fall and beat, new home sales jump to their fastest pace since the start of the year, and building permits are revised up. Market-implied odds of an October Fed hike jump</span></span></li><li class="catalyst" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span><span class="catalyst-body"><span class="catalyst-meta">Policy · High impact</span><span class="catalyst-event">Xi Jinping begins a rare state visit to Washington and Treasury Secretary Bessent says the US and China have agreed to extend the tariff truce by two months, through January 10, as the two sides open talks spanning trade, AI and Taiwan. Trump hailed a &#x27;truly great friendship&#x27; as the summit began</span></span></li></ul>
+      </details>
       <div class="horizons">
     <div class="horizon">
       <div class="horizon-head">
@@ -239,6 +257,11 @@ footer a { color: var(--accent); }
       </header>
       <p class="driver-note">Gold&#x27;s dominant driver remains the 2-year yield (corr -0.594, beta -0.164% per bp, -0.799 on big 2Y days), with the dollar at -0.576 and oil at only -0.296; &#x27;higher oil supports gold&#x27; is therefore an invalid bull reason and the Cross-asset vote is signed bear through the hike-odds channel.</p>
       
+      
+      <details class="catalysts" open>
+        <summary>what's been moving this (1)</summary>
+        <ul><li class="catalyst" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="catalyst-body"><span class="catalyst-meta">Energy · Medium impact</span><span class="catalyst-event">Crude extends its advance on renewed US-Iran tension, including warnings of &#x27;a new front&#x27; aimed at Red Sea energy supplies, with gains capped by a report that a phased reopening of the Strait of Hormuz is under discussion. Higher energy prices feed straight back into the inflation-and-rates story driving the week</span></span></li></ul>
+      </details>
       <div class="horizons">
     <div class="horizon">
       <div class="horizon-head">
@@ -302,6 +325,7 @@ footer a { color: var(--accent); }
       </header>
       <p class="driver-note">The dollar&#x27;s dominant driver is the 2-year yield (corr +0.629, +0.818 on big 2Y days), the only asset of the six with a positive rate correlation; rising hike odds are therefore signed bullish, and the risk-on facts (tight credit, the tariff truce) are the bear side.</p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>RSI(14) of 70.8 is in the overbought band.</li><li>Close of 101.09 is 3.87 daily-sigma above the 50-day average of 99.94.</li><li>Close of 101.09 is 6.48 daily-sigma above the 200-day average of 99.18, past the +6 threshold.</li><li>Close of 101.09 is within 2% of the 52-week high of 101.8.</li><li>Speculative dollar longs were only 5.9bn dollars in the 15 September COT, described by Saxo as the lowest in 15 months, a vacated crowd whose rebuild pushes price up.</li></ul></details>
+      
       <div class="horizons">
     <div class="horizon">
       <div class="horizon-head">
@@ -365,6 +389,11 @@ footer a { color: var(--accent); }
       </header>
       <p class="driver-note">First measurement for IWM: dominant driver is the 10-year yield at -0.749, the strongest of the six assets, with the 2-year at -0.631 and beta -0.098% per bp against the S&amp;P 500&#x27;s -0.062%, confirming that small caps are about 1.6 times as rate-sensitive as large caps; the window is short, so treat the reading with care.</p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 281.66 is 3.48 daily-sigma below the 50-day average of 294.56.</li></ul></details>
+      
+      <details class="catalysts" open>
+        <summary>what's been moving this (1)</summary>
+        <ul><li class="catalyst" style="--dot:#eda100"><span class="dot" aria-hidden="true"></span><span class="catalyst-body"><span class="catalyst-meta">Market · High impact</span><span class="catalyst-event">Stocks close essentially flat after a choppy, sharply weaker open as the 10-year Treasury yield pushes to a fresh 19-year high and crude climbs again; AI/infrastructure names lag after Oracle&#x27;s force majeure notice while rates, not equities, stay the story. UPDATED with official closes (an earlier run today logged an intraday snapshot before the bell)</span></span></li></ul>
+      </details>
       <div class="horizons">
     <div class="horizon">
       <div class="horizon-head">
@@ -428,6 +457,11 @@ footer a { color: var(--accent); }
       </header>
       <p class="driver-note">First measurement for QQQ: dominant driver is the 10-year yield at -0.654, with oil at -0.591 (the most negative of the six) and the 2-year at -0.507 on a beta of -0.099% per bp; QQQ&#x27;s 0.914 correlation to the S&amp;P 500 is far higher than IWM&#x27;s 0.741, so its divergences come from leadership and AI-capex news rather than from rates.</p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 741.1 is 3.12 daily-sigma above the 50-day average of 711.42.</li><li>Close of 741.1 is 8.63 daily-sigma above the 200-day average of 664.41, past the +6 threshold.</li><li>Close of 741.1 is within 2% of the 52-week high of 748.65.</li></ul></details>
+      
+      <details class="catalysts" open>
+        <summary>what's been moving this (2)</summary>
+        <ul><li class="catalyst" style="--dot:#eda100"><span class="dot" aria-hidden="true"></span><span class="catalyst-body"><span class="catalyst-meta">Market · High impact</span><span class="catalyst-event">Stocks close essentially flat after a choppy, sharply weaker open as the 10-year Treasury yield pushes to a fresh 19-year high and crude climbs again; AI/infrastructure names lag after Oracle&#x27;s force majeure notice while rates, not equities, stay the story. UPDATED with official closes (an earlier run today logged an intraday snapshot before the bell)</span></span></li><li class="catalyst" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="catalyst-body"><span class="catalyst-meta">Deals · High impact</span><span class="catalyst-event">Oracle issues a force majeure notice to Blue Owl Capital over &#x27;Project Jupiter,&#x27; its 2.5GW New Mexico AI data-center campus, after state officials rejected a natural-gas pipeline extension in July and federal permitting slipped. Oracle insists the project &#x27;remains on our planned schedule,&#x27; but the notice seeks relief from cost and payment obligations - the first public crack in a marquee AI-capex buildout</span></span></li></ul>
+      </details>
       <div class="horizons">
     <div class="horizon">
       <div class="horizon-head">

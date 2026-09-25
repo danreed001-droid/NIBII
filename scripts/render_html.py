@@ -84,12 +84,35 @@ def horizon_block(a, h):
     </div>'''
 
 
-def asset_card(a):
+CATALYST_DOT = {'Bullish': '#0ca30c', 'Bearish': '#d03b3b', 'Mixed': '#eda100', 'Neutral': '#898781'}
+
+
+def catalyst_item(c):
+    hexval = CATALYST_DOT.get(c.get('direction'), '#898781')
+    impact = c.get('impact', '')
+    return (f'<li class="catalyst" style="--dot:{hexval}">'
+            f'<span class="dot" aria-hidden="true"></span>'
+            f'<span class="catalyst-body">'
+            f'<span class="catalyst-meta">{E(c.get("category", ""))} · {E(impact)} impact</span>'
+            f'<span class="catalyst-event">{E(c.get("event", ""))}</span>'
+            f'</span></li>')
+
+
+def asset_card(a, catalysts):
     st = a['stretch']
     tone = STRETCH_TONE.get(st['label'], '#898781')
     horizons_html = "".join(horizon_block(a, h) for h in a['horizons'])
     drivers_html = "".join(f'<li>{E(d)}</li>' for d in st.get('drivers', []))
     drivers_block = f'<ul class="drivers">{drivers_html}</ul>' if drivers_html else ''
+
+    catalysts_block = ''
+    if catalysts:
+        items = "".join(catalyst_item(c) for c in catalysts)
+        catalysts_block = f'''
+      <details class="catalysts" open>
+        <summary>what's been moving this ({len(catalysts)})</summary>
+        <ul>{items}</ul>
+      </details>'''
 
     return f'''
     <section class="asset">
@@ -105,6 +128,7 @@ def asset_card(a):
       </header>
       <p class="driver-note">{E(a['driverNote'])}</p>
       {f'<details class="stretch-drivers"><summary>why this stretch score</summary>{drivers_block}</details>' if drivers_block else ''}
+      {catalysts_block}
       <div class="horizons">{horizons_html}</div>
     </section>'''
 
@@ -206,6 +230,14 @@ h2 {{ font-size: 1.15rem; font-weight: 600; }}
 .vote-mark {{ font-size: 0.7rem; white-space: nowrap; padding: 1px 6px; border-radius: 999px; }}
 .vote-mark.hit {{ color: #0ca30c; border: 1px solid #0ca30c; }}
 .vote-mark.miss {{ color: #d03b3b; border: 1px solid #d03b3b; }}
+.catalysts {{ margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 12px; }}
+.catalysts summary {{ cursor: pointer; color: var(--accent); font-size: 0.85rem; }}
+.catalysts ul {{ list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }}
+.catalyst {{ display: flex; align-items: flex-start; gap: 8px; }}
+.catalyst .dot {{ margin-top: 6px; }}
+.catalyst-body {{ display: flex; flex-direction: column; gap: 2px; }}
+.catalyst-meta {{ font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }}
+.catalyst-event {{ font-size: 0.85rem; color: var(--ink-2); }}
 footer {{ margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--hairline); color: var(--muted); font-size: 0.8rem; }}
 footer a {{ color: var(--accent); }}
 </style>
@@ -235,8 +267,34 @@ footer a {{ color: var(--accent); }}
 '''
 
 
+ASSET_MATCH = {
+    'equities': ['spy', 'dia', '^gspc', 's&p 500', 's&p'],
+    'bonds': ['tlt', 'shy', 'us30y', '10y', '30y', '2y', 'yield', 'treasury'],
+    'gold': ['gld', 'gold', 'xau'],
+    'dollar': ['dxy', 'dx-y', 'usd', 'dollar'],
+    'iwm': ['iwm', 'russell'],
+    'qqq': ['qqq', 'nasdaq', 'smh'],
+}
+
+
+def matching_catalysts(asset_key, news_log, date):
+    keywords = ASSET_MATCH.get(asset_key, [])
+    out = []
+    for c in news_log:
+        if c.get('date') != date:
+            continue
+        haystack = ' '.join((c.get('tickers', ''), c.get('event', ''), c.get('numbers', ''))).lower()
+        if any(k in haystack for k in keywords):
+            out.append(c)
+    return out
+
+
 def render(doc: dict) -> str:
-    assets_html = "".join(asset_card(a) for a in doc['assets'])
+    news_log = doc.get('context', {}).get('newsLog', [])
+    assets_html = "".join(
+        asset_card(a, matching_catalysts(a['key'], news_log, doc['date']))
+        for a in doc['assets']
+    )
     return PAGE.format(
         date=doc['date'], summary=summary_chips(doc),
         changed=doc['overlay']['cellsChanged'],

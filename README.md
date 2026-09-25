@@ -121,6 +121,33 @@ them unattended.
 Also note the 52-week range here is on a **closing** basis over 252 sessions;
 vendor pages usually quote the wider intraday range.
 
+## News catalysts and pattern analysis
+
+A separate Routine ("Daily market news log") logs dated, ticker-tagged,
+sourced market-moving events (macro data, Fed, geopolitics, earnings, deals)
+into an Artifact database, independent of this repo. `data/news_log.json` is
+a local, durable cache of it (synced by the daily-cycle Routine, since a
+plain script can't call the Artifact database itself).
+
+Two things read that cache:
+
+- `scripts/render_html.py` matches each day's catalysts to the relevant
+  asset by ticker/keyword and shows them in a "what's been moving this"
+  panel per asset - display only, no numbers are parsed out of the log's
+  free text.
+- `scripts/patterns.py` cross-references catalyst categories against the
+  Ledger's own *settled* realized returns (exact numbers from
+  `scripts/settle.py`, never anything parsed from the news log's prose) to
+  see which catalyst categories have actually preceded which outcomes.
+  Every cell is gated behind `MIN_SAMPLES` (15) and reported as unreliable
+  below that - with one day of Ledger history this returns nothing yet, and
+  that's the honest answer, not a bug.
+
+The daily-cycle Routine also uses the news log as one input (alongside live
+web search and the fetched market numbers) when writing votes - it's dated,
+sourced, and already covers ~7 weeks of catalysts, so it doesn't need to be
+independently rediscovered each morning.
+
 ## Honest limits
 
 - **The engine cannot verify `volRegime` or `crowd`.** Both may only be non-zero
