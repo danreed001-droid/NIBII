@@ -13,10 +13,13 @@ import json
 import os
 import sys
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.documents import iter_document_paths
 from mtl.record import aggregate
+from mtl.calendar_nyse import most_recent_completed_session
+from mtl.structure import CATEGORY_NAME as STRUCTURE_CATEGORY
 from mtl.score import live_tilt, outcome, real_result
 
 CALL_STATUS = {
@@ -65,7 +68,17 @@ def call_chip(call, confidence):
             f'<span class="chip-conf">{E(confidence)}</span></span>')
 
 
-def vote_row(v):
+def note_stamp(stamp):
+    """Small 'when was this written' line under a note. stamp is a
+    NoteStamp-style dict: {'written': 'Thu Sep 24, 8:30 PM ET', 'iso': ...,
+    'basis': 'Thu Sep 24'} (see board_stamp)."""
+    if not stamp:
+        return ''
+    return (f'<span class="note-stamp" title="{E(stamp.get("iso", ""))}">'
+            f'written {E(stamp["written"])} · data through {E(stamp["basis"])} close</span>')
+
+
+def vote_row(v, category=None, stamp=None, mechanical=False):
     side = v[0]
     reason = v[1]
     mark = v[2] if len(v) > 2 else None
@@ -74,9 +87,16 @@ def vote_row(v):
     if mark is not None:
         mark_html = (f'<span class="vote-mark {"hit" if mark else "miss"}">'
                      f'{"correct" if mark else "wrong"}</span>')
+    meta = ''
+    if category or stamp:
+        when = ''
+        if stamp:
+            verb = 'computed' if mechanical else 'written'
+            when = f' · <span title="{verb} {E(stamp["written"])}">{E(stamp["short"])}</span>'
+        meta = f'<span class="vote-meta">{E(category or "")}{when}</span>'
     return (f'<li class="vote" style="--dot:{hexval}">'
             f'<span class="dot" aria-hidden="true"></span>'
-            f'<span class="vote-text">{E(reason)}</span>{mark_html}</li>')
+            f'<span class="vote-body">{meta}<span class="vote-text">{E(reason)}</span></span>{mark_html}</li>')
 
 
 STRUCTURE_TONE = {
@@ -100,13 +120,22 @@ def structure_badge(sig, timeframe_label):
             f'{E(timeframe_label)}: {arrow} {E(sig["state"])}{brk}</span>')
 
 
-def horizon_block(a, h):
-    votes_html = "".join(vote_row(v) for v in h['votes'])
+def horizon_block(a, h, stamp=None):
+    cats = a.get('categories') or []
+    votes_html = "".join(
+        vote_row(v, cats[i] if i < len(cats) else None, stamp,
+                 mechanical=(i < len(cats) and cats[i] == STRUCTURE_CATEGORY))
+        for i, v in enumerate(h['votes']))
     reversion = ""
     if h.get('reversionFlag'):
-        reversion = f'<p class="reversion">⚠ overlay applied — {E(h["reversionNote"])}</p>'
+        reversion = f'<p class="reversion">⚠ overlay applied — {E(h["reversionNote"])}{note_stamp(stamp)}</p>'
     elif h.get('reversionNote'):
-        reversion = f'<p class="reversion muted">{E(h["reversionNote"])}</p>'
+        reversion = f'<p class="reversion muted">{E(h["reversionNote"])}{note_stamp(stamp)}</p>'
+
+    votes_when = ''
+    if stamp:
+        votes_when = (f' <span class="votes-when">· written {E(stamp["written"])}'
+                      f' · data through {E(stamp["basis"])} close</span>')
 
     structure = a.get('structure') or {}
     if h['h'] == 1:
@@ -128,7 +157,7 @@ def horizon_block(a, h):
       <div class="struct-row">{struct_html}</div>
       {reversion}
       <details class="votes">
-        <summary>{len(h['votes'])} votes</summary>
+        <summary>{len(h['votes'])} votes{votes_when}</summary>
         <ul>{votes_html}</ul>
       </details>
     </div>'''
@@ -140,10 +169,19 @@ CATALYST_DOT = {'Bullish': '#0ca30c', 'Bearish': '#d03b3b', 'Mixed': '#eda100', 
 def catalyst_item(c):
     hexval = CATALYST_DOT.get(c.get('direction'), '#898781')
     impact = c.get('impact', '')
+    when = ''
+    if c.get('date'):
+        try:
+            when = datetime.fromisoformat(c['date']).strftime('%a %b %-d')
+        except ValueError:
+            when = c['date']
+        if c.get('time'):
+            when += f", {c['time']}"
+        when = f' · {E(when)}'
     return (f'<li class="catalyst" style="--dot:{hexval}">'
             f'<span class="dot" aria-hidden="true"></span>'
             f'<span class="catalyst-body">'
-            f'<span class="catalyst-meta">{E(c.get("category", ""))} · {E(impact)} impact</span>'
+            f'<span class="catalyst-meta">{E(c.get("category", ""))} · {E(impact)} impact{when}</span>'
             f'<span class="catalyst-event">{E(c.get("event", ""))}</span>'
             f'</span></li>')
 
@@ -166,11 +204,12 @@ def stretch_gauge(score, label):
         </div>'''
 
 
-def asset_card(a, catalysts):
+def asset_card(a, catalysts, stamp=None):
     st = a['stretch']
-    horizons_html = "".join(horizon_block(a, h) for h in a['horizons'])
+    horizons_html = "".join(horizon_block(a, h, stamp) for h in a['horizons'])
     drivers_html = "".join(f'<li>{E(d)}</li>' for d in st.get('drivers', []))
-    drivers_block = f'<ul class="drivers">{drivers_html}</ul>' if drivers_html else ''
+    drivers_block = (f'<ul class="drivers">{drivers_html}</ul>{note_stamp(stamp)}'
+                     if drivers_html else '')
 
     catalysts_block = ''
     if catalysts:
@@ -191,7 +230,7 @@ def asset_card(a, catalysts):
         </div>
         {stretch_gauge(st['score'], st['label'])}
       </header>
-      <p class="driver-note">{E(a['driverNote'])}</p>
+      <p class="driver-note">{E(a['driverNote'])}{note_stamp(stamp)}</p>
       {f'<details class="stretch-drivers"><summary>why this stretch score</summary>{drivers_block}</details>' if drivers_block else ''}
       {catalysts_block}
       <div class="horizons">{horizons_html}</div>
@@ -357,6 +396,29 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; opacity: 0.85;
 }}
 
+/* freshness panel: when each part of the page was last updated */
+.fresh {{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px;
+  margin-top: 14px;
+}}
+.fresh-item {{
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 8px 10px;
+  display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: baseline;
+}}
+.fresh-dot {{ width: 8px; height: 8px; border-radius: 999px; background: var(--masthead-ink-2); align-self: center; }}
+.fresh-item[data-state="fresh"] .fresh-dot {{ background: #5fb87a; }}
+.fresh-item[data-state="aging"] .fresh-dot {{ background: #d9b46a; }}
+.fresh-item[data-state="stale"] .fresh-dot {{ background: #e5705f; }}
+.fresh-label {{ font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--masthead-ink-2); }}
+.fresh-value {{
+  grid-column: 2; color: var(--masthead-ink); font-size: 0.82rem;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums;
+}}
+.fresh-note {{ grid-column: 2; color: var(--masthead-ink-2); font-size: 0.72rem; }}
+.fresh-age {{ font-weight: 600; }}
+.fresh-item[data-state="stale"] .fresh-age {{ color: #e5705f; }}
+.fresh-item[data-state="aging"] .fresh-age {{ color: #d9b46a; }}
+
 /* ticker strip */
 .tape {{
   display: flex; flex-wrap: wrap; gap: 0; margin-top: 20px;
@@ -464,7 +526,13 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 .vote {{ display: flex; align-items: flex-start; gap: 7px; font-size: 0.82rem; color: var(--ink-2); }}
 .dot {{ width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex-shrink: 0; }}
 .vote .dot {{ margin-top: 6px; }}
-.vote-text {{ flex: 1; }}
+.vote-body {{ flex: 1; display: flex; flex-direction: column; gap: 1px; }}
+.vote-meta, .note-stamp {{
+  font-size: 0.68rem; color: var(--muted); letter-spacing: 0.02em;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums;
+}}
+.note-stamp {{ display: block; margin-top: 4px; }}
+.votes-when {{ font-size: 0.68rem; color: var(--muted); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }}
 .vote-mark {{ font-size: 0.7rem; white-space: nowrap; padding: 1px 6px; border-radius: 999px; }}
 .vote-mark.hit {{ color: #0ca30c; border: 1px solid #0ca30c; }}
 .vote-mark.miss {{ color: #d03b3b; border: 1px solid #d03b3b; }}
@@ -559,8 +627,7 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
       </span>
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
-    <p class="updated">Last updated {generated_at}</p>
-    {live_note}
+    {freshness}
     <div class="tape">{tape}</div>
   </div>
 </div>
@@ -588,6 +655,36 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
 </div>
 
 <script>
+(function () {{
+  // Freshness panel: turn each stamp's ISO time into "x min ago" and a
+  // fresh/aging/stale dot, recomputed every minute against the viewer's clock.
+  function ago(ms) {{
+    var m = Math.floor(ms / 60000);
+    if (m < 1) return 'just now';
+    if (m < 60) return m + ' min ago';
+    var h = Math.floor(m / 60);
+    if (h < 48) return h + 'h ' + (m % 60) + 'm ago';
+    return Math.floor(h / 24) + ' days ago';
+  }}
+  function tick() {{
+    var items = document.querySelectorAll('.fresh-item[data-ts]');
+    for (var i = 0; i < items.length; i++) {{
+      var el = items[i];
+      var t = Date.parse(el.getAttribute('data-ts'));
+      if (isNaN(t)) continue;
+      var age = Date.now() - t;
+      var out = el.querySelector('.fresh-age');
+      if (out) out.textContent = ago(age);
+      if (el.getAttribute('data-fixed-state')) continue;
+      var freshH = parseFloat(el.getAttribute('data-fresh-h'));
+      var staleH = parseFloat(el.getAttribute('data-stale-h'));
+      var h = age / 3600000;
+      el.setAttribute('data-state', h < freshH ? 'fresh' : (h < staleH ? 'aging' : 'stale'));
+    }}
+  }}
+  tick();
+  setInterval(tick, 60000);
+}})();
 (function () {{
   var root = document.documentElement;
   var sun = document.getElementById('icon-sun');
@@ -805,25 +902,102 @@ def call_log_section(all_docs: dict) -> str:
     <p class="log-caption">{E(caption)}</p>'''
 
 
+ET = ZoneInfo("America/New_York")
+
+
+def _parse_utc(ts):
+    """ISO-8601 UTC stamp ('...Z' or '+00:00') -> aware datetime, or None."""
+    if not ts:
+        return None
+    try:
+        return datetime.fromisoformat(str(ts).replace('Z', '+00:00')).astimezone(timezone.utc)
+    except ValueError:
+        return None
+
+
+def fmt_et(dt):
+    """'Sat Sep 26, 2:27 PM ET' - the page's readers think in New York time."""
+    local = dt.astimezone(ET)
+    return local.strftime('%a %b %-d, %-I:%M %p ET')
+
+
+def fresh_item(label, dt, note='', fresh_h=None, stale_h=None, fixed_state=None, css=''):
+    """One tile of the freshness panel. The age ("3h 5m ago") and the
+    fresh/aging/stale dot are filled in client-side from data-ts, so they
+    stay right however long after rendering the page is viewed."""
+    if dt is None:
+        return (f'<div class="fresh-item {css}" data-state="stale"><span class="fresh-dot"></span>'
+                f'<span class="fresh-label">{E(label)}</span>'
+                f'<span class="fresh-value">unknown</span></div>')
+    iso = dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+    attrs = f'data-ts="{iso}"'
+    if fixed_state:
+        attrs += f' data-state="{fixed_state}" data-fixed-state="1"'
+    else:
+        attrs += f' data-fresh-h="{fresh_h}" data-stale-h="{stale_h}"'
+    note_html = f'<span class="fresh-note">{note}</span>' if note else ''
+    return (f'<div class="fresh-item {css}" {attrs}><span class="fresh-dot"></span>'
+            f'<span class="fresh-label">{E(label)}</span>'
+            f'<span class="fresh-value" title="{iso}">{E(fmt_et(dt))} · <span class="fresh-age"></span></span>'
+            f'{note_html}</div>')
+
+
+def calls_fresh_html(doc, now=None):
+    """When the calls were written, and whether a newer session's board is
+    overdue: the board for session S is expected once S has closed, so it's
+    'behind' when S is older than the most recent completed session as of
+    this render."""
+    expected = most_recent_completed_session((now or datetime.now(ET)).astimezone(ET).date())
+    session = datetime.fromisoformat(doc['date']).strftime('%a %b %-d')
+    if doc['date'] < expected:
+        exp = datetime.fromisoformat(expected).strftime('%a %b %-d')
+        note, state = f'Calls for session {E(session)} - the {E(exp)} board is not published yet', 'stale'
+    else:
+        note, state = f'Calls for session {E(session)} - the latest completed session', 'fresh'
+    return fresh_item('Calls written', _parse_utc(doc.get('generatedAt')), note, fixed_state=state)
+
+
 def live_note_html(live):
     if not live or not live.get('prices'):
         return ''
-    return (f'<p class="updated live-note">Live prices as of {E(live.get("fetchedAt", "?"))} '
-            f'- overlay only, never the basis a call was made against</p>')
+    note = 'Overlay only - never the basis a call was made against'
+    return fresh_item('Live prices', _parse_utc(live.get('fetchedAt')), note,
+                      fresh_h=1, stale_h=4, css='live-note')
+
+
+def board_stamp(doc):
+    """Every note on a board - driver notes, all 13 category votes per
+    horizon, stretch drivers, overlay notes - is written in one pass for one
+    session, so they all share the document's generatedAt and basis date."""
+    dt = _parse_utc(doc.get('generatedAt'))
+    if dt is None:
+        return None
+    basis = doc.get('basisDate') or doc['date']
+    return dict(written=fmt_et(dt), iso=dt.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                short=dt.astimezone(ET).strftime('%b %-d %-I:%M%p').replace('AM', 'am').replace('PM', 'pm'),
+                basis=datetime.fromisoformat(basis).strftime('%a %b %-d'))
+
+
+def freshness_html(doc, live, generated_at):
+    page = fresh_item('Page rebuilt', _parse_utc(generated_at),
+                      'Grades and the track record are recomputed on every rebuild',
+                      fresh_h=4, stale_h=24)
+    return f'<div class="fresh">{calls_fresh_html(doc)}{live_note_html(live)}{page}</div>'
 
 
 def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dict = None) -> str:
     news_log = doc.get('context', {}).get('newsLog', [])
+    stamp = board_stamp(doc)
     assets_html = "".join(
-        asset_card(a, matching_catalysts(a['key'], news_log, doc['date']))
+        asset_card(a, matching_catalysts(a['key'], news_log, doc['date']), stamp)
         for a in doc['assets']
     )
     docs = all_docs or {doc['date']: doc}
-    stamp = generated_at or datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+    rebuilt = generated_at or datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     return PAGE.format(
         date=doc['date'], tape=ticker_strip(doc, live), stats=stat_tiles(doc),
         assets=assets_html, record=track_record_section(docs), log=call_log_section(docs),
-        generated_at=E(stamp), live_note=live_note_html(live),
+        freshness=freshness_html(doc, live, rebuilt),
     )
 
 
