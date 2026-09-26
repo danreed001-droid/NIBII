@@ -37,7 +37,7 @@
    },
    "Policy": {
     "n": 1,
-    "agree": 1,
+    "agree": 0,
     "rate": null,
     "reliable": false
    },
@@ -49,7 +49,7 @@
    },
    "Market": {
     "n": 1,
-    "agree": 1,
+    "agree": 0,
     "rate": null,
     "reliable": false
    }
@@ -71,7 +71,7 @@
    },
    "Market": {
     "n": 1,
-    "agree": 1,
+    "agree": 0,
     "rate": null,
     "reliable": false
    }
