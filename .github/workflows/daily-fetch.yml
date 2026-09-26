@@ -24,18 +24,40 @@ on:
     # github.event.schedule matches it). CME futures reopen at 6pm ET Sunday;
     # 23:30 UTC = 7:30pm EDT / 6:30pm EST, after the reopen in both states.
     - cron: '30 23 * * 0'
+  # Follow-up run after a daily-cycle Routine publishes: the Routine pushes
+  # its drafted votes/document to main, and this re-runs 10 minutes later
+  # (see the wait step) to settle, refresh live prices and re-render the
+  # page on top of it. Pushes made by this workflow's own GITHUB_TOKEN
+  # never trigger push events, so this can't loop on itself.
+  push:
+    branches: [main]
+    paths: ['documents/20*.json', 'contracts/**', 'data/news_log.json', 'data/patterns.json']
   workflow_dispatch: {}
 
 permissions:
   contents: write
 
+# A Routine pushes twice in a row (the board, then data/patterns.json), so a
+# newer push cancels a still-waiting follow-up run - only the last one runs.
+# Scheduled/manual runs each get their own group and are never cancelled.
+concurrency:
+  group: ${{ github.event_name == 'push' && 'after-routine' || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
+      - name: Wait 10 minutes for the Routine to finish pushing
+        if: github.event_name == 'push'
+        run: sleep 600
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # The push that triggered this run may no longer be the tip of main
+          # after the wait - check out the latest main, not the triggering sha.
+          ref: main
 
       - uses: actions/setup-python@v5
         with:
@@ -84,5 +106,11 @@ jobs:
             else
               git commit -m "Daily data fetch: settle + draft ${{ steps.session.outputs.s }}"
             fi
-            git push
+            # A Routine may have pushed to main while this ran; replay this
+            # commit on top of it (this run's freshly rendered files win).
+            for i in 1 2 3; do
+              git pull --rebase -X theirs origin main && git push && exit 0
+              sleep 10
+            done
+            exit 1
           fi
