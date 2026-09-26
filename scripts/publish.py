@@ -14,6 +14,7 @@ Usage:
 import json
 import os
 import sys
+from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.build import build_document
@@ -58,7 +59,10 @@ def main(s: str):
         print(f"{out_path} already exists - not overwriting a published document")
         return 1
 
-    doc = build_document(inputs, votes)
+    # Stamp when the board was actually written, so the report page can show
+    # readers how fresh the calls are ("Calls written ..." / per-note stamps).
+    generated_at = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    doc = build_document(inputs, votes, generated_at=generated_at)
     errs = verify_document(doc)
     if errs:
         print(f"{len(errs)} verification error(s) - not publishing:")

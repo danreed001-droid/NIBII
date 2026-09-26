@@ -2,8 +2,8 @@
  "date": "2026-09-25",
  "basisDate": "2026-09-25",
  "scored": false,
- "generatedAt": null,
- "generationLag": null,
+ "generatedAt": "2026-09-26T18:48:44Z",
+ "generationLag": "generatedAt backfilled from the publish commit (039837c) time: publish.py did not stamp generatedAt when this board was published; written on 2026-09-26 for session 2026-09-25 via a manual weekend fire of the daily-cycle Routine, after S had closed",
  "schema": "multi-asset-v4",
  "overlay": {
   "name": "stretch-v1",
