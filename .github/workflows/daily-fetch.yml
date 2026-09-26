@@ -24,6 +24,23 @@ on:
     # github.event.schedule matches it). CME futures reopen at 6pm ET Sunday;
     # 23:30 UTC = 7:30pm EDT / 6:30pm EST, after the reopen in both states.
     - cron: '30 23 * * 0'
+    # Report refreshes 10 minutes before each "Market Tape Ledger - report
+    # refresh" Routine (9:30am, 10:45am, 1:15pm, 3:47pm ET), which pulls
+    # what these render and republishes the Claude artifact. Each ET time is
+    # listed at both its EDT and EST UTC time; the dst-gate job below only
+    # lets the one matching the current New York offset through.
+    # 9:20am ET
+    - cron: '20 13 * * 1-5'   # EDT
+    - cron: '20 14 * * 1-5'   # EST
+    # 10:35am ET
+    - cron: '35 14 * * 1-5'   # EDT
+    - cron: '35 15 * * 1-5'   # EST
+    # 1:05pm ET
+    - cron: '5 17 * * 1-5'    # EDT
+    - cron: '5 18 * * 1-5'    # EST
+    # 3:37pm ET
+    - cron: '37 19 * * 1-5'   # EDT
+    - cron: '37 20 * * 1-5'   # EST
   # Follow-up run after a daily-cycle Routine publishes: the Routine pushes
   # its drafted votes/document to main, and this re-runs 10 minutes later
   # (see the wait step) to settle, refresh live prices and re-render the
@@ -45,7 +62,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  dst-gate:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - id: gate
+        env:
+          SCHED: ${{ github.event.schedule }}
+        run: |
+          # Keyed off which cron fired (not the clock), so a late-starting
+          # scheduled run still gates correctly.
+          case "$SCHED" in
+            '20 13 * * 1-5'|'35 14 * * 1-5'|'5 17 * * 1-5'|'37 19 * * 1-5') want=-0400 ;;
+            '20 14 * * 1-5'|'35 15 * * 1-5'|'5 18 * * 1-5'|'37 20 * * 1-5') want=-0500 ;;
+            *) want=any ;;
+          esac
+          now=$(TZ=America/New_York date +%z)
+          if [ "$want" = any ] || [ "$want" = "$now" ]; then run=true; else run=false; fi
+          echo "schedule='$SCHED' wants $want, New York is $now -> run=$run"
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+
   fetch:
+    needs: dst-gate
+    if: needs.dst-gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Wait 10 minutes for the Routine to finish pushing
