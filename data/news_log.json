@@ -1,1162 +1,1282 @@
 [
- {
-  "id": "2026-08-05-1-dow-closes-at-record-on-hopes-for-a-us-i",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Geopolitics",
-   "date": "2026-08-05",
-   "day": "Wed",
-   "direction": "Mixed",
-   "event": "Dow closes at record on hopes for a US-Iran deal to reopen the Strait of Hormuz; Nasdaq snaps 4-day win streak",
-   "impact": "Medium",
-   "numbers": "Dow +0.5% (record); S&P -0.2%; Nasdaq -0.8%; Brent ~$79, WTI ~$75",
-   "order": 1,
-   "reaction": "Rotation out of tech into cyclicals; oil steady",
-   "region": "US/Middle East",
-   "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-august-5-dow-sp-500-nasdaq-oil-hormuz-093653327.html",
-   "tickers": "DIA, SPY, QQQ, USO, XLE",
-   "time": "Market hours",
-   "vsExp": "n/a"
+  {
+    "id": "2026-08-05-1-dow-closes-at-record-on-hopes-for-a-us-i",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Geopolitics",
+      "date": "2026-08-05",
+      "day": "Wed",
+      "direction": "Mixed",
+      "event": "Dow closes at record on hopes for a US-Iran deal to reopen the Strait of Hormuz; Nasdaq snaps 4-day win streak",
+      "impact": "Medium",
+      "numbers": "Dow +0.5% (record); S&P -0.2%; Nasdaq -0.8%; Brent ~$79, WTI ~$75",
+      "order": 1,
+      "reaction": "Rotation out of tech into cyclicals; oil steady",
+      "region": "US/Middle East",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-august-5-dow-sp-500-nasdaq-oil-hormuz-093653327.html",
+      "tickers": "DIA, SPY, QQQ, USO, XLE",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-08-05-2-spacex-falls-13-despite-earnings-beat-on",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Earnings",
+      "date": "2026-08-05",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "SpaceX falls ~13% despite earnings beat on heavy AI capex; AMD slips on 'excellent not exceptional' results",
+      "impact": "Medium",
+      "numbers": "SPCX -13%",
+      "order": 2,
+      "reaction": "AI capex scrutiny weighs on high-multiple tech",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-august-5-dow-sp-500-nasdaq-oil-hormuz-093653327.html",
+      "tickers": "SPCX, AMD, NVDA",
+      "time": "After-hours",
+      "vsExp": "Beat"
+    }
+  },
+  {
+    "id": "2026-08-06-1-dow-closes-at-another-record-while-s-p-a",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Market",
+      "date": "2026-08-06",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "Dow closes at another record while S&P and Nasdaq dip; SpaceX's first lockup expires (900M+ shares); July Challenger job cuts lowest in two years",
+      "impact": "Low",
+      "numbers": "Challenger cuts 33,429 (-27% m/m); WTI +1.2% to $76.12; gold $4,321",
+      "order": 1,
+      "reaction": "Energy outperformed; HUBS -24%, MSI +8.5%",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-6-2026",
+      "tickers": "DIA, SPY, SPCX, XLE",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-08-07-1-july-jobs-report-payrolls-unexpectedly-f",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Macro",
+      "date": "2026-08-07",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "July jobs report: payrolls unexpectedly fall 23K; June revised to -20K; participation lowest in 5+ years",
+      "impact": "High",
+      "numbers": "NFP -23K; unemployment 4.1%; LFPR 61.4%",
+      "order": 1,
+      "reaction": "Stocks rose on lower hike odds: S&P +0.33%, Nasdaq +0.86%; gold +1.8% to $4,376",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-7-2026",
+      "tickers": "SPY, QQQ, TLT, GLD",
+      "time": "Pre-market",
+      "vsExp": "Miss (est. +83K; UR est. 4.2%)"
+    }
+  },
+  {
+    "id": "2026-08-10-1-oil-climbs-as-iran-says-oman-hormuz-tran",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Geopolitics",
+      "date": "2026-08-10",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Oil climbs as Iran says Oman Hormuz transit deal is in 'final stages' but conditions reopening on US concessions",
+      "impact": "Medium",
+      "numbers": "WTI +1.3% to $79.19; Brent $84.68; S&P -0.03%",
+      "order": 1,
+      "reaction": "Energy up, broad market flat; small caps +1.1%",
+      "region": "US/Middle East",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-10-2026",
+      "tickers": "USO, XLE, SPY",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-08-11-1-oil-surges-on-escalating-us-iran-strait",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Energy",
+      "date": "2026-08-11",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "Oil surges on escalating US-Iran Strait of Hormuz dispute ahead of CPI",
+      "impact": "Medium",
+      "numbers": "WTI +1.9% to $83.68; Brent $89.19; S&P -0.10%, Nasdaq -0.39%",
+      "order": 1,
+      "reaction": "Large caps slip; RIOT +16.5% on $9.1B Anthropic data-center deal",
+      "region": "US/Middle East",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-11-2026",
+      "tickers": "USO, XLE, SPY, QQQ",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-08-12-1-july-cpi-in-line-core-softer-than-feared",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Macro",
+      "date": "2026-08-12",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "July CPI in line, core tame; lowers odds of a September hike",
+      "impact": "High",
+      "numbers": "CPI +0.1% m/m, 3.4% y/y; core +0.2% m/m, 2.5% y/y; Sept hold odds 64% (from 52%)",
+      "order": 1,
+      "reaction": "All three indexes rose; NBIS +20%, CRWV +18%, SMCI +9% on earnings",
+      "region": "US",
+      "source": "https://www.kiplinger.com/investing/economy/cpi-report-july-2026-what-to-expect",
+      "tickers": "SPY, QQQ, TLT",
+      "time": "Pre-market",
+      "vsExp": "In line (core est. +0.2-0.3%)"
+    }
+  },
+  {
+    "id": "2026-08-13-1-july-ppi-flat-below-forecast-s-p-500-cle",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Macro",
+      "date": "2026-08-13",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "July PPI flat, below forecast; S&P 500 clears 7,800 for the first time",
+      "impact": "Medium",
+      "numbers": "PPI 0.0% m/m (4.7% y/y); core +0.2% m/m (4.2% y/y); jobless claims 209K; S&P +0.65%, intraday high 7,816.70",
+      "order": 1,
+      "reaction": "Record high for S&P; BIRK +16%, CBRS -11%",
+      "region": "US",
+      "source": "https://www.ftportfolios.com/Commentary/EconomicResearch/2026/8/13/the-producer-price-index-ppi-was-unchanged-in-july",
+      "tickers": "SPY, TLT",
+      "time": "Pre-market",
+      "vsExp": "Miss (est. +0.2%)"
+    }
+  },
+  {
+    "id": "2026-08-14-1-july-retail-sales-fall-0-6-far-below-for",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Macro",
+      "date": "2026-08-14",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "July retail sales fall 0.6%, far below forecast; Prime Day and World Cup timing blamed, but core categories also weak",
+      "impact": "Medium",
+      "numbers": "Retail sales -0.6% m/m; ex-autos & gas -0.3%; autos -2%",
+      "order": 1,
+      "reaction": "S&P -0.23%; Russell 2000 at record; RDDT +15% on S&P 500 inclusion",
+      "region": "US",
+      "source": "https://www.axios.com/2026/08/14/retail-sales-amazon-world-cup",
+      "tickers": "XRT, AMZN, SPY",
+      "time": "Pre-market",
+      "vsExp": "Miss (est. +0.1%)"
+    }
+  },
+  {
+    "id": "2026-08-17-1-us-iran-memorandum-of-understanding-expi",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Geopolitics",
+      "date": "2026-08-17",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "US-Iran Memorandum of Understanding expires, clouding Hormuz shipping; 30-year yield tests multi-decade highs ahead of retail earnings",
+      "impact": "Medium",
+      "numbers": "WTI +0.6% to $82.86; Brent $89.27; S&P -0.17%, Nasdaq +0.23%",
+      "order": 1,
+      "reaction": "Cautious trade; Goldman warns of H2 consumer slowdown",
+      "region": "US/Middle East",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-17-2026",
+      "tickers": "USO, US30Y, TLT, WMT, HD, TGT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-08-18-1-30-year-treasury-yield-tops-5-33-a-19-ye",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Rates",
+      "date": "2026-08-18",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "30-year Treasury yield tops 5.33%, a 19-year high, on inflation and federal spending worries",
+      "impact": "Medium",
+      "numbers": "30Y >5.33%",
+      "order": 1,
+      "reaction": "Long-bond selloff; pressure on housing/utilities",
+      "region": "US",
+      "source": "https://www.cnbc.com/2026/08/18/treasury-yields-.html",
+      "tickers": "US30Y, TLT, rate-sensitive stocks",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-08-20-1-walmart-q2-fy27-beat-and-raised-full-yea",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Earnings",
+      "date": "2026-08-20",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Walmart Q2 FY27: beat and raised full-year guide, but Q3 EPS guide weak; ~750bp of op-income growth came from one-time tariff refunds",
+      "impact": "Medium",
+      "numbers": "EPS $0.81; revenue $187.9B (+6%); FY EPS guide $2.80-2.87; Q3 EPS guide $0.62-0.64",
+      "order": 1,
+      "reaction": "WMT -9% ($114.30 -> $103.84), worst earnings reaction in 10 quarters",
+      "region": "US",
+      "source": "https://247wallst.com/investing/2026/08/21/walmart-beat-earnings-and-raised-guidance-so-why-did-the-stock-crash/",
+      "tickers": "WMT, XRT, consumer staples",
+      "time": "Pre-market",
+      "vsExp": "Beat (EPS est. ~$0.74); Q3 guide below"
+    }
+  },
+  {
+    "id": "2026-08-26-1-july-pce-inflation-headline-above-foreca",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Economic data",
+      "date": "2026-08-26",
+      "day": "Wed",
+      "direction": "Mixed",
+      "event": "July PCE inflation: headline above forecast, core in line",
+      "impact": "Medium",
+      "numbers": "Headline 3.7% y/y (+0.2% m/m); core 3.3% y/y (+0.2% m/m); spending +0.2%; income +0.4%",
+      "order": 1,
+      "reaction": "Hawkish tilt ahead of Jackson Hole",
+      "region": "US",
+      "source": "https://finance.yahoo.com/economy/policy/articles/july-2026-pce-inflation-data-124921061.html",
+      "tickers": "Fed funds futures, 2Y yield",
+      "time": "8:30 AM",
+      "vsExp": "Headline above (est. 3.6%); core in line"
+    }
+  },
+  {
+    "id": "2026-08-26-2-q2-gdp-second-estimate-unchanged",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Economic data",
+      "date": "2026-08-26",
+      "day": "Wed",
+      "direction": "Neutral",
+      "event": "Q2 GDP second estimate unchanged",
+      "impact": "Low",
+      "numbers": "Real GDP 1.5% annualized",
+      "order": 2,
+      "reaction": "Limited",
+      "region": "US",
+      "source": "https://www.advisorperspectives.com/dshort/updates/2026/08/26/q2-gdp-second-estimate-real-gdp-at-1-5-unchanged",
+      "tickers": "SPY, yields",
+      "time": "8:30 AM",
+      "vsExp": "In line with advance estimate"
+    }
+  },
+  {
+    "id": "2026-08-26-3-nvidia-q2-fy27-blowout-q3-guide-108b-ceo",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Earnings",
+      "date": "2026-08-26",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "Nvidia Q2 FY27 blowout; Q3 guide $108B; CEO says AI demand growth >100%/yr, supply-constrained",
+      "impact": "High",
+      "numbers": "Revenue $96.2B (+106% y/y); EPS $2.22; gross margin 75.0%",
+      "order": 3,
+      "reaction": "Aug 27: NVDA +8.7% (biggest gain since Apr 2025); S&P +0.7%; Nasdaq +1.6%; VIX to 14.5",
+      "region": "US",
+      "source": "https://www.kiplinger.com/investing/live/nvidia-earnings-live-updates-and-commentary-august-2026",
+      "tickers": "NVDA, SMH, AI complex",
+      "time": "After close",
+      "vsExp": "Beat (rev. est. ~$91B); guide above"
+    }
+  },
+  {
+    "id": "2026-08-28-1-fed-chair-warsh-s-first-jackson-hole-spe",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Central bank",
+      "date": "2026-08-28",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Fed Chair Warsh's first Jackson Hole speech is hawkish: inflation trend not meaningfully improved; less forward guidance",
+      "impact": "High",
+      "numbers": "12-mo PCE 3.7%; Sept hike odds jump to ~57%",
+      "order": 1,
+      "reaction": "S&P -0.25% (7,711.76); Nasdaq -0.52%; Dow flat; Russell 2000 -1.2%; 10Y to ~4.70-4.72%; gold -2.5%; BTC -3.1%",
+      "region": "US",
+      "source": "https://www.metatradingclub.com/market-close-august-28-2026-warsh-jackson-hole-stocks-fall/",
+      "tickers": "SPY, QQQ, IWM, gold, BTC, 10Y",
+      "time": "10:00 AM",
+      "vsExp": "Hawkish vs. expectations"
+    }
+  },
+  {
+    "id": "2026-08-28-2-marvell-falls-despite-earnings-beat-payp",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Earnings / analyst",
+      "date": "2026-08-28",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Marvell falls despite earnings beat; PayPal hit by downgrade; Elastic jumps on cloud results",
+      "impact": "Low",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "MRVL -10%+; PYPL -11.9%; ESTC +17.5%",
+      "region": "US",
+      "source": "https://pabloespinal.net/blog/week-in-markets-august-29-2026/",
+      "tickers": "MRVL, PYPL, ESTC",
+      "time": "Market hours",
+      "vsExp": "MRVL beat but sold off"
+    }
+  },
+  {
+    "id": "2026-09-02-1-broadcom-q3-fy26-beat-but-q4-revenue-gui",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Earnings",
+      "date": "2026-09-02",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Broadcom Q3 FY26 beat, but Q4 revenue guide just below whisper",
+      "impact": "Medium",
+      "numbers": "Revenue $29.6B (+86%); AI semis $16.7B (+221%); EPS $3.32; Q4 guide $34.8B, AI $21.7B",
+      "order": 1,
+      "reaction": "Sept 3: AVGO -5 to -6%",
+      "region": "US",
+      "source": "https://www.fool.com/investing/2026/09/03/why-broadcom-stock-dropped-today/",
+      "tickers": "AVGO, SMH",
+      "time": "After close",
+      "vsExp": "Beat (EPS est. $3.21); guide below ~$35B+ hopes"
+    }
+  },
+  {
+    "id": "2026-09-04-1-august-jobs-report-much-stronger-than-ex",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Economic data",
+      "date": "2026-09-04",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "August jobs report much stronger than expected; prior months revised up",
+      "impact": "High",
+      "numbers": "Payrolls +162K; unemployment 4.1%; wages +0.3% m/m, +3.1% y/y; June-July revised +55K",
+      "order": 1,
+      "reaction": "Dow -0.51%; S&P -0.38%; Nasdaq -0.29%; 10Y 4.78% (+1.8bp); short yields at 52-wk highs; hike odds up",
+      "region": "US",
+      "source": "https://www.bls.gov/news.release/empsit.nr0.htm",
+      "tickers": "SPY, 2Y/10Y yields, IWM",
+      "time": "8:30 AM",
+      "vsExp": "Beat (est. ~55K)"
+    }
+  },
+  {
+    "id": "2026-09-07-1-us-iran-strikes-intensify-in-the-strait",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Geopolitics / energy",
+      "date": "2026-09-07",
+      "day": "Mon (Labor Day)",
+      "direction": "Bearish",
+      "event": "US-Iran strikes intensify in the Strait of Hormuz; Saudi Aramco's Jizan refinery hit",
+      "impact": "High",
+      "numbers": "Brent ~$97 (+9% in 5 days, +19% in a month); WTI $92.27; US gasoline $4.15; diesel record >$5.90",
+      "order": 1,
+      "reaction": "Oil up sharply; US stock markets closed",
+      "region": "Middle East",
+      "source": "https://www.aljazeera.com/economy/2026/9/7/oil-prices-surge-as-us-iran-strikes-intensify-in-strait-of-hormuz",
+      "tickers": "Brent, WTI, XLE, airlines, 10Y breakevens",
+      "time": "Weekend / holiday",
+      "vsExp": "Escalation"
+    }
+  },
+  {
+    "id": "2026-09-10-1-iran-targets-vessels-in-hormuz-houthis-s",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Geopolitics / energy",
+      "date": "2026-09-10",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Iran targets vessels in Hormuz; Houthis seize a key Yemeni port",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 1,
+      "reaction": "Oil prices rise",
+      "region": "Middle East",
+      "source": "https://www.washingtontimes.com/news/2026/sep/10/oil-prices-rise-iran-targets-vessels-strait-hormuz-houthis-seize/",
+      "tickers": "Brent, WTI, XLE, tankers",
+      "time": "Market hours",
+      "vsExp": "Escalation"
+    }
+  },
+  {
+    "id": "2026-09-10-2-oracle-q1-fy27-revenue-beat-but-investor",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Earnings",
+      "date": "2026-09-10",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Oracle Q1 FY27: revenue beat, but investors balk at ~$90B capex plans and margins",
+      "impact": "Medium",
+      "numbers": "Revenue $19.3B (+30%); EPS $1.92",
+      "order": 2,
+      "reaction": "ORCL fell ~4-5% over following sessions (closed $144.79 on Sept 14)",
+      "region": "US",
+      "source": "https://en.cryptonomist.ch/2026/09/15/oracle-stock-falls-4-7-despite-30-revenue-surge-charts-stay-bearish/",
+      "tickers": "ORCL, AI infrastructure",
+      "time": "After close",
+      "vsExp": "Revenue beat (est. $19.14B)"
+    }
+  },
+  {
+    "id": "2026-09-11-1-august-cpi-headline-in-line-core-monthly",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Economic data",
+      "date": "2026-09-11",
+      "day": "Fri",
+      "direction": "Neutral",
+      "event": "August CPI: headline in line, core monthly hotter; gasoline +3.9% drove over a third of the increase",
+      "impact": "High",
+      "numbers": "Headline +0.4% m/m, 3.4% y/y; core +0.3% m/m, 2.4% y/y; energy +16.3% y/y",
+      "order": 1,
+      "reaction": "Sept hike odds ~69% (futures); S&P, Nasdaq-100 and Dow each +0.2%; gold +0.8%; BTC +1.3%; Brent >$105",
+      "region": "US",
+      "source": "https://www.bls.gov/news.release/cpi.nr0.htm",
+      "tickers": "SPY, Fed funds futures, gold, BTC",
+      "time": "8:30 AM",
+      "vsExp": "Headline in line; core m/m above (est. 0.2%)"
+    }
+  },
+  {
+    "id": "2026-09-14-1-10-year-treasury-yield-breaks-5-first-ti",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Rates / energy",
+      "date": "2026-09-14",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "10-year Treasury yield breaks 5% (first time since 2023) as Brent nears $110 after Saudi East-West pipeline shut following drone attacks",
+      "impact": "High",
+      "numbers": "10Y hit 5.012% intraday, closed 4.96%; Brent settled $105.68",
+      "order": 1,
+      "reaction": "S&P -0.5%; Nasdaq -0.6%; Dow -0.3%",
+      "region": "US / Middle East",
+      "source": "https://eurasiabusinessnews.com/2026/09/14/stock-market-today-10-year-treasury-yield-touches-5-as-oil-surge-raises-inflation-fears/",
+      "tickers": "10Y, Brent, SPY",
+      "time": "Morning",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-14-2-anthropic-ceo-dario-amodei-publishes-ess",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "AI / tech",
+      "date": "2026-09-14",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Anthropic CEO Dario Amodei publishes essay urging a slowdown in AI capability development; AI chip stocks sell off",
+      "impact": "High",
+      "numbers": "Philadelphia Semiconductor Index -5.9%",
+      "order": 2,
+      "reaction": "NVDA -3.4%; AVGO -4%; MRVL ~-7%; MU/SMCI ~-6%; CRWV/AMD/INTC ~-4%",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/stocks/article/ai-stocks-get-drilled-because-of-anthropic-ceo-dario-amodeis-3800-word-warning-093637548.html",
+      "tickers": "NVDA, AVGO, MRVL, MU, SMCI, CRWV, AMD, INTC, SNDK",
+      "time": "Morning",
+      "vsExp": "Surprise"
+    }
+  },
+  {
+    "id": "2026-09-14-3-corning-launches-2b-at-the-market-equity",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Corporate / capital raise",
+      "date": "2026-09-14",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Corning launches $2B at-the-market equity offering; optical peers hit",
+      "impact": "Medium",
+      "numbers": "$2B share sale",
+      "order": 3,
+      "reaction": "GLW -12 to -14%; COHR -11%; LITE -9%; FN -6%",
+      "region": "US",
+      "source": "https://247wallst.com/investing/2026/09/14/corning-tumbles-12-on-2b-at-the-market-equity-offering-coherent-sinks-11-lumentum-drops-9-fabrinet-slides-6/",
+      "tickers": "GLW, COHR, LITE, FN",
+      "time": "Pre-market",
+      "vsExp": "Surprise"
+    }
+  },
+  {
+    "id": "2026-09-16-1-fed-raises-rates-25bp-to-3-75-4-00-first",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Central bank",
+      "date": "2026-09-16",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Fed raises rates 25bp to 3.75-4.00% (first hike since July 2023), unanimous 12-0; dots signal one more hike in 2026, hold in 2027",
+      "impact": "High",
+      "numbers": "Fed funds 3.75-4.00%",
+      "order": 1,
+      "reaction": "Dow -1.07% (~-600 pts); S&P -0.45%; Nasdaq -0.06%",
+      "region": "US",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "tickers": "SPY, DIA, QQQ, 2Y/10Y, USD",
+      "time": "2:00 PM",
+      "vsExp": "Expected hike; hawkish outlook"
+    }
+  },
+  {
+    "id": "2026-09-16-2-amazon-signs-data-center-backup-generato",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Corporate deal",
+      "date": "2026-09-16",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "Amazon signs data-center backup generator deal with Generac: $2.4B of deliveries in 2027-28, up to $8B total; Amazon gets warrants for ~1.69M shares at ~$200.93",
+      "impact": "Medium",
+      "numbers": "$2.4B firm; up to $8B",
+      "order": 2,
+      "reaction": "Sept 17: GNRC +21.4% (up ~34% pre-market)",
+      "region": "US",
+      "source": "https://www.tradingkey.com/analysis/stocks/us-stocks/262172770-generac-stock-amazon-ai-data-center-gnrc-gap-tradingkey",
+      "tickers": "GNRC, AMZN, AI power stocks",
+      "time": "After close",
+      "vsExp": "Surprise"
+    }
+  },
+  {
+    "id": "2026-09-17-1-post-fed-relief-rally-as-yields-and-oil",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Market / energy",
+      "date": "2026-09-17",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "Post-Fed relief rally as yields and oil ease; Moderna/Merck cancer vaccine Phase 3 win; Fluence cuts guidance",
+      "impact": "Medium",
+      "numbers": "10Y -7bp to 4.934%; Brent ~$104 (down ~$4.36 from prior morning)",
+      "order": 1,
+      "reaction": "S&P +1.14% (7,637.72); Nasdaq +1.69%; Dow +0.62%; tech +2.25%; MRNA +9.4%; FLNC -16.9%",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-17-2026",
+      "tickers": "SPY, QQQ, MRNA, MRK, FLNC",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-17-2-sec-grants-five-year-innovation-exemptio",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Regulation / crypto",
+      "date": "2026-09-17",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "SEC grants five-year 'innovation exemption' opening a path for tokenized US stock trading",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "Sept 18: COIN +11%; BTC above $80K; ETH +5.1%",
+      "region": "US",
+      "source": "https://www.coindesk.com/business/2026/09/17/sec-opens-door-to-tokenized-u-s-stock-trading-here-s-who-could-benefit",
+      "tickers": "COIN, CRCL, MSTR, BTC, ETH",
+      "time": "Market hours",
+      "vsExp": "Surprise"
+    }
+  },
+  {
+    "id": "2026-09-18-1-bank-of-japan-raises-rates-to-1-25-from",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Central bank",
+      "date": "2026-09-18",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Bank of Japan raises rates to 1.25% from 1.0%, a 31-year high, citing energy-driven inflation and the widening US-Japan rate gap",
+      "impact": "Medium",
+      "numbers": "BOJ rate 1.25%",
+      "order": 1,
+      "reaction": "Watch for yen-carry unwind and global yield spillover",
+      "region": "Japan",
+      "source": "https://www.aljazeera.com/news/2026/9/18/japans-interest-rate-hiked-to-31-year-high-at-1-25-as-inflation-rises",
+      "tickers": "JPY, Nikkei, JGBs, US yields",
+      "time": "Overnight",
+      "vsExp": "Expected"
+    }
+  },
+  {
+    "id": "2026-09-18-2-warren-buffett-96-steps-down-as-berkshir",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Corporate leadership",
+      "date": "2026-09-18",
+      "day": "Fri",
+      "direction": "Neutral",
+      "event": "Warren Buffett, 96, steps down as Berkshire Hathaway chairman (becomes chairman emeritus); son Howard Buffett becomes chair, Greg Abel stays CEO",
+      "impact": "Low",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "Market largely shrugged",
+      "region": "US",
+      "source": "https://www.cnbc.com/2026/09/18/buffett-stepping-down-as-berkshire-chairman.html",
+      "tickers": "BRK.A, BRK.B",
+      "time": "Market hours",
+      "vsExp": "Largely expected"
+    }
+  },
+  {
+    "id": "2026-09-18-3-stocks-slip-friday-dow-heads-for-third-s",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Market",
+      "date": "2026-09-18",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Stocks slip Friday; Dow heads for third straight weekly loss while Nasdaq edges up for the week; 10Y hovers near 5%",
+      "impact": "Low",
+      "numbers": "Week: Dow ~-2%, Nasdaq ~+0.3% (intraday estimates)",
+      "order": 3,
+      "reaction": "Nasdaq -0.1%; S&P -0.2%; Dow -0.4% (as of report)",
+      "region": "US",
+      "source": "https://www.fool.com/investing/2026/09/18/the-dow-is-down-for-a-third-straight-week/",
+      "tickers": "SPY, DIA, QQQ",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-19-1-houthis-claim-strikes-on-aramco-yanbu-riya",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Energy",
+      "date": "2026-09-19",
+      "day": "Sat",
+      "direction": "Bearish",
+      "event": "Houthis claim ballistic-missile and drone strikes on a Saudi Aramco facility in Yanbu and 'sensitive sites' in Riyadh; no Saudi confirmation",
+      "impact": "Medium",
+      "numbers": "n/a (WTI closed Fri at $100.70)",
+      "order": 1,
+      "reaction": "Watch oil at Sunday evening futures open for a supply-risk premium",
+      "region": "Middle East",
+      "source": "https://www.jpost.com/middle-east/article-909128",
+      "tickers": "CL=F, BZ=F, XLE, 2222.SR",
+      "time": "Weekend",
+      "vsExp": "Unexpected"
+    }
+  },
+  {
+    "id": "2026-09-19-2-iran-sends-conditions-to-end-war-to-us-v",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Geopolitics",
+      "date": "2026-09-19",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Iran says it sent conditions to end the war to the US via Qatar: halt attacks on all fronts, release frozen assets, end the naval blockade; says a Hormuz deal with Oman was nearly done and awaits Trump's response",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "Analysts see terms as unrealistic for Washington, but dropping reparations demands is a positive signal; any US reply could swing oil",
+      "region": "Middle East",
+      "source": "https://www.aljazeera.com/news/2026/9/19/iran-says-conditions-to-re-engage-in-talks-end-war-sent-to-us-via-qatar",
+      "tickers": "CL=F, BZ=F, XLE, tankers",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-19-3-week-ahead-costco-darden-general-mills-e",
+    "data": {
+      "addedAt": "2026-09-19",
+      "category": "Earnings",
+      "date": "2026-09-19",
+      "day": "Sat",
+      "direction": "Neutral",
+      "event": "Week ahead (Sep 21-25): light earnings slate headlined by Costco (Thu AMC), Darden (Thu BMO), General Mills and Paychex (Wed BMO), AutoZone (Tue BMO), KB Home (Tue AMC)",
+      "impact": "Low",
+      "numbers": "COST EPS est. $6.53 on $94.9B rev; DRI EPS est. $2.05; AZO EPS est. $54.30",
+      "order": 3,
+      "reaction": "Consumer read after the Fed's hike, with the 10Y at ~5.00%",
+      "region": "US",
+      "source": "https://www.kiplinger.com/investing/stocks/17494/next-week-earnings-calendar-stocks",
+      "tickers": "COST, DRI, GIS, PAYX, AZO, KBH",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-20-1-iran-warns-of-us-strikes-hormuz-closed",
+    "data": {
+      "addedAt": "2026-09-20",
+      "category": "Geopolitics",
+      "date": "2026-09-20",
+      "day": "Sun",
+      "direction": "Bearish",
+      "event": "Iran's Armed Forces say they have intelligence the US is preparing to resume strikes and warn any attack brings 'continuous strikes on US bases and interests'; Speaker Ghalibaf says the Strait of Hormuz stays closed until US commitments are met. State Dept urges Americans to reconsider Middle East travel",
+      "impact": "High",
+      "numbers": "n/a",
+      "order": 1,
+      "reaction": "Sets up a risk-off/oil-bid Sunday evening futures open; direct pushback on Iran's own Sat ceasefire conditions",
+      "region": "Middle East",
+      "source": "https://english.alarabiya.net/News/middle-east/2026/09/20/iran-warns-us-against-resuming-attacks",
+      "tickers": "CL=F, BZ=F, XLE, SPY, GLD, tankers",
+      "time": "Weekend",
+      "vsExp": "Escalation vs Saturday's conciliatory signal"
+    }
+  },
+  {
+    "id": "2026-09-20-2-hormuz-oil-flows-hit-six-month-high",
+    "data": {
+      "addedAt": "2026-09-20",
+      "category": "Energy",
+      "date": "2026-09-20",
+      "day": "Sun",
+      "direction": "Bullish",
+      "event": "CENTCOM chief Adm. Brad Cooper says Strait of Hormuz oil shipments over the past two weeks hit their highest in six months, with Gulf allies moving more than 1 billion barrels of crude in the last couple of months under US naval escort",
+      "impact": "Medium",
+      "numbers": "~10M bpd crude and products transiting (Energy Sec. Chris Wright); >1B bbl over ~2 months (Cooper)",
+      "order": 2,
+      "reaction": "Supply-relief counterweight to the escalation headlines; Wright calls oil markets 'tighter than we'd like today, but not overly tight'",
+      "region": "Middle East / Global",
+      "source": "https://www.business-standard.com/world-news/strait-of-hormuz-oil-shipments-hit-six-month-high-says-us-commander-126092000060_1.html",
+      "tickers": "CL=F, BZ=F, XLE, XOM, CVX",
+      "time": "Weekend",
+      "vsExp": "Better than feared given Iran's closure claim"
+    }
+  },
+  {
+    "id": "2026-09-20-3-saudi-gulf-stocks-fall-on-riyadh-attacks",
+    "data": {
+      "addedAt": "2026-09-20",
+      "category": "Market",
+      "date": "2026-09-20",
+      "day": "Sun",
+      "direction": "Bearish",
+      "event": "Gulf bourses, which trade Sunday, close lower after Houthi claims of missile and drone attacks on Riyadh and Aramco sites in Yanbu",
+      "impact": "Low",
+      "numbers": "Saudi TASI -0.26%; Qatar QSI -1.12%; Aramco (2222.SR) -0.6%; Saudi National Bank -0.5%; Industries Qatar -4.05%",
+      "order": 3,
+      "reaction": "Modest, not panic - first market pricing of Saturday's Houthi claims ahead of the US open",
+      "region": "Gulf",
+      "source": "https://www.investing.com/news/stock-market-news/saudi-gulf-stocks-fall-after-houthis-claim-riyadh-attacks-4908153",
+      "tickers": "2222.SR, TASI, QSI, KSA",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-21-1-stocks-rally-nasdaq-2-26-10y-eases",
+    "data": {
+      "addedAt": "2026-09-21",
+      "category": "Market",
+      "date": "2026-09-21",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Stocks rally for a third session as oil and Treasury yields fall; tech and communication services lead, semis surge. Third straight gain after last week's Fed-hike volatility",
+      "impact": "High",
+      "numbers": "S&P 500 7,764.70 +1.49%; Dow 52,048.83 +0.71%; Nasdaq Composite 27,122.09 +2.26%; 10Y ~4.95-4.96% (-4 to -5bp); 2Y 4.73%; 30Y 5.31%",
+      "order": 1,
+      "reaction": "Risk appetite revived by a ~2.5% drop in crude and diplomatic headlines; no top-tier US data on the calendar",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-21-2026",
+      "tickers": "SPY, DIA, QQQ, SMH, TLT",
+      "time": "After-hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-21-2-amd-tops-1t-as-meta-muse-drives-chips",
+    "data": {
+      "addedAt": "2026-09-21",
+      "category": "Earnings",
+      "date": "2026-09-21",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Chip and AI stocks soar as Meta's Muse personal AI agent holds the No. 1 free iPhone app spot for a third day; AMD crosses $1 trillion market cap for the first time",
+      "impact": "High",
+      "numbers": "AMD +9.9% (first close above $1T mkt cap); INTC +12.2%; META +11.3%; ARM +17.0%; QCOM +9.1%; SMH +4.3%",
+      "order": 2,
+      "reaction": "Single biggest driver of the Nasdaq's +2.26% day; Lisa Su has framed 'agentic sandboxes' as AMD's largest revenue opportunity",
+      "region": "US",
+      "source": "https://www.benzinga.com/markets/tech/26/09/61908373/meta-muse-app-store-amd-stock-trillion-ai-agents",
+      "tickers": "AMD, INTC, META, ARM, QCOM, NVDA, SMH",
+      "time": "Market hours",
+      "vsExp": "Agentic-AI demand seen favoring server CPUs, not just accelerators (Nvidia lagged the rally)"
+    }
+  },
+  {
+    "id": "2026-09-21-3-oil-falls-as-saudi-exports-recover",
+    "data": {
+      "addedAt": "2026-09-21",
+      "category": "Energy",
+      "date": "2026-09-21",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Crude gives back an early Riyadh-attack pop and falls ~2.5% as Aramco lifts Hormuz shipments and Saudi Arabia is expected to restore roughly half its East-West pipeline capacity; Trump signals willingness to meet Iran's Pezeshkian at the UN General Assembly",
+      "impact": "High",
+      "numbers": "WTI ~$97.8-98.0 (-2.5%); Brent ~$101.3-101.9 (-2.5%)",
+      "order": 3,
+      "reaction": "Lower crude was the proximate cause of both the equity rally and the drop in yields; Brent still above $100",
+      "region": "Middle East / Global",
+      "source": "https://www.vantagemarkets.com/market-analysis/why-oil-pared-riyadh-gains-brent-wti-cfd-analysis-september-21-2026/",
+      "tickers": "CL=F, BZ=F, XLE, XOM, CVX, 2222.SR",
+      "time": "Market hours",
+      "vsExp": "Middle East flows holding up better than expected (JPMorgan, via CNBC)"
+    }
+  },
+  {
+    "id": "2026-09-21-4-goolsbee-warns-oct-hike-odds-53pct",
+    "data": {
+      "addedAt": "2026-09-21",
+      "category": "Fed",
+      "date": "2026-09-21",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Chicago Fed's Goolsbee says the road back to 2% inflation may not be painless: supply shocks look more persistent, strong demand (incl. AI capex) may be adding to inflation, and there is 'no ambiguity' about how the Fed would respond",
+      "impact": "Medium",
+      "numbers": "Fed funds target 3.75-4.00% after last week's 25bp hike; CME FedWatch odds of another 25bp hike in October 53%",
+      "order": 4,
+      "reaction": "October remains close to a coin flip; a second consecutive hike would be the first back-to-back tightening in three years",
+      "region": "US",
+      "source": "https://www.benzinga.com/markets/economic-data/26/09/61894102/goolsbee-inflation-warning-october-rate-hike-odds-treasury-yields-fall-oil",
+      "tickers": "TLT, SHY, ZQ, XLF",
+      "time": "Pre-market",
+      "vsExp": "Hawkish in substance, but yields still fell as oil dropped"
+    }
+  },
+  {
+    "id": "2026-09-21-5-paramount-wbd-california-settlement",
+    "data": {
+      "addedAt": "2026-09-21",
+      "category": "Deals",
+      "date": "2026-09-21",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Paramount Skydance in advanced talks to settle with California's attorney general, clearing one of the last hurdles to its ~$110B acquisition of Warner Bros. Discovery. Reported concessions: $1.5B California production commitment, keeping both studio lots, penalties tied to producing 30 films a year, cable channel sales, and a board to oversee CNN editorial independence",
+      "impact": "Medium",
+      "numbers": "WBD +7.1% early, ~+10.8% by the close; PSKY +5.3% early, ~+5-6%; ~$5.6B of combined market value added; $7M/day penalty to WBD holders if the deal is not closed after Sep 30, 2026",
+      "order": 5,
+      "reaction": "Netflix sat out the rally; Sep 30 close deadline now the focus",
+      "region": "US",
+      "source": "https://kelo.com/2026/09/21/warner-bros-paramount-rise-on-report-california-settlement-talks-could-clear-merger-hurdle/",
+      "tickers": "WBD, PSKY, NFLX, CMCSA",
+      "time": "Market hours",
+      "vsExp": "Faster resolution than the state-litigation timeline implied"
+    }
+  },
+  {
+    "id": "2026-09-21-6-xi-in-washington-for-thursday-summit",
+    "data": {
+      "addedAt": "2026-09-21",
+      "category": "Policy",
+      "date": "2026-09-21",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Xi Jinping arrives in Washington ahead of a Thursday (Sep 24-25) White House summit with Trump covering tariffs, AI/semiconductors and critical minerals; Bessent and Vice Premier He Lifeng held preparatory talks Sunday",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 6,
+      "reaction": "Adds to the week's risk-on tone; chip export rules and the tariff truce are the market-relevant deliverables",
+      "region": "US / China",
+      "source": "https://qz.com/trump-xi-white-house-summit-ai-tariffs-minerals-092126",
+      "tickers": "FXI, KWEB, BA, SOYB, SMH, NVDA",
+      "time": "Market hours",
+      "vsExp": "Analysts expect incremental progress rather than a breakthrough"
+    }
+  },
+  {
+    "id": "2026-09-22-1-stocks-mixed-dow-slips-nasdaq-up",
+    "data": {
+      "addedAt": "2026-09-22",
+      "category": "Market",
+      "date": "2026-09-22",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "Stocks split as the AI trade and a second day of falling oil offset weakness in cyclicals; the S&P 500 finishes effectively unchanged, the Dow slips and the Nasdaq Composite adds to Monday's record. Rally in megacap tech narrows to a handful of names",
+      "impact": "High",
+      "numbers": "S&P 500 7,764.64 -0.00%; Dow 51,863.69 -0.36%; Nasdaq Composite 27,244.28 +0.45%; Nasdaq-100 30,732 +0.82%; 10Y 4.967% (+1.6bp); 2Y 4.753% (+0.2bp); 30Y 5.303% (+2.3bp)",
+      "order": 1,
+      "reaction": "Breadth better than the Dow suggests (Russell 2000 higher); no top-tier US data on the calendar, so oil and Fed speakers set the tone",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-september-22-nasdaq-dow-sp-500-080625961.html",
+      "tickers": "SPY, DIA, QQQ, IWM, TLT",
+      "time": "After-hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-22-2-iran-hormuz-offer-oil-2-week-low",
+    "data": {
+      "addedAt": "2026-09-22",
+      "category": "Geopolitics",
+      "date": "2026-09-22",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Iran signals it could reopen the Strait of Hormuz within seven days if Washington ends the blockade of Iranian ports and halts military operations in the strait (senior Iranian official to Kyodo News). Trump later says a three-hour US-Iran meeting on the UN General Assembly sidelines was 'very productive,' with another session planned, though he suggested a full deal likely waits until after the November midterms. Crude falls to a two-week low",
+      "impact": "High",
+      "numbers": "WTI ~$89.9-90.5/bbl (-2.0% to -3.2% depending on quote/settlement); Brent ~$98/bbl (-2.2%); gold ~$4,336/oz flat; bitcoin ~$86,000",
+      "order": 2,
+      "reaction": "The single biggest cross-asset driver of the day: lower crude supported tech and small caps but weighed on energy names in the Dow",
+      "region": "Middle East / Global",
+      "source": "https://www.cnbc.com/2026/09/22/us-iran-war-trump-hormuz.html",
+      "tickers": "CL=F, BZ=F, XLE, XOM, CVX, USO, DAL",
+      "time": "Market hours",
+      "vsExp": "Faster de-escalation signal than markets had priced after the Riyadh attack"
+    }
+  },
+  {
+    "id": "2026-09-22-3-fed-speakers-barkin-collins-hawkish",
+    "data": {
+      "addedAt": "2026-09-22",
+      "category": "Fed",
+      "date": "2026-09-22",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "A heavy Fed speaking slate with no economic data: Richmond's Barkin says inflation risks outweigh employment risks and backs last week's 25bp hike, warning price pressures will take time to pass through; Boston's Collins says she has pencilled in another hike this year but sees rates unchanged through 2027; NY Fed's Williams focuses on reserve management, saying there should be no opportunity cost to holding reserves",
+      "impact": "Medium",
+      "numbers": "Fed funds target 3.75-4.00%; 10Y 4.967% (+1.6bp); 30Y 5.303% (+2.3bp); Oct hike odds ~53% as of Monday (CME FedWatch)",
+      "order": 3,
+      "reaction": "October remains roughly a coin flip; Wednesday's flash PMIs are the week's first real data test",
+      "region": "US",
+      "source": "https://www.newsquawk.com/headlines/us-market-wrap-oil-prices-drop-stocks-mixed-as-trump-says-us-iran-meeting-was-very-productive",
+      "tickers": "TLT, SHY, ZQ, XLF",
+      "time": "Market hours",
+      "vsExp": "Hawkish tilt, but yields barely moved - the message was already priced after last week's hike"
+    }
+  },
+  {
+    "id": "2026-09-22-4-autozone-q4-beat-tariff-refunds",
+    "data": {
+      "addedAt": "2026-09-22",
+      "category": "Earnings",
+      "date": "2026-09-22",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "AutoZone reports fiscal Q4 before the open: EPS beats but revenue misses, with tariff refunds and a non-cash LIFO benefit driving much of the gross-margin expansion. Domestic commercial (DIFM) is the bright spot; CEO Phil Daniele guides to accelerating sales in the US, Mexico and Brazil in FY2027",
+      "impact": "Medium",
+      "numbers": "EPS $56.05 vs $54.14 est (+3.5%); revenue $6.59B vs $6.71B est (-1.7%); sales +5.6% y/y; domestic commercial +8.6% to $1.91B; $697.5M of buybacks in the quarter",
+      "order": 4,
+      "reaction": "Shares rose roughly 2% after touching a 12-month low into the print; stock still down sharply over the past year",
+      "region": "US",
+      "source": "https://247wallst.com/cards/autozone-q4-2026-earnings-azo-01m34ce1jkfag556xtb8vnk0aw",
+      "tickers": "AZO, ORLY, GPC, AAP",
+      "time": "Pre-market",
+      "vsExp": "EPS beat / revenue miss; margin quality questioned given the one-off tariff refund"
+    }
+  },
+  {
+    "id": "2026-09-22-5-viking-vk2735-maintenance-data",
+    "data": {
+      "addedAt": "2026-09-22",
+      "category": "Earnings",
+      "date": "2026-09-22",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Viking Therapeutics posts positive topline data for VK2735 (GLP-1/GIP agonist) in a maintenance-dosing study, validating monthly and every-other-week schedules - a direct attack on adherence, the weak point of injectable obesity drugs. Rivals barely move, with traders reading it as single-asset validation rather than a sector signal",
+      "impact": "Medium",
+      "numbers": "VKTX +26% to ~$38 (up ~30% pre-market); prior Phase 2 data: up to 14.7% mean weight loss (VENTURE), 12.2% oral (VENTURE-Oral); LLY +1.1% to $1,177.43; NVO -0.7% to $39.54; GPCR -0.7%",
+      "order": 5,
+      "reaction": "Biggest single-stock move in the S&P 1500 complex on the day; obesity peers shrugged",
+      "region": "US",
+      "source": "https://247wallst.com/investing/2026/09/22/viking-soars-alone-as-obesity-complex-shrugs-at-strong-glp-1-results/",
+      "tickers": "VKTX, LLY, NVO, GPCR",
+      "time": "Pre-market",
+      "vsExp": "Better than expected on durability of weight loss at reduced dosing frequency"
+    }
+  },
+  {
+    "id": "2026-09-24-1-stocks-slip-10y-hits-5-15-19yr-high",
+    "data": {
+      "addedAt": "2026-09-24",
+      "category": "Market",
+      "date": "2026-09-24",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "Stocks close essentially flat after a choppy, sharply weaker open as the 10-year Treasury yield pushes to a fresh 19-year high and crude climbs again; AI/infrastructure names lag after Oracle's force majeure notice while rates, not equities, stay the story. UPDATED with official closes (an earlier run today logged an intraday snapshot before the bell)",
+      "impact": "High",
+      "numbers": "Close: S&P 500 7,704.13 -1.90 (-0.02%); Dow 51,349.98 -161.61 (-0.31%); Nasdaq Composite 26,939.37 +3.34 (+0.01%); Russell 2000 -0.17%. 10Y 5.19-5.21% (+~8bp, highest since 2007); 2Y 4.918%; 30Y 5.476% (highest since 2004)",
+      "order": 1,
+      "reaction": "Indices clawed back a 0.2-0.8% morning decline (Russell 2000 was -1.8% at the worst) to finish little changed; the bond market did the damage, with the long end leading",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-september-24-dow-sp-500-nasdaq-080352893.html",
+      "tickers": "SPY, DIA, QQQ, IWM, TLT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-24-2-claims-197k-new-home-sales-684k-beat",
+    "data": {
+      "addedAt": "2026-09-24",
+      "category": "Macro",
+      "date": "2026-09-24",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Firm US data lands on an already hawkish tape: weekly jobless claims fall and beat, new home sales jump to their fastest pace since the start of the year, and building permits are revised up. Market-implied odds of an October Fed hike jump",
+      "impact": "High",
+      "numbers": "Initial jobless claims 197k vs 201k est (prior 198k); new home sales 684k SAAR, +6.4% m/m vs 620k est; building permits revised to -2.1% from -2.7%, 1.403M SAAR; October hike odds ~70% vs ~55% earlier in the week (CME FedWatch)",
+      "order": 2,
+      "reaction": "Reinforced the yield melt-up; a Fed official added that 'some modest further tightening may be warranted'",
+      "region": "US",
+      "source": "https://investrade.com/mid-morning-look-september-24-2026/",
+      "tickers": "TLT, SHY, ZQ, XHB, ITB",
+      "time": "Market hours",
+      "vsExp": "Beat across the board - labour market still tight and housing firmer than expected, the opposite of what a bond market at 19-year yield highs wanted"
+    }
+  },
+  {
+    "id": "2026-09-24-3-us-china-truce-extended-to-jan-10",
+    "data": {
+      "addedAt": "2026-09-24",
+      "category": "Policy",
+      "date": "2026-09-24",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "Xi Jinping begins a rare state visit to Washington and Treasury Secretary Bessent says the US and China have agreed to extend the tariff truce by two months, through January 10, as the two sides open talks spanning trade, AI and Taiwan. Trump hailed a 'truly great friendship' as the summit began",
+      "impact": "High",
+      "numbers": "Truce extended ~2 months, new deadline Jan 10, 2027; no change announced to existing tariff rates",
+      "order": 3,
+      "reaction": "Removes a near-term tariff cliff, but little index-level reaction with rates dominating the tape",
+      "region": "US / China",
+      "source": "https://www.cnbc.com/2026/09/24/us-china-trade-truce-bessent-trump-xi.html",
+      "tickers": "FXI, KWEB, BABA, BA, NVDA, SOYB",
+      "time": "Market hours",
+      "vsExp": "A short rollover rather than the broader package some had hoped a state visit would deliver"
+    }
+  },
+  {
+    "id": "2026-09-24-4-oracle-force-majeure-project-jupiter",
+    "data": {
+      "addedAt": "2026-09-24",
+      "category": "Deals",
+      "date": "2026-09-24",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Oracle issues a force majeure notice to Blue Owl Capital over 'Project Jupiter,' its 2.5GW New Mexico AI data-center campus, after state officials rejected a natural-gas pipeline extension in July and federal permitting slipped. Oracle insists the project 'remains on our planned schedule,' but the notice seeks relief from cost and payment obligations - the first public crack in a marquee AI-capex buildout",
+      "impact": "High",
+      "numbers": "ORCL -5% to -6%; campus up to $165B of planned investment, 2.5GW, 2028 target online date; $4.7B projected economic benefit to New Mexico; Oracle simultaneously issued an RFP for 2GW of renewable capacity",
+      "order": 4,
+      "reaction": "Biggest large-cap drag of the session and the main reason the Nasdaq lagged; read-through to AI data-center financing, permitting and power constraints",
+      "region": "US",
+      "source": "https://www.datacenterdynamics.com/en/news/oracle-issues-force-majeure-notice-to-blue-owl-following-series-of-setbacks-at-project-jupiter-data-center-campus-report/",
+      "tickers": "ORCL, OWL, NVDA, VST, GEV, SMH",
+      "time": "Pre-market",
+      "vsExp": "Unexpected; Bloomberg-sourced report hit before the open"
+    }
+  },
+  {
+    "id": "2026-09-24-5-oil-extends-gains-hormuz-phased-reopen",
+    "data": {
+      "addedAt": "2026-09-24",
+      "category": "Energy",
+      "date": "2026-09-24",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Crude extends its advance on renewed US-Iran tension, including warnings of 'a new front' aimed at Red Sea energy supplies, with gains capped by a report that a phased reopening of the Strait of Hormuz is under discussion. Higher energy prices feed straight back into the inflation-and-rates story driving the week",
+      "impact": "Medium",
+      "numbers": "WTI ~$93-94/bbl (+1.0% to +2.1% intraday); Brent ~$104.70 (+1.5%); gold $4,293/oz -0.56%; silver $63.99/oz -1.50%",
+      "order": 5,
+      "reaction": "Third leg of the day's bearish mix for duration-sensitive equities alongside yields and Oracle; energy names outperformed",
+      "region": "Global / Middle East",
+      "source": "https://www.cnbc.com/2026/09/24/oil-iran-crude-kepler-trump-us-un-.html",
+      "tickers": "CL=F, BZ=F, XLE, XOM, CVX, USO",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-24-6-costco-q4-beat-eps-6-75-sales-93-9b",
+    "data": {
+      "addedAt": "2026-09-24",
+      "category": "Earnings",
+      "date": "2026-09-24",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "Costco reports Q4 FY2026 after the bell and beats on both lines, with an IEEPA tariff-refund benefit flattering the quarter; digital sales keep compounding near 20%. No special dividend announced, which some investors had hoped for",
+      "impact": "Medium",
+      "numbers": "Q4 net sales $93.9B, +11.2% y/y (from $84.4B); Q4 diluted EPS $6.75 vs $5.87 y/y (includes +$0.15 from non-recurring IEEPA tariff refunds, net of member-value reinvestment); Q4 comps +9.4% (+6.7% ex-gas/FX); digitally-enabled comps +19.5%; FY26 net sales $297.2B, +10.1%; FY26 EPS $20.76 vs $18.21; FY26 membership fee revenue $5.907B",
+      "order": 6,
+      "reaction": "After-hours move n/a at logging time (release ~4:15pm ET); stock had drifted to ~$895 into the print",
+      "region": "US",
+      "source": "https://www.globenewswire.com/news-release/2026/09/24/3368754/0/en/costco-wholesale-corporation-reports-fourth-quarter-and-fiscal-year-2026-operating-results.html",
+      "tickers": "COST, WMT, TGT, BJ",
+      "time": "After-hours",
+      "vsExp": "EPS $6.75 vs ~$6.54 consensus - a beat, though ~$0.15 of it was the one-off tariff refund; no special dividend vs some expectations of one"
+    }
+  },
+  {
+    "id": "2026-09-24-7-mgm-slides-as-diller-drops-18b-bid",
+    "data": {
+      "addedAt": "2026-09-24",
+      "category": "Deals",
+      "date": "2026-09-24",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "MGM Resorts slides after Barry Diller's People Inc. withdraws its roughly $18B bid for full control of the casino operator, saying the 'mix wasn't coming together'; Diller says he stays open to other deals. The collapse removes the takeover premium that had supported the shares",
+      "impact": "Medium",
+      "numbers": "MGM -10%; bid value ~$18B, withdrawn (reported late 9/23, shares hit 9/24)",
+      "order": 7,
+      "reaction": "Worst large-cap consumer move of the session; read-through to other rumoured take-private situations as financing costs rise with yields",
+      "region": "US",
+      "source": "https://www.axios.com/2026/09/24/barry-diller-folds-mgm-resorts",
+      "tickers": "MGM, CZR, LVS, WYNN, IAC",
+      "time": "Market hours",
+      "vsExp": "Unexpected - the market had been pricing a live bid"
+    }
+  },
+  {
+    "id": "2026-09-24-8-travel-stocks-hit-by-meta-muse-agent",
+    "data": {
+      "addedAt": "2026-09-24",
+      "category": "Earnings",
+      "date": "2026-09-24",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Online travel agencies extend their slide on fears Meta's Muse AI agent will book hotels and compare prices directly, disintermediating the booking platforms; Meta gains on AI-agent monetisation plans. The selloff began 9/23 and carried into Thursday",
+      "impact": "Medium",
+      "numbers": "Expedia ~-7%, Airbnb ~-6% to -7.6% (to roughly $150), Booking Holdings ~-5% across the 9/23-9/24 move; Meta +4%",
+      "order": 8,
+      "reaction": "A business-model repricing rather than a rates move - the one large sector dislocation on an otherwise flat tape",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/stocks/articles/travel-booking-stocks-tumble-muse-180858515.html",
+      "tickers": "EXPE, ABNB, BKNG, TRIP, META",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-25-1-10-year-yield-ends-at-highest-since-2007",
+    "data": {
+      "addedAt": "2026-09-25",
+      "category": "Rates",
+      "date": "2026-09-25",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Global bond selloff caps a volatile week: 10-year Treasury yield ends near its highest close since 2007 and the 30-year since 2004; Fed's Barr says 'further policy adjustments are likely to be needed'",
+      "impact": "High",
+      "numbers": "10Y ~5.19% (intraday prints 5.17-5.23%); 30Y ~5.46-5.50%; Oct hike odds ~71%",
+      "order": 1,
+      "reaction": "Stocks shrugged off the move; JGBs, gilts and bunds also under pressure",
+      "region": "US/Global",
+      "source": "https://www.axios.com/2026/09/25/bonds-yields-stocks-diesel",
+      "tickers": "TLT, IEF, TNX, SPY",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-25-2-stocks-close-higher-notch-weekly-wins",
+    "data": {
+      "addedAt": "2026-09-25",
+      "category": "Market",
+      "date": "2026-09-25",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "Stocks rallied into the close to notch weekly wins, shrugging off the bond sell-off as oil eased; S&P 500 sits about 1% below its record",
+      "impact": "Medium",
+      "numbers": "S&P 500 7,744.64 (+0.53%); Dow 51,791.56 (+0.86%); Nasdaq 27,108.19 (+0.63%); 10Y ~5.19%",
+      "order": 2,
+      "reaction": "Q3 S&P earnings seen up ~29% y/y providing a floor; DDOG +7.3%, TWLO -6.2%, ZS -8.6%",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-friday-september-25-dow-sp-500-nasdaq-081738529.html",
+      "tickers": "SPY, DIA, QQQ",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-25-3-umich-sentiment-falls-to-4-month-low",
+    "data": {
+      "addedAt": "2026-09-25",
+      "category": "Macro",
+      "date": "2026-09-25",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Final September University of Michigan consumer sentiment falls to a four-month low as year-ahead inflation expectations jump on gas prices and tariffs",
+      "impact": "High",
+      "numbers": "Sentiment 48.1 (4-month low, -15% vs Jan 2026); 1-yr inflation expectations 4.6% (highest since June; 3.4% pre-Iran conflict)",
+      "order": 3,
+      "reaction": "Added to the stagflation narrative behind the bond sell-off; stocks looked past it",
+      "region": "US",
+      "source": "https://qz.com/university-michigan-consumer-sentiment-september-2026-092526",
+      "tickers": "SPY, XRT, TLT",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-25-4-xi-state-visit-ends-china-trade-deals",
+    "data": {
+      "addedAt": "2026-09-25",
+      "category": "Geopolitics",
+      "date": "2026-09-25",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Xi Jinping's state visit concludes with the trade truce extended and agreements on agricultural products and medical devices; detailed announcements expected Monday, plus a new US-China AI dialogue",
+      "impact": "Medium",
+      "numbers": "Truce extended ~2 months; further leader meetings planned for Nov and Dec",
+      "order": 4,
+      "reaction": "Status-quo outcome; few substantive policy changes, modest relief for trade-exposed names",
+      "region": "US/China",
+      "source": "https://finance.yahoo.com/markets/stocks/articles/stock-market-today-sept-25-134126022.html",
+      "tickers": "FXI, SPY, DE, CAT, MDT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-25-5-oil-falls-on-us-iran-talks-hormuz-offer",
+    "data": {
+      "addedAt": "2026-09-25",
+      "category": "Energy",
+      "date": "2026-09-25",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "Crude retreats from Thursday's spike as US-Iran talks in New York cut the risk premium and Iran floats reopening the Strait of Hormuz within seven days; Houthi attacks on Saudi Arabia cap the decline",
+      "impact": "Medium",
+      "numbers": "WTI ~$92.7-92.9 (-1.8% to -2%); Brent ~$105.3 (-1.1% to -1.2%, off Thursday's $108 high); Brent-WTI spread $12.68; US retail gas ~$4.50, diesel ~$6.50",
+      "order": 5,
+      "reaction": "Energy gave back gains; wider Brent-WTI spread reflects a possible US diesel export ban",
+      "region": "US/Middle East",
+      "source": "https://www.thenationalnews.com/business/energy/2026/09/25/oil-prices-waver-in-face-of-iran-war-truce-and-houthi-attacks/",
+      "tickers": "USO, BNO, XLE",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-25-6-akamai-jumps-on-11-6b-anthropic-deal",
+    "data": {
+      "addedAt": "2026-09-25",
+      "category": "Deals",
+      "date": "2026-09-25",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "Akamai surges on an $11.6B cloud deal with Anthropic; People Inc. jumps on MGM takeover speculation",
+      "impact": "Medium",
+      "numbers": "AKAM +15.3% pre-market; PPLI +10.3%; EQIX +5.1%",
+      "order": 6,
+      "reaction": "Another leg of the AI-infrastructure capex trade; data-center and edge names bid",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-25-2026",
+      "tickers": "AKAM, PPLI, EQIX, MGM",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
- },
- {
-  "id": "2026-08-05-2-spacex-falls-13-despite-earnings-beat-on",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Earnings",
-   "date": "2026-08-05",
-   "day": "Wed",
-   "direction": "Bearish",
-   "event": "SpaceX falls ~13% despite earnings beat on heavy AI capex; AMD slips on 'excellent not exceptional' results",
-   "impact": "Medium",
-   "numbers": "SPCX -13%",
-   "order": 2,
-   "reaction": "AI capex scrutiny weighs on high-multiple tech",
-   "region": "US",
-   "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-august-5-dow-sp-500-nasdaq-oil-hormuz-093653327.html",
-   "tickers": "SPCX, AMD, NVDA",
-   "time": "After-hours",
-   "vsExp": "Beat"
-  }
- },
- {
-  "id": "2026-08-06-1-dow-closes-at-another-record-while-s-p-a",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Market",
-   "date": "2026-08-06",
-   "day": "Thu",
-   "direction": "Mixed",
-   "event": "Dow closes at another record while S&P and Nasdaq dip; SpaceX's first lockup expires (900M+ shares); July Challenger job cuts lowest in two years",
-   "impact": "Low",
-   "numbers": "Challenger cuts 33,429 (-27% m/m); WTI +1.2% to $76.12; gold $4,321",
-   "order": 1,
-   "reaction": "Energy outperformed; HUBS -24%, MSI +8.5%",
-   "region": "US",
-   "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-6-2026",
-   "tickers": "DIA, SPY, SPCX, XLE",
-   "time": "Market hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-08-07-1-july-jobs-report-payrolls-unexpectedly-f",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Macro",
-   "date": "2026-08-07",
-   "day": "Fri",
-   "direction": "Mixed",
-   "event": "July jobs report: payrolls unexpectedly fall 23K; June revised to -20K; participation lowest in 5+ years",
-   "impact": "High",
-   "numbers": "NFP -23K; unemployment 4.1%; LFPR 61.4%",
-   "order": 1,
-   "reaction": "Stocks rose on lower hike odds: S&P +0.33%, Nasdaq +0.86%; gold +1.8% to $4,376",
-   "region": "US",
-   "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-7-2026",
-   "tickers": "SPY, QQQ, TLT, GLD",
-   "time": "Pre-market",
-   "vsExp": "Miss (est. +83K; UR est. 4.2%)"
-  }
- },
- {
-  "id": "2026-08-10-1-oil-climbs-as-iran-says-oman-hormuz-tran",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Geopolitics",
-   "date": "2026-08-10",
-   "day": "Mon",
-   "direction": "Bearish",
-   "event": "Oil climbs as Iran says Oman Hormuz transit deal is in 'final stages' but conditions reopening on US concessions",
-   "impact": "Medium",
-   "numbers": "WTI +1.3% to $79.19; Brent $84.68; S&P -0.03%",
-   "order": 1,
-   "reaction": "Energy up, broad market flat; small caps +1.1%",
-   "region": "US/Middle East",
-   "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-10-2026",
-   "tickers": "USO, XLE, SPY",
-   "time": "Market hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-08-11-1-oil-surges-on-escalating-us-iran-strait",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Energy",
-   "date": "2026-08-11",
-   "day": "Tue",
-   "direction": "Bearish",
-   "event": "Oil surges on escalating US-Iran Strait of Hormuz dispute ahead of CPI",
-   "impact": "Medium",
-   "numbers": "WTI +1.9% to $83.68; Brent $89.19; S&P -0.10%, Nasdaq -0.39%",
-   "order": 1,
-   "reaction": "Large caps slip; RIOT +16.5% on $9.1B Anthropic data-center deal",
-   "region": "US/Middle East",
-   "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-11-2026",
-   "tickers": "USO, XLE, SPY, QQQ",
-   "time": "Market hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-08-12-1-july-cpi-in-line-core-softer-than-feared",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Macro",
-   "date": "2026-08-12",
-   "day": "Wed",
-   "direction": "Bullish",
-   "event": "July CPI in line, core tame; lowers odds of a September hike",
-   "impact": "High",
-   "numbers": "CPI +0.1% m/m, 3.4% y/y; core +0.2% m/m, 2.5% y/y; Sept hold odds 64% (from 52%)",
-   "order": 1,
-   "reaction": "All three indexes rose; NBIS +20%, CRWV +18%, SMCI +9% on earnings",
-   "region": "US",
-   "source": "https://www.kiplinger.com/investing/economy/cpi-report-july-2026-what-to-expect",
-   "tickers": "SPY, QQQ, TLT",
-   "time": "Pre-market",
-   "vsExp": "In line (core est. +0.2-0.3%)"
-  }
- },
- {
-  "id": "2026-08-13-1-july-ppi-flat-below-forecast-s-p-500-cle",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Macro",
-   "date": "2026-08-13",
-   "day": "Thu",
-   "direction": "Bullish",
-   "event": "July PPI flat, below forecast; S&P 500 clears 7,800 for the first time",
-   "impact": "Medium",
-   "numbers": "PPI 0.0% m/m (4.7% y/y); core +0.2% m/m (4.2% y/y); jobless claims 209K; S&P +0.65%, intraday high 7,816.70",
-   "order": 1,
-   "reaction": "Record high for S&P; BIRK +16%, CBRS -11%",
-   "region": "US",
-   "source": "https://www.ftportfolios.com/Commentary/EconomicResearch/2026/8/13/the-producer-price-index-ppi-was-unchanged-in-july",
-   "tickers": "SPY, TLT",
-   "time": "Pre-market",
-   "vsExp": "Miss (est. +0.2%)"
-  }
- },
- {
-  "id": "2026-08-14-1-july-retail-sales-fall-0-6-far-below-for",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Macro",
-   "date": "2026-08-14",
-   "day": "Fri",
-   "direction": "Bearish",
-   "event": "July retail sales fall 0.6%, far below forecast; Prime Day and World Cup timing blamed, but core categories also weak",
-   "impact": "Medium",
-   "numbers": "Retail sales -0.6% m/m; ex-autos & gas -0.3%; autos -2%",
-   "order": 1,
-   "reaction": "S&P -0.23%; Russell 2000 at record; RDDT +15% on S&P 500 inclusion",
-   "region": "US",
-   "source": "https://www.axios.com/2026/08/14/retail-sales-amazon-world-cup",
-   "tickers": "XRT, AMZN, SPY",
-   "time": "Pre-market",
-   "vsExp": "Miss (est. +0.1%)"
-  }
- },
- {
-  "id": "2026-08-17-1-us-iran-memorandum-of-understanding-expi",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Geopolitics",
-   "date": "2026-08-17",
-   "day": "Mon",
-   "direction": "Bearish",
-   "event": "US-Iran Memorandum of Understanding expires, clouding Hormuz shipping; 30-year yield tests multi-decade highs ahead of retail earnings",
-   "impact": "Medium",
-   "numbers": "WTI +0.6% to $82.86; Brent $89.27; S&P -0.17%, Nasdaq +0.23%",
-   "order": 1,
-   "reaction": "Cautious trade; Goldman warns of H2 consumer slowdown",
-   "region": "US/Middle East",
-   "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-17-2026",
-   "tickers": "USO, US30Y, TLT, WMT, HD, TGT",
-   "time": "Market hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-08-18-1-30-year-treasury-yield-tops-5-33-a-19-ye",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Rates",
-   "date": "2026-08-18",
-   "day": "Tue",
-   "direction": "Bearish",
-   "event": "30-year Treasury yield tops 5.33%, a 19-year high, on inflation and federal spending worries",
-   "impact": "Medium",
-   "numbers": "30Y >5.33%",
-   "order": 1,
-   "reaction": "Long-bond selloff; pressure on housing/utilities",
-   "region": "US",
-   "source": "https://www.cnbc.com/2026/08/18/treasury-yields-.html",
-   "tickers": "US30Y, TLT, rate-sensitive stocks",
-   "time": "Market hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-08-20-1-walmart-q2-fy27-beat-and-raised-full-yea",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Earnings",
-   "date": "2026-08-20",
-   "day": "Thu",
-   "direction": "Bearish",
-   "event": "Walmart Q2 FY27: beat and raised full-year guide, but Q3 EPS guide weak; ~750bp of op-income growth came from one-time tariff refunds",
-   "impact": "Medium",
-   "numbers": "EPS $0.81; revenue $187.9B (+6%); FY EPS guide $2.80-2.87; Q3 EPS guide $0.62-0.64",
-   "order": 1,
-   "reaction": "WMT -9% ($114.30 -> $103.84), worst earnings reaction in 10 quarters",
-   "region": "US",
-   "source": "https://247wallst.com/investing/2026/08/21/walmart-beat-earnings-and-raised-guidance-so-why-did-the-stock-crash/",
-   "tickers": "WMT, XRT, consumer staples",
-   "time": "Pre-market",
-   "vsExp": "Beat (EPS est. ~$0.74); Q3 guide below"
-  }
- },
- {
-  "id": "2026-08-26-1-july-pce-inflation-headline-above-foreca",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Economic data",
-   "date": "2026-08-26",
-   "day": "Wed",
-   "direction": "Mixed",
-   "event": "July PCE inflation: headline above forecast, core in line",
-   "impact": "Medium",
-   "numbers": "Headline 3.7% y/y (+0.2% m/m); core 3.3% y/y (+0.2% m/m); spending +0.2%; income +0.4%",
-   "order": 1,
-   "reaction": "Hawkish tilt ahead of Jackson Hole",
-   "region": "US",
-   "source": "https://finance.yahoo.com/economy/policy/articles/july-2026-pce-inflation-data-124921061.html",
-   "tickers": "Fed funds futures, 2Y yield",
-   "time": "8:30 AM",
-   "vsExp": "Headline above (est. 3.6%); core in line"
-  }
- },
- {
-  "id": "2026-08-26-2-q2-gdp-second-estimate-unchanged",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Economic data",
-   "date": "2026-08-26",
-   "day": "Wed",
-   "direction": "Neutral",
-   "event": "Q2 GDP second estimate unchanged",
-   "impact": "Low",
-   "numbers": "Real GDP 1.5% annualized",
-   "order": 2,
-   "reaction": "Limited",
-   "region": "US",
-   "source": "https://www.advisorperspectives.com/dshort/updates/2026/08/26/q2-gdp-second-estimate-real-gdp-at-1-5-unchanged",
-   "tickers": "SPY, yields",
-   "time": "8:30 AM",
-   "vsExp": "In line with advance estimate"
-  }
- },
- {
-  "id": "2026-08-26-3-nvidia-q2-fy27-blowout-q3-guide-108b-ceo",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Earnings",
-   "date": "2026-08-26",
-   "day": "Wed",
-   "direction": "Bullish",
-   "event": "Nvidia Q2 FY27 blowout; Q3 guide $108B; CEO says AI demand growth >100%/yr, supply-constrained",
-   "impact": "High",
-   "numbers": "Revenue $96.2B (+106% y/y); EPS $2.22; gross margin 75.0%",
-   "order": 3,
-   "reaction": "Aug 27: NVDA +8.7% (biggest gain since Apr 2025); S&P +0.7%; Nasdaq +1.6%; VIX to 14.5",
-   "region": "US",
-   "source": "https://www.kiplinger.com/investing/live/nvidia-earnings-live-updates-and-commentary-august-2026",
-   "tickers": "NVDA, SMH, AI complex",
-   "time": "After close",
-   "vsExp": "Beat (rev. est. ~$91B); guide above"
-  }
- },
- {
-  "id": "2026-08-28-1-fed-chair-warsh-s-first-jackson-hole-spe",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Central bank",
-   "date": "2026-08-28",
-   "day": "Fri",
-   "direction": "Bearish",
-   "event": "Fed Chair Warsh's first Jackson Hole speech is hawkish: inflation trend not meaningfully improved; less forward guidance",
-   "impact": "High",
-   "numbers": "12-mo PCE 3.7%; Sept hike odds jump to ~57%",
-   "order": 1,
-   "reaction": "S&P -0.25% (7,711.76); Nasdaq -0.52%; Dow flat; Russell 2000 -1.2%; 10Y to ~4.70-4.72%; gold -2.5%; BTC -3.1%",
-   "region": "US",
-   "source": "https://www.metatradingclub.com/market-close-august-28-2026-warsh-jackson-hole-stocks-fall/",
-   "tickers": "SPY, QQQ, IWM, gold, BTC, 10Y",
-   "time": "10:00 AM",
-   "vsExp": "Hawkish vs. expectations"
-  }
- },
- {
-  "id": "2026-08-28-2-marvell-falls-despite-earnings-beat-payp",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Earnings / analyst",
-   "date": "2026-08-28",
-   "day": "Fri",
-   "direction": "Mixed",
-   "event": "Marvell falls despite earnings beat; PayPal hit by downgrade; Elastic jumps on cloud results",
-   "impact": "Low",
-   "numbers": "n/a",
-   "order": 2,
-   "reaction": "MRVL -10%+; PYPL -11.9%; ESTC +17.5%",
-   "region": "US",
-   "source": "https://pabloespinal.net/blog/week-in-markets-august-29-2026/",
-   "tickers": "MRVL, PYPL, ESTC",
-   "time": "Market hours",
-   "vsExp": "MRVL beat but sold off"
-  }
- },
- {
-  "id": "2026-09-02-1-broadcom-q3-fy26-beat-but-q4-revenue-gui",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Earnings",
-   "date": "2026-09-02",
-   "day": "Wed",
-   "direction": "Bearish",
-   "event": "Broadcom Q3 FY26 beat, but Q4 revenue guide just below whisper",
-   "impact": "Medium",
-   "numbers": "Revenue $29.6B (+86%); AI semis $16.7B (+221%); EPS $3.32; Q4 guide $34.8B, AI $21.7B",
-   "order": 1,
-   "reaction": "Sept 3: AVGO -5 to -6%",
-   "region": "US",
-   "source": "https://www.fool.com/investing/2026/09/03/why-broadcom-stock-dropped-today/",
-   "tickers": "AVGO, SMH",
-   "time": "After close",
-   "vsExp": "Beat (EPS est. $3.21); guide below ~$35B+ hopes"
-  }
- },
- {
-  "id": "2026-09-04-1-august-jobs-report-much-stronger-than-ex",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Economic data",
-   "date": "2026-09-04",
-   "day": "Fri",
-   "direction": "Bearish",
-   "event": "August jobs report much stronger than expected; prior months revised up",
-   "impact": "High",
-   "numbers": "Payrolls +162K; unemployment 4.1%; wages +0.3% m/m, +3.1% y/y; June-July revised +55K",
-   "order": 1,
-   "reaction": "Dow -0.51%; S&P -0.38%; Nasdaq -0.29%; 10Y 4.78% (+1.8bp); short yields at 52-wk highs; hike odds up",
-   "region": "US",
-   "source": "https://www.bls.gov/news.release/empsit.nr0.htm",
-   "tickers": "SPY, 2Y/10Y yields, IWM",
-   "time": "8:30 AM",
-   "vsExp": "Beat (est. ~55K)"
-  }
- },
- {
-  "id": "2026-09-07-1-us-iran-strikes-intensify-in-the-strait",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Geopolitics / energy",
-   "date": "2026-09-07",
-   "day": "Mon (Labor Day)",
-   "direction": "Bearish",
-   "event": "US-Iran strikes intensify in the Strait of Hormuz; Saudi Aramco's Jizan refinery hit",
-   "impact": "High",
-   "numbers": "Brent ~$97 (+9% in 5 days, +19% in a month); WTI $92.27; US gasoline $4.15; diesel record >$5.90",
-   "order": 1,
-   "reaction": "Oil up sharply; US stock markets closed",
-   "region": "Middle East",
-   "source": "https://www.aljazeera.com/economy/2026/9/7/oil-prices-surge-as-us-iran-strikes-intensify-in-strait-of-hormuz",
-   "tickers": "Brent, WTI, XLE, airlines, 10Y breakevens",
-   "time": "Weekend / holiday",
-   "vsExp": "Escalation"
-  }
- },
- {
-  "id": "2026-09-10-1-iran-targets-vessels-in-hormuz-houthis-s",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Geopolitics / energy",
-   "date": "2026-09-10",
-   "day": "Thu",
-   "direction": "Bearish",
-   "event": "Iran targets vessels in Hormuz; Houthis seize a key Yemeni port",
-   "impact": "Medium",
-   "numbers": "n/a",
-   "order": 1,
-   "reaction": "Oil prices rise",
-   "region": "Middle East",
-   "source": "https://www.washingtontimes.com/news/2026/sep/10/oil-prices-rise-iran-targets-vessels-strait-hormuz-houthis-seize/",
-   "tickers": "Brent, WTI, XLE, tankers",
-   "time": "Market hours",
-   "vsExp": "Escalation"
-  }
- },
- {
-  "id": "2026-09-10-2-oracle-q1-fy27-revenue-beat-but-investor",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Earnings",
-   "date": "2026-09-10",
-   "day": "Thu",
-   "direction": "Bearish",
-   "event": "Oracle Q1 FY27: revenue beat, but investors balk at ~$90B capex plans and margins",
-   "impact": "Medium",
-   "numbers": "Revenue $19.3B (+30%); EPS $1.92",
-   "order": 2,
-   "reaction": "ORCL fell ~4-5% over following sessions (closed $144.79 on Sept 14)",
-   "region": "US",
-   "source": "https://en.cryptonomist.ch/2026/09/15/oracle-stock-falls-4-7-despite-30-revenue-surge-charts-stay-bearish/",
-   "tickers": "ORCL, AI infrastructure",
-   "time": "After close",
-   "vsExp": "Revenue beat (est. $19.14B)"
-  }
- },
- {
-  "id": "2026-09-11-1-august-cpi-headline-in-line-core-monthly",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Economic data",
-   "date": "2026-09-11",
-   "day": "Fri",
-   "direction": "Neutral",
-   "event": "August CPI: headline in line, core monthly hotter; gasoline +3.9% drove over a third of the increase",
-   "impact": "High",
-   "numbers": "Headline +0.4% m/m, 3.4% y/y; core +0.3% m/m, 2.4% y/y; energy +16.3% y/y",
-   "order": 1,
-   "reaction": "Sept hike odds ~69% (futures); S&P, Nasdaq-100 and Dow each +0.2%; gold +0.8%; BTC +1.3%; Brent >$105",
-   "region": "US",
-   "source": "https://www.bls.gov/news.release/cpi.nr0.htm",
-   "tickers": "SPY, Fed funds futures, gold, BTC",
-   "time": "8:30 AM",
-   "vsExp": "Headline in line; core m/m above (est. 0.2%)"
-  }
- },
- {
-  "id": "2026-09-14-1-10-year-treasury-yield-breaks-5-first-ti",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Rates / energy",
-   "date": "2026-09-14",
-   "day": "Mon",
-   "direction": "Bearish",
-   "event": "10-year Treasury yield breaks 5% (first time since 2023) as Brent nears $110 after Saudi East-West pipeline shut following drone attacks",
-   "impact": "High",
-   "numbers": "10Y hit 5.012% intraday, closed 4.96%; Brent settled $105.68",
-   "order": 1,
-   "reaction": "S&P -0.5%; Nasdaq -0.6%; Dow -0.3%",
-   "region": "US / Middle East",
-   "source": "https://eurasiabusinessnews.com/2026/09/14/stock-market-today-10-year-treasury-yield-touches-5-as-oil-surge-raises-inflation-fears/",
-   "tickers": "10Y, Brent, SPY",
-   "time": "Morning",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-09-14-2-anthropic-ceo-dario-amodei-publishes-ess",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "AI / tech",
-   "date": "2026-09-14",
-   "day": "Mon",
-   "direction": "Bearish",
-   "event": "Anthropic CEO Dario Amodei publishes essay urging a slowdown in AI capability development; AI chip stocks sell off",
-   "impact": "High",
-   "numbers": "Philadelphia Semiconductor Index -5.9%",
-   "order": 2,
-   "reaction": "NVDA -3.4%; AVGO -4%; MRVL ~-7%; MU/SMCI ~-6%; CRWV/AMD/INTC ~-4%",
-   "region": "US",
-   "source": "https://finance.yahoo.com/markets/stocks/article/ai-stocks-get-drilled-because-of-anthropic-ceo-dario-amodeis-3800-word-warning-093637548.html",
-   "tickers": "NVDA, AVGO, MRVL, MU, SMCI, CRWV, AMD, INTC, SNDK",
-   "time": "Morning",
-   "vsExp": "Surprise"
-  }
- },
- {
-  "id": "2026-09-14-3-corning-launches-2b-at-the-market-equity",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Corporate / capital raise",
-   "date": "2026-09-14",
-   "day": "Mon",
-   "direction": "Bearish",
-   "event": "Corning launches $2B at-the-market equity offering; optical peers hit",
-   "impact": "Medium",
-   "numbers": "$2B share sale",
-   "order": 3,
-   "reaction": "GLW -12 to -14%; COHR -11%; LITE -9%; FN -6%",
-   "region": "US",
-   "source": "https://247wallst.com/investing/2026/09/14/corning-tumbles-12-on-2b-at-the-market-equity-offering-coherent-sinks-11-lumentum-drops-9-fabrinet-slides-6/",
-   "tickers": "GLW, COHR, LITE, FN",
-   "time": "Pre-market",
-   "vsExp": "Surprise"
-  }
- },
- {
-  "id": "2026-09-16-1-fed-raises-rates-25bp-to-3-75-4-00-first",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Central bank",
-   "date": "2026-09-16",
-   "day": "Wed",
-   "direction": "Bearish",
-   "event": "Fed raises rates 25bp to 3.75-4.00% (first hike since July 2023), unanimous 12-0; dots signal one more hike in 2026, hold in 2027",
-   "impact": "High",
-   "numbers": "Fed funds 3.75-4.00%",
-   "order": 1,
-   "reaction": "Dow -1.07% (~-600 pts); S&P -0.45%; Nasdaq -0.06%",
-   "region": "US",
-   "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
-   "tickers": "SPY, DIA, QQQ, 2Y/10Y, USD",
-   "time": "2:00 PM",
-   "vsExp": "Expected hike; hawkish outlook"
-  }
- },
- {
-  "id": "2026-09-16-2-amazon-signs-data-center-backup-generato",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Corporate deal",
-   "date": "2026-09-16",
-   "day": "Wed",
-   "direction": "Bullish",
-   "event": "Amazon signs data-center backup generator deal with Generac: $2.4B of deliveries in 2027-28, up to $8B total; Amazon gets warrants for ~1.69M shares at ~$200.93",
-   "impact": "Medium",
-   "numbers": "$2.4B firm; up to $8B",
-   "order": 2,
-   "reaction": "Sept 17: GNRC +21.4% (up ~34% pre-market)",
-   "region": "US",
-   "source": "https://www.tradingkey.com/analysis/stocks/us-stocks/262172770-generac-stock-amazon-ai-data-center-gnrc-gap-tradingkey",
-   "tickers": "GNRC, AMZN, AI power stocks",
-   "time": "After close",
-   "vsExp": "Surprise"
-  }
- },
- {
-  "id": "2026-09-17-1-post-fed-relief-rally-as-yields-and-oil",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Market / energy",
-   "date": "2026-09-17",
-   "day": "Thu",
-   "direction": "Bullish",
-   "event": "Post-Fed relief rally as yields and oil ease; Moderna/Merck cancer vaccine Phase 3 win; Fluence cuts guidance",
-   "impact": "Medium",
-   "numbers": "10Y -7bp to 4.934%; Brent ~$104 (down ~$4.36 from prior morning)",
-   "order": 1,
-   "reaction": "S&P +1.14% (7,637.72); Nasdaq +1.69%; Dow +0.62%; tech +2.25%; MRNA +9.4%; FLNC -16.9%",
-   "region": "US",
-   "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-17-2026",
-   "tickers": "SPY, QQQ, MRNA, MRK, FLNC",
-   "time": "Market hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-09-17-2-sec-grants-five-year-innovation-exemptio",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Regulation / crypto",
-   "date": "2026-09-17",
-   "day": "Thu",
-   "direction": "Bullish",
-   "event": "SEC grants five-year 'innovation exemption' opening a path for tokenized US stock trading",
-   "impact": "Medium",
-   "numbers": "n/a",
-   "order": 2,
-   "reaction": "Sept 18: COIN +11%; BTC above $80K; ETH +5.1%",
-   "region": "US",
-   "source": "https://www.coindesk.com/business/2026/09/17/sec-opens-door-to-tokenized-u-s-stock-trading-here-s-who-could-benefit",
-   "tickers": "COIN, CRCL, MSTR, BTC, ETH",
-   "time": "Market hours",
-   "vsExp": "Surprise"
-  }
- },
- {
-  "id": "2026-09-18-1-bank-of-japan-raises-rates-to-1-25-from",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Central bank",
-   "date": "2026-09-18",
-   "day": "Fri",
-   "direction": "Mixed",
-   "event": "Bank of Japan raises rates to 1.25% from 1.0%, a 31-year high, citing energy-driven inflation and the widening US-Japan rate gap",
-   "impact": "Medium",
-   "numbers": "BOJ rate 1.25%",
-   "order": 1,
-   "reaction": "Watch for yen-carry unwind and global yield spillover",
-   "region": "Japan",
-   "source": "https://www.aljazeera.com/news/2026/9/18/japans-interest-rate-hiked-to-31-year-high-at-1-25-as-inflation-rises",
-   "tickers": "JPY, Nikkei, JGBs, US yields",
-   "time": "Overnight",
-   "vsExp": "Expected"
-  }
- },
- {
-  "id": "2026-09-18-2-warren-buffett-96-steps-down-as-berkshir",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Corporate leadership",
-   "date": "2026-09-18",
-   "day": "Fri",
-   "direction": "Neutral",
-   "event": "Warren Buffett, 96, steps down as Berkshire Hathaway chairman (becomes chairman emeritus); son Howard Buffett becomes chair, Greg Abel stays CEO",
-   "impact": "Low",
-   "numbers": "n/a",
-   "order": 2,
-   "reaction": "Market largely shrugged",
-   "region": "US",
-   "source": "https://www.cnbc.com/2026/09/18/buffett-stepping-down-as-berkshire-chairman.html",
-   "tickers": "BRK.A, BRK.B",
-   "time": "Market hours",
-   "vsExp": "Largely expected"
-  }
- },
- {
-  "id": "2026-09-18-3-stocks-slip-friday-dow-heads-for-third-s",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Market",
-   "date": "2026-09-18",
-   "day": "Fri",
-   "direction": "Bearish",
-   "event": "Stocks slip Friday; Dow heads for third straight weekly loss while Nasdaq edges up for the week; 10Y hovers near 5%",
-   "impact": "Low",
-   "numbers": "Week: Dow ~-2%, Nasdaq ~+0.3% (intraday estimates)",
-   "order": 3,
-   "reaction": "Nasdaq -0.1%; S&P -0.2%; Dow -0.4% (as of report)",
-   "region": "US",
-   "source": "https://www.fool.com/investing/2026/09/18/the-dow-is-down-for-a-third-straight-week/",
-   "tickers": "SPY, DIA, QQQ",
-   "time": "Market hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-09-19-1-houthis-claim-strikes-on-aramco-yanbu-riya",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Energy",
-   "date": "2026-09-19",
-   "day": "Sat",
-   "direction": "Bearish",
-   "event": "Houthis claim ballistic-missile and drone strikes on a Saudi Aramco facility in Yanbu and 'sensitive sites' in Riyadh; no Saudi confirmation",
-   "impact": "Medium",
-   "numbers": "n/a (WTI closed Fri at $100.70)",
-   "order": 1,
-   "reaction": "Watch oil at Sunday evening futures open for a supply-risk premium",
-   "region": "Middle East",
-   "source": "https://www.jpost.com/middle-east/article-909128",
-   "tickers": "CL=F, BZ=F, XLE, 2222.SR",
-   "time": "Weekend",
-   "vsExp": "Unexpected"
-  }
- },
- {
-  "id": "2026-09-19-2-iran-sends-conditions-to-end-war-to-us-v",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Geopolitics",
-   "date": "2026-09-19",
-   "day": "Sat",
-   "direction": "Mixed",
-   "event": "Iran says it sent conditions to end the war to the US via Qatar: halt attacks on all fronts, release frozen assets, end the naval blockade; says a Hormuz deal with Oman was nearly done and awaits Trump's response",
-   "impact": "Medium",
-   "numbers": "n/a",
-   "order": 2,
-   "reaction": "Analysts see terms as unrealistic for Washington, but dropping reparations demands is a positive signal; any US reply could swing oil",
-   "region": "Middle East",
-   "source": "https://www.aljazeera.com/news/2026/9/19/iran-says-conditions-to-re-engage-in-talks-end-war-sent-to-us-via-qatar",
-   "tickers": "CL=F, BZ=F, XLE, tankers",
-   "time": "Weekend",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-09-19-3-week-ahead-costco-darden-general-mills-e",
-  "data": {
-   "addedAt": "2026-09-19",
-   "category": "Earnings",
-   "date": "2026-09-19",
-   "day": "Sat",
-   "direction": "Neutral",
-   "event": "Week ahead (Sep 21-25): light earnings slate headlined by Costco (Thu AMC), Darden (Thu BMO), General Mills and Paychex (Wed BMO), AutoZone (Tue BMO), KB Home (Tue AMC)",
-   "impact": "Low",
-   "numbers": "COST EPS est. $6.53 on $94.9B rev; DRI EPS est. $2.05; AZO EPS est. $54.30",
-   "order": 3,
-   "reaction": "Consumer read after the Fed's hike, with the 10Y at ~5.00%",
-   "region": "US",
-   "source": "https://www.kiplinger.com/investing/stocks/17494/next-week-earnings-calendar-stocks",
-   "tickers": "COST, DRI, GIS, PAYX, AZO, KBH",
-   "time": "Weekend",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-09-20-1-iran-warns-of-us-strikes-hormuz-closed",
-  "data": {
-   "addedAt": "2026-09-20",
-   "category": "Geopolitics",
-   "date": "2026-09-20",
-   "day": "Sun",
-   "direction": "Bearish",
-   "event": "Iran's Armed Forces say they have intelligence the US is preparing to resume strikes and warn any attack brings 'continuous strikes on US bases and interests'; Speaker Ghalibaf says the Strait of Hormuz stays closed until US commitments are met. State Dept urges Americans to reconsider Middle East travel",
-   "impact": "High",
-   "numbers": "n/a",
-   "order": 1,
-   "reaction": "Sets up a risk-off/oil-bid Sunday evening futures open; direct pushback on Iran's own Sat ceasefire conditions",
-   "region": "Middle East",
-   "source": "https://english.alarabiya.net/News/middle-east/2026/09/20/iran-warns-us-against-resuming-attacks",
-   "tickers": "CL=F, BZ=F, XLE, SPY, GLD, tankers",
-   "time": "Weekend",
-   "vsExp": "Escalation vs Saturday's conciliatory signal"
-  }
- },
- {
-  "id": "2026-09-20-2-hormuz-oil-flows-hit-six-month-high",
-  "data": {
-   "addedAt": "2026-09-20",
-   "category": "Energy",
-   "date": "2026-09-20",
-   "day": "Sun",
-   "direction": "Bullish",
-   "event": "CENTCOM chief Adm. Brad Cooper says Strait of Hormuz oil shipments over the past two weeks hit their highest in six months, with Gulf allies moving more than 1 billion barrels of crude in the last couple of months under US naval escort",
-   "impact": "Medium",
-   "numbers": "~10M bpd crude and products transiting (Energy Sec. Chris Wright); >1B bbl over ~2 months (Cooper)",
-   "order": 2,
-   "reaction": "Supply-relief counterweight to the escalation headlines; Wright calls oil markets 'tighter than we'd like today, but not overly tight'",
-   "region": "Middle East / Global",
-   "source": "https://www.business-standard.com/world-news/strait-of-hormuz-oil-shipments-hit-six-month-high-says-us-commander-126092000060_1.html",
-   "tickers": "CL=F, BZ=F, XLE, XOM, CVX",
-   "time": "Weekend",
-   "vsExp": "Better than feared given Iran's closure claim"
-  }
- },
- {
-  "id": "2026-09-20-3-saudi-gulf-stocks-fall-on-riyadh-attacks",
-  "data": {
-   "addedAt": "2026-09-20",
-   "category": "Market",
-   "date": "2026-09-20",
-   "day": "Sun",
-   "direction": "Bearish",
-   "event": "Gulf bourses, which trade Sunday, close lower after Houthi claims of missile and drone attacks on Riyadh and Aramco sites in Yanbu",
-   "impact": "Low",
-   "numbers": "Saudi TASI -0.26%; Qatar QSI -1.12%; Aramco (2222.SR) -0.6%; Saudi National Bank -0.5%; Industries Qatar -4.05%",
-   "order": 3,
-   "reaction": "Modest, not panic - first market pricing of Saturday's Houthi claims ahead of the US open",
-   "region": "Gulf",
-   "source": "https://www.investing.com/news/stock-market-news/saudi-gulf-stocks-fall-after-houthis-claim-riyadh-attacks-4908153",
-   "tickers": "2222.SR, TASI, QSI, KSA",
-   "time": "Weekend",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-09-21-1-stocks-rally-nasdaq-2-26-10y-eases",
-  "data": {
-   "addedAt": "2026-09-21",
-   "category": "Market",
-   "date": "2026-09-21",
-   "day": "Mon",
-   "direction": "Bullish",
-   "event": "Stocks rally for a third session as oil and Treasury yields fall; tech and communication services lead, semis surge. Third straight gain after last week's Fed-hike volatility",
-   "impact": "High",
-   "numbers": "S&P 500 7,764.70 +1.49%; Dow 52,048.83 +0.71%; Nasdaq Composite 27,122.09 +2.26%; 10Y ~4.95-4.96% (-4 to -5bp); 2Y 4.73%; 30Y 5.31%",
-   "order": 1,
-   "reaction": "Risk appetite revived by a ~2.5% drop in crude and diplomatic headlines; no top-tier US data on the calendar",
-   "region": "US",
-   "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-21-2026",
-   "tickers": "SPY, DIA, QQQ, SMH, TLT",
-   "time": "After-hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-09-21-2-amd-tops-1t-as-meta-muse-drives-chips",
-  "data": {
-   "addedAt": "2026-09-21",
-   "category": "Earnings",
-   "date": "2026-09-21",
-   "day": "Mon",
-   "direction": "Bullish",
-   "event": "Chip and AI stocks soar as Meta's Muse personal AI agent holds the No. 1 free iPhone app spot for a third day; AMD crosses $1 trillion market cap for the first time",
-   "impact": "High",
-   "numbers": "AMD +9.9% (first close above $1T mkt cap); INTC +12.2%; META +11.3%; ARM +17.0%; QCOM +9.1%; SMH +4.3%",
-   "order": 2,
-   "reaction": "Single biggest driver of the Nasdaq's +2.26% day; Lisa Su has framed 'agentic sandboxes' as AMD's largest revenue opportunity",
-   "region": "US",
-   "source": "https://www.benzinga.com/markets/tech/26/09/61908373/meta-muse-app-store-amd-stock-trillion-ai-agents",
-   "tickers": "AMD, INTC, META, ARM, QCOM, NVDA, SMH",
-   "time": "Market hours",
-   "vsExp": "Agentic-AI demand seen favoring server CPUs, not just accelerators (Nvidia lagged the rally)"
-  }
- },
- {
-  "id": "2026-09-21-3-oil-falls-as-saudi-exports-recover",
-  "data": {
-   "addedAt": "2026-09-21",
-   "category": "Energy",
-   "date": "2026-09-21",
-   "day": "Mon",
-   "direction": "Bullish",
-   "event": "Crude gives back an early Riyadh-attack pop and falls ~2.5% as Aramco lifts Hormuz shipments and Saudi Arabia is expected to restore roughly half its East-West pipeline capacity; Trump signals willingness to meet Iran's Pezeshkian at the UN General Assembly",
-   "impact": "High",
-   "numbers": "WTI ~$97.8-98.0 (-2.5%); Brent ~$101.3-101.9 (-2.5%)",
-   "order": 3,
-   "reaction": "Lower crude was the proximate cause of both the equity rally and the drop in yields; Brent still above $100",
-   "region": "Middle East / Global",
-   "source": "https://www.vantagemarkets.com/market-analysis/why-oil-pared-riyadh-gains-brent-wti-cfd-analysis-september-21-2026/",
-   "tickers": "CL=F, BZ=F, XLE, XOM, CVX, 2222.SR",
-   "time": "Market hours",
-   "vsExp": "Middle East flows holding up better than expected (JPMorgan, via CNBC)"
-  }
- },
- {
-  "id": "2026-09-21-4-goolsbee-warns-oct-hike-odds-53pct",
-  "data": {
-   "addedAt": "2026-09-21",
-   "category": "Fed",
-   "date": "2026-09-21",
-   "day": "Mon",
-   "direction": "Bearish",
-   "event": "Chicago Fed's Goolsbee says the road back to 2% inflation may not be painless: supply shocks look more persistent, strong demand (incl. AI capex) may be adding to inflation, and there is 'no ambiguity' about how the Fed would respond",
-   "impact": "Medium",
-   "numbers": "Fed funds target 3.75-4.00% after last week's 25bp hike; CME FedWatch odds of another 25bp hike in October 53%",
-   "order": 4,
-   "reaction": "October remains close to a coin flip; a second consecutive hike would be the first back-to-back tightening in three years",
-   "region": "US",
-   "source": "https://www.benzinga.com/markets/economic-data/26/09/61894102/goolsbee-inflation-warning-october-rate-hike-odds-treasury-yields-fall-oil",
-   "tickers": "TLT, SHY, ZQ, XLF",
-   "time": "Pre-market",
-   "vsExp": "Hawkish in substance, but yields still fell as oil dropped"
-  }
- },
- {
-  "id": "2026-09-21-5-paramount-wbd-california-settlement",
-  "data": {
-   "addedAt": "2026-09-21",
-   "category": "Deals",
-   "date": "2026-09-21",
-   "day": "Mon",
-   "direction": "Bullish",
-   "event": "Paramount Skydance in advanced talks to settle with California's attorney general, clearing one of the last hurdles to its ~$110B acquisition of Warner Bros. Discovery. Reported concessions: $1.5B California production commitment, keeping both studio lots, penalties tied to producing 30 films a year, cable channel sales, and a board to oversee CNN editorial independence",
-   "impact": "Medium",
-   "numbers": "WBD +7.1% early, ~+10.8% by the close; PSKY +5.3% early, ~+5-6%; ~$5.6B of combined market value added; $7M/day penalty to WBD holders if the deal is not closed after Sep 30, 2026",
-   "order": 5,
-   "reaction": "Netflix sat out the rally; Sep 30 close deadline now the focus",
-   "region": "US",
-   "source": "https://kelo.com/2026/09/21/warner-bros-paramount-rise-on-report-california-settlement-talks-could-clear-merger-hurdle/",
-   "tickers": "WBD, PSKY, NFLX, CMCSA",
-   "time": "Market hours",
-   "vsExp": "Faster resolution than the state-litigation timeline implied"
-  }
- },
- {
-  "id": "2026-09-21-6-xi-in-washington-for-thursday-summit",
-  "data": {
-   "addedAt": "2026-09-21",
-   "category": "Policy",
-   "date": "2026-09-21",
-   "day": "Mon",
-   "direction": "Mixed",
-   "event": "Xi Jinping arrives in Washington ahead of a Thursday (Sep 24-25) White House summit with Trump covering tariffs, AI/semiconductors and critical minerals; Bessent and Vice Premier He Lifeng held preparatory talks Sunday",
-   "impact": "Medium",
-   "numbers": "n/a",
-   "order": 6,
-   "reaction": "Adds to the week's risk-on tone; chip export rules and the tariff truce are the market-relevant deliverables",
-   "region": "US / China",
-   "source": "https://qz.com/trump-xi-white-house-summit-ai-tariffs-minerals-092126",
-   "tickers": "FXI, KWEB, BA, SOYB, SMH, NVDA",
-   "time": "Market hours",
-   "vsExp": "Analysts expect incremental progress rather than a breakthrough"
-  }
- },
- {
-  "id": "2026-09-22-1-stocks-mixed-dow-slips-nasdaq-up",
-  "data": {
-   "addedAt": "2026-09-22",
-   "category": "Market",
-   "date": "2026-09-22",
-   "day": "Tue",
-   "direction": "Mixed",
-   "event": "Stocks split as the AI trade and a second day of falling oil offset weakness in cyclicals; the S&P 500 finishes effectively unchanged, the Dow slips and the Nasdaq Composite adds to Monday's record. Rally in megacap tech narrows to a handful of names",
-   "impact": "High",
-   "numbers": "S&P 500 7,764.64 -0.00%; Dow 51,863.69 -0.36%; Nasdaq Composite 27,244.28 +0.45%; Nasdaq-100 30,732 +0.82%; 10Y 4.967% (+1.6bp); 2Y 4.753% (+0.2bp); 30Y 5.303% (+2.3bp)",
-   "order": 1,
-   "reaction": "Breadth better than the Dow suggests (Russell 2000 higher); no top-tier US data on the calendar, so oil and Fed speakers set the tone",
-   "region": "US",
-   "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-september-22-nasdaq-dow-sp-500-080625961.html",
-   "tickers": "SPY, DIA, QQQ, IWM, TLT",
-   "time": "After-hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-09-22-2-iran-hormuz-offer-oil-2-week-low",
-  "data": {
-   "addedAt": "2026-09-22",
-   "category": "Geopolitics",
-   "date": "2026-09-22",
-   "day": "Tue",
-   "direction": "Bullish",
-   "event": "Iran signals it could reopen the Strait of Hormuz within seven days if Washington ends the blockade of Iranian ports and halts military operations in the strait (senior Iranian official to Kyodo News). Trump later says a three-hour US-Iran meeting on the UN General Assembly sidelines was 'very productive,' with another session planned, though he suggested a full deal likely waits until after the November midterms. Crude falls to a two-week low",
-   "impact": "High",
-   "numbers": "WTI ~$89.9-90.5/bbl (-2.0% to -3.2% depending on quote/settlement); Brent ~$98/bbl (-2.2%); gold ~$4,336/oz flat; bitcoin ~$86,000",
-   "order": 2,
-   "reaction": "The single biggest cross-asset driver of the day: lower crude supported tech and small caps but weighed on energy names in the Dow",
-   "region": "Middle East / Global",
-   "source": "https://www.cnbc.com/2026/09/22/us-iran-war-trump-hormuz.html",
-   "tickers": "CL=F, BZ=F, XLE, XOM, CVX, USO, DAL",
-   "time": "Market hours",
-   "vsExp": "Faster de-escalation signal than markets had priced after the Riyadh attack"
-  }
- },
- {
-  "id": "2026-09-22-3-fed-speakers-barkin-collins-hawkish",
-  "data": {
-   "addedAt": "2026-09-22",
-   "category": "Fed",
-   "date": "2026-09-22",
-   "day": "Tue",
-   "direction": "Bearish",
-   "event": "A heavy Fed speaking slate with no economic data: Richmond's Barkin says inflation risks outweigh employment risks and backs last week's 25bp hike, warning price pressures will take time to pass through; Boston's Collins says she has pencilled in another hike this year but sees rates unchanged through 2027; NY Fed's Williams focuses on reserve management, saying there should be no opportunity cost to holding reserves",
-   "impact": "Medium",
-   "numbers": "Fed funds target 3.75-4.00%; 10Y 4.967% (+1.6bp); 30Y 5.303% (+2.3bp); Oct hike odds ~53% as of Monday (CME FedWatch)",
-   "order": 3,
-   "reaction": "October remains roughly a coin flip; Wednesday's flash PMIs are the week's first real data test",
-   "region": "US",
-   "source": "https://www.newsquawk.com/headlines/us-market-wrap-oil-prices-drop-stocks-mixed-as-trump-says-us-iran-meeting-was-very-productive",
-   "tickers": "TLT, SHY, ZQ, XLF",
-   "time": "Market hours",
-   "vsExp": "Hawkish tilt, but yields barely moved - the message was already priced after last week's hike"
-  }
- },
- {
-  "id": "2026-09-22-4-autozone-q4-beat-tariff-refunds",
-  "data": {
-   "addedAt": "2026-09-22",
-   "category": "Earnings",
-   "date": "2026-09-22",
-   "day": "Tue",
-   "direction": "Mixed",
-   "event": "AutoZone reports fiscal Q4 before the open: EPS beats but revenue misses, with tariff refunds and a non-cash LIFO benefit driving much of the gross-margin expansion. Domestic commercial (DIFM) is the bright spot; CEO Phil Daniele guides to accelerating sales in the US, Mexico and Brazil in FY2027",
-   "impact": "Medium",
-   "numbers": "EPS $56.05 vs $54.14 est (+3.5%); revenue $6.59B vs $6.71B est (-1.7%); sales +5.6% y/y; domestic commercial +8.6% to $1.91B; $697.5M of buybacks in the quarter",
-   "order": 4,
-   "reaction": "Shares rose roughly 2% after touching a 12-month low into the print; stock still down sharply over the past year",
-   "region": "US",
-   "source": "https://247wallst.com/cards/autozone-q4-2026-earnings-azo-01m34ce1jkfag556xtb8vnk0aw",
-   "tickers": "AZO, ORLY, GPC, AAP",
-   "time": "Pre-market",
-   "vsExp": "EPS beat / revenue miss; margin quality questioned given the one-off tariff refund"
-  }
- },
- {
-  "id": "2026-09-22-5-viking-vk2735-maintenance-data",
-  "data": {
-   "addedAt": "2026-09-22",
-   "category": "Earnings",
-   "date": "2026-09-22",
-   "day": "Tue",
-   "direction": "Bullish",
-   "event": "Viking Therapeutics posts positive topline data for VK2735 (GLP-1/GIP agonist) in a maintenance-dosing study, validating monthly and every-other-week schedules - a direct attack on adherence, the weak point of injectable obesity drugs. Rivals barely move, with traders reading it as single-asset validation rather than a sector signal",
-   "impact": "Medium",
-   "numbers": "VKTX +26% to ~$38 (up ~30% pre-market); prior Phase 2 data: up to 14.7% mean weight loss (VENTURE), 12.2% oral (VENTURE-Oral); LLY +1.1% to $1,177.43; NVO -0.7% to $39.54; GPCR -0.7%",
-   "order": 5,
-   "reaction": "Biggest single-stock move in the S&P 1500 complex on the day; obesity peers shrugged",
-   "region": "US",
-   "source": "https://247wallst.com/investing/2026/09/22/viking-soars-alone-as-obesity-complex-shrugs-at-strong-glp-1-results/",
-   "tickers": "VKTX, LLY, NVO, GPCR",
-   "time": "Pre-market",
-   "vsExp": "Better than expected on durability of weight loss at reduced dosing frequency"
-  }
- },
- {
-  "id": "2026-09-24-1-stocks-slip-10y-hits-5-15-19yr-high",
-  "data": {
-   "addedAt": "2026-09-24",
-   "category": "Market",
-   "date": "2026-09-24",
-   "day": "Thu",
-   "direction": "Mixed",
-   "event": "Stocks close essentially flat after a choppy, sharply weaker open as the 10-year Treasury yield pushes to a fresh 19-year high and crude climbs again; AI/infrastructure names lag after Oracle's force majeure notice while rates, not equities, stay the story. UPDATED with official closes (an earlier run today logged an intraday snapshot before the bell)",
-   "impact": "High",
-   "numbers": "Close: S&P 500 7,704.13 -1.90 (-0.02%); Dow 51,349.98 -161.61 (-0.31%); Nasdaq Composite 26,939.37 +3.34 (+0.01%); Russell 2000 -0.17%. 10Y 5.19-5.21% (+~8bp, highest since 2007); 2Y 4.918%; 30Y 5.476% (highest since 2004)",
-   "order": 1,
-   "reaction": "Indices clawed back a 0.2-0.8% morning decline (Russell 2000 was -1.8% at the worst) to finish little changed; the bond market did the damage, with the long end leading",
-   "region": "US",
-   "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-september-24-dow-sp-500-nasdaq-080352893.html",
-   "tickers": "SPY, DIA, QQQ, IWM, TLT",
-   "time": "Market hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-09-24-2-claims-197k-new-home-sales-684k-beat",
-  "data": {
-   "addedAt": "2026-09-24",
-   "category": "Macro",
-   "date": "2026-09-24",
-   "day": "Thu",
-   "direction": "Bearish",
-   "event": "Firm US data lands on an already hawkish tape: weekly jobless claims fall and beat, new home sales jump to their fastest pace since the start of the year, and building permits are revised up. Market-implied odds of an October Fed hike jump",
-   "impact": "High",
-   "numbers": "Initial jobless claims 197k vs 201k est (prior 198k); new home sales 684k SAAR, +6.4% m/m vs 620k est; building permits revised to -2.1% from -2.7%, 1.403M SAAR; October hike odds ~70% vs ~55% earlier in the week (CME FedWatch)",
-   "order": 2,
-   "reaction": "Reinforced the yield melt-up; a Fed official added that 'some modest further tightening may be warranted'",
-   "region": "US",
-   "source": "https://investrade.com/mid-morning-look-september-24-2026/",
-   "tickers": "TLT, SHY, ZQ, XHB, ITB",
-   "time": "Market hours",
-   "vsExp": "Beat across the board - labour market still tight and housing firmer than expected, the opposite of what a bond market at 19-year yield highs wanted"
-  }
- },
- {
-  "id": "2026-09-24-3-us-china-truce-extended-to-jan-10",
-  "data": {
-   "addedAt": "2026-09-24",
-   "category": "Policy",
-   "date": "2026-09-24",
-   "day": "Thu",
-   "direction": "Bullish",
-   "event": "Xi Jinping begins a rare state visit to Washington and Treasury Secretary Bessent says the US and China have agreed to extend the tariff truce by two months, through January 10, as the two sides open talks spanning trade, AI and Taiwan. Trump hailed a 'truly great friendship' as the summit began",
-   "impact": "High",
-   "numbers": "Truce extended ~2 months, new deadline Jan 10, 2027; no change announced to existing tariff rates",
-   "order": 3,
-   "reaction": "Removes a near-term tariff cliff, but little index-level reaction with rates dominating the tape",
-   "region": "US / China",
-   "source": "https://www.cnbc.com/2026/09/24/us-china-trade-truce-bessent-trump-xi.html",
-   "tickers": "FXI, KWEB, BABA, BA, NVDA, SOYB",
-   "time": "Market hours",
-   "vsExp": "A short rollover rather than the broader package some had hoped a state visit would deliver"
-  }
- },
- {
-  "id": "2026-09-24-4-oracle-force-majeure-project-jupiter",
-  "data": {
-   "addedAt": "2026-09-24",
-   "category": "Deals",
-   "date": "2026-09-24",
-   "day": "Thu",
-   "direction": "Bearish",
-   "event": "Oracle issues a force majeure notice to Blue Owl Capital over 'Project Jupiter,' its 2.5GW New Mexico AI data-center campus, after state officials rejected a natural-gas pipeline extension in July and federal permitting slipped. Oracle insists the project 'remains on our planned schedule,' but the notice seeks relief from cost and payment obligations - the first public crack in a marquee AI-capex buildout",
-   "impact": "High",
-   "numbers": "ORCL -5% to -6%; campus up to $165B of planned investment, 2.5GW, 2028 target online date; $4.7B projected economic benefit to New Mexico; Oracle simultaneously issued an RFP for 2GW of renewable capacity",
-   "order": 4,
-   "reaction": "Biggest large-cap drag of the session and the main reason the Nasdaq lagged; read-through to AI data-center financing, permitting and power constraints",
-   "region": "US",
-   "source": "https://www.datacenterdynamics.com/en/news/oracle-issues-force-majeure-notice-to-blue-owl-following-series-of-setbacks-at-project-jupiter-data-center-campus-report/",
-   "tickers": "ORCL, OWL, NVDA, VST, GEV, SMH",
-   "time": "Pre-market",
-   "vsExp": "Unexpected; Bloomberg-sourced report hit before the open"
-  }
- },
- {
-  "id": "2026-09-24-5-oil-extends-gains-hormuz-phased-reopen",
-  "data": {
-   "addedAt": "2026-09-24",
-   "category": "Energy",
-   "date": "2026-09-24",
-   "day": "Thu",
-   "direction": "Bearish",
-   "event": "Crude extends its advance on renewed US-Iran tension, including warnings of 'a new front' aimed at Red Sea energy supplies, with gains capped by a report that a phased reopening of the Strait of Hormuz is under discussion. Higher energy prices feed straight back into the inflation-and-rates story driving the week",
-   "impact": "Medium",
-   "numbers": "WTI ~$93-94/bbl (+1.0% to +2.1% intraday); Brent ~$104.70 (+1.5%); gold $4,293/oz -0.56%; silver $63.99/oz -1.50%",
-   "order": 5,
-   "reaction": "Third leg of the day's bearish mix for duration-sensitive equities alongside yields and Oracle; energy names outperformed",
-   "region": "Global / Middle East",
-   "source": "https://www.cnbc.com/2026/09/24/oil-iran-crude-kepler-trump-us-un-.html",
-   "tickers": "CL=F, BZ=F, XLE, XOM, CVX, USO",
-   "time": "Market hours",
-   "vsExp": "n/a"
-  }
- },
- {
-  "id": "2026-09-24-6-costco-q4-beat-eps-6-75-sales-93-9b",
-  "data": {
-   "addedAt": "2026-09-24",
-   "category": "Earnings",
-   "date": "2026-09-24",
-   "day": "Thu",
-   "direction": "Bullish",
-   "event": "Costco reports Q4 FY2026 after the bell and beats on both lines, with an IEEPA tariff-refund benefit flattering the quarter; digital sales keep compounding near 20%. No special dividend announced, which some investors had hoped for",
-   "impact": "Medium",
-   "numbers": "Q4 net sales $93.9B, +11.2% y/y (from $84.4B); Q4 diluted EPS $6.75 vs $5.87 y/y (includes +$0.15 from non-recurring IEEPA tariff refunds, net of member-value reinvestment); Q4 comps +9.4% (+6.7% ex-gas/FX); digitally-enabled comps +19.5%; FY26 net sales $297.2B, +10.1%; FY26 EPS $20.76 vs $18.21; FY26 membership fee revenue $5.907B",
-   "order": 6,
-   "reaction": "After-hours move n/a at logging time (release ~4:15pm ET); stock had drifted to ~$895 into the print",
-   "region": "US",
-   "source": "https://www.globenewswire.com/news-release/2026/09/24/3368754/0/en/costco-wholesale-corporation-reports-fourth-quarter-and-fiscal-year-2026-operating-results.html",
-   "tickers": "COST, WMT, TGT, BJ",
-   "time": "After-hours",
-   "vsExp": "EPS $6.75 vs ~$6.54 consensus - a beat, though ~$0.15 of it was the one-off tariff refund; no special dividend vs some expectations of one"
-  }
- },
- {
-  "id": "2026-09-24-7-mgm-slides-as-diller-drops-18b-bid",
-  "data": {
-   "addedAt": "2026-09-24",
-   "category": "Deals",
-   "date": "2026-09-24",
-   "day": "Thu",
-   "direction": "Bearish",
-   "event": "MGM Resorts slides after Barry Diller's People Inc. withdraws its roughly $18B bid for full control of the casino operator, saying the 'mix wasn't coming together'; Diller says he stays open to other deals. The collapse removes the takeover premium that had supported the shares",
-   "impact": "Medium",
-   "numbers": "MGM -10%; bid value ~$18B, withdrawn (reported late 9/23, shares hit 9/24)",
-   "order": 7,
-   "reaction": "Worst large-cap consumer move of the session; read-through to other rumoured take-private situations as financing costs rise with yields",
-   "region": "US",
-   "source": "https://www.axios.com/2026/09/24/barry-diller-folds-mgm-resorts",
-   "tickers": "MGM, CZR, LVS, WYNN, IAC",
-   "time": "Market hours",
-   "vsExp": "Unexpected - the market had been pricing a live bid"
-  }
- },
- {
-  "id": "2026-09-24-8-travel-stocks-hit-by-meta-muse-agent",
-  "data": {
-   "addedAt": "2026-09-24",
-   "category": "Earnings",
-   "date": "2026-09-24",
-   "day": "Thu",
-   "direction": "Bearish",
-   "event": "Online travel agencies extend their slide on fears Meta's Muse AI agent will book hotels and compare prices directly, disintermediating the booking platforms; Meta gains on AI-agent monetisation plans. The selloff began 9/23 and carried into Thursday",
-   "impact": "Medium",
-   "numbers": "Expedia ~-7%, Airbnb ~-6% to -7.6% (to roughly $150), Booking Holdings ~-5% across the 9/23-9/24 move; Meta +4%",
-   "order": 8,
-   "reaction": "A business-model repricing rather than a rates move - the one large sector dislocation on an otherwise flat tape",
-   "region": "US",
-   "source": "https://finance.yahoo.com/markets/stocks/articles/travel-booking-stocks-tumble-muse-180858515.html",
-   "tickers": "EXPE, ABNB, BKNG, TRIP, META",
-   "time": "Market hours",
-   "vsExp": "n/a"
-  }
- }
 ]
