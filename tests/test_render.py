@@ -241,3 +241,11 @@ def test_render_shows_the_freshness_panel():
     for label in ('Calls written', 'Live prices', 'Page rebuilt'):
         assert label in html
     assert 'Thu Sep 24, 8:30 PM ET' in html
+
+
+def test_every_vote_note_carries_its_category_and_written_time():
+    html = render(PUB, generated_at='2026-09-25T14:00:00Z')
+    n_votes = sum(len(h['votes']) for a in PUB['assets'] for h in a['horizons'])
+    assert html.count('class="vote-meta"') == n_votes
+    assert 'Trend structure · <span' in html
+    assert 'written Thu Sep 24, 8:30 PM ET · data through Thu Sep 24 close' in html

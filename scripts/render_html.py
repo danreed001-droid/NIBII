@@ -19,6 +19,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.documents import iter_document_paths
 from mtl.record import aggregate
 from mtl.calendar_nyse import most_recent_completed_session
+from mtl.structure import CATEGORY_NAME as STRUCTURE_CATEGORY
 from mtl.score import live_tilt, outcome, real_result
 
 CALL_STATUS = {
@@ -67,7 +68,17 @@ def call_chip(call, confidence):
             f'<span class="chip-conf">{E(confidence)}</span></span>')
 
 
-def vote_row(v):
+def note_stamp(stamp):
+    """Small 'when was this written' line under a note. stamp is a
+    NoteStamp-style dict: {'written': 'Thu Sep 24, 8:30 PM ET', 'iso': ...,
+    'basis': 'Thu Sep 24'} (see board_stamp)."""
+    if not stamp:
+        return ''
+    return (f'<span class="note-stamp" title="{E(stamp.get("iso", ""))}">'
+            f'written {E(stamp["written"])} · data through {E(stamp["basis"])} close</span>')
+
+
+def vote_row(v, category=None, stamp=None, mechanical=False):
     side = v[0]
     reason = v[1]
     mark = v[2] if len(v) > 2 else None
@@ -76,9 +87,16 @@ def vote_row(v):
     if mark is not None:
         mark_html = (f'<span class="vote-mark {"hit" if mark else "miss"}">'
                      f'{"correct" if mark else "wrong"}</span>')
+    meta = ''
+    if category or stamp:
+        when = ''
+        if stamp:
+            verb = 'computed' if mechanical else 'written'
+            when = f' · <span title="{verb} {E(stamp["written"])}">{E(stamp["short"])}</span>'
+        meta = f'<span class="vote-meta">{E(category or "")}{when}</span>'
     return (f'<li class="vote" style="--dot:{hexval}">'
             f'<span class="dot" aria-hidden="true"></span>'
-            f'<span class="vote-text">{E(reason)}</span>{mark_html}</li>')
+            f'<span class="vote-body">{meta}<span class="vote-text">{E(reason)}</span></span>{mark_html}</li>')
 
 
 STRUCTURE_TONE = {
@@ -102,13 +120,22 @@ def structure_badge(sig, timeframe_label):
             f'{E(timeframe_label)}: {arrow} {E(sig["state"])}{brk}</span>')
 
 
-def horizon_block(a, h):
-    votes_html = "".join(vote_row(v) for v in h['votes'])
+def horizon_block(a, h, stamp=None):
+    cats = a.get('categories') or []
+    votes_html = "".join(
+        vote_row(v, cats[i] if i < len(cats) else None, stamp,
+                 mechanical=(i < len(cats) and cats[i] == STRUCTURE_CATEGORY))
+        for i, v in enumerate(h['votes']))
     reversion = ""
     if h.get('reversionFlag'):
-        reversion = f'<p class="reversion">⚠ overlay applied — {E(h["reversionNote"])}</p>'
+        reversion = f'<p class="reversion">⚠ overlay applied — {E(h["reversionNote"])}{note_stamp(stamp)}</p>'
     elif h.get('reversionNote'):
-        reversion = f'<p class="reversion muted">{E(h["reversionNote"])}</p>'
+        reversion = f'<p class="reversion muted">{E(h["reversionNote"])}{note_stamp(stamp)}</p>'
+
+    votes_when = ''
+    if stamp:
+        votes_when = (f' <span class="votes-when">· written {E(stamp["written"])}'
+                      f' · data through {E(stamp["basis"])} close</span>')
 
     structure = a.get('structure') or {}
     if h['h'] == 1:
@@ -130,7 +157,7 @@ def horizon_block(a, h):
       <div class="struct-row">{struct_html}</div>
       {reversion}
       <details class="votes">
-        <summary>{len(h['votes'])} votes</summary>
+        <summary>{len(h['votes'])} votes{votes_when}</summary>
         <ul>{votes_html}</ul>
       </details>
     </div>'''
@@ -142,10 +169,19 @@ CATALYST_DOT = {'Bullish': '#0ca30c', 'Bearish': '#d03b3b', 'Mixed': '#eda100', 
 def catalyst_item(c):
     hexval = CATALYST_DOT.get(c.get('direction'), '#898781')
     impact = c.get('impact', '')
+    when = ''
+    if c.get('date'):
+        try:
+            when = datetime.fromisoformat(c['date']).strftime('%a %b %-d')
+        except ValueError:
+            when = c['date']
+        if c.get('time'):
+            when += f", {c['time']}"
+        when = f' · {E(when)}'
     return (f'<li class="catalyst" style="--dot:{hexval}">'
             f'<span class="dot" aria-hidden="true"></span>'
             f'<span class="catalyst-body">'
-            f'<span class="catalyst-meta">{E(c.get("category", ""))} · {E(impact)} impact</span>'
+            f'<span class="catalyst-meta">{E(c.get("category", ""))} · {E(impact)} impact{when}</span>'
             f'<span class="catalyst-event">{E(c.get("event", ""))}</span>'
             f'</span></li>')
 
@@ -168,11 +204,12 @@ def stretch_gauge(score, label):
         </div>'''
 
 
-def asset_card(a, catalysts):
+def asset_card(a, catalysts, stamp=None):
     st = a['stretch']
-    horizons_html = "".join(horizon_block(a, h) for h in a['horizons'])
+    horizons_html = "".join(horizon_block(a, h, stamp) for h in a['horizons'])
     drivers_html = "".join(f'<li>{E(d)}</li>' for d in st.get('drivers', []))
-    drivers_block = f'<ul class="drivers">{drivers_html}</ul>' if drivers_html else ''
+    drivers_block = (f'<ul class="drivers">{drivers_html}</ul>{note_stamp(stamp)}'
+                     if drivers_html else '')
 
     catalysts_block = ''
     if catalysts:
@@ -193,7 +230,7 @@ def asset_card(a, catalysts):
         </div>
         {stretch_gauge(st['score'], st['label'])}
       </header>
-      <p class="driver-note">{E(a['driverNote'])}</p>
+      <p class="driver-note">{E(a['driverNote'])}{note_stamp(stamp)}</p>
       {f'<details class="stretch-drivers"><summary>why this stretch score</summary>{drivers_block}</details>' if drivers_block else ''}
       {catalysts_block}
       <div class="horizons">{horizons_html}</div>
@@ -489,7 +526,13 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 .vote {{ display: flex; align-items: flex-start; gap: 7px; font-size: 0.82rem; color: var(--ink-2); }}
 .dot {{ width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex-shrink: 0; }}
 .vote .dot {{ margin-top: 6px; }}
-.vote-text {{ flex: 1; }}
+.vote-body {{ flex: 1; display: flex; flex-direction: column; gap: 1px; }}
+.vote-meta, .note-stamp {{
+  font-size: 0.68rem; color: var(--muted); letter-spacing: 0.02em;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums;
+}}
+.note-stamp {{ display: block; margin-top: 4px; }}
+.votes-when {{ font-size: 0.68rem; color: var(--muted); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }}
 .vote-mark {{ font-size: 0.7rem; white-space: nowrap; padding: 1px 6px; border-radius: 999px; }}
 .vote-mark.hit {{ color: #0ca30c; border: 1px solid #0ca30c; }}
 .vote-mark.miss {{ color: #d03b3b; border: 1px solid #d03b3b; }}
@@ -922,6 +965,19 @@ def live_note_html(live):
                       fresh_h=1, stale_h=4, css='live-note')
 
 
+def board_stamp(doc):
+    """Every note on a board - driver notes, all 13 category votes per
+    horizon, stretch drivers, overlay notes - is written in one pass for one
+    session, so they all share the document's generatedAt and basis date."""
+    dt = _parse_utc(doc.get('generatedAt'))
+    if dt is None:
+        return None
+    basis = doc.get('basisDate') or doc['date']
+    return dict(written=fmt_et(dt), iso=dt.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                short=dt.astimezone(ET).strftime('%b %-d %-I:%M%p').replace('AM', 'am').replace('PM', 'pm'),
+                basis=datetime.fromisoformat(basis).strftime('%a %b %-d'))
+
+
 def freshness_html(doc, live, generated_at):
     page = fresh_item('Page rebuilt', _parse_utc(generated_at),
                       'Grades and the track record are recomputed on every rebuild',
@@ -931,16 +987,17 @@ def freshness_html(doc, live, generated_at):
 
 def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dict = None) -> str:
     news_log = doc.get('context', {}).get('newsLog', [])
+    stamp = board_stamp(doc)
     assets_html = "".join(
-        asset_card(a, matching_catalysts(a['key'], news_log, doc['date']))
+        asset_card(a, matching_catalysts(a['key'], news_log, doc['date']), stamp)
         for a in doc['assets']
     )
     docs = all_docs or {doc['date']: doc}
-    stamp = generated_at or datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    rebuilt = generated_at or datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     return PAGE.format(
         date=doc['date'], tape=ticker_strip(doc, live), stats=stat_tiles(doc),
         assets=assets_html, record=track_record_section(docs), log=call_log_section(docs),
-        freshness=freshness_html(doc, live, stamp),
+        freshness=freshness_html(doc, live, rebuilt),
     )
 
 
