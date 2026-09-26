@@ -222,3 +222,22 @@ def test_ticker_strip_carries_the_live_tilt_row_but_never_alters_calls():
     # the live overlay only adds the separate tilt row, never touches these
     assert with_live.count('tape-badge-h') - with_live.count('tape-tilt-badge') \
         == without_live.count('tape-badge-h')
+
+
+def test_calls_freshness_flags_a_board_behind_the_latest_session():
+    from datetime import datetime
+    from scripts.render_html import ET, calls_fresh_html
+    doc = {'date': '2026-09-24', 'generatedAt': '2026-09-25T00:30:00Z'}
+    behind = calls_fresh_html(doc, now=datetime(2026, 9, 26, 12, 0, tzinfo=ET))
+    assert 'data-state="stale"' in behind and 'Fri Sep 25' in behind
+    current = calls_fresh_html(doc, now=datetime(2026, 9, 25, 9, 0, tzinfo=ET))
+    assert 'data-state="fresh"' in current
+    assert 'data-ts="2026-09-25T00:30:00Z"' in current
+
+
+def test_render_shows_the_freshness_panel():
+    html = render(PUB, live={'fetchedAt': '2026-09-25T13:45:00Z', 'prices': {'equities': {'ticker': 'ES=F', 'price': 1}}},
+                  generated_at='2026-09-25T14:00:00Z')
+    for label in ('Calls written', 'Live prices', 'Page rebuilt'):
+        assert label in html
+    assert 'Thu Sep 24, 8:30 PM ET' in html

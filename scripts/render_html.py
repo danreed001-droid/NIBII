@@ -13,10 +13,12 @@ import json
 import os
 import sys
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.documents import iter_document_paths
 from mtl.record import aggregate
+from mtl.calendar_nyse import most_recent_completed_session
 from mtl.score import live_tilt, outcome, real_result
 
 CALL_STATUS = {
@@ -357,6 +359,29 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; opacity: 0.85;
 }}
 
+/* freshness panel: when each part of the page was last updated */
+.fresh {{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px;
+  margin-top: 14px;
+}}
+.fresh-item {{
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 8px 10px;
+  display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: baseline;
+}}
+.fresh-dot {{ width: 8px; height: 8px; border-radius: 999px; background: var(--masthead-ink-2); align-self: center; }}
+.fresh-item[data-state="fresh"] .fresh-dot {{ background: #5fb87a; }}
+.fresh-item[data-state="aging"] .fresh-dot {{ background: #d9b46a; }}
+.fresh-item[data-state="stale"] .fresh-dot {{ background: #e5705f; }}
+.fresh-label {{ font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--masthead-ink-2); }}
+.fresh-value {{
+  grid-column: 2; color: var(--masthead-ink); font-size: 0.82rem;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums;
+}}
+.fresh-note {{ grid-column: 2; color: var(--masthead-ink-2); font-size: 0.72rem; }}
+.fresh-age {{ font-weight: 600; }}
+.fresh-item[data-state="stale"] .fresh-age {{ color: #e5705f; }}
+.fresh-item[data-state="aging"] .fresh-age {{ color: #d9b46a; }}
+
 /* ticker strip */
 .tape {{
   display: flex; flex-wrap: wrap; gap: 0; margin-top: 20px;
@@ -559,8 +584,7 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
       </span>
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
-    <p class="updated">Last updated {generated_at}</p>
-    {live_note}
+    {freshness}
     <div class="tape">{tape}</div>
   </div>
 </div>
@@ -588,6 +612,36 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
 </div>
 
 <script>
+(function () {{
+  // Freshness panel: turn each stamp's ISO time into "x min ago" and a
+  // fresh/aging/stale dot, recomputed every minute against the viewer's clock.
+  function ago(ms) {{
+    var m = Math.floor(ms / 60000);
+    if (m < 1) return 'just now';
+    if (m < 60) return m + ' min ago';
+    var h = Math.floor(m / 60);
+    if (h < 48) return h + 'h ' + (m % 60) + 'm ago';
+    return Math.floor(h / 24) + ' days ago';
+  }}
+  function tick() {{
+    var items = document.querySelectorAll('.fresh-item[data-ts]');
+    for (var i = 0; i < items.length; i++) {{
+      var el = items[i];
+      var t = Date.parse(el.getAttribute('data-ts'));
+      if (isNaN(t)) continue;
+      var age = Date.now() - t;
+      var out = el.querySelector('.fresh-age');
+      if (out) out.textContent = ago(age);
+      if (el.getAttribute('data-fixed-state')) continue;
+      var freshH = parseFloat(el.getAttribute('data-fresh-h'));
+      var staleH = parseFloat(el.getAttribute('data-stale-h'));
+      var h = age / 3600000;
+      el.setAttribute('data-state', h < freshH ? 'fresh' : (h < staleH ? 'aging' : 'stale'));
+    }}
+  }}
+  tick();
+  setInterval(tick, 60000);
+}})();
 (function () {{
   var root = document.documentElement;
   var sun = document.getElementById('icon-sun');
@@ -805,11 +859,74 @@ def call_log_section(all_docs: dict) -> str:
     <p class="log-caption">{E(caption)}</p>'''
 
 
+ET = ZoneInfo("America/New_York")
+
+
+def _parse_utc(ts):
+    """ISO-8601 UTC stamp ('...Z' or '+00:00') -> aware datetime, or None."""
+    if not ts:
+        return None
+    try:
+        return datetime.fromisoformat(str(ts).replace('Z', '+00:00')).astimezone(timezone.utc)
+    except ValueError:
+        return None
+
+
+def fmt_et(dt):
+    """'Sat Sep 26, 2:27 PM ET' - the page's readers think in New York time."""
+    local = dt.astimezone(ET)
+    return local.strftime('%a %b %-d, %-I:%M %p ET')
+
+
+def fresh_item(label, dt, note='', fresh_h=None, stale_h=None, fixed_state=None, css=''):
+    """One tile of the freshness panel. The age ("3h 5m ago") and the
+    fresh/aging/stale dot are filled in client-side from data-ts, so they
+    stay right however long after rendering the page is viewed."""
+    if dt is None:
+        return (f'<div class="fresh-item {css}" data-state="stale"><span class="fresh-dot"></span>'
+                f'<span class="fresh-label">{E(label)}</span>'
+                f'<span class="fresh-value">unknown</span></div>')
+    iso = dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+    attrs = f'data-ts="{iso}"'
+    if fixed_state:
+        attrs += f' data-state="{fixed_state}" data-fixed-state="1"'
+    else:
+        attrs += f' data-fresh-h="{fresh_h}" data-stale-h="{stale_h}"'
+    note_html = f'<span class="fresh-note">{note}</span>' if note else ''
+    return (f'<div class="fresh-item {css}" {attrs}><span class="fresh-dot"></span>'
+            f'<span class="fresh-label">{E(label)}</span>'
+            f'<span class="fresh-value" title="{iso}">{E(fmt_et(dt))} · <span class="fresh-age"></span></span>'
+            f'{note_html}</div>')
+
+
+def calls_fresh_html(doc, now=None):
+    """When the calls were written, and whether a newer session's board is
+    overdue: the board for session S is expected once S has closed, so it's
+    'behind' when S is older than the most recent completed session as of
+    this render."""
+    expected = most_recent_completed_session((now or datetime.now(ET)).astimezone(ET).date())
+    session = datetime.fromisoformat(doc['date']).strftime('%a %b %-d')
+    if doc['date'] < expected:
+        exp = datetime.fromisoformat(expected).strftime('%a %b %-d')
+        note, state = f'Calls for session {E(session)} - the {E(exp)} board is not published yet', 'stale'
+    else:
+        note, state = f'Calls for session {E(session)} - the latest completed session', 'fresh'
+    return fresh_item('Calls written', _parse_utc(doc.get('generatedAt')), note, fixed_state=state)
+
+
 def live_note_html(live):
     if not live or not live.get('prices'):
         return ''
-    return (f'<p class="updated live-note">Live prices as of {E(live.get("fetchedAt", "?"))} '
-            f'- overlay only, never the basis a call was made against</p>')
+    note = 'Overlay only - never the basis a call was made against'
+    return fresh_item('Live prices', _parse_utc(live.get('fetchedAt')), note,
+                      fresh_h=1, stale_h=4, css='live-note')
+
+
+def freshness_html(doc, live, generated_at):
+    page = fresh_item('Page rebuilt', _parse_utc(generated_at),
+                      'Grades and the track record are recomputed on every rebuild',
+                      fresh_h=4, stale_h=24)
+    return f'<div class="fresh">{calls_fresh_html(doc)}{live_note_html(live)}{page}</div>'
 
 
 def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dict = None) -> str:
@@ -819,11 +936,11 @@ def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dic
         for a in doc['assets']
     )
     docs = all_docs or {doc['date']: doc}
-    stamp = generated_at or datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+    stamp = generated_at or datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     return PAGE.format(
         date=doc['date'], tape=ticker_strip(doc, live), stats=stat_tiles(doc),
         assets=assets_html, record=track_record_section(docs), log=call_log_section(docs),
-        generated_at=E(stamp), live_note=live_note_html(live),
+        freshness=freshness_html(doc, live, stamp),
     )
 
 
