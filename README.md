@@ -78,7 +78,8 @@ Split across two runtimes, on purpose - each does only what it's actually
 suited for:
 
 **GitHub Actions** (`.github/workflows/daily-fetch.yml`, twice on weekdays -
-pre-open and mid-afternoon, see "What `fetch.py` fixes" for the exact times -
+pre-open and mid-afternoon - plus a Sunday 23:30 UTC live-price-only refresh
+after futures reopen, see "What `fetch.py` fixes" for the exact times -
 also runnable manually via `workflow_dispatch`) owns everything that needs
 live market data, because it runs on GitHub's own infrastructure with
 normal outbound internet - unlike a Claude Code Remote sandbox, which

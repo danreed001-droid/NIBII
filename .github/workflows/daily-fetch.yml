@@ -20,6 +20,10 @@ on:
     - cron: '15 13 * * 1-5'
     # 19:30 UTC = 3:30pm EDT / 2:30pm EST - mid-afternoon.
     - cron: '30 19 * * 1-5'
+    # Sunday live-price-only refresh (the steps below skip settle/draft when
+    # github.event.schedule matches it). CME futures reopen at 6pm ET Sunday;
+    # 23:30 UTC = 7:30pm EDT / 6:30pm EST, after the reopen in both states.
+    - cron: '30 23 * * 0'
   workflow_dispatch: {}
 
 permissions:
@@ -40,10 +44,12 @@ jobs:
       - run: pip install -r requirements.txt
 
       - name: Settle prior calls with now-available closes
+        if: github.event.schedule != '30 23 * * 0'
         run: python scripts/settle.py
 
       - name: Determine session date and draft today's contracts if needed
         id: session
+        if: github.event.schedule != '30 23 * * 0'
         run: |
           S=$(python -c "from mtl.calendar_nyse import most_recent_completed_session as f; print(f())")
           echo "s=$S" >> "$GITHUB_OUTPUT"
@@ -73,6 +79,10 @@ jobs:
           if git diff --cached --quiet; then
             echo "nothing changed"
           else
-            git commit -m "Daily data fetch: settle + draft ${{ steps.session.outputs.s }}"
+            if [ "${{ github.event.schedule }}" = "30 23 * * 0" ]; then
+              git commit -m "Sunday live price refresh"
+            else
+              git commit -m "Daily data fetch: settle + draft ${{ steps.session.outputs.s }}"
+            fi
             git push
           fi
