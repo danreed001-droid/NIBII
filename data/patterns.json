@@ -1,0 +1,80 @@
+{
+ "minSamples": 15,
+ "settledHorizons": 6,
+ "byAsset": {
+  "equities": {
+   "Earnings": {
+    "n": 1,
+    "agree": 0,
+    "rate": null,
+    "reliable": false
+   },
+   "Rates": {
+    "n": 1,
+    "agree": 0,
+    "rate": null,
+    "reliable": false
+   },
+   "Market": {
+    "n": 1,
+    "agree": 1,
+    "rate": null,
+    "reliable": false
+   },
+   "Macro": {
+    "n": 1,
+    "agree": 0,
+    "rate": null,
+    "reliable": false
+   }
+  },
+  "bonds": {
+   "Macro": {
+    "n": 2,
+    "agree": 0,
+    "rate": null,
+    "reliable": false
+   },
+   "Policy": {
+    "n": 1,
+    "agree": 1,
+    "rate": null,
+    "reliable": false
+   },
+   "Rates": {
+    "n": 1,
+    "agree": 0,
+    "rate": null,
+    "reliable": false
+   },
+   "Market": {
+    "n": 1,
+    "agree": 1,
+    "rate": null,
+    "reliable": false
+   }
+  },
+  "gold": {
+   "Energy": {
+    "n": 1,
+    "agree": 0,
+    "rate": null,
+    "reliable": false
+   }
+  },
+  "qqq": {
+   "Deals": {
+    "n": 1,
+    "agree": 0,
+    "rate": null,
+    "reliable": false
+   },
+   "Market": {
+    "n": 1,
+    "agree": 1,
+    "rate": null,
+    "reliable": false
+   }
+  }
+ }
+}
