@@ -10,7 +10,14 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUB = json.load(open(os.path.join(ROOT, 'golden/2026-09-24.published.json')))
 
 
-def fake_close_fn(key, date):
+LEGACY = {'^GSPC': 'equities', 'TLT': 'bonds', 'GC=F': 'gold', 'DX-Y.NYB': 'dollar',
+          'IWM': 'iwm', 'QQQ': 'qqq'}
+
+
+def fake_close_fn(ticker, date):
+    key = LEGACY.get(ticker)
+    if ticker == 'GC=F' and date == '2026-09-24':
+        return 4300.0  # proxy base: GC=F's own print on the document date
     closes = {
         ('equities', '2026-09-25'): 7690.0, ('equities', '2026-10-01'): 7750.0,
         ('equities', '2026-10-08'): 7600.0,
@@ -55,3 +62,26 @@ def test_settle_never_touches_vote_side_or_reason():
     settle_document(doc, close_fn=fake_close_fn)
     after_votes = [[list(v[:2]) for v in h['votes']] for a in doc['assets'] for h in a['horizons']]
     assert before_votes == after_votes
+
+
+def test_settles_each_document_against_its_own_instrument():
+    # A legacy document (no per-asset 'ticker') is graded on its own
+    # instrument (SPX index via ^GSPC, TLT, ...), never on today's futures.
+    seen = []
+    def spy(ticker, date):
+        seen.append(ticker)
+        return fake_close_fn(ticker, date)
+    settle_document(copy.deepcopy(PUB), close_fn=spy)
+    assert {'^GSPC', 'TLT', 'IWM', 'QQQ', 'DX-Y.NYB'} <= set(seen)
+    assert not {'ES=F', 'ZN=F', 'RTY=F', 'NQ=F'} & set(seen)
+
+
+def test_gold_without_a_spot_source_is_graded_on_the_futures_return():
+    doc = copy.deepcopy(PUB)
+    settle_document(doc, close_fn=fake_close_fn)
+    gold = next(a for a in doc['assets'] if a['key'] == 'gold')
+    h = gold['horizons'][0]
+    # 4300 -> 4300 on GC=F is a 0% move, whatever the spot close was
+    assert h['ret'] == 0.0
+    assert 'GC=F' in h['settlementNote']
+    assert verify_document(doc) == []

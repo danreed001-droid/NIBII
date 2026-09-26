@@ -23,22 +23,48 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.documents import iter_document_paths
-from mtl.fetch import close_on
+from mtl.fetch import LEGACY_TICKERS, TICKERS, ticker_close_on
 from mtl.score import document_fully_settled, settle_horizon
 from mtl.verify import assert_no_reason_drift, verify_document
 
 
-def settle_document(doc, close_fn=close_on):
+def settlement_plan(doc, a):
+    """(ticker, proxy) to grade asset `a` of `doc` against. A document's own
+    close came from a['ticker'] (or, for documents drafted before that field
+    existed, the LEGACY_TICKERS instrument), so its maturity print has to
+    come from the same instrument - grading a TLT close against a ZN=F
+    print (or SPX against ES=F) produced nonsense returns. proxy=True means
+    no source for the document's own instrument exists, so the current
+    TICKERS contract's return over the same dates stands in for it."""
+    own = a.get('ticker') or LEGACY_TICKERS.get(a['key'])
+    if own:
+        return own, False
+    return TICKERS[a['key']], True
+
+
+def settle_document(doc, close_fn=ticker_close_on):
+    """close_fn(ticker, date) -> print or None."""
     before = copy.deepcopy(doc)
     changed = False
     for a in doc['assets']:
+        ticker, proxy = settlement_plan(doc, a)
         for h in a['horizons']:
             if h.get('maturityClose') is not None:
                 continue
-            mc = close_fn(a['key'], h['maturity'])
+            mc = close_fn(ticker, h['maturity'])
             if mc is None:
                 continue
-            settle_horizon(h, a['close'], mc)
+            if proxy:
+                base = close_fn(ticker, doc['date'])
+                if not base:
+                    continue
+                mc = round(a['close'] * mc / base, 6)
+                note = (f"graded on {ticker}'s return from {doc['date']} to {h['maturity']} "
+                        f"(no source for this document's own instrument); maturityClose is "
+                        f"that return applied to the document's close")
+            else:
+                note = f"graded against {ticker}"
+            settle_horizon(h, a['close'], mc, settlement_note=note)
             changed = True
     if changed:
         doc['scored'] = document_fully_settled(doc)

@@ -13,22 +13,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUB = json.load(open(os.path.join(ROOT, 'golden/2026-09-24.published.json')))
 
 
-def fake_close_fn(key, date):
-    closes = {
-        ('equities', '2026-09-25'): 7690.0, ('equities', '2026-10-01'): 7750.0,
-        ('equities', '2026-10-08'): 7600.0,
-        ('bonds', '2026-09-25'): 79.10, ('bonds', '2026-10-01'): 78.50,
-        ('bonds', '2026-10-08'): 79.00,
-        ('gold', '2026-09-25'): 4300.0, ('gold', '2026-10-01'): 4250.0,
-        ('gold', '2026-10-08'): 4400.0,
-        ('dollar', '2026-09-25'): 101.20, ('dollar', '2026-10-01'): 101.50,
-        ('dollar', '2026-10-08'): 100.90,
-        ('iwm', '2026-09-25'): 280.0, ('iwm', '2026-10-01'): 275.0,
-        ('iwm', '2026-10-08'): 285.0,
-        ('qqq', '2026-09-25'): 600.0, ('qqq', '2026-10-01'): 610.0,
-        ('qqq', '2026-10-08'): 590.0,
-    }
-    return closes.get((key, date))
+from tests.test_settle import fake_close_fn  # noqa: E402  (keyed by ticker)
 
 
 def test_pct_tone_boundaries():

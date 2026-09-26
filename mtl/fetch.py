@@ -214,6 +214,29 @@ def ohlc_through(ticker, s: str, interval="1d", period="2y"):
     return [r for r in fetch_ohlc(ticker, interval=interval, period=period) if r[0][:10] <= s]
 
 
+# Yahoo tickers behind documents drafted before assets carried their own
+# 'ticker' field (2026-09-24 and earlier: SPX index / TLT / XAU spot / DXY /
+# IWM / QQQ closes). None = no working Yahoo source for that instrument (spot
+# XAU 404s - see SPOT_GOLD_TICKER), so settlement falls back to a return
+# proxy on the current TICKERS contract instead.
+LEGACY_TICKERS = {
+    'equities': '^GSPC', 'bonds': 'TLT', 'gold': None,
+    'dollar': 'DX-Y.NYB', 'iwm': 'IWM', 'qqq': 'QQQ',
+}
+
+
+def ticker_close_on(ticker: str, date: str, period="2y"):
+    """The print for `ticker` dated `date`, or None if there is none yet.
+    Same snapshot semantics as close_on(), keyed by Yahoo ticker instead of
+    TICKERS key - settlement has to grade each document against the
+    instrument its own close came from, not whatever TICKERS says today."""
+    if ticker == SPOT_GOLD_TICKER:
+        closes, as_of = gold_close_through(date, period=period)
+    else:
+        closes, as_of = closes_through(ticker, date, period=period)
+    return closes[-1] if (closes and as_of == date) else None
+
+
 def close_on(key: str, date: str, period="2y"):
     """The most recent available print for asset `key` (a TICKERS key) dated
     `date`, or None if there's no print for that date yet - a weekend/
