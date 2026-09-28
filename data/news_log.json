@@ -1398,5 +1398,65 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-09-28-5-stocks-close-lower-iran-yields",
+    "data": {
+      "addedAt": "2026-09-28",
+      "category": "Market",
+      "date": "2026-09-28",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Stocks close lower as Trump rejects Iran's Hormuz peace offer and the 10-year yield hits a 19-year high",
+      "impact": "High",
+      "numbers": "S&P 500 7,683.69 (-0.77%); Dow 51,481.51 (-0.67%); Nasdaq Composite 26,820.38 (-0.92%); 10Y yield ~5.2% (19-yr high); WTI $96.31 (+4.22%); Brent ~$108.50 (+4.02%)",
+      "order": 5,
+      "reaction": "Selloff accelerates into the close after Trump tells Axios Iran 'overplayed its hand'; markets now price ~70% odds of a 25bp Fed hike at the Oct 28 FOMC; over 65% of US issues declined",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-28-2026",
+      "tickers": "SPY, DIA, QQQ, TLT, USO",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-28-6-feds-cook-warns-ai-inflation",
+    "data": {
+      "addedAt": "2026-09-28",
+      "category": "Fed",
+      "date": "2026-09-28",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Fed Governor Lisa Cook warns AI-driven demand and Iran-related energy risks could keep inflation elevated, says AI productivity gains won't offset near-term price pressure",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 6,
+      "reaction": "Hawkish-leaning remarks reinforce bets for additional rate hikes, adding to the bond selloff and weighing on equities alongside oil-driven inflation fears",
+      "region": "US",
+      "source": "https://www.federalreserve.gov/newsevents/speech/cook20260928a.htm",
+      "tickers": "TLT, SPY",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-28-7-akamai-anthropic-power-deal",
+    "data": {
+      "addedAt": "2026-09-28",
+      "category": "Deals",
+      "date": "2026-09-28",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Akamai Technologies signs seven-year, $11.6B power/infrastructure deal with Anthropic",
+      "impact": "Medium",
+      "numbers": "$11.6B, 7-year term; AKAM +3.2%",
+      "order": 7,
+      "reaction": "Stock jumps on long-term AI-infrastructure revenue visibility, adding to the day's AI-capex-driven deal flow",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/stocks/articles/company-news-sep-28-2026-061000700.html",
+      "tickers": "AKAM",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
