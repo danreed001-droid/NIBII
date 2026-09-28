@@ -1278,5 +1278,45 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-09-26-1-us-china-30b-tariff-cut-ai-dialogue",
+    "data": {
+      "addedAt": "2026-09-26",
+      "category": "Geopolitics",
+      "date": "2026-09-26",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "US and China finalize $30B tariff-cut deal following Trump-Xi Washington summit, plus new bilateral AI dialogue",
+      "impact": "Medium",
+      "numbers": "$30B in goods covered; China to import 10M metric tons of US coal in both 2027 and 2028",
+      "order": 1,
+      "reaction": "China cuts tariffs on US agriculture, seafood, wood products, cosmetics and medical devices; US cuts on small appliances, toys, holiday decor and car seats; rare earths left unresolved and called 'vague'; USTR Greer says fuller details due Monday",
+      "region": "US/China",
+      "source": "https://www.axios.com/2026/09/26/us-china-tariffs-trade-30-billion",
+      "tickers": "FXI, DE, CAT, MDT, HAS, MAT, SPY",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-27-1-trump-rejects-iran-hormuz-ceasefire",
+    "data": {
+      "addedAt": "2026-09-27",
+      "category": "Geopolitics",
+      "date": "2026-09-27",
+      "day": "Sun",
+      "direction": "Mixed",
+      "event": "Trump rejects Iran's 7-day ceasefire/Hormuz-reopening proposal (routed via Qatar); WSJ reports he told aides he expects to resume bombing Iran after the November midterms",
+      "impact": "High",
+      "numbers": "Brent $104.32 Fri close (-2.14%); Iran's plan tied Hormuz reopening to conditions incl. a Yemen ceasefire; Iran FM Araghchi says Tehran still awaits an official US response",
+      "order": 1,
+      "reaction": "Oil and bitcoin dipped on the rejection headline (Brent -2.1% Fri, BTC briefly <$84K) before stabilizing; Sunday-evening equity futures firmed as traders read the midterms timeline as delaying near-term escalation, though previews flag the gap-up as fragile into Monday's quarter-end rebalancing; LNG exporters and defense names in focus",
+      "region": "Middle East / US-Iran",
+      "source": "https://finance.yahoo.com/markets/commodities/articles/trump-rejects-iran-ceasefire-expects-095255219.html",
+      "tickers": "USO, BNO, BTC-USD, SPY, LNG, RTX",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]

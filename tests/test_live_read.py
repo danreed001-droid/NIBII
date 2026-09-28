@@ -63,3 +63,29 @@ def test_page_shows_latest_read_and_now_badges():
     # the board's own frozen badge is still there alongside: two per cell
     cells = sum(len(a['horizons']) for a in PUB['assets'])
     assert html.count('class="struct-badge') == 2 * cells
+
+
+def test_since_board_news_only_after_the_board_and_matched_per_asset():
+    from scripts.render_html import news_after
+    log = [
+        {'id': 'a', 'data': {'date': PUB['date'], 'event': 'same day', 'tickers': 'SPY', 'order': 1}},
+        {'id': 'b', 'data': {'date': '2026-09-26', 'event': 'weekend trade deal', 'tickers': 'SPY', 'order': 1}},
+        {'id': 'c', 'data': {'date': '2026-09-27', 'event': 'gold spikes', 'tickers': 'GLD', 'order': 1}},
+    ]
+    later = news_after(log, PUB['date'])
+    assert [c['event'] for c in later] == ['gold spikes', 'weekend trade deal']  # newest first
+    html = render(PUB, generated_at='2026-09-28T14:00:00Z', news_log=log)
+    assert html.count('since the board (1)') == 2  # equities (SPY) and gold (GLD)
+    assert 'not in these calls' in html
+
+
+def test_no_since_board_panel_without_later_news():
+    html = render(PUB, generated_at='2026-09-28T14:00:00Z', news_log=[])
+    assert 'since the board' not in html
+
+
+def test_usd_inside_a_crypto_pair_is_not_the_dollar():
+    from scripts.render_html import matches_asset
+    assert not matches_asset('dollar', {'tickers': 'USO, BTC-USD, SPY'})
+    assert matches_asset('dollar', {'tickers': 'SPY, USD'})
+    assert matches_asset('bonds', {'event': 'Treasury yields jump'})  # word endings still match

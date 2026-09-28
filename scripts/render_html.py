@@ -11,6 +11,7 @@ Usage:
 import html
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
@@ -237,7 +238,21 @@ def stretch_gauge(score, label):
         </div>'''
 
 
-def asset_card(a, catalysts, stamp=None, live=None):
+def since_board_block(items, board_date):
+    """News logged after the board's session - it never fed these calls
+    (the blindness rule), but it's what has moved since, so show it apart."""
+    if not items:
+        return ''
+    basis = datetime.fromisoformat(board_date).strftime('%a %b %-d')
+    lis = "".join(catalyst_item(c) for c in items)
+    return f'''
+      <details class="catalysts since-board" open>
+        <summary>since the board ({len(items)}) · news after {E(basis)} - not in these calls</summary>
+        <ul>{lis}</ul>
+      </details>'''
+
+
+def asset_card(a, catalysts, stamp=None, live=None, since=None, board_date=None):
     st = a['stretch']
     horizons_html = "".join(horizon_block(a, h, stamp, live) for h in a['horizons'])
     drivers_html = "".join(f'<li>{E(d)}</li>' for d in st.get('drivers', []))
@@ -267,6 +282,7 @@ def asset_card(a, catalysts, stamp=None, live=None):
       {latest_read_html(a, live)}
       {f'<details class="stretch-drivers"><summary>why this stretch score</summary>{drivers_block}</details>' if drivers_block else ''}
       {catalysts_block}
+      {since_board_block(since, board_date) if board_date else ''}
       <div class="horizons">{horizons_html}</div>
     </section>'''
 
@@ -764,16 +780,15 @@ ASSET_MATCH = {
 }
 
 
+def matches_asset(asset_key, c):
+    """Keyword must start a word (endings allowed - 'yield' hits 'yields'),
+    so 'usd' no longer matches inside a pair like BTC-USD."""
+    haystack = ' '.join((c.get('tickers', ''), c.get('event', ''), c.get('numbers', ''))).lower()
+    return any(re.search(r'(?<![\w-])' + re.escape(k), haystack) for k in ASSET_MATCH.get(asset_key, []))
+
+
 def matching_catalysts(asset_key, news_log, date):
-    keywords = ASSET_MATCH.get(asset_key, [])
-    out = []
-    for c in news_log:
-        if c.get('date') != date:
-            continue
-        haystack = ' '.join((c.get('tickers', ''), c.get('event', ''), c.get('numbers', ''))).lower()
-        if any(k in haystack for k in keywords):
-            out.append(c)
-    return out
+    return [c for c in news_log if c.get('date') == date and matches_asset(asset_key, c)]
 
 
 HORIZON_LABEL = {1: '1D', 5: '5D', 10: '10D'}
@@ -1021,11 +1036,22 @@ def freshness_html(doc, live, generated_at):
     return f'<div class="fresh">{calls_fresh_html(doc)}{live_note_html(live)}{page}</div>'
 
 
-def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dict = None) -> str:
-    news_log = doc.get('context', {}).get('newsLog', [])
+def news_after(news_log, date):
+    """Entries from data/news_log.json (stored as {id, data} rows) dated
+    after `date`, newest first, flattened to the shape catalyst_item reads."""
+    rows = [r.get('data', r) for r in (news_log or [])]
+    rows = [r for r in rows if (r.get('date') or '') > date]
+    return sorted(rows, key=lambda r: (r['date'], -(r.get('order') or 0)), reverse=True)
+
+
+def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dict = None,
+           news_log: list = None) -> str:
+    board_news = doc.get('context', {}).get('newsLog', [])
+    later = news_after(news_log, doc['date'])
     stamp = board_stamp(doc)
     assets_html = "".join(
-        asset_card(a, matching_catalysts(a['key'], news_log, doc['date']), stamp, live)
+        asset_card(a, matching_catalysts(a['key'], board_news, doc['date']), stamp, live,
+                   since=[c for c in later if matches_asset(a['key'], c)], board_date=doc['date'])
         for a in doc['assets']
     )
     docs = all_docs or {doc['date']: doc}
@@ -1072,7 +1098,9 @@ def main(s: str):
     doc = json.load(open(os.path.join(documents_dir, f"{s}.json")))
     all_docs = load_all_documents(documents_dir)
     live = load_live(documents_dir)
-    page = render(doc, all_docs, live=live)
+    news_path = os.path.join(root, "data", "news_log.json")
+    news_log = json.load(open(news_path)) if os.path.exists(news_path) else None
+    page = render(doc, all_docs, live=live, news_log=news_log)
 
     out_path = os.path.join(documents_dir, "latest.html")
     with open(out_path, "w") as f:
