@@ -356,7 +356,7 @@
       [
        "bear",
        "The most recent confirmed reading of the share of S&P 500 members above their 50-day average was 27.83% on 18 September (MacroMicro), seven sessions stale with nothing fresher obtainable this run; if it held near that level it would mark a real divergence against the index sitting within 0.4% of its 52-week high.",
-       true
+       false
       ],
       [
        "bull",
@@ -371,12 +371,12 @@
       [
        "bear",
        "The 10-year closed near 5.19% on 25 September, its highest close since 2007, and equities carry a -0.638 correlation to the 10-year over the measured 21-session window; the historical relationship points down even though the index itself closed higher on the day.",
-       true
+       false
       ],
       [
        "bear",
        "Fed Governor Barr said around 23 September that 'further policy adjustments are likely to be needed,' and CME FedWatch puts October 27-28 hike odds at roughly 71-76% as of 25 September - a hawkish Fed still adding pressure, not removing it.",
-       true
+       false
       ],
       [
        "bull",
@@ -396,7 +396,7 @@
       [
        "bear",
        "Final September University of Michigan sentiment fell to a four-month low (48.1) on 25 September, with 1-year inflation expectations up to 4.6% (highest since June) on gas prices and tariffs - a soft, stagflation-leaning print, even though equities looked past it on the day.",
-       true
+       false
       ],
       [
        "neu",
@@ -406,7 +406,7 @@
       [
        "bear",
        "Oil eased on 25 September (WTI ~92.7-92.9, -1.8% to -2%) on US-Iran talks and an Iran offer to reopen the Strait of Hormuz within seven days, but equities' own -0.533 correlation to oil over the 21-session window means the prior days' spike is still working through; the 10-year's -0.638 correlation dominance keeps the net cross-asset read cautious.",
-       true
+       false
       ],
       [
        "neu",
@@ -414,11 +414,11 @@
        null
       ]
      ],
-     "maturityClose": 7764.75,
-     "ret": -0.004998,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 7777.25,
+     "ret": -0.003396,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against ES=F",
      "provisional": true
     },
@@ -2566,8 +2566,8 @@
        null
       ]
      ],
-     "maturityClose": 104.453125,
-     "ret": -0.003874,
+     "maturityClose": 104.640625,
+     "ret": -0.002086,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -5337,8 +5337,8 @@
        null
       ]
      ],
-     "maturityClose": 4164.7998046875,
-     "ret": -0.036194,
+     "maturityClose": 4175.7998046875,
+     "ret": -0.033648,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7350,7 +7350,7 @@
       [
        "bull",
        "DX-Y.NYB closed 100.97, above its 50-day average of 99.95 and 200-day of 99.198, with RSI(14) at 65.16 (firm but not yet overbought); 1H structure is choppy (last swings: an LH at 101.10 and an LL at 100.87, both on 25 September).",
-       true
+       false
       ],
       [
        "neu",
@@ -7365,17 +7365,17 @@
       [
        "bull",
        "High-yield OAS held tight at 280bp on 25 September even as Treasury yields spiked - a still-supportive risk backdrop that has historically coincided with dollar firmness this cycle via both liquidity-demand and yield-differential effects.",
-       true
+       false
       ],
       [
        "bull",
        "The Fed hiked to 3.75-4.00% on 16 September, the ECB to 2.50% on 10 September and the BOJ to 1.25% on 18 September - all quarter-point moves, so the US-EU and US-Japan rate gaps are as wide as they were nine days before 25 September, still favoring the dollar.",
-       true
+       false
       ],
       [
        "bull",
        "All three major central banks (Fed, ECB, BOJ) delivered quarter-point hikes within the same eight-day span (16, 10 and 18 September respectively), but only the Fed is being actively repriced higher for its next meeting (~71-76% October odds) - a divergence favoring the dollar.",
-       true
+       false
       ],
       [
        "neu",
@@ -7390,7 +7390,7 @@
       [
        "bull",
        "Xi Jinping's state visit concluded 25 September with the US-China trade truce extended roughly two months and a new AI dialogue announced; detailed terms are due Monday 28 September - a status-quo, mildly risk-supportive outcome that removes a tail-risk overhang rather than adding one.",
-       true
+       false
       ],
       [
        "bear",
@@ -7405,7 +7405,7 @@
       [
        "bull",
        "The dollar's own driver-regime table shows no single dominant correlation (10-year at +0.399, just short of the |0.40| threshold), but that positive sign is consistent with the hawkish-Fed, higher-yield backdrop that has also driven gold and bonds lower on 25 September - a shared macro driver working in the dollar's favor.",
-       true
+       false
       ],
       [
        "neu",
@@ -7413,11 +7413,11 @@
        null
       ]
      ],
-     "maturityClose": 101.14299774169922,
-     "ret": 0.001713,
-     "correct": true,
-     "shadowCorrect": true,
-     "preReversionCorrect": true,
+     "maturityClose": 101.04900360107422,
+     "ret": 0.000782,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
      "settlementNote": "graded against DX-Y.NYB",
      "provisional": true
     },
@@ -9667,8 +9667,8 @@
        null
       ]
      ],
-     "maturityClose": 2841.5,
-     "ret": -0.006225,
+     "maturityClose": 2850.5,
+     "ret": -0.003078,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11726,8 +11726,8 @@
        null
       ]
      ],
-     "maturityClose": 30612.5,
-     "ret": -0.008959,
+     "maturityClose": 30681.25,
+     "ret": -0.006734,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
