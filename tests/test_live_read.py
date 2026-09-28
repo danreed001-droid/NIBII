@@ -142,10 +142,11 @@ def test_price_strip_chart_draws_alternating_day_bands_with_initials():
     read = dict(latest_read('ES=F', _bars(80), _bars(260)), bars=bars)
     live = {'fetchedAt': '2026-09-28T14:00:00Z', 'prices': {}, 'reads': {PUB['assets'][0]['key']: read}}
     html = hourly_chart_html(PUB['assets'][0], live, compact=True)
-    # Sep 21-24: the Mon-morning hours before 9am belong to Fri 18's day -> 5 session days
+    # Sep 21 00:00-24 23:00: the chart starts at Mon 21 9am (the partial Friday-day
+    # morning is trimmed) -> Mon, Tue, Wed, Thu
     assert html.count('class="hc-day"') == 2          # every other one shaded
-    assert html.count('class="hc-day-label"') == 5
-    assert 'title="Fri 18"' in html and 'title="Mon 21"' in html and 'title="Sun' not in html
+    assert html.count('class="hc-day-label"') == 4
+    assert 'title="Mon 21"' in html and 'title="Fri 18"' not in html and 'title="Sun' not in html
 
 
 def test_a_holiday_overnight_joins_the_previous_band():
@@ -157,3 +158,15 @@ def test_a_holiday_overnight_joins_the_previous_band():
         '2026-09-08T08:00:00-04:00',
         '2026-09-08T09:00:00-04:00')]  # Tue 9am: next band
     assert session_days(bars) == [(0, 3, 'Fri 4'), (4, 4, 'Tue 8')]
+
+
+def test_chart_starts_at_a_9am_candle():
+    from scripts.render_html import start_at_session_open
+    bars = [[ts, 1, 1, 1, 1] for ts in (
+        '2026-09-04T05:00:00-04:00',   # partial morning: dropped
+        '2026-09-04T08:00:00-04:00',
+        '2026-09-04T09:00:00-04:00',   # chart starts here
+        '2026-09-04T10:00:00-04:00')]
+    assert [b[0][11:16] for b in start_at_session_open(bars)] == ['09:00', '10:00']
+    # already starting at 9am: unchanged
+    assert start_at_session_open(bars[2:]) == bars[2:]

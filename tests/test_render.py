@@ -260,3 +260,8 @@ def test_price_strip_names_each_futures_symbol():
     assert 'E-mini S&amp;P 500 futures · tracks SPY' in html
     assert 'Gold futures (COMEX) · tracks GLD' in html
     assert html.count('class="tape-name"') == 6
+
+
+def test_page_has_a_refresh_button_to_the_workflow():
+    html = render(PUB, generated_at='2026-09-25T14:00:00Z')
+    assert 'actions/workflows/daily-fetch.yml' in html and 'Refresh market data' in html
