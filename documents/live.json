@@ -1,35 +1,481 @@
 {
- "fetchedAt": "2026-09-28T13:50:05Z",
+ "fetchedAt": "2026-09-28T13:59:36Z",
  "prices": {
   "equities": {
    "ticker": "ES=F",
-   "price": 7763.25,
+   "price": 7770.25,
    "asOf": "2026-09-28"
   },
   "bonds": {
    "ticker": "ZN=F",
-   "price": 104.609375,
+   "price": 104.640625,
    "asOf": "2026-09-28"
   },
   "gold": {
    "ticker": "GC=F",
-   "price": 4177.2998046875,
+   "price": 4190.89990234375,
    "asOf": "2026-09-28"
   },
   "dollar": {
    "ticker": "DX-Y.NYB",
-   "price": 101.19200134277344,
+   "price": 101.13400268554688,
    "asOf": "2026-09-28"
   },
   "iwm": {
    "ticker": "RTY=F",
-   "price": 2839.39990234375,
+   "price": 2838.0,
    "asOf": "2026-09-28"
   },
   "qqq": {
    "ticker": "NQ=F",
-   "price": 30637.25,
+   "price": 30631.25,
    "asOf": "2026-09-28"
+  }
+ },
+ "reads": {
+  "equities": {
+   "ticker": "ES=F",
+   "price": 7770.25,
+   "barTs": "2026-09-28T09:00:00-04:00",
+   "ma50": 7666.102,
+   "ma200": 7236.8735,
+   "rsi14": 55.75,
+   "hourly": {
+    "state": "choppy",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 1131,
+    "swings": [
+     {
+      "ts": "2026-09-25T15:00:00-04:00",
+      "type": "high",
+      "price": 7814.75,
+      "label": "HH"
+     },
+     {
+      "ts": "2026-09-27T18:00:00-04:00",
+      "type": "low",
+      "price": 7778.75,
+      "label": "HL"
+     },
+     {
+      "ts": "2026-09-28T02:00:00-04:00",
+      "type": "high",
+      "price": 7783.25,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-09-28T06:00:00-04:00",
+      "type": "low",
+      "price": 7757.0,
+      "label": "LL"
+     }
+    ]
+   },
+   "weekly": {
+    "state": "choppy",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 105,
+    "swings": [
+     {
+      "ts": "2026-07-13T00:00:00-04:00",
+      "type": "high",
+      "price": 7632.0,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-07-27T00:00:00-04:00",
+      "type": "low",
+      "price": 7324.0,
+      "label": "HL"
+     },
+     {
+      "ts": "2026-08-10T00:00:00-04:00",
+      "type": "high",
+      "price": 7838.5,
+      "label": "HH"
+     },
+     {
+      "ts": "2026-09-14T00:00:00-04:00",
+      "type": "low",
+      "price": 7509.25,
+      "label": "HL"
+     }
+    ]
+   }
+  },
+  "bonds": {
+   "ticker": "ZN=F",
+   "price": 104.640625,
+   "barTs": "2026-09-28T09:00:00-04:00",
+   "ma50": 107.7225,
+   "ma200": 110.3043,
+   "rsi14": 21.8,
+   "hourly": {
+    "state": "choppy",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 1132,
+    "swings": [
+     {
+      "ts": "2026-09-25T15:00:00-04:00",
+      "type": "high",
+      "price": 105.046875,
+      "label": "HH"
+     },
+     {
+      "ts": "2026-09-27T20:00:00-04:00",
+      "type": "low",
+      "price": 104.65625,
+      "label": "HL"
+     },
+     {
+      "ts": "2026-09-28T03:00:00-04:00",
+      "type": "high",
+      "price": 104.75,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-09-28T05:00:00-04:00",
+      "type": "low",
+      "price": 104.484375,
+      "label": "LL"
+     }
+    ]
+   },
+   "weekly": {
+    "state": "choppy",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 105,
+    "swings": [
+     {
+      "ts": "2026-06-08T00:00:00-04:00",
+      "type": "low",
+      "price": 109.0625,
+      "label": "HL"
+     },
+     {
+      "ts": "2026-06-22T00:00:00-04:00",
+      "type": "high",
+      "price": 110.328125,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-07-27T00:00:00-04:00",
+      "type": "low",
+      "price": 107.984375,
+      "label": "LL"
+     },
+     {
+      "ts": "2026-08-10T00:00:00-04:00",
+      "type": "high",
+      "price": 109.109375,
+      "label": "LH"
+     }
+    ]
+   }
+  },
+  "gold": {
+   "ticker": "GC=F",
+   "price": 4190.7001953125,
+   "barTs": "2026-09-28T09:00:00-04:00",
+   "ma50": 4357.986,
+   "ma200": 4555.828,
+   "rsi14": 34.1,
+   "hourly": {
+    "state": "choppy",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 1134,
+    "swings": [
+     {
+      "ts": "2026-09-25T07:00:00-04:00",
+      "type": "high",
+      "price": 4351.60009765625,
+      "label": "HH"
+     },
+     {
+      "ts": "2026-09-25T10:00:00-04:00",
+      "type": "low",
+      "price": 4289.2001953125,
+      "label": "LL"
+     },
+     {
+      "ts": "2026-09-25T12:00:00-04:00",
+      "type": "high",
+      "price": 4336.0,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-09-28T05:00:00-04:00",
+      "type": "low",
+      "price": 4172.7001953125,
+      "label": "LL"
+     }
+    ]
+   },
+   "weekly": {
+    "state": "downtrend",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 105,
+    "swings": [
+     {
+      "ts": "2026-04-13T00:00:00-04:00",
+      "type": "high",
+      "price": 4917.7001953125,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-05-11T00:00:00-04:00",
+      "type": "high",
+      "price": 4783.39990234375,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-06-29T00:00:00-04:00",
+      "type": "low",
+      "price": 3955.39990234375,
+      "label": "LL"
+     },
+     {
+      "ts": "2026-08-24T00:00:00-04:00",
+      "type": "high",
+      "price": 4755.0,
+      "label": "LH"
+     }
+    ]
+   }
+  },
+  "dollar": {
+   "ticker": "DX-Y.NYB",
+   "price": 101.13400268554688,
+   "barTs": "2026-09-28T09:00:00-04:00",
+   "ma50": 99.9577,
+   "ma200": 99.2075,
+   "rsi14": 66.87,
+   "hourly": {
+    "state": "choppy",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 1172,
+    "swings": [
+     {
+      "ts": "2026-09-25T11:00:00-04:00",
+      "type": "high",
+      "price": 101.0989990234375,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-09-25T12:00:00-04:00",
+      "type": "low",
+      "price": 100.87200164794922,
+      "label": "LL"
+     },
+     {
+      "ts": "2026-09-28T03:00:00-04:00",
+      "type": "high",
+      "price": 101.1989974975586,
+      "label": "HH"
+     },
+     {
+      "ts": "2026-09-28T04:00:00-04:00",
+      "type": "low",
+      "price": 100.9800033569336,
+      "label": "HL"
+     }
+    ]
+   },
+   "weekly": {
+    "state": "choppy",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 105,
+    "swings": [
+     {
+      "ts": "2026-06-22T00:00:00-04:00",
+      "type": "high",
+      "price": 101.80000305175781,
+      "label": "HH"
+     },
+     {
+      "ts": "2026-07-27T00:00:00-04:00",
+      "type": "high",
+      "price": 101.63999938964844,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-08-17T00:00:00-04:00",
+      "type": "low",
+      "price": 98.55999755859375,
+      "label": "HL"
+     },
+     {
+      "ts": "2026-09-08T00:00:00-04:00",
+      "type": "low",
+      "price": 98.5999984741211,
+      "label": "HL"
+     }
+    ]
+   }
+  },
+  "iwm": {
+   "ticker": "RTY=F",
+   "price": 2838.0,
+   "barTs": "2026-09-28T09:00:00-04:00",
+   "ma50": 2963.1526,
+   "ma200": 2785.6051,
+   "rsi14": 34.12,
+   "hourly": {
+    "state": "choppy",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 1132,
+    "swings": [
+     {
+      "ts": "2026-09-25T10:00:00-04:00",
+      "type": "low",
+      "price": 2843.0,
+      "label": "LL"
+     },
+     {
+      "ts": "2026-09-25T12:00:00-04:00",
+      "type": "high",
+      "price": 2874.10009765625,
+      "label": "HH"
+     },
+     {
+      "ts": "2026-09-27T18:00:00-04:00",
+      "type": "low",
+      "price": 2843.10009765625,
+      "label": "HL"
+     },
+     {
+      "ts": "2026-09-28T04:00:00-04:00",
+      "type": "high",
+      "price": 2848.800048828125,
+      "label": "LH"
+     }
+    ]
+   },
+   "weekly": {
+    "state": "uptrend",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 105,
+    "swings": [
+     {
+      "ts": "2026-06-08T00:00:00-04:00",
+      "type": "low",
+      "price": 2793.699951171875,
+      "label": "HL"
+     },
+     {
+      "ts": "2026-06-29T00:00:00-04:00",
+      "type": "high",
+      "price": 3068.39990234375,
+      "label": "HH"
+     },
+     {
+      "ts": "2026-07-27T00:00:00-04:00",
+      "type": "low",
+      "price": 2902.300048828125,
+      "label": "HL"
+     },
+     {
+      "ts": "2026-08-17T00:00:00-04:00",
+      "type": "high",
+      "price": 3079.89990234375,
+      "label": "HH"
+     }
+    ]
+   }
+  },
+  "qqq": {
+   "ticker": "NQ=F",
+   "price": 30631.25,
+   "barTs": "2026-09-28T09:00:00-04:00",
+   "ma50": 29433.5636,
+   "ma200": 27496.573,
+   "rsi14": 61.52,
+   "hourly": {
+    "state": "choppy",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 1132,
+    "swings": [
+     {
+      "ts": "2026-09-25T07:00:00-04:00",
+      "type": "high",
+      "price": 30999.5,
+      "label": "HH"
+     },
+     {
+      "ts": "2026-09-25T10:00:00-04:00",
+      "type": "low",
+      "price": 30684.0,
+      "label": "HL"
+     },
+     {
+      "ts": "2026-09-25T12:00:00-04:00",
+      "type": "high",
+      "price": 30951.5,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-09-28T05:00:00-04:00",
+      "type": "low",
+      "price": 30531.0,
+      "label": "LL"
+     }
+    ]
+   },
+   "weekly": {
+    "state": "choppy",
+    "lastBreak": null,
+    "lookback": 4,
+    "note": null,
+    "bars": 105,
+    "swings": [
+     {
+      "ts": "2026-06-22T00:00:00-04:00",
+      "type": "high",
+      "price": 30968.0,
+      "label": "HH"
+     },
+     {
+      "ts": "2026-07-27T00:00:00-04:00",
+      "type": "low",
+      "price": 27201.5,
+      "label": "LL"
+     },
+     {
+      "ts": "2026-08-17T00:00:00-04:00",
+      "type": "high",
+      "price": 30343.0,
+      "label": "LH"
+     },
+     {
+      "ts": "2026-09-14T00:00:00-04:00",
+      "type": "low",
+      "price": 28763.75,
+      "label": "HL"
+     }
+    ]
+   }
   }
  }
 }
