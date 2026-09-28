@@ -376,6 +376,9 @@ def hourly_chart_html(a, live, compact=False):
     for k, (i0, i1, label) in enumerate(session_days(bars)):
         if k % 2 == 1:
             parts.append(f'<rect class="hc-day" x="{x0 + i0 * slot:.3f}" width="{(i1 - i0 + 1) * slot:.3f}" y="0" height="100"/>')
+        if k > 0:  # a line at every 9 AM day start, shaded band or not
+            xx = x0 + i0 * slot
+            parts.append(f'<line class="hc-day-start" x1="{xx:.3f}" x2="{xx:.3f}" y1="0" y2="100"/>')
         if (i1 - i0 + 1) * slot >= 1.5:  # Friday's short day (to the 5 PM close) still fits one letter
             # weekday initial, centred in its band - full names collide at 400 candles
             day_labels.append(f'<span class="hc-day-label" style="left:{x0 + (i0 + i1 + 1) / 2 * slot:.2f}%" '
@@ -756,6 +759,7 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 @media (max-width: 560px) {{ .hc-plot {{ height: 180px; }} }}
 .hchart.compact {{ margin: 2px 0 0; grid-template-columns: 1fr; }}
 .hc-day {{ fill: #ffffff; opacity: 0.055; }}
+.hc-day-start {{ stroke: #ffffff; stroke-width: 1; opacity: 0.22; stroke-dasharray: 2 2; vector-effect: non-scaling-stroke; }}
 .hc-day-label {{ position: absolute; top: 2px; transform: translateX(-50%); font: 0.56rem ui-monospace, monospace;
   color: var(--masthead-ink-2); opacity: 0.75; pointer-events: none; white-space: nowrap; }}
 .hchart.compact .hc-plot {{ height: 110px; border-color: rgba(255,255,255,0.12); }}
