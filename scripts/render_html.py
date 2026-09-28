@@ -453,6 +453,8 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 }}
 
 /* freshness panel: when each part of the page was last updated */
+.submit-news {{ margin: 10px 0 0; font-size: 0.8rem; color: var(--masthead-ink-2); }}
+.submit-news a {{ font-weight: 600; margin-right: 8px; }}
 .fresh {{
   display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px;
   margin-top: 14px;
@@ -688,6 +690,8 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
     {freshness}
+    <p class="submit-news"><a href="{submit_url}" target="_blank" rel="noopener">＋ Submit a news event</a>
+      <span>adds it to the news log the research reads; the page updates in about a minute</span></p>
     <div class="tape">{tape}</div>
   </div>
 </div>
@@ -1059,6 +1063,11 @@ def news_after(news_log, date):
     return sorted(rows, key=lambda r: (r['date'], -(r.get('order') or 0)), reverse=True)
 
 
+# Opens the News event issue form; .github/workflows/news-from-issue.yml turns
+# the owner's submissions into data/news_log.json entries.
+SUBMIT_NEWS_URL = "https://github.com/danreed001-droid/NIBII/issues/new?template=news-event.yml"
+
+
 def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dict = None,
            news_log: list = None) -> str:
     board_news = doc.get('context', {}).get('newsLog', [])
@@ -1074,7 +1083,7 @@ def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dic
     return PAGE.format(
         date=doc['date'], tape=ticker_strip(doc, live), stats=stat_tiles(doc),
         assets=assets_html, record=track_record_section(docs), log=call_log_section(docs),
-        freshness=freshness_html(doc, live, rebuilt),
+        freshness=freshness_html(doc, live, rebuilt), submit_url=SUBMIT_NEWS_URL,
     )
 
 

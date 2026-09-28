@@ -1,0 +1,88 @@
+name: News event
+description: Add a market-moving news event to the Market Tape Ledger news log.
+title: "News: "
+labels: ["news-event"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submitting this adds the event to `data/news_log.json` and re-renders the report page
+        (about a minute). Only the repository owner's submissions are accepted.
+        The daily-cycle research reads the same log, so an event dated on a board's session
+        feeds that board's votes.
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      description: The US Eastern date the event happened (YYYY-MM-DD).
+      placeholder: "2026-09-28"
+    validations:
+      required: true
+  - type: dropdown
+    id: time
+    attributes:
+      label: Time
+      options: [Pre-market, Market hours, After-hours, Overnight, Weekend]
+    validations:
+      required: true
+  - type: textarea
+    id: event
+    attributes:
+      label: Event
+      description: One or two sentences - what happened.
+    validations:
+      required: true
+  - type: input
+    id: tickers
+    attributes:
+      label: Tickers
+      description: >-
+        Comma-separated. The page matches assets on these: SPY/S&P (equities), TLT/10Y/yield/Treasury
+        (bonds), GLD/gold, DXY/USD/dollar, IWM/Russell, QQQ/Nasdaq/SMH.
+      placeholder: "SPY, TLT"
+    validations:
+      required: true
+  - type: dropdown
+    id: direction
+    attributes:
+      label: Direction
+      options: [Bullish, Bearish, Mixed, Neutral]
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options: [High, Medium, Low]
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options: [Macro, Rates, Fed, Earnings, Geopolitics, Energy, Policy, Deals, Market, Economic data, Other]
+    validations:
+      required: true
+  - type: input
+    id: region
+    attributes:
+      label: Region
+      placeholder: US
+  - type: input
+    id: numbers
+    attributes:
+      label: Numbers
+      description: Key figures, if any.
+  - type: input
+    id: vsExp
+    attributes:
+      label: Vs. expectations
+  - type: textarea
+    id: reaction
+    attributes:
+      label: Market reaction
+  - type: input
+    id: source
+    attributes:
+      label: Source URL
+      placeholder: https://...
