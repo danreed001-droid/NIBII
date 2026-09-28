@@ -414,8 +414,8 @@
        null
       ]
      ],
-     "maturityClose": 7755.75,
-     "ret": -0.006151,
+     "maturityClose": 7750.75,
+     "ret": -0.006792,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -2566,8 +2566,8 @@
        null
       ]
      ],
-     "maturityClose": 104.4375,
-     "ret": -0.004023,
+     "maturityClose": 104.421875,
+     "ret": -0.004172,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -5337,8 +5337,8 @@
        null
       ]
      ],
-     "maturityClose": 4166.39990234375,
-     "ret": -0.035823,
+     "maturityClose": 4166.2001953125,
+     "ret": -0.03587,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7413,8 +7413,8 @@
        null
       ]
      ],
-     "maturityClose": 101.19999694824219,
-     "ret": 0.002278,
+     "maturityClose": 101.20800018310547,
+     "ret": 0.002357,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -9604,12 +9604,12 @@
       [
        "bear",
        "RTY=F closed 2859.30, below its 50-day average of 2965.86 (2.86 daily-sigma below) though still above its 200-day of 2784.06, with RSI(14) at 37.09; 1H structure is choppy (last swings: an LL at 2843.00 and an HH at 2874.10, both on 25 September).",
-       false
+       true
       ],
       [
        "bear",
        "Small caps carried a 20.2% year-to-date gain as of 4 September, but the 16 September Fed hike was flagged by CME Group commentary as a 'massive headwind for small-cap earnings' given floating-rate debt exposure - a structural relative-strength risk still working through as of 25 September.",
-       false
+       true
       ],
       [
        "neu",
@@ -9624,12 +9624,12 @@
       [
        "bear",
        "The 10-year closed near 5.19% (highest since 2007) on 25 September, and small caps carry the strongest 10-year correlation of any asset in the driver table (-0.72 over the 21-session window) - a specific, well-documented headwind.",
-       false
+       true
       ],
       [
        "bear",
        "CME FedWatch puts October hike odds at roughly 71-76% as of 25 September; small caps are more rate-sensitive than large caps via floating-rate debt, making a hawkish Fed path a more direct earnings risk for IWM specifically.",
-       false
+       true
       ],
       [
        "neu",
@@ -9649,7 +9649,7 @@
       [
        "bear",
        "Final September UMich sentiment fell to a four-month low (48.1) on 25 September - domestically-focused small caps are typically more sensitive to a weakening consumer read than globally-diversified large caps.",
-       false
+       true
       ],
       [
        "neu",
@@ -9659,7 +9659,7 @@
       [
        "bear",
        "IWM's -0.72 correlation to the 10-year is the strongest of any asset in the 21-session driver table, and the 10-year closed at a 19-year high on 25 September - the single most mechanically direct cross-asset headwind identified for any asset today.",
-       false
+       true
       ],
       [
        "neu",
@@ -9667,8 +9667,8 @@
        null
       ]
      ],
-     "maturityClose": 2843.39990234375,
-     "ret": -0.005561,
+     "maturityClose": 2840.0,
+     "ret": -0.00675,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11726,8 +11726,8 @@
        null
       ]
      ],
-     "maturityClose": 30604.5,
-     "ret": -0.009218,
+     "maturityClose": 30585.25,
+     "ret": -0.009842,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
