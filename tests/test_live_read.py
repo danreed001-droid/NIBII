@@ -129,11 +129,11 @@ def test_session_days_roll_at_9am_eastern():
         '2026-09-24T09:00:00-04:00',   # Thu's day starts
         '2026-09-25T08:00:00-04:00',   # ...and runs to Fri 8am
         '2026-09-25T09:00:00-04:00',   # Fri
-        '2026-09-27T18:00:00-04:00',   # Sunday-evening reopen: part of Monday's day
-        '2026-09-28T08:00:00-04:00',
-        '2026-09-28T09:00:00-04:00')]  # Mon 9am onward: also Monday's day
-    assert session_days(bars) == [(0, 0, 'Wed 23'), (1, 2, 'Thu 24'), (3, 3, 'Fri 25'),
-                                  (4, 6, 'Mon 28')]
+        '2026-09-27T18:00:00-04:00',   # Sunday-evening reopen: still Friday's day
+        '2026-09-28T08:00:00-04:00',   # ...up to Monday 8am
+        '2026-09-28T09:00:00-04:00')]  # Monday's day starts at 9am, like every other
+    assert session_days(bars) == [(0, 0, 'Wed 23'), (1, 2, 'Thu 24'), (3, 5, 'Fri 25'),
+                                  (6, 6, 'Mon 28')]
 
 
 def test_price_strip_chart_draws_alternating_day_bands_with_initials():
@@ -142,7 +142,18 @@ def test_price_strip_chart_draws_alternating_day_bands_with_initials():
     read = dict(latest_read('ES=F', _bars(80), _bars(260)), bars=bars)
     live = {'fetchedAt': '2026-09-28T14:00:00Z', 'prices': {}, 'reads': {PUB['assets'][0]['key']: read}}
     html = hourly_chart_html(PUB['assets'][0], live, compact=True)
-    # Sep 21-24: the Sun-night/Mon-morning hours fold into Mon 21 -> 4 session days
+    # Sep 21-24: the Mon-morning hours before 9am belong to Fri 18's day -> 5 session days
     assert html.count('class="hc-day"') == 2          # every other one shaded
-    assert html.count('class="hc-day-label"') == 4
-    assert 'title="Mon 21"' in html and 'title="Sun' not in html and '9am–9am ET days' in html
+    assert html.count('class="hc-day-label"') == 5
+    assert 'title="Fri 18"' in html and 'title="Mon 21"' in html and 'title="Sun' not in html
+
+
+def test_a_holiday_overnight_joins_the_previous_band():
+    from scripts.render_html import session_days
+    bars = [[ts, 1, 1, 1, 1] for ts in (
+        '2026-09-04T09:00:00-04:00',   # Fri
+        '2026-09-04T16:00:00-04:00',
+        '2026-09-08T00:00:00-04:00',   # Labor Day Mon had no daytime candles; Tue overnight
+        '2026-09-08T08:00:00-04:00',
+        '2026-09-08T09:00:00-04:00')]  # Tue 9am: next band
+    assert session_days(bars) == [(0, 3, 'Fri 4'), (4, 4, 'Tue 8')]

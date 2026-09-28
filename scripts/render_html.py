@@ -304,22 +304,27 @@ SESSION_ROLL_ET = 9  # a chart "day" starts at 9:00 AM New York time
 
 def session_days(bars):
     """[(first_index, last_index, 'Mon 28'), ...] grouping candles into
-    9 AM-to-9 AM ET days (a candle stamped 8 AM belongs to the day that
-    started the previous morning). Label = the weekday the day starts on.
-    The Sunday-evening futures reopen belongs to Monday's day, as traders
-    count it, rather than being a short "Sunday" day of its own."""
+    9 AM-to-9 AM ET days. Label = the weekday the day starts on.
+
+    A new day only ever starts at a weekday's first candle from 9 AM on,
+    so every band begins at the 9 AM open of trading: overnight hours
+    belong to the day that started the previous morning, and hours with no
+    weekday daytime of their own - the Sunday-evening reopen, a holiday
+    like Labor Day - join the band before them instead of starting a short
+    or oddly-timed one."""
     out = []
     for i, b in enumerate(bars):
         dt = _et(b[0])
         if dt is None:
             continue
-        key = (dt - timedelta(hours=SESSION_ROLL_ET)).date()
-        if key.weekday() >= 5:  # Sat/Sun evening -> Monday's session day
-            key += timedelta(days=7 - key.weekday())
-        if out and out[-1][3] == key:
+        day = (dt - timedelta(hours=SESSION_ROLL_ET)).date()
+        starts_day = dt.weekday() < 5 and dt.hour >= SESSION_ROLL_ET and dt.date() == day
+        if out and (out[-1][3] == day or not starts_day):
             out[-1][1] = i
         else:
-            out.append([i, i, key.strftime('%a %-d'), key])
+            if day.weekday() >= 5:  # chart opens mid-weekend: that's Friday's day
+                day -= timedelta(days=day.weekday() - 4)
+            out.append([i, i, day.strftime('%a %-d'), day])
     return [(i0, i1, lab) for i0, i1, lab, _ in out]
 
 
