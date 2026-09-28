@@ -89,3 +89,21 @@ def test_usd_inside_a_crypto_pair_is_not_the_dollar():
     assert not matches_asset('dollar', {'tickers': 'USO, BTC-USD, SPY'})
     assert matches_asset('dollar', {'tickers': 'SPY, USD'})
     assert matches_asset('bonds', {'event': 'Treasury yields jump'})  # word endings still match
+
+
+def test_hourly_chart_renders_candles_and_the_flat_zone():
+    bars = [[f'2026-09-2{5 + i // 40}T{9 + i % 8:02d}:00:00-04:00', 100 + i, 101 + i, 99 + i, 100.5 + i]
+            for i in range(100)]
+    read = dict(latest_read('ES=F', _bars(80), _bars(260)), bars=bars)
+    live = {'fetchedAt': '2026-09-28T14:00:00Z', 'prices': {},
+            'reads': {a['key']: read for a in PUB['assets']}}
+    html = render(PUB, generated_at='2026-09-28T14:00:00Z', live=live)
+    assert html.count('class="hchart"') == len(PUB['assets'])
+    assert 'hc-zone' in html and "board's 1D flat zone" in html
+    assert 'last 100 candles' in html
+
+
+def test_no_chart_without_bars():
+    html = render(PUB, generated_at='2026-09-28T14:00:00Z',
+                  live={'fetchedAt': '2026-09-28T14:00:00Z', 'prices': {}, 'reads': {}})
+    assert 'class="hchart"' not in html

@@ -12,6 +12,8 @@ Pure - takes bars, returns a dict - so it's testable without Yahoo; the
 fetching lives in scripts/fetch_live.py.
 """
 from mtl.fetch import rsi14, sma
+
+CHART_CANDLES = 100  # hourly candles kept for the report page's chart
 from mtl.structure import (HOURLY_SWING_N, STRUCTURE_LOOKBACK, WEEKLY_SWING_N,
                            structure_signal, vote_from_signal, weekly_from_daily)
 
@@ -40,7 +42,10 @@ def latest_read(ticker, hourly_bars, daily_bars):
     last_ts = (hourly_bars[-1][0] if hourly_bars else daily_bars[-1][0])
     return dict(ticker=ticker, price=closes[-1], barTs=last_ts,
                 ma50=sma(closes, 50), ma200=sma(closes, 200), rsi14=rsi14(closes),
-                hourly=_compact(hourly), weekly=_compact(weekly))
+                hourly=_compact(hourly), weekly=_compact(weekly),
+                # [ts, o, h, l, c] - the last one can still be forming
+                bars=[[b[0]] + [round(x, 4) for x in b[1:5]]
+                      for b in hourly_bars[-CHART_CANDLES:]])
 
 
 def _vs(price, ma, label):

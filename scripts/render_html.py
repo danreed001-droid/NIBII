@@ -10,6 +10,7 @@ Usage:
 """
 import html
 import json
+import math
 import os
 import re
 import sys
@@ -258,6 +259,109 @@ def since_board_block(items, board_date):
       </details>'''
 
 
+CANDLE_UP, CANDLE_DOWN = '#0ca30c', '#d03b3b'  # the page's bull/bear colours
+
+
+def _nice_step(span, target=4):
+    raw = span / target
+    mag = 10 ** math.floor(math.log10(raw)) if raw > 0 else 1
+    for m in (1, 2, 2.5, 5, 10):
+        if raw <= m * mag:
+            return m * mag
+    return 10 * mag
+
+
+def _et(ts):
+    try:
+        return datetime.fromisoformat(ts).astimezone(ET)
+    except (TypeError, ValueError):
+        return None
+
+
+def hourly_chart_html(a, live):
+    """The last ~100 hourly candles for this asset's instrument (from the
+    refresh run's live.json read), with the board's 1D flat zone shaded so
+    the price can be read against the call. Display only - never the call
+    basis. The plot is an SVG stretched to the card width; price and time
+    labels are HTML so they stay legible at any width."""
+    read = live_read_for(a['key'], live)
+    bars = (read or {}).get('bars') or []
+    if len(bars) < 2:
+        return ''
+    h1 = next((h for h in a['horizons'] if h['h'] == 1), None)
+    lows, highs = [b[3] for b in bars], [b[2] for b in bars]
+    lo, hi = min(lows), max(highs)
+    if h1:
+        lo, hi = min(lo, h1['flatLo']), max(hi, h1['flatHi'])
+    pad = (hi - lo) * 0.06 or abs(hi) * 0.001 or 1
+    lo, hi = lo - pad, hi + pad
+    n = len(bars)
+    y = lambda p: (hi - p) / (hi - lo) * 100
+    slot = 100 / n
+    body_w = slot * 0.64
+
+    parts = []
+    step = _nice_step(hi - lo)
+    tick = math.ceil(lo / step) * step
+    ylabels = []
+    while tick <= hi:
+        yy = y(tick)
+        parts.append(f'<line class="hc-grid" x1="0" x2="100" y1="{yy:.3f}" y2="{yy:.3f}"/>')
+        ylabels.append(f'<span style="top:{yy:.2f}%">{fmt_price(tick)}</span>')
+        tick += step
+    if h1:
+        top, bot = y(h1['flatHi']), y(h1['flatLo'])
+        parts.append(f'<rect class="hc-zone" x="0" width="100" y="{top:.3f}" height="{max(bot - top, 0.2):.3f}"/>')
+        for yy in (top, bot):
+            parts.append(f'<line class="hc-zone-edge" x1="0" x2="100" y1="{yy:.3f}" y2="{yy:.3f}"/>')
+    for i, (ts, o, h, l, c) in enumerate(bars):
+        cx = (i + 0.5) * slot
+        col = CANDLE_UP if c >= o else CANDLE_DOWN
+        top, bot = y(max(o, c)), y(min(o, c))
+        parts.append(f'<line x1="{cx:.3f}" x2="{cx:.3f}" y1="{y(h):.3f}" y2="{y(l):.3f}" stroke="{col}" class="hc-wick"/>')
+        parts.append(f'<rect x="{cx - body_w / 2:.3f}" width="{body_w:.3f}" y="{top:.3f}" '
+                     f'height="{max(bot - top, 0.35):.3f}" fill="{col}"/>')
+    last = bars[-1][4]
+    parts.append(f'<line class="hc-last" x1="0" x2="100" y1="{y(last):.3f}" y2="{y(last):.3f}"/>')
+
+    # a time label at the first candle of each New York day, thinned to fit
+    xlabels, prev = [], None
+    for i, b in enumerate(bars):
+        dt = _et(b[0])
+        if dt and dt.date() != prev:
+            prev = dt.date()
+            xlabels.append((i, dt.strftime('%a %-d')))
+    # when two labels would sit within 12% of the width, keep the later one
+    # (e.g. Sunday's few evening candles right before Monday's session)
+    kept = []
+    for i, t in xlabels:
+        if kept and (i - kept[-1][0]) * slot < 12:
+            kept[-1] = (i, t)
+        else:
+            kept.append((i, t))
+    xl_html = "".join(f'<span style="left:{(i + 0.5) * slot:.2f}%">{E(t)}</span>' for i, t in kept)
+
+    tip_rows = [[(_et(b[0]).strftime('%a %b %-d, %-I:%M %p ET') if _et(b[0]) else b[0]),
+                 fmt_price(b[1]), fmt_price(b[2]), fmt_price(b[3]), fmt_price(b[4]),
+                 fmt_pct(b[4] / b[1] - 1) if b[1] else ''] for b in bars]
+    zone = (f' · shaded: board\'s 1D flat zone {fmt_price(h1["flatLo"])}–{fmt_price(h1["flatHi"])}'
+            f' (call: {E(h1["call"])})') if h1 else ''
+    when = live_stamp(live)
+    return f"""
+      <figure class="hchart" data-bars='{E(json.dumps(tip_rows))}'>
+        <div class="hc-plot">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img"
+               aria-label="Hourly candles for {E(read['ticker'])}, last {n}, latest {fmt_price(last)}">{''.join(parts)}</svg>
+          <div class="hc-cross" hidden></div>
+          <div class="hc-tip" hidden></div>
+          <span class="hc-last-tag" style="top:{y(last):.2f}%">{fmt_price(last)}</span>
+        </div>
+        <div class="hc-y">{''.join(ylabels)}</div>
+        <div class="hc-x">{xl_html}</div>
+        <figcaption>Hourly {E(read['ticker'])} · last {n} candles{zone}{' · as of ' + E(when) if when else ''} · not the call basis</figcaption>
+      </figure>"""
+
+
 def asset_card(a, catalysts, stamp=None, live=None, since=None, board_date=None):
     st = a['stretch']
     horizons_html = "".join(horizon_block(a, h, stamp, live) for h in a['horizons'])
@@ -286,6 +390,7 @@ def asset_card(a, catalysts, stamp=None, live=None, since=None, board_date=None)
       </header>
       <p class="driver-note">{E(a['driverNote'])}{note_stamp(stamp)}</p>
       {latest_read_html(a, live)}
+      {hourly_chart_html(a, live)}
       {f'<details class="stretch-drivers"><summary>why this stretch score</summary>{drivers_block}</details>' if drivers_block else ''}
       {catalysts_block}
       {since_board_block(since, board_date) if board_date else ''}
@@ -523,6 +628,27 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 }}
 
 /* asset cards */
+.hchart {{ margin: 14px 0 0; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto auto; column-gap: 8px; }}
+.hc-plot {{ position: relative; height: 230px; border: 1px solid var(--hairline); border-radius: 8px; overflow: hidden; cursor: crosshair; }}
+.hc-plot svg {{ display: block; width: 100%; height: 100%; }}
+.hc-grid {{ stroke: var(--hairline); stroke-width: 1; vector-effect: non-scaling-stroke; }}
+.hc-zone {{ fill: var(--accent); opacity: 0.10; }}
+.hc-zone-edge {{ stroke: var(--accent); stroke-width: 1; stroke-dasharray: 4 3; opacity: 0.6; vector-effect: non-scaling-stroke; }}
+.hc-wick {{ stroke-width: 1; vector-effect: non-scaling-stroke; }}
+.hc-last {{ stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 2 3; vector-effect: non-scaling-stroke; }}
+.hc-last-tag {{ position: absolute; right: 4px; transform: translateY(-50%); font: 600 0.68rem ui-monospace, monospace;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--hairline); border-radius: 4px; padding: 0 4px; }}
+.hc-y {{ position: relative; min-width: 62px; font: 0.68rem ui-monospace, monospace; color: var(--muted); font-variant-numeric: tabular-nums; }}
+.hc-y span {{ position: absolute; left: 0; transform: translateY(-50%); white-space: nowrap; }}
+.hc-x {{ position: relative; height: 18px; font-size: 0.68rem; color: var(--muted); }}
+.hc-x span {{ position: absolute; top: 3px; transform: translateX(-50%); white-space: nowrap; }}
+.hchart figcaption {{ grid-column: 1 / -1; font-size: 0.72rem; color: var(--muted); margin-top: 2px; }}
+.hc-cross {{ position: absolute; top: 0; bottom: 0; width: 1px; background: var(--ink-2); opacity: 0.5; pointer-events: none; }}
+.hc-tip {{ position: absolute; top: 6px; pointer-events: none; background: var(--surface); color: var(--ink);
+  border: 1px solid var(--hairline); border-radius: 6px; padding: 5px 8px; font: 0.72rem ui-monospace, monospace;
+  white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.18); z-index: 2; }}
+.hc-tip b {{ font-family: inherit; }}
+@media (max-width: 560px) {{ .hc-plot {{ height: 180px; }} }}
 .asset {{
   background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px;
   padding: 22px; margin-bottom: 18px; box-shadow: 0 1px 2px rgba(11,12,14,0.04), 0 8px 20px -12px rgba(11,12,14,0.12);
@@ -719,6 +845,31 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
 </footer>
 </div>
 
+<script>
+(function () {{
+  // Hourly chart hover: nearest candle's time and O/H/L/C in a tooltip.
+  document.querySelectorAll('.hchart').forEach(function (fig) {{
+    var rows; try {{ rows = JSON.parse(fig.getAttribute('data-bars')); }} catch (e) {{ return; }}
+    var plot = fig.querySelector('.hc-plot'), tip = fig.querySelector('.hc-tip'),
+        cross = fig.querySelector('.hc-cross'), n = rows.length;
+    function show(clientX) {{
+      var r = plot.getBoundingClientRect();
+      var i = Math.max(0, Math.min(n - 1, Math.floor((clientX - r.left) / r.width * n)));
+      var x = (i + 0.5) / n * r.width, row = rows[i];
+      cross.style.left = x + 'px'; cross.hidden = false;
+      tip.innerHTML = '<b>' + row[0] + '</b><br>O ' + row[1] + '  H ' + row[2] +
+        '<br>L ' + row[3] + '  C ' + row[4] + (row[5] ? '  (' + row[5] + ')' : '');
+      tip.hidden = false;
+      var w = tip.offsetWidth, left = x + 10;
+      if (left + w > r.width - 4) left = x - w - 10;
+      tip.style.left = Math.max(4, left) + 'px';
+    }}
+    plot.addEventListener('mousemove', function (e) {{ show(e.clientX); }});
+    plot.addEventListener('touchmove', function (e) {{ if (e.touches[0]) show(e.touches[0].clientX); }}, {{ passive: true }});
+    plot.addEventListener('mouseleave', function () {{ tip.hidden = true; cross.hidden = true; }});
+  }});
+}})();
+</script>
 <script>
 (function () {{
   // Freshness panel: turn each stamp's ISO time into "x min ago" and a
