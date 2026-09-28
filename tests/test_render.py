@@ -250,3 +250,13 @@ def test_page_declares_a_mobile_viewport():
     html = render(PUB, generated_at='2026-09-25T14:00:00Z')
     assert html.startswith('<!doctype html>')
     assert '<meta name="viewport" content="width=device-width, initial-scale=1">' in html
+
+
+def test_price_strip_names_each_futures_symbol():
+    doc = copy.deepcopy(PUB)
+    for a, t in zip(doc['assets'], ['ES=F', 'ZN=F', 'GC=F', 'DX-Y.NYB', 'RTY=F', 'NQ=F']):
+        a['ticker'] = t
+    html = ticker_strip(doc)
+    assert 'E-mini S&amp;P 500 futures · tracks SPY' in html
+    assert 'Gold futures (COMEX) · tracks GLD' in html
+    assert html.count('class="tape-name"') == 6

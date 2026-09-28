@@ -51,6 +51,27 @@ TICKER = {
 
 def display_ticker(a):
     return a.get('ticker') or TICKER.get(a['key'], a['key'].upper())
+
+
+# What each Yahoo symbol actually is, in plain words, and the familiar ETF
+# it moves with - shown under the symbol in the price strip.
+INSTRUMENT_NOTE = {
+    'ES=F': 'E-mini S&P 500 futures · tracks SPY',
+    'NQ=F': 'E-mini Nasdaq-100 futures · tracks QQQ',
+    'RTY=F': 'E-mini Russell 2000 futures · tracks IWM',
+    'ZN=F': '10-Year T-Note futures · moves inverse to the 10Y yield',
+    'GC=F': 'Gold futures (COMEX) · tracks GLD',
+    'DX-Y.NYB': 'US Dollar Index (ICE) · tracks UUP',
+    '^GSPC': 'S&P 500 index · tracks SPY',
+    'TLT': '20+ Year Treasury bond ETF',
+    'IWM': 'Russell 2000 ETF',
+    'QQQ': 'Nasdaq-100 ETF',
+}
+
+
+def instrument_note(a):
+    """Plain-words name for the asset's symbol, or '' for an unknown one."""
+    return INSTRUMENT_NOTE.get(display_ticker(a), '')
 STRETCH_MIN, STRETCH_MAX = -6, 6
 E = html.escape
 
@@ -438,6 +459,7 @@ def ticker_strip(doc, live=None):
           <span class="tape-ticker">{E(display_ticker(a))}</span>
           <span class="tape-price">{fmt_price(a['close'])}</span>
         </div>
+        {f'<span class="tape-name">{E(instrument_note(a))}</span>' if instrument_note(a) else ''}
         {live_price_html(a['key'], live)}
         <div class="tape-horizons">{horizons_html}</div>
         {live_tilt_row_html(a, live)}
@@ -617,6 +639,7 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 .tape-head {{ display: flex; align-items: baseline; gap: 8px; }}
 .tape-ticker {{ font-family: ui-monospace, monospace; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--masthead-ink-2); }}
 .tape-price {{ font-family: ui-monospace, monospace; font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink); }}
+.tape-name {{ font-size: 0.7rem; color: var(--masthead-ink-2); margin-top: -4px; }}
 .tape-live {{ font-family: ui-monospace, monospace; font-size: 0.68rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink-2); opacity: 0.85; }}
 .tape-horizons {{ display: flex; gap: 6px; }}
 .tape-badge {{
