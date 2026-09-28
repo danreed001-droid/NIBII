@@ -305,13 +305,17 @@ SESSION_ROLL_ET = 9  # a chart "day" starts at 9:00 AM New York time
 def session_days(bars):
     """[(first_index, last_index, 'Mon 28'), ...] grouping candles into
     9 AM-to-9 AM ET days (a candle stamped 8 AM belongs to the day that
-    started the previous morning). Label = the weekday the day starts on."""
+    started the previous morning). Label = the weekday the day starts on.
+    The Sunday-evening futures reopen belongs to Monday's day, as traders
+    count it, rather than being a short "Sunday" day of its own."""
     out = []
     for i, b in enumerate(bars):
         dt = _et(b[0])
         if dt is None:
             continue
         key = (dt - timedelta(hours=SESSION_ROLL_ET)).date()
+        if key.weekday() >= 5:  # Sat/Sun evening -> Monday's session day
+            key += timedelta(days=7 - key.weekday())
         if out and out[-1][3] == key:
             out[-1][1] = i
         else:
@@ -348,7 +352,7 @@ def hourly_chart_html(a, live, compact=False):
     for k, (i0, i1, label) in enumerate(session_days(bars)):
         if k % 2 == 1:
             parts.append(f'<rect class="hc-day" x="{i0 * slot:.3f}" width="{(i1 - i0 + 1) * slot:.3f}" y="0" height="100"/>')
-        if (i1 - i0 + 1) * slot >= 2.5:
+        if (i1 - i0 + 1) * slot >= 1.5:  # Friday's short day (to the 5 PM close) still fits one letter
             # weekday initial, centred in its band - full names collide at 400 candles
             day_labels.append(f'<span class="hc-day-label" style="left:{(i0 + i1 + 1) / 2 * slot:.2f}%" '
                               f'title="{E(label)}">{E(label[0])}</span>')
