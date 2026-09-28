@@ -414,8 +414,8 @@
        null
       ]
      ],
-     "maturityClose": 7761.0,
-     "ret": -0.005478,
+     "maturityClose": 7763.5,
+     "ret": -0.005158,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -2566,8 +2566,8 @@
        null
       ]
      ],
-     "maturityClose": 104.546875,
-     "ret": -0.00298,
+     "maturityClose": 104.515625,
+     "ret": -0.003278,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -5337,8 +5337,8 @@
        null
       ]
      ],
-     "maturityClose": 4168.7001953125,
-     "ret": -0.035291,
+     "maturityClose": 4169.7001953125,
+     "ret": -0.03506,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7350,7 +7350,7 @@
       [
        "bull",
        "DX-Y.NYB closed 100.97, above its 50-day average of 99.95 and 200-day of 99.198, with RSI(14) at 65.16 (firm but not yet overbought); 1H structure is choppy (last swings: an LH at 101.10 and an LL at 100.87, both on 25 September).",
-       false
+       true
       ],
       [
        "neu",
@@ -7365,17 +7365,17 @@
       [
        "bull",
        "High-yield OAS held tight at 280bp on 25 September even as Treasury yields spiked - a still-supportive risk backdrop that has historically coincided with dollar firmness this cycle via both liquidity-demand and yield-differential effects.",
-       false
+       true
       ],
       [
        "bull",
        "The Fed hiked to 3.75-4.00% on 16 September, the ECB to 2.50% on 10 September and the BOJ to 1.25% on 18 September - all quarter-point moves, so the US-EU and US-Japan rate gaps are as wide as they were nine days before 25 September, still favoring the dollar.",
-       false
+       true
       ],
       [
        "bull",
        "All three major central banks (Fed, ECB, BOJ) delivered quarter-point hikes within the same eight-day span (16, 10 and 18 September respectively), but only the Fed is being actively repriced higher for its next meeting (~71-76% October odds) - a divergence favoring the dollar.",
-       false
+       true
       ],
       [
        "neu",
@@ -7390,7 +7390,7 @@
       [
        "bull",
        "Xi Jinping's state visit concluded 25 September with the US-China trade truce extended roughly two months and a new AI dialogue announced; detailed terms are due Monday 28 September - a status-quo, mildly risk-supportive outcome that removes a tail-risk overhang rather than adding one.",
-       false
+       true
       ],
       [
        "bear",
@@ -7405,7 +7405,7 @@
       [
        "bull",
        "The dollar's own driver-regime table shows no single dominant correlation (10-year at +0.399, just short of the |0.40| threshold), but that positive sign is consistent with the hawkish-Fed, higher-yield backdrop that has also driven gold and bonds lower on 25 September - a shared macro driver working in the dollar's favor.",
-       false
+       true
       ],
       [
        "neu",
@@ -7413,11 +7413,11 @@
        null
       ]
      ],
-     "maturityClose": 101.11199951171875,
-     "ret": 0.001406,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 101.12799835205078,
+     "ret": 0.001565,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against DX-Y.NYB",
      "provisional": true
     },
@@ -11726,8 +11726,8 @@
        null
       ]
      ],
-     "maturityClose": 30613.25,
-     "ret": -0.008935,
+     "maturityClose": 30633.0,
+     "ret": -0.008296,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
