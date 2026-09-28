@@ -170,3 +170,12 @@ def test_chart_starts_at_a_9am_candle():
     assert [b[0][11:16] for b in start_at_session_open(bars)] == ['09:00', '10:00']
     # already starting at 9am: unchanged
     assert start_at_session_open(bars[2:]) == bars[2:]
+
+
+def test_every_day_start_after_the_first_gets_a_9am_line():
+    from scripts.render_html import hourly_chart_html
+    bars = [[f'2026-09-{21 + i // 24:02d}T{i % 24:02d}:00:00-04:00', 100, 101, 99, 100.5] for i in range(96)]
+    read = dict(latest_read('ES=F', _bars(80), _bars(260)), bars=bars)
+    live = {'fetchedAt': '2026-09-28T14:00:00Z', 'prices': {}, 'reads': {PUB['assets'][0]['key']: read}}
+    html = hourly_chart_html(PUB['assets'][0], live, compact=True)
+    assert html.count('class="hc-day-start"') == 3   # Mon | Tue | Wed | Thu
