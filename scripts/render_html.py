@@ -302,6 +302,9 @@ def _et(ts):
 SESSION_ROLL_ET = 9  # a chart "day" starts at 9:00 AM New York time
 
 
+CHART_INSET_L, CHART_INSET_R = 0.6, 2.4  # % of plot width kept clear of candles
+
+
 def session_days(bars):
     """[(first_index, last_index, 'Mon 28'), ...] grouping candles into
     9 AM-to-9 AM ET days. Label = the weekday the day starts on.
@@ -348,7 +351,10 @@ def hourly_chart_html(a, live, compact=False):
     lo, hi = lo - pad, hi + pad
     n = len(bars)
     y = lambda p: (hi - p) / (hi - lo) * 100
-    slot = 100 / n
+    # candles sit inset from the plot's borders (X0 left, 100 - X0 - SPAN
+    # right) so the newest ones never disappear into the right edge
+    x0, span = CHART_INSET_L, 100 - CHART_INSET_L - CHART_INSET_R
+    slot = span / n
     body_w = slot * 0.64
 
     # Session days run 9:00 AM ET to 9:00 AM ET: every other one gets a
@@ -356,10 +362,10 @@ def hourly_chart_html(a, live, compact=False):
     parts, day_labels = [], []
     for k, (i0, i1, label) in enumerate(session_days(bars)):
         if k % 2 == 1:
-            parts.append(f'<rect class="hc-day" x="{i0 * slot:.3f}" width="{(i1 - i0 + 1) * slot:.3f}" y="0" height="100"/>')
+            parts.append(f'<rect class="hc-day" x="{x0 + i0 * slot:.3f}" width="{(i1 - i0 + 1) * slot:.3f}" y="0" height="100"/>')
         if (i1 - i0 + 1) * slot >= 1.5:  # Friday's short day (to the 5 PM close) still fits one letter
             # weekday initial, centred in its band - full names collide at 400 candles
-            day_labels.append(f'<span class="hc-day-label" style="left:{(i0 + i1 + 1) / 2 * slot:.2f}%" '
+            day_labels.append(f'<span class="hc-day-label" style="left:{x0 + (i0 + i1 + 1) / 2 * slot:.2f}%" '
                               f'title="{E(label)}">{E(label[0])}</span>')
     step = _nice_step(hi - lo)
     tick = math.ceil(lo / step) * step
@@ -375,7 +381,7 @@ def hourly_chart_html(a, live, compact=False):
         for yy in (top, bot):
             parts.append(f'<line class="hc-zone-edge" x1="0" x2="100" y1="{yy:.3f}" y2="{yy:.3f}"/>')
     for i, (ts, o, h, l, c) in enumerate(bars):
-        cx = (i + 0.5) * slot
+        cx = x0 + (i + 0.5) * slot
         col = CANDLE_UP if c >= o else CANDLE_DOWN
         top, bot = y(max(o, c)), y(min(o, c))
         parts.append(f'<line x1="{cx:.3f}" x2="{cx:.3f}" y1="{y(h):.3f}" y2="{y(l):.3f}" stroke="{col}" class="hc-wick"/>')
@@ -399,7 +405,7 @@ def hourly_chart_html(a, live, compact=False):
             kept[-1] = (i, t)
         else:
             kept.append((i, t))
-    xl_html = "".join(f'<span style="left:{(i + 0.5) * slot:.2f}%">{E(t)}</span>' for i, t in kept)
+    xl_html = "".join(f'<span style="left:{x0 + (i + 0.5) * slot:.2f}%">{E(t)}</span>' for i, t in kept)
 
     tip_rows = [[(_et(b[0]).strftime('%a %b %-d, %-I:%M %p ET') if _et(b[0]) else b[0]),
                  fmt_price(b[1]), fmt_price(b[2]), fmt_price(b[3]), fmt_price(b[4]),
@@ -407,7 +413,7 @@ def hourly_chart_html(a, live, compact=False):
     if compact:
         zone_c = (f' · shaded: 1D flat zone') if h1 else ''
         return f"""
-        <figure class="hchart compact" data-bars='{E(json.dumps(tip_rows))}'>
+        <figure class="hchart compact" data-x0="{x0}" data-span="{span}" data-bars='{E(json.dumps(tip_rows))}'>
           <div class="hc-plot">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img"
                  aria-label="Hourly candles for {E(read['ticker'])}, last {n}, latest {fmt_price(last)}">{''.join(parts)}</svg>
@@ -421,7 +427,7 @@ def hourly_chart_html(a, live, compact=False):
             f' (call: {E(h1["call"])})') if h1 else ''
     when = live_stamp(live)
     return f"""
-      <figure class="hchart" data-bars='{E(json.dumps(tip_rows))}'>
+      <figure class="hchart" data-x0="{x0}" data-span="{span}" data-bars='{E(json.dumps(tip_rows))}'>
         <div class="hc-plot">
           <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img"
                aria-label="Hourly candles for {E(read['ticker'])}, last {n}, latest {fmt_price(last)}">{''.join(parts)}</svg>
@@ -941,11 +947,14 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
   document.querySelectorAll('.hchart').forEach(function (fig) {{
     var rows; try {{ rows = JSON.parse(fig.getAttribute('data-bars')); }} catch (e) {{ return; }}
     var plot = fig.querySelector('.hc-plot'), tip = fig.querySelector('.hc-tip'),
-        cross = fig.querySelector('.hc-cross'), n = rows.length;
+        cross = fig.querySelector('.hc-cross'), n = rows.length,
+        x0 = (parseFloat(fig.getAttribute('data-x0')) || 0) / 100,
+        span = (parseFloat(fig.getAttribute('data-span')) || 100) / 100;
     function show(clientX) {{
       var r = plot.getBoundingClientRect();
-      var i = Math.max(0, Math.min(n - 1, Math.floor((clientX - r.left) / r.width * n)));
-      var x = (i + 0.5) / n * r.width, row = rows[i];
+      var plotW = r.width * span, plotL = r.width * x0;
+      var i = Math.max(0, Math.min(n - 1, Math.floor((clientX - r.left - plotL) / plotW * n)));
+      var x = plotL + (i + 0.5) / n * plotW, row = rows[i];
       cross.style.left = x + 'px'; cross.hidden = false;
       tip.innerHTML = '<b>' + row[0] + '</b><br>O ' + row[1] + '  H ' + row[2] +
         '<br>L ' + row[3] + '  C ' + row[4] + (row[5] ? '  (' + row[5] + ')' : '');
