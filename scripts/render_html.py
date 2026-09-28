@@ -14,7 +14,7 @@ import math
 import os
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -299,6 +299,27 @@ def _et(ts):
         return None
 
 
+DAY_LABELS = os.environ.get('MTL_DAY_LABELS') == '1'  # sample toggle, settled before release
+SESSION_ROLL_ET = 9  # a chart "day" starts at 9:00 AM New York time
+
+
+def session_days(bars):
+    """[(first_index, last_index, 'Mon 28'), ...] grouping candles into
+    9 AM-to-9 AM ET days (a candle stamped 8 AM belongs to the day that
+    started the previous morning). Label = the weekday the day starts on."""
+    out = []
+    for i, b in enumerate(bars):
+        dt = _et(b[0])
+        if dt is None:
+            continue
+        key = (dt - timedelta(hours=SESSION_ROLL_ET)).date()
+        if out and out[-1][3] == key:
+            out[-1][1] = i
+        else:
+            out.append([i, i, key.strftime('%a %-d'), key])
+    return [(i0, i1, lab) for i0, i1, lab, _ in out]
+
+
 def hourly_chart_html(a, live, compact=False):
     """The last ~100 hourly candles for this asset's instrument (from the
     refresh run's live.json read), with the board's 1D flat zone shaded so
@@ -322,7 +343,16 @@ def hourly_chart_html(a, live, compact=False):
     slot = 100 / n
     body_w = slot * 0.64
 
-    parts = []
+    # Session days run 9:00 AM ET to 9:00 AM ET: every other one gets a
+    # lighter band behind the candles so a day's candles read as a group.
+    parts, day_labels = [], []
+    for k, (i0, i1, label) in enumerate(session_days(bars)):
+        if k % 2 == 1:
+            parts.append(f'<rect class="hc-day" x="{i0 * slot:.3f}" width="{(i1 - i0 + 1) * slot:.3f}" y="0" height="100"/>')
+        if DAY_LABELS and (i1 - i0 + 1) * slot >= 2.5:
+            # weekday initial, centred in its band - full names collide at 400 candles
+            day_labels.append(f'<span class="hc-day-label" style="left:{(i0 + i1 + 1) / 2 * slot:.2f}%" '
+                              f'title="{E(label)}">{E(label[0])}</span>')
     step = _nice_step(hi - lo)
     tick = math.ceil(lo / step) * step
     ylabels = []
@@ -373,10 +403,11 @@ def hourly_chart_html(a, live, compact=False):
           <div class="hc-plot">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img"
                  aria-label="Hourly candles for {E(read['ticker'])}, last {n}, latest {fmt_price(last)}">{''.join(parts)}</svg>
+            {''.join(day_labels)}
             <div class="hc-cross" hidden></div>
             <div class="hc-tip" hidden></div>
           </div>
-          <figcaption>1H · {n} candles · last {fmt_price(last)} (dotted){zone_c}</figcaption>
+          <figcaption>1H · {n} candles · last {fmt_price(last)} (dotted){zone_c} · bands: 9am–9am ET days</figcaption>
         </figure>"""
     zone = (f' · shaded: board\'s 1D flat zone {fmt_price(h1["flatLo"])}–{fmt_price(h1["flatHi"])}'
             f' (call: {E(h1["call"])})') if h1 else ''
@@ -693,6 +724,9 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 .hc-tip b {{ font-family: inherit; }}
 @media (max-width: 560px) {{ .hc-plot {{ height: 180px; }} }}
 .hchart.compact {{ margin: 2px 0 0; grid-template-columns: 1fr; }}
+.hc-day {{ fill: #ffffff; opacity: 0.055; }}
+.hc-day-label {{ position: absolute; top: 2px; transform: translateX(-50%); font: 0.56rem ui-monospace, monospace;
+  color: var(--masthead-ink-2); opacity: 0.75; pointer-events: none; white-space: nowrap; }}
 .hchart.compact .hc-plot {{ height: 110px; border-color: rgba(255,255,255,0.12); }}
 .hchart.compact figcaption {{ font-size: 0.62rem; color: var(--masthead-ink-2); opacity: 0.8; }}
 .hchart.compact .hc-tip {{ font-size: 0.62rem; padding: 3px 6px; }}
