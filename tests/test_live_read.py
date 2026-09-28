@@ -111,3 +111,12 @@ def test_no_chart_without_bars():
     html = render(PUB, generated_at='2026-09-28T14:00:00Z',
                   live={'fetchedAt': '2026-09-28T14:00:00Z', 'prices': {}, 'reads': {}})
     assert 'class="hchart' not in html
+
+
+def test_price_strip_chart_has_no_price_tag_over_the_candles():
+    bars = [[f'2026-09-28T{9 + i % 8:02d}:00:00-04:00', 100, 101, 99, 100.5] for i in range(50)]
+    read = dict(latest_read('ES=F', _bars(80), _bars(260)), bars=bars)
+    live = {'fetchedAt': '2026-09-28T14:00:00Z', 'prices': {}, 'reads': {PUB['assets'][0]['key']: read}}
+    from scripts.render_html import hourly_chart_html
+    html = hourly_chart_html(PUB['assets'][0], live, compact=True)
+    assert 'hc-last-tag' not in html and 'last 100.50 (dotted)' in html

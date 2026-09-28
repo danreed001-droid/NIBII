@@ -319,10 +319,7 @@ def hourly_chart_html(a, live, compact=False):
     lo, hi = lo - pad, hi + pad
     n = len(bars)
     y = lambda p: (hi - p) / (hi - lo) * 100
-    # compact: leave the right 16% of the plot empty so the last-price tag
-    # sits beside the newest candle instead of on top of it
-    span_w = 84 if compact else 100
-    slot = span_w / n
+    slot = 100 / n
     body_w = slot * 0.64
 
     parts = []
@@ -372,15 +369,14 @@ def hourly_chart_html(a, live, compact=False):
     if compact:
         zone_c = (f' · shaded: 1D flat zone') if h1 else ''
         return f"""
-        <figure class="hchart compact" data-span="{span_w / 100}" data-bars='{E(json.dumps(tip_rows))}'>
+        <figure class="hchart compact" data-bars='{E(json.dumps(tip_rows))}'>
           <div class="hc-plot">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img"
                  aria-label="Hourly candles for {E(read['ticker'])}, last {n}, latest {fmt_price(last)}">{''.join(parts)}</svg>
             <div class="hc-cross" hidden></div>
             <div class="hc-tip" hidden></div>
-            <span class="hc-last-tag" style="top:{y(last):.2f}%">{fmt_price(last)}</span>
           </div>
-          <figcaption>1H · last {n} candles{zone_c}</figcaption>
+          <figcaption>1H · last {n} candles · last {fmt_price(last)} (dotted){zone_c}</figcaption>
         </figure>"""
     zone = (f' · shaded: board\'s 1D flat zone {fmt_price(h1["flatLo"])}–{fmt_price(h1["flatHi"])}'
             f' (call: {E(h1["call"])})') if h1 else ''
@@ -699,7 +695,6 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 .hchart.compact {{ margin: 2px 0 0; grid-template-columns: 1fr; }}
 .hchart.compact .hc-plot {{ height: 110px; border-color: rgba(255,255,255,0.12); }}
 .hchart.compact figcaption {{ font-size: 0.62rem; color: var(--masthead-ink-2); opacity: 0.8; }}
-.hchart.compact .hc-last-tag {{ right: 2px; font-size: 0.6rem; background: var(--masthead-bg); color: var(--masthead-ink); }}
 .hchart.compact .hc-tip {{ font-size: 0.62rem; padding: 3px 6px; }}
 @media (max-width: 560px) {{ .hchart.compact .hc-plot {{ height: 140px; }} }}
 .asset {{
@@ -904,13 +899,11 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
   document.querySelectorAll('.hchart').forEach(function (fig) {{
     var rows; try {{ rows = JSON.parse(fig.getAttribute('data-bars')); }} catch (e) {{ return; }}
     var plot = fig.querySelector('.hc-plot'), tip = fig.querySelector('.hc-tip'),
-        cross = fig.querySelector('.hc-cross'), n = rows.length,
-        span = parseFloat(fig.getAttribute('data-span')) || 1;  // share of the width the candles use
+        cross = fig.querySelector('.hc-cross'), n = rows.length;
     function show(clientX) {{
       var r = plot.getBoundingClientRect();
-      var w = r.width * span;
-      var i = Math.max(0, Math.min(n - 1, Math.floor((clientX - r.left) / w * n)));
-      var x = (i + 0.5) / n * w, row = rows[i];
+      var i = Math.max(0, Math.min(n - 1, Math.floor((clientX - r.left) / r.width * n)));
+      var x = (i + 0.5) / n * r.width, row = rows[i];
       cross.style.left = x + 'px'; cross.hidden = false;
       tip.innerHTML = '<b>' + row[0] + '</b><br>O ' + row[1] + '  H ' + row[2] +
         '<br>L ' + row[3] + '  C ' + row[4] + (row[5] ? '  (' + row[5] + ')' : '');
