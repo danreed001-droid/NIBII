@@ -52,6 +52,8 @@ h1 { font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }
 }
 
 /* freshness panel: when each part of the page was last updated */
+.submit-news { margin: 10px 0 0; font-size: 0.8rem; color: var(--masthead-ink-2); }
+.submit-news a { font-weight: 600; margin-right: 8px; }
 .fresh {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px;
   margin-top: 14px;
@@ -286,14 +288,16 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
       </span>
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
-    <div class="fresh"><div class="fresh-item " data-ts="2026-09-26T18:48:44Z" data-state="fresh" data-fixed-state="1"><span class="fresh-dot"></span><span class="fresh-label">Calls written</span><span class="fresh-value" title="2026-09-26T18:48:44Z">Sat Sep 26, 2:48 PM ET · <span class="fresh-age"></span></span><span class="fresh-note">Calls for session Fri Sep 25 - the latest completed session</span></div><div class="fresh-item live-note" data-ts="2026-09-28T14:57:51Z" data-fresh-h="1" data-stale-h="4"><span class="fresh-dot"></span><span class="fresh-label">Live prices</span><span class="fresh-value" title="2026-09-28T14:57:51Z">Mon Sep 28, 10:57 AM ET · <span class="fresh-age"></span></span><span class="fresh-note">Overlay only - never the basis a call was made against</span></div><div class="fresh-item " data-ts="2026-09-28T14:57:51Z" data-fresh-h="4" data-stale-h="24"><span class="fresh-dot"></span><span class="fresh-label">Page rebuilt</span><span class="fresh-value" title="2026-09-28T14:57:51Z">Mon Sep 28, 10:57 AM ET · <span class="fresh-age"></span></span><span class="fresh-note">Grades and the track record are recomputed on every rebuild</span></div></div>
+    <div class="fresh"><div class="fresh-item " data-ts="2026-09-26T18:48:44Z" data-state="fresh" data-fixed-state="1"><span class="fresh-dot"></span><span class="fresh-label">Calls written</span><span class="fresh-value" title="2026-09-26T18:48:44Z">Sat Sep 26, 2:48 PM ET · <span class="fresh-age"></span></span><span class="fresh-note">Calls for session Fri Sep 25 - the latest completed session</span></div><div class="fresh-item live-note" data-ts="2026-09-28T16:31:29Z" data-fresh-h="1" data-stale-h="4"><span class="fresh-dot"></span><span class="fresh-label">Live prices</span><span class="fresh-value" title="2026-09-28T16:31:29Z">Mon Sep 28, 12:31 PM ET · <span class="fresh-age"></span></span><span class="fresh-note">Overlay only - never the basis a call was made against</span></div><div class="fresh-item " data-ts="2026-09-28T16:31:29Z" data-fresh-h="4" data-stale-h="24"><span class="fresh-dot"></span><span class="fresh-label">Page rebuilt</span><span class="fresh-value" title="2026-09-28T16:31:29Z">Mon Sep 28, 12:31 PM ET · <span class="fresh-age"></span></span><span class="fresh-note">Grades and the track record are recomputed on every rebuild</span></div></div>
+    <p class="submit-news"><a href="https://github.com/danreed001-droid/NIBII/issues/new?template=news-event.yml" target="_blank" rel="noopener">＋ Submit a news event</a>
+      <span>adds it to the news log the research reads; the page updates in about a minute</span></p>
     <div class="tape">
       <div class="tape-item" style="--dot:#898781">
         <div class="tape-head">
           <span class="tape-ticker">ES=F</span>
           <span class="tape-price">7,803.75</span>
         </div>
-        <span class="tape-live" title="live snapshot, not the call basis">live ES=F 7,731.25</span>
+        <span class="tape-live" title="live snapshot, not the call basis">live ES=F 7,763.75</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
         <div class="tape-tilt-row"><span class="tape-tilt-label">live tilt</span><span class="tape-tilt-badge" style="--dot:#d03b3b" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
@@ -302,7 +306,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="tape-ticker">ZN=F</span>
           <span class="tape-price">104.86</span>
         </div>
-        <span class="tape-live" title="live snapshot, not the call basis">live ZN=F 104.38</span>
+        <span class="tape-live" title="live snapshot, not the call basis">live ZN=F 104.45</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#fab219"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">?</span></span></div>
         <div class="tape-tilt-row"><span class="tape-tilt-label">live tilt</span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
@@ -311,7 +315,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="tape-ticker">GC=F</span>
           <span class="tape-price">4,321.20</span>
         </div>
-        <span class="tape-live" title="live snapshot, not the call basis">live GC=F 4,151.10</span>
+        <span class="tape-live" title="live snapshot, not the call basis">live GC=F 4,163.20</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#fab219"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">?</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
         <div class="tape-tilt-row"><span class="tape-tilt-label">live tilt</span><span class="tape-tilt-badge" style="--dot:#d03b3b" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-tilt-badge" style="--dot:#d03b3b" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-tilt-badge" style="--dot:#d03b3b" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▼</span></span></div>
       </div>
@@ -320,7 +324,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="tape-ticker">DX-Y.NYB</span>
           <span class="tape-price">100.97</span>
         </div>
-        <span class="tape-live" title="live snapshot, not the call basis">live DX-Y.NYB 101.28</span>
+        <span class="tape-live" title="live snapshot, not the call basis">live DX-Y.NYB 101.14</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#0ca30c"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▲</span></span><span class="tape-badge" style="--dot:#fab219"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">?</span></span><span class="tape-badge" style="--dot:#fab219"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">?</span></span></div>
         <div class="tape-tilt-row"><span class="tape-tilt-label">live tilt</span><span class="tape-tilt-badge" style="--dot:#0ca30c" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▲</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
@@ -329,7 +333,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="tape-ticker">RTY=F</span>
           <span class="tape-price">2,859.30</span>
         </div>
-        <span class="tape-live" title="live snapshot, not the call basis">live RTY=F 2,834.00</span>
+        <span class="tape-live" title="live snapshot, not the call basis">live RTY=F 2,841.30</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#fab219"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">?</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
         <div class="tape-tilt-row"><span class="tape-tilt-label">live tilt</span><span class="tape-tilt-badge" style="--dot:#d03b3b" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div>
@@ -338,9 +342,9 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="tape-ticker">NQ=F</span>
           <span class="tape-price">30,889.25</span>
         </div>
-        <span class="tape-live" title="live snapshot, not the call basis">live NQ=F 30,375.50</span>
+        <span class="tape-live" title="live snapshot, not the call basis">live NQ=F 30,613.75</span>
         <div class="tape-horizons"><span class="tape-badge" style="--dot:#898781"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-badge" style="--dot:#d03b3b"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-badge" style="--dot:#fab219"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">?</span></span></div>
-        <div class="tape-tilt-row"><span class="tape-tilt-label">live tilt</span><span class="tape-tilt-badge" style="--dot:#d03b3b" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-tilt-badge" style="--dot:#d03b3b" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
+        <div class="tape-tilt-row"><span class="tape-tilt-label">live tilt</span><span class="tape-tilt-badge" style="--dot:#d03b3b" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">1D</span><span class="tape-badge-arrow">▼</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">5D</span><span class="tape-badge-arrow">▬</span></span><span class="tape-tilt-badge" style="--dot:#898781" title="unscored - where the live price sits vs this horizon's flat zone right now"><span class="tape-badge-h">10D</span><span class="tape-badge-arrow">▬</span></span></div>
       </div></div>
   </div>
 </div>
@@ -371,7 +375,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         </div>
       </header>
       <p class="driver-note">Over the 21-session window equities&#x27; dominant driver is the 10-year yield (corr -0.638), with oil (-0.533) also crossing the |0.40| dominance threshold; that sign is why Rates and Cross-asset lean bearish on a day the 10-year closed near a 19-year high (~5.19%) even as the index itself rallied 0.53% into the close - a real decoupling from the historical relationship worth flagging rather than smoothing over.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
-      <p class="latest-read"><span class="latest-label">Latest read</span>ES=F at 7,731.25, above its 50-day average of 7,665.32 and above its 200-day of 7,236.68, with RSI(14) at 52.42. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is choppy - no consistent run of higher or lower swings.<span class="note-stamp">computed Mon Sep 28, 10:57 AM ET · through the latest bar · unscored, not the call basis</span></p>
+      <p class="latest-read"><span class="latest-label">Latest read</span>ES=F at 7,763.75, above its 50-day average of 7,665.97 and above its 200-day of 7,236.84, with RSI(14) at 55.17. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is choppy - no consistent run of higher or lower swings.<span class="note-stamp">computed Mon Sep 28, 12:31 PM ET · through the latest bar · unscored, not the call basis</span></p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 7803.75 is 8.44 daily-sigma above the 200-day average of 7232.26, past the +6 threshold.</li><li>Close of 7803.75 is within 2% of the 52-week high of 7833.5.</li></ul><span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></details>
       
       <details class="catalysts" open>
@@ -394,7 +398,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>4 bull / 5 bear / 6 neu · margin 1</span>
         <span>flat zone 7,767.20–7,840.30</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
       <p class="reversion muted">Stretch score 2 (stretched-up): the cell is flat, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -411,7 +415,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>4 bull / 7 bear / 4 neu · margin 3</span>
         <span>flat zone 7,722.02–7,885.48</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
       <p class="reversion muted">Stretch score 2 (stretched-up): the cell is flat, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -428,7 +432,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>4 bull / 3 bear / 8 neu · margin 1</span>
         <span>flat zone 7,688.17–7,919.33</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
       <p class="reversion muted">Stretch score 2 (stretched-up): the cell is flat, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -457,7 +461,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         </div>
       </header>
       <p class="driver-note">The 10-year yield is bonds&#x27; dominant and near-total driver over the 21-session window (corr -0.955 for ZN=F versus the 10-year, since a note-futures price is mechanically close to the inverse of its own yield), with oil a distant second at -0.201 and the 2-year only 0.343; on the 7-session big-2Y-move subset (|change in 2Y| &gt;= 5bp) bonds&#x27; own reaction was a modest 0.096, weaker than gold&#x27;s -0.539 or the full-window relationship would suggest.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
-      <p class="latest-read"><span class="latest-label">Latest read</span>ZN=F at 104.38, below its 50-day average of 107.72 and below its 200-day of 110.30, with RSI(14) at 20.39. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is choppy - no consistent run of higher or lower swings.<span class="note-stamp">computed Mon Sep 28, 10:57 AM ET · through the latest bar · unscored, not the call basis</span></p>
+      <p class="latest-read"><span class="latest-label">Latest read</span>ZN=F at 104.45, below its 50-day average of 107.72 and below its 200-day of 110.30, with RSI(14) at 20.78. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is choppy - no consistent run of higher or lower swings.<span class="note-stamp">computed Mon Sep 28, 12:31 PM ET · through the latest bar · unscored, not the call basis</span></p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>RSI(14) of 23.12 is in the oversold band.</li><li>Close of 104.859375 is 2.90 daily-sigma below the 50-day average of 107.815.</li><li>Close of 104.859375 is within 2% of the 52-week low of 104.8594.</li><li>MOVE closed 104.58 on 24 September (reported 25 September), up 9.56% on the day and about 33% over two sessions, above all 60 prior readings in the tracked window and its highest since March, closing above 100 for the first time in three months - a documented record in rate volatility.</li></ul><span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></details>
       
       <details class="catalysts" open>
@@ -480,7 +484,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>0 bull / 7 bear / 8 neu · margin 7</span>
         <span>flat zone 104.36–105.35</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
       <p class="reversion">⚠ overlay applied — Stretch score -5 (extreme-down): the bearish call rides an extreme reading with margin 7, so confidence was dropped from strong to solid.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -497,7 +501,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>0 bull / 8 bear / 7 neu · margin 8</span>
         <span>flat zone 103.75–105.97</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
       <p class="reversion">⚠ overlay applied — Stretch score -5 (extreme-down): the bearish call rides an extreme reading with margin 8, so confidence was dropped from strong to solid.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -514,7 +518,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>0 bull / 3 bear / 12 neu · margin 3</span>
         <span>flat zone 103.29–106.43</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
       <p class="reversion muted">Stretch score -5 (extreme-down): the cell is no-call, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -543,7 +547,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         </div>
       </header>
       <p class="driver-note">Gold&#x27;s headline 21-session correlation to the 10-year is a moderate -0.425 (the only driver crossing the dominance threshold), but on the 7-session subset of big 2-year-yield moves that correlation steepens to -0.539 - gold is more rate-sensitive on the days the rates move actually happens than the full-window average suggests. Gold&#x27;s correlation to bonds sits at 0.469 with the same-direction move in 13 of 21 sessions, consistent with real yields as gold&#x27;s dominant channel.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
-      <p class="latest-read"><span class="latest-label">Latest read</span>GC=F at 4,151.10, below its 50-day average of 4,357.19 and below its 200-day of 4,555.63, with RSI(14) at 32.12. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.<span class="note-stamp">computed Mon Sep 28, 10:57 AM ET · through the latest bar · unscored, not the call basis</span></p>
+      <p class="latest-read"><span class="latest-label">Latest read</span>GC=F at 4,163.10, below its 50-day average of 4,357.43 and below its 200-day of 4,555.69, with RSI(14) at 32.70. 1H structure is downtrend - last labeled swings: LL/LH/LL/LH. Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.<span class="note-stamp">computed Mon Sep 28, 12:31 PM ET · through the latest bar · unscored, not the call basis</span></p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>COMEX gold futures open interest has fallen to a 17-year low per Deutsche Bank commentary, with speculative net length near its 2026 lows even as central banks keep buying - a vacated speculative crowd whose rebuild would push price up.</li></ul><span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></details>
       
       
@@ -558,7 +562,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>1 bull / 5 bear / 9 neu · margin 4</span>
         <span>flat zone 4,290.66–4,351.74</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#d03b3b" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ▼ downtrend</span></div>
       <p class="reversion muted">Stretch score -1 (neutral): the cell is no-call, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -575,7 +579,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>2 bull / 9 bear / 4 neu · margin 7</span>
         <span>flat zone 4,252.91–4,389.49</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span>Weekly: ▼ downtrend</span><span class="struct-badge" style="--dot:#d03b3b" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ▼ downtrend</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span>Weekly: ▼ downtrend</span><span class="struct-badge" style="--dot:#d03b3b" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ▼ downtrend</span></div>
       <p class="reversion muted">Stretch score -1 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -592,7 +596,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>3 bull / 6 bear / 6 neu · margin 3</span>
         <span>flat zone 4,224.62–4,417.78</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span>Weekly: ▼ downtrend</span><span class="struct-badge" style="--dot:#d03b3b" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ▼ downtrend</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span>Weekly: ▼ downtrend</span><span class="struct-badge" style="--dot:#d03b3b" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ▼ downtrend</span></div>
       <p class="reversion muted">Stretch score -1 (neutral): the cell is flat, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -621,7 +625,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         </div>
       </header>
       <p class="driver-note">No single driver crosses the |0.40| dominance threshold for the dollar over the 21-session window - the closest is the 10-year at +0.399, just short - with the 2-year at -0.145 and oil at -0.089, both weak. That is consistent with the dollar&#x27;s move this cycle coming as much from the ECB/BOJ side of the differential (both moved a quarter point on 10 and 18 September respectively, alongside the Fed&#x27;s 16 September hike) as from a single US-rate channel.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
-      <p class="latest-read"><span class="latest-label">Latest read</span>DX-Y.NYB at 101.28, above its 50-day average of 99.96 and above its 200-day of 99.21, with RSI(14) at 68.23. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is choppy - no consistent run of higher or lower swings.<span class="note-stamp">computed Mon Sep 28, 10:57 AM ET · through the latest bar · unscored, not the call basis</span></p>
+      <p class="latest-read"><span class="latest-label">Latest read</span>DX-Y.NYB at 101.14, above its 50-day average of 99.96 and above its 200-day of 99.21, with RSI(14) at 66.91. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is choppy - no consistent run of higher or lower swings.<span class="note-stamp">computed Mon Sep 28, 12:31 PM ET · through the latest bar · unscored, not the call basis</span></p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 100.97 is 3.43 daily-sigma above the 50-day average of 99.95.</li><li>Close of 100.97 is 6.01 daily-sigma above the 200-day average of 99.198, past the +6 threshold.</li><li>Close of 100.97 is within 2% of the 52-week high of 101.61.</li></ul><span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></details>
       
       
@@ -636,7 +640,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>6 bull / 1 bear / 8 neu · margin 5</span>
         <span>flat zone 100.82–101.12</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
       <p class="reversion">⚠ overlay applied — Stretch score 3 (extreme-up): the bullish call rides an extreme reading with margin 5, so confidence was dropped from solid to lean.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -653,7 +657,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>5 bull / 0 bear / 10 neu · margin 5</span>
         <span>flat zone 100.63–101.31</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
       <p class="reversion muted">Stretch score 3 (extreme-up): the cell is no-call, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -670,7 +674,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>2 bull / 0 bear / 13 neu · margin 2</span>
         <span>flat zone 100.50–101.44</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
       <p class="reversion muted">Stretch score 3 (extreme-up): the cell is no-call, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -699,7 +703,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         </div>
       </header>
       <p class="driver-note">Small caps&#x27; dominant driver over the 21-session window is the 10-year (corr -0.72, the strongest of any asset in the table), with oil a secondary -0.397, just short of the dominance threshold; that sensitivity is the mechanical reason a hawkish Fed repricing is a bigger relative headwind for IWM than for the S&amp;P, given small-cap balance sheets carry more floating-rate debt.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
-      <p class="latest-read"><span class="latest-label">Latest read</span>RTY=F at 2,834.00, below its 50-day average of 2,963.07 and above its 200-day of 2,785.59, with RSI(14) at 33.62. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.<span class="note-stamp">computed Mon Sep 28, 10:57 AM ET · through the latest bar · unscored, not the call basis</span></p>
+      <p class="latest-read"><span class="latest-label">Latest read</span>RTY=F at 2,841.30, below its 50-day average of 2,963.22 and above its 200-day of 2,785.62, with RSI(14) at 34.55. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.<span class="note-stamp">computed Mon Sep 28, 12:31 PM ET · through the latest bar · unscored, not the call basis</span></p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 2859.30 is 2.86 daily-sigma below the 50-day average of 2965.86.</li></ul><span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></details>
       
       
@@ -714,11 +718,11 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>0 bull / 6 bear / 9 neu · margin 6</span>
         <span>flat zone 2,841.32–2,877.28</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
       <p class="reversion muted">Stretch score -1 (neutral): the cell is no-call, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
-        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Trend structure · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">RTY=F closed 2859.30, below its 50-day average of 2965.86 (2.86 daily-sigma below) though still above its 200-day of 2784.06, with RSI(14) at 37.09; 1H structure is choppy (last swings: an LL at 2843.00 and an HH at 2874.10, both on 25 September).</span></span><span class="vote-mark provisional hit" title="provisional - graded on an intraday print; final after the session closes">correct so far</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Relative strength vs large caps · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">Small caps carried a 20.2% year-to-date gain as of 4 September, but the 16 September Fed hike was flagged by CME Group commentary as a &#x27;massive headwind for small-cap earnings&#x27; given floating-rate debt exposure - a structural relative-strength risk still working through as of 25 September.</span></span><span class="vote-mark provisional hit" title="provisional - graded on an intraday print; final after the session closes">correct so far</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Volatility regime · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">RVX (Russell 2000 volatility) is carried at 19.97 from its 23 September YCharts close, 2 sessions stale by 25 September with no fresher print obtainable; used for the sigma/band calculation but not scored as a fresh volRegime signal.</span></span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Credit and funding · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">High-yield OAS (280bp, 25 September) is a broad-market read, not small-cap-specific; no dated small-cap or leveraged-loan funding-cost figure was obtainable this run, so voted neu on the funding-cost angle specifically.</span></span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Rates · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">The 10-year closed near 5.19% (highest since 2007) on 25 September, and small caps carry the strongest 10-year correlation of any asset in the driver table (-0.72 over the 21-session window) - a specific, well-documented headwind.</span></span><span class="vote-mark provisional hit" title="provisional - graded on an intraday print; final after the session closes">correct so far</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Fed path · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">CME FedWatch puts October hike odds at roughly 71-76% as of 25 September; small caps are more rate-sensitive than large caps via floating-rate debt, making a hawkish Fed path a more direct earnings risk for IWM specifically.</span></span><span class="vote-mark provisional hit" title="provisional - graded on an intraday print; final after the session closes">correct so far</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Sentiment, contrarian · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">No small-cap-specific sentiment survey (as distinct from AAII&#x27;s broad-market read) dated to 25 September was obtainable this run; voted neu.</span></span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Positioning and flows · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">No source-documented positioning or sentiment extreme for small caps dated to 25 September was found; voted neu rather than infer one from the year-to-date rotation narrative.</span></span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Earnings catalysts · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">No small-cap-index-moving earnings report was identified for 25 September specifically.</span></span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Macro calendar · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">Final September UMich sentiment fell to a four-month low (48.1) on 25 September - domestically-focused small caps are typically more sensitive to a weakening consumer read than globally-diversified large caps.</span></span><span class="vote-mark provisional hit" title="provisional - graded on an intraday print; final after the session closes">correct so far</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Seasonality · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">No single-day small-cap-specific seasonal signal was identified for 25 September.</span></span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Cross-asset · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">IWM&#x27;s -0.72 correlation to the 10-year is the strongest of any asset in the 21-session driver table, and the 10-year closed at a 19-year high on 25 September - the single most mechanically direct cross-asset headwind identified for any asset today.</span></span><span class="vote-mark provisional hit" title="provisional - graded on an intraday print; final after the session closes">correct so far</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Market structure (HH/HL) · <span title="computed Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">1H structure is choppy - no consistent run of higher or lower swings.</span></span></li></ul>
+        <ul><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Trend structure · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">RTY=F closed 2859.30, below its 50-day average of 2965.86 (2.86 daily-sigma below) though still above its 200-day of 2784.06, with RSI(14) at 37.09; 1H structure is choppy (last swings: an LL at 2843.00 and an HH at 2874.10, both on 25 September).</span></span><span class="vote-mark provisional miss" title="provisional - graded on an intraday print; final after the session closes">wrong so far</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Relative strength vs large caps · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">Small caps carried a 20.2% year-to-date gain as of 4 September, but the 16 September Fed hike was flagged by CME Group commentary as a &#x27;massive headwind for small-cap earnings&#x27; given floating-rate debt exposure - a structural relative-strength risk still working through as of 25 September.</span></span><span class="vote-mark provisional miss" title="provisional - graded on an intraday print; final after the session closes">wrong so far</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Volatility regime · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">RVX (Russell 2000 volatility) is carried at 19.97 from its 23 September YCharts close, 2 sessions stale by 25 September with no fresher print obtainable; used for the sigma/band calculation but not scored as a fresh volRegime signal.</span></span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Credit and funding · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">High-yield OAS (280bp, 25 September) is a broad-market read, not small-cap-specific; no dated small-cap or leveraged-loan funding-cost figure was obtainable this run, so voted neu on the funding-cost angle specifically.</span></span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Rates · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">The 10-year closed near 5.19% (highest since 2007) on 25 September, and small caps carry the strongest 10-year correlation of any asset in the driver table (-0.72 over the 21-session window) - a specific, well-documented headwind.</span></span><span class="vote-mark provisional miss" title="provisional - graded on an intraday print; final after the session closes">wrong so far</span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Fed path · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">CME FedWatch puts October hike odds at roughly 71-76% as of 25 September; small caps are more rate-sensitive than large caps via floating-rate debt, making a hawkish Fed path a more direct earnings risk for IWM specifically.</span></span><span class="vote-mark provisional miss" title="provisional - graded on an intraday print; final after the session closes">wrong so far</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Sentiment, contrarian · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">No small-cap-specific sentiment survey (as distinct from AAII&#x27;s broad-market read) dated to 25 September was obtainable this run; voted neu.</span></span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Positioning and flows · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">No source-documented positioning or sentiment extreme for small caps dated to 25 September was found; voted neu rather than infer one from the year-to-date rotation narrative.</span></span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Earnings catalysts · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">No small-cap-index-moving earnings report was identified for 25 September specifically.</span></span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Macro calendar · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">Final September UMich sentiment fell to a four-month low (48.1) on 25 September - domestically-focused small caps are typically more sensitive to a weakening consumer read than globally-diversified large caps.</span></span><span class="vote-mark provisional miss" title="provisional - graded on an intraday print; final after the session closes">wrong so far</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Seasonality · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">No single-day small-cap-specific seasonal signal was identified for 25 September.</span></span></li><li class="vote" style="--dot:#d03b3b"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Cross-asset · <span title="written Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">IWM&#x27;s -0.72 correlation to the 10-year is the strongest of any asset in the 21-session driver table, and the 10-year closed at a 19-year high on 25 September - the single most mechanically direct cross-asset headwind identified for any asset today.</span></span><span class="vote-mark provisional miss" title="provisional - graded on an intraday print; final after the session closes">wrong so far</span></li><li class="vote" style="--dot:#898781"><span class="dot" aria-hidden="true"></span><span class="vote-body"><span class="vote-meta">Market structure (HH/HL) · <span title="computed Sat Sep 26, 2:48 PM ET">Sep 26 2:48pm</span></span><span class="vote-text">1H structure is choppy - no consistent run of higher or lower swings.</span></span></li></ul>
       </details>
     </div>
     <div class="horizon">
@@ -731,7 +735,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>4 bull / 7 bear / 4 neu · margin 3</span>
         <span>flat zone 2,819.08–2,899.52</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span>Weekly: ▲ uptrend</span><span class="struct-badge" style="--dot:#0ca30c" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ▲ uptrend</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span>Weekly: ▲ uptrend</span><span class="struct-badge" style="--dot:#0ca30c" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ▲ uptrend</span></div>
       <p class="reversion muted">Stretch score -1 (neutral): the cell is flat, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -748,7 +752,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>4 bull / 3 bear / 8 neu · margin 1</span>
         <span>flat zone 2,802.43–2,916.17</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span>Weekly: ▲ uptrend</span><span class="struct-badge" style="--dot:#0ca30c" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ▲ uptrend</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#0ca30c"><span class="dot" aria-hidden="true"></span>Weekly: ▲ uptrend</span><span class="struct-badge" style="--dot:#0ca30c" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ▲ uptrend</span></div>
       <p class="reversion muted">Stretch score -1 (neutral): the cell is flat, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -777,7 +781,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         </div>
       </header>
       <p class="driver-note">The Nasdaq-100&#x27;s dominant drivers are the 10-year (corr -0.633) and oil (-0.597), both crossing the threshold, with the 2-year a weaker 0.241; the oil linkage is the strongest of any asset in the table after equities&#x27; own -0.533, tying the AI-capex-heavy index to energy costs as much as to the rate path itself this window.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
-      <p class="latest-read"><span class="latest-label">Latest read</span>NQ=F at 30,375.50, above its 50-day average of 29,428.45 and above its 200-day of 27,495.29, with RSI(14) at 57.38. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is choppy - no consistent run of higher or lower swings.<span class="note-stamp">computed Mon Sep 28, 10:57 AM ET · through the latest bar · unscored, not the call basis</span></p>
+      <p class="latest-read"><span class="latest-label">Latest read</span>NQ=F at 30,613.75, above its 50-day average of 29,433.21 and above its 200-day of 27,496.49, with RSI(14) at 61.22. 1H structure is choppy - no consistent run of higher or lower swings. Weekly structure is choppy - no consistent run of higher or lower swings.<span class="note-stamp">computed Mon Sep 28, 12:31 PM ET · through the latest bar · unscored, not the call basis</span></p>
       <details class="stretch-drivers"><summary>why this stretch score</summary><ul class="drivers"><li>Close of 30889.25 is 3.86 daily-sigma above the 50-day average of 29396.40.</li><li>Close of 30889.25 is 9.46 daily-sigma above the 200-day average of 27471.92, past the +6 threshold.</li><li>Close of 30889.25 is within 2% of the 52-week high of 31028.5.</li></ul><span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></details>
       
       <details class="catalysts" open>
@@ -800,7 +804,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>6 bull / 3 bear / 6 neu · margin 3</span>
         <span>flat zone 30,686.22–31,092.28</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>1H: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now 1H: ↔ choppy</span></div>
       <p class="reversion muted">Stretch score 3 (extreme-up): the cell is flat, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -817,7 +821,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>2 bull / 6 bear / 7 neu · margin 4</span>
         <span>flat zone 30,435.21–31,343.29</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
       <p class="reversion muted">Stretch score 3 (extreme-up): the bearish call points against the stretch, so the overlay left it untouched rather than rewarding the vote model twice.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -834,7 +838,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
         <span>3 bull / 2 bear / 10 neu · margin 1</span>
         <span>flat zone 30,247.16–31,531.34</span>
       </div>
-      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 10:57 AM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
+      <div class="struct-row"><span class="struct-badge" style="--dot:#898781"><span class="dot" aria-hidden="true"></span>Weekly: ↔ choppy</span><span class="struct-badge" style="--dot:#898781" title="latest read as of Mon Sep 28, 12:31 PM ET - unscored, not the call basis"><span class="dot" aria-hidden="true"></span>now Weekly: ↔ choppy</span></div>
       <p class="reversion muted">Stretch score 3 (extreme-up): the cell is no-call, not a directional continuation bet, so the overlay took no action.<span class="note-stamp" title="2026-09-26T18:48:44Z">written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></p>
       <details class="votes">
         <summary>13 votes <span class="votes-when">· written Sat Sep 26, 2:48 PM ET · data through Fri Sep 25 close</span></summary>
@@ -886,8 +890,8 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="log-conf">flat-solid</span></td>
       <td class="log-matures">2026-09-28</td>
       <td class="log-price">7,803.75</td>
-      <td class="log-price">7,731.75</td>
-      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span><span class="log-conf">-0.92%</span></td>
+      <td class="log-price">7,764.75</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span><span class="log-conf">-0.50%</span></td>
       <td><span class="log-wrong">✗ incorrect</span><span class="log-prov" title="graded on an intraday print - final after the maturity session closes; not in the track record">so far</span></td>
       <td><span class="log-wrong">✗ incorrect</span><span class="log-prov" title="graded on an intraday print - final after the maturity session closes; not in the track record">so far</span></td>
     </tr><tr>
@@ -922,8 +926,8 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="log-conf">solid</span></td>
       <td class="log-matures">2026-09-28</td>
       <td class="log-price">104.86</td>
-      <td class="log-price">104.38</td>
-      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span><span class="log-conf">-0.46%</span></td>
+      <td class="log-price">104.45</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span><span class="log-conf">-0.39%</span></td>
       <td><span class="log-wrong">✗ incorrect</span><span class="log-prov" title="graded on an intraday print - final after the maturity session closes; not in the track record">so far</span></td>
       <td><span class="log-nocall">– no call</span><span class="log-prov" title="graded on an intraday print - final after the maturity session closes; not in the track record">so far</span></td>
     </tr><tr>
@@ -958,8 +962,8 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="log-conf">thin-evidence</span></td>
       <td class="log-matures">2026-09-28</td>
       <td class="log-price">4,321.20</td>
-      <td class="log-price">4,151.20</td>
-      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span><span class="log-conf">-3.93%</span></td>
+      <td class="log-price">4,164.80</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span><span class="log-conf">-3.62%</span></td>
       <td><span class="log-noscore">not scored</span></td>
       <td><span class="log-noscore">not scored</span></td>
     </tr><tr>
@@ -994,8 +998,8 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="log-conf">lean</span></td>
       <td class="log-matures">2026-09-28</td>
       <td class="log-price">100.97</td>
-      <td class="log-price">101.28</td>
-      <td><span class="log-call"><span class="dot" style="--dot:#0ca30c"></span>▲ bullish</span><span class="log-conf">+0.30%</span></td>
+      <td class="log-price">101.14</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#0ca30c"></span>▲ bullish</span><span class="log-conf">+0.17%</span></td>
       <td><span class="log-correct">✓ correct</span><span class="log-prov" title="graded on an intraday print - final after the maturity session closes; not in the track record">so far</span></td>
       <td><span class="log-correct">✓ correct</span><span class="log-prov" title="graded on an intraday print - final after the maturity session closes; not in the track record">so far</span></td>
     </tr><tr>
@@ -1030,8 +1034,8 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="log-conf">thin-evidence</span></td>
       <td class="log-matures">2026-09-28</td>
       <td class="log-price">2,859.30</td>
-      <td class="log-price">2,834.30</td>
-      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span><span class="log-conf">-0.87%</span></td>
+      <td class="log-price">2,841.50</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#898781"></span>▬ flat</span><span class="log-conf">-0.62%</span></td>
       <td><span class="log-noscore">not scored</span></td>
       <td><span class="log-noscore">not scored</span></td>
     </tr><tr>
@@ -1066,8 +1070,8 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
           <span class="log-conf">flat-lean</span></td>
       <td class="log-matures">2026-09-28</td>
       <td class="log-price">30,889.25</td>
-      <td class="log-price">30,378.25</td>
-      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span><span class="log-conf">-1.65%</span></td>
+      <td class="log-price">30,612.50</td>
+      <td><span class="log-call"><span class="dot" style="--dot:#d03b3b"></span>▼ bearish</span><span class="log-conf">-0.90%</span></td>
       <td><span class="log-wrong">✗ incorrect</span><span class="log-prov" title="graded on an intraday print - final after the maturity session closes; not in the track record">so far</span></td>
       <td><span class="log-wrong">✗ incorrect</span><span class="log-prov" title="graded on an intraday print - final after the maturity session closes; not in the track record">so far</span></td>
     </tr><tr>
