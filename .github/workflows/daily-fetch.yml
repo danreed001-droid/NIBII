@@ -41,6 +41,14 @@ on:
     # 3:37pm ET
     - cron: '37 19 * * 1-5'   # EDT
     - cron: '37 20 * * 1-5'   # EST
+    # Hourly refresh at :07 past (just after each hourly candle closes) so
+    # the price-strip charts, live prices, Latest read and provisional 1D
+    # grades never go more than an hour stale while futures trade: every
+    # hour Monday-Friday UTC, plus Sunday evening from the 6pm ET reopen.
+    # A full run (settle included), so the first one after 5pm ET also
+    # finalizes that day's provisional grades.
+    - cron: '7 * * * 1-5'
+    - cron: '7 22,23 * * 0'
   # Follow-up run after a daily-cycle Routine publishes: the Routine pushes
   # its drafted votes/document to main, and this re-runs 10 minutes later
   # (see the wait step) to settle, refresh live prices and re-render the
