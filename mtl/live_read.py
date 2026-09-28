@@ -12,10 +12,10 @@ Pure - takes bars, returns a dict - so it's testable without Yahoo; the
 fetching lives in scripts/fetch_live.py.
 """
 from mtl.fetch import rsi14, sma
-
-CHART_CANDLES = 200  # hourly candles kept for the report page's chart
 from mtl.structure import (HOURLY_SWING_N, STRUCTURE_LOOKBACK, WEEKLY_SWING_N,
                            structure_signal, vote_from_signal, weekly_from_daily)
+
+CHART_CANDLES = 200  # hourly candles kept for the report page's chart
 
 
 def _compact(sig):
