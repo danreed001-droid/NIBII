@@ -414,12 +414,12 @@
        null
       ]
      ],
-     "maturityClose": 7764.0,
-     "ret": -0.005094,
+     "maturityClose": 7731.75,
+     "ret": -0.009226,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
-     "settlementNote": "graded against ES=F - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "settlementNote": "graded against ES=F",
      "provisional": true
     },
     {
@@ -2566,12 +2566,12 @@
        null
       ]
      ],
-     "maturityClose": 104.609375,
-     "ret": -0.002384,
+     "maturityClose": 104.375,
+     "ret": -0.004619,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
-     "settlementNote": "graded against ZN=F - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "settlementNote": "graded against ZN=F",
      "provisional": true
     },
     {
@@ -5337,12 +5337,12 @@
        null
       ]
      ],
-     "maturityClose": 4178.2998046875,
-     "ret": -0.03307,
+     "maturityClose": 4151.2001953125,
+     "ret": -0.039341,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "settlementNote": "graded against GC=F",
      "provisional": true
     },
     {
@@ -7413,12 +7413,12 @@
        null
       ]
      ],
-     "maturityClose": 101.19100189208984,
-     "ret": 0.002189,
+     "maturityClose": 101.2750015258789,
+     "ret": 0.003021,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded against DX-Y.NYB - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "settlementNote": "graded against DX-Y.NYB",
      "provisional": true
     },
     {
@@ -9667,12 +9667,12 @@
        null
       ]
      ],
-     "maturityClose": 2839.39990234375,
-     "ret": -0.00696,
+     "maturityClose": 2834.300048828125,
+     "ret": -0.008743,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "settlementNote": "graded against RTY=F",
      "provisional": true
     },
     {
@@ -11726,12 +11726,12 @@
        null
       ]
      ],
-     "maturityClose": 30643.0,
-     "ret": -0.007972,
+     "maturityClose": 30378.25,
+     "ret": -0.016543,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
-     "settlementNote": "graded against NQ=F - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "settlementNote": "graded against NQ=F",
      "provisional": true
     },
     {
