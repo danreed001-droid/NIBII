@@ -33,11 +33,8 @@ from mtl.fetch import (TICKERS, SIGMA_TICKER, YIELDS, closes_through,
                         gold_close_through, yield_through,
                         stretch_inputs_from_history, ohlc_through)
 from mtl.structure import CATEGORY_NAME as STRUCTURE_CATEGORY_NAME
-from mtl.structure import structure_signal, vote_from_signal, weekly_from_daily
-
-HOURLY_SWING_N = 3    # bars each side, for the 1D horizon's intraday read
-WEEKLY_SWING_N = 2    # bars each side, for the 5D/10D horizons' weekly read
-STRUCTURE_LOOKBACK = 4  # most recent labeled swings considered for the trend call
+from mtl.structure import (HOURLY_SWING_N, STRUCTURE_LOOKBACK, WEEKLY_SWING_N,
+                           structure_signal, vote_from_signal, weekly_from_daily)
 
 TODO = "TODO: fill in before publish"
 JUDGMENT_CATEGORY_COUNT = 12  # categories 1-12: named and voted by the model

@@ -19,6 +19,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.documents import iter_document_paths
 from mtl.record import aggregate
 from mtl.calendar_nyse import most_recent_completed_session
+from mtl.live_read import latest_note
 from mtl.structure import CATEGORY_NAME as STRUCTURE_CATEGORY
 from mtl.score import live_tilt, outcome, real_result
 
@@ -105,22 +106,50 @@ STRUCTURE_TONE = {
 STRUCTURE_ARROW = {'uptrend': '▲', 'downtrend': '▼', 'choppy': '↔'}
 
 
-def structure_badge(sig, timeframe_label):
+def structure_badge(sig, timeframe_label, prefix='', title=''):
     """sig is a mtl.structure.structure_signal() dict, or None if this
-    document predates the structure field (older published documents)."""
+    document predates the structure field (older published documents).
+    prefix/title label the latest-read variant ('now') apart from the
+    board's own read."""
     if not sig or sig.get('state') is None:
         note = (sig or {}).get('note') or 'not enough bars yet'
         return (f'<span class="struct-badge muted" title="{E(note)}">'
-                f'{E(timeframe_label)} structure: n/a</span>')
+                f'{E(prefix)}{E(timeframe_label)} structure: n/a</span>')
     hexval = STRUCTURE_TONE.get(sig['state'], '#898781')
     arrow = STRUCTURE_ARROW.get(sig['state'], '↔')
     brk = ' · break' if sig.get('lastBreak') else ''
-    return (f'<span class="struct-badge" style="--dot:{hexval}">'
+    title_attr = f' title="{E(title)}"' if title else ''
+    return (f'<span class="struct-badge" style="--dot:{hexval}"{title_attr}>'
             f'<span class="dot" aria-hidden="true"></span>'
-            f'{E(timeframe_label)}: {arrow} {E(sig["state"])}{brk}</span>')
+            f'{E(prefix)}{E(timeframe_label)}: {arrow} {E(sig["state"])}{brk}</span>')
 
 
-def horizon_block(a, h, stamp=None):
+def live_read_for(key, live):
+    """This asset's latest read from live.json, or None (no snapshot, an
+    older live.json without reads, or that asset's read failed)."""
+    return ((live or {}).get('reads') or {}).get(key)
+
+
+def live_stamp(live):
+    dt = _parse_utc((live or {}).get('fetchedAt'))
+    return fmt_et(dt) if dt else None
+
+
+def latest_read_html(a, live):
+    """The asset's trend numbers recomputed through the latest bar on every
+    refresh run - next to, never replacing, the board's frozen notes."""
+    read = live_read_for(a['key'], live)
+    note = latest_note(read)
+    if not note:
+        return ''
+    when = live_stamp(live)
+    when_html = (f'<span class="note-stamp">computed {E(when)} · through the latest bar'
+                 f' · unscored, not the call basis</span>') if when else ''
+    return (f'<p class="latest-read"><span class="latest-label">Latest read</span>'
+            f'{E(note)}{when_html}</p>')
+
+
+def horizon_block(a, h, stamp=None, live=None):
     cats = a.get('categories') or []
     votes_html = "".join(
         vote_row(v, cats[i] if i < len(cats) else None, stamp,
@@ -138,10 +167,14 @@ def horizon_block(a, h, stamp=None):
                       f' · data through {E(stamp["basis"])} close</span>')
 
     structure = a.get('structure') or {}
-    if h['h'] == 1:
-        struct_html = structure_badge(structure.get('hourly'), '1H')
-    else:
-        struct_html = structure_badge(structure.get('weekly'), 'Weekly')
+    field, tf = ('hourly', '1H') if h['h'] == 1 else ('weekly', 'Weekly')
+    struct_html = structure_badge(structure.get(field), tf)
+    read = live_read_for(a['key'], live)
+    if read:
+        when = live_stamp(live)
+        struct_html += structure_badge(
+            read.get(field), tf, prefix='now ',
+            title=f'latest read{" as of " + when if when else ""} - unscored, not the call basis')
 
     return f'''
     <div class="horizon">
@@ -204,9 +237,9 @@ def stretch_gauge(score, label):
         </div>'''
 
 
-def asset_card(a, catalysts, stamp=None):
+def asset_card(a, catalysts, stamp=None, live=None):
     st = a['stretch']
-    horizons_html = "".join(horizon_block(a, h, stamp) for h in a['horizons'])
+    horizons_html = "".join(horizon_block(a, h, stamp, live) for h in a['horizons'])
     drivers_html = "".join(f'<li>{E(d)}</li>' for d in st.get('drivers', []))
     drivers_block = (f'<ul class="drivers">{drivers_html}</ul>{note_stamp(stamp)}'
                      if drivers_html else '')
@@ -231,6 +264,7 @@ def asset_card(a, catalysts, stamp=None):
         {stretch_gauge(st['score'], st['label'])}
       </header>
       <p class="driver-note">{E(a['driverNote'])}{note_stamp(stamp)}</p>
+      {latest_read_html(a, live)}
       {f'<details class="stretch-drivers"><summary>why this stretch score</summary>{drivers_block}</details>' if drivers_block else ''}
       {catalysts_block}
       <div class="horizons">{horizons_html}</div>
@@ -507,7 +541,9 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 .chip-arrow {{ color: var(--dot); font-size: 0.7rem; }}
 .chip-label {{ text-transform: capitalize; font-weight: 600; }}
 .chip-conf {{ color: var(--muted); font-size: 0.78rem; }}
-.struct-row {{ margin-top: 8px; }}
+.struct-row {{ margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }}
+.latest-read {{ color: var(--ink-2); font-size: 0.88rem; margin: 10px 0 0; padding: 8px 10px; border-left: 3px solid var(--muted); background: color-mix(in srgb, var(--muted) 8%, transparent); border-radius: 4px; }}
+.latest-label {{ font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.04em; margin-right: 8px; }}
 .struct-badge {{
   display: inline-flex; align-items: center; gap: 5px; font-size: 0.74rem;
   color: var(--dot); font-weight: 600; text-transform: capitalize;
@@ -989,7 +1025,7 @@ def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dic
     news_log = doc.get('context', {}).get('newsLog', [])
     stamp = board_stamp(doc)
     assets_html = "".join(
-        asset_card(a, matching_catalysts(a['key'], news_log, doc['date']), stamp)
+        asset_card(a, matching_catalysts(a['key'], news_log, doc['date']), stamp, live)
         for a in doc['assets']
     )
     docs = all_docs or {doc['date']: doc}

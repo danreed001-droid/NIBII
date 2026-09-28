@@ -21,6 +21,12 @@ from datetime import date
 
 MIN_BARS_NOTE = "too few bars for a swing read at this n"
 
+# Shared by prepare_daily.py (the board's read, through S) and live_read.py
+# (the latest read, through now) so the two can never disagree on method.
+HOURLY_SWING_N = 3    # bars each side, for the 1D horizon's intraday read
+WEEKLY_SWING_N = 2    # bars each side, for the 5D/10D horizons' weekly read
+STRUCTURE_LOOKBACK = 4  # most recent labeled swings considered for the trend call
+
 
 def find_swings(bars, n=3):
     """bars: [(ts, o, h, l, c), ...] oldest first, requires at least 2n+1.
