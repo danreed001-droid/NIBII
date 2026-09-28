@@ -1318,5 +1318,85 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-09-28-1-iran-hormuz-plan-rejected-oil-surges",
+    "data": {
+      "addedAt": "2026-09-28",
+      "category": "Geopolitics",
+      "date": "2026-09-28",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Trump rejects Iran's proposal to reopen the Strait of Hormuz; crude surges and equity futures come under pressure",
+      "impact": "High",
+      "numbers": "WTI ~$95.20 (+3%); Brent ~$107.11 (+2.7%)",
+      "order": 1,
+      "reaction": "Crude jumps on renewed Mideast supply risk after Trump told aides he expects strikes on Iran to resume post-midterms; Dow/S&P/Nasdaq futures slip, risk-off tone into the open",
+      "region": "US/Middle East",
+      "source": "https://www.cnbc.com/2026/09/28/oil-price-today-wti-brent-trump-iran.html",
+      "tickers": "SPY, USO, XLE",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-28-2-treasury-10y-yield-climbs-to-5-21pct",
+    "data": {
+      "addedAt": "2026-09-28",
+      "category": "Rates",
+      "date": "2026-09-28",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "10-year Treasury yield climbs to ~5.21%, a fresh multi-week high",
+      "impact": "Medium",
+      "numbers": "US 10Y yield 5.21% (+5bps d/d)",
+      "order": 2,
+      "reaction": "Rising yields compound pressure on equity futures alongside the Mideast oil-supply scare",
+      "region": "US",
+      "source": "https://tradingeconomics.com/united-states/government-bond-yield",
+      "tickers": "TLT",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-28-3-nvidia-boosts-buyback-by-150b-to-235b",
+    "data": {
+      "addedAt": "2026-09-28",
+      "category": "Deals",
+      "date": "2026-09-28",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Nvidia board approves $150B increase to its stock buyback authorization, taking the total to $235B - the largest repurchase authorization increase in history",
+      "impact": "Medium",
+      "numbers": "+$150B increase; total buyback authorization $235B; NVDA +1% pre-market",
+      "order": 3,
+      "reaction": "Jensen Huang frames it as confidence in long-term AI/accelerated-computing growth; capital-return signal for the AI-capex complex",
+      "region": "US",
+      "source": "https://www.cnbc.com/2026/09/28/nvidia-share-buyback-plan-gets-150-billion-boost.html",
+      "tickers": "NVDA, QQQ, SMH",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-28-4-stocks-open-lower-iran-yields-weigh",
+    "data": {
+      "addedAt": "2026-09-28",
+      "category": "Market",
+      "date": "2026-09-28",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Stocks open lower as US-Iran tensions resurface and Treasury yields jump to start a data-packed week",
+      "impact": "High",
+      "numbers": "Dow -0.7%; S&P 500 -0.5%; Nasdaq Composite -0.5%; WTI ~$94.40 (+2%); Brent ~$106.79 (+2%); 10Y >5.2%; 30Y >5.5%",
+      "order": 4,
+      "reaction": "Confirms the pre-market Hormuz/yield-driven risk-off tone carried through the open",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-september-28-dow-sp-500-nasdaq-080420627.html",
+      "tickers": "SPY, DIA, QQQ, TLT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
