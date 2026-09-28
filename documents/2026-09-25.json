@@ -419,7 +419,8 @@
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
-     "settlementNote": "graded against ES=F"
+     "settlementNote": "graded against ES=F - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "provisional": true
     },
     {
      "h": 5,
@@ -2570,7 +2571,8 @@
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
-     "settlementNote": "graded against ZN=F"
+     "settlementNote": "graded against ZN=F - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "provisional": true
     },
     {
      "h": 5,
@@ -5340,7 +5342,8 @@
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F"
+     "settlementNote": "graded against GC=F - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "provisional": true
     },
     {
      "h": 5,
@@ -7415,7 +7418,8 @@
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded against DX-Y.NYB"
+     "settlementNote": "graded against DX-Y.NYB - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "provisional": true
     },
     {
      "h": 5,
@@ -9668,7 +9672,8 @@
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F"
+     "settlementNote": "graded against RTY=F - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "provisional": true
     },
     {
      "h": 5,
@@ -11726,7 +11731,8 @@
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
-     "settlementNote": "graded against NQ=F"
+     "settlementNote": "graded against NQ=F - graded at 9:50 AM ET on 2026-09-28, before that session closed; provisional until it does",
+     "provisional": true
     },
     {
      "h": 5,

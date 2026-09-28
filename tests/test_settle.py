@@ -3,8 +3,13 @@ import copy
 import json
 import os
 
+from datetime import datetime
+
 from mtl.verify import verify_document
-from scripts.settle import settle_document
+from scripts.settle import ET, settle_document
+
+# After every golden maturity (latest 2026-10-08) has closed, so grades are final.
+AFTER_ALL = datetime(2026, 10, 9, 9, 0, tzinfo=ET)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUB = json.load(open(os.path.join(ROOT, 'golden/2026-09-24.published.json')))
@@ -37,7 +42,7 @@ def fake_close_fn(ticker, date):
 
 def test_settle_marks_every_horizon_and_stays_verifiable():
     doc = copy.deepcopy(PUB)
-    changed, before = settle_document(doc, close_fn=fake_close_fn)
+    changed, before = settle_document(doc, close_fn=fake_close_fn, now=AFTER_ALL)
     assert changed
     for a in doc['assets']:
         for h in a['horizons']:
@@ -59,7 +64,7 @@ def test_settle_is_a_noop_when_nothing_has_matured():
 def test_settle_never_touches_vote_side_or_reason():
     doc = copy.deepcopy(PUB)
     before_votes = [[list(v[:2]) for v in h['votes']] for a in doc['assets'] for h in a['horizons']]
-    settle_document(doc, close_fn=fake_close_fn)
+    settle_document(doc, close_fn=fake_close_fn, now=AFTER_ALL)
     after_votes = [[list(v[:2]) for v in h['votes']] for a in doc['assets'] for h in a['horizons']]
     assert before_votes == after_votes
 
@@ -71,17 +76,59 @@ def test_settles_each_document_against_its_own_instrument():
     def spy(ticker, date):
         seen.append(ticker)
         return fake_close_fn(ticker, date)
-    settle_document(copy.deepcopy(PUB), close_fn=spy)
+    settle_document(copy.deepcopy(PUB), close_fn=spy, now=AFTER_ALL)
     assert {'^GSPC', 'TLT', 'IWM', 'QQQ', 'DX-Y.NYB'} <= set(seen)
     assert not {'ES=F', 'ZN=F', 'RTY=F', 'NQ=F'} & set(seen)
 
 
 def test_gold_without_a_spot_source_is_graded_on_the_futures_return():
     doc = copy.deepcopy(PUB)
-    settle_document(doc, close_fn=fake_close_fn)
+    settle_document(doc, close_fn=fake_close_fn, now=AFTER_ALL)
     gold = next(a for a in doc['assets'] if a['key'] == 'gold')
     h = gold['horizons'][0]
     # 4300 -> 4300 on GC=F is a 0% move, whatever the spot close was
     assert h['ret'] == 0.0
     assert 'GC=F' in h['settlementNote']
     assert verify_document(doc) == []
+
+
+# --- provisional grades: a maturity session still trading is graded, but
+# re-graded every run until it closes, and never counted until then.
+
+def test_intraday_grade_is_provisional_and_regraded_until_the_close():
+    from mtl.record import settled_cells
+    doc = copy.deepcopy(PUB)
+    morning = datetime(2026, 9, 25, 9, 50, tzinfo=ET)
+    changed, _ = settle_document(doc, close_fn=fake_close_fn, now=morning)
+    assert changed
+    one_d = [h for a in doc['assets'] for h in a['horizons'] if h['h'] == 1]
+    assert all(h['provisional'] and h['maturityClose'] is not None for h in one_d)
+    assert doc['scored'] is False
+    assert settled_cells({doc['date']: doc}) == []  # nothing provisional is counted
+    assert verify_document(doc) == []
+
+    # later print moves: the provisional grade is replaced, marks recomputed
+    moved = lambda t, d: (fake_close_fn(t, d) * 1.05) if fake_close_fn(t, d) else None
+    settle_document(doc, close_fn=moved, now=datetime(2026, 9, 25, 15, 0, tzinfo=ET))
+    eq = doc['assets'][0]['horizons'][0]
+    assert eq['provisional'] and eq['maturityClose'] == fake_close_fn('^GSPC', '2026-09-25') * 1.05
+    assert all(len(v) == 3 for v in eq['votes'])  # re-marked, not double-marked
+    assert verify_document(doc) == []
+
+    # after 5pm ET on the maturity date the grade is final and counted
+    settle_document(doc, close_fn=fake_close_fn, now=datetime(2026, 9, 25, 17, 5, tzinfo=ET))
+    assert not any(h.get('provisional') for h in one_d)
+    assert len(settled_cells({doc['date']: doc})) == len(one_d)
+    assert verify_document(doc) == []
+
+    # a final grade is never touched again
+    changed, _ = settle_document(doc, close_fn=moved, now=AFTER_ALL)
+    assert eq['maturityClose'] == fake_close_fn('^GSPC', '2026-09-25')
+
+
+def test_rerun_with_the_same_print_is_not_a_change():
+    doc = copy.deepcopy(PUB)
+    noon = datetime(2026, 9, 25, 12, 0, tzinfo=ET)
+    settle_document(doc, close_fn=fake_close_fn, now=noon)
+    changed, _ = settle_document(doc, close_fn=fake_close_fn, now=noon)
+    assert not changed

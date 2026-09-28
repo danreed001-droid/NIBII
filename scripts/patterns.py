@@ -57,7 +57,7 @@ def load_settled_horizons(documents_dir):
         doc = json.load(open(path))
         for a in doc['assets']:
             for h in a['horizons']:
-                if h.get('maturityClose') is None:
+                if h.get('maturityClose') is None or h.get('provisional'):
                     continue
                 ret = h['ret']
                 outcome = 'bullish' if ret > h['band'] else ('bearish' if ret < -h['band'] else 'flat')

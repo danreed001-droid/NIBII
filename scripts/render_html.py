@@ -80,15 +80,20 @@ def note_stamp(stamp):
             f'written {E(stamp["written"])} · data through {E(stamp["basis"])} close</span>')
 
 
-def vote_row(v, category=None, stamp=None, mechanical=False):
+def vote_row(v, category=None, stamp=None, mechanical=False, provisional=False):
     side = v[0]
     reason = v[1]
     mark = v[2] if len(v) > 2 else None
     role, hexval = VOTE_MARK.get(side, ('flat', '#898787'))
     mark_html = ''
     if mark is not None:
-        mark_html = (f'<span class="vote-mark {"hit" if mark else "miss"}">'
-                     f'{"correct" if mark else "wrong"}</span>')
+        word = "correct" if mark else "wrong"
+        if provisional:
+            mark_html = (f'<span class="vote-mark provisional {"hit" if mark else "miss"}" '
+                         f'title="provisional - graded on an intraday print; final after the session closes">'
+                         f'{word} so far</span>')
+        else:
+            mark_html = f'<span class="vote-mark {"hit" if mark else "miss"}">{word}</span>'
     meta = ''
     if category or stamp:
         when = ''
@@ -154,7 +159,8 @@ def horizon_block(a, h, stamp=None, live=None):
     cats = a.get('categories') or []
     votes_html = "".join(
         vote_row(v, cats[i] if i < len(cats) else None, stamp,
-                 mechanical=(i < len(cats) and cats[i] == STRUCTURE_CATEGORY))
+                 mechanical=(i < len(cats) and cats[i] == STRUCTURE_CATEGORY),
+                 provisional=bool(h.get('provisional')))
         for i, v in enumerate(h['votes']))
     reversion = ""
     if h.get('reversionFlag'):
@@ -588,6 +594,8 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 .vote-mark {{ font-size: 0.7rem; white-space: nowrap; padding: 1px 6px; border-radius: 999px; }}
 .vote-mark.hit {{ color: #0ca30c; border: 1px solid #0ca30c; }}
 .vote-mark.miss {{ color: #d03b3b; border: 1px solid #d03b3b; }}
+.vote-mark.provisional {{ border-style: dashed; opacity: 0.8; }}
+.log-prov {{ margin-left: 6px; font-size: 0.7rem; color: var(--muted); border: 1px dashed var(--muted); border-radius: 999px; padding: 0 5px; }}
 .catalysts {{ margin-top: 16px; border-top: 1px solid var(--hairline); padding-top: 12px; }}
 .catalysts summary {{ cursor: pointer; color: var(--accent); font-size: 0.85rem; }}
 .catalysts ul {{ list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }}
@@ -702,7 +710,8 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
   Every call here is reproducible: <code>mtl.build.build_document</code> derives it from
   <code>contracts/inputs.{date}.json</code> and <code>contracts/votes.{date}.json</code>, and
   <code>mtl.verify.verify_document</code> recomputes it independently. Unsettled cells show no
-  correctness mark until their maturity date passes.
+  correctness mark until their maturity date passes; marks tagged "so far" are provisional -
+  graded on an intraday print, final once that session closes, and not in the track record.
 </footer>
 </div>
 
@@ -876,13 +885,18 @@ def track_record_section(all_docs: dict) -> str:
 LOG_MAX_SESSIONS = 14  # cap the rendered log so the page doesn't grow unbounded over months
 
 
-def result_badge(settled, correct):
+PROVISIONAL_TAG = ('<span class="log-prov" title="graded on an intraday print - '
+                   'final after the maturity session closes; not in the track record">so far</span>')
+
+
+def result_badge(settled, correct, provisional=False):
     if not settled:
         return '<span class="log-pending">pending</span>'
     if correct is None:
         return '<span class="log-noscore">not scored</span>'
-    return ('<span class="log-correct">✓ correct</span>' if correct
-            else '<span class="log-wrong">✗ incorrect</span>')
+    badge = ('<span class="log-correct">✓ correct</span>' if correct
+             else '<span class="log-wrong">✗ incorrect</span>')
+    return badge + (PROVISIONAL_TAG if provisional else '')
 
 
 def actual_badge(oc, ret, settled):
@@ -896,17 +910,18 @@ def actual_badge(oc, ret, settled):
             f'<span class="log-conf">{fmt_pct(ret)}</span>')
 
 
-def real_result_badge(settled, call, oc):
+def real_result_badge(settled, call, oc, provisional=False):
     if not settled:
         return '<span class="log-pending">pending</span>'
     rr = real_result(call, oc)
     if rr is None:
         return '<span class="log-noscore">not scored</span>'
+    tag = PROVISIONAL_TAG if provisional else ''
     if rr == 'correct':
-        return '<span class="log-correct">✓ correct</span>'
+        return '<span class="log-correct">✓ correct</span>' + tag
     if rr == 'no-call':
-        return '<span class="log-nocall">– no call</span>'
-    return '<span class="log-wrong">✗ incorrect</span>'
+        return '<span class="log-nocall">– no call</span>' + tag
+    return '<span class="log-wrong">✗ incorrect</span>' + tag
 
 
 def log_row(date, a, h):
@@ -924,8 +939,8 @@ def log_row(date, a, h):
       <td class="log-price">{fmt_price(a['close'])}</td>
       <td class="log-price">{end_price}</td>
       <td>{actual_badge(oc, h.get('ret'), settled)}</td>
-      <td>{result_badge(settled, h.get('correct'))}</td>
-      <td>{real_result_badge(settled, h['call'], oc)}</td>
+      <td>{result_badge(settled, h.get('correct'), bool(h.get('provisional')))}</td>
+      <td>{real_result_badge(settled, h['call'], oc, bool(h.get('provisional')))}</td>
     </tr>'''
 
 

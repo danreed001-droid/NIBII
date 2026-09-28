@@ -1,7 +1,7 @@
 """Record aggregation: hit rate, edge units, and the two experiments."""
 from collections import defaultdict
 
-from .score import real_result
+from .score import is_final, real_result
 
 EDGE = {'strong': 3, 'solid': 2, 'lean': 1, 'flat-solid': 2, 'flat-lean': 1}
 ASSET_ORDER = ("equities", "bonds", "gold", "dollar", "iwm", "qqq")
@@ -13,7 +13,7 @@ def settled_cells(docs: dict) -> list:
         retro = bool((d.get('overlay') or {}).get('appliedRetroactively'))
         for a in d['assets']:
             for h in a['horizons']:
-                if h['maturityClose'] is None:
+                if not is_final(h):  # unsettled, or provisional (session still trading)
                     continue
                 oc = ('bullish' if h['ret'] > h['band']
                       else 'bearish' if h['ret'] < -h['band'] else 'flat')

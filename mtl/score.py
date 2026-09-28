@@ -48,9 +48,33 @@ def real_result(call, oc):
     return 'correct' if call == oc else 'incorrect'
 
 
-def settle_horizon(horizon, basis_close, maturity_close, settlement_note=None):
-    """Settle one horizon in place. Returns the outcome string."""
+def is_final(h):
+    """Settled on a finished session's print. A provisional grade (taken
+    while the maturity session was still trading) is not final: it is
+    re-graded on every run until that session closes, and never counts in
+    the track record."""
+    return h.get('maturityClose') is not None and not h.get('provisional')
+
+
+def clear_settlement(h):
+    """Undo a (provisional) grade so the horizon can be graded again."""
+    h['maturityClose'] = None
+    h['ret'] = None
+    for f in ('correct', 'shadowCorrect', 'preReversionCorrect'):
+        if f in h:
+            h[f] = None
+    h['votes'] = [list(v[:2]) for v in h['votes']]
+    h.pop('provisional', None)
+    h.pop('settlementNote', None)
+
+
+def settle_horizon(horizon, basis_close, maturity_close, settlement_note=None, provisional=False):
+    """Settle one horizon in place. Returns the outcome string.
+    provisional=True: the maturity session hasn't closed yet, so this is a
+    snapshot grade that the next run replaces."""
     h = horizon
+    if h.get('maturityClose') is not None:
+        clear_settlement(h)
     h['maturityClose'] = maturity_close
     ret = round(maturity_close / basis_close - 1, 6)
     h['ret'] = ret
@@ -69,9 +93,10 @@ def settle_horizon(horizon, basis_close, maturity_close, settlement_note=None):
                 v.append(None)
     if settlement_note:
         h['settlementNote'] = settlement_note
+    if provisional:
+        h['provisional'] = True
     return oc
 
 
 def document_fully_settled(doc):
-    return all(h['maturityClose'] is not None
-               for a in doc['assets'] for h in a['horizons'])
+    return all(is_final(h) for a in doc['assets'] for h in a['horizons'])

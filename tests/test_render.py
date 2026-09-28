@@ -13,7 +13,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUB = json.load(open(os.path.join(ROOT, 'golden/2026-09-24.published.json')))
 
 
-from tests.test_settle import fake_close_fn  # noqa: E402  (keyed by ticker)
+from tests.test_settle import AFTER_ALL, fake_close_fn  # noqa: E402  (keyed by ticker)
 
 
 def test_pct_tone_boundaries():
@@ -30,7 +30,7 @@ def test_track_record_empty_when_nothing_settled():
 
 def test_track_record_reports_real_numbers_once_settled():
     doc = copy.deepcopy(PUB)
-    settle_document(doc, close_fn=fake_close_fn)
+    settle_document(doc, close_fn=fake_close_fn, now=AFTER_ALL)
     html = track_record_section({doc['date']: doc})
     assert 'record-pct' in html
     assert 'No calls have matured' not in html
@@ -39,7 +39,7 @@ def test_track_record_reports_real_numbers_once_settled():
 
 def test_render_end_to_end_does_not_crash_with_settled_docs():
     doc = copy.deepcopy(PUB)
-    settle_document(doc, close_fn=fake_close_fn)
+    settle_document(doc, close_fn=fake_close_fn, now=AFTER_ALL)
     out = render(doc, {doc['date']: doc})
     assert '<title>Market Tape Ledger</title>' in out
     assert 'theme-toggle' in out
@@ -56,7 +56,7 @@ def test_call_log_has_one_row_per_horizon_per_asset_before_settlement():
 
 def test_call_log_shows_results_once_settled():
     doc = copy.deepcopy(PUB)
-    settle_document(doc, close_fn=fake_close_fn)
+    settle_document(doc, close_fn=fake_close_fn, now=AFTER_ALL)
     html = call_log_section({doc['date']: doc})
     assert 'log-pending' not in html
     assert ('log-correct' in html) or ('log-wrong' in html)
@@ -234,3 +234,13 @@ def test_every_vote_note_carries_its_category_and_written_time():
     assert html.count('class="vote-meta"') == n_votes
     assert 'Trend structure · <span' in html
     assert 'written Thu Sep 24, 8:30 PM ET · data through Thu Sep 24 close' in html
+
+
+def test_provisional_marks_say_so_far_on_the_page():
+    from datetime import datetime
+    from scripts.settle import ET
+    doc = copy.deepcopy(PUB)
+    settle_document(doc, close_fn=fake_close_fn, now=datetime(2026, 9, 25, 10, 0, tzinfo=ET))
+    html = render(doc, generated_at='2026-09-25T14:00:00Z')
+    assert 'so far</span>' in html and 'vote-mark provisional' in html
+    assert 'No calls have matured' in html  # provisional cells aren't in the track record
