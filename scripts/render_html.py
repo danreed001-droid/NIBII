@@ -504,7 +504,14 @@ def summary_chips(doc):
     return "".join(parts)
 
 
-PAGE = '''<title>Market Tape Ledger</title>
+PAGE = '''<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<!-- GitHub Pages serves this file as-is: without the viewport tag phones lay
+     it out at desktop width (~980px) and shrink it, instead of using the
+     narrow-screen layout the CSS below defines. -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market Tape Ledger</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
@@ -615,7 +622,7 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 /* stat tiles */
 .stats {{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--hairline);
   border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; margin-top: -1px; }}
-@media (max-width: 720px) {{ .stats {{ grid-template-columns: repeat(2, 1fr); }} }}
+@media (max-width: 720px) {{ .stats {{ grid-template-columns: repeat(2, 1fr); }} .stats > :last-child:nth-child(odd) {{ grid-column: 1 / -1; }} }}
 .stat-tile {{ background: var(--surface); padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }}
 .stat-tile.toned {{ border-top: 3px solid var(--tone); }}
 .stat-label {{ font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }}

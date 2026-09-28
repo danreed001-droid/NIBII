@@ -244,3 +244,9 @@ def test_provisional_marks_say_so_far_on_the_page():
     html = render(doc, generated_at='2026-09-25T14:00:00Z')
     assert 'so far</span>' in html and 'vote-mark provisional' in html
     assert 'No calls have matured' in html  # provisional cells aren't in the track record
+
+
+def test_page_declares_a_mobile_viewport():
+    html = render(PUB, generated_at='2026-09-25T14:00:00Z')
+    assert html.startswith('<!doctype html>')
+    assert '<meta name="viewport" content="width=device-width, initial-scale=1">' in html
