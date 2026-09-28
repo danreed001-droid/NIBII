@@ -278,12 +278,13 @@ def _et(ts):
         return None
 
 
-def hourly_chart_html(a, live):
+def hourly_chart_html(a, live, compact=False):
     """The last ~100 hourly candles for this asset's instrument (from the
     refresh run's live.json read), with the board's 1D flat zone shaded so
     the price can be read against the call. Display only - never the call
     basis. The plot is an SVG stretched to the card width; price and time
-    labels are HTML so they stay legible at any width."""
+    labels are HTML so they stay legible at any width. compact=True is the
+    price-strip tile version: no axis gutters, a short caption."""
     read = live_read_for(a['key'], live)
     bars = (read or {}).get('bars') or []
     if len(bars) < 2:
@@ -344,6 +345,19 @@ def hourly_chart_html(a, live):
     tip_rows = [[(_et(b[0]).strftime('%a %b %-d, %-I:%M %p ET') if _et(b[0]) else b[0]),
                  fmt_price(b[1]), fmt_price(b[2]), fmt_price(b[3]), fmt_price(b[4]),
                  fmt_pct(b[4] / b[1] - 1) if b[1] else ''] for b in bars]
+    if compact:
+        zone_c = (f' · shaded: 1D flat zone') if h1 else ''
+        return f"""
+        <figure class="hchart compact" data-bars='{E(json.dumps(tip_rows))}'>
+          <div class="hc-plot">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img"
+                 aria-label="Hourly candles for {E(read['ticker'])}, last {n}, latest {fmt_price(last)}">{''.join(parts)}</svg>
+            <div class="hc-cross" hidden></div>
+            <div class="hc-tip" hidden></div>
+            <span class="hc-last-tag" style="top:{y(last):.2f}%">{fmt_price(last)}</span>
+          </div>
+          <figcaption>1H · last {n} candles{zone_c}</figcaption>
+        </figure>"""
     zone = (f' · shaded: board\'s 1D flat zone {fmt_price(h1["flatLo"])}–{fmt_price(h1["flatHi"])}'
             f' (call: {E(h1["call"])})') if h1 else ''
     when = live_stamp(live)
@@ -390,7 +404,6 @@ def asset_card(a, catalysts, stamp=None, live=None, since=None, board_date=None)
       </header>
       <p class="driver-note">{E(a['driverNote'])}{note_stamp(stamp)}</p>
       {latest_read_html(a, live)}
-      {hourly_chart_html(a, live)}
       {f'<details class="stretch-drivers"><summary>why this stretch score</summary>{drivers_block}</details>' if drivers_block else ''}
       {catalysts_block}
       {since_board_block(since, board_date) if board_date else ''}
@@ -428,6 +441,7 @@ def ticker_strip(doc, live=None):
         {live_price_html(a['key'], live)}
         <div class="tape-horizons">{horizons_html}</div>
         {live_tilt_row_html(a, live)}
+        {hourly_chart_html(a, live, compact=True)}
       </div>''')
     return "".join(items)
 
@@ -591,15 +605,15 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
 
 /* ticker strip */
 .tape {{
-  display: flex; flex-wrap: wrap; gap: 0; margin-top: 20px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr)); gap: 1px;
+  margin-top: 20px; background: rgba(255,255,255,0.12);
   border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; overflow: hidden;
 }}
 .tape-item {{
-  flex: 1 1 150px; display: flex; flex-direction: column; gap: 8px;
-  padding: 10px 14px; border-right: 1px solid rgba(255,255,255,0.12);
+  min-width: 0; display: flex; flex-direction: column; gap: 8px; background: var(--masthead-bg);
+  padding: 10px 14px;
   border-top: 3px solid var(--dot);
 }}
-.tape-item:last-child {{ border-right: none; }}
 .tape-head {{ display: flex; align-items: baseline; gap: 8px; }}
 .tape-ticker {{ font-family: ui-monospace, monospace; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--masthead-ink-2); }}
 .tape-price {{ font-family: ui-monospace, monospace; font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--masthead-ink); }}
@@ -656,6 +670,12 @@ h1 {{ font-size: 2.1rem; font-weight: 600; color: var(--masthead-ink); }}
   white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.18); z-index: 2; }}
 .hc-tip b {{ font-family: inherit; }}
 @media (max-width: 560px) {{ .hc-plot {{ height: 180px; }} }}
+.hchart.compact {{ margin: 2px 0 0; grid-template-columns: 1fr; }}
+.hchart.compact .hc-plot {{ height: 110px; border-color: rgba(255,255,255,0.12); }}
+.hchart.compact figcaption {{ font-size: 0.62rem; color: var(--masthead-ink-2); opacity: 0.8; }}
+.hchart.compact .hc-last-tag {{ font-size: 0.6rem; background: var(--masthead-bg); color: var(--masthead-ink); }}
+.hchart.compact .hc-tip {{ font-size: 0.62rem; padding: 3px 6px; }}
+@media (max-width: 560px) {{ .hchart.compact .hc-plot {{ height: 140px; }} }}
 .asset {{
   background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px;
   padding: 22px; margin-bottom: 18px; box-shadow: 0 1px 2px rgba(11,12,14,0.04), 0 8px 20px -12px rgba(11,12,14,0.12);

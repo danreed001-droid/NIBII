@@ -98,12 +98,16 @@ def test_hourly_chart_renders_candles_and_the_flat_zone():
     live = {'fetchedAt': '2026-09-28T14:00:00Z', 'prices': {},
             'reads': {a['key']: read for a in PUB['assets']}}
     html = render(PUB, generated_at='2026-09-28T14:00:00Z', live=live)
-    assert html.count('class="hchart"') == len(PUB['assets'])
-    assert 'hc-zone' in html and "board's 1D flat zone" in html
+    # one compact chart per price-strip tile, none down in the asset cards
+    assert html.count('class="hchart compact"') == len(PUB['assets'])
+    assert 'class="hchart"' not in html
+    assert 'hc-zone' in html and 'shaded: 1D flat zone' in html
     assert 'last 100 candles' in html
+    strip = html.split('<div class="tape">')[1].split('<div class="stats"')[0]
+    assert strip.count('hchart compact') == len(PUB['assets'])
 
 
 def test_no_chart_without_bars():
     html = render(PUB, generated_at='2026-09-28T14:00:00Z',
                   live={'fetchedAt': '2026-09-28T14:00:00Z', 'prices': {}, 'reads': {}})
-    assert 'class="hchart"' not in html
+    assert 'class="hchart' not in html
