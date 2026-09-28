@@ -102,7 +102,7 @@ def test_hourly_chart_renders_candles_and_the_flat_zone():
     assert html.count('class="hchart compact"') == len(PUB['assets'])
     assert 'class="hchart"' not in html
     assert 'hc-zone' in html and 'shaded: 1D flat zone' in html
-    assert 'last 100 candles' in html
+    assert '100 candles' in html
     strip = html.split('<div class="tape">')[1].split('<div class="stats"')[0]
     assert strip.count('hchart compact') == len(PUB['assets'])
 

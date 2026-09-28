@@ -376,7 +376,7 @@ def hourly_chart_html(a, live, compact=False):
             <div class="hc-cross" hidden></div>
             <div class="hc-tip" hidden></div>
           </div>
-          <figcaption>1H · last {n} candles · last {fmt_price(last)} (dotted){zone_c}</figcaption>
+          <figcaption>1H · {n} candles · last {fmt_price(last)} (dotted){zone_c}</figcaption>
         </figure>"""
     zone = (f' · shaded: board\'s 1D flat zone {fmt_price(h1["flatLo"])}–{fmt_price(h1["flatHi"])}'
             f' (call: {E(h1["call"])})') if h1 else ''

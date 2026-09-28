@@ -15,7 +15,7 @@ from mtl.fetch import rsi14, sma
 from mtl.structure import (HOURLY_SWING_N, STRUCTURE_LOOKBACK, WEEKLY_SWING_N,
                            structure_signal, vote_from_signal, weekly_from_daily)
 
-CHART_CANDLES = 200  # hourly candles kept for the report page's chart
+CHART_CANDLES = 400  # hourly candles kept for the report page's chart
 
 
 def _compact(sig):
