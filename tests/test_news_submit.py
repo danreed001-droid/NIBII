@@ -84,3 +84,17 @@ def test_page_links_to_the_form():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     pub = json.load(open(os.path.join(root, 'golden/2026-09-24.published.json')))
     assert 'issues/new?template=news-event.yml' in render(pub, generated_at='2026-09-28T14:00:00Z')
+
+
+def test_publish_carries_every_logged_entry_for_the_session():
+    from scripts.publish import with_logged_news
+    inputs = {'context': {'newsLog': [{'date': '2026-09-28', 'event': 'researched', 'order': 1}]}}
+    log = [
+        {'id': 'a', 'data': {'date': '2026-09-28', 'event': 'researched', 'order': 1}},
+        {'id': 'b', 'data': {'date': '2026-09-28', 'event': 'hand-entered', 'order': 2,
+                             'origin': 'manual (issue #3)'}},
+        {'id': 'c', 'data': {'date': '2026-09-27', 'event': 'weekend', 'order': 1}},
+    ]
+    assert with_logged_news(inputs, log, '2026-09-28') == 1
+    assert [c['event'] for c in inputs['context']['newsLog']] == ['researched', 'hand-entered']
+    assert with_logged_news(inputs, log, '2026-09-28') == 0  # idempotent

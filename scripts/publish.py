@@ -37,6 +37,23 @@ def find_todos(obj, path="") -> list:
     return found
 
 
+def with_logged_news(inputs: dict, news_log: list, s: str) -> int:
+    """Makes sure the board's context.newsLog - the 'what's been moving
+    this' panel - carries every data/news_log.json entry dated S, including
+    ones submitted by hand through the page's News event form, which never
+    pass through the news database the Routines query. Entries the model
+    already put there are kept as they are; this only appends what's
+    missing (matched on date + event text). Returns how many were added."""
+    ctx = inputs.setdefault('context', {})
+    have = ctx.get('newsLog') or []
+    seen = {(c.get('date'), c.get('event')) for c in have}
+    day = sorted((r.get('data', r) for r in news_log if r.get('data', r).get('date') == s),
+                 key=lambda c: c.get('order') or 0)
+    added = [c for c in day if (c.get('date'), c.get('event')) not in seen]
+    ctx['newsLog'] = have + added
+    return len(added)
+
+
 def main(s: str):
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     inputs_path = os.path.join(root, "contracts", f"inputs.{s}.json")
@@ -58,6 +75,12 @@ def main(s: str):
     if os.path.exists(out_path):
         print(f"{out_path} already exists - not overwriting a published document")
         return 1
+
+    news_path = os.path.join(root, "data", "news_log.json")
+    if os.path.exists(news_path):
+        n = with_logged_news(inputs, json.load(open(news_path)), s)
+        if n:
+            print(f"added {n} news-log entr{'y' if n == 1 else 'ies'} dated {s} to context.newsLog")
 
     # Stamp when the board was actually written, so the report page can show
     # readers how fresh the calls are ("Calls written ..." / per-note stamps).
