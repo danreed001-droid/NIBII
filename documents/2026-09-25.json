@@ -350,62 +350,76 @@
      "votes": [
       [
        "bull",
-       "ES=F closed 7803.75, above its 50-day average of 7660.65 and 200-day of 7232.26, with RSI(14) at 58.97; 1H structure is choppy (last swings: HH 7800.75 at 07:00 ET, HL 7752.75 at 10:00 ET on 25 September), so the read leans on the moving averages rather than a clean intraday trend."
+       "ES=F closed 7803.75, above its 50-day average of 7660.65 and 200-day of 7232.26, with RSI(14) at 58.97; 1H structure is choppy (last swings: HH 7800.75 at 07:00 ET, HL 7752.75 at 10:00 ET on 25 September), so the read leans on the moving averages rather than a clean intraday trend.",
+       false
       ],
       [
        "bear",
-       "The most recent confirmed reading of the share of S&P 500 members above their 50-day average was 27.83% on 18 September (MacroMicro), seven sessions stale with nothing fresher obtainable this run; if it held near that level it would mark a real divergence against the index sitting within 0.4% of its 52-week high."
+       "The most recent confirmed reading of the share of S&P 500 members above their 50-day average was 27.83% on 18 September (MacroMicro), seven sessions stale with nothing fresher obtainable this run; if it held near that level it would mark a real divergence against the index sitting within 0.4% of its 52-week high.",
+       true
       ],
       [
        "bull",
-       "VIX closed 14.87 on 25 September; the most recent confirmed term-structure reading (22 September) had VIX3M at 17.61 against spot 14.21, an IVTS of 0.807 in contango - no near-term stress priced into the front of the curve."
+       "VIX closed 14.87 on 25 September; the most recent confirmed term-structure reading (22 September) had VIX3M at 17.61 against spot 14.21, an IVTS of 0.807 in contango - no near-term stress priced into the front of the curve.",
+       false
       ],
       [
        "bull",
-       "The broad high-yield OAS was 280bp on 25 September, only 7bp wider than 273bp on 23 September, and CCC-and-lower OAS sits at the 100th percentile of its 2023+ history for tightness - credit is not confirming the rates shock."
+       "The broad high-yield OAS was 280bp on 25 September, only 7bp wider than 273bp on 23 September, and CCC-and-lower OAS sits at the 100th percentile of its 2023+ history for tightness - credit is not confirming the rates shock.",
+       false
       ],
       [
        "bear",
-       "The 10-year closed near 5.19% on 25 September, its highest close since 2007, and equities carry a -0.638 correlation to the 10-year over the measured 21-session window; the historical relationship points down even though the index itself closed higher on the day."
+       "The 10-year closed near 5.19% on 25 September, its highest close since 2007, and equities carry a -0.638 correlation to the 10-year over the measured 21-session window; the historical relationship points down even though the index itself closed higher on the day.",
+       true
       ],
       [
        "bear",
-       "Fed Governor Barr said around 23 September that 'further policy adjustments are likely to be needed,' and CME FedWatch puts October 27-28 hike odds at roughly 71-76% as of 25 September - a hawkish Fed still adding pressure, not removing it."
+       "Fed Governor Barr said around 23 September that 'further policy adjustments are likely to be needed,' and CME FedWatch puts October 27-28 hike odds at roughly 71-76% as of 25 September - a hawkish Fed still adding pressure, not removing it.",
+       true
       ],
       [
        "bull",
-       "AAII's 24 September survey (week ending 23 September) showed 32.7% bulls against 48.1% bears, a -15.4 spread, with bearishness above its historical average for a multi-week stretch - contrarian-bullish extended pessimism, unchanged as of 25 September since AAII publishes weekly."
+       "AAII's 24 September survey (week ending 23 September) showed 32.7% bulls against 48.1% bears, a -15.4 spread, with bearishness above its historical average for a multi-week stretch - contrarian-bullish extended pessimism, unchanged as of 25 September since AAII publishes weekly.",
+       false
       ],
       [
        "neu",
-       "The corporate buyback blackout is in effect into Q3 earnings season, and Q3 2026 buyback announcements stood at just 91 through 14 September - on pace for the lowest quarterly count in the dataset's 10-year history - but that is a slow-moving flow fact, not a one-day driver."
+       "The corporate buyback blackout is in effect into Q3 earnings season, and Q3 2026 buyback announcements stood at just 91 through 14 September - on pace for the lowest quarterly count in the dataset's 10-year history - but that is a slow-moving flow fact, not a one-day driver.",
+       null
       ],
       [
        "neu",
-       "No S&P 500 index-moving earnings report lands 25 September itself; the session's single-name moves (Akamai +15.3% premarket on an $11.6bn Anthropic cloud deal, DDOG +7.3%, TWLO -6.2%, ZS -8.6%) are idiosyncratic rather than index-wide."
+       "No S&P 500 index-moving earnings report lands 25 September itself; the session's single-name moves (Akamai +15.3% premarket on an $11.6bn Anthropic cloud deal, DDOG +7.3%, TWLO -6.2%, ZS -8.6%) are idiosyncratic rather than index-wide.",
+       null
       ],
       [
        "bear",
-       "Final September University of Michigan sentiment fell to a four-month low (48.1) on 25 September, with 1-year inflation expectations up to 4.6% (highest since June) on gas prices and tariffs - a soft, stagflation-leaning print, even though equities looked past it on the day."
+       "Final September University of Michigan sentiment fell to a four-month low (48.1) on 25 September, with 1-year inflation expectations up to 4.6% (highest since June) on gas prices and tariffs - a soft, stagflation-leaning print, even though equities looked past it on the day.",
+       true
       ],
       [
        "neu",
-       "25 September itself carries no distinct single-day seasonal signal beyond being inside the historically weak final stretch of September."
+       "25 September itself carries no distinct single-day seasonal signal beyond being inside the historically weak final stretch of September.",
+       null
       ],
       [
        "bear",
-       "Oil eased on 25 September (WTI ~92.7-92.9, -1.8% to -2%) on US-Iran talks and an Iran offer to reopen the Strait of Hormuz within seven days, but equities' own -0.533 correlation to oil over the 21-session window means the prior days' spike is still working through; the 10-year's -0.638 correlation dominance keeps the net cross-asset read cautious."
+       "Oil eased on 25 September (WTI ~92.7-92.9, -1.8% to -2%) on US-Iran talks and an Iran offer to reopen the Strait of Hormuz within seven days, but equities' own -0.533 correlation to oil over the 21-session window means the prior days' spike is still working through; the 10-year's -0.638 correlation dominance keeps the net cross-asset read cautious.",
+       true
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 7764.0,
+     "ret": -0.005094,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2487,62 +2501,76 @@
      "votes": [
       [
        "bear",
-       "ZN=F closed 104.859375, essentially at its 52-week low of 104.8594, below its 50-day of 107.815 and 200-day of 110.34, with RSI(14) at 23.12 (oversold); 1H structure is choppy (last hourly swings: an unlabeled high at 104.9375 at 05:00 ET, an HL at 104.53125 at 10:00 ET on 25 September)."
+       "ZN=F closed 104.859375, essentially at its 52-week low of 104.8594, below its 50-day of 107.815 and 200-day of 110.34, with RSI(14) at 23.12 (oversold); 1H structure is choppy (last hourly swings: an unlabeled high at 104.9375 at 05:00 ET, an HL at 104.53125 at 10:00 ET on 25 September).",
+       false
       ],
       [
        "bear",
-       "The 10-year closed near 5.19% (highest since 2007) and the 30-year near 5.46-5.50% (highest since 2004) on 25 September, while the 2-year sits near 4.81% - a curve that has bear-steepened as the long end leads the selloff."
+       "The 10-year closed near 5.19% (highest since 2007) and the 30-year near 5.46-5.50% (highest since 2004) on 25 September, while the 2-year sits near 4.81% - a curve that has bear-steepened as the long end leads the selloff.",
+       false
       ],
       [
        "bear",
-       "The MOVE index closed 104.58 on 24 September (reported 25 September), up 9.56% on the day and roughly 33% over two sessions - above all 60 prior readings in the tracked window and its highest level since March, closing above 100 for the first time in three months."
+       "The MOVE index closed 104.58 on 24 September (reported 25 September), up 9.56% on the day and roughly 33% over two sessions - above all 60 prior readings in the tracked window and its highest level since March, closing above 100 for the first time in three months.",
+       false
       ],
       [
        "neu",
-       "High-yield OAS (280bp on 25 September, +7bp in two sessions from 273bp) is not confirming the rates stress; credit is a weak, indirect input for the bonds call specifically and does not point a clear direction for Treasury prices."
+       "High-yield OAS (280bp on 25 September, +7bp in two sessions from 273bp) is not confirming the rates stress; credit is a weak, indirect input for the bonds call specifically and does not point a clear direction for Treasury prices.",
+       null
       ],
       [
        "bear",
-       "Between 29 January and 23 September the nominal 10-year yield rose 0.87 percentage points while the 10-year breakeven held at 2.35% both dates, meaning the move is a real-yield rise - a hawkish, price-negative signal for Treasuries still building into 25 September."
+       "Between 29 January and 23 September the nominal 10-year yield rose 0.87 percentage points while the 10-year breakeven held at 2.35% both dates, meaning the move is a real-yield rise - a hawkish, price-negative signal for Treasuries still building into 25 September.",
+       false
       ],
       [
        "bear",
-       "CME FedWatch puts October 27-28 hike odds at roughly 71-76% as of 25 September, and Fed Governor Barr said around 23 September that 'further policy adjustments are likely to be needed' - a still-hawkish Fed is a direct headwind for Treasury prices."
+       "CME FedWatch puts October 27-28 hike odds at roughly 71-76% as of 25 September, and Fed Governor Barr said around 23 September that 'further policy adjustments are likely to be needed' - a still-hawkish Fed is a direct headwind for Treasury prices.",
+       false
       ],
       [
        "neu",
-       "No 10-year note futures COT report newer than the 15 September print (10 days stale by 25 September) was obtainable this run; positioning is not scored as a fresh input and the vote is neu rather than reusing stale data as new evidence."
+       "No 10-year note futures COT report newer than the 15 September print (10 days stale by 25 September) was obtainable this run; positioning is not scored as a fresh input and the vote is neu rather than reusing stale data as new evidence.",
+       null
       ],
       [
        "neu",
-       "No dated 25 September figure on foreign (e.g., Japanese or Chinese) Treasury demand was obtainable this run; voted neu rather than invent a flow read."
+       "No dated 25 September figure on foreign (e.g., Japanese or Chinese) Treasury demand was obtainable this run; voted neu rather than invent a flow read.",
+       null
       ],
       [
        "neu",
-       "No 25 September Treasury auction result or announcement inside the blindness window was obtainable this run."
+       "No 25 September Treasury auction result or announcement inside the blindness window was obtainable this run.",
+       null
       ],
       [
        "bear",
-       "Final September UMich sentiment fell to a four-month low (48.1) on 25 September with 1-year inflation expectations up to 4.6% - a soft-growth, sticky-inflation print consistent with the stagflation narrative already pressuring Treasuries into the close."
+       "Final September UMich sentiment fell to a four-month low (48.1) on 25 September with 1-year inflation expectations up to 4.6% - a soft-growth, sticky-inflation print consistent with the stagflation narrative already pressuring Treasuries into the close.",
+       false
       ],
       [
        "neu",
-       "No single-day seasonal signal specific to Treasuries for 25 September was identified."
+       "No single-day seasonal signal specific to Treasuries for 25 September was identified.",
+       null
       ],
       [
        "bear",
-       "Bonds' 21-session correlation to their own 10-year yield is -0.955 (mechanical, since ZN=F prices move inversely to the note's own yield), the single strongest relationship in the driver table, and that yield closed at a 19-year high on 25 September."
+       "Bonds' 21-session correlation to their own 10-year yield is -0.955 (mechanical, since ZN=F prices move inversely to the note's own yield), the single strongest relationship in the driver table, and that yield closed at a 19-year high on 25 September.",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 104.609375,
+     "ret": -0.002384,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5243,62 +5271,76 @@
      "votes": [
       [
        "neu",
-       "GC=F closed 4321.20, below its 50-day average of 4354.55 and well below its 200-day of 4556.06, with RSI(14) at a middling 42.79; 1H structure is choppy (last swings: an LL at 4289.20 and an LH at 4336.00, both on 25 September) - no clean intraday direction."
+       "GC=F closed 4321.20, below its 50-day average of 4354.55 and well below its 200-day of 4556.06, with RSI(14) at a middling 42.79; 1H structure is choppy (last swings: an LL at 4289.20 and an LH at 4336.00, both on 25 September) - no clean intraday direction.",
+       null
       ],
       [
        "neu",
-       "No dated 25 September figure for the broader metals complex (silver, platinum) was obtainable this run to corroborate or contradict gold's own move; voted neu."
+       "No dated 25 September figure for the broader metals complex (silver, platinum) was obtainable this run to corroborate or contradict gold's own move; voted neu.",
+       null
       ],
       [
        "bull",
-       "GVZ closed 22.44 on 25 September (fetched, used for the daily-sigma band); no source-documented percentile or record for that reading was found this run, so it is not scored in volRegime, but the absolute level is well below the multi-month rate-vol spikes recorded elsewhere, arguing against imminent gold-specific stress."
+       "GVZ closed 22.44 on 25 September (fetched, used for the daily-sigma band); no source-documented percentile or record for that reading was found this run, so it is not scored in volRegime, but the absolute level is well below the multi-month rate-vol spikes recorded elsewhere, arguing against imminent gold-specific stress.",
+       false
       ],
       [
        "bear",
-       "Between 29 January and 23 September the nominal 10-year yield rose 0.87 percentage points while the 10-year breakeven held flat at 2.35%, so the move is a real-yield increase - the direct mechanical driver of gold's decline from its January peak, still in force into the 25 September close (10-year near 5.19%)."
+       "Between 29 January and 23 September the nominal 10-year yield rose 0.87 percentage points while the 10-year breakeven held flat at 2.35%, so the move is a real-yield increase - the direct mechanical driver of gold's decline from its January peak, still in force into the 25 September close (10-year near 5.19%).",
+       true
       ],
       [
        "bear",
-       "The dollar index closed 100.97 on 25 September, within 0.63% of its 52-week high, driven by the same hawkish Fed repricing pressuring gold; a firmer dollar is a same-direction headwind for gold pricing."
+       "The dollar index closed 100.97 on 25 September, within 0.63% of its 52-week high, driven by the same hawkish Fed repricing pressuring gold; a firmer dollar is a same-direction headwind for gold pricing.",
+       true
       ],
       [
        "bear",
-       "CME FedWatch puts October hike odds at roughly 71-76% as of 25 September, following Fed Governor Barr's hawkish 23 September comments - a continued-tightening Fed is a headwind for non-yielding gold."
+       "CME FedWatch puts October hike odds at roughly 71-76% as of 25 September, following Fed Governor Barr's hawkish 23 September comments - a continued-tightening Fed is a headwind for non-yielding gold.",
+       true
       ],
       [
        "neu",
-       "The most recent CFTC gold COT report (8 September, published 11 September) showed managed-money net long at 231,960 contracts, a 3-year COT index of 65.8; 17 days stale by 25 September, so not scored as a fresh crowd input for the 1-day call."
+       "The most recent CFTC gold COT report (8 September, published 11 September) showed managed-money net long at 231,960 contracts, a 3-year COT index of 65.8; 17 days stale by 25 September, so not scored as a fresh crowd input for the 1-day call.",
+       null
       ],
       [
        "neu",
-       "No single-day 25 September central-bank gold purchase figure exists; central-bank buying is reported on a monthly/quarterly lag, so this is not a one-day catalyst."
+       "No single-day 25 September central-bank gold purchase figure exists; central-bank buying is reported on a monthly/quarterly lag, so this is not a one-day catalyst.",
+       null
       ],
       [
        "neu",
-       "Global gold ETFs added roughly 52,500 troy ounces (about $227.9 million) in the most recently reported session before 25 September, extending a buying streak to eight consecutive days per Kitco's Gold SWOT - a real but modest single-session flow."
+       "Global gold ETFs added roughly 52,500 troy ounces (about $227.9 million) in the most recently reported session before 25 September, extending a buying streak to eight consecutive days per Kitco's Gold SWOT - a real but modest single-session flow.",
+       null
       ],
       [
        "bear",
-       "Final September UMich sentiment fell to a four-month low (48.1) with 1-year inflation expectations up to 4.6% on 25 September - typically gold-supportive on the inflation-expectations side, but the print was dominated by the real-yield/hawkish-Fed narrative on the day, which is gold-negative on net."
+       "Final September UMich sentiment fell to a four-month low (48.1) with 1-year inflation expectations up to 4.6% on 25 September - typically gold-supportive on the inflation-expectations side, but the print was dominated by the real-yield/hawkish-Fed narrative on the day, which is gold-negative on net.",
+       true
       ],
       [
        "neu",
-       "No single-day seasonal signal specific to gold was identified for 25 September."
+       "No single-day seasonal signal specific to gold was identified for 25 September.",
+       null
       ],
       [
        "bear",
-       "Gold's correlation to bonds is 0.469 with the same-direction move in 13 of 21 sessions - a shared real-yield driver pair - and bonds' own stretch read is extreme-down (52-week low, oversold) into 25 September, a same-direction headwind for gold."
+       "Gold's correlation to bonds is 0.469 with the same-direction move in 13 of 21 sessions - a shared real-yield driver pair - and bonds' own stretch read is extreme-down (52-week low, oversold) into 25 September, a same-direction headwind for gold.",
+       true
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4178.2998046875,
+     "ret": -0.03307,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7304,62 +7346,76 @@
      "votes": [
       [
        "bull",
-       "DX-Y.NYB closed 100.97, above its 50-day average of 99.95 and 200-day of 99.198, with RSI(14) at 65.16 (firm but not yet overbought); 1H structure is choppy (last swings: an LH at 101.10 and an LL at 100.87, both on 25 September)."
+       "DX-Y.NYB closed 100.97, above its 50-day average of 99.95 and 200-day of 99.198, with RSI(14) at 65.16 (firm but not yet overbought); 1H structure is choppy (last swings: an LH at 101.10 and an LL at 100.87, both on 25 September).",
+       true
       ],
       [
        "neu",
-       "No single-day 25 September breadth read across the dollar's major crosses (beyond EUR and JPY, covered under central bank divergence) was obtainable this run; voted neu."
+       "No single-day 25 September breadth read across the dollar's major crosses (beyond EUR and JPY, covered under central bank divergence) was obtainable this run; voted neu.",
+       null
       ],
       [
        "neu",
-       "EUR/USD 1-month implied volatility of 4.72 is carried from 21 September (4 sessions stale by 25 September, inside the two-week window); no fresher CVOL or EUR/USD-specific print was obtainable this run."
+       "EUR/USD 1-month implied volatility of 4.72 is carried from 21 September (4 sessions stale by 25 September, inside the two-week window); no fresher CVOL or EUR/USD-specific print was obtainable this run.",
+       null
       ],
       [
        "bull",
-       "High-yield OAS held tight at 280bp on 25 September even as Treasury yields spiked - a still-supportive risk backdrop that has historically coincided with dollar firmness this cycle via both liquidity-demand and yield-differential effects."
+       "High-yield OAS held tight at 280bp on 25 September even as Treasury yields spiked - a still-supportive risk backdrop that has historically coincided with dollar firmness this cycle via both liquidity-demand and yield-differential effects.",
+       true
       ],
       [
        "bull",
-       "The Fed hiked to 3.75-4.00% on 16 September, the ECB to 2.50% on 10 September and the BOJ to 1.25% on 18 September - all quarter-point moves, so the US-EU and US-Japan rate gaps are as wide as they were nine days before 25 September, still favoring the dollar."
+       "The Fed hiked to 3.75-4.00% on 16 September, the ECB to 2.50% on 10 September and the BOJ to 1.25% on 18 September - all quarter-point moves, so the US-EU and US-Japan rate gaps are as wide as they were nine days before 25 September, still favoring the dollar.",
+       true
       ],
       [
        "bull",
-       "All three major central banks (Fed, ECB, BOJ) delivered quarter-point hikes within the same eight-day span (16, 10 and 18 September respectively), but only the Fed is being actively repriced higher for its next meeting (~71-76% October odds) - a divergence favoring the dollar."
+       "All three major central banks (Fed, ECB, BOJ) delivered quarter-point hikes within the same eight-day span (16, 10 and 18 September respectively), but only the Fed is being actively repriced higher for its next meeting (~71-76% October odds) - a divergence favoring the dollar.",
+       true
       ],
       [
        "neu",
-       "CFTC data for the week of 15 September showed dollar-index speculative net longs of just 10,593 contracts, down 7,011 week over week - a modest, not extreme, level; not scored as a documented crowd extreme."
+       "CFTC data for the week of 15 September showed dollar-index speculative net longs of just 10,593 contracts, down 7,011 week over week - a modest, not extreme, level; not scored as a documented crowd extreme.",
+       null
       ],
       [
        "neu",
-       "No dated 25 September reserve-manager or carry-trade flow figure was obtainable this run; voted neu."
+       "No dated 25 September reserve-manager or carry-trade flow figure was obtainable this run; voted neu.",
+       null
       ],
       [
        "bull",
-       "Xi Jinping's state visit concluded 25 September with the US-China trade truce extended roughly two months and a new AI dialogue announced; detailed terms are due Monday 28 September - a status-quo, mildly risk-supportive outcome that removes a tail-risk overhang rather than adding one."
+       "Xi Jinping's state visit concluded 25 September with the US-China trade truce extended roughly two months and a new AI dialogue announced; detailed terms are due Monday 28 September - a status-quo, mildly risk-supportive outcome that removes a tail-risk overhang rather than adding one.",
+       true
       ],
       [
        "bear",
-       "Final September UMich sentiment fell to a four-month low (48.1) on 25 September - a soft domestic print that, in isolation, argues against further dollar strength even though the day's broader hawkish-Fed narrative dominated price action."
+       "Final September UMich sentiment fell to a four-month low (48.1) on 25 September - a soft domestic print that, in isolation, argues against further dollar strength even though the day's broader hawkish-Fed narrative dominated price action.",
+       false
       ],
       [
        "neu",
-       "No single-day dollar-specific seasonal signal was identified for 25 September."
+       "No single-day dollar-specific seasonal signal was identified for 25 September.",
+       null
       ],
       [
        "bull",
-       "The dollar's own driver-regime table shows no single dominant correlation (10-year at +0.399, just short of the |0.40| threshold), but that positive sign is consistent with the hawkish-Fed, higher-yield backdrop that has also driven gold and bonds lower on 25 September - a shared macro driver working in the dollar's favor."
+       "The dollar's own driver-regime table shows no single dominant correlation (10-year at +0.399, just short of the |0.40| threshold), but that positive sign is consistent with the hawkish-Fed, higher-yield backdrop that has also driven gold and bonds lower on 25 September - a shared macro driver working in the dollar's favor.",
+       true
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 101.19100189208984,
+     "ret": 0.002189,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9543,62 +9599,76 @@
      "votes": [
       [
        "bear",
-       "RTY=F closed 2859.30, below its 50-day average of 2965.86 (2.86 daily-sigma below) though still above its 200-day of 2784.06, with RSI(14) at 37.09; 1H structure is choppy (last swings: an LL at 2843.00 and an HH at 2874.10, both on 25 September)."
+       "RTY=F closed 2859.30, below its 50-day average of 2965.86 (2.86 daily-sigma below) though still above its 200-day of 2784.06, with RSI(14) at 37.09; 1H structure is choppy (last swings: an LL at 2843.00 and an HH at 2874.10, both on 25 September).",
+       true
       ],
       [
        "bear",
-       "Small caps carried a 20.2% year-to-date gain as of 4 September, but the 16 September Fed hike was flagged by CME Group commentary as a 'massive headwind for small-cap earnings' given floating-rate debt exposure - a structural relative-strength risk still working through as of 25 September."
+       "Small caps carried a 20.2% year-to-date gain as of 4 September, but the 16 September Fed hike was flagged by CME Group commentary as a 'massive headwind for small-cap earnings' given floating-rate debt exposure - a structural relative-strength risk still working through as of 25 September.",
+       true
       ],
       [
        "neu",
-       "RVX (Russell 2000 volatility) is carried at 19.97 from its 23 September YCharts close, 2 sessions stale by 25 September with no fresher print obtainable; used for the sigma/band calculation but not scored as a fresh volRegime signal."
+       "RVX (Russell 2000 volatility) is carried at 19.97 from its 23 September YCharts close, 2 sessions stale by 25 September with no fresher print obtainable; used for the sigma/band calculation but not scored as a fresh volRegime signal.",
+       null
       ],
       [
        "neu",
-       "High-yield OAS (280bp, 25 September) is a broad-market read, not small-cap-specific; no dated small-cap or leveraged-loan funding-cost figure was obtainable this run, so voted neu on the funding-cost angle specifically."
+       "High-yield OAS (280bp, 25 September) is a broad-market read, not small-cap-specific; no dated small-cap or leveraged-loan funding-cost figure was obtainable this run, so voted neu on the funding-cost angle specifically.",
+       null
       ],
       [
        "bear",
-       "The 10-year closed near 5.19% (highest since 2007) on 25 September, and small caps carry the strongest 10-year correlation of any asset in the driver table (-0.72 over the 21-session window) - a specific, well-documented headwind."
+       "The 10-year closed near 5.19% (highest since 2007) on 25 September, and small caps carry the strongest 10-year correlation of any asset in the driver table (-0.72 over the 21-session window) - a specific, well-documented headwind.",
+       true
       ],
       [
        "bear",
-       "CME FedWatch puts October hike odds at roughly 71-76% as of 25 September; small caps are more rate-sensitive than large caps via floating-rate debt, making a hawkish Fed path a more direct earnings risk for IWM specifically."
+       "CME FedWatch puts October hike odds at roughly 71-76% as of 25 September; small caps are more rate-sensitive than large caps via floating-rate debt, making a hawkish Fed path a more direct earnings risk for IWM specifically.",
+       true
       ],
       [
        "neu",
-       "No small-cap-specific sentiment survey (as distinct from AAII's broad-market read) dated to 25 September was obtainable this run; voted neu."
+       "No small-cap-specific sentiment survey (as distinct from AAII's broad-market read) dated to 25 September was obtainable this run; voted neu.",
+       null
       ],
       [
        "neu",
-       "No source-documented positioning or sentiment extreme for small caps dated to 25 September was found; voted neu rather than infer one from the year-to-date rotation narrative."
+       "No source-documented positioning or sentiment extreme for small caps dated to 25 September was found; voted neu rather than infer one from the year-to-date rotation narrative.",
+       null
       ],
       [
        "neu",
-       "No small-cap-index-moving earnings report was identified for 25 September specifically."
+       "No small-cap-index-moving earnings report was identified for 25 September specifically.",
+       null
       ],
       [
        "bear",
-       "Final September UMich sentiment fell to a four-month low (48.1) on 25 September - domestically-focused small caps are typically more sensitive to a weakening consumer read than globally-diversified large caps."
+       "Final September UMich sentiment fell to a four-month low (48.1) on 25 September - domestically-focused small caps are typically more sensitive to a weakening consumer read than globally-diversified large caps.",
+       true
       ],
       [
        "neu",
-       "No single-day small-cap-specific seasonal signal was identified for 25 September."
+       "No single-day small-cap-specific seasonal signal was identified for 25 September.",
+       null
       ],
       [
        "bear",
-       "IWM's -0.72 correlation to the 10-year is the strongest of any asset in the 21-session driver table, and the 10-year closed at a 19-year high on 25 September - the single most mechanically direct cross-asset headwind identified for any asset today."
+       "IWM's -0.72 correlation to the 10-year is the strongest of any asset in the 21-session driver table, and the 10-year closed at a 19-year high on 25 September - the single most mechanically direct cross-asset headwind identified for any asset today.",
+       true
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2839.39990234375,
+     "ret": -0.00696,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11587,62 +11657,76 @@
      "votes": [
       [
        "bull",
-       "NQ=F closed 30889.25, above its 50-day average of 29396.40 and 200-day of 27471.92, with RSI(14) at 66.36; 1H structure is choppy (last swings: an HL at 30684.00 and an LH at 30951.50, both on 25 September)."
+       "NQ=F closed 30889.25, above its 50-day average of 29396.40 and 200-day of 27471.92, with RSI(14) at 66.36; 1H structure is choppy (last swings: an HL at 30684.00 and an LH at 30951.50, both on 25 September).",
+       false
       ],
       [
        "neu",
-       "QQQ's top-10 holdings represent roughly 47.73% of the fund per recent (September 2026) tracker data, up modestly from the 46.91% figure recorded as of 22 September in the prior cycle - directionally more concentrated, though the exact same-day figure for 25 September specifically was not confirmed."
+       "QQQ's top-10 holdings represent roughly 47.73% of the fund per recent (September 2026) tracker data, up modestly from the 46.91% figure recorded as of 22 September in the prior cycle - directionally more concentrated, though the exact same-day figure for 25 September specifically was not confirmed.",
+       null
       ],
       [
        "bull",
-       "VXN closed near 20.87 on 25 September (fetched, used for the sigma/band calculation); qualitatively below the more extreme readings implied by the record MOVE-index spike in rates, suggesting equity-tech-specific stress remains contained even as bond volatility surges."
+       "VXN closed near 20.87 on 25 September (fetched, used for the sigma/band calculation); qualitatively below the more extreme readings implied by the record MOVE-index spike in rates, suggesting equity-tech-specific stress remains contained even as bond volatility surges.",
+       false
       ],
       [
        "bull",
-       "High-yield OAS held tight at 280bp on 25 September even as software-sector earnings showed some dispersion (TWLO -6.2%, ZS -8.6%) - credit is not pricing tech-sector-specific stress despite those individual moves."
+       "High-yield OAS held tight at 280bp on 25 September even as software-sector earnings showed some dispersion (TWLO -6.2%, ZS -8.6%) - credit is not pricing tech-sector-specific stress despite those individual moves.",
+       false
       ],
       [
        "bear",
-       "The 10-year real yield has risen roughly 0.87 percentage points since 29 January (breakeven flat at 2.35%), a direct headwind for long-duration growth names that make up the bulk of the Nasdaq-100, and that dynamic was still building into the 25 September close (10-year near 5.19%)."
+       "The 10-year real yield has risen roughly 0.87 percentage points since 29 January (breakeven flat at 2.35%), a direct headwind for long-duration growth names that make up the bulk of the Nasdaq-100, and that dynamic was still building into the 25 September close (10-year near 5.19%).",
+       true
       ],
       [
        "bear",
-       "CME FedWatch puts October hike odds at roughly 71-76% as of 25 September following Fed Governor Barr's hawkish 23 September comments - a continued-tightening Fed pressures growth-stock valuations via the discount rate."
+       "CME FedWatch puts October hike odds at roughly 71-76% as of 25 September following Fed Governor Barr's hawkish 23 September comments - a continued-tightening Fed pressures growth-stock valuations via the discount rate.",
+       true
       ],
       [
        "bull",
-       "AAII's 24 September survey (bulls 32.7%, bears 48.1%) shows extended pessimism even as tech-heavy QQQ pushed within 0.45% of its 52-week high - a contrarian-bullish divergence between broad-market sentiment and mega-cap-tech price action."
+       "AAII's 24 September survey (bulls 32.7%, bears 48.1%) shows extended pessimism even as tech-heavy QQQ pushed within 0.45% of its 52-week high - a contrarian-bullish divergence between broad-market sentiment and mega-cap-tech price action.",
+       false
       ],
       [
        "bull",
-       "Akamai's $11.6bn cloud deal with Anthropic, announced 25 September (AKAM +15.3% premarket), is a fresh, concrete AI-infrastructure capex data point supporting continued flows into the theme underlying much of QQQ's concentration."
+       "Akamai's $11.6bn cloud deal with Anthropic, announced 25 September (AKAM +15.3% premarket), is a fresh, concrete AI-infrastructure capex data point supporting continued flows into the theme underlying much of QQQ's concentration.",
+       false
       ],
       [
        "bull",
-       "Beyond the Akamai-Anthropic deal, software earnings on 25 September were mixed (DDOG +7.3% on a beat, TWLO -6.2%, ZS -8.6%) - net positive for the AI-infrastructure narrative specifically, even with dispersion in software results."
+       "Beyond the Akamai-Anthropic deal, software earnings on 25 September were mixed (DDOG +7.3% on a beat, TWLO -6.2%, ZS -8.6%) - net positive for the AI-infrastructure narrative specifically, even with dispersion in software results.",
+       false
       ],
       [
        "neu",
-       "Final September UMich sentiment fell to a four-month low (48.1) on 25 September; a domestically-focused consumer read is a smaller, indirect factor for a globally-diversified, AI-capex-driven index like QQQ, so voted neu on direct relevance."
+       "Final September UMich sentiment fell to a four-month low (48.1) on 25 September; a domestically-focused consumer read is a smaller, indirect factor for a globally-diversified, AI-capex-driven index like QQQ, so voted neu on direct relevance.",
+       null
       ],
       [
        "neu",
-       "No single-day seasonal signal specific to QQQ was identified for 25 September."
+       "No single-day seasonal signal specific to QQQ was identified for 25 September.",
+       null
       ],
       [
        "bear",
-       "QQQ's dominant drivers are the 10-year (-0.633) and oil (-0.597), the strongest oil linkage of any asset in the driver table after equities' own -0.533; both the 10-year (19-year high) and oil (still elevated post-spike even after the 25 September pullback) argue for caution."
+       "QQQ's dominant drivers are the 10-year (-0.633) and oil (-0.597), the strongest oil linkage of any asset in the driver table after equities' own -0.533; both the 10-year (19-year high) and oil (still elevated post-spike even after the 25 September pullback) argue for caution.",
+       true
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 30643.0,
+     "ret": -0.007972,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,
