@@ -299,7 +299,6 @@ def _et(ts):
         return None
 
 
-DAY_LABELS = os.environ.get('MTL_DAY_LABELS') == '1'  # sample toggle, settled before release
 SESSION_ROLL_ET = 9  # a chart "day" starts at 9:00 AM New York time
 
 
@@ -349,7 +348,7 @@ def hourly_chart_html(a, live, compact=False):
     for k, (i0, i1, label) in enumerate(session_days(bars)):
         if k % 2 == 1:
             parts.append(f'<rect class="hc-day" x="{i0 * slot:.3f}" width="{(i1 - i0 + 1) * slot:.3f}" y="0" height="100"/>')
-        if DAY_LABELS and (i1 - i0 + 1) * slot >= 2.5:
+        if (i1 - i0 + 1) * slot >= 2.5:
             # weekday initial, centred in its band - full names collide at 400 candles
             day_labels.append(f'<span class="hc-day-label" style="left:{(i0 + i1 + 1) / 2 * slot:.2f}%" '
                               f'title="{E(label)}">{E(label[0])}</span>')

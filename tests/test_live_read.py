@@ -120,3 +120,27 @@ def test_price_strip_chart_has_no_price_tag_over_the_candles():
     from scripts.render_html import hourly_chart_html
     html = hourly_chart_html(PUB['assets'][0], live, compact=True)
     assert 'hc-last-tag' not in html and 'last 100.50 (dotted)' in html
+
+
+def test_session_days_roll_at_9am_eastern():
+    from scripts.render_html import session_days
+    bars = [[ts, 1, 1, 1, 1] for ts in (
+        '2026-09-24T08:00:00-04:00',   # still Wed's day (started Wed 9am)
+        '2026-09-24T09:00:00-04:00',   # Thu's day starts
+        '2026-09-25T08:00:00-04:00',   # ...and runs to Fri 8am
+        '2026-09-25T09:00:00-04:00',   # Fri
+        '2026-09-27T18:00:00-04:00',   # Sunday-evening reopen: its own day
+        '2026-09-28T09:00:00-04:00')]  # Mon
+    assert session_days(bars) == [(0, 0, 'Wed 23'), (1, 2, 'Thu 24'), (3, 3, 'Fri 25'),
+                                  (4, 4, 'Sun 27'), (5, 5, 'Mon 28')]
+
+
+def test_price_strip_chart_draws_alternating_day_bands_with_initials():
+    from scripts.render_html import hourly_chart_html
+    bars = [[f'2026-09-{21 + i // 24:02d}T{i % 24:02d}:00:00-04:00', 100, 101, 99, 100.5] for i in range(96)]
+    read = dict(latest_read('ES=F', _bars(80), _bars(260)), bars=bars)
+    live = {'fetchedAt': '2026-09-28T14:00:00Z', 'prices': {}, 'reads': {PUB['assets'][0]['key']: read}}
+    html = hourly_chart_html(PUB['assets'][0], live, compact=True)
+    assert html.count('class="hc-day"') == 2          # 5 session days -> every other one shaded
+    assert html.count('class="hc-day-label"') == 5
+    assert 'title="Mon 21"' in html and '9am–9am ET days' in html
