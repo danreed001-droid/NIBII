@@ -20,7 +20,7 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.documents import iter_document_paths
 from mtl.record import aggregate
-from mtl.calendar_nyse import most_recent_completed_session
+from mtl.calendar_nyse import is_trading_day, most_recent_completed_session, next_trading_day
 from mtl.live_read import latest_note
 from mtl.structure import CATEGORY_NAME as STRUCTURE_CATEGORY
 from mtl.score import live_tilt, outcome, real_result
@@ -1287,16 +1287,26 @@ def fresh_item(label, dt, note='', fresh_h=None, stale_h=None, fixed_state=None,
 
 def calls_fresh_html(doc, now=None):
     """When the calls were written, and whether a newer session's board is
-    overdue: the board for session S is expected once S has closed, so it's
-    'behind' when S is older than the most recent completed session as of
-    this render."""
-    expected = most_recent_completed_session((now or datetime.now(ET)).astimezone(ET).date())
+    due: a session counts as closed from 4 PM ET that day, and its board is
+    written by the 9:20 AM daily-cycle Routine the next trading morning -
+    so between the close and ~10 AM the next board is 'due', not late."""
+    now_et = (now or datetime.now(ET)).astimezone(ET)
+    today = now_et.date()
+    closed = (today.isoformat() if is_trading_day(today) and now_et.hour >= 16
+              else most_recent_completed_session(today))
     session = datetime.fromisoformat(doc['date']).strftime('%a %b %-d')
-    if doc['date'] < expected:
-        exp = datetime.fromisoformat(expected).strftime('%a %b %-d')
-        note, state = f'Calls for session {E(session)} - the {E(exp)} board is not published yet', 'stale'
-    else:
+    if doc['date'] >= closed:
         note, state = f'Calls for session {E(session)} - the latest completed session', 'fresh'
+    else:
+        exp = datetime.fromisoformat(closed).strftime('%a %b %-d')
+        due_day = next_trading_day(closed)
+        due = datetime.combine(due_day, datetime.min.time(), ET).replace(hour=10)
+        if now_et < due:
+            note = (f'Calls for session {E(session)} - the {E(exp)} board is written '
+                    f'{E(due_day.strftime("%a"))} ~9:45 AM ET')
+            state = 'aging'
+        else:
+            note, state = f'Calls for session {E(session)} - the {E(exp)} board is not published yet', 'stale'
     return fresh_item('Calls written', _parse_utc(doc.get('generatedAt')), note, fixed_state=state)
 
 

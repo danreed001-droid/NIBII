@@ -213,7 +213,11 @@ def test_calls_freshness_flags_a_board_behind_the_latest_session():
     from datetime import datetime
     from scripts.render_html import ET, calls_fresh_html
     doc = {'date': '2026-09-24', 'generatedAt': '2026-09-25T00:30:00Z'}
-    behind = calls_fresh_html(doc, now=datetime(2026, 9, 26, 12, 0, tzinfo=ET))
+    # Friday's board is due Monday ~9:45 AM (the Routine runs weekday mornings):
+    # on Saturday it's pending, by Monday 11 AM it's late
+    pending = calls_fresh_html(doc, now=datetime(2026, 9, 26, 12, 0, tzinfo=ET))
+    assert 'data-state="aging"' in pending and 'Fri Sep 25 board is written Mon' in pending
+    behind = calls_fresh_html(doc, now=datetime(2026, 9, 28, 11, 0, tzinfo=ET))
     assert 'data-state="stale"' in behind and 'Fri Sep 25' in behind
     current = calls_fresh_html(doc, now=datetime(2026, 9, 25, 9, 0, tzinfo=ET))
     assert 'data-state="fresh"' in current
@@ -265,3 +269,19 @@ def test_price_strip_names_each_futures_symbol():
 def test_page_has_a_refresh_button_to_the_workflow():
     html = render(PUB, generated_at='2026-09-25T14:00:00Z')
     assert 'actions/workflows/daily-fetch.yml' in html and 'Refresh market data' in html
+
+
+def test_calls_panel_says_when_the_next_board_is_due():
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    from scripts.render_html import calls_fresh_html
+    et = ZoneInfo('America/New_York')
+    doc = {'date': '2026-09-25', 'generatedAt': '2026-09-26T18:48:00Z'}
+    # Monday before the close: Friday's board is still the latest
+    assert 'the latest completed session' in calls_fresh_html(doc, datetime(2026, 9, 28, 14, 0, tzinfo=et))
+    # Monday evening: Monday's board is due Tuesday morning, not late
+    html = calls_fresh_html(doc, datetime(2026, 9, 28, 21, 50, tzinfo=et))
+    assert 'the Mon Sep 28 board is written Tue ~9:45 AM ET' in html and 'data-state="aging"' in html
+    # Tuesday 11 AM with no board: late
+    html = calls_fresh_html(doc, datetime(2026, 9, 29, 11, 0, tzinfo=et))
+    assert 'not published yet' in html and 'data-state="stale"' in html
