@@ -1,15 +1,298 @@
 {
  "date": "2026-09-28",
- "assetOrder": [
-  "equities",
-  "bonds",
-  "gold",
-  "dollar",
-  "iwm",
-  "qqq"
- ],
- "assets": {
-  "equities": {
+ "basisDate": "2026-09-28",
+ "scored": false,
+ "generatedAt": "2026-09-29T13:26:16Z",
+ "generationLag": null,
+ "schema": "multi-asset-v4",
+ "overlay": {
+  "name": "stretch-v1",
+  "mode": "dampen-and-veto",
+  "appliedRetroactively": false,
+  "cellsChanged": 1
+ },
+ "context": {
+  "driverRegime": {
+   "window": "21-session",
+   "n": 21,
+   "perAsset": {
+    "equities": {
+     "corr2Y": 0.364,
+     "beta2Y": 0.0459,
+     "corr10Y": -0.645,
+     "corrOil": -0.555,
+     "dominantDriver": "10Y",
+     "allDominant": [
+      "10Y",
+      "oil"
+     ]
+    },
+    "bonds": {
+     "corr2Y": 0.368,
+     "beta2Y": 0.0172,
+     "corr10Y": -0.955,
+     "corrOil": -0.213,
+     "dominantDriver": "10Y",
+     "allDominant": [
+      "10Y"
+     ]
+    },
+    "gold": {
+     "corr2Y": 0.142,
+     "beta2Y": 0.0332,
+     "corr10Y": -0.43,
+     "corrOil": -0.249,
+     "dominantDriver": "10Y",
+     "allDominant": [
+      "10Y"
+     ]
+    },
+    "dollar": {
+     "corr2Y": -0.182,
+     "beta2Y": -0.0091,
+     "corr10Y": 0.406,
+     "corrOil": -0.077,
+     "dominantDriver": "10Y",
+     "allDominant": [
+      "10Y"
+     ]
+    },
+    "iwm": {
+     "corr2Y": 0.287,
+     "beta2Y": 0.0371,
+     "corr10Y": -0.722,
+     "corrOil": -0.417,
+     "dominantDriver": "10Y",
+     "allDominant": [
+      "10Y",
+      "oil"
+     ]
+    },
+    "qqq": {
+     "corr2Y": 0.312,
+     "beta2Y": 0.0592,
+     "corr10Y": -0.642,
+     "corrOil": -0.625,
+     "dominantDriver": "10Y",
+     "allDominant": [
+      "10Y",
+      "oil"
+     ]
+    }
+   },
+   "method": "daily % change of each asset regressed on the daily change in the US 2-year and 10-year yields (basis points) and on the daily % change in WTI; a driver is dominant when |corr| >= 0.4",
+   "goldVsTlt": {
+    "corr": 0.459,
+    "sameDirection": "14/21",
+    "sharedDriverPair": true
+   },
+   "bigDays": {
+    "n": 8,
+    "definition": "|change in 2Y| >= 5bp",
+    "dates": null,
+    "corrs": {
+     "equities": 0.249,
+     "bonds": 0.314,
+     "gold": 0.31,
+     "dollar": -0.252,
+     "iwm": 0.277,
+     "qqq": 0.231
+    }
+   }
+  },
+  "dataNotes": [
+   "Run timing: this cycle fired the morning of 29 September 2026 after the GitHub Actions pre-open fetch job drafted contracts/*.2026-09-28.json from Monday 28 September's close. Every figure recorded here is dated at or before the 2026-09-28 close; news-log entries dated 29 September were deliberately not used.",
+   "Bonds, dollar and IWM sigma are not auto-fetched. Bonds sigma is 15 (TLT 30-day implied volatility, Market Rebellion 25 September print, 1 session stale); dollar sigma 4.72 (EUR/USD 1-month implied volatility) is carried from 21 September (5 sessions stale); IWM sigma 19.97 (RVX) is carried from 23 September (3 sessions stale). No newer prints were obtainable.",
+   "Closing levels vary slightly across sources: the 10-year yield closed about 5.24% (peak 5.272%) per CNBC/Babypips-cited data, while the news log records about 5.2%; the 2-year (4.94%) and 30-year (5.56%) are from the same closes. Spot gold settled near $4,127 (-3.71%) per Rio Times while the drafted GC=F close is 4154.80; the difference is a spot-versus-futures/timing basis and is not material to any vote sign.",
+   "Russell 2000 on 28 September: one wire reported +0.07% and another had IWM -0.62%; this conflict is disclosed in the IWM votes rather than resolved.",
+   "Breadth (NYSE 16 highs vs 422 lows, Nasdaq 50 vs 461, decliners over 2-to-1, 8 of 11 sectors lower), VIX 16.07 (+8.07%) and MOVE 101.82 (+6.06%) come from the 28 September market wrap and Vol Vibes summary.",
+   "High-yield OAS of 2.80% is dated 24 September (govspending.org); no 28 September print was found. AAII (32.7/19.2/48.1) is the survey for the week ending 23 September, the latest published.",
+   "Positioning: StoneX/CFTC data for the week to 22 September show dollar-index net longs +$12.5 billion to $17.3 billion (fastest weekly rise in seven years); Saxo reports gold managed-money selling of about 5.7k contracts that week, the fourth straight week of liquidation. No newer COT was available.",
+   "Fed path: the Fed hiked on 16 September; CME FedWatch/CNBC show roughly 65-70% odds of a 25bp hike on 28 October and about 53% for December as of 28 September. Governor Cook's 28 September remarks (inflation pressure from AI demand and oil; labor market well positioned for higher rates) are used in the Fed-path votes.",
+   "Calendar: JOLTS and consumer confidence 29 September, PCE and ADP 30 September, jobless claims and ISM manufacturing 1 October, jobs report Friday (2 October). Seasonality votes are neutral because no dated sourced statistic was obtained.",
+   "News-log entries for 2026-09-28 (Hormuz rejection, 10-year yield, Nvidia buyback, open/close, Cook, Akamai-Anthropic) were already merged into data/news_log.json; the Artifact database returned the same seven entries."
+  ],
+  "newsLog": [
+   {
+    "addedAt": "2026-09-28",
+    "category": "Geopolitics",
+    "date": "2026-09-28",
+    "day": "Mon",
+    "direction": "Bearish",
+    "event": "Trump rejects Iran's proposal to reopen the Strait of Hormuz; crude surges and equity futures come under pressure",
+    "impact": "High",
+    "numbers": "WTI ~$95.20 (+3%); Brent ~$107.11 (+2.7%)",
+    "order": 1,
+    "reaction": "Crude jumps on renewed Mideast supply risk after Trump told aides he expects strikes on Iran to resume post-midterms; Dow/S&P/Nasdaq futures slip, risk-off tone into the open",
+    "region": "US/Middle East",
+    "source": "https://www.cnbc.com/2026/09/28/oil-price-today-wti-brent-trump-iran.html",
+    "tickers": "SPY, USO, XLE",
+    "time": "Pre-market",
+    "vsExp": "n/a"
+   },
+   {
+    "addedAt": "2026-09-28",
+    "category": "Rates",
+    "date": "2026-09-28",
+    "day": "Mon",
+    "direction": "Bearish",
+    "event": "10-year Treasury yield climbs to ~5.21%, a fresh multi-week high",
+    "impact": "Medium",
+    "numbers": "US 10Y yield 5.21% (+5bps d/d)",
+    "order": 2,
+    "reaction": "Rising yields compound pressure on equity futures alongside the Mideast oil-supply scare",
+    "region": "US",
+    "source": "https://tradingeconomics.com/united-states/government-bond-yield",
+    "tickers": "TLT",
+    "time": "Pre-market",
+    "vsExp": "n/a"
+   },
+   {
+    "addedAt": "2026-09-28",
+    "category": "Deals",
+    "date": "2026-09-28",
+    "day": "Mon",
+    "direction": "Bullish",
+    "event": "Nvidia board approves $150B increase to its stock buyback authorization, taking the total to $235B - the largest repurchase authorization increase in history",
+    "impact": "Medium",
+    "numbers": "+$150B increase; total buyback authorization $235B; NVDA +1% pre-market",
+    "order": 3,
+    "reaction": "Jensen Huang frames it as confidence in long-term AI/accelerated-computing growth; capital-return signal for the AI-capex complex",
+    "region": "US",
+    "source": "https://www.cnbc.com/2026/09/28/nvidia-share-buyback-plan-gets-150-billion-boost.html",
+    "tickers": "NVDA, QQQ, SMH",
+    "time": "Pre-market",
+    "vsExp": "n/a"
+   },
+   {
+    "addedAt": "2026-09-28",
+    "category": "Market",
+    "date": "2026-09-28",
+    "day": "Mon",
+    "direction": "Bearish",
+    "event": "Stocks open lower as US-Iran tensions resurface and Treasury yields jump to start a data-packed week",
+    "impact": "High",
+    "numbers": "Dow -0.7%; S&P 500 -0.5%; Nasdaq Composite -0.5%; WTI ~$94.40 (+2%); Brent ~$106.79 (+2%); 10Y >5.2%; 30Y >5.5%",
+    "order": 4,
+    "reaction": "Confirms the pre-market Hormuz/yield-driven risk-off tone carried through the open",
+    "region": "US",
+    "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-september-28-dow-sp-500-nasdaq-080420627.html",
+    "tickers": "SPY, DIA, QQQ, TLT",
+    "time": "Market hours",
+    "vsExp": "n/a"
+   },
+   {
+    "addedAt": "2026-09-28",
+    "category": "Market",
+    "date": "2026-09-28",
+    "day": "Mon",
+    "direction": "Bearish",
+    "event": "Stocks close lower as Trump rejects Iran's Hormuz peace offer and the 10-year yield hits a 19-year high",
+    "impact": "High",
+    "numbers": "S&P 500 7,683.69 (-0.77%); Dow 51,481.51 (-0.67%); Nasdaq Composite 26,820.38 (-0.92%); 10Y yield ~5.2% (19-yr high); WTI $96.31 (+4.22%); Brent ~$108.50 (+4.02%)",
+    "order": 5,
+    "reaction": "Selloff accelerates into the close after Trump tells Axios Iran 'overplayed its hand'; markets now price ~70% odds of a 25bp Fed hike at the Oct 28 FOMC; over 65% of US issues declined",
+    "region": "US",
+    "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-28-2026",
+    "tickers": "SPY, DIA, QQQ, TLT, USO",
+    "time": "Market hours",
+    "vsExp": "n/a"
+   },
+   {
+    "addedAt": "2026-09-28",
+    "category": "Fed",
+    "date": "2026-09-28",
+    "day": "Mon",
+    "direction": "Bearish",
+    "event": "Fed Governor Lisa Cook warns AI-driven demand and Iran-related energy risks could keep inflation elevated, says AI productivity gains won't offset near-term price pressure",
+    "impact": "Medium",
+    "numbers": "n/a",
+    "order": 6,
+    "reaction": "Hawkish-leaning remarks reinforce bets for additional rate hikes, adding to the bond selloff and weighing on equities alongside oil-driven inflation fears",
+    "region": "US",
+    "source": "https://www.federalreserve.gov/newsevents/speech/cook20260928a.htm",
+    "tickers": "TLT, SPY",
+    "time": "Market hours",
+    "vsExp": "n/a"
+   },
+   {
+    "addedAt": "2026-09-28",
+    "category": "Deals",
+    "date": "2026-09-28",
+    "day": "Mon",
+    "direction": "Bullish",
+    "event": "Akamai Technologies signs seven-year, $11.6B power/infrastructure deal with Anthropic",
+    "impact": "Medium",
+    "numbers": "$11.6B, 7-year term; AKAM +3.2%",
+    "order": 7,
+    "reaction": "Stock jumps on long-term AI-infrastructure revenue visibility, adding to the day's AI-capex-driven deal flow",
+    "region": "US",
+    "source": "https://finance.yahoo.com/markets/stocks/articles/company-news-sep-28-2026-061000700.html",
+    "tickers": "AKAM",
+    "time": "Market hours",
+    "vsExp": "n/a"
+   }
+  ],
+  "stretchInputs": {
+   "equities": {
+    "rsi14": 53.86,
+    "ma50": 7665.672,
+    "ma200": 7236.766,
+    "high52w": 7833.5,
+    "low52w": 6388.25,
+    "asOf": "2026-09-28",
+    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
+   },
+   "bonds": {
+    "rsi14": 21.03,
+    "ma50": 107.7197,
+    "ma200": 110.3036,
+    "high52w": 113.8594,
+    "low52w": 104.5,
+    "asOf": "2026-09-28",
+    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
+   },
+   "gold": {
+    "rsi14": 32.3,
+    "ma50": 4357.268,
+    "ma200": 4555.6485,
+    "high52w": 5318.3999,
+    "low52w": 3809.0,
+    "asOf": "2026-09-28",
+    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
+   },
+   "dollar": {
+    "rsi14": 67.91,
+    "ma50": 99.9598,
+    "ma200": 99.2081,
+    "high52w": 101.61,
+    "low52w": 96.22,
+    "asOf": "2026-09-28",
+    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
+   },
+   "iwm": {
+    "rsi14": 34.28,
+    "ma50": 2963.1766,
+    "ma200": 2785.6111,
+    "high52w": 3074.8999,
+    "low52w": 2310.7,
+    "asOf": "2026-09-28",
+    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
+   },
+   "qqq": {
+    "rsi14": 60.84,
+    "ma50": 29432.7736,
+    "ma200": 27496.3755,
+    "high52w": 31028.5,
+    "low52w": 23139.75,
+    "asOf": "2026-09-28",
+    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
+   }
+  }
+ },
+ "assets": [
+  {
+   "key": "equities",
    "name": "S&P 500",
    "instrument": "ES=F close",
    "direction": "Bullish = index higher",
@@ -17,6 +300,28 @@
    "sigma": 16.06999969482422,
    "sigmaSource": "^VIX close 16.06999969482422 on 2026-09-28",
    "driverNote": "The 21-session dominant drivers for equities are the 10-year yield (corr -0.645) and oil (-0.555); on 28 September both moved against equities (10-year to a 19-year high near 5.24%, WTI +4.22%) and the index fell 0.77%, so the day's move was in line with the historical relationship rather than a decoupling.",
+   "stretch": {
+    "score": 2,
+    "label": "stretched-up",
+    "components": {
+     "oscillator": 0,
+     "extension50": 0,
+     "extension200": 1,
+     "range": 1,
+     "volRegime": 0,
+     "crowd": 0
+    },
+    "drivers": [
+     "Close of 7748.75 is 6.99 daily-sigma above the 200-day average of 7236.77, past the +6 threshold.",
+     "Close of 7748.75 is within 2% of the 52-week high of 7833.5."
+    ],
+    "nullInputs": [
+     "No source-documented breadth percentile was obtainable for 28 September; the raw NYSE/Nasdaq new-high/new-low counts are used descriptively and do not qualify as a documented extreme.",
+     "VIX (16.07) is described by a commentary source as 'near 2 year lows' but no percentile or record is named, so volRegime stays 0; crowd is 0 because the AAII reading is a weekly survey without a named extreme."
+    ],
+    "asOf": "2026-09-28",
+    "method": "stretch-v1"
+   },
    "categories": [
     "Trend structure",
     "Breadth",
@@ -32,15 +337,258 @@
     "Cross-asset",
     "Market structure (HH/HL)"
    ],
-   "stretchInputs": {
-    "rsi14": 53.86,
-    "ma50": 7665.672,
-    "ma200": 7236.766,
-    "high52w": 7833.5,
-    "low52w": 6388.25,
-    "asOf": "2026-09-28",
-    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
-   },
+   "horizons": [
+    {
+     "h": 1,
+     "maturity": "2026-09-29",
+     "band": 0.005062,
+     "flatLo": 7709.5258,
+     "flatHi": 7787.9742,
+     "bull": 0,
+     "bear": 5,
+     "neutral": 10,
+     "margin": 5,
+     "call": "no-call",
+     "confidence": "thin-evidence",
+     "shadowCall": "no-call",
+     "shadowConfidence": "thin-evidence",
+     "families": [],
+     "clusterDowngrade": false,
+     "preReversionCall": "no-call",
+     "preReversionConfidence": "thin-evidence",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score 2 (stretched-up): the cell is no-call, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "neu",
+       "ES=F closed 7748.75, still above its 50-day (7665.67) and 200-day (7236.77) averages with RSI(14) at 53.86, so the 1D read is neutral on choppy intraday structure; 1H structure is choppy (LL 7726 at 10:00 ET on 28 September, HH 7786.25 at 12:00 ET on 28 September, HL 7739.25 at 15:00 ET on 28 September)."
+      ],
+      [
+       "bear",
+       "NYSE decliners outnumbered advancers by more than 2-to-1 with 16 new 52-week highs against 422 lows, the Nasdaq showed 50 highs against 461 lows, and 8 of 11 S&P sectors fell on 28 September; the index-level loss was modest but internals were poor"
+      ],
+      [
+       "bear",
+       "The VIX rose 8.07% to 16.07 and the MOVE rose 6.06% to 101.82 on 28 September (Vol Vibes); MOVE remains below the 104.58 reading of 24 September, and no source names a percentile or record for either - rising hedging demand on the day, with VIX still low in absolute terms"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); equities' 21-session correlation to the 10-year is -0.645"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "neu",
+       "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale"
+      ],
+      [
+       "neu",
+       "Nvidia raised its buyback authorization by a record $150 billion to $235 billion remaining (Bloomberg, 28 September), a supportive corporate-flow item over the longer window, while no dated fund-flow figure for broad US equities was obtainable for the day"
+      ],
+      [
+       "neu",
+       "Nvidia's record $150 billion buyback boost (NVDA +1.68%) and Akamai's $11.6 billion Anthropic deal (+3.2%) offset Boeing's roughly 7% drop after the FAA said it would not certify the 737 Max 10 yet; net earnings/corporate catalysts are mixed"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; equities' 21-session correlation to oil is -0.555 and to the 10-year -0.645, both bearish on the day's moves"
+      ],
+      [
+       "neu",
+       "1H structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 5,
+     "maturity": "2026-10-05",
+     "band": 0.011318,
+     "flatLo": 7661.0496,
+     "flatHi": 7836.4504,
+     "bull": 2,
+     "bear": 5,
+     "neutral": 8,
+     "margin": 3,
+     "call": "flat",
+     "confidence": "flat-lean",
+     "shadowCall": "bearish",
+     "shadowConfidence": "lean",
+     "families": [
+      "A",
+      "B",
+      "C"
+     ],
+     "clusterDowngrade": false,
+     "preReversionCall": "flat",
+     "preReversionConfidence": "flat-lean",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score 2 (stretched-up): the cell is flat, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "bull",
+       "Weekly structure is choppy (HL 7324 (week of 27 July), HH 7838.5 (week of 10 August), HL 7509.25 (week of 14 September)); the read leans on the moving averages (7665.67 and 7236.77), since the weekly swings do not yet form a clean HH/HL sequence."
+      ],
+      [
+       "bear",
+       "NYSE decliners outnumbered advancers by more than 2-to-1 with 16 new 52-week highs against 422 lows, the Nasdaq showed 50 highs against 461 lows, and 8 of 11 S&P sectors fell on 28 September; the index-level loss was modest but internals were poor"
+      ],
+      [
+       "bear",
+       "The VIX rose 8.07% to 16.07 and the MOVE rose 6.06% to 101.82 on 28 September (Vol Vibes); MOVE remains below the 104.58 reading of 24 September, and no source names a percentile or record for either - rising hedging demand on the day, with VIX still low in absolute terms"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); equities' 21-session correlation to the 10-year is -0.645"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "bull",
+       "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale"
+      ],
+      [
+       "neu",
+       "Nvidia raised its buyback authorization by a record $150 billion to $235 billion remaining (Bloomberg, 28 September), a supportive corporate-flow item over the longer window, while no dated fund-flow figure for broad US equities was obtainable for the day"
+      ],
+      [
+       "neu",
+       "Nvidia's record $150 billion buyback boost (NVDA +1.68%) and Akamai's $11.6 billion Anthropic deal (+3.2%) offset Boeing's roughly 7% drop after the FAA said it would not certify the 737 Max 10 yet; net earnings/corporate catalysts are mixed"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; equities' 21-session correlation to oil is -0.555 and to the 10-year -0.645, both bearish on the day's moves"
+      ],
+      [
+       "neu",
+       "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 10,
+     "maturity": "2026-10-12",
+     "band": 0.016006,
+     "flatLo": 7624.7235,
+     "flatHi": 7872.7765,
+     "bull": 3,
+     "bear": 4,
+     "neutral": 8,
+     "margin": 1,
+     "call": "flat",
+     "confidence": "flat-solid",
+     "shadowCall": "flat",
+     "shadowConfidence": "flat-solid",
+     "families": [
+      "A",
+      "C"
+     ],
+     "clusterDowngrade": false,
+     "preReversionCall": "flat",
+     "preReversionConfidence": "flat-solid",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score 2 (stretched-up): the cell is flat, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "bull",
+       "Weekly structure is choppy (HL 7324 (week of 27 July), HH 7838.5 (week of 10 August), HL 7509.25 (week of 14 September)); the read leans on the moving averages (7665.67 and 7236.77), since the weekly swings do not yet form a clean HH/HL sequence."
+      ],
+      [
+       "bear",
+       "NYSE decliners outnumbered advancers by more than 2-to-1 with 16 new 52-week highs against 422 lows, the Nasdaq showed 50 highs against 461 lows, and 8 of 11 S&P sectors fell on 28 September; the index-level loss was modest but internals were poor"
+      ],
+      [
+       "neu",
+       "The VIX rose 8.07% to 16.07 and the MOVE rose 6.06% to 101.82 on 28 September (Vol Vibes); MOVE remains below the 104.58 reading of 24 September, and no source names a percentile or record for either - rising hedging demand on the day, with VIX still low in absolute terms"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); equities' 21-session correlation to the 10-year is -0.645"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "bull",
+       "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale"
+      ],
+      [
+       "bull",
+       "Nvidia raised its buyback authorization by a record $150 billion to $235 billion remaining (Bloomberg, 28 September), a supportive corporate-flow item over the longer window, while no dated fund-flow figure for broad US equities was obtainable for the day"
+      ],
+      [
+       "neu",
+       "Nvidia's record $150 billion buyback boost (NVDA +1.68%) and Akamai's $11.6 billion Anthropic deal (+3.2%) offset Boeing's roughly 7% drop after the FAA said it would not certify the 737 Max 10 yet; net earnings/corporate catalysts are mixed"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; equities' 21-session correlation to oil is -0.555 and to the 10-year -0.645, both bearish on the day's moves"
+      ],
+      [
+       "neu",
+       "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    }
+   ],
    "structure": {
     "hourly": {
      "state": "choppy",
@@ -1883,19 +2431,10 @@
      "note": null
     }
    },
-   "ticker": "ES=F",
-   "volRegime": 0,
-   "crowd": 0,
-   "stretchDrivers": [
-    "Close of 7748.75 is 6.99 daily-sigma above the 200-day average of 7236.77, past the +6 threshold.",
-    "Close of 7748.75 is within 2% of the 52-week high of 7833.5."
-   ],
-   "nullInputs": [
-    "No source-documented breadth percentile was obtainable for 28 September; the raw NYSE/Nasdaq new-high/new-low counts are used descriptively and do not qualify as a documented extreme.",
-    "VIX (16.07) is described by a commentary source as 'near 2 year lows' but no percentile or record is named, so volRegime stays 0; crowd is 0 because the AAII reading is a weekly survey without a named extreme."
-   ]
+   "ticker": "ES=F"
   },
-  "bonds": {
+  {
+   "key": "bonds",
    "name": "10-Year Treasury Note",
    "instrument": "ZN=F close",
    "direction": "Bullish = note price up, yields down",
@@ -1903,6 +2442,29 @@
    "sigma": 15.0,
    "sigmaSource": "TLT 30-day option implied volatility 15 carried from the 25 September Market Rebellion Pre-Market IV Report (near the top of its 52-week range of 9-16); no newer print or ZN=F-specific option-implied print was obtainable, so the value is 1 session stale",
    "driverNote": "Bonds' dominant driver is their own 10-year yield (corr -0.955, mechanical); the 10-year rose to about 5.24% (19-year high) on 28 September, so ZN=F fell to a 52-week closing low of 104.5, with the 2-year up about 6bp to 4.94%.",
+   "stretch": {
+    "score": -3,
+    "label": "extreme-down",
+    "components": {
+     "oscillator": -1,
+     "extension50": -1,
+     "extension200": 0,
+     "range": -1,
+     "volRegime": 0,
+     "crowd": 0
+    },
+    "drivers": [
+     "RSI(14) of 21.03 is in the oversold band.",
+     "Close of 104.5 is 3.16 daily-sigma below the 50-day average of 107.72.",
+     "Close of 104.5 is within 2% of the 52-week low of 104.5."
+    ],
+    "nullInputs": [
+     "MOVE closed 101.82 on 28 September, below the 104.58 (highest since March) used on 25 September; no source names a record or percentile for 28 September, so volRegime is 0.",
+     "No 10-year note futures COT report newer than 15 September was obtainable, so crowd is 0."
+    ],
+    "asOf": "2026-09-28",
+    "method": "stretch-v1"
+   },
    "categories": [
     "Trend structure",
     "Curve shape",
@@ -1918,15 +2480,256 @@
     "Cross-asset",
     "Market structure (HH/HL)"
    ],
-   "stretchInputs": {
-    "rsi14": 21.03,
-    "ma50": 107.7197,
-    "ma200": 110.3036,
-    "high52w": 113.8594,
-    "low52w": 104.5,
-    "asOf": "2026-09-28",
-    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
-   },
+   "horizons": [
+    {
+     "h": 1,
+     "maturity": "2026-09-29",
+     "band": 0.004725,
+     "flatLo": 104.0062,
+     "flatHi": 104.9938,
+     "bull": 0,
+     "bear": 9,
+     "neutral": 6,
+     "margin": 9,
+     "call": "bearish",
+     "confidence": "solid",
+     "shadowCall": "bearish",
+     "shadowConfidence": "strong",
+     "families": [
+      "A",
+      "B",
+      "C",
+      "F"
+     ],
+     "clusterDowngrade": false,
+     "preReversionCall": "bearish",
+     "preReversionConfidence": "strong",
+     "reversionAligned": "rides",
+     "reversionFlag": true,
+     "reversionNote": "Stretch score -3 (extreme-down): the bearish call rides an extreme reading with margin 9, so confidence was dropped from strong to solid.",
+     "votes": [
+      [
+       "bear",
+       "ZN=F closed 104.5, its 52-week closing low, with RSI(14) at 21.03 (oversold) and hourly structure printing lower lows; 1H structure is downtrend (LL 104.484 at 05:00 ET on 28 September, LH 104.688 at 08:00 ET on 28 September, LL 104.25 at 10:00 ET on 28 September)."
+      ],
+      [
+       "bear",
+       "The whole curve sold off on 28 September - 2-year to about 4.94% (+6bp), 10-year to 5.24%, 30-year to 5.56% - with the 2s10s spread narrowing to roughly 30bp from roughly 38bp on 25 September (both legs cited from CNBC/Axios closes), a bear-flattening led by the front end"
+      ],
+      [
+       "bear",
+       "The MOVE index rose 6.06% to 101.82 on 28 September (Vol Vibes): rising rate volatility alongside falling prices, though below the 104.58 reading of 24 September"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move; credit is only a weak, indirect input for the Treasury call"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal, and Cook warned of inflation pressure from AI demand and energy the same day, keeping real-yield pressure on Treasuries"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "neu",
+       "No 10-year note futures COT report newer than the 15 September print (13 days stale) was obtainable, so positioning is not scored as fresh evidence"
+      ],
+      [
+       "neu",
+       "No dated 28 September figure on foreign official or private demand for Treasuries was obtainable; voted neu rather than invent a flow read"
+      ],
+      [
+       "neu",
+       "No 28 September Treasury auction result or announcement was obtainable inside the blindness window"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "Equities fell (S&P 500 -0.77%), oil surged (WTI +4.22%), gold fell 3.7% and the dollar firmed on 28 September - Treasuries offered no haven and traded with the oil/inflation channel; bonds' 21-session correlation to the 10-year is -0.955 and the yield closed at a 19-year high"
+      ],
+      [
+       "bear",
+       "1H structure is downtrend - last labeled swings: LH/LL/LH/LL."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 5,
+     "maturity": "2026-10-05",
+     "band": 0.010564,
+     "flatLo": 103.3961,
+     "flatHi": 105.6039,
+     "bull": 0,
+     "bear": 6,
+     "neutral": 9,
+     "margin": 6,
+     "call": "no-call",
+     "confidence": "thin-evidence",
+     "shadowCall": "no-call",
+     "shadowConfidence": "thin-evidence",
+     "families": [],
+     "clusterDowngrade": false,
+     "preReversionCall": "no-call",
+     "preReversionConfidence": "thin-evidence",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score -3 (extreme-down): the cell is no-call, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "bear",
+       "Weekly structure is choppy (LH 110.328 (week of 22 June), LL 107.984 (week of 27 July), LH 109.109 (week of 10 August)); ZN=F sits below its 50-day (107.72) and 200-day (110.30) averages and at its 52-week closing low, so the weekly read is bearish despite choppy swing labels."
+      ],
+      [
+       "bear",
+       "The whole curve sold off on 28 September - 2-year to about 4.94% (+6bp), 10-year to 5.24%, 30-year to 5.56% - with the 2s10s spread narrowing to roughly 30bp from roughly 38bp on 25 September (both legs cited from CNBC/Axios closes), a bear-flattening led by the front end"
+      ],
+      [
+       "bear",
+       "The MOVE index rose 6.06% to 101.82 on 28 September (Vol Vibes): rising rate volatility alongside falling prices, though below the 104.58 reading of 24 September"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move; credit is only a weak, indirect input for the Treasury call"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal, and Cook warned of inflation pressure from AI demand and energy the same day, keeping real-yield pressure on Treasuries"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "neu",
+       "No 10-year note futures COT report newer than the 15 September print (13 days stale) was obtainable, so positioning is not scored as fresh evidence"
+      ],
+      [
+       "neu",
+       "No dated 28 September figure on foreign official or private demand for Treasuries was obtainable; voted neu rather than invent a flow read"
+      ],
+      [
+       "neu",
+       "No 28 September Treasury auction result or announcement was obtainable inside the blindness window"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "Equities fell (S&P 500 -0.77%), oil surged (WTI +4.22%), gold fell 3.7% and the dollar firmed on 28 September - Treasuries offered no haven and traded with the oil/inflation channel; bonds' 21-session correlation to the 10-year is -0.955 and the yield closed at a 19-year high"
+      ],
+      [
+       "neu",
+       "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 10,
+     "maturity": "2026-10-12",
+     "band": 0.01494,
+     "flatLo": 102.9388,
+     "flatHi": 106.0612,
+     "bull": 0,
+     "bear": 5,
+     "neutral": 10,
+     "margin": 5,
+     "call": "no-call",
+     "confidence": "thin-evidence",
+     "shadowCall": "no-call",
+     "shadowConfidence": "thin-evidence",
+     "families": [],
+     "clusterDowngrade": false,
+     "preReversionCall": "no-call",
+     "preReversionConfidence": "thin-evidence",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score -3 (extreme-down): the cell is no-call, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "bear",
+       "Weekly structure is choppy (LH 110.328 (week of 22 June), LL 107.984 (week of 27 July), LH 109.109 (week of 10 August)); ZN=F sits below its 50-day (107.72) and 200-day (110.30) averages and at its 52-week closing low, so the weekly read is bearish despite choppy swing labels."
+      ],
+      [
+       "bear",
+       "The whole curve sold off on 28 September - 2-year to about 4.94% (+6bp), 10-year to 5.24%, 30-year to 5.56% - with the 2s10s spread narrowing to roughly 30bp from roughly 38bp on 25 September (both legs cited from CNBC/Axios closes), a bear-flattening led by the front end"
+      ],
+      [
+       "neu",
+       "The MOVE index rose 6.06% to 101.82 on 28 September (Vol Vibes): rising rate volatility alongside falling prices, though below the 104.58 reading of 24 September"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move; credit is only a weak, indirect input for the Treasury call"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal, and Cook warned of inflation pressure from AI demand and energy the same day, keeping real-yield pressure on Treasuries"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "neu",
+       "No 10-year note futures COT report newer than the 15 September print (13 days stale) was obtainable, so positioning is not scored as fresh evidence"
+      ],
+      [
+       "neu",
+       "No dated 28 September figure on foreign official or private demand for Treasuries was obtainable; voted neu rather than invent a flow read"
+      ],
+      [
+       "neu",
+       "No 28 September Treasury auction result or announcement was obtainable inside the blindness window"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "Equities fell (S&P 500 -0.77%), oil surged (WTI +4.22%), gold fell 3.7% and the dollar firmed on 28 September - Treasuries offered no haven and traded with the oil/inflation channel; bonds' 21-session correlation to the 10-year is -0.955 and the yield closed at a 19-year high"
+      ],
+      [
+       "neu",
+       "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    }
+   ],
    "structure": {
     "hourly": {
      "state": "downtrend",
@@ -4392,20 +5195,10 @@
      "note": null
     }
    },
-   "ticker": "ZN=F",
-   "volRegime": 0,
-   "crowd": 0,
-   "stretchDrivers": [
-    "RSI(14) of 21.03 is in the oversold band.",
-    "Close of 104.5 is 3.16 daily-sigma below the 50-day average of 107.72.",
-    "Close of 104.5 is within 2% of the 52-week low of 104.5."
-   ],
-   "nullInputs": [
-    "MOVE closed 101.82 on 28 September, below the 104.58 (highest since March) used on 25 September; no source names a record or percentile for 28 September, so volRegime is 0.",
-    "No 10-year note futures COT report newer than 15 September was obtainable, so crowd is 0."
-   ]
+   "ticker": "ZN=F"
   },
-  "gold": {
+  {
+   "key": "gold",
    "name": "Gold",
    "instrument": "GC=F close",
    "direction": "Bullish = gold higher",
@@ -4413,6 +5206,27 @@
    "sigma": 24.829999923706055,
    "sigmaSource": "^GVZ close 24.829999923706055 on 2026-09-28",
    "driverNote": "Gold's dominant driver is the 10-year yield (corr -0.43) and its correlation to TLT is 0.459 (same direction on 14 of 21 sessions); the 28 September 3.7% drop coincided with the 10-year at a 19-year high and a firmer dollar - the rates channel dominated the safe-haven bid despite the Iran/oil escalation.",
+   "stretch": {
+    "score": -1,
+    "label": "neutral",
+    "components": {
+     "oscillator": 0,
+     "extension50": -1,
+     "extension200": 0,
+     "range": 0,
+     "volRegime": 0,
+     "crowd": 0
+    },
+    "drivers": [
+     "Close of 4154.8 is 2.97 daily-sigma below the 50-day average of 4357.27."
+    ],
+    "nullInputs": [
+     "Managed-money liquidation (four straight weeks, about -5.7k contracts in the week to 22 September, Saxo) is a flow, not a source-named positioning extreme, so crowd is 0 this run.",
+     "GVZ 24.83 has no source-named percentile or record, so volRegime is 0."
+    ],
+    "asOf": "2026-09-28",
+    "method": "stretch-v1"
+   },
    "categories": [
     "Trend structure",
     "Metals complex",
@@ -4428,15 +5242,266 @@
     "Cross-asset",
     "Market structure (HH/HL)"
    ],
-   "stretchInputs": {
-    "rsi14": 32.3,
-    "ma50": 4357.268,
-    "ma200": 4555.6485,
-    "high52w": 5318.3999,
-    "low52w": 3809.0,
-    "asOf": "2026-09-28",
-    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
-   },
+   "horizons": [
+    {
+     "h": 1,
+     "maturity": "2026-09-29",
+     "band": 0.007821,
+     "flatLo": 4122.3051,
+     "flatHi": 4187.2945,
+     "bull": 0,
+     "bear": 7,
+     "neutral": 8,
+     "margin": 7,
+     "call": "bearish",
+     "confidence": "strong",
+     "shadowCall": "bearish",
+     "shadowConfidence": "strong",
+     "families": [
+      "A",
+      "B",
+      "C",
+      "D"
+     ],
+     "clusterDowngrade": false,
+     "preReversionCall": "bearish",
+     "preReversionConfidence": "strong",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score -1 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.",
+     "votes": [
+      [
+       "neu",
+       "GC=F closed 4154.80, well below its 50-day (4357.27) and 200-day (4555.65), but hourly swings are choppy; 1H structure is choppy (LH 4203.8 at 08:00 ET on 28 September, LL 4143.1 at 10:00 ET on 28 September, HL 4144.2 at 16:00 ET on 28 September)."
+      ],
+      [
+       "bear",
+       "Silver fell 5.41% to $60.81 and spot gold 3.71% to $4,127 on 28 September (Rio Times), the lowest gold level since 5 August (Yahoo Finance/USAGOLD) - the metals complex sold off together"
+      ],
+      [
+       "bear",
+       "The GVZ closed 24.83 on 28 September (from 22.44 on 25 September): gold vol expanded on the breakdown; no source names a percentile or record"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); gold's 21-session correlation to the 10-year is -0.43 and higher real-yield pressure from oil/Fed hike odds is a headwind"
+      ],
+      [
+       "bear",
+       "The dollar index rose 0.22% to about 101.20 on 28 September (10-year yield at 5.24%), a headwind for dollar-priced gold"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "bear",
+       "Managed money has liquidated gold for four consecutive weeks, including about -5.7k contracts in the week to 22 September (Saxo COT); no fresh crowd extreme is documented, so this is a 1D-only bearish flow read"
+      ],
+      [
+       "neu",
+       "No new dated central-bank gold-buying figure for the window was obtainable; the lagged quarterly series cited on earlier boards is not reused as a fresh 28 September input"
+      ],
+      [
+       "neu",
+       "No dated 28 September ETF flow figure was obtainable (GLD's price fell about 3.9% on the day, which is price, not flows), so physical and retail demand is neutral"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "Gold fell 3.7% even as equities dropped and oil surged on 28 September - no haven bid; gold's 21-session correlation to TLT is 0.459 (same direction on 14 of 21 sessions), a shared rates driver that pointed down"
+      ],
+      [
+       "neu",
+       "1H structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 5,
+     "maturity": "2026-10-05",
+     "band": 0.017488,
+     "flatLo": 4082.1407,
+     "flatHi": 4227.4589,
+     "bull": 0,
+     "bear": 9,
+     "neutral": 6,
+     "margin": 9,
+     "call": "bearish",
+     "confidence": "strong",
+     "shadowCall": "bearish",
+     "shadowConfidence": "strong",
+     "families": [
+      "A",
+      "B",
+      "C",
+      "F"
+     ],
+     "clusterDowngrade": false,
+     "preReversionCall": "bearish",
+     "preReversionConfidence": "strong",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score -1 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.",
+     "votes": [
+      [
+       "bear",
+       "Weekly structure is downtrend (LH 4783.4 (week of 11 May), LL 3955.4 (week of 29 June), LH 4755 (week of 24 August)); GC=F is below both moving averages with RSI(14) at 32.3, consistent with the downtrend."
+      ],
+      [
+       "bear",
+       "Silver fell 5.41% to $60.81 and spot gold 3.71% to $4,127 on 28 September (Rio Times), the lowest gold level since 5 August (Yahoo Finance/USAGOLD) - the metals complex sold off together"
+      ],
+      [
+       "neu",
+       "The GVZ closed 24.83 on 28 September (from 22.44 on 25 September): gold vol expanded on the breakdown; no source names a percentile or record"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); gold's 21-session correlation to the 10-year is -0.43 and higher real-yield pressure from oil/Fed hike odds is a headwind"
+      ],
+      [
+       "bear",
+       "The dollar index rose 0.22% to about 101.20 on 28 September (10-year yield at 5.24%), a headwind for dollar-priced gold"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "neu",
+       "Managed money has liquidated gold for four consecutive weeks, including about -5.7k contracts in the week to 22 September (Saxo COT); no fresh crowd extreme is documented, so this is a 1D-only bearish flow read"
+      ],
+      [
+       "neu",
+       "No new dated central-bank gold-buying figure for the window was obtainable; the lagged quarterly series cited on earlier boards is not reused as a fresh 28 September input"
+      ],
+      [
+       "neu",
+       "No dated 28 September ETF flow figure was obtainable (GLD's price fell about 3.9% on the day, which is price, not flows), so physical and retail demand is neutral"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "Gold fell 3.7% even as equities dropped and oil surged on 28 September - no haven bid; gold's 21-session correlation to TLT is 0.459 (same direction on 14 of 21 sessions), a shared rates driver that pointed down"
+      ],
+      [
+       "bear",
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 10,
+     "maturity": "2026-10-12",
+     "band": 0.024731,
+     "flatLo": 4052.0475,
+     "flatHi": 4257.5522,
+     "bull": 0,
+     "bear": 9,
+     "neutral": 6,
+     "margin": 9,
+     "call": "bearish",
+     "confidence": "strong",
+     "shadowCall": "bearish",
+     "shadowConfidence": "strong",
+     "families": [
+      "A",
+      "B",
+      "C",
+      "F"
+     ],
+     "clusterDowngrade": false,
+     "preReversionCall": "bearish",
+     "preReversionConfidence": "strong",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score -1 (neutral) is short of the +/-2 trigger, so the bearish call was left untouched.",
+     "votes": [
+      [
+       "bear",
+       "Weekly structure is downtrend (LH 4783.4 (week of 11 May), LL 3955.4 (week of 29 June), LH 4755 (week of 24 August)); GC=F is below both moving averages with RSI(14) at 32.3, consistent with the downtrend."
+      ],
+      [
+       "bear",
+       "Silver fell 5.41% to $60.81 and spot gold 3.71% to $4,127 on 28 September (Rio Times), the lowest gold level since 5 August (Yahoo Finance/USAGOLD) - the metals complex sold off together"
+      ],
+      [
+       "neu",
+       "The GVZ closed 24.83 on 28 September (from 22.44 on 25 September): gold vol expanded on the breakdown; no source names a percentile or record"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); gold's 21-session correlation to the 10-year is -0.43 and higher real-yield pressure from oil/Fed hike odds is a headwind"
+      ],
+      [
+       "bear",
+       "The dollar index rose 0.22% to about 101.20 on 28 September (10-year yield at 5.24%), a headwind for dollar-priced gold"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "neu",
+       "Managed money has liquidated gold for four consecutive weeks, including about -5.7k contracts in the week to 22 September (Saxo COT); no fresh crowd extreme is documented, so this is a 1D-only bearish flow read"
+      ],
+      [
+       "neu",
+       "No new dated central-bank gold-buying figure for the window was obtainable; the lagged quarterly series cited on earlier boards is not reused as a fresh 28 September input"
+      ],
+      [
+       "neu",
+       "No dated 28 September ETF flow figure was obtainable (GLD's price fell about 3.9% on the day, which is price, not flows), so physical and retail demand is neutral"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "Gold fell 3.7% even as equities dropped and oil surged on 28 September - no haven bid; gold's 21-session correlation to TLT is 0.459 (same direction on 14 of 21 sessions), a shared rates driver that pointed down"
+      ],
+      [
+       "bear",
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    }
+   ],
    "structure": {
     "hourly": {
      "state": "choppy",
@@ -6187,18 +7252,10 @@
      "note": null
     }
    },
-   "ticker": "GC=F",
-   "volRegime": 0,
-   "crowd": 0,
-   "stretchDrivers": [
-    "Close of 4154.8 is 2.97 daily-sigma below the 50-day average of 4357.27."
-   ],
-   "nullInputs": [
-    "Managed-money liquidation (four straight weeks, about -5.7k contracts in the week to 22 September, Saxo) is a flow, not a source-named positioning extreme, so crowd is 0 this run.",
-    "GVZ 24.83 has no source-named percentile or record, so volRegime is 0."
-   ]
+   "ticker": "GC=F"
   },
-  "dollar": {
+  {
+   "key": "dollar",
    "name": "US Dollar Index",
    "instrument": "DX-Y.NYB close",
    "direction": "Bullish = stronger dollar",
@@ -6206,6 +7263,29 @@
    "sigma": 4.72,
    "sigmaSource": "EUR/USD 1-month ATM implied volatility 4.72 carried unchanged from 21 September (now 5 sessions stale); no newer print was obtainable",
    "driverNote": "The dollar's dominant driver is the 10-year yield (corr +0.406); with that yield at a 19-year high near 5.24% on 28 September the index gained 0.22% to about 101.20, but the 2-year correlation is negative (-0.182), so the relationship is not clean.",
+   "stretch": {
+    "score": 4,
+    "label": "extreme-up",
+    "components": {
+     "oscillator": 0,
+     "extension50": 2,
+     "extension200": 1,
+     "range": 1,
+     "volRegime": 0,
+     "crowd": 0
+    },
+    "drivers": [
+     "Close of 101.242 is 4.31 daily-sigma above the 50-day average of 99.96.",
+     "Close of 101.242 is 6.90 daily-sigma above the 200-day average of 99.21, past the +6 threshold.",
+     "Close of 101.242 is within 2% of the 52-week high of 101.61."
+    ],
+    "nullInputs": [
+     "StoneX reports a record-pace $12.5 billion weekly rise in dollar-index net longs, but the resulting $17.3 billion level is modest and the source names no positioning extreme, so crowd is 0.",
+     "No fresh FX implied-volatility percentile was obtainable, so volRegime is 0."
+    ],
+    "asOf": "2026-09-28",
+    "method": "stretch-v1"
+   },
    "categories": [
     "Trend structure",
     "Breadth vs majors",
@@ -6221,15 +7301,251 @@
     "Cross-asset",
     "Market structure (HH/HL)"
    ],
-   "stretchInputs": {
-    "rsi14": 67.91,
-    "ma50": 99.9598,
-    "ma200": 99.2081,
-    "high52w": 101.61,
-    "low52w": 96.22,
-    "asOf": "2026-09-28",
-    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
-   },
+   "horizons": [
+    {
+     "h": 1,
+     "maturity": "2026-09-29",
+     "band": 0.001487,
+     "flatLo": 101.0914,
+     "flatHi": 101.3925,
+     "bull": 5,
+     "bear": 0,
+     "neutral": 10,
+     "margin": 5,
+     "call": "no-call",
+     "confidence": "thin-evidence",
+     "shadowCall": "no-call",
+     "shadowConfidence": "thin-evidence",
+     "families": [],
+     "clusterDowngrade": false,
+     "preReversionCall": "no-call",
+     "preReversionConfidence": "thin-evidence",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score 4 (extreme-up): the cell is no-call, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "neu",
+       "DX-Y.NYB closed 101.24, above its 50-day (99.96) and 200-day (99.21) and within 0.4% of its 52-week closing high of 101.61, but hourly structure is choppy; 1H structure is choppy (HH 101.308 at 10:00 ET on 28 September, LL 101.019 at 12:00 ET on 28 September, LH 101.231 at 15:00 ET on 28 September)."
+      ],
+      [
+       "neu",
+       "Breadth vs majors was mixed on 28 September: the dollar gained against the franc, loonie and euro (EUR/USD near 1.1368), fell against the kiwi and sterling (GBP/USD near 1.3261), and USD/JPY held near 157.4 (Babypips)"
+      ],
+      [
+       "neu",
+       "No fresh FX implied-volatility print was obtainable; the 4.72 EUR/USD 1-month figure used for sigma is carried from 21 September and is stale, so volatility is not read directionally"
+      ],
+      [
+       "bull",
+       "Risk-off on 28 September (S&P 500 -0.77%, VIX +8.07% to 16.07) tends to favor the dollar; the effect is treated as a 1D-only input"
+      ],
+      [
+       "bull",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); the ECB deposit rate is 2.50% (10 September) and the BOJ policy rate 1.25% (18 September), leaving US yields well above peers"
+      ],
+      [
+       "bull",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes; that contrasts with quarter-point moves at the ECB and BOJ"
+      ],
+      [
+       "neu",
+       "CFTC/StoneX data for the week to 22 September show dollar-index net longs up $12.5 billion (a seven-year record weekly pace) to $17.3 billion; the level is modest and the source names no extreme in positioning itself, so it is not scored as a crowd extreme"
+      ],
+      [
+       "neu",
+       "No dated 28 September reserve or carry-flow figure was obtainable (USD/JPY near 157.4 is a price, not a flow), so this category is neutral"
+      ],
+      [
+       "bull",
+       "Trump's rejection of Iran's Hormuz proposal on 28 September lifted oil and risk-aversion, a 1D-only supportive geopolitical input; no dated trade-policy event was found"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bull",
+       "The dollar's 21-session correlation to the 10-year yield is +0.406 (its dominant driver), and the 10-year closed at a 19-year high of about 5.24% on 28 September"
+      ],
+      [
+       "neu",
+       "1H structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 5,
+     "maturity": "2026-10-05",
+     "band": 0.003324,
+     "flatLo": 100.9055,
+     "flatHi": 101.5785,
+     "bull": 4,
+     "bear": 0,
+     "neutral": 11,
+     "margin": 4,
+     "call": "no-call",
+     "confidence": "thin-evidence",
+     "shadowCall": "no-call",
+     "shadowConfidence": "thin-evidence",
+     "families": [],
+     "clusterDowngrade": false,
+     "preReversionCall": "no-call",
+     "preReversionConfidence": "thin-evidence",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score 4 (extreme-up): the cell is no-call, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "bull",
+       "Weekly structure is choppy (LH 101.64 (week of 27 July), HL 98.56 (week of 17 August), HL 98.6 (week of 8 September)); the price is above both averages and near the 52-week high, but weekly swings are not a confirmed HH/HL sequence, so the 10D vote stays neutral."
+      ],
+      [
+       "neu",
+       "Breadth vs majors was mixed on 28 September: the dollar gained against the franc, loonie and euro (EUR/USD near 1.1368), fell against the kiwi and sterling (GBP/USD near 1.3261), and USD/JPY held near 157.4 (Babypips)"
+      ],
+      [
+       "neu",
+       "No fresh FX implied-volatility print was obtainable; the 4.72 EUR/USD 1-month figure used for sigma is carried from 21 September and is stale, so volatility is not read directionally"
+      ],
+      [
+       "neu",
+       "Risk-off on 28 September (S&P 500 -0.77%, VIX +8.07% to 16.07) tends to favor the dollar; the effect is treated as a 1D-only input"
+      ],
+      [
+       "bull",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); the ECB deposit rate is 2.50% (10 September) and the BOJ policy rate 1.25% (18 September), leaving US yields well above peers"
+      ],
+      [
+       "bull",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes; that contrasts with quarter-point moves at the ECB and BOJ"
+      ],
+      [
+       "neu",
+       "CFTC/StoneX data for the week to 22 September show dollar-index net longs up $12.5 billion (a seven-year record weekly pace) to $17.3 billion; the level is modest and the source names no extreme in positioning itself, so it is not scored as a crowd extreme"
+      ],
+      [
+       "neu",
+       "No dated 28 September reserve or carry-flow figure was obtainable (USD/JPY near 157.4 is a price, not a flow), so this category is neutral"
+      ],
+      [
+       "neu",
+       "Trump's rejection of Iran's Hormuz proposal on 28 September lifted oil and risk-aversion, a 1D-only supportive geopolitical input; no dated trade-policy event was found"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bull",
+       "The dollar's 21-session correlation to the 10-year yield is +0.406 (its dominant driver), and the 10-year closed at a 19-year high of about 5.24% on 28 September"
+      ],
+      [
+       "neu",
+       "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 10,
+     "maturity": "2026-10-12",
+     "band": 0.004701,
+     "flatLo": 100.7661,
+     "flatHi": 101.7179,
+     "bull": 3,
+     "bear": 0,
+     "neutral": 12,
+     "margin": 3,
+     "call": "no-call",
+     "confidence": "thin-evidence",
+     "shadowCall": "no-call",
+     "shadowConfidence": "thin-evidence",
+     "families": [],
+     "clusterDowngrade": false,
+     "preReversionCall": "no-call",
+     "preReversionConfidence": "thin-evidence",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score 4 (extreme-up): the cell is no-call, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "neu",
+       "Weekly structure is choppy (LH 101.64 (week of 27 July), HL 98.56 (week of 17 August), HL 98.6 (week of 8 September)); the price is above both averages and near the 52-week high, but weekly swings are not a confirmed HH/HL sequence, so the 10D vote stays neutral."
+      ],
+      [
+       "neu",
+       "Breadth vs majors was mixed on 28 September: the dollar gained against the franc, loonie and euro (EUR/USD near 1.1368), fell against the kiwi and sterling (GBP/USD near 1.3261), and USD/JPY held near 157.4 (Babypips)"
+      ],
+      [
+       "neu",
+       "No fresh FX implied-volatility print was obtainable; the 4.72 EUR/USD 1-month figure used for sigma is carried from 21 September and is stale, so volatility is not read directionally"
+      ],
+      [
+       "neu",
+       "Risk-off on 28 September (S&P 500 -0.77%, VIX +8.07% to 16.07) tends to favor the dollar; the effect is treated as a 1D-only input"
+      ],
+      [
+       "bull",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); the ECB deposit rate is 2.50% (10 September) and the BOJ policy rate 1.25% (18 September), leaving US yields well above peers"
+      ],
+      [
+       "bull",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes; that contrasts with quarter-point moves at the ECB and BOJ"
+      ],
+      [
+       "neu",
+       "CFTC/StoneX data for the week to 22 September show dollar-index net longs up $12.5 billion (a seven-year record weekly pace) to $17.3 billion; the level is modest and the source names no extreme in positioning itself, so it is not scored as a crowd extreme"
+      ],
+      [
+       "neu",
+       "No dated 28 September reserve or carry-flow figure was obtainable (USD/JPY near 157.4 is a price, not a flow), so this category is neutral"
+      ],
+      [
+       "neu",
+       "Trump's rejection of Iran's Hormuz proposal on 28 September lifted oil and risk-aversion, a 1D-only supportive geopolitical input; no dated trade-policy event was found"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bull",
+       "The dollar's 21-session correlation to the 10-year yield is +0.406 (its dominant driver), and the 10-year closed at a 19-year high of about 5.24% on 28 September"
+      ],
+      [
+       "neu",
+       "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    }
+   ],
    "structure": {
     "hourly": {
      "state": "choppy",
@@ -8184,20 +9500,10 @@
      "note": null
     }
    },
-   "ticker": "DX-Y.NYB",
-   "volRegime": 0,
-   "crowd": 0,
-   "stretchDrivers": [
-    "Close of 101.242 is 4.31 daily-sigma above the 50-day average of 99.96.",
-    "Close of 101.242 is 6.90 daily-sigma above the 200-day average of 99.21, past the +6 threshold.",
-    "Close of 101.242 is within 2% of the 52-week high of 101.61."
-   ],
-   "nullInputs": [
-    "StoneX reports a record-pace $12.5 billion weekly rise in dollar-index net longs, but the resulting $17.3 billion level is modest and the source names no positioning extreme, so crowd is 0.",
-    "No fresh FX implied-volatility percentile was obtainable, so volRegime is 0."
-   ]
+   "ticker": "DX-Y.NYB"
   },
-  "iwm": {
+  {
+   "key": "iwm",
    "name": "Russell 2000",
    "instrument": "RTY=F close",
    "direction": "Bullish = index higher",
@@ -8205,6 +9511,27 @@
    "sigma": 19.97,
    "sigmaSource": "RVX 19.97 carried from the 23 September YCharts close (now 3 sessions stale); no newer print was obtainable",
    "driverNote": "Small caps' 21-session drivers are the 10-year yield (corr -0.722) and oil (-0.417); both moved against them on 28 September, and IWM fell about 0.62% (one wire showed the Russell 2000 +0.07%, so sources conflict on the day).",
+   "stretch": {
+    "score": -1,
+    "label": "neutral",
+    "components": {
+     "oscillator": 0,
+     "extension50": -1,
+     "extension200": 0,
+     "range": 0,
+     "volRegime": 0,
+     "crowd": 0
+    },
+    "drivers": [
+     "Close of 2839.2 is 3.33 daily-sigma below the 50-day average of 2963.18."
+    ],
+    "nullInputs": [
+     "No source-documented positioning or sentiment extreme for small caps dated to 28 September was found (IWM's $3.3 billion weekly outflow is described as second-largest of 2026, not a record), so crowd is 0.",
+     "RVX is stale and VIX carries no named percentile, so volRegime is 0."
+    ],
+    "asOf": "2026-09-28",
+    "method": "stretch-v1"
+   },
    "categories": [
     "Trend structure",
     "Relative strength vs large caps",
@@ -8220,15 +9547,260 @@
     "Cross-asset",
     "Market structure (HH/HL)"
    ],
-   "stretchInputs": {
-    "rsi14": 34.28,
-    "ma50": 2963.1766,
-    "ma200": 2785.6111,
-    "high52w": 3074.8999,
-    "low52w": 2310.7,
-    "asOf": "2026-09-28",
-    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
-   },
+   "horizons": [
+    {
+     "h": 1,
+     "maturity": "2026-09-29",
+     "band": 0.00629,
+     "flatLo": 2821.3414,
+     "flatHi": 2857.0585,
+     "bull": 0,
+     "bear": 5,
+     "neutral": 10,
+     "margin": 5,
+     "call": "no-call",
+     "confidence": "thin-evidence",
+     "shadowCall": "no-call",
+     "shadowConfidence": "thin-evidence",
+     "families": [],
+     "clusterDowngrade": false,
+     "preReversionCall": "no-call",
+     "preReversionConfidence": "thin-evidence",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score -1 (neutral): the cell is no-call, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "neu",
+       "RTY=F closed 2839.20, below its 50-day (2963.18) but above its 200-day (2785.61) with RSI(14) at 34.28, and hourly swings are choppy; 1H structure is choppy (HH 2849.2 at 08:00 ET on 28 September, LL 2826.8 at 11:00 ET on 28 September, HH 2858.5 at 13:00 ET on 28 September)."
+      ],
+      [
+       "neu",
+       "Small caps were mixed against large caps on 28 September (one wire had the Russell 2000 +0.07%, another the IWM ETF -0.62%, versus the S&P 500 -0.77%), while the Russell 2000 was up about 14% year-to-date against about 20% for the S&P 500 in late September - sources conflict on the day, and the year-to-date gap is the clearer signal"
+      ],
+      [
+       "bear",
+       "The VIX rose 8.07% to 16.07 and the MOVE rose 6.06% to 101.82 on 28 September (Vol Vibes); MOVE remains below the 104.58 reading of 24 September, and no source names a percentile or record for either; the RVX carried into sigma (19.97) is stale, so this is read from the VIX"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move; small caps' floating-rate debt sensitivity is a risk but no dated funding-stress print was found"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); RTY's 21-session correlation to the 10-year is -0.722, the strongest in the table, and higher floating-rate borrowing costs bear on small caps"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "neu",
+       "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale (broad-market survey, not small-cap-specific)"
+      ],
+      [
+       "bear",
+       "IWM recorded about $3.3 billion of outflows in the prior week, its second-largest weekly withdrawal of 2026 (Benzinga), a fund-flow headwind that predates the 28 September session"
+      ],
+      [
+       "neu",
+       "No dated small-cap-specific earnings catalyst for 28 September was obtainable, so the category is neutral"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; RTY's 21-session correlations are -0.417 to oil and -0.722 to the 10-year"
+      ],
+      [
+       "neu",
+       "1H structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 5,
+     "maturity": "2026-10-05",
+     "band": 0.014065,
+     "flatLo": 2799.2666,
+     "flatHi": 2879.1333,
+     "bull": 4,
+     "bear": 6,
+     "neutral": 5,
+     "margin": 2,
+     "call": "flat",
+     "confidence": "flat-lean",
+     "shadowCall": "flat",
+     "shadowConfidence": "flat-lean",
+     "families": [
+      "A",
+      "B",
+      "C",
+      "D"
+     ],
+     "clusterDowngrade": false,
+     "preReversionCall": "flat",
+     "preReversionConfidence": "flat-lean",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score -1 (neutral): the cell is flat, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "neu",
+       "Weekly structure is uptrend (HH 3068.4 (week of 29 June), HL 2902.3 (week of 27 July), HH 3079.9 (week of 17 August)); the weekly uptrend is intact (HH 3068.4, HL 2902.3, HH 3079.9), but the close is now below the 50-day (2963.18) with RSI(14) at 34.28, which tempers the 5D vote to neutral."
+      ],
+      [
+       "bear",
+       "Small caps were mixed against large caps on 28 September (one wire had the Russell 2000 +0.07%, another the IWM ETF -0.62%, versus the S&P 500 -0.77%), while the Russell 2000 was up about 14% year-to-date against about 20% for the S&P 500 in late September - sources conflict on the day, and the year-to-date gap is the clearer signal"
+      ],
+      [
+       "bear",
+       "The VIX rose 8.07% to 16.07 and the MOVE rose 6.06% to 101.82 on 28 September (Vol Vibes); MOVE remains below the 104.58 reading of 24 September, and no source names a percentile or record for either; the RVX carried into sigma (19.97) is stale, so this is read from the VIX"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move; small caps' floating-rate debt sensitivity is a risk but no dated funding-stress print was found"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); RTY's 21-session correlation to the 10-year is -0.722, the strongest in the table, and higher floating-rate borrowing costs bear on small caps"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "bull",
+       "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale (broad-market survey, not small-cap-specific)"
+      ],
+      [
+       "bear",
+       "IWM recorded about $3.3 billion of outflows in the prior week, its second-largest weekly withdrawal of 2026 (Benzinga), a fund-flow headwind that predates the 28 September session"
+      ],
+      [
+       "neu",
+       "No dated small-cap-specific earnings catalyst for 28 September was obtainable, so the category is neutral"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; RTY's 21-session correlations are -0.417 to oil and -0.722 to the 10-year"
+      ],
+      [
+       "bull",
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 10,
+     "maturity": "2026-10-12",
+     "band": 0.019891,
+     "flatLo": 2782.7254,
+     "flatHi": 2895.6745,
+     "bull": 5,
+     "bear": 4,
+     "neutral": 6,
+     "margin": 1,
+     "call": "flat",
+     "confidence": "flat-solid",
+     "shadowCall": "flat",
+     "shadowConfidence": "flat-solid",
+     "families": [
+      "A",
+      "D",
+      "F"
+     ],
+     "clusterDowngrade": false,
+     "preReversionCall": "flat",
+     "preReversionConfidence": "flat-solid",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score -1 (neutral): the cell is flat, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "bull",
+       "Weekly structure is uptrend (HH 3068.4 (week of 29 June), HL 2902.3 (week of 27 July), HH 3079.9 (week of 17 August)); the weekly uptrend is intact (HH 3068.4, HL 2902.3, HH 3079.9), but the close is now below the 50-day (2963.18) with RSI(14) at 34.28, which tempers the 5D vote to neutral."
+      ],
+      [
+       "bear",
+       "Small caps were mixed against large caps on 28 September (one wire had the Russell 2000 +0.07%, another the IWM ETF -0.62%, versus the S&P 500 -0.77%), while the Russell 2000 was up about 14% year-to-date against about 20% for the S&P 500 in late September - sources conflict on the day, and the year-to-date gap is the clearer signal"
+      ],
+      [
+       "neu",
+       "The VIX rose 8.07% to 16.07 and the MOVE rose 6.06% to 101.82 on 28 September (Vol Vibes); MOVE remains below the 104.58 reading of 24 September, and no source names a percentile or record for either; the RVX carried into sigma (19.97) is stale, so this is read from the VIX"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move; small caps' floating-rate debt sensitivity is a risk but no dated funding-stress print was found"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); RTY's 21-session correlation to the 10-year is -0.722, the strongest in the table, and higher floating-rate borrowing costs bear on small caps"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "bull",
+       "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale (broad-market survey, not small-cap-specific)"
+      ],
+      [
+       "neu",
+       "IWM recorded about $3.3 billion of outflows in the prior week, its second-largest weekly withdrawal of 2026 (Benzinga), a fund-flow headwind that predates the 28 September session"
+      ],
+      [
+       "neu",
+       "No dated small-cap-specific earnings catalyst for 28 September was obtainable, so the category is neutral"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; RTY's 21-session correlations are -0.417 to oil and -0.722 to the 10-year"
+      ],
+      [
+       "bull",
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    }
+   ],
    "structure": {
     "hourly": {
      "state": "choppy",
@@ -9952,18 +11524,10 @@
      "note": null
     }
    },
-   "ticker": "RTY=F",
-   "volRegime": 0,
-   "crowd": 0,
-   "stretchDrivers": [
-    "Close of 2839.2 is 3.33 daily-sigma below the 50-day average of 2963.18."
-   ],
-   "nullInputs": [
-    "No source-documented positioning or sentiment extreme for small caps dated to 28 September was found (IWM's $3.3 billion weekly outflow is described as second-largest of 2026, not a record), so crowd is 0.",
-    "RVX is stale and VIX carries no named percentile, so volRegime is 0."
-   ]
+   "ticker": "RTY=F"
   },
-  "qqq": {
+  {
+   "key": "qqq",
    "name": "Nasdaq-100",
    "instrument": "NQ=F close",
    "direction": "Bullish = index higher",
@@ -9971,6 +11535,29 @@
    "sigma": 22.1299991607666,
    "sigmaSource": "^VXN close 22.1299991607666 on 2026-09-28",
    "driverNote": "The Nasdaq-100 proxy's dominant drivers are the 10-year yield (corr -0.642) and oil (-0.625); both moved against it on 28 September and the Nasdaq Composite fell 0.92%, with Nvidia (+1.68%) the notable exception.",
+   "stretch": {
+    "score": 3,
+    "label": "extreme-up",
+    "components": {
+     "oscillator": 0,
+     "extension50": 1,
+     "extension200": 1,
+     "range": 1,
+     "volRegime": 0,
+     "crowd": 0
+    },
+    "drivers": [
+     "Close of 30591.8 is 2.82 daily-sigma above the 50-day average of 29432.77.",
+     "Close of 30591.8 is 8.08 daily-sigma above the 200-day average of 27496.38, past the +6 threshold.",
+     "Close of 30591.8 is within 2% of the 52-week high of 31028.5."
+    ],
+    "nullInputs": [
+     "No source-documented positioning or sentiment extreme for megacap tech dated to 28 September was found, so crowd is 0.",
+     "VXN 22.13 and VIX 16.07 carry no source-named percentile or record, so volRegime is 0."
+    ],
+    "asOf": "2026-09-28",
+    "method": "stretch-v1"
+   },
    "categories": [
     "Trend structure",
     "Leadership and concentration",
@@ -9986,15 +11573,255 @@
     "Cross-asset",
     "Market structure (HH/HL)"
    ],
-   "stretchInputs": {
-    "rsi14": 60.84,
-    "ma50": 29432.7736,
-    "ma200": 27496.3755,
-    "high52w": 31028.5,
-    "low52w": 23139.75,
-    "asOf": "2026-09-28",
-    "note": "52-week range is on a CLOSING basis over the trailing 252 sessions; vendor pages usually quote an intraday range, which is wider."
-   },
+   "horizons": [
+    {
+     "h": 1,
+     "maturity": "2026-09-29",
+     "band": 0.00697,
+     "flatLo": 30378.5255,
+     "flatHi": 30804.9745,
+     "bull": 1,
+     "bear": 4,
+     "neutral": 10,
+     "margin": 3,
+     "call": "no-call",
+     "confidence": "thin-evidence",
+     "shadowCall": "no-call",
+     "shadowConfidence": "thin-evidence",
+     "families": [],
+     "clusterDowngrade": false,
+     "preReversionCall": "no-call",
+     "preReversionConfidence": "thin-evidence",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score 3 (extreme-up): the cell is no-call, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "neu",
+       "NQ=F closed 30591.75, above its 50-day (29432.77) and 200-day (27496.38) with RSI(14) at 60.84, while hourly swings are choppy; 1H structure is choppy (LH 30759.2 at 09:00 ET on 28 September, LL 30356.8 at 10:00 ET on 28 September, HL 30533 at 16:00 ET on 28 September)."
+      ],
+      [
+       "neu",
+       "Nvidia rose 1.68% to $228.86 on its $150 billion buyback boost while the VanEck Semiconductor ETF fell about 1.8% and the Nasdaq Composite lost 0.92% on 28 September - leadership was split between semis and megacap AI names"
+      ],
+      [
+       "bear",
+       "The VXN closed 22.13 on 28 September (from 20.87 on 25 September) and the VIX rose 8.07% to 16.07; no source names a percentile or record, so the level is descriptive only"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); the Nasdaq-100 proxy's 21-session correlation to the 10-year is -0.642"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "neu",
+       "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale (broad-market survey, not tech-specific)"
+      ],
+      [
+       "neu",
+       "No dated fund-flow or positioning figure specific to the Nasdaq-100 was obtainable for 28 September; Nvidia's buyback boost is a company-level, not index-level, flow"
+      ],
+      [
+       "bull",
+       "Nvidia's record $150 billion buyback boost ($235 billion remaining) and Akamai's seven-year, $11.6 billion Anthropic infrastructure deal (AKAM +3.2%) point to continued AI-capex deal flow on 28 September, though semiconductors fell about 1.8% that day"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; the Nasdaq-100 proxy's 21-session correlation to oil is -0.625, the strongest in the driver table"
+      ],
+      [
+       "neu",
+       "1H structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 5,
+     "maturity": "2026-10-05",
+     "band": 0.015586,
+     "flatLo": 30114.947,
+     "flatHi": 31068.553,
+     "bull": 3,
+     "bear": 4,
+     "neutral": 8,
+     "margin": 1,
+     "call": "flat",
+     "confidence": "flat-solid",
+     "shadowCall": "flat",
+     "shadowConfidence": "flat-solid",
+     "families": [
+      "A",
+      "B",
+      "C"
+     ],
+     "clusterDowngrade": false,
+     "preReversionCall": "flat",
+     "preReversionConfidence": "flat-solid",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score 3 (extreme-up): the cell is flat, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "bull",
+       "Weekly structure is choppy (LL 27201.5 (week of 27 July), LH 30343 (week of 17 August), HL 28763.8 (week of 14 September)); the read leans on the moving averages (29432.77 and 27496.38), since the weekly swings are not a clean HH/HL sequence."
+      ],
+      [
+       "neu",
+       "Nvidia rose 1.68% to $228.86 on its $150 billion buyback boost while the VanEck Semiconductor ETF fell about 1.8% and the Nasdaq Composite lost 0.92% on 28 September - leadership was split between semis and megacap AI names"
+      ],
+      [
+       "bear",
+       "The VXN closed 22.13 on 28 September (from 20.87 on 25 September) and the VIX rose 8.07% to 16.07; no source names a percentile or record, so the level is descriptive only"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); the Nasdaq-100 proxy's 21-session correlation to the 10-year is -0.642"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "bull",
+       "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale (broad-market survey, not tech-specific)"
+      ],
+      [
+       "neu",
+       "No dated fund-flow or positioning figure specific to the Nasdaq-100 was obtainable for 28 September; Nvidia's buyback boost is a company-level, not index-level, flow"
+      ],
+      [
+       "bull",
+       "Nvidia's record $150 billion buyback boost ($235 billion remaining) and Akamai's seven-year, $11.6 billion Anthropic infrastructure deal (AKAM +3.2%) point to continued AI-capex deal flow on 28 September, though semiconductors fell about 1.8% that day"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; the Nasdaq-100 proxy's 21-session correlation to oil is -0.625, the strongest in the driver table"
+      ],
+      [
+       "neu",
+       "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    },
+    {
+     "h": 10,
+     "maturity": "2026-10-12",
+     "band": 0.022042,
+     "flatLo": 29917.4466,
+     "flatHi": 31266.0534,
+     "bull": 3,
+     "bear": 3,
+     "neutral": 9,
+     "margin": 0,
+     "call": "no-call",
+     "confidence": "thin-evidence",
+     "shadowCall": "no-call",
+     "shadowConfidence": "thin-evidence",
+     "families": [],
+     "clusterDowngrade": false,
+     "preReversionCall": "no-call",
+     "preReversionConfidence": "thin-evidence",
+     "reversionAligned": "none",
+     "reversionFlag": false,
+     "reversionNote": "Stretch score 3 (extreme-up): the cell is no-call, not a directional continuation bet, so the overlay took no action.",
+     "votes": [
+      [
+       "bull",
+       "Weekly structure is choppy (LL 27201.5 (week of 27 July), LH 30343 (week of 17 August), HL 28763.8 (week of 14 September)); the read leans on the moving averages (29432.77 and 27496.38), since the weekly swings are not a clean HH/HL sequence."
+      ],
+      [
+       "neu",
+       "Nvidia rose 1.68% to $228.86 on its $150 billion buyback boost while the VanEck Semiconductor ETF fell about 1.8% and the Nasdaq Composite lost 0.92% on 28 September - leadership was split between semis and megacap AI names"
+      ],
+      [
+       "neu",
+       "The VXN closed 22.13 on 28 September (from 20.87 on 25 September) and the VIX rose 8.07% to 16.07; no source names a percentile or record, so the level is descriptive only"
+      ],
+      [
+       "neu",
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) - still historically tight - and no 28 September print was obtainable, so credit is not confirming or contradicting the equity/rates move"
+      ],
+      [
+       "bear",
+       "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); the Nasdaq-100 proxy's 21-session correlation to the 10-year is -0.642"
+      ],
+      [
+       "bear",
+       "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes"
+      ],
+      [
+       "bull",
+       "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale (broad-market survey, not tech-specific)"
+      ],
+      [
+       "neu",
+       "No dated fund-flow or positioning figure specific to the Nasdaq-100 was obtainable for 28 September; Nvidia's buyback boost is a company-level, not index-level, flow"
+      ],
+      [
+       "bull",
+       "Nvidia's record $150 billion buyback boost ($235 billion remaining) and Akamai's seven-year, $11.6 billion Anthropic infrastructure deal (AKAM +3.2%) point to continued AI-capex deal flow on 28 September, though semiconductors fell about 1.8% that day"
+      ],
+      [
+       "neu",
+       "The August JOLTS job openings and consumer confidence are due 29 September; PCE inflation and ADP on 30 September, jobless claims and ISM manufacturing on 1 October, then Friday's jobs report - with a hike ~65-70% priced, hot data risks a hawkish repricing and soft data a relief, so no directional edge is claimed"
+      ],
+      [
+       "neu",
+       "No dated, sourced seasonal statistic for this asset over the 28 September-window was obtainable this run, so this category is neutral rather than an assertion from memory"
+      ],
+      [
+       "bear",
+       "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; the Nasdaq-100 proxy's 21-session correlation to oil is -0.625, the strongest in the driver table"
+      ],
+      [
+       "neu",
+       "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+     ],
+     "maturityClose": null,
+     "ret": null,
+     "correct": null,
+     "shadowCorrect": null,
+     "preReversionCorrect": null
+    }
+   ],
    "structure": {
     "hourly": {
      "state": "choppy",
@@ -11724,120 +13551,7 @@
      "note": null
     }
    },
-   "ticker": "NQ=F",
-   "volRegime": 0,
-   "crowd": 0,
-   "stretchDrivers": [
-    "Close of 30591.8 is 2.82 daily-sigma above the 50-day average of 29432.77.",
-    "Close of 30591.8 is 8.08 daily-sigma above the 200-day average of 27496.38, past the +6 threshold.",
-    "Close of 30591.8 is within 2% of the 52-week high of 31028.5."
-   ],
-   "nullInputs": [
-    "No source-documented positioning or sentiment extreme for megacap tech dated to 28 September was found, so crowd is 0.",
-    "VXN 22.13 and VIX 16.07 carry no source-named percentile or record, so volRegime is 0."
-   ]
+   "ticker": "NQ=F"
   }
- },
- "context": {
-  "driverRegime": {
-   "window": "21-session",
-   "n": 21,
-   "perAsset": {
-    "equities": {
-     "corr2Y": 0.364,
-     "beta2Y": 0.0459,
-     "corr10Y": -0.645,
-     "corrOil": -0.555,
-     "dominantDriver": "10Y",
-     "allDominant": [
-      "10Y",
-      "oil"
-     ]
-    },
-    "bonds": {
-     "corr2Y": 0.368,
-     "beta2Y": 0.0172,
-     "corr10Y": -0.955,
-     "corrOil": -0.213,
-     "dominantDriver": "10Y",
-     "allDominant": [
-      "10Y"
-     ]
-    },
-    "gold": {
-     "corr2Y": 0.142,
-     "beta2Y": 0.0332,
-     "corr10Y": -0.43,
-     "corrOil": -0.249,
-     "dominantDriver": "10Y",
-     "allDominant": [
-      "10Y"
-     ]
-    },
-    "dollar": {
-     "corr2Y": -0.182,
-     "beta2Y": -0.0091,
-     "corr10Y": 0.406,
-     "corrOil": -0.077,
-     "dominantDriver": "10Y",
-     "allDominant": [
-      "10Y"
-     ]
-    },
-    "iwm": {
-     "corr2Y": 0.287,
-     "beta2Y": 0.0371,
-     "corr10Y": -0.722,
-     "corrOil": -0.417,
-     "dominantDriver": "10Y",
-     "allDominant": [
-      "10Y",
-      "oil"
-     ]
-    },
-    "qqq": {
-     "corr2Y": 0.312,
-     "beta2Y": 0.0592,
-     "corr10Y": -0.642,
-     "corrOil": -0.625,
-     "dominantDriver": "10Y",
-     "allDominant": [
-      "10Y",
-      "oil"
-     ]
-    }
-   },
-   "method": "daily % change of each asset regressed on the daily change in the US 2-year and 10-year yields (basis points) and on the daily % change in WTI; a driver is dominant when |corr| >= 0.4",
-   "goldVsTlt": {
-    "corr": 0.459,
-    "sameDirection": "14/21",
-    "sharedDriverPair": true
-   },
-   "bigDays": {
-    "n": 8,
-    "definition": "|change in 2Y| >= 5bp",
-    "dates": null,
-    "corrs": {
-     "equities": 0.249,
-     "bonds": 0.314,
-     "gold": 0.31,
-     "dollar": -0.252,
-     "iwm": 0.277,
-     "qqq": 0.231
-    }
-   }
-  },
-  "dataNotes": [
-   "Run timing: this cycle fired the morning of 29 September 2026 after the GitHub Actions pre-open fetch job drafted contracts/*.2026-09-28.json from Monday 28 September's close. Every figure recorded here is dated at or before the 2026-09-28 close; news-log entries dated 29 September were deliberately not used.",
-   "Bonds, dollar and IWM sigma are not auto-fetched. Bonds sigma is 15 (TLT 30-day implied volatility, Market Rebellion 25 September print, 1 session stale); dollar sigma 4.72 (EUR/USD 1-month implied volatility) is carried from 21 September (5 sessions stale); IWM sigma 19.97 (RVX) is carried from 23 September (3 sessions stale). No newer prints were obtainable.",
-   "Closing levels vary slightly across sources: the 10-year yield closed about 5.24% (peak 5.272%) per CNBC/Babypips-cited data, while the news log records about 5.2%; the 2-year (4.94%) and 30-year (5.56%) are from the same closes. Spot gold settled near $4,127 (-3.71%) per Rio Times while the drafted GC=F close is 4154.80; the difference is a spot-versus-futures/timing basis and is not material to any vote sign.",
-   "Russell 2000 on 28 September: one wire reported +0.07% and another had IWM -0.62%; this conflict is disclosed in the IWM votes rather than resolved.",
-   "Breadth (NYSE 16 highs vs 422 lows, Nasdaq 50 vs 461, decliners over 2-to-1, 8 of 11 sectors lower), VIX 16.07 (+8.07%) and MOVE 101.82 (+6.06%) come from the 28 September market wrap and Vol Vibes summary.",
-   "High-yield OAS of 2.80% is dated 24 September (govspending.org); no 28 September print was found. AAII (32.7/19.2/48.1) is the survey for the week ending 23 September, the latest published.",
-   "Positioning: StoneX/CFTC data for the week to 22 September show dollar-index net longs +$12.5 billion to $17.3 billion (fastest weekly rise in seven years); Saxo reports gold managed-money selling of about 5.7k contracts that week, the fourth straight week of liquidation. No newer COT was available.",
-   "Fed path: the Fed hiked on 16 September; CME FedWatch/CNBC show roughly 65-70% odds of a 25bp hike on 28 October and about 53% for December as of 28 September. Governor Cook's 28 September remarks (inflation pressure from AI demand and oil; labor market well positioned for higher rates) are used in the Fed-path votes.",
-   "Calendar: JOLTS and consumer confidence 29 September, PCE and ADP 30 September, jobless claims and ISM manufacturing 1 October, jobs report Friday (2 October). Seasonality votes are neutral because no dated sourced statistic was obtained.",
-   "News-log entries for 2026-09-28 (Hormuz rejection, 10-year yield, Nvidia buyback, open/close, Cook, Akamai-Anthropic) were already merged into data/news_log.json; the Artifact database returned the same seven entries."
-  ]
- }
+ ]
 }
