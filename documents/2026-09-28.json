@@ -426,8 +426,8 @@
        null
       ]
      ],
-     "maturityClose": 7740.25,
-     "ret": -0.001097,
+     "maturityClose": 7728.25,
+     "ret": -0.002646,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2589,8 +2589,8 @@
        false
       ]
      ],
-     "maturityClose": 104.4375,
-     "ret": -0.000598,
+     "maturityClose": 104.390625,
+     "ret": -0.001047,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -5366,8 +5366,8 @@
        null
       ]
      ],
-     "maturityClose": 4201.2001953125,
-     "ret": 0.011168,
+     "maturityClose": 4199.0,
+     "ret": 0.010638,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7387,17 +7387,17 @@
       [
        "bull",
        "Risk-off on 28 September (S&P 500 -0.77%, VIX +8.07% to 16.07) tends to favor the dollar; the effect is treated as a 1D-only input",
-       false
+       true
       ],
       [
        "bull",
        "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); the ECB deposit rate is 2.50% (10 September) and the BOJ policy rate 1.25% (18 September), leaving US yields well above peers",
-       false
+       true
       ],
       [
        "bull",
        "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes; that contrasts with quarter-point moves at the ECB and BOJ",
-       false
+       true
       ],
       [
        "neu",
@@ -7412,7 +7412,7 @@
       [
        "bull",
        "Trump's rejection of Iran's Hormuz proposal on 28 September lifted oil and risk-aversion, a 1D-only supportive geopolitical input; no dated trade-policy event was found",
-       false
+       true
       ],
       [
        "neu",
@@ -7427,7 +7427,7 @@
       [
        "bull",
        "The dollar's 21-session correlation to the 10-year yield is +0.406 (its dominant driver), and the 10-year closed at a 19-year high of about 5.24% on 28 September",
-       false
+       true
       ],
       [
        "neu",
@@ -7435,8 +7435,8 @@
        null
       ]
      ],
-     "maturityClose": 101.37999725341797,
-     "ret": 0.001363,
+     "maturityClose": 101.39700317382812,
+     "ret": 0.001531,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9696,8 +9696,8 @@
        null
       ]
      ],
-     "maturityClose": 2828.699951171875,
-     "ret": -0.003698,
+     "maturityClose": 2821.60009765625,
+     "ret": -0.006199,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11737,8 +11737,8 @@
        null
       ]
      ],
-     "maturityClose": 30675.0,
-     "ret": 0.002721,
+     "maturityClose": 30604.0,
+     "ret": 0.0004,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
