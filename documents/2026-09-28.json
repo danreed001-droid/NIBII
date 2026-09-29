@@ -426,8 +426,8 @@
        null
       ]
      ],
-     "maturityClose": 7724.5,
-     "ret": -0.00313,
+     "maturityClose": 7736.25,
+     "ret": -0.001613,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2589,8 +2589,8 @@
        false
       ]
      ],
-     "maturityClose": 104.375,
-     "ret": -0.001196,
+     "maturityClose": 104.4375,
+     "ret": -0.000598,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -5366,8 +5366,8 @@
        null
       ]
      ],
-     "maturityClose": 4196.0,
-     "ret": 0.009916,
+     "maturityClose": 4203.89990234375,
+     "ret": 0.011818,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7387,17 +7387,17 @@
       [
        "bull",
        "Risk-off on 28 September (S&P 500 -0.77%, VIX +8.07% to 16.07) tends to favor the dollar; the effect is treated as a 1D-only input",
-       true
+       false
       ],
       [
        "bull",
        "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); the ECB deposit rate is 2.50% (10 September) and the BOJ policy rate 1.25% (18 September), leaving US yields well above peers",
-       true
+       false
       ],
       [
        "bull",
        "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes; that contrasts with quarter-point moves at the ECB and BOJ",
-       true
+       false
       ],
       [
        "neu",
@@ -7412,7 +7412,7 @@
       [
        "bull",
        "Trump's rejection of Iran's Hormuz proposal on 28 September lifted oil and risk-aversion, a 1D-only supportive geopolitical input; no dated trade-policy event was found",
-       true
+       false
       ],
       [
        "neu",
@@ -7427,7 +7427,7 @@
       [
        "bull",
        "The dollar's 21-session correlation to the 10-year yield is +0.406 (its dominant driver), and the 10-year closed at a 19-year high of about 5.24% on 28 September",
-       true
+       false
       ],
       [
        "neu",
@@ -7435,8 +7435,8 @@
        null
       ]
      ],
-     "maturityClose": 101.4229965209961,
-     "ret": 0.001788,
+     "maturityClose": 101.36699676513672,
+     "ret": 0.001235,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9643,7 +9643,7 @@
       [
        "bear",
        "The VIX rose 8.07% to 16.07 and the MOVE rose 6.06% to 101.82 on 28 September (Vol Vibes); MOVE remains below the 104.58 reading of 24 September, and no source names a percentile or record for either; the RVX carried into sigma (19.97) is stale, so this is read from the VIX",
-       true
+       false
       ],
       [
        "neu",
@@ -9653,12 +9653,12 @@
       [
        "bear",
        "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); RTY's 21-session correlation to the 10-year is -0.722, the strongest in the table, and higher floating-rate borrowing costs bear on small caps",
-       true
+       false
       ],
       [
        "bear",
        "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes",
-       true
+       false
       ],
       [
        "neu",
@@ -9668,7 +9668,7 @@
       [
        "bear",
        "IWM recorded about $3.3 billion of outflows in the prior week, its second-largest weekly withdrawal of 2026 (Benzinga), a fund-flow headwind that predates the 28 September session",
-       true
+       false
       ],
       [
        "neu",
@@ -9688,7 +9688,7 @@
       [
        "bear",
        "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; RTY's 21-session correlations are -0.417 to oil and -0.722 to the 10-year",
-       true
+       false
       ],
       [
        "neu",
@@ -9696,8 +9696,8 @@
        null
       ]
      ],
-     "maturityClose": 2818.89990234375,
-     "ret": -0.00715,
+     "maturityClose": 2825.10009765625,
+     "ret": -0.004966,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11737,8 +11737,8 @@
        null
       ]
      ],
-     "maturityClose": 30584.5,
-     "ret": -0.000237,
+     "maturityClose": 30644.25,
+     "ret": 0.001716,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
