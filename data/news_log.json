@@ -1458,5 +1458,65 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-09-29-1-trump-denies-iran-sanctions-relief-oil",
+    "data": {
+      "addedAt": "2026-09-29",
+      "category": "Geopolitics",
+      "date": "2026-09-29",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "Trump denies offering Iran sanctions relief; oil gives back overnight rally as Hormuz risk premium persists",
+      "impact": "High",
+      "numbers": "Brent ~$104.91 (-0.35%) after ~$106.77 late Mon; WTI ~$92.27 (-0.36%)",
+      "order": 1,
+      "reaction": "Dow/S&P futures edge lower on fading Iran-relief hopes while crude fades most of its overnight gains; energy/inflation risk remains the key overhang",
+      "region": "US/Middle East",
+      "source": "https://www.cornerstonefuturesllc.com/post/morning-highlights-trump-denies-offering-iran-sanctions-relief-brent-slips-to-104-91-as-us-weighs",
+      "tickers": "SPY, USO, XLE",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-29-2-astrazeneca-2b-summit-therapeutics-stake",
+    "data": {
+      "addedAt": "2026-09-29",
+      "category": "Deals",
+      "date": "2026-09-29",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "AstraZeneca to invest $2B in Summit Therapeutics (~12% stake) and co-develop cancer drugs",
+      "impact": "Low",
+      "numbers": "$2B convertible preferred at $18.36/sh (~19% premium); SMMT +~20-23% pre-market",
+      "order": 2,
+      "reaction": "SMMT jumps pre-market on the strategic tie-up around ivonescimab; contained to biotech, limited index impact",
+      "region": "US/UK",
+      "source": "https://www.bloomberg.com/news/articles/2026-09-28/summit-therapeutics-jumps-on-2-billion-astrazeneca-investment",
+      "tickers": "SMMT, AZN",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-29-3-jolts-august-due-10am-labor-test",
+    "data": {
+      "addedAt": "2026-09-29",
+      "category": "Macro",
+      "date": "2026-09-29",
+      "day": "Tue",
+      "direction": "Neutral",
+      "event": "August JOLTS job openings due 10:00 AM ET, first major labor-market test of the week; futures mixed ahead (Nasdaq 100 +~0.2-0.4%, S&P ~flat to +0.2%)",
+      "impact": "Medium",
+      "numbers": "Consensus n/a; S&P 500 fut ~flat to +0.2%; Nasdaq 100 fut +0.2-0.4%; Dow fut ~-0.1%",
+      "order": 3,
+      "reaction": "Tech bid vs. softer Dow/S&P; 10Y hovering near 5.2% keeps rate-sensitives cautious into the print",
+      "region": "US",
+      "source": "https://www.bloomberg.com/news/articles/2026-09-29/us-stock-futures-rise-as-traders-await-key-economic-data",
+      "tickers": "SPY, QQQ, TLT",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
