@@ -426,8 +426,8 @@
        null
       ]
      ],
-     "maturityClose": 7728.25,
-     "ret": -0.002646,
+     "maturityClose": 7724.5,
+     "ret": -0.00313,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2589,8 +2589,8 @@
        false
       ]
      ],
-     "maturityClose": 104.390625,
-     "ret": -0.001047,
+     "maturityClose": 104.375,
+     "ret": -0.001196,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -5366,8 +5366,8 @@
        null
       ]
      ],
-     "maturityClose": 4199.0,
-     "ret": 0.010638,
+     "maturityClose": 4196.0,
+     "ret": 0.009916,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7435,8 +7435,8 @@
        null
       ]
      ],
-     "maturityClose": 101.39700317382812,
-     "ret": 0.001531,
+     "maturityClose": 101.4229965209961,
+     "ret": 0.001788,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9643,7 +9643,7 @@
       [
        "bear",
        "The VIX rose 8.07% to 16.07 and the MOVE rose 6.06% to 101.82 on 28 September (Vol Vibes); MOVE remains below the 104.58 reading of 24 September, and no source names a percentile or record for either; the RVX carried into sigma (19.97) is stale, so this is read from the VIX",
-       false
+       true
       ],
       [
        "neu",
@@ -9653,12 +9653,12 @@
       [
        "bear",
        "The 10-year Treasury yield closed about 5.24% on 28 September after touching 5.272%, a fresh 19-year high, with the 2-year near 4.94% and the 30-year near 5.56% (CNBC/Babypips); RTY's 21-session correlation to the 10-year is -0.722, the strongest in the table, and higher floating-rate borrowing costs bear on small caps",
-       false
+       true
       ],
       [
        "bear",
        "Fed funds futures price roughly a 65-70% chance of a 25bp hike at the 28 October FOMC and about 53% for December (CME FedWatch/CNBC, 28 September) after the 16 September hike, and Governor Cook said on 28 September that AI-driven demand and higher oil will keep inflation pressure up, though she stopped short of calling for more hikes",
-       false
+       true
       ],
       [
        "neu",
@@ -9668,7 +9668,7 @@
       [
        "bear",
        "IWM recorded about $3.3 billion of outflows in the prior week, its second-largest weekly withdrawal of 2026 (Benzinga), a fund-flow headwind that predates the 28 September session",
-       false
+       true
       ],
       [
        "neu",
@@ -9688,7 +9688,7 @@
       [
        "bear",
        "WTI closed $96.31 (+4.22%) and Brent about $108.50 (+4.02%) on 28 September after Trump rejected Iran's Hormuz proposal; RTY's 21-session correlations are -0.417 to oil and -0.722 to the 10-year",
-       false
+       true
       ],
       [
        "neu",
@@ -9696,8 +9696,8 @@
        null
       ]
      ],
-     "maturityClose": 2821.60009765625,
-     "ret": -0.006199,
+     "maturityClose": 2818.89990234375,
+     "ret": -0.00715,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11737,8 +11737,8 @@
        null
       ]
      ],
-     "maturityClose": 30604.0,
-     "ret": 0.0004,
+     "maturityClose": 30584.5,
+     "ret": -0.000237,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
