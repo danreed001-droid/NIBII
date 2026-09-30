@@ -1657,5 +1657,65 @@
       "time": "Pre-market",
       "vsExp": "ADP +90K vs +75K exp (above)"
     }
+  },
+  {
+    "id": "2026-09-30-3-micron-beats-guides-higher-on-ai-demand",
+    "data": {
+      "addedAt": "2026-09-30",
+      "category": "Earnings",
+      "date": "2026-09-30",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "Micron beats fiscal Q4 estimates and issues a strong Q1 guide as AI-driven HBM/DRAM demand surges; data-center revenue jumps roughly 11x y/y",
+      "impact": "High",
+      "numbers": "Q4 revenue $54.23B (vs $41.46B in Q3, up ~381% y/y from $11.32B); non-GAAP EPS $33.42, GAAP EPS $32.87; Q1 FY27 guide: revenue $61.5B ±$1.5B, non-GAAP EPS $38.15 ±$1.00",
+      "order": 3,
+      "reaction": "Shares rose after hours as strong revenue guidance offset a slight margin miss; lifted broader semiconductor/AI complex",
+      "region": "US",
+      "source": "https://www.globenewswire.com/news-release/2026/09/30/3372366/14450/en/micron-technology-inc-reports-record-fiscal-fourth-quarter-and-full-year-2026-results.html",
+      "tickers": "MU, SOXX, NVDA, INTC, AMD",
+      "time": "After-hours",
+      "vsExp": "Non-GAAP EPS ~$33.42 vs ~$31.56 est. (beat); revenue above high end of prior guidance"
+    }
+  },
+  {
+    "id": "2026-09-30-4-stocks-mixed-dow-falls-sp-nasdaq-diverge",
+    "data": {
+      "addedAt": "2026-09-30",
+      "category": "Market",
+      "date": "2026-09-30",
+      "day": "Wed",
+      "direction": "Mixed",
+      "event": "Wall Street closed mixed: Dow fell on rotation out of cyclicals while Nasdaq edged higher and S&P slipped, as 10-year Treasury yields hit fresh multi-decade highs",
+      "impact": "Medium",
+      "numbers": "Dow -0.86% to 50,906.05; S&P 500 -0.25% to 7,651.54; Nasdaq Composite +0.24% to 26,861.06; 10-yr yield ~5.25-5.28% (highest since 2007)",
+      "order": 4,
+      "reaction": "Tech outperformed (Intel +3.7% on AI-driven CPU demand) while cyclicals, financials and industrials lagged; rising yields pressured rate-sensitive sectors",
+      "region": "US",
+      "source": "https://www.tradingkey.com/analysis/stocks/us-stocks/262194875-us-stock-close-nasdaq-rise-august-pce-treasury-yields-intel-micron-tradingkey",
+      "tickers": "DIA, SPY, QQQ, INTC, TLT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-30-5-anthropic-ipo-filing-spacex-845b-compute-deal",
+    "data": {
+      "addedAt": "2026-09-30",
+      "category": "Deals",
+      "date": "2026-09-30",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "Anthropic's confidential IPO prospectus reportedly shows it could pay SpaceX up to $84.5B for computing capacity through 2029, nearly double the previously reported ~$45B figure",
+      "impact": "Medium",
+      "numbers": "Up to $84.5B through 2029 (vs prior ~$45B estimate)",
+      "order": 5,
+      "reaction": "SpaceX-linked shares rose ~2-3% on the disclosure; underscores scale of AI infrastructure spending ahead of Anthropic's planned IPO",
+      "region": "US",
+      "source": "https://www.tradingkey.com/analysis/stocks/us-stocks/262193739-anthropic-spacex-compute-deal-billion-doubled-ipo-prospectus-ai-tradingkey",
+      "tickers": "SPCX, NVDA",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
