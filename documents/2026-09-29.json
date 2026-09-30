@@ -358,62 +358,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (HH 7770.75 at 07:00 ET on 29 September, LL 7712.25 at 13:00 ET on 29 September, LH 7755.75 at 20:00 ET on 29 September); ES=F closed 7732 against a 50-day average of 7670.59 and a 200-day of 7240.96 with RSI(14) at 52.39."
+       "1H structure is choppy (HH 7770.75 at 07:00 ET on 29 September, LL 7712.25 at 13:00 ET on 29 September, LH 7755.75 at 20:00 ET on 29 September); ES=F closed 7732 against a 50-day average of 7670.59 and a 200-day of 7240.96 with RSI(14) at 52.39.",
+       null
       ],
       [
        "bear",
-       "NYSE decliners outnumbered advancers about 3.55-to-1 with 4 S&P 500 new highs against 29 lows and Nasdaq 40 highs against 249 lows (one 29 September close wrap; counts not cross-verified) - narrow, weak internals even as the index-level loss was small"
+       "NYSE decliners outnumbered advancers about 3.55-to-1 with 4 S&P 500 new highs against 29 lows and Nasdaq 40 highs against 249 lows (one 29 September close wrap; counts not cross-verified) - narrow, weak internals even as the index-level loss was small",
+       false
       ],
       [
        "neu",
-       "VIX closed 16.04 on 29 September, essentially unchanged from 16.07, and no source names a percentile or record for it - no volatility signal either way"
+       "VIX closed 16.04 on 29 September, essentially unchanged from 16.07, and no source names a percentile or record for it - no volatility signal either way",
+       null
       ],
       [
        "neu",
-       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) and no later print was obtainable, so credit neither confirms nor contradicts the equity move"
+       "High-yield OAS was 2.80% on 24 September (ICE BofA series via govspending.org) and no later print was obtainable, so credit neither confirms nor contradicts the equity move",
+       null
       ],
       [
        "bear",
-       "The 10-year Treasury yield closed about 5.25% on 29 September, a fresh multiyear high, with the 30-year above 5.6% (news log/market wraps); equities' 21-session correlation to the 10-year is -0.637"
+       "The 10-year Treasury yield closed about 5.25% on 29 September, a fresh multiyear high, with the 30-year above 5.6% (news log/market wraps); equities' 21-session correlation to the 10-year is -0.637",
+       false
       ],
       [
        "bear",
-       "Fed funds futures still price a better-than-even chance of a 25bp October hike (sources vary from about 64% on CME FedWatch to about 69% on Kalshi/Polymarket on 29 September) after the 16 September hike; the weak JOLTS and consumer-confidence prints leave the later path less certain"
+       "Fed funds futures still price a better-than-even chance of a 25bp October hike (sources vary from about 64% on CME FedWatch to about 69% on Kalshi/Polymarket on 29 September) after the 16 September hike; the weak JOLTS and consumer-confidence prints leave the later path less certain",
+       false
       ],
       [
        "neu",
-       "AAII's survey for the week ending 23 September (latest published) showed bulls at 32.7% against a 37.5% average and bears at 48.1% against 31.5%, a contrarian-bullish reading but a week stale; the Conference Board's 29 September consumer-confidence reading (81.9, lowest since April 2014) is a household, not investor, gauge"
+       "AAII's survey for the week ending 23 September (latest published) showed bulls at 32.7% against a 37.5% average and bears at 48.1% against 31.5%, a contrarian-bullish reading but a week stale; the Conference Board's 29 September consumer-confidence reading (81.9, lowest since April 2014) is a household, not investor, gauge",
+       null
       ],
       [
        "neu",
-       "No dated fund-flow or CFTC positioning figure for broad US equities was obtainable for 29 September; Nvidia's record $150 billion buyback increase on 28 September is a corporate-flow item without a daily read"
+       "No dated fund-flow or CFTC positioning figure for broad US equities was obtainable for 29 September; Nvidia's record $150 billion buyback increase on 28 September is a corporate-flow item without a daily read",
+       null
       ],
       [
        "neu",
-       "Corporate news was mixed: AMD's $8.2 billion all-stock World Labs deal drew valuation and dilution worries as well as support, AstraZeneca's $2 billion Summit Therapeutics stake was contained to biotech, and the Anthropic IPO leak had no direct equity effect (news log, 29 September)"
+       "Corporate news was mixed: AMD's $8.2 billion all-stock World Labs deal drew valuation and dilution worries as well as support, AstraZeneca's $2 billion Summit Therapeutics stake was contained to biotech, and the Anthropic IPO leak had no direct equity effect (news log, 29 September)",
+       null
       ],
       [
        "neu",
-       "August JOLTS openings of 7.079 million missed the 7.23 million estimate and Conference Board confidence of 81.9 missed 89.2 (lowest since April 2014) on 29 September; PCE and ADP follow on 30 September, ISM on 1 October and the jobs report on 2 October, so with a hike partly priced no directional edge is claimed"
+       "August JOLTS openings of 7.079 million missed the 7.23 million estimate and Conference Board confidence of 81.9 missed 89.2 (lowest since April 2014) on 29 September; PCE and ADP follow on 30 September, ISM on 1 October and the jobs report on 2 October, so with a hike partly priced no directional edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable this run, so this category is neutral rather than an assertion from memory"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable this run, so this category is neutral rather than an assertion from memory",
+       null
       ],
       [
        "bear",
-       "The 10-year yield made a fresh multiyear high while Brent stayed near $103-105 after Trump denied offering Iran sanctions relief (news log); equities' 21-session correlations are -0.637 to the 10-year and -0.504 to oil, so the rates channel is a headwind"
+       "The 10-year yield made a fresh multiyear high while Brent stayed near $103-105 after Trump denied offering Iran sanctions relief (news log); equities' 21-session correlations are -0.637 to the 10-year and -0.504 to oil, so the rates channel is a headwind",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7755.75,
+     "ret": 0.003072,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -2473,62 +2488,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (HH 104.7 at 07:00 ET on 29 September, LL 104.17 at 11:00 ET on 29 September, LH 104.58 at 16:00 ET on 29 September); ZN=F closed 104.42 against a 50-day average of 107.63 and a 200-day of 110.26 with RSI(14) at 20.6."
+       "1H structure is choppy (HH 104.7 at 07:00 ET on 29 September, LL 104.17 at 11:00 ET on 29 September, LH 104.58 at 16:00 ET on 29 September); ZN=F closed 104.42 against a 50-day average of 107.63 and a 200-day of 110.26 with RSI(14) at 20.6.",
+       null
       ],
       [
        "neu",
-       "Bond futures have no exchange breadth statistic; no dated, sourced breadth-type measure for Treasuries was obtainable, so this category is neutral"
+       "Bond futures have no exchange breadth statistic; no dated, sourced breadth-type measure for Treasuries was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "No dated MOVE index close for 29 September was obtainable (101.82 on 28 September, below 104.58 on 24 September), so no volatility-regime edge is claimed"
+       "No dated MOVE index close for 29 September was obtainable (101.82 on 28 September, below 104.58 on 24 September), so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "High-yield OAS was 2.80% on 24 September and no later print was obtainable; credit spreads give no clean read on Treasury duration"
+       "High-yield OAS was 2.80% on 24 September and no later print was obtainable; credit spreads give no clean read on Treasury duration",
+       null
       ],
       [
        "bear",
-       "The 10-year yield closed about 5.25% on 29 September, a fresh multiyear high, the 30-year is above 5.6% (highest since 2002 per market wraps) and ZN=F closed 104.42, a new 52-week closing low; bonds' correlation to the 10-year is mechanical (-0.958)"
+       "The 10-year yield closed about 5.25% on 29 September, a fresh multiyear high, the 30-year is above 5.6% (highest since 2002 per market wraps) and ZN=F closed 104.42, a new 52-week closing low; bonds' correlation to the 10-year is mechanical (-0.958)",
+       false
       ],
       [
        "bear",
-       "Fed funds futures still price a better-than-even chance of a 25bp October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket on 29 September); the softer JOLTS and confidence data leave the December path less certain, so only the near horizons lean bearish"
+       "Fed funds futures still price a better-than-even chance of a 25bp October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket on 29 September); the softer JOLTS and confidence data leave the December path less certain, so only the near horizons lean bearish",
+       false
       ],
       [
        "neu",
-       "No dated bond-market sentiment survey was obtainable for 29 September, so this category is neutral"
+       "No dated bond-market sentiment survey was obtainable for 29 September, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "No 10-year note futures COT report newer than 15 September was obtainable, so positioning is neutral"
+       "No 10-year note futures COT report newer than 15 September was obtainable, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to a Treasury note future; no dated corporate-supply figure for 29 September was obtainable"
+       "Earnings catalysts do not apply to a Treasury note future; no dated corporate-supply figure for 29 September was obtainable",
+       null
       ],
       [
        "neu",
-       "August JOLTS (7.079 million vs 7.23 million est.) and consumer confidence (81.9, lowest since April 2014) were weak on 29 September, yet yields still rose to new highs - the data did not bring a bid; PCE/ADP on 30 September and the 2 October jobs report keep the calendar two-sided"
+       "August JOLTS (7.079 million vs 7.23 million est.) and consumer confidence (81.9, lowest since April 2014) were weak on 29 September, yet yields still rose to new highs - the data did not bring a bid; PCE/ADP on 30 September and the 2 October jobs report keep the calendar two-sided",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "bear",
-       "Oil stayed elevated (Brent near $103-105) and equities held within about 1.3% of their 52-week high while the 10-year set a new high; bonds' 21-session correlation to oil is only -0.233, so the cross-asset tilt is bearish only for the 1D window"
+       "Oil stayed elevated (Brent near $103-105) and equities held within about 1.3% of their 52-week high while the 10-year set a new high; bonds' 21-session correlation to oil is only -0.233, so the cross-asset tilt is bearish only for the 1D window",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 104.625,
+     "ret": 0.001945,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -5213,62 +5243,77 @@
      "votes": [
       [
        "bull",
-       "1H structure is uptrend (HH 4207.2 at 10:00 ET on 29 September, HL 4174.4 at 13:00 ET on 29 September, HH 4219.7 at 19:00 ET on 29 September); GC=F closed 4179.7 against a 50-day average of 4360.82 and a 200-day of 4555.49 with RSI(14) at 34.16."
+       "1H structure is uptrend (HH 4207.2 at 10:00 ET on 29 September, HL 4174.4 at 13:00 ET on 29 September, HH 4219.7 at 19:00 ET on 29 September); GC=F closed 4179.7 against a 50-day average of 4360.82 and a 200-day of 4555.49 with RSI(14) at 34.16.",
+       true
       ],
       [
        "neu",
-       "Gold has no exchange breadth statistic; no dated, sourced breadth-type measure was obtainable, so this category is neutral"
+       "Gold has no exchange breadth statistic; no dated, sourced breadth-type measure was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "GVZ closed 24.37 on 29 September (24.83 on 28 September) and no source names a percentile or record, so no volatility-regime edge is claimed"
+       "GVZ closed 24.37 on 29 September (24.83 on 28 September) and no source names a percentile or record, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread print later than the 24 September high-yield OAS (2.80%) was obtainable and it has no clean link to gold, so credit is neutral"
+       "No dated credit-spread print later than the 24 September high-yield OAS (2.80%) was obtainable and it has no clean link to gold, so credit is neutral",
+       null
       ],
       [
        "bear",
-       "The 10-year yield closed near 5.25%, a multiyear high, and gold's dominant 21-session driver is the 10-year (corr -0.431), so higher yields remain a headwind even though gold bounced 0.60% on 29 September"
+       "The 10-year yield closed near 5.25%, a multiyear high, and gold's dominant 21-session driver is the 10-year (corr -0.431), so higher yields remain a headwind even though gold bounced 0.60% on 29 September",
+       false
       ],
       [
        "bear",
-       "Fed funds futures still price a better-than-even chance of an October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket, 29 September), which is a headwind for non-yielding gold; the softer labor data leaves the later path less certain"
+       "Fed funds futures still price a better-than-even chance of an October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket, 29 September), which is a headwind for non-yielding gold; the softer labor data leaves the later path less certain",
+       false
       ],
       [
        "neu",
-       "No dated gold-specific sentiment survey was obtainable for 29 September, so this category is neutral"
+       "No dated gold-specific sentiment survey was obtainable for 29 September, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "Saxo/CFTC data for the week to 22 September show gold managed-money net selling of about 5.7k contracts, the fourth straight week of liquidation (a week stale by 29 September); no newer COT was available and no extreme is named"
+       "Saxo/CFTC data for the week to 22 September show gold managed-money net selling of about 5.7k contracts, the fourth straight week of liquidation (a week stale by 29 September); no newer COT was available and no extreme is named",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to gold; no dated miner or ETF-flow figure for 29 September was obtainable"
+       "Earnings catalysts do not apply to gold; no dated miner or ETF-flow figure for 29 September was obtainable",
+       null
       ],
       [
        "bull",
-       "August JOLTS (7.079 million vs 7.23 million est.) and consumer confidence (81.9 vs 89.2 est., lowest since April 2014) were weak on 29 September, a mild support for gold; PCE/ADP on 30 September and the jobs report on 2 October keep the longer windows two-sided"
+       "August JOLTS (7.079 million vs 7.23 million est.) and consumer confidence (81.9 vs 89.2 est., lowest since April 2014) were weak on 29 September, a mild support for gold; PCE/ADP on 30 September and the jobs report on 2 October keep the longer windows two-sided",
+       true
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "bear",
-       "The dollar index rose about 0.13% to 101.37 near its 52-week high of 101.61 on 29 September, a headwind for gold, while the Iran/Hormuz stalemate (Brent about $103-105) offers only a partial safe-haven offset; gold's 21-session correlation to TLT is 0.44"
+       "The dollar index rose about 0.13% to 101.37 near its 52-week high of 101.61 on 29 September, a headwind for gold, while the Iran/Hormuz stalemate (Brent about $103-105) offers only a partial safe-haven offset; gold's 21-session correlation to TLT is 0.44",
+       false
       ],
       [
        "bull",
-       "1H structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "1H structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 4228.39990234375,
+     "ret": 0.011651,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -7228,62 +7273,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (HH 101.61 at 12:00 ET on 29 September, HL 101.35 at 14:00 ET on 29 September, LH 101.43 at 20:00 ET on 29 September); DX-Y.NYB closed 101.37 against a 50-day average of 99.97 and a 200-day of 99.22 with RSI(14) at 69.18."
+       "1H structure is choppy (HH 101.61 at 12:00 ET on 29 September, HL 101.35 at 14:00 ET on 29 September, LH 101.43 at 20:00 ET on 29 September); DX-Y.NYB closed 101.37 against a 50-day average of 99.97 and a 200-day of 99.22 with RSI(14) at 69.18.",
+       null
       ],
       [
        "neu",
-       "The dollar index has no breadth statistic; no dated, sourced breadth-type measure was obtainable, so this category is neutral"
+       "The dollar index has no breadth statistic; no dated, sourced breadth-type measure was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "No fresh FX implied-volatility print was obtainable (the EUR/USD 1-month reading of 4.72 is carried from 21 September), so no volatility-regime edge is claimed"
+       "No fresh FX implied-volatility print was obtainable (the EUR/USD 1-month reading of 4.72 is carried from 21 September), so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread print later than the 24 September high-yield OAS (2.80%) was obtainable and it has no clean link to the dollar, so credit is neutral"
+       "No dated credit-spread print later than the 24 September high-yield OAS (2.80%) was obtainable and it has no clean link to the dollar, so credit is neutral",
+       null
       ],
       [
        "bull",
-       "The 10-year yield closed near 5.25% and the 30-year above 5.6% on 29 September while the dollar index rose about 0.13% to 101.37; the dollar's 21-session correlation to the 10-year is +0.388 (below the 0.4 dominance bar), so the link is supportive but not clean"
+       "The 10-year yield closed near 5.25% and the 30-year above 5.6% on 29 September while the dollar index rose about 0.13% to 101.37; the dollar's 21-session correlation to the 10-year is +0.388 (below the 0.4 dominance bar), so the link is supportive but not clean",
+       false
       ],
       [
        "bull",
-       "Fed funds futures still price a better-than-even chance of a 25bp October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket, 29 September); a hiking Fed supports the dollar, though the softer labor data makes the later path less certain"
+       "Fed funds futures still price a better-than-even chance of a 25bp October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket, 29 September); a hiking Fed supports the dollar, though the softer labor data makes the later path less certain",
+       false
       ],
       [
        "neu",
-       "No dated dollar-specific sentiment survey was obtainable for 29 September, so this category is neutral"
+       "No dated dollar-specific sentiment survey was obtainable for 29 September, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "StoneX/CFTC data for the week to 22 September show dollar-index net longs up $12.5 billion to $17.3 billion, the fastest weekly rise in seven years, but the level itself is modest and no newer COT was available, so this is a stale flow read with no named extreme"
+       "StoneX/CFTC data for the week to 22 September show dollar-index net longs up $12.5 billion to $17.3 billion, the fastest weekly rise in seven years, but the level itself is modest and no newer COT was available, so this is a stale flow read with no named extreme",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to the dollar index; no dated corporate-flow figure for 29 September was obtainable"
+       "Earnings catalysts do not apply to the dollar index; no dated corporate-flow figure for 29 September was obtainable",
+       null
       ],
       [
        "neu",
-       "Weak August JOLTS (7.079 million) and consumer confidence (81.9, lowest since April 2014) on 29 September argue against a hiking Fed, while PCE and ADP on 30 September and the 2 October jobs report can swing either way, so no directional edge is claimed"
+       "Weak August JOLTS (7.079 million) and consumer confidence (81.9, lowest since April 2014) on 29 September argue against a hiking Fed, while PCE and ADP on 30 September and the 2 October jobs report can swing either way, so no directional edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "bull",
-       "Gold rose 0.60% and the S&P 500 slipped 0.22% while the dollar and the 10-year yield both rose, and the Iran/Hormuz stalemate (news log) keeps a safe-haven bid; the dollar's 21-session correlations to the 2-year (-0.132) and oil (-0.089) are weak"
+       "Gold rose 0.60% and the S&P 500 slipped 0.22% while the dollar and the 10-year yield both rose, and the Iran/Hormuz stalemate (news log) keeps a safe-haven bid; the dollar's 21-session correlations to the 2-year (-0.132) and oil (-0.089) are weak",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 101.1500015258789,
+     "ret": -0.00217,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 5,
@@ -9457,62 +9517,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is downtrend (LH 2851.8 at 07:00 ET on 29 September, LL 2811.9 at 13:00 ET on 29 September, LH 2839.7 at 20:00 ET on 29 September); RTY=F closed 2829.2 against a 50-day average of 2960.67 and a 200-day of 2786.94 with RSI(14) at 32.93."
+       "1H structure is downtrend (LH 2851.8 at 07:00 ET on 29 September, LL 2811.9 at 13:00 ET on 29 September, LH 2839.7 at 20:00 ET on 29 September); RTY=F closed 2829.2 against a 50-day average of 2960.67 and a 200-day of 2786.94 with RSI(14) at 32.93.",
+       null
       ],
       [
        "bear",
-       "NYSE decliners outnumbered advancers about 3.55-to-1 on 29 September (one close wrap, not cross-verified); the Russell 2000 fell 0.35% and small caps are the weaker end of a narrow tape"
+       "NYSE decliners outnumbered advancers about 3.55-to-1 on 29 September (one close wrap, not cross-verified); the Russell 2000 fell 0.35% and small caps are the weaker end of a narrow tape",
+       false
       ],
       [
        "neu",
-       "No fresh RVX print was obtainable (19.97 is carried from 23 September) and VIX 16.04 carries no named percentile or record, so no volatility-regime edge is claimed"
+       "No fresh RVX print was obtainable (19.97 is carried from 23 September) and VIX 16.04 carries no named percentile or record, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread print later than the 24 September high-yield OAS (2.80%) was obtainable, so credit is neutral for small caps"
+       "No dated credit-spread print later than the 24 September high-yield OAS (2.80%) was obtainable, so credit is neutral for small caps",
+       null
       ],
       [
        "bear",
-       "The 10-year yield closed near 5.25%, a multiyear high; small caps' dominant 21-session driver is the 10-year (corr -0.725), so rising long yields are a clear headwind"
+       "The 10-year yield closed near 5.25%, a multiyear high; small caps' dominant 21-session driver is the 10-year (corr -0.725), so rising long yields are a clear headwind",
+       false
       ],
       [
        "bear",
-       "Fed funds futures still price a better-than-even chance of an October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket, 29 September); higher policy rates weigh on rate-sensitive small caps, while the softer labor data leaves the later path less certain"
+       "Fed funds futures still price a better-than-even chance of an October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket, 29 September); higher policy rates weigh on rate-sensitive small caps, while the softer labor data leaves the later path less certain",
+       false
       ],
       [
        "neu",
-       "The Conference Board's 29 September consumer-confidence reading (81.9, lowest since April 2014) and AAII's week-to-23 September survey (bulls 32.7%, bears 48.1%, a week stale) are both depressed, a contrarian-bullish backdrop, but neither is a small-cap-specific extreme"
+       "The Conference Board's 29 September consumer-confidence reading (81.9, lowest since April 2014) and AAII's week-to-23 September survey (bulls 32.7%, bears 48.1%, a week stale) are both depressed, a contrarian-bullish backdrop, but neither is a small-cap-specific extreme",
+       null
       ],
       [
        "neu",
-       "No dated small-cap fund-flow figure for 29 September was obtainable (IWM's $3.3 billion weekly outflow reported earlier was not a named record), so positioning is neutral"
+       "No dated small-cap fund-flow figure for 29 September was obtainable (IWM's $3.3 billion weekly outflow reported earlier was not a named record), so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No index-level earnings catalyst specific to small caps was in the 29 September news log, so this category is neutral"
+       "No index-level earnings catalyst specific to small caps was in the 29 September news log, so this category is neutral",
+       null
       ],
       [
        "bear",
-       "August JOLTS (7.079 million vs 7.23 million est.) and consumer confidence (81.9 vs 89.2 est., lowest since April 2014) on 29 September hit domestic-cyclical sentiment; PCE/ADP on 30 September and the 2 October jobs report keep the longer windows two-sided"
+       "August JOLTS (7.079 million vs 7.23 million est.) and consumer confidence (81.9 vs 89.2 est., lowest since April 2014) on 29 September hit domestic-cyclical sentiment; PCE/ADP on 30 September and the 2 October jobs report keep the longer windows two-sided",
+       false
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "bear",
-       "The 10-year yield made a fresh multiyear high and Brent held near $103-105; small caps' 21-session correlations are -0.725 to the 10-year and -0.417 to oil, both adverse"
+       "The 10-year yield made a fresh multiyear high and Brent held near $103-105; small caps' 21-session correlations are -0.725 to the 10-year and -0.417 to oil, both adverse",
+       false
       ],
       [
        "bear",
-       "1H structure is downtrend - last labeled swings: LL/LH/LL/LH."
+       "1H structure is downtrend - last labeled swings: LL/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 2840.0,
+     "ret": 0.003817,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -11461,62 +11536,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (LH 30725.5 at 09:00 ET on 29 September, HL 30504.5 at 12:00 ET on 29 September, HH 30737 at 20:00 ET on 29 September); NQ=F closed 30613.25 against a 50-day average of 29468.95 and a 200-day of 27520.32 with RSI(14) at 60.96."
+       "1H structure is choppy (LH 30725.5 at 09:00 ET on 29 September, HL 30504.5 at 12:00 ET on 29 September, HH 30737 at 20:00 ET on 29 September); NQ=F closed 30613.25 against a 50-day average of 29468.95 and a 200-day of 27520.32 with RSI(14) at 60.96.",
+       null
       ],
       [
        "bear",
-       "On 29 September NYSE decliners outnumbered advancers about 3.55-to-1 and the Nasdaq showed 40 new highs against 249 lows (one close wrap, not cross-verified), so internals were poor even as the megacap-led NQ future edged up 0.07%"
+       "On 29 September NYSE decliners outnumbered advancers about 3.55-to-1 and the Nasdaq showed 40 new highs against 249 lows (one close wrap, not cross-verified), so internals were poor even as the megacap-led NQ future edged up 0.07%",
+       false
       ],
       [
        "neu",
-       "VXN closed 22.07 (22.13 on 28 September) and VIX 16.04; no source names a percentile or record, so no volatility-regime edge is claimed"
+       "VXN closed 22.07 (22.13 on 28 September) and VIX 16.04; no source names a percentile or record, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread print later than the 24 September high-yield OAS (2.80%) was obtainable, so credit is neutral"
+       "No dated credit-spread print later than the 24 September high-yield OAS (2.80%) was obtainable, so credit is neutral",
+       null
       ],
       [
        "bear",
-       "The 10-year yield closed near 5.25%, a multiyear high; the Nasdaq-100 proxy's dominant 21-session drivers are the 10-year (corr -0.636) and oil (-0.597), an adverse rates channel for long-duration growth"
+       "The 10-year yield closed near 5.25%, a multiyear high; the Nasdaq-100 proxy's dominant 21-session drivers are the 10-year (corr -0.636) and oil (-0.597), an adverse rates channel for long-duration growth",
+       false
       ],
       [
        "bear",
-       "Fed funds futures still price a better-than-even chance of an October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket, 29 September); higher-for-longer rates weigh on long-duration growth, though the softer labor data leaves the later path less certain"
+       "Fed funds futures still price a better-than-even chance of an October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket, 29 September); higher-for-longer rates weigh on long-duration growth, though the softer labor data leaves the later path less certain",
+       false
       ],
       [
        "neu",
-       "AAII's survey for the week ending 23 September (latest published) showed bulls at 32.7% against a 37.5% average and bears at 48.1% against 31.5%, a contrarian-bullish reading but a week stale"
+       "AAII's survey for the week ending 23 September (latest published) showed bulls at 32.7% against a 37.5% average and bears at 48.1% against 31.5%, a contrarian-bullish reading but a week stale",
+       null
       ],
       [
        "neu",
-       "No dated fund-flow or CFTC positioning figure for megacap tech was obtainable for 29 September; Nvidia's $150 billion buyback increase (28 September) is a corporate-flow item without a daily read"
+       "No dated fund-flow or CFTC positioning figure for megacap tech was obtainable for 29 September; Nvidia's $150 billion buyback increase (28 September) is a corporate-flow item without a daily read",
+       null
       ],
       [
        "bull",
-       "AI-linked megacaps kept a bid on 29 September - the Nasdaq was the only major index reported higher in the news log - with AMD's $8.2 billion World Labs deal (mixed dilution worries) and the leaked Anthropic IPO prospectus (about $2 trillion valuation, no direct equity effect) keeping the AI theme in focus"
+       "AI-linked megacaps kept a bid on 29 September - the Nasdaq was the only major index reported higher in the news log - with AMD's $8.2 billion World Labs deal (mixed dilution worries) and the leaked Anthropic IPO prospectus (about $2 trillion valuation, no direct equity effect) keeping the AI theme in focus",
+       false
       ],
       [
        "neu",
-       "Weak August JOLTS (7.079 million) and consumer confidence (81.9) on 29 September pull two ways for growth equities - softer economy but lower hike odds; PCE/ADP on 30 September, ISM on 1 October and the 2 October jobs report leave no directional edge"
+       "Weak August JOLTS (7.079 million) and consumer confidence (81.9) on 29 September pull two ways for growth equities - softer economy but lower hike odds; PCE/ADP on 30 September, ISM on 1 October and the 2 October jobs report leave no directional edge",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "bear",
-       "The 10-year yield made a fresh multiyear high and Brent held near $103-105; the Nasdaq-100 proxy's 21-session correlations are -0.636 to the 10-year and -0.597 to oil, both adverse"
+       "The 10-year yield made a fresh multiyear high and Brent held near $103-105; the Nasdaq-100 proxy's 21-session correlations are -0.636 to the 10-year and -0.597 to oil, both adverse",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 30732.0,
+     "ret": 0.003879,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 5,
