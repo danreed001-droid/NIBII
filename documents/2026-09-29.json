@@ -422,8 +422,8 @@
        null
       ]
      ],
-     "maturityClose": 7755.75,
-     "ret": 0.003072,
+     "maturityClose": 7760.75,
+     "ret": 0.003718,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2552,8 +2552,8 @@
        null
       ]
      ],
-     "maturityClose": 104.625,
-     "ret": 0.001945,
+     "maturityClose": 104.15625,
+     "ret": -0.002544,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5244,7 +5244,7 @@
       [
        "bull",
        "1H structure is uptrend (HH 4207.2 at 10:00 ET on 29 September, HL 4174.4 at 13:00 ET on 29 September, HH 4219.7 at 19:00 ET on 29 September); GC=F closed 4179.7 against a 50-day average of 4360.82 and a 200-day of 4555.49 with RSI(14) at 34.16.",
-       true
+       false
       ],
       [
        "neu",
@@ -5289,7 +5289,7 @@
       [
        "bull",
        "August JOLTS (7.079 million vs 7.23 million est.) and consumer confidence (81.9 vs 89.2 est., lowest since April 2014) were weak on 29 September, a mild support for gold; PCE/ADP on 30 September and the jobs report on 2 October keep the longer windows two-sided",
-       true
+       false
       ],
       [
        "neu",
@@ -5304,14 +5304,14 @@
       [
        "bull",
        "1H structure is uptrend - last labeled swings: HL/HH/HL/HH.",
-       true
+       false
       ]
      ],
-     "maturityClose": 4228.39990234375,
-     "ret": 0.011651,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 4181.39990234375,
+     "ret": 0.000407,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against GC=F",
      "provisional": true
     },
@@ -7337,8 +7337,8 @@
        null
       ]
      ],
-     "maturityClose": 101.1500015258789,
-     "ret": -0.00217,
+     "maturityClose": 101.43900299072266,
+     "ret": 0.000681,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9581,8 +9581,8 @@
        false
       ]
      ],
-     "maturityClose": 2840.0,
-     "ret": 0.003817,
+     "maturityClose": 2828.800048828125,
+     "ret": -0.000141,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -11577,7 +11577,7 @@
       [
        "bull",
        "AI-linked megacaps kept a bid on 29 September - the Nasdaq was the only major index reported higher in the news log - with AMD's $8.2 billion World Labs deal (mixed dilution worries) and the leaked Anthropic IPO prospectus (about $2 trillion valuation, no direct equity effect) keeping the AI theme in focus",
-       false
+       true
       ],
       [
        "neu",
@@ -11600,8 +11600,8 @@
        null
       ]
      ],
-     "maturityClose": 30732.0,
-     "ret": 0.003879,
+     "maturityClose": 30853.5,
+     "ret": 0.007848,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
