@@ -422,13 +422,12 @@
        null
       ]
      ],
-     "maturityClose": 7750.5,
-     "ret": 0.002393,
+     "maturityClose": 7721.5,
+     "ret": -0.001358,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2552,13 +2551,12 @@
        null
       ]
      ],
-     "maturityClose": 104.21875,
-     "ret": -0.001945,
+     "maturityClose": 104.234375,
+     "ret": -0.001796,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5307,13 +5305,12 @@
        false
       ]
      ],
-     "maturityClose": 4184.0,
-     "ret": 0.001029,
+     "maturityClose": 4189.10009765625,
+     "ret": 0.002249,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7337,13 +7334,12 @@
        null
       ]
      ],
-     "maturityClose": 101.47100067138672,
-     "ret": 0.000996,
+     "maturityClose": 101.44999694824219,
+     "ret": 0.000789,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9581,13 +9577,12 @@
        false
       ]
      ],
-     "maturityClose": 2827.300048828125,
-     "ret": -0.000672,
+     "maturityClose": 2819.199951171875,
+     "ret": -0.003535,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11577,7 +11572,7 @@
       [
        "bull",
        "AI-linked megacaps kept a bid on 29 September - the Nasdaq was the only major index reported higher in the news log - with AMD's $8.2 billion World Labs deal (mixed dilution worries) and the leaked Anthropic IPO prospectus (about $2 trillion valuation, no direct equity effect) keeping the AI theme in focus",
-       true
+       false
       ],
       [
        "neu",
@@ -11600,13 +11595,12 @@
        null
       ]
      ],
-     "maturityClose": 30836.75,
-     "ret": 0.007301,
+     "maturityClose": 30725.75,
+     "ret": 0.003675,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,
