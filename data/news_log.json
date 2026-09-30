@@ -1518,5 +1518,144 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-09-29-4-sp500-dow-slip-yields-fresh-high-nasdaq-gains",
+    "data": {
+      "addedAt": "2026-09-29",
+      "category": "Market",
+      "date": "2026-09-29",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "S&P 500 and Dow slip as the 10-year Treasury yield hits a fresh multiyear high; Nasdaq eked out a gain on AI-driven tech strength",
+      "impact": "High",
+      "numbers": "S&P 500 7,677.32, -12.85 (-0.17%); Dow 51,404.33, -130.52 (-0.25%); Nasdaq Composite 30,377.32, +62.52 (+0.21%); 10-year Treasury yield ~5.249% (fresh multiyear high)",
+      "order": 4,
+      "reaction": "Nasdaq was the only major index to close higher; weak JOLTS and consumer-confidence prints plus still-rising long yields pressured cyclicals and the Dow, while AMD's World Labs deal helped keep mega-cap AI names bid",
+      "region": "US",
+      "source": "https://tradingeconomics.com/united-states/stock-market",
+      "tickers": "SPY, DIA, QQQ, TLT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-29-5-jolts-miss-consumer-confidence-12yr-low",
+    "data": {
+      "addedAt": "2026-09-29",
+      "category": "Macro",
+      "date": "2026-09-29",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "August JOLTS misses views and September consumer confidence sinks to a 12-year low, fueling stagflation-lite worries",
+      "impact": "High",
+      "numbers": "JOLTS 7.079M vs 7.23M est. (July revised to 7.335M); Conference Board Consumer Confidence 81.9 vs 89.2 est., -6.7 pts m/m, lowest since April 2014",
+      "order": 5,
+      "reaction": "Reinforced worries about a cooling labor market and weak consumer sentiment, pressuring cyclicals and the Dow even as Treasury yields pushed to fresh multiyear highs",
+      "region": "US",
+      "source": "https://www.fxstreet.com/news/us-jolts-job-openings-dropped-to-7079-million-in-august-202609291403",
+      "tickers": "SPY, DIA, TLT, XLY",
+      "time": "Market hours",
+      "vsExp": "JOLTS missed by ~0.15M; confidence missed by ~7.3 pts"
+    }
+  },
+  {
+    "id": "2026-09-29-6-amd-to-buy-world-labs-8-2b-fei-fei-li",
+    "data": {
+      "addedAt": "2026-09-29",
+      "category": "Deals",
+      "date": "2026-09-29",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "AMD to acquire Fei-Fei Li's World Labs for $8.2B in an all-stock deal, adding the \"Godmother of AI\" as EVP/chief scientist",
+      "impact": "Medium",
+      "numbers": "$8.2B all-stock deal; AMD shares whipsawed, dipping on valuation/dilution concerns before rising as much as ~1.1% intraday",
+      "order": 6,
+      "reaction": "Mixed reaction - some investors flagged valuation and dilution concerns on the all-stock structure, others framed it as AMD building out its physical-AI bench against Nvidia",
+      "region": "US",
+      "source": "https://techcrunch.com/2026/09/28/amd-will-acquire-fei-fei-lis-world-labs-for-8-2-billion/",
+      "tickers": "AMD, NVDA",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-29-7-anthropic-ipo-prospectus-leak-2t-valuation",
+    "data": {
+      "addedAt": "2026-09-29",
+      "category": "Deals",
+      "date": "2026-09-29",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "Leaked Anthropic IPO prospectus points to a ~$2T valuation and discloses \"existential risk to humanity\" warnings; OpenAI reportedly shelved a frontier model on safety grounds",
+      "impact": "Medium",
+      "numbers": "Reported target valuation ~$2T; revenue growth ~12x y/y per the leaked prospectus",
+      "order": 7,
+      "reaction": "No direct equity move (Anthropic is private), but the dueling storylines kept AI-safety and valuation-bubble debates in focus for AI-linked megacaps",
+      "region": "US",
+      "source": "https://www.cnn.com/2026/09/29/tech/anthropic-ipo-details-leak",
+      "tickers": "MSFT, AMZN, GOOG, NVDA",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-30-3-micron-earnings-due-after-the-close",
+    "data": {
+      "addedAt": "2026-09-30",
+      "category": "Earnings",
+      "date": "2026-09-30",
+      "day": "Wed",
+      "direction": "Neutral",
+      "event": "Micron Technology reports after the close today; chip strength (AMD, Intel) has semis heading for best month since June",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "reaction": "Tech/semis positioning into the print",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-september-30-dow-sp-500-nasdaq-080339262.html",
+      "tickers": "QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-09-30-1-august-pce-cools-below-forecast-yields-ease",
+    "data": {
+      "addedAt": "2026-09-30",
+      "category": "Macro",
+      "date": "2026-09-30",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "August PCE inflation cooler than expected; core PCE in line; Treasury yields ease and futures tick higher",
+      "impact": "High",
+      "numbers": "PCE +3.4% y/y; core PCE +3.3% y/y; 10Y ~5.23% (-0.02); S&P fut ~7,760 (+0.36%); Nasdaq fut +0.43%; Dow fut +0.34%",
+      "order": 1,
+      "reaction": "Yields eased off multiyear highs; equity futures bid, led by Nasdaq",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-september-30-dow-sp-500-nasdaq-080339262.html",
+      "tickers": "SPY, QQQ, TLT",
+      "time": "Pre-market",
+      "vsExp": "Headline 3.4% vs 3.7% exp (below); core 3.3% vs 3.3% exp (in line)"
+    }
+  },
+  {
+    "id": "2026-09-30-2-williams-no-urgency-oct-hike-odds-fall-to-50",
+    "data": {
+      "addedAt": "2026-09-30",
+      "category": "Fed",
+      "date": "2026-09-30",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "NY Fed's Williams says 'no need for urgency' to raise rates; October hike odds cut to roughly 50-50 from >70%",
+      "impact": "Medium",
+      "numbers": "Oct hike odds ~50% (from >70%); ADP Sept private payrolls +90K",
+      "order": 2,
+      "reaction": "Dovish tilt plus softer PCE pulls yields lower; supports bonds and gold",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-september-30-dow-sp-500-nasdaq-080339262.html",
+      "tickers": "TLT, 10Y, yield, SPY, GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "ADP +90K vs +75K exp (above)"
+    }
   }
 ]
