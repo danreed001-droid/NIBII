@@ -1717,5 +1717,65 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-01-1-treasury-yields-hit-multi-decade-highs",
+    "data": {
+      "addedAt": "2026-10-01",
+      "category": "Rates",
+      "date": "2026-10-01",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "US 10Y Treasury yield jumps to highest since April 2002 and 30Y to highest since July 2002 as global yields surge; European stocks start Q4 lower",
+      "impact": "High",
+      "numbers": "10Y ~5.33% (+4bp); 30Y ~5.67% (+3bp); STOXX 600 -1% to 628.1",
+      "order": 1,
+      "reaction": "Pressure on bonds and rate-sensitive equities; Europe weaker, US futures still bid on AI/chip strength",
+      "region": "US/Global",
+      "source": "https://investing.com/news/economy-news/european-stocks-start-quarter-lower-as-global-yields-hit-multiyear-highs-4926446",
+      "tickers": "TLT, 10Y, yield, Treasury, SPY",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-01-2-micron-blowout-lifts-chips-nasdaq-futures",
+    "data": {
+      "addedAt": "2026-10-01",
+      "category": "Earnings",
+      "date": "2026-10-01",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "Micron blockbuster results and guidance spark global semiconductor/AI rally; Nikkei and Kospi surge, Nvidia/AMD/Broadcom higher pre-market",
+      "impact": "High",
+      "numbers": "Micron revenue ~4x y/y; Nikkei +2.9%; Kospi +1.3%; S&P fut +0.3%; Nasdaq-100 fut +0.6%; Dow fut +0.2% (+86 pts)",
+      "order": 2,
+      "reaction": "Chip squeeze lifts tech; Nasdaq futures lead; Micron itself muted after +270% YTD run",
+      "region": "US/Asia",
+      "source": "https://www.cnbc.com/2026/09/30/stock-market-today-live-updates.html",
+      "tickers": "QQQ, Nasdaq, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "Revenue and guidance above expectations (figures n/a)"
+    }
+  },
+  {
+    "id": "2026-10-01-3-oil-jumps-brent-100-iran-backchannels",
+    "data": {
+      "addedAt": "2026-10-01",
+      "category": "Energy",
+      "date": "2026-10-01",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "Crude rallies with Brent back above $100 while US-Iran diplomatic backchannels continue; adds to inflation/yield worries",
+      "impact": "Medium",
+      "numbers": "WTI $92.28 (+2.06%); Brent $100.60 (+2.61%)",
+      "order": 3,
+      "reaction": "Higher oil feeds inflation and rate fears; supportive for energy, a headwind for broad equities and bonds",
+      "region": "Global",
+      "source": "https://tickmill.com/blog/daily-market-outlook-october-1-2026",
+      "tickers": "SPY, TLT, yield, GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
