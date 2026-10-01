@@ -5518,62 +5518,77 @@
      "votes": [
       [
        "bear",
-       "Gold at 4286.06 is below its 50-day of 4306.31 and 5.8% below its 200-day of 4549.87."
+       "Gold at 4286.06 is below its 50-day of 4306.31 and 5.8% below its 200-day of 4549.87.",
+       true
       ],
       [
        "bear",
-       "Silver 1.50% fall to 63.99 puts the gold/silver ratio at 67.0, the complex led lower by the higher-beta metal."
+       "Silver 1.50% fall to 63.99 puts the gold/silver ratio at 67.0, the complex led lower by the higher-beta metal.",
+       true
       ],
       [
        "neu",
-       "GVZ at 22.77 on 2026-09-23 carries no documented percentile, so gold volatility gives no signal."
+       "GVZ at 22.77 on 2026-09-23 carries no documented percentile, so gold volatility gives no signal.",
+       null
       ],
       [
        "bear",
-       "The 30-year closed at its highest since 2004 and the 5-year cleared 5% for the first time since 2007, lifting the real-rate hurdle for a zero-coupon asset."
+       "The 30-year closed at its highest since 2004 and the 5-year cleared 5% for the first time since 2007, lifting the real-rate hurdle for a zero-coupon asset.",
+       true
       ],
       [
        "bear",
-       "DXY RSI(14) near 71 with the index 0.70% below a 52-week high, against a -0.576 gold-dollar correlation over the window."
+       "DXY RSI(14) near 71 with the index 0.70% below a 52-week high, against a -0.576 gold-dollar correlation over the window.",
+       true
       ],
       [
        "bear",
-       "December hike odds of about 90% with the dot plot at 4.1% for 2026 and 2027 keep the policy path against gold."
+       "December hike odds of about 90% with the dot plot at 4.1% for 2026 and 2027 keep the policy path against gold.",
+       true
       ],
       [
        "bull",
-       "Managed money net long of 133,116 contracts on 15 September is light against the crowded zone, leaving room for the book to rebuild."
+       "Managed money net long of 133,116 contracts on 15 September is light against the crowded zone, leaving room for the book to rebuild.",
+       false
       ],
       [
        "neu",
-       "No dated central-bank flow figure is available inside this window."
+       "No dated central-bank flow figure is available inside this window.",
+       null
       ],
       [
        "neu",
-       "No dated physical or retail demand reading is obtainable for 24 September."
+       "No dated physical or retail demand reading is obtainable for 24 September.",
+       null
       ],
       [
        "neu",
-       "August PCE on 30 September is the window live two-way inflation event for gold."
+       "August PCE on 30 September is the window live two-way inflation event for gold.",
+       null
       ],
       [
        "bull",
-       "Late September into early October is seasonally firm for gold on Indian festival restocking."
+       "Late September into early October is seasonally firm for gold on Indian festival restocking.",
+       false
       ],
       [
        "bear",
-       "Gold correlation to TLT over the window is +0.374, just under the 0.40 coherence threshold, and TLT set a record low, so the shared hike-odds driver is pulling both down together."
+       "Gold correlation to TLT over the window is +0.374, just under the 0.40 coherence threshold, and TLT set a record low, so the shared hike-odds driver is pulling both down together.",
+       true
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 4176.365584,
+     "ret": -0.025593,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded on GC=F's return from 2026-09-24 to 2026-10-01 (no source for this document's own instrument); maturityClose is that return applied to the document's close",
+     "provisional": true
     },
     {
      "h": 10,
@@ -7556,62 +7571,77 @@
      "votes": [
       [
        "bull",
-       "DXY holds above its 50-day of 99.94 and 200-day of 99.18, 0.70% below a 52-week high."
+       "DXY holds above its 50-day of 99.94 and 200-day of 99.18, 0.70% below a 52-week high.",
+       true
       ],
       [
        "neu",
-       "No dated 24 September cross rates for the majors are obtainable, so breadth across EUR, GBP and JPY cannot be confirmed."
+       "No dated 24 September cross rates for the majors are obtainable, so breadth across EUR, GBP and JPY cannot be confirmed.",
+       null
       ],
       [
        "neu",
-       "The only implied-volatility reading is EUR/USD 1-month at 4.72 dated 21 September."
+       "The only implied-volatility reading is EUR/USD 1-month at 4.72 dated 21 September.",
+       null
       ],
       [
        "bear",
-       "High-yield OAS of 273bp with the tariff truce extended to 10 January keeps the risk backdrop dollar-negative."
+       "High-yield OAS of 273bp with the tariff truce extended to 10 January keeps the risk backdrop dollar-negative.",
+       false
       ],
       [
        "bull",
-       "The 5-year cleared 5% for the first time since 2007 and the 30-year hit a 22-year high against a 2.5% ECB deposit rate."
+       "The 5-year cleared 5% for the first time since 2007 and the 30-year hit a 22-year high against a 2.5% ECB deposit rate.",
+       true
       ],
       [
        "bull",
-       "October hike odds of about 70% and December about 90% for the Fed sit against the ECB, BoE and BoJ all on hold."
+       "October hike odds of about 70% and December about 90% for the Fed sit against the ECB, BoE and BoJ all on hold.",
+       true
       ],
       [
        "bull",
-       "Speculative dollar longs of 5.9bn dollars on 15 September are the lightest in 15 months."
+       "Speculative dollar longs of 5.9bn dollars on 15 September are the lightest in 15 months.",
+       true
       ],
       [
        "bull",
-       "Quarter-end dollar funding demand falls on 30 September inside the window, with a 14-month-high yen long still to unwind."
+       "Quarter-end dollar funding demand falls on 30 September inside the window, with a 14-month-high yen long still to unwind.",
+       true
       ],
       [
        "bear",
-       "The truce extension to 10 January removes a tariff cliff that had been supporting the dollar."
+       "The truce extension to 10 January removes a tariff cliff that had been supporting the dollar.",
+       false
       ],
       [
        "bull",
-       "August PCE on 30 September and ISM manufacturing on 1 October land in a week where every firm print lifted hike odds, and the dollar +0.629 correlation to the 2-year makes that dollar-positive."
+       "August PCE on 30 September and ISM manufacturing on 1 October land in a week where every firm print lifted hike odds, and the dollar +0.629 correlation to the 2-year makes that dollar-positive.",
+       true
       ],
       [
        "bull",
-       "The quarter-end funding bid falls on 30 September, inside the window."
+       "The quarter-end funding bid falls on 30 September, inside the window.",
+       true
       ],
       [
        "bull",
-       "Gold at 4286.06 and TLT at a record low against a dollar near its high confirms the hawkish-repricing configuration."
+       "Gold at 4286.06 and TLT at a record low against a dollar near its high confirms the hawkish-repricing configuration.",
+       true
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 101.7770004272461,
+     "ret": 0.006796,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 10,
