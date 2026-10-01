@@ -611,62 +611,77 @@
      "votes": [
       [
        "bull",
-       "SPX at 7704.13 remains above its 20-day, 50-day and 200-day averages, with the 50-day 6.0% above the 200-day."
+       "SPX at 7704.13 remains above its 20-day, 50-day and 200-day averages, with the 50-day 6.0% above the 200-day.",
+       false
       ],
       [
        "bear",
-       "Only 45.12% of S&P 500 members closed above their 200-day average, down 5.17 points in five sessions and now below half the index."
+       "Only 45.12% of S&P 500 members closed above their 200-day average, down 5.17 points in five sessions and now below half the index.",
+       false
       ],
       [
        "neu",
-       "VIX at 15.67 was exceeded on 43 of the prior 59 sessions while MOVE set a three-month record, a bond-vol/equity-vol divergence that is genuinely two-sided at one week."
+       "VIX at 15.67 was exceeded on 43 of the prior 59 sessions while MOVE set a three-month record, a bond-vol/equity-vol divergence that is genuinely two-sided at one week.",
+       null
       ],
       [
        "bull",
-       "High-yield OAS of 273bp on 2026-09-23 is within 2bp of its two-week level and near the year tights."
+       "High-yield OAS of 273bp on 2026-09-23 is within 2bp of its two-week level and near the year tights.",
+       false
       ],
       [
        "bear",
-       "The 30-year closed at its highest since 2004 and the 3s, 10s and 30s refunding is announced 1 October inside the window."
+       "The 30-year closed at its highest since 2004 and the 3s, 10s and 30s refunding is announced 1 October inside the window.",
+       false
       ],
       [
        "bear",
-       "October hike odds are about 70% and December about 90%, and every hawkish repricing this month has come from data rather than the Fed."
+       "October hike odds are about 70% and December about 90%, and every hawkish repricing this month has come from data rather than the Fed.",
+       false
       ],
       [
        "bull",
-       "AAII bearishness of 48.1% remains above its 31.5% long-run average for a 33rd consecutive week."
+       "AAII bearishness of 48.1% remains above its 31.5% long-run average for a 33rd consecutive week.",
+       false
       ],
       [
        "bear",
-       "Quarter-end falls on 30 September inside the window, and with TLT down 1.29% on the day and equities flat, rebalancing runs out of equities into duration."
+       "Quarter-end falls on 30 September inside the window, and with TLT down 1.29% on the day and equities flat, rebalancing runs out of equities into duration.",
+       false
       ],
       [
        "neu",
-       "Micron reports 30 September and Nike and Accenture 1 October; Micron is the largest single-name catalyst in the window and cuts both ways."
+       "Micron reports 30 September and Nike and Accenture 1 October; Micron is the largest single-name catalyst in the window and cuts both ways.",
+       null
       ],
       [
        "bear",
-       "August PCE lands 30 September and ISM manufacturing 1 October, into a week where each firm print lifted October hike odds and pushed equities lower."
+       "August PCE lands 30 September and ISM manufacturing 1 October, into a week where each firm print lifted October hike odds and pushed equities lower.",
+       false
       ],
       [
        "bull",
-       "The window spans the late-September seasonal trough into the first sessions of October, historically a positive turn."
+       "The window spans the late-September seasonal trough into the first sessions of October, historically a positive turn.",
+       false
       ],
       [
        "bear",
-       "WTI is up 13.7% since 25 August to 93.66 with Brent above 104, and SPX correlation to oil over the window is -0.532."
+       "WTI is up 13.7% since 25 August to 93.66 with Brent above 104, and SPX correlation to oil over the window is -0.532.",
+       false
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 7675.009765625,
+     "ret": -0.00378,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against ^GSPC",
+     "provisional": true
     },
     {
      "h": 10,
@@ -2755,62 +2770,77 @@
      "votes": [
       [
        "bear",
-       "TLT at a record-low 79.42 is 3.7% below its 50-day and 7.4% below its 200-day."
+       "TLT at a record-low 79.42 is 3.7% below its 50-day and 7.4% below its 200-day.",
+       true
       ],
       [
        "bear",
-       "2s10s at 18.3bp is the flattest of the month, with the front end leading the move."
+       "2s10s at 18.3bp is the flattest of the month, with the front end leading the move.",
+       true
       ],
       [
        "neu",
-       "MOVE set a three-month record at 95.45 and TLT implied volatility is at the 97.4th percentile, an extreme that is two-sided over one week."
+       "MOVE set a three-month record at 95.45 and TLT implied volatility is at the 97.4th percentile, an extreme that is two-sided over one week.",
+       null
       ],
       [
        "bear",
-       "High-yield OAS of 273bp near the year tights means no recession bid for duration."
+       "High-yield OAS of 273bp near the year tights means no recession bid for duration.",
+       true
       ],
       [
        "bear",
-       "WTI is up 13.7% since 25 August to 93.66 and August PCE lands 30 September inside the window."
+       "WTI is up 13.7% since 25 August to 93.66 and August PCE lands 30 September inside the window.",
+       true
       ],
       [
        "bear",
-       "December hike odds are about 90% and the dot plot sits at 4.1% for both 2026 and 2027."
+       "December hike odds are about 90% and the dot plot sits at 4.1% for both 2026 and 2027.",
+       true
       ],
       [
        "bear",
-       "The record 2,634,980 asset-manager net long in ten-year futures on 15 September is a crowded position whose unwind pushes prices lower."
+       "The record 2,634,980 asset-manager net long in ten-year futures on 15 September is a crowded position whose unwind pushes prices lower.",
+       true
       ],
       [
        "bull",
-       "Quarter-end on 30 September brings index-extension and pension duration demand with TLT already 13.9% below its 52-week high of 92.19."
+       "Quarter-end on 30 September brings index-extension and pension duration demand with TLT already 13.9% below its 52-week high of 92.19.",
+       false
       ],
       [
        "bear",
-       "The 2-, 5- and 7-year notes all settle 30 September inside the window, adding cash supply right after the 5-year tailed 3.1bp."
+       "The 2-, 5- and 7-year notes all settle 30 September inside the window, adding cash supply right after the 5-year tailed 3.1bp.",
+       true
       ],
       [
        "bear",
-       "August PCE on 30 September and ISM manufacturing on 1 October land in a week where every firm print has lifted hike odds."
+       "August PCE on 30 September and ISM manufacturing on 1 October land in a week where every firm print has lifted hike odds.",
+       true
       ],
       [
        "bull",
-       "October is historically a better month for Treasuries than September, and the window crosses that turn."
+       "October is historically a better month for Treasuries than September, and the window crosses that turn.",
+       false
       ],
       [
        "bear",
-       "DXY within 0.70% of a 52-week high, with a +0.629 correlation to the 2-year, marks the same hawkish impulse."
+       "DXY within 0.70% of a 52-week high, with a +0.629 correlation to the 2-year, marks the same hawkish impulse.",
+       true
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 77.02999877929688,
+     "ret": -0.030093,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against TLT",
+     "provisional": true
     },
     {
      "h": 10,
@@ -5582,8 +5612,8 @@
        true
       ]
      ],
-     "maturityClose": 4176.365584,
-     "ret": -0.025593,
+     "maturityClose": 4189.22965,
+     "ret": -0.022592,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -7635,8 +7665,8 @@
        null
       ]
      ],
-     "maturityClose": 101.7770004272461,
-     "ret": 0.006796,
+     "maturityClose": 101.8010025024414,
+     "ret": 0.007033,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -9820,62 +9850,77 @@
      "votes": [
       [
        "bear",
-       "IWM at 281.66 is 4.4% below its 50-day of 294.56 and 7.7% below its 52-week high of 305.18."
+       "IWM at 281.66 is 4.4% below its 50-day of 294.56 and 7.7% below its 52-week high of 305.18.",
+       false
       ],
       [
        "bear",
-       "The Russell 2000 2026 lead over the S&P 500 has compressed from about 9 points in mid-August to roughly 2 points."
+       "The Russell 2000 2026 lead over the S&P 500 has compressed from about 9 points in mid-August to roughly 2 points.",
+       false
       ],
       [
        "bear",
-       "RVX at 19.97 against a VIX of 15.67 keeps small-cap volatility priced well above large-cap."
+       "RVX at 19.97 against a VIX of 15.67 keeps small-cap volatility priced well above large-cap.",
+       false
       ],
       [
        "bull",
-       "High-yield OAS of 273bp near the year tights leaves small-cap funding conditions intact."
+       "High-yield OAS of 273bp near the year tights leaves small-cap funding conditions intact.",
+       false
       ],
       [
        "bear",
-       "The 30-year hit a 22-year high and the 5-year cleared 5% for the first time since 2007, and small-cap floating-rate debt reprices off the front end."
+       "The 30-year hit a 22-year high and the 5-year cleared 5% for the first time since 2007, and small-cap floating-rate debt reprices off the front end.",
+       false
       ],
       [
        "bear",
-       "December hike odds of about 90% with the dot plot at 4.1% through 2027."
+       "December hike odds of about 90% with the dot plot at 4.1% through 2027.",
+       false
       ],
       [
        "bull",
-       "RSI(14) of 34.41 with the Russell 2000 down 5.33% in a month is a stretched-down tape that has begun to find bids."
+       "RSI(14) of 34.41 with the Russell 2000 down 5.33% in a month is a stretched-down tape that has begun to find bids.",
+       false
       ],
       [
        "bear",
-       "Quarter-end rebalancing on 30 September plus the buyback blackout into late October remove the marginal bid."
+       "Quarter-end rebalancing on 30 September plus the buyback blackout into late October remove the marginal bid.",
+       false
       ],
       [
        "neu",
-       "No Russell 2000 index-level catalyst falls inside the window; small-cap Q3 reporting starts later in October."
+       "No Russell 2000 index-level catalyst falls inside the window; small-cap Q3 reporting starts later in October.",
+       null
       ],
       [
        "bear",
-       "August PCE on 30 September and ISM manufacturing on 1 October are prints that each lifted hike odds this month."
+       "August PCE on 30 September and ISM manufacturing on 1 October are prints that each lifted hike odds this month.",
+       false
       ],
       [
        "bull",
-       "The window crosses the late-September trough into early October, historically the strongest small-cap turn of the autumn."
+       "The window crosses the late-September trough into early October, historically the strongest small-cap turn of the autumn.",
+       false
       ],
       [
        "bear",
-       "WTI is up 13.7% since 25 August and IWM correlation to oil over the window is -0.476."
+       "WTI is up 13.7% since 25 August and IWM correlation to oil over the window is -0.476.",
+       false
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 277.80999755859375,
+     "ret": -0.013669,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against IWM",
+     "provisional": true
     },
     {
      "h": 10,
@@ -11860,62 +11905,77 @@
      "votes": [
       [
        "bull",
-       "QQQ at 741.10 holds above its 50-day of 711.42 and 200-day of 664.41, 1.01% below its 52-week high."
+       "QQQ at 741.10 holds above its 50-day of 711.42 and 200-day of 664.41, 1.01% below its 52-week high.",
+       false
       ],
       [
        "bear",
-       "Top-ten weight of 46.91% with the top five at 30.56% leaves the index dependent on a handful of megacaps."
+       "Top-ten weight of 46.91% with the top five at 30.56% leaves the index dependent on a handful of megacaps.",
+       false
       ],
       [
        "bear",
-       "VXN at 21.24 against a VIX of 15.67 keeps Nasdaq volatility priced 36% above the broad market."
+       "VXN at 21.24 against a VIX of 15.67 keeps Nasdaq volatility priced 36% above the broad market.",
+       false
       ],
       [
        "bull",
-       "High-yield OAS of 273bp near the year tights leaves AI capex financing conditions intact."
+       "High-yield OAS of 273bp near the year tights leaves AI capex financing conditions intact.",
+       false
       ],
       [
        "bear",
-       "The 30-year hit a 22-year high and the 5-year cleared 5% for the first time since 2007, and long-duration growth multiples discount off those levels."
+       "The 30-year hit a 22-year high and the 5-year cleared 5% for the first time since 2007, and long-duration growth multiples discount off those levels.",
+       false
       ],
       [
        "bear",
-       "December hike odds of about 90% with the dot plot at 4.1% for 2026 and 2027."
+       "December hike odds of about 90% with the dot plot at 4.1% for 2026 and 2027.",
+       false
       ],
       [
        "neu",
-       "RSI(14) of 63.22 is below overbought and AAII bears are 48.1%, so there is no crowd extreme to fade."
+       "RSI(14) of 63.22 is below overbought and AAII bears are 48.1%, so there is no crowd extreme to fade.",
+       null
       ],
       [
        "bear",
-       "Quarter-end on 30 September with the Nasdaq-100 up about 22% year to date against TLT at a record low makes this the rebalancing trade most likely to be sold."
+       "Quarter-end on 30 September with the Nasdaq-100 up about 22% year to date against TLT at a record low makes this the rebalancing trade most likely to be sold.",
+       false
       ],
       [
        "neu",
-       "Micron reports 30 September, the largest semiconductor read-through inside the window, and cuts both ways after the Oracle notice."
+       "Micron reports 30 September, the largest semiconductor read-through inside the window, and cuts both ways after the Oracle notice.",
+       null
       ],
       [
        "bear",
-       "August PCE on 30 September and ISM manufacturing on 1 October are prints that lifted hike odds each time this month."
+       "August PCE on 30 September and ISM manufacturing on 1 October are prints that lifted hike odds each time this month.",
+       false
       ],
       [
        "bull",
-       "The window crosses the late-September trough into the first sessions of October, historically a positive turn."
+       "The window crosses the late-September trough into the first sessions of October, historically a positive turn.",
+       false
       ],
       [
        "bear",
-       "WTI is up 13.7% since 25 August and QQQ correlation to oil over the window is -0.591."
+       "WTI is up 13.7% since 25 August and QQQ correlation to oil over the window is -0.591.",
+       false
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 742.3099975585938,
+     "ret": 0.001633,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against QQQ",
+     "provisional": true
     },
     {
      "h": 10,
