@@ -1777,5 +1777,65 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-01-4-sp500-dow-nasdaq-close-yields-ease",
+    "data": {
+      "addedAt": "2026-10-01",
+      "category": "Market",
+      "date": "2026-10-01",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "US stocks close modestly higher to start Q4 as Treasury yields retreat from a 24-year intraday high; Micron-led chip strength supports Nasdaq",
+      "impact": "High",
+      "numbers": "Dow 50,912.33 (+6.28, +0.01%); S&P 500 7,673.89 (+22.35, +0.29%); Nasdaq Composite 26,929.52 (+68.46, +0.25%); 10Y yield 5.24% (-0.06, after touching 5.34% intraday, highest since 2002)",
+      "order": 4,
+      "reaction": "All three major indexes finished in the green as yields eased off two-decade highs; S&P led gains, chip stocks extended Micron-driven rally",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-oct-1-dow-sp-500-nasdaq-080602402.html",
+      "tickers": "DJIA, SPX, IXIC, TNX, QQQ",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-01-5-broadcom-lends-anthropic-42b-chip-lease",
+    "data": {
+      "addedAt": "2026-10-01",
+      "category": "Deals",
+      "date": "2026-10-01",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "Broadcom agrees to lend Anthropic up to $42 billion via convertible notes to help finance AI chip/TPU leasing ahead of Anthropic's expected IPO",
+      "impact": "Medium",
+      "numbers": "$42B financing vs. $125.2B five-year TPU compute commitment; Broadcom shares -1.10%",
+      "order": 5,
+      "reaction": "AVGO dips slightly amid flagged conflict-of-interest concerns (lender and chip supplier in one), even as deal deepens Broadcom-Anthropic compute tie-up ahead of a reported $2T+ IPO valuation target",
+      "region": "US",
+      "source": "https://finance.yahoo.com/technology/ai/articles/broadcom-offering-anthropic-42-billion-124100129.html",
+      "tickers": "AVGO",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-01-6-ism-manufacturing-pmi-54-5-september",
+    "data": {
+      "addedAt": "2026-10-01",
+      "category": "Macro",
+      "date": "2026-10-01",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "September ISM Manufacturing PMI registers 54.5%, a ninth straight month of expansion, but the Prices Index jumps sharply on tariff/metals costs",
+      "impact": "Medium",
+      "numbers": "PMI 54.5% (Aug 54.6%); New Orders 55.3% (+1.6pt); Employment 52.7% (+1.5pt); Prices Index 77.9% (+6.8pt)",
+      "order": 6,
+      "reaction": "Resilient factory activity reinforces soft-landing narrative but rising input costs add to inflation/tariff concerns already pressuring yields",
+      "region": "US",
+      "source": "https://www.prnewswire.com/news-releases/manufacturing-pmi-at-54-5-september-2026-ism-manufacturing-pmi-report-302894520.html",
+      "tickers": "SPY, TLT, yield",
+      "time": "Market hours",
+      "vsExp": "Roughly in line with prior month (-0.1pt m/m)"
+    }
   }
 ]
