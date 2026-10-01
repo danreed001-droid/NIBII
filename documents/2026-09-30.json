@@ -346,7 +346,7 @@
       [
        "bear",
        "Dow fell 0.86% on rotation out of cyclicals, financials and industrials while the Nasdaq Composite rose 0.24% and the S&P 500 cash index slipped 0.25% (news log); no breadth counts were obtained, so only the one-day tape is read as narrow",
-       false
+       true
       ],
       [
        "neu",
@@ -361,7 +361,7 @@
       [
        "bear",
        "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); equities' 21-session correlation to the 10-year is -0.632",
-       false
+       true
       ],
       [
        "bull",
@@ -404,8 +404,8 @@
        null
       ]
      ],
-     "maturityClose": 7731.75,
-     "ret": -0.001001,
+     "maturityClose": 7693.0,
+     "ret": -0.006008,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2569,8 +2569,8 @@
        null
       ]
      ],
-     "maturityClose": 104.125,
-     "ret": -0.00045,
+     "maturityClose": 104.609375,
+     "ret": 0.0042,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5355,8 +5355,8 @@
        null
       ]
      ],
-     "maturityClose": 4200.89990234375,
-     "ret": 0.002171,
+     "maturityClose": 4204.7998046875,
+     "ret": 0.003101,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7423,8 +7423,8 @@
        null
       ]
      ],
-     "maturityClose": 101.8010025024414,
-     "ret": 0.002491,
+     "maturityClose": 102.06099700927734,
+     "ret": 0.005052,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9678,8 +9678,8 @@
        null
       ]
      ],
-     "maturityClose": 2812.699951171875,
-     "ret": -0.003013,
+     "maturityClose": 2815.699951171875,
+     "ret": -0.00195,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11717,8 +11717,8 @@
        null
       ]
      ],
-     "maturityClose": 30812.25,
-     "ret": -0.000178,
+     "maturityClose": 30617.0,
+     "ret": -0.006514,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
