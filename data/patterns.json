@@ -1,6 +1,6 @@
 {
  "minSamples": 15,
- "settledHorizons": 18,
+ "settledHorizons": 24,
  "byAsset": {
   "equities": {
    "Earnings": {
@@ -22,7 +22,7 @@
     "reliable": false
    },
    "Macro": {
-    "n": 3,
+    "n": 5,
     "agree": 1,
     "rate": null,
     "reliable": false
@@ -40,7 +40,7 @@
     "reliable": false
    },
    "Fed": {
-    "n": 2,
+    "n": 3,
     "agree": 1,
     "rate": null,
     "reliable": false
@@ -48,7 +48,7 @@
   },
   "bonds": {
    "Macro": {
-    "n": 4,
+    "n": 6,
     "agree": 0,
     "rate": null,
     "reliable": false
@@ -72,7 +72,7 @@
     "reliable": false
    },
    "Fed": {
-    "n": 2,
+    "n": 3,
     "agree": 0,
     "rate": null,
     "reliable": false
@@ -80,6 +80,12 @@
   },
   "gold": {
    "Energy": {
+    "n": 1,
+    "agree": 0,
+    "rate": null,
+    "reliable": false
+   },
+   "Fed": {
     "n": 1,
     "agree": 0,
     "rate": null,
@@ -96,6 +102,12 @@
    "Market": {
     "n": 6,
     "agree": 2,
+    "rate": null,
+    "reliable": false
+   },
+   "Macro": {
+    "n": 1,
+    "agree": 0,
     "rate": null,
     "reliable": false
    }
