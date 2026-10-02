@@ -2,52 +2,52 @@
  "equities": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "1H structure is downtrend (structure.hourly); ES=F closed 7728.25 above its 50-day 7677.74 and 200-day 7249.49, RSI(14) 52.0"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "S&P 500 (+0.29%), Nasdaq Composite (+0.25%) and Dow (+0.01%) all closed higher on 1 October (news log); no advance/decline or %-above-MA counts were obtained, so breadth is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VIX closed 16.39 on 1 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); the yield sits at a multi-decade high and the 21-session correlation to the 10-year is -0.608, a headwind that is two-sided for just the next session"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral."
+   ],
+   [
+    "bull",
+    "Micron's blowout results and guidance (revenue about 4x y/y) lifted chips and the S&P 500 closed +0.29% (news log); Broadcom slipped 1.1% on its $42B Anthropic financing, so the catalyst is one-sided only for the near term"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market) (21-session oil correlation -0.443) while the 10-year stayed near 5.24%, both headwinds for this asset"
    ],
    [
     "bear",
@@ -57,51 +57,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "weekly structure is choppy (structure.weekly); ES=F closed 7728.25 above its 50-day 7677.74 and 200-day 7249.49, RSI(14) 52.0"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "S&P 500 (+0.29%), Nasdaq Composite (+0.25%) and Dow (+0.01%) all closed higher on 1 October (news log); no advance/decline or %-above-MA counts were obtained, so breadth is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VIX closed 16.39 on 1 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); the yield sits at a multi-decade high and the 21-session correlation to the 10-year is -0.608, a headwind that is two-sided for just the next session"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral."
+   ],
+   [
+    "bull",
+    "Micron's blowout results and guidance (revenue about 4x y/y) lifted chips and the S&P 500 closed +0.29% (news log); Broadcom slipped 1.1% on its $42B Anthropic financing, so the catalyst is one-sided only for the near term"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market) (21-session oil correlation -0.443) while the 10-year stayed near 5.24%, both headwinds for this asset"
    ],
    [
     "neu",
@@ -111,51 +111,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "weekly structure is choppy (structure.weekly); ES=F closed 7728.25 above its 50-day 7677.74 and 200-day 7249.49, RSI(14) 52.0"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "S&P 500 (+0.29%), Nasdaq Composite (+0.25%) and Dow (+0.01%) all closed higher on 1 October (news log); no advance/decline or %-above-MA counts were obtained, so breadth is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VIX closed 16.39 on 1 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); the yield sits at a multi-decade high and the 21-session correlation to the 10-year is -0.608, a headwind that is two-sided for just the next session"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Micron's blowout results and guidance (revenue about 4x y/y) lifted chips and the S&P 500 closed +0.29% (news log); Broadcom slipped 1.1% on its $42B Anthropic financing, so the catalyst is one-sided only for the near term"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market) (21-session oil correlation -0.443) while the 10-year stayed near 5.24%, both headwinds for this asset"
    ],
    [
     "neu",
@@ -167,51 +167,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "1H structure is choppy (structure.hourly); ZN=F closed 104.52, below its 50-day 107.46 and 200-day 110.18, RSI(14) 26.1 - oversold readings are left to the mechanical overlay"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not applicable to a single Treasury futures contract, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No MOVE close for 1 October was obtainable and no source names a percentile or record, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); bonds' 21-session correlation to the 10-year is -0.963 and the yield is at a multi-decade high"
+   ],
+   [
+    "bear",
+    "Hike odds near 50% (news log, 30 September) and a hotter ISM Prices Index (77.9%, +6.8pt) keep the policy path a headwind for duration"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Treasury-market sentiment surveys were not obtainable for this window, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Treasury futures COT report newer than mid-September was obtainable, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Corporate earnings catalysts are not applicable to Treasury futures, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market), feeding inflation worries that pressure yields higher, and global yields surged to multi-year highs (news log)"
    ],
    [
     "neu",
@@ -221,51 +221,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "weekly structure is choppy (structure.weekly); ZN=F closed 104.52, below its 50-day 107.46 and 200-day 110.18, RSI(14) 26.1 - oversold readings are left to the mechanical overlay"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not applicable to a single Treasury futures contract, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No MOVE close for 1 October was obtainable and no source names a percentile or record, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); bonds' 21-session correlation to the 10-year is -0.963 and the yield is at a multi-decade high"
+   ],
+   [
+    "bear",
+    "Hike odds near 50% (news log, 30 September) and a hotter ISM Prices Index (77.9%, +6.8pt) keep the policy path a headwind for duration"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Treasury-market sentiment surveys were not obtainable for this window, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Treasury futures COT report newer than mid-September was obtainable, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Corporate earnings catalysts are not applicable to Treasury futures, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market), feeding inflation worries that pressure yields higher, and global yields surged to multi-year highs (news log)"
    ],
    [
     "neu",
@@ -275,51 +275,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "weekly structure is choppy (structure.weekly); ZN=F closed 104.52, below its 50-day 107.46 and 200-day 110.18, RSI(14) 26.1 - oversold readings are left to the mechanical overlay"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not applicable to a single Treasury futures contract, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No MOVE close for 1 October was obtainable and no source names a percentile or record, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); bonds' 21-session correlation to the 10-year is -0.963 and the yield is at a multi-decade high"
+   ],
+   [
+    "bear",
+    "Hike odds near 50% (news log, 30 September) and a hotter ISM Prices Index (77.9%, +6.8pt) keep the policy path a headwind for duration"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Treasury-market sentiment surveys were not obtainable for this window, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Treasury futures COT report newer than mid-September was obtainable, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Corporate earnings catalysts are not applicable to Treasury futures, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market), feeding inflation worries that pressure yields higher, and global yields surged to multi-year highs (news log)"
    ],
    [
     "neu",
@@ -331,51 +331,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "1H structure is choppy (structure.hourly); GC=F closed 4175.60 below its 50-day 4363.50 and 200-day 4554.10, RSI(14) 34.3"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not applicable to a single commodity, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "GVZ closed 23.32 on 1 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); gold's 21-session correlation to the 10-year is -0.388, so high and rising yields weigh on the metal"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold sentiment survey for this window was obtainable, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Saxo/CFTC gold positioning is for the week to 22 September and names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are not applicable to gold, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The dollar index rose 0.56% to a fresh 52-week closing high of 102.11 (drafted DX-Y.NYB close) while the 10-year stayed above 5.2%, the usual headwind for gold"
    ],
    [
     "neu",
@@ -384,52 +384,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "weekly structure is downtrend (structure.weekly); GC=F closed 4175.60 below its 50-day 4363.50 and 200-day 4554.10, RSI(14) 34.3"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not applicable to a single commodity, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "GVZ closed 23.32 on 1 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); gold's 21-session correlation to the 10-year is -0.388, so high and rising yields weigh on the metal"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold sentiment survey for this window was obtainable, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Saxo/CFTC gold positioning is for the week to 22 September and names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are not applicable to gold, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The dollar index rose 0.56% to a fresh 52-week closing high of 102.11 (drafted DX-Y.NYB close) while the 10-year stayed above 5.2%, the usual headwind for gold"
    ],
    [
     "bear",
@@ -438,52 +438,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "weekly structure is downtrend (structure.weekly); GC=F closed 4175.60 below its 50-day 4363.50 and 200-day 4554.10, RSI(14) 34.3"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not applicable to a single commodity, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "GVZ closed 23.32 on 1 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); gold's 21-session correlation to the 10-year is -0.388, so high and rising yields weigh on the metal"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold sentiment survey for this window was obtainable, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Saxo/CFTC gold positioning is for the week to 22 September and names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are not applicable to gold, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The dollar index rose 0.56% to a fresh 52-week closing high of 102.11 (drafted DX-Y.NYB close) while the 10-year stayed above 5.2%, the usual headwind for gold"
    ],
    [
     "bear",
@@ -494,52 +494,52 @@
  "dollar": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "1H structure is uptrend (structure.hourly); DX-Y.NYB closed 102.11 above its 50-day 99.99 and 200-day 99.25, RSI(14) 75.5"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not applicable to a currency index, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No FX implied-volatility percentile was obtainable for 1 October, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bull",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); yield differentials favour the dollar, though its 21-session correlation to the 10-year is only +0.208 (no dominant driver)"
+   ],
+   [
+    "bull",
+    "Fed hike odds near 50% (news log, 30 September, single source) are a relative-hawkish support for the dollar in the near term; the longer window is two-sided given ISM-driven inflation but pending jobs data"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "StoneX/CFTC dollar positioning is for the week to 22 September and names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are not applicable to a currency index, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "The dollar rose 0.56% while gold fell and oil rose, but its correlation to oil is about zero (0.006) and to the 10-year weak, so the cross-asset read is mixed"
    ],
    [
     "bull",
@@ -549,51 +549,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "weekly structure is choppy (structure.weekly); DX-Y.NYB closed 102.11 above its 50-day 99.99 and 200-day 99.25, RSI(14) 75.5"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not applicable to a currency index, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No FX implied-volatility percentile was obtainable for 1 October, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bull",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); yield differentials favour the dollar, though its 21-session correlation to the 10-year is only +0.208 (no dominant driver)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Fed hike odds near 50% (news log, 30 September, single source) are a relative-hawkish support for the dollar in the near term; the longer window is two-sided given ISM-driven inflation but pending jobs data"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "StoneX/CFTC dollar positioning is for the week to 22 September and names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are not applicable to a currency index, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "The dollar rose 0.56% while gold fell and oil rose, but its correlation to oil is about zero (0.006) and to the 10-year weak, so the cross-asset read is mixed"
    ],
    [
     "neu",
@@ -603,51 +603,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "weekly structure is choppy (structure.weekly); DX-Y.NYB closed 102.11 above its 50-day 99.99 and 200-day 99.25, RSI(14) 75.5"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not applicable to a currency index, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No FX implied-volatility percentile was obtainable for 1 October, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); yield differentials favour the dollar, though its 21-session correlation to the 10-year is only +0.208 (no dominant driver)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Fed hike odds near 50% (news log, 30 September, single source) are a relative-hawkish support for the dollar in the near term; the longer window is two-sided given ISM-driven inflation but pending jobs data"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "StoneX/CFTC dollar positioning is for the week to 22 September and names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are not applicable to a currency index, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The dollar rose 0.56% while gold fell and oil rose, but its correlation to oil is about zero (0.006) and to the 10-year weak, so the cross-asset read is mixed"
    ],
    [
     "neu",
@@ -659,51 +659,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "1H structure is choppy (structure.hourly); RTY=F closed 2829.20 above its 200-day 2789.44 but below its 50-day 2954.27, RSI(14) 34.7"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Russell futures rose while the Dow was flat per the news log, but no breadth counts were obtained, so breadth is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "RVX could not be refreshed (last 19.97 on 23 September) and no source names a percentile, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); small caps' 21-session correlation to the 10-year is -0.742, the strongest rate sensitivity on the board"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced earnings or corporate catalyst specific to this asset for 1 October was found, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); strong factory activity helps cyclicals but hot input prices and the pending jobs report cut the other way"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market), but small caps' oil correlation is only -0.286 and RTY=F rose 0.28%, so the cross-asset read is mixed"
    ],
    [
     "neu",
@@ -712,52 +712,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "weekly structure is uptrend (structure.weekly); RTY=F closed 2829.20 above its 200-day 2789.44 but below its 50-day 2954.27, RSI(14) 34.7"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Russell futures rose while the Dow was flat per the news log, but no breadth counts were obtained, so breadth is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "RVX could not be refreshed (last 19.97 on 23 September) and no source names a percentile, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); small caps' 21-session correlation to the 10-year is -0.742, the strongest rate sensitivity on the board"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced earnings or corporate catalyst specific to this asset for 1 October was found, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); strong factory activity helps cyclicals but hot input prices and the pending jobs report cut the other way"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market), but small caps' oil correlation is only -0.286 and RTY=F rose 0.28%, so the cross-asset read is mixed"
    ],
    [
     "bull",
@@ -766,52 +766,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "weekly structure is uptrend (structure.weekly); RTY=F closed 2829.20 above its 200-day 2789.44 but below its 50-day 2954.27, RSI(14) 34.7"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Russell futures rose while the Dow was flat per the news log, but no breadth counts were obtained, so breadth is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "RVX could not be refreshed (last 19.97 on 23 September) and no source names a percentile, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); small caps' 21-session correlation to the 10-year is -0.742, the strongest rate sensitivity on the board"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced earnings or corporate catalyst specific to this asset for 1 October was found, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); strong factory activity helps cyclicals but hot input prices and the pending jobs report cut the other way"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market), but small caps' oil correlation is only -0.286 and RTY=F rose 0.28%, so the cross-asset read is mixed"
    ],
    [
     "bull",
@@ -823,51 +823,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "1H structure is choppy (structure.hourly); NQ=F closed 30820.75 above its 50-day 29529.40 and 200-day 27573.29, RSI(14) 63.5"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nasdaq Composite rose 0.25% while the Dow was flat (+0.01%) per the news log, so the tape is chip-led; no breadth counts were obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VXN closed 22.51 on 1 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); the yield sits at a multi-decade high and the 21-session correlation to the 10-year is -0.610, a headwind that is two-sided for just the next session"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral."
+   ],
+   [
+    "bull",
+    "Micron's blowout guidance sparked a global semiconductor rally (Nasdaq-100 futures +0.6% pre-market, news log) and Nasdaq closed +0.25%; Broadcom fell 1.1% on conflict-of-interest concerns over its Anthropic loan, so only the near horizons are tilted bullish"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market) (21-session oil correlation -0.533) while the 10-year stayed near 5.24%, both headwinds for this asset"
    ],
    [
     "neu",
@@ -877,51 +877,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "weekly structure is choppy (structure.weekly); NQ=F closed 30820.75 above its 50-day 29529.40 and 200-day 27573.29, RSI(14) 63.5"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nasdaq Composite rose 0.25% while the Dow was flat (+0.01%) per the news log, so the tape is chip-led; no breadth counts were obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VXN closed 22.51 on 1 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); the yield sits at a multi-decade high and the 21-session correlation to the 10-year is -0.610, a headwind that is two-sided for just the next session"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral."
+   ],
+   [
+    "bull",
+    "Micron's blowout guidance sparked a global semiconductor rally (Nasdaq-100 futures +0.6% pre-market, news log) and Nasdaq closed +0.25%; Broadcom fell 1.1% on conflict-of-interest concerns over its Anthropic loan, so only the near horizons are tilted bullish"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market) (21-session oil correlation -0.533) while the 10-year stayed near 5.24%, both headwinds for this asset"
    ],
    [
     "neu",
@@ -931,51 +931,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "weekly structure is choppy (structure.weekly); NQ=F closed 30820.75 above its 50-day 29529.40 and 200-day 27573.29, RSI(14) 63.5"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nasdaq Composite rose 0.25% while the Dow was flat (+0.01%) per the news log, so the tape is chip-led; no breadth counts were obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VXN closed 22.51 on 1 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 1 October high-yield spread print was obtainable (last seen 3.02% on 28 September vs 2.73% in another source), so credit gives no clean read."
+   ],
+   [
+    "bear",
+    "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); the yield sits at a multi-decade high and the 21-session correlation to the 10-year is -0.610, a headwind that is two-sided for just the next session"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October hike odds were about 50% after Williams' 30 September remarks (news log, single source) while ISM Prices at 77.9% argues the other way, so the Fed-path read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment survey newer than the AAII week to 23 September (32.7% bulls / 48.1% bears, no source-named extreme) was obtainable, so sentiment is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Micron's blowout guidance sparked a global semiconductor rally (Nasdaq-100 futures +0.6% pre-market, news log) and Nasdaq closed +0.25%; Broadcom fell 1.1% on conflict-of-interest concerns over its Anthropic loan, so only the near horizons are tilted bullish"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September ISM manufacturing was 54.5% (ninth month of expansion) but the Prices Index jumped 6.8 points to 77.9% (news log); the September jobs report is due 2 October, so the calendar read is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market) (21-session oil correlation -0.533) while the 10-year stayed near 5.24%, both headwinds for this asset"
    ],
    [
     "neu",
