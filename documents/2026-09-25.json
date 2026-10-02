@@ -450,62 +450,77 @@
      "votes": [
       [
        "bull",
-       "ES=F at 7803.75 remains above both its 50-day and 200-day, a 5.9% gap between them; weekly structure is choppy, with the last two labeled swings an HL at 7324 (week of 27 July) and an HH at 7838.5 (week of 10 August) - constructive but not a confirmed HH/HL sequence yet."
+       "ES=F at 7803.75 remains above both its 50-day and 200-day, a 5.9% gap between them; weekly structure is choppy, with the last two labeled swings an HL at 7324 (week of 27 July) and an HH at 7838.5 (week of 10 August) - constructive but not a confirmed HH/HL sequence yet.",
+       false
       ],
       [
        "bear",
-       "Same 27.83% breadth reading (18 September, stale) - a narrow-leadership market is the more fragile setup heading into quarter-end fund flows, though the number's age limits confidence in this vote."
+       "Same 27.83% breadth reading (18 September, stale) - a narrow-leadership market is the more fragile setup heading into quarter-end fund flows, though the number's age limits confidence in this vote.",
+       false
       ],
       [
        "bull",
-       "With VIX at 14.87 and the term structure in contango as of the most recent confirmed reading, options markets are not pricing an imminent volatility event over the coming week despite the bond-market selloff."
+       "With VIX at 14.87 and the term structure in contango as of the most recent confirmed reading, options markets are not pricing an imminent volatility event over the coming week despite the bond-market selloff.",
+       false
       ],
       [
        "bull",
-       "High-yield spreads (280bp) remain historically tight even as the 10-year set a multi-decade high; credit is the one market not yet pricing stress from the rate move."
+       "High-yield spreads (280bp) remain historically tight even as the 10-year set a multi-decade high; credit is the one market not yet pricing stress from the rate move.",
+       false
       ],
       [
        "bear",
-       "The 30-year closed near 5.46-5.50%, its highest since 2004, and the 2-year sits near 4.81%; a hawkish Fed repricing (October hike odds ~71-76% per CME FedWatch) keeps upward pressure on the whole curve into the week ahead."
+       "The 30-year closed near 5.46-5.50%, its highest since 2004, and the 2-year sits near 4.81%; a hawkish Fed repricing (October hike odds ~71-76% per CME FedWatch) keeps upward pressure on the whole curve into the week ahead.",
+       false
       ],
       [
        "bear",
-       "The Fed hiked to 3.75-4.00% on 16 September and speakers remain unrestricted (the blackout for the 27-28 October meeting does not begin until roughly 10 October), so more hawkish commentary in the week ahead is a live risk."
+       "The Fed hiked to 3.75-4.00% on 16 September and speakers remain unrestricted (the blackout for the 27-28 October meeting does not begin until roughly 10 October), so more hawkish commentary in the week ahead is a live risk.",
+       false
       ],
       [
        "bull",
-       "The same AAII spread (bulls 32.7%, bears 48.1%) is the most recent available for the week ahead; sustained above-average bearishness is the classic contrarian setup, though it has not been resolved for weeks now."
+       "The same AAII spread (bulls 32.7%, bears 48.1%) is the most recent available for the week ahead; sustained above-average bearishness is the classic contrarian setup, though it has not been resolved for weeks now.",
+       false
       ],
       [
        "bear",
-       "With buybacks at a 10-year-low pace (91 announcements through 14 September) and the blackout still in force, the largest structural equity bid stays absent through quarter-end (30 September), inside this window."
+       "With buybacks at a 10-year-low pace (91 announcements through 14 September) and the blackout still in force, the largest structural equity bid stays absent through quarter-end (30 September), inside this window.",
+       false
       ],
       [
        "neu",
-       "Q3 earnings season proper does not begin in earnest inside this 5-session window; the main scheduled item is the quarter-end close (30 September) rather than a reporting catalyst."
+       "Q3 earnings season proper does not begin in earnest inside this 5-session window; the main scheduled item is the quarter-end close (30 September) rather than a reporting catalyst.",
+       null
       ],
       [
        "bear",
-       "The week ahead brings ISM Manufacturing (1 October) and nonfarm payrolls (2 October, landing right at the 5-session maturity) into a backdrop where every recent firm data print has pushed hike odds higher and pressured the long end."
+       "The week ahead brings ISM Manufacturing (1 October) and nonfarm payrolls (2 October, landing right at the 5-session maturity) into a backdrop where every recent firm data print has pushed hike odds higher and pressured the long end.",
+       false
       ],
       [
        "bear",
-       "The last week of September is documented as the weakest ten-day stretch of the calendar year on the seasonal record, and this window sits squarely inside it through quarter-end."
+       "The last week of September is documented as the weakest ten-day stretch of the calendar year on the seasonal record, and this window sits squarely inside it through quarter-end.",
+       false
       ],
       [
        "bear",
-       "Cross-asset dominance still sits with the 10-year (-0.638) and oil (-0.533) for equities over the 21-session window; a hawkish Fed path pressuring both yields and, historically, growth expectations argues for a cautious cross-asset read into the week ahead."
+       "Cross-asset dominance still sits with the 10-year (-0.638) and oil (-0.533) for equities over the 21-session window; a hawkish Fed path pressuring both yields and, historically, growth expectations argues for a cautious cross-asset read into the week ahead.",
+       false
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 7763.0,
+     "ret": -0.005222,
+     "correct": true,
+     "shadowCorrect": false,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -2602,62 +2617,77 @@
      "votes": [
       [
        "bear",
-       "ZN=F sits well below both its 50-day and 200-day averages; weekly structure is choppy with the last two labeled swings an LL at 107.98 (week of 27 July) and an LH at 109.11 (week of 10 August) - a downward-biased but not cleanly labeled sequence."
+       "ZN=F sits well below both its 50-day and 200-day averages; weekly structure is choppy with the last two labeled swings an LL at 107.98 (week of 27 July) and an LH at 109.11 (week of 10 August) - a downward-biased but not cleanly labeled sequence.",
+       false
       ],
       [
        "bear",
-       "With the 30-year outpacing the 10-year's rise (5.46-5.50% vs 5.19%), the curve's bear-steepening trend has more room to run into the week ahead if the long end keeps leading."
+       "With the 30-year outpacing the 10-year's rise (5.46-5.50% vs 5.19%), the curve's bear-steepening trend has more room to run into the week ahead if the long end keeps leading.",
+       false
       ],
       [
        "bear",
-       "A MOVE index at a fresh multi-month record (104.58) typically precedes continued price instability rather than immediate calm; the rate-vol spike is a headwind for a bond-price recovery over the week ahead."
+       "A MOVE index at a fresh multi-month record (104.58) typically precedes continued price instability rather than immediate calm; the rate-vol spike is a headwind for a bond-price recovery over the week ahead.",
+       false
       ],
       [
        "neu",
-       "Tight credit spreads (280bp) suggest the rates selloff is a growth-and-inflation story rather than a credit-stress one, which does not by itself argue for either higher or lower Treasury prices over the week."
+       "Tight credit spreads (280bp) suggest the rates selloff is a growth-and-inflation story rather than a credit-stress one, which does not by itself argue for either higher or lower Treasury prices over the week.",
+       null
       ],
       [
        "bear",
-       "With real yields doing all the work in this year's rate rise (breakeven unchanged at 2.35%), the driver behind the bond selloff is Fed-policy expectations rather than inflation expectations - a trend more likely to persist through the week than reverse."
+       "With real yields doing all the work in this year's rate rise (breakeven unchanged at 2.35%), the driver behind the bond selloff is Fed-policy expectations rather than inflation expectations - a trend more likely to persist through the week than reverse.",
+       false
       ],
       [
        "bear",
-       "The FOMC blackout for the 27-28 October meeting does not begin until roughly 10 October, so Fed speakers remain free to reinforce (or soften) the hawkish path throughout this 5-session window."
+       "The FOMC blackout for the 27-28 October meeting does not begin until roughly 10 October, so Fed speakers remain free to reinforce (or soften) the hawkish path throughout this 5-session window.",
+       false
       ],
       [
        "neu",
-       "Without a fresher COT read, whether the crowd captured in the 15 September report (a then-record asset-manager net long) has already unwound into this selloff or is still building is unknown; genuinely two-sided."
+       "Without a fresher COT read, whether the crowd captured in the 15 September report (a then-record asset-manager net long) has already unwound into this selloff or is still building is unknown; genuinely two-sided.",
+       null
       ],
       [
        "bear",
-       "Quarter-end (30 September) inside this window historically drives some rebalancing flow out of the worst-performing asset class of the quarter, and Treasuries have been that this quarter given the yield spike."
+       "Quarter-end (30 September) inside this window historically drives some rebalancing flow out of the worst-performing asset class of the quarter, and Treasuries have been that this quarter given the yield spike.",
+       false
       ],
       [
        "neu",
-       "No specific auction date confirmed to fall inside the 28 September-2 October window was obtainable this run; standard mid-quarter refunding announcements (February, May, August, November) fall outside it, so voted neu rather than assume a catalyst that may not exist."
+       "No specific auction date confirmed to fall inside the 28 September-2 October window was obtainable this run; standard mid-quarter refunding announcements (February, May, August, November) fall outside it, so voted neu rather than assume a catalyst that may not exist.",
+       null
       ],
       [
        "bear",
-       "ISM Manufacturing (1 October) and nonfarm payrolls (2 October, at the 5-session maturity) both land inside the window; every recent firm print this cycle has pushed hike odds higher and Treasury prices lower."
+       "ISM Manufacturing (1 October) and nonfarm payrolls (2 October, at the 5-session maturity) both land inside the window; every recent firm print this cycle has pushed hike odds higher and Treasury prices lower.",
+       false
       ],
       [
        "neu",
-       "Quarter-end month-end index rebalancing (30 September, inside this window) has no consistently documented directional bias for Treasuries specifically, as opposed to equities; voted neu."
+       "Quarter-end month-end index rebalancing (30 September, inside this window) has no consistently documented directional bias for Treasuries specifically, as opposed to equities; voted neu.",
+       null
       ],
       [
        "bear",
-       "With the 10-year the near-total driver of bond-futures pricing, the same hawkish Fed and macro-calendar pressures flagged in Rates and Fed path items carry through directly to the cross-asset read for the week ahead."
+       "With the 10-year the near-total driver of bond-futures pricing, the same hawkish Fed and macro-calendar pressures flagged in Rates and Fed path items carry through directly to the cross-asset read for the week ahead.",
+       false
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 104.71875,
+     "ret": -0.001341,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -5372,62 +5402,77 @@
      "votes": [
       [
        "bear",
-       "Weekly structure is a confirmed downtrend, with the last two labeled swings a lower low at 3955.40 (week of 29 June) and a lower high at 4755.00 (week of 24 August); price at 4321.20 sits below both moving averages, consistent with that weekly read."
+       "Weekly structure is a confirmed downtrend, with the last two labeled swings a lower low at 3955.40 (week of 29 June) and a lower high at 4755.00 (week of 24 August); price at 4321.20 sits below both moving averages, consistent with that weekly read.",
+       true
       ],
       [
        "neu",
-       "Same gap for the week ahead; no cross-metal read obtainable, voted neu rather than assume gold moves in or out of step with the complex."
+       "Same gap for the week ahead; no cross-metal read obtainable, voted neu rather than assume gold moves in or out of step with the complex.",
+       null
       ],
       [
        "neu",
-       "Without a dated percentile for the current 22.44 GVZ reading, whether gold volatility is elevated or merely average for the period cannot be judged with confidence; neu."
+       "Without a dated percentile for the current 22.44 GVZ reading, whether gold volatility is elevated or merely average for the period cannot be judged with confidence; neu.",
+       null
       ],
       [
        "bear",
-       "With the Fed's hawkish path (October hike odds 71-76%) still pushing real yields higher, the opportunity-cost headwind for a non-yielding asset like gold persists into the week ahead."
+       "With the Fed's hawkish path (October hike odds 71-76%) still pushing real yields higher, the opportunity-cost headwind for a non-yielding asset like gold persists into the week ahead.",
+       true
       ],
       [
        "bear",
-       "With DXY's own stretch score at extreme-up (see the dollar sheet), a stronger-for-longer dollar into the week ahead is a continued drag on gold."
+       "With DXY's own stretch score at extreme-up (see the dollar sheet), a stronger-for-longer dollar into the week ahead is a continued drag on gold.",
+       true
       ],
       [
        "bear",
-       "The FOMC blackout does not begin until roughly 10 October, so hawkish Fed commentary can continue to pressure gold through this window without a quiet period."
+       "The FOMC blackout does not begin until roughly 10 October, so hawkish Fed commentary can continue to pressure gold through this window without a quiet period.",
+       true
       ],
       [
        "neu",
-       "Same staleness applies across the week ahead; whether that positioning has since unwound into the price decline (as Deutsche Bank's separately reported 17-year-low COMEX open interest read suggests may already be happening) is not confirmed by a single dated report, so voted neu."
+       "Same staleness applies across the week ahead; whether that positioning has since unwound into the price decline (as Deutsche Bank's separately reported 17-year-low COMEX open interest read suggests may already be happening) is not confirmed by a single dated report, so voted neu.",
+       null
       ],
       [
        "bull",
-       "Central banks bought a record 289 tonnes in Q2 2026 (a 62-74% year-over-year increase), buying aggressively into the quarter's 14% price decline; that structural bid is a multi-week, not single-day, support factor relevant to this window."
+       "Central banks bought a record 289 tonnes in Q2 2026 (a 62-74% year-over-year increase), buying aggressively into the quarter's 14% price decline; that structural bid is a multi-week, not single-day, support factor relevant to this window.",
+       false
       ],
       [
        "bull",
-       "August 2026 gold ETF inflows were $18 billion, the second-largest monthly inflow in value terms on record, lifting holdings 121 tonnes to an all-time high; total ETF holdings of 100.4 million ounces are the highest since 3 March - a genuine, multi-week-relevant demand signal."
+       "August 2026 gold ETF inflows were $18 billion, the second-largest monthly inflow in value terms on record, lifting holdings 121 tonnes to an all-time high; total ETF holdings of 100.4 million ounces are the highest since 3 March - a genuine, multi-week-relevant demand signal.",
+       false
       ],
       [
        "bear",
-       "ISM Manufacturing (1 October) and nonfarm payrolls (2 October) both land inside the window into a backdrop where firm data has consistently pushed real yields (and hurt gold) all quarter."
+       "ISM Manufacturing (1 October) and nonfarm payrolls (2 October) both land inside the window into a backdrop where firm data has consistently pushed real yields (and hurt gold) all quarter.",
+       true
       ],
       [
        "neu",
-       "No robustly documented gold-specific seasonal pattern for the last week of September was identified this run; voted neu rather than assume the equity-seasonality read transfers to gold."
+       "No robustly documented gold-specific seasonal pattern for the last week of September was identified this run; voted neu rather than assume the equity-seasonality read transfers to gold.",
+       null
       ],
       [
        "bear",
-       "On the 7-session big-2Y-move subset, gold's correlation to the rates shock steepens to -0.539, the strongest cross-asset reading of any asset in the driver table for that subset; a continuation of this quarter's rates volatility is a specific gold headwind for the week ahead."
+       "On the 7-session big-2Y-move subset, gold's correlation to the rates shock steepens to -0.539, the strongest cross-asset reading of any asset in the driver table for that subset; a continuation of this quarter's rates volatility is a specific gold headwind for the week ahead.",
+       true
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 4219.89990234375,
+     "ret": -0.023443,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -7441,62 +7486,77 @@
      "votes": [
       [
        "bull",
-       "The dollar sits within 0.63% of its 52-week high of 101.61 and above both moving averages; weekly structure is still labeled choppy (last two labeled swings both HL, 98.56 on 17 August and 98.60 on 8 September), a rising-low pattern even without a clean HH/HL classification yet."
+       "The dollar sits within 0.63% of its 52-week high of 101.61 and above both moving averages; weekly structure is still labeled choppy (last two labeled swings both HL, 98.56 on 17 August and 98.60 on 8 September), a rising-low pattern even without a clean HH/HL classification yet.",
+       true
       ],
       [
        "neu",
-       "Same gap for the week ahead; no dated cross-currency breadth fact obtainable, neu."
+       "Same gap for the week ahead; no dated cross-currency breadth fact obtainable, neu.",
+       null
       ],
       [
        "neu",
-       "With no fresher volatility print, whether FX vol has moved with the bond-market MOVE-index spike cannot be confirmed; voted neu rather than assume a read-through."
+       "With no fresher volatility print, whether FX vol has moved with the bond-market MOVE-index spike cannot be confirmed; voted neu rather than assume a read-through.",
+       null
       ],
       [
        "neu",
-       "Whether tight credit spreads continue to coincide with dollar strength, or risk appetite deteriorates as bond volatility (MOVE at a multi-month record) spreads to other markets, is genuinely two-sided over the week ahead."
+       "Whether tight credit spreads continue to coincide with dollar strength, or risk appetite deteriorates as bond volatility (MOVE at a multi-month record) spreads to other markets, is genuinely two-sided over the week ahead.",
+       null
       ],
       [
        "bull",
-       "With October Fed hike odds at roughly 71-76% (CME FedWatch, 25 September) and no similarly hawkish repricing reported for the ECB or BOJ, the rate-differential advantage that has supported the dollar should persist into the week ahead."
+       "With October Fed hike odds at roughly 71-76% (CME FedWatch, 25 September) and no similarly hawkish repricing reported for the ECB or BOJ, the rate-differential advantage that has supported the dollar should persist into the week ahead.",
+       true
       ],
       [
        "bull",
-       "No ECB or BOJ meeting with a comparably hawkish repricing was identified inside this window; the divergence in expected next moves, not just current levels, favors continued dollar strength."
+       "No ECB or BOJ meeting with a comparably hawkish repricing was identified inside this window; the divergence in expected next moves, not just current levels, favors continued dollar strength.",
+       true
       ],
       [
        "neu",
-       "With positioning modest rather than crowded, there is no COT-based contrarian case against continued dollar strength for the week ahead; voted neu rather than infer one from a non-extreme reading."
+       "With positioning modest rather than crowded, there is no COT-based contrarian case against continued dollar strength for the week ahead; voted neu rather than infer one from a non-extreme reading.",
+       null
       ],
       [
        "neu",
-       "Same gap for the week ahead; neu."
+       "Same gap for the week ahead; neu.",
+       null
       ],
       [
        "neu",
-       "The detailed China-trade announcements due 28 September could move risk sentiment either way once specifics are known; genuinely two-sided ahead of that detail."
+       "The detailed China-trade announcements due 28 September could move risk sentiment either way once specifics are known; genuinely two-sided ahead of that detail.",
+       null
       ],
       [
        "bull",
-       "ISM Manufacturing (1 October) and nonfarm payrolls (2 October) land inside the window; a run of firm US data all quarter has been the direct cause of the hawkish repricing that has driven the dollar higher, and that pattern is the more likely continuation."
+       "ISM Manufacturing (1 October) and nonfarm payrolls (2 October) land inside the window; a run of firm US data all quarter has been the direct cause of the hawkish repricing that has driven the dollar higher, and that pattern is the more likely continuation.",
+       true
       ],
       [
        "neu",
-       "No robustly documented dollar-specific seasonal pattern for the last week of September/quarter-end was identified this run; voted neu."
+       "No robustly documented dollar-specific seasonal pattern for the last week of September/quarter-end was identified this run; voted neu.",
+       null
       ],
       [
        "bull",
-       "The same hawkish-Fed cross-asset backdrop (elevated MOVE, tight-but-slightly-widening credit, weak gold and bonds) is broadly dollar-supportive into the week ahead."
+       "The same hawkish-Fed cross-asset backdrop (elevated MOVE, tight-but-slightly-widening credit, weak gold and bonds) is broadly dollar-supportive into the week ahead.",
+       true
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 101.8489990234375,
+     "ret": 0.008706,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 10,
@@ -9699,62 +9759,77 @@
      "votes": [
       [
        "bull",
-       "Weekly structure is a confirmed uptrend, with the last two labeled swings an HL at 2902.30 (week of 27 July) and an HH at 3079.90 (week of 17 August); the pullback to 2859.30 sits below the 50-day but the longer weekly trend read has not broken."
+       "Weekly structure is a confirmed uptrend, with the last two labeled swings an HL at 2902.30 (week of 27 July) and an HH at 3079.90 (week of 17 August); the pullback to 2859.30 sits below the 50-day but the longer weekly trend read has not broken.",
+       false
       ],
       [
        "bear",
-       "RTY=F sits 2.86 daily-sigma below its 50-day while ES=F (equities) sits above its own - a real, current underperformance gap consistent with small-cap floating-rate-debt sensitivity to the hawkish Fed repricing."
+       "RTY=F sits 2.86 daily-sigma below its 50-day while ES=F (equities) sits above its own - a real, current underperformance gap consistent with small-cap floating-rate-debt sensitivity to the hawkish Fed repricing.",
+       false
       ],
       [
        "neu",
-       "Without a fresher RVX print, whether small-cap-specific volatility has moved with the broader MOVE-index spike cannot be confirmed; voted neu."
+       "Without a fresher RVX print, whether small-cap-specific volatility has moved with the broader MOVE-index spike cannot be confirmed; voted neu.",
+       null
       ],
       [
        "bear",
-       "Small-cap balance sheets carry more floating-rate debt than large caps, so the hawkish Fed path (October odds 71-76%) is a more direct funding-cost headwind for IWM than for QQQ or the S&P over the week ahead, even with broad credit spreads still tight."
+       "Small-cap balance sheets carry more floating-rate debt than large caps, so the hawkish Fed path (October odds 71-76%) is a more direct funding-cost headwind for IWM than for QQQ or the S&P over the week ahead, even with broad credit spreads still tight.",
+       false
       ],
       [
        "bear",
-       "With oil also a secondary driver for IWM (-0.397, just short of the dominance threshold) and both oil and the 10-year still elevated, the rates backdrop stays a headwind into the week ahead."
+       "With oil also a secondary driver for IWM (-0.397, just short of the dominance threshold) and both oil and the 10-year still elevated, the rates backdrop stays a headwind into the week ahead.",
+       false
       ],
       [
        "bear",
-       "Fed speakers remain unrestricted through this window (blackout begins ~10 October), so continued hawkish commentary is a live, specific risk for small-cap earnings expectations."
+       "Fed speakers remain unrestricted through this window (blackout begins ~10 October), so continued hawkish commentary is a live, specific risk for small-cap earnings expectations.",
+       false
       ],
       [
        "neu",
-       "AAII's broad-market bearish extreme (48.1% bears, 23 September survey) is not small-cap-specific enough to score directly for IWM; voted neu."
+       "AAII's broad-market bearish extreme (48.1% bears, 23 September survey) is not small-cap-specific enough to score directly for IWM; voted neu.",
+       null
       ],
       [
        "neu",
-       "Same gap for the week ahead; the 'great rotation' into small caps is a 2026 year-to-date narrative, not a dated, current positioning fact; neu."
+       "Same gap for the week ahead; the 'great rotation' into small caps is a 2026 year-to-date narrative, not a dated, current positioning fact; neu.",
+       null
       ],
       [
        "neu",
-       "Q3 earnings season proper does not begin in earnest inside this 5-session window for the small-cap universe any more than for large caps; neu."
+       "Q3 earnings season proper does not begin in earnest inside this 5-session window for the small-cap universe any more than for large caps; neu.",
+       null
       ],
       [
        "bear",
-       "ISM Manufacturing (1 October) is a small-cap-relevant read given the index's larger industrial/cyclical weighting versus the mega-cap-tech-heavy S&P and Nasdaq; a soft print inside this window would be a specific IWM risk."
+       "ISM Manufacturing (1 October) is a small-cap-relevant read given the index's larger industrial/cyclical weighting versus the mega-cap-tech-heavy S&P and Nasdaq; a soft print inside this window would be a specific IWM risk.",
+       false
       ],
       [
        "bear",
-       "The broad equity-seasonality read (last week of September as the weakest ten-day stretch of the year) applies at least as much to small caps, which tend to have higher beta to broad-market seasonal swings."
+       "The broad equity-seasonality read (last week of September as the weakest ten-day stretch of the year) applies at least as much to small caps, which tend to have higher beta to broad-market seasonal swings.",
+       false
       ],
       [
        "bear",
-       "With oil also a secondary IWM driver (-0.397) and WTI still elevated versus its year-ago level even after the 25 September pullback, the cross-asset backdrop stays a headwind into the week ahead."
+       "With oil also a secondary IWM driver (-0.397) and WTI still elevated versus its year-ago level even after the 25 September pullback, the cross-asset backdrop stays a headwind into the week ahead.",
+       false
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 2847.300048828125,
+     "ret": -0.004197,
+     "correct": true,
+     "shadowCorrect": false,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -11756,62 +11831,77 @@
      "votes": [
       [
        "bull",
-       "NQ=F is 3.86 daily-sigma above its 50-day and 9.46 daily-sigma above its 200-day, past the engine's +6 extension threshold; weekly structure is choppy (last two labeled swings an LL at 27201.5 on 27 July and an LH at 30343.0 on 17 August), so the bullish call rests on the extension rather than a confirmed weekly trend."
+       "NQ=F is 3.86 daily-sigma above its 50-day and 9.46 daily-sigma above its 200-day, past the engine's +6 extension threshold; weekly structure is choppy (last two labeled swings an LL at 27201.5 on 27 July and an LH at 30343.0 on 17 August), so the bullish call rests on the extension rather than a confirmed weekly trend.",
+       false
       ],
       [
        "bear",
-       "Reported Nasdaq-100 weight for SpaceX has reportedly risen to roughly 2.82% per a September 2026 Benzinga report tied to index-fund rebalancing flows - continued concentration into a small number of mega-cap names raises single-name risk for the week ahead."
+       "Reported Nasdaq-100 weight for SpaceX has reportedly risen to roughly 2.82% per a September 2026 Benzinga report tied to index-fund rebalancing flows - continued concentration into a small number of mega-cap names raises single-name risk for the week ahead.",
+       false
       ],
       [
        "neu",
-       "Whether tech-sector volatility stays decoupled from the bond-vol spike (MOVE at a multi-month record) or eventually catches up is genuinely two-sided over the week ahead; no dated percentile for VXN's current level was obtainable to judge further."
+       "Whether tech-sector volatility stays decoupled from the bond-vol spike (MOVE at a multi-month record) or eventually catches up is genuinely two-sided over the week ahead; no dated percentile for VXN's current level was obtainable to judge further.",
+       null
       ],
       [
        "neu",
-       "Tight credit spreads are broadly supportive but say nothing tech-specific for the week ahead; neu."
+       "Tight credit spreads are broadly supportive but say nothing tech-specific for the week ahead; neu.",
+       null
       ],
       [
        "bear",
-       "With October hike odds at 71-76% (CME FedWatch, 25 September), continued upward pressure on real yields is a specific discount-rate headwind for QQQ's duration-heavy composition into the week ahead."
+       "With October hike odds at 71-76% (CME FedWatch, 25 September), continued upward pressure on real yields is a specific discount-rate headwind for QQQ's duration-heavy composition into the week ahead.",
+       false
       ],
       [
        "bear",
-       "Fed speakers remain unrestricted through this window (blackout begins ~10 October); continued hawkish commentary is a live risk to the multiple the market pays for QQQ's growth composition."
+       "Fed speakers remain unrestricted through this window (blackout begins ~10 October); continued hawkish commentary is a live risk to the multiple the market pays for QQQ's growth composition.",
+       false
       ],
       [
        "bull",
-       "The same extended AAII bearish spread, unresolved for multiple weeks, is a contrarian-bullish setup that has coincided with continued mega-cap-tech strength this cycle."
+       "The same extended AAII bearish spread, unresolved for multiple weeks, is a contrarian-bullish setup that has coincided with continued mega-cap-tech strength this cycle.",
+       false
       ],
       [
        "neu",
-       "No source-documented positioning or sentiment extreme for megacap tech dated to 25 September was found beyond the single-name catalyst noted above; voted neu on flows generally for the week."
+       "No source-documented positioning or sentiment extreme for megacap tech dated to 25 September was found beyond the single-name catalyst noted above; voted neu on flows generally for the week.",
+       null
       ],
       [
        "neu",
-       "Q3 earnings season proper does not begin in earnest inside this 5-session window; the main scheduled item is quarter-end (30 September) rather than a reporting catalyst, so voted neu pending more names reporting."
+       "Q3 earnings season proper does not begin in earnest inside this 5-session window; the main scheduled item is quarter-end (30 September) rather than a reporting catalyst, so voted neu pending more names reporting.",
+       null
       ],
       [
        "bear",
-       "ISM Manufacturing (1 October) and nonfarm payrolls (2 October) land inside the window into a backdrop where firm data has consistently pushed real yields higher all quarter - a specific valuation headwind for QQQ's duration-heavy composition."
+       "ISM Manufacturing (1 October) and nonfarm payrolls (2 October) land inside the window into a backdrop where firm data has consistently pushed real yields higher all quarter - a specific valuation headwind for QQQ's duration-heavy composition.",
+       false
       ],
       [
        "bear",
-       "The broad equity-seasonality read (last week of September as the weakest ten-day stretch of the year) applies to QQQ as much as to the S&P."
+       "The broad equity-seasonality read (last week of September as the weakest ten-day stretch of the year) applies to QQQ as much as to the S&P.",
+       false
       ],
       [
        "bear",
-       "The same dual-driver dominance (10-year and oil both above the 0.40 threshold) keeps the cross-asset read cautious into the week ahead absent a reversal in either."
+       "The same dual-driver dominance (10-year and oil both above the 0.40 threshold) keeps the cross-asset read cautious into the week ahead absent a reversal in either.",
+       false
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 31023.25,
+     "ret": 0.004338,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 10,
