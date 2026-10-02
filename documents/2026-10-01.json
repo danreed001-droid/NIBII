@@ -402,8 +402,8 @@
        false
       ]
      ],
-     "maturityClose": 7772.25,
-     "ret": 0.005693,
+     "maturityClose": 7771.75,
+     "ret": 0.005629,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2570,8 +2570,8 @@
        null
       ]
      ],
-     "maturityClose": 104.53125,
-     "ret": 0.000149,
+     "maturityClose": 104.328125,
+     "ret": -0.001794,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5319,8 +5319,8 @@
        null
       ]
      ],
-     "maturityClose": 4173.10009765625,
-     "ret": -0.000599,
+     "maturityClose": 4167.39990234375,
+     "ret": -0.001964,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7382,8 +7382,8 @@
        false
       ]
      ],
-     "maturityClose": 101.88099670410156,
-     "ret": -0.002262,
+     "maturityClose": 101.93399810791016,
+     "ret": -0.001743,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9599,8 +9599,8 @@
        null
       ]
      ],
-     "maturityClose": 2854.300048828125,
-     "ret": 0.008872,
+     "maturityClose": 2851.300048828125,
+     "ret": 0.007811,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11610,7 +11610,7 @@
       [
        "bull",
        "Micron's blowout guidance sparked a global semiconductor rally (Nasdaq-100 futures +0.6% pre-market, news log) and Nasdaq closed +0.25%; Broadcom fell 1.1% on conflict-of-interest concerns over its Anthropic loan, so only the near horizons are tilted bullish",
-       true
+       false
       ],
       [
        "neu",
@@ -11633,8 +11633,8 @@
        null
       ]
      ],
-     "maturityClose": 31071.5,
-     "ret": 0.008136,
+     "maturityClose": 31032.0,
+     "ret": 0.006854,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
