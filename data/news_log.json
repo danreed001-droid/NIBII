@@ -1877,5 +1877,65 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-02-3-stocks-close-higher-nasdaq-record",
+    "data": {
+      "addedAt": "2026-10-02",
+      "category": "Market",
+      "date": "2026-10-02",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "S&P 500, Dow, and Nasdaq close higher as soft September jobs report cements dovish Fed outlook; Nasdaq sets a fresh record close on AI/Nvidia strength",
+      "impact": "High",
+      "numbers": "S&P 500 7,720.44 (+0.70%); Dow 51,143.70 (+0.43%); Nasdaq Composite 27,179.15 (+1.14%, record close); 10Y Treasury yield 5.18% (-6bps)",
+      "order": 3,
+      "reaction": "Nvidia hit a fresh intraday record (~$237.88, market cap above $5.7T); risk-on tone extended after weak payrolls cut October Fed hike odds to roughly 16-18%",
+      "region": "US",
+      "source": "https://www.spokesman.com/stories/2026/oct/02/nasdaq-climbs-to-record-after-softer-jobs-data-coo/",
+      "tickers": "SPY, DIA, QQQ, NVDA, TLT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-02-4-trump-deploys-troops-carrier-mideast",
+    "data": {
+      "addedAt": "2026-10-02",
+      "category": "Geopolitics",
+      "date": "2026-10-02",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Trump deploys roughly 9,000 troops and the USS Theodore Roosevelt carrier strike group to the Middle East, warns Iran will be \"hit very hard\"; a third carrier could arrive by late October",
+      "impact": "Medium",
+      "numbers": "~9,000 troops; USS Theodore Roosevelt CSG + USS Makin Island ARG; total regional presence could exceed 20,000 sailors/Marines",
+      "order": 4,
+      "reaction": "Oil stayed elevated on Middle East tension (Brent roughly $99-102/bbl depending on source) even as the broader tape rallied on rate-cut hopes; raises tail risk for energy prices",
+      "region": "Middle East / US",
+      "source": "https://fortune.com/2026/10/01/trump-9000-troops-third-aircraft-carrier-middle-east-iran-strike/",
+      "tickers": "USO, BNO, XLE",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-02-5-nike-falls-on-weak-q1-results-layoffs",
+    "data": {
+      "addedAt": "2026-10-02",
+      "category": "Earnings",
+      "date": "2026-10-02",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Nike slides after a fiscal Q1 revenue miss and weak outlook; management flags upcoming layoffs as part of cost-cutting",
+      "impact": "Medium",
+      "numbers": "Q1 revenue $11.21B vs ~$11.33B expected; NKE -4.8%",
+      "order": 5,
+      "reaction": "Shares fell against an otherwise strong tape as investors weighed the soft guidance and planned layoffs",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-02-2026",
+      "tickers": "NKE",
+      "time": "Market hours",
+      "vsExp": "Miss: revenue ~$11.21B vs ~$11.33B expected"
+    }
   }
 ]
