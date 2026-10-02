@@ -1837,5 +1837,45 @@
       "time": "Market hours",
       "vsExp": "Roughly in line with prior month (-0.1pt m/m)"
     }
+  },
+  {
+    "id": "2026-10-02-1-september-payrolls-29k-big-miss",
+    "data": {
+      "addedAt": "2026-10-02",
+      "category": "Macro",
+      "date": "2026-10-02",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "September nonfarm payrolls come in at just +29K, far below consensus, unemployment rate ticks up to 4.2%; bond traders slash October Fed rate-hike odds",
+      "impact": "High",
+      "numbers": "NFP +29K; unemployment 4.2% (prior 4.1%); AHE +3.2% y/y; July revised to -10K, Aug to +133K; 10Y 5.18%, 30Y 5.57%; Oct hike odds 16% (64% a week ago)",
+      "order": 1,
+      "reaction": "Weak labor data pared Fed hike bets: yields fell, gold up, equity futures jumped (S&P +0.9%, Nasdaq +1.35%, Dow +0.94%)",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-2-dow-sp-500-nasdaq-september-jobs-report-080623878.html",
+      "tickers": "SPY, QQQ, TLT, 10Y, yield, Treasury, GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "Miss: consensus roughly +84K to +90K (sources differ); unemployment expected 4.1%; AHE in line"
+    }
+  },
+  {
+    "id": "2026-10-02-2-crude-oil-slides-brent-near-99",
+    "data": {
+      "addedAt": "2026-10-02",
+      "category": "Energy",
+      "date": "2026-10-02",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Crude oil falls sharply pre-market as Brent drops back to about $99/bbl, easing some inflation pressure alongside weak jobs data",
+      "impact": "Medium",
+      "numbers": "WTI Nov -4.22% to $88.95; Brent ~$99 (-2.6% on the day, up ~54% y/y); catalyst n/a",
+      "order": 2,
+      "reaction": "Lower crude supports the rate-relief move in yields and equity futures; still elevated vs a year ago",
+      "region": "Global",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-2-dow-sp-500-nasdaq-september-jobs-report-080623878.html",
+      "tickers": "SPY, TLT, yield",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
