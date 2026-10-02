@@ -402,8 +402,8 @@
        false
       ]
      ],
-     "maturityClose": 7770.75,
-     "ret": 0.005499,
+     "maturityClose": 7777.0,
+     "ret": 0.006308,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5319,8 +5319,8 @@
        null
       ]
      ],
-     "maturityClose": 4167.5,
-     "ret": -0.00194,
+     "maturityClose": 4175.7998046875,
+     "ret": 4.8e-05,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7382,8 +7382,8 @@
        false
       ]
      ],
-     "maturityClose": 101.93699645996094,
-     "ret": -0.001714,
+     "maturityClose": 101.90799713134766,
+     "ret": -0.001998,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9599,8 +9599,8 @@
        null
       ]
      ],
-     "maturityClose": 2850.10009765625,
-     "ret": 0.007387,
+     "maturityClose": 2851.699951171875,
+     "ret": 0.007953,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11610,7 +11610,7 @@
       [
        "bull",
        "Micron's blowout guidance sparked a global semiconductor rally (Nasdaq-100 futures +0.6% pre-market, news log) and Nasdaq closed +0.25%; Broadcom fell 1.1% on conflict-of-interest concerns over its Anthropic loan, so only the near horizons are tilted bullish",
-       false
+       true
       ],
       [
        "neu",
@@ -11633,8 +11633,8 @@
        null
       ]
      ],
-     "maturityClose": 31027.25,
-     "ret": 0.0067,
+     "maturityClose": 31047.0,
+     "ret": 0.007341,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
