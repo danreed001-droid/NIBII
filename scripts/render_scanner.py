@@ -212,6 +212,8 @@ tbody tr:last-child td { border-bottom: 0; }
 @media (max-width: 520px) { .alloc .nm2 { display: none; } .alloc td { padding: 7px 2px; } }
 @media (max-width: 900px) { .plan { grid-template-columns: 1fr; } }
 .plan-controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 10px; }
+.plan-controls .seg { flex-wrap: wrap; border-radius: 14px; }
+.plan-controls .seg button { white-space: nowrap; }
 .plan-controls label { font-size: 0.8rem; color: var(--ink-2); display: inline-flex; align-items: center; gap: 8px; }
 .money-in { display: inline-flex; align-items: center; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); padding: 0 8px; }
 .money-in span { color: var(--muted); }
@@ -470,8 +472,10 @@ footer li { margin-bottom: 6px; }
   if (D.signalDay) {
     var PA = D.plan && D.plan.auto, pm = 'auto';
     try { pm = localStorage.getItem('nibii-plan-mix2') || 'auto'; } catch (e) {}
-    var PM = PA && (pm === 'steps' ? PA.steps : pm === 'auto' ? PA : null);
+    var PM = PA && (pm === 'steps' ? PA.steps : pm === 'auto' || pm === 'guard' ? PA : null);
     var mixTag = PM && PM.split !== PM.prevSplit ? '<span class="tag ' + (PM.split === '100/0' ? 'buy' : 'sell') + '">' + (pm === 'steps' ? 'steps' : 'auto') + ' mix → ' + PM.split + '</span>' : '';
+    var GD = PA && PA.guard;
+    if (pm === 'guard' && GD && GD.bear !== GD.prevBear) mixTag += '<span class="tag ' + (GD.bear ? 'sell' : 'buy') + '">bear guard ' + (GD.bear ? 'ON → ' + Math.round(GD.share * 100) + '% of stocks into SPY' : 'OFF → back to the top 5') + '</span>';
     var sw = SLb && SLb.held !== SLb.prevHeld ? '<span class="tag sell">sell ' + esc(SLb.prevHeld) + '</span><span class="tag buy">buy ' + esc(SLb.held) + ' (sleeve)</span>' : '';
     $('banner').innerHTML = '<b>Trade Mon ' + fmtDate(D.tradeDate, md) + ', 3:30–4:00 pm ET</b><span class="muted">signal from ' + fmtDate(D.asOf, wd) + '’s close:</span>' +
       (tags || sw || mixTag ? tags + sw + mixTag : '<span>No stock, sleeve or mix changes — just reset to your mix.</span>');
@@ -748,7 +752,7 @@ footer li { margin-bottom: 6px; }
     var mix = P['default'], acct = 10000;
     try { mix = localStorage.getItem('nibii-plan-mix2') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
     if (P.splits.indexOf(mix) < 0) mix = P['default'];
-    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m === 'steps' ? 'Steps' : m === 'mine' ? 'Mine' : m) + '</button>'; }).join('');
+    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m === 'guard' ? 'Guard' : m === 'steps' ? 'Steps' : m === 'mine' ? 'Mine' : m) + '</button>'; }).join('');
     function usd(v) { return '$' + (v < 100 ? v.toFixed(2) : Math.round(v).toLocaleString()); }
     var name = {}; SL.assets.forEach(function (a) { name[a.t] = a; });
     function draw() {
@@ -756,11 +760,13 @@ footer li { margin-bottom: 6px; }
       var m, mine = null;
       if (mix === 'mine') { mine = callFor(inForce); m = mixOf(mine, inForce) || [A ? share(A.split) : 1, A ? 1 - share(A.split) : 0, 0]; }
       else if (mix === 'auto' && A) m = [share(A.split), 1 - share(A.split), 0];
+      else if (mix === 'guard' && A && A.guard) m = [A.guard.weights[0], A.guard.weights[1], 0, A.guard.weights[2]];
       else if (mix === 'steps' && A) m = [share(A.steps.split), 1 - share(A.steps.split), 0];
       else m = [share(mix), 1 - share(mix), 0];
+      var spyAmt = acct * (m[3] || 0);
       var stocks = acct * m[0], sleeve = acct * m[1], cash = acct * m[2], per = stocks / D.rule.topN;
-      $('plan-hint').textContent = (mix === 'auto' ? 'auto mix this week: ' : mix === 'steps' ? 'steps mix this week: ' : mix === 'mine' ? 'your call: ' : '') +
-        Math.round(m[0] * 100) + '% top 5 · ' + Math.round(m[1] * 100) + '% sleeve' + (m[2] ? ' · ' + Math.round(m[2] * 100) + '% cash' : '') + ' · no leverage · trade & reset Mondays';
+      $('plan-hint').textContent = (mix === 'auto' ? 'auto mix this week: ' : mix === 'guard' ? 'auto + guard this week: ' : mix === 'steps' ? 'steps mix this week: ' : mix === 'mine' ? 'your call: ' : '') +
+        Math.round(m[0] * 100) + '% top 5 · ' + Math.round(m[1] * 100) + '% sleeve' + (m[3] ? ' · ' + Math.round(m[3] * 100) + '% SPY' : '') + (m[2] ? ' · ' + Math.round(m[2] * 100) + '% cash' : '') + ' · no leverage · trade & reset Mondays';
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
       var sp = name[SL.held] || {};
       function sh(v, px) { if (!px) return ''; var n = v / px; return '≈' + n.toFixed(n < 10 ? 2 : 0) + ' sh'; }
@@ -774,16 +780,24 @@ footer li { margin-bottom: 6px; }
       rows += sleeve > 0 ? '<tr><td><span class="sw" style="--c:var(--s-plan)"></span><b>' + esc(SL.held) + '</b> <span class="muted">sleeve<span class="nm2"> · ' + esc(sp.n || '') + '</span></span></td>' +
         '<td class="r">' + usd(sleeve) + '</td><td class="r muted">' + sh(sleeve, sp.close) + '</td></tr>'
         : '<tr class="borrow"><td>Sleeve (' + esc(SL.held) + ') — not held this week</td><td class="r">$0</td><td></td></tr>';
+      if (spyAmt > 0) rows += '<tr><td><span class="sw" style="--c:var(--s-spy)"></span><b>SPY</b> <span class="muted nm2">bear guard</span></td><td class="r">' + usd(spyAmt) + '</td><td class="r muted">' + sh(spyAmt, A.guard.spyClose) + '</td></tr>';
       if (cash > 0) rows += '<tr><td><span class="sw" style="--c:var(--muted)"></span><b>Cash</b> <span class="muted nm2">T-bills or money market</span></td><td class="r">' + usd(cash) + '</td><td></td></tr>';
       rows += '<tr class="sum"><td>Total</td><td class="r">' + usd(acct) + '</td><td></td></tr>';
       $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
       var st = P.stats[mix], S0 = D.stats.strategy;
-      $('plan-stats').innerHTML = (st ? '<span>Since 2020 ' + (mix === 'auto' ? 'with auto' : mix === 'steps' ? 'with steps' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>'
+      $('plan-stats').innerHTML = (st ? '<span>Since 2020 ' + (mix === 'auto' ? 'with auto' : mix === 'guard' ? 'with auto + guard' : mix === 'steps' ? 'with steps' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>'
           : '<span>Your record is scored below, from your first call.</span>') +
         '<span class="muted">Top 5 alone: ' + pct(S0.annual, 0) + ' a year, worst drop ' + pct(S0.maxDD, 0) + '</span>';
       if (mix === 'mine') {
         $('auto-note').innerHTML = mine ? '<b>Mine:</b> your call in force — ' + callLabel(mine) + ' → <b>' + mixTxt(m) + '</b>' + (mine.note ? ' · “' + esc(mine.note) + '”' : '') + '. Change it under Your calls.'
           : '<b>Mine:</b> no call yet, so this shows Auto. Make one under Your calls.';
+      } else if (A && mix === 'guard' && A.guard) {
+        var G = A.guard;
+        $('auto-note').innerHTML = '<b>Auto + Guard:</b> the Auto mix, plus a bear-market guard: while SPY closes below its level a year earlier, ' + Math.round(G.share * 100) +
+          '% of the stock part sits in SPY instead of the top 5. ' + (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + 'SPY ' + (G.spyNow != null ? G.spyNow.toFixed(2) : '–') + ' vs ' +
+          (G.spyYearAgo != null ? G.spyYearAgo.toFixed(2) : '–') + ' a year ago → guard <b>' + (G.bear ? 'ON' : 'off') + '</b>' +
+          (D.signalDay && G.bear !== G.prevBear ? ' (changed — trade it Monday)' : '') + '.' + (!D.signalDay && G.previewBear != null && G.previewBear !== G.bear ? ' If Friday were today the guard would turn ' + (G.previewBear ? 'ON' : 'off') + '.' : '') +
+          ' It costs a little in good years (since 2020: ' + pct(P.stats.guard.annual, 0) + ' a year vs ' + pct(P.stats.auto.annual, 0) + ' for Auto) and pays off in long bear markets: tested 2000–2026, about the same +25% a year with a worst drop near −63% instead of −73%, and 2009 about −5% instead of −27%. On ' + G.weeksBear + ' weeks since 2020.';
       } else if (A && mix === 'steps' && A.steps) {
         var dn2 = A.down.length, lst2 = dn2 ? ' (' + A.down.map(esc).join(', ') + ')' : '', S2 = A.steps;
         $('auto-note').innerHTML = '<b>Steps:</b> 100% top 5 when no holding is in a daily lower-low downtrend at Friday’s close; 1 down → 80/20, 2 down → 60/40, 3 or more → 40/60. ' +

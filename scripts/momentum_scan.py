@@ -36,7 +36,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, trades_from_picks  # noqa: E402
-from mtl.sleeve import ASSETS, NAMES, best_of, filled, plan_curve_dynamic, six_month, sleeve_curve  # noqa: E402
+from mtl.sleeve import ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix, six_month, sleeve_curve  # noqa: E402
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 
@@ -49,6 +49,7 @@ AUTO_NEED, AUTO_LOW = 2, 0.6            # auto: 60/40 while 2+ holdings are in a
 STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+ -> STEPS_MIN
 STEPS_MIN = 0.4
 CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
+GUARD_SHARE = 0.5                       # bear guard: this much of the stock part goes to SPY while SPY < a year ago
 HUMAN_FROM = '2024-01-01'               # daily series shipped for scoring the viewer's own weekly calls
 STATE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
 
@@ -265,12 +266,29 @@ def main():
     def steps_split(d_, n=None):
         return STEPS.get(n_down(d_) if n is None else n, STEPS_MIN)
 
+    # bear guard: Auto, but while SPY closes below its level a year (252 sessions)
+    # earlier, half of the stock part sits in SPY instead of the top 5
+    kidx = {d_: i for i, d_ in enumerate(calendar)}
+    spy_px = prices['SPY']
+
+    def bear(d_):
+        k = kidx[d_]
+        return k >= 252 and spy_px[calendar[k]] < spy_px[calendar[k - 252]]
+
+    def guard_weights(d_):
+        s_ = auto_split(d_)
+        g = GUARD_SHARE if bear(d_) else 0.0
+        return {'top5': s_ * (1 - g), 'sleeve': 1 - s_, 'spy': s_ * g}
+
+    spy_curve = [[d_, spy_px[d_]] for d_ in calendar if d_ >= START and d_ in spy_px]
     plans = {'auto': plan_curve_dynamic(strat, sl_curve, calendar, auto_split),
-             'steps': plan_curve_dynamic(strat, sl_curve, calendar, steps_split)}
+             'steps': plan_curve_dynamic(strat, sl_curve, calendar, steps_split),
+             'guard': plan_curve_mix({'top5': strat, 'sleeve': sl_curve, 'spy': spy_curve}, calendar, guard_weights)}
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
     curves['plan'] = growth(plans['auto'])
     curves['steps'] = growth(plans['steps'])
+    curves['guard'] = growth(plans['guard'])
     f = filled(sleeve_px, calendar)
     today = date.fromisoformat(as_of)
     week_ends = [k for k in range(K) if date.fromisoformat(calendar[k]).isocalendar()[:2]
@@ -298,10 +316,19 @@ def main():
                 weeks=sum(1 for f in last_sessions_of_weeks(calendar) if f >= START),
                 steps=dict(split=split_key(steps_split(sig_d)), prevSplit=split_key(steps_split(prev_d)),
                            weeksLow=sum(1 for f in last_sessions_of_weeks(calendar) if f >= START and steps_split(f) < 1)))
+    gw, gp = guard_weights(sig_d), guard_weights(prev_d)
+    k_sig = kidx[sig_d]
+    auto['guard'] = dict(bear=bear(sig_d), prevBear=bear(prev_d), share=GUARD_SHARE,
+                         weights=[r4(gw['top5']), r4(gw['sleeve']), r4(gw['spy'])],
+                         prevWeights=[r4(gp['top5']), r4(gp['sleeve']), r4(gp['spy'])],
+                         spyNow=r4(spy_px[sig_d]), spyYearAgo=r4(spy_px[calendar[k_sig - 252]]) if k_sig >= 252 else None,
+                         spyClose=r4(spy_px[as_of]),
+                         weeksBear=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and bear(f_)))
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(AUTO_LOW if len(auto['previewDown']) >= AUTO_NEED else 1.0)
         auto['steps']['preview'] = split_key(steps_split(as_of, len(auto['previewDown'])))
+        auto['guard']['previewBear'] = bear(as_of)
 
     # the viewer's own calls ("Mine") are scored in the browser from these: daily
     # values of the top-5 rule, the sleeve and T-bills (cash), and each week's
@@ -361,7 +388,7 @@ def main():
         turnover=r4(r['turnover']),
         sleeve=sleeve,
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
-        plan=dict(splits=['auto', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
+        plan=dict(splits=['auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)
