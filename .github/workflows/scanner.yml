@@ -1,0 +1,57 @@
+name: Trend Scanner
+
+# Re-runs the multi-timeframe structure scan (S&P 500 + XLF/XLU/XLY/EEM/GLD/SLV)
+# and re-renders docs/scanner.html, the dashboard linked from the Market Tape
+# Ledger page. Hourly through the US session, a few minutes after each
+# hourly candle closes so the 1h and 15m reads include it. The S&P 500 list
+# (data/sp500.csv) refreshes itself inside the scan once it's a week old.
+
+on:
+  schedule:
+    # 13:12-21:12 UTC Mon-Fri = 9:12am-5:12pm EDT / 8:12am-4:12pm EST.
+    - cron: '12 13-21 * * 1-5'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trend-scanner
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install -r requirements.txt
+
+      - name: Scan the universe
+        run: python scripts/mtf_scan.py --out data/scan.json --csv /tmp/scan.csv
+
+      - name: Render the dashboard
+        run: python scripts/render_scanner.py
+
+      - name: Commit and push the dashboard
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/scanner.html data/sp500.csv data/sp500.asof
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+            exit 0
+          fi
+          git commit -m "Trend scanner refresh"
+          # The daily-fetch workflow pushes to main hourly too; replay on top.
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin main && git push && exit 0
+            sleep 10
+          done
+          exit 1

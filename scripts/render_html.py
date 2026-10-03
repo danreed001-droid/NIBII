@@ -904,6 +904,14 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
 .log-nocall {{ color: var(--gold); font-weight: 600; }}
 .log-caption {{ font-size: 0.78rem; color: var(--muted); margin: 10px 2px 0; }}
 
+.scanner-link {{ margin: 14px 0 0; }}
+.scanner-link a {{
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px;
+  border: 1px solid var(--gold); color: var(--masthead-ink); text-decoration: none; font-size: 0.85rem; font-weight: 600;
+}}
+.scanner-link a:hover {{ background: color-mix(in srgb, var(--gold) 16%, transparent); }}
+.scanner-link span {{ color: var(--masthead-ink-2); font-weight: 500; }}
+
 .theme-toggle {{
   display: inline-flex; align-items: center; justify-content: center;
   width: 30px; height: 30px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18);
@@ -932,6 +940,7 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
       </span>
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
+    <p class="scanner-link"><a href="scanner.html">◆ Trend Scanner <span>S&amp;P 500 + ETF buy/sell signals</span> →</a></p>
     {freshness}
     <p class="submit-news"><a href="{submit_url}" target="_blank" rel="noopener">＋ Submit a news event</a>
       <span>adds it to the news log the research reads; the page updates in about a minute</span></p>

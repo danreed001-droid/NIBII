@@ -297,6 +297,15 @@ per-timeframe detail.
     python scripts/mtf_scan.py NQ=F AAPL          # detail view
     python scripts/mtf_scan.py SPY --json
 
+**Dashboard.** `docs/scanner.html` (served by GitHub Pages next to the
+Ledger at `/scanner.html`, linked from the Ledger's masthead) shows the
+latest scan: BUY/SELL signal cards with entry/stop/risk, the six ETFs,
+breadth by sector per timeframe, and a searchable/sortable table of every
+ticker, with a strict/loose trend-rule toggle. `.github/workflows/scanner.yml`
+re-runs it hourly through the US session (and on demand from the Actions
+tab): `mtf_scan.py --out data/scan.json` (both trend rules; the JSON itself
+is gitignored) then `scripts/render_scanner.py`, committing only the page.
+
 ## News catalysts and pattern analysis
 
 A separate Routine ("Daily market news log") logs dated, ticker-tagged,

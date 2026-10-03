@@ -14,6 +14,7 @@ Usage:
     python scripts/mtf_scan.py SPY --json
     python scripts/mtf_scan.py --include-forming  # also use unfinished bars
     python scripts/mtf_scan.py --lookback 2       # looser trend read: latest high+low only
+    python scripts/mtf_scan.py --out data/scan.json   # save for the dashboard (both trend rules)
 """
 import argparse
 import csv
@@ -25,6 +26,12 @@ from datetime import datetime, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.mtf import SETUPS, TIMEFRAMES, fetch_series_many, scan_bars
 from mtl.universe import ETFS, default_universe
+
+# The dashboard (scripts/render_scanner.py) can switch between both trend
+# rules, so --out saves each: 'strict' = the last 4 labeled swings must all
+# agree, 'loose' = just the latest pair.
+MODES = {'strict': 4, 'loose': 2}
+STATE_CODE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
 
 ARROW = {'uptrend': '▲ up', 'downtrend': '▼ down', 'choppy': '◆ choppy', None: '· n/a'}
 DETAIL_MAX = 10
@@ -91,11 +98,51 @@ def summary(results, names, show_watch):
     return '\n'.join(out)
 
 
+def _r(x):
+    return None if x is None else float(f"{x:.6g}")
+
+
+def dashboard_record(tk, series, names):
+    """One ticker's compact record for data/scan.json, both trend rules."""
+    name, sector = names.get(tk, ('', ''))
+    rec = dict(t=tk, n=name, sec=sector, etf=tk in ETFS)
+    if not series.get('daily'):
+        return dict(rec, err='no data from Yahoo')
+    modes = {}
+    for mode, lookback in MODES.items():
+        r = scan_bars(series, lookback)
+        modes[mode] = dict(
+            st=[STATE_CODE[r['timeframes'][tf]['state']] for tf in TIMEFRAMES],
+            lab=['/'.join(r['timeframes'][tf]['labels']) for tf in TIMEFRAMES],
+            set={k: dict(v=s['verdict'], side=s['side'], e=_r(s['entry']), s=_r(s['stop']),
+                         r=s['reason']) for k, s in r['setups'].items()})
+        if mode == 'strict':
+            rec['px'] = _r(r['timeframes']['daily']['close'] if not series.get('15m')
+                           else series['15m'][-1][4])
+            rec['brk'] = [None if not t['lastBreak'] else
+                          dict(k=t['lastBreak']['kind'], d=t['lastBreak']['direction'], ago=t['barsAgo'])
+                          for t in (r['timeframes'][tf] for tf in TIMEFRAMES)]
+    return dict(rec, m=modes)
+
+
+def write_dashboard(path, tickers, series, names):
+    payload = dict(
+        generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'),
+        timeframes=list(TIMEFRAMES), modes=MODES,
+        setups={k: dict(context=list(v['context']), trigger=v['trigger'], recentBars=v['recent_bars'])
+                for k, v in SETUPS.items()},
+        tickers=[dashboard_record(tk, series[tk], names) for tk in tickers])
+    with open(path, 'w') as f:
+        json.dump(payload, f, separators=(',', ':'))
+    print(f"wrote {path}", file=sys.stderr)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('tickers', nargs='*', help='default: ETFs + S&P 500')
     ap.add_argument('--json', action='store_true')
     ap.add_argument('--csv', metavar='FILE', help='write one row per ticker x setup')
+    ap.add_argument('--out', metavar='FILE', help='write the dashboard data (both trend rules) as JSON')
     ap.add_argument('--watch', action='store_true', help='list WATCH setups in the summary')
     ap.add_argument('--details', action='store_true', help='full per-timeframe detail for every ticker')
     ap.add_argument('--include-forming', action='store_true')
@@ -120,6 +167,8 @@ def main():
         except Exception as e:  # one bad ticker shouldn't kill the scan
             results.append(dict(ticker=tk, error=str(e)))
 
+    if args.out:
+        write_dashboard(args.out, tickers, series, names)
     if args.csv:
         fields = ['ticker', 'name', 'sector', 'setup', 'verdict', 'entry', 'stop', *TIMEFRAMES, 'reason']
         with open(args.csv, 'w', newline='') as f:
