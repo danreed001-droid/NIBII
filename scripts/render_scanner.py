@@ -175,6 +175,10 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .dk { background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px; padding: 9px 12px; display: grid;
   grid-template-columns: 34px 1fr auto; gap: 2px 10px; align-items: center; }
 .dk .rank { font-size: 0.8rem; }
+.dk[data-t] { cursor: pointer; transition: border-color .15s; }
+.dk[data-t]:hover { border-color: var(--muted); }
+.dk[data-t]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dk[aria-expanded="true"] { border-color: var(--gold); }
 .dk .tk2 { font-weight: 600; } .dk .nm2 { font-size: 0.72rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; grid-column: 2; }
 .dk .val { text-align: right; font-family: ui-monospace, monospace; font-size: 0.85rem; font-weight: 600; }
 .dk .chg { text-align: right; font-size: 0.72rem; grid-column: 3; }
@@ -376,8 +380,9 @@ footer li { margin-bottom: 6px; }
 
   <div class="two" style="margin-top:0">
     <div>
-      <p class="section-label">On deck <span class="hint">ranks 6–20 · climbing ▲ / slipping ▼ vs last week</span></p>
+      <p class="section-label">On deck <span class="hint">ranks 6–20 · climbing ▲ / slipping ▼ vs last week · tap for a swing chart</span></p>
       <div class="deck" id="deck"></div>
+      <div class="card swpanel" id="swpanel2" hidden></div>
     </div>
     <div>
       <p class="section-label">Recent trades</p>
@@ -490,22 +495,22 @@ footer li { margin-bottom: 6px; }
   }).join('');
 
   // swing chart panel: tap a card to open it
-  var HB = {}; D.holdings.forEach(function (h) { HB[h.t] = h; });
-  var openT = null;
+  var HB = {}; D.table.forEach(function (r) { if (r.chart) HB[r.t] = r; }); D.holdings.forEach(function (h) { if (h.chart) HB[h.t] = h; });
+  var openT = {};   // panel id -> ticker shown
   function svgEl(tag, a, txt) { var e = el(tag, a); if (txt != null) e.textContent = txt; return e; }
-  function drawSwing(t) {
-    var h = HB[t], C = h.chart, panel = $('swpanel');
+  function drawSwing(t, pid) {
+    var h = HB[t], C = h.chart, panel = $(pid || 'swpanel');
     var READ = { up: ['up', 'Uptrend'], down: ['down', 'Downtrend'], chop: ['chop', 'Mixed'] };
     var rd = READ[C.now] || ['chop', 'No read'];
     var A = D.plan && D.plan.auto, counts = A && A.down.indexOf(t) >= 0;
     panel.innerHTML = '<div class="swhead"><div><h3>' + esc(t) + ' · daily swings <span class="swread ' + rd[0] + '">' + rd[1] + ' now</span></h3>' +
       '<p class="chart-sub">' + esc(h.n) + ' · last ' + C.c.length + ' sessions · ▼ swing high, ▲ swing low</p></div>' +
-      '<button type="button" class="x" id="swclose">Close</button></div><div class="swchart" id="swchart"></div>' +
+      '<button type="button" class="x">Close</button></div><div class="swchart"></div>' +
       '<p class="swnote">A swing high is the highest high of 7 days (3 before, 3 after), so it is only known 3 days later; lows likewise. ' +
       '<b>HH/LH</b> = higher/lower than the previous swing high, <b>HL/LL</b> = vs the previous swing low. Down = the last two swings are both LH/LL; up = both HH/HL; otherwise mixed. ' +
       (counts ? '<b>This holding is in a downtrend at the signal close and counts toward the auto mix (' + A.need + '+ moves it to ' + A.low + ').</b>' : 'The auto mix moves to ' + (A ? A.low : '60/40') + ' when ' + (A ? A.need : 2) + '+ holdings read down at Friday’s close.') + '</p>';
-    $('swclose').onclick = function () { closeSwing(); };
-    var box = $('swchart'), W = Math.max(300, box.clientWidth), PH = Math.round(Math.min(340, Math.max(220, W * 0.42))), SH = 26, H = PH + SH + 26;
+    panel.querySelector('.x').onclick = function () { closeSwing(panel.id); };
+    var box = panel.querySelector('.swchart'), W = Math.max(300, box.clientWidth), PH = Math.round(Math.min(340, Math.max(220, W * 0.42))), SH = 26, H = PH + SH + 26;
     var m = { l: 52, r: 10, t: 22, b: 8 }, n = C.c.length, step = (W - m.l - m.r) / n;
     var lo = Infinity, hi = -Infinity; C.c.forEach(function (b) { lo = Math.min(lo, b[3]); hi = Math.max(hi, b[2]); });
     var pad = (hi - lo) * 0.09; lo -= pad; hi += pad;
@@ -560,20 +565,22 @@ footer li { margin-bottom: 6px; }
     });
     svg.addEventListener('pointerleave', function () { tip.hidden = true; cross.setAttribute('visibility', 'hidden'); });
   }
-  function closeSwing() {
-    openT = null; $('swpanel').hidden = true;
-    document.querySelectorAll('.hold[data-t]').forEach(function (c) { c.setAttribute('aria-expanded', 'false'); });
+  var SWSEL = { swpanel: '.hold[data-t]', swpanel2: '.dk[data-t]' };
+  function closeSwing(pid) {
+    openT[pid] = null; $(pid).hidden = true;
+    document.querySelectorAll(SWSEL[pid]).forEach(function (c) { c.setAttribute('aria-expanded', 'false'); });
   }
-  function openSwing(t) {
-    if (openT === t) { closeSwing(); return; }
-    openT = t; $('swpanel').hidden = false;
-    document.querySelectorAll('.hold[data-t]').forEach(function (c) { c.setAttribute('aria-expanded', String(c.getAttribute('data-t') === t)); });
-    drawSwing(t);
-    $('swpanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  function openSwing(t, pid) {
+    pid = pid || 'swpanel';
+    if (openT[pid] === t) { closeSwing(pid); return; }
+    openT[pid] = t; $(pid).hidden = false;
+    document.querySelectorAll(SWSEL[pid]).forEach(function (c) { c.setAttribute('aria-expanded', String(c.getAttribute('data-t') === t)); });
+    drawSwing(t, pid);
+    $(pid).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
   $('holdings').addEventListener('click', function (e) { var c = e.target.closest('.hold[data-t]'); if (c) openSwing(c.getAttribute('data-t')); });
   $('holdings').addEventListener('keydown', function (e) { var c = e.target.closest('.hold[data-t]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSwing(c.getAttribute('data-t')); } });
-  var swr; window.addEventListener('resize', function () { clearTimeout(swr); swr = setTimeout(function () { if (openT) drawSwing(openT); }, 150); });
+  var swr; window.addEventListener('resize', function () { clearTimeout(swr); swr = setTimeout(function () { Object.keys(openT).forEach(function (pid) { if (openT[pid]) drawSwing(openT[pid], pid); }); }, 150); });
 
   // plan + your own weekly calls ("Mine", the human model)
   (function () {
@@ -1096,9 +1103,12 @@ footer li { margin-bottom: 6px; }
 
   // on deck
   $('deck').innerHTML = D.table.filter(function (r) { return r.rank > 5 && r.rank <= 20; }).map(function (r) {
-    return '<div class="dk' + (held[r.t] ? ' held' : '') + '"><span class="rank">#' + r.rank + '</span><span class="tk2">' + esc(r.t) + (held[r.t] ? ' <span class="tag ndx" title="currently held">HELD</span>' : '') + (r.ndx ? ' <span class="tag ndx">NDX</span>' : '') +
+    var tap = r.chart ? ' data-t="' + esc(r.t) + '" tabindex="0" role="button" aria-expanded="false" aria-controls="swpanel2" aria-label="' + esc(r.t) + ': show swing chart"' : '';
+    return '<div class="dk' + (held[r.t] ? ' held' : '') + '"' + tap + '><span class="rank">#' + r.rank + '</span><span class="tk2">' + esc(r.t) + (held[r.t] ? ' <span class="tag ndx" title="currently held">HELD</span>' : '') + (r.ndx ? ' <span class="tag ndx">NDX</span>' : '') +
       '</span><span class="val ' + tone(r.score) + '">' + pct(r.score, 0) + '</span><span class="nm2">' + esc(r.n) + '</span><span class="chg">' + delta(r.d1w) + '</span></div>';
   }).join('');
+  $('deck').addEventListener('click', function (e) { var c = e.target.closest('.dk[data-t]'); if (c) openSwing(c.getAttribute('data-t'), 'swpanel2'); });
+  $('deck').addEventListener('keydown', function (e) { var c = e.target.closest('.dk[data-t]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSwing(c.getAttribute('data-t'), 'swpanel2'); } });
 
   // trades
   $('trades').innerHTML = D.trades.slice(0, 12).map(function (x) {

@@ -217,7 +217,8 @@ def main():
             out['chart'] = chart_data(bs)
         return out
 
-    table = [row(t, detail=i < 25) for i, (t, _) in enumerate(now[:TABLE])]
+    # ranks 1-20 carry the swing chart (on-deck cards open it); the next few keep a sparkline
+    table = [row(t, detail='chart' if i < 20 else i < 25) for i, (t, _) in enumerate(now[:TABLE])]
     # on a Friday the cards show what to own after Monday's trades (new buys flagged)
     signal_day = date.fromisoformat(as_of).weekday() == 4
     held_rows = []
