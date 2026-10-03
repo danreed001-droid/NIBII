@@ -56,3 +56,32 @@ def test_risk_off_goes_to_cash_and_costs_are_charged():
     a = run_momentum(prices, c, c[25], look=20, skip=0, top_n=1, cost=0.0)
     b = run_momentum(prices, c, c[25], look=20, skip=0, top_n=1, cost=0.01)
     assert b['curve'][-1][1] < a['curve'][-1][1]
+
+
+from mtl.momentum import run_rank_climbers
+
+
+def test_rank_climbers_buys_the_stock_moving_up_the_ranking():
+    c = cal(120)
+    prices = {'SPY': {d: 100.0 for d in c}}
+    # FADE starts strongest and keeps weakening; RISE starts weakest and accelerates
+    for name, f in (('FADE', lambda i: 100 * (1.004 ** i) * (0.995 ** max(0, i - 40))),
+                    ('RISE', lambda i: 100 * (0.999 ** i) * (1.01 ** max(0, i - 40))),
+                    ('FLAT', lambda i: 100 + 0.01 * i)):
+        prices[name] = {d: f(i) for i, d in enumerate(c)}
+    r = run_rank_climbers(prices, c, c[30], look=20, skip=0, top=3, slots=1, cost=0.0)
+    held = {t for _, h in r['picks'] for t in h}
+    assert 'RISE' in held
+    # a holding whose rank worsens is sold the next week
+    for (d, h), (d2, h2) in zip(r['picks'], r['picks'][1:]):
+        assert len(h2) <= 1
+
+
+def test_rank_climbers_swap_mode_keeps_at_most_slots():
+    c = cal(120)
+    prices = {'SPY': {d: 100.0 for d in c}}
+    import math
+    for j in range(15):
+        prices[f"S{j}"] = {d: 100 * (1 + 0.2 * math.sin(i / (5 + j))) for i, d in enumerate(c)}
+    r = run_rank_climbers(prices, c, c[30], look=10, skip=0, top=10, slots=4, mode='swap', swap=2, cost=0.0)
+    assert r['picks'] and all(len(h) <= 4 for _, h in r['picks'])

@@ -105,3 +105,85 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     years = max(len(curve) / 252, 1e-9)
     avg_value = sum(p[1] for p in curve) / len(curve) if curve else 1.0
     return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2)
+
+
+def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=21, top=100,
+                      slots=10, mode='decliners', max_new=None, swap=5, eligible=None,
+                      cost=0.0005, start_value=100.0):
+    """Buy the stocks CLIMBING the momentum ranking, not the ones already on top.
+
+    Every week-end session: rank every eligible stock by its trailing score
+    (look/skip as in run_momentum; rank 0 = strongest) and compare with
+    last week's rank (improvement = last week's rank - this week's).
+    Candidates are this week's top `top` stocks. Then, holding `slots`
+    stocks in equal weight:
+
+    mode='decliners': sell every holding whose rank got worse or that left
+                      the top `top`; refill with the biggest climbers
+                      (at most `max_new` buys a week if set - unfilled
+                      slots stay in cash).
+    mode='swap':      sell anything that left the top `top`, then swap the
+                      `swap` holdings with the worst rank change for the
+                      `swap` biggest climbers.
+    Returns dict(curve, picks, turnover) like run_momentum."""
+    rebal = set(last_sessions_of_weeks(calendar))
+    tickers = [t for t in prices if t != benchmark]
+    cash, shares, last_px = start_value, {}, {}
+    curve, picks, traded = [], [], 0.0
+    prev_rank, started = None, False
+    for k, d in enumerate(calendar):
+        for t in shares:
+            px = prices[t].get(d)
+            if px:
+                last_px[t] = px
+        value = cash + sum(n * last_px[t] for t, n in shares.items())
+        if d >= start:
+            started = True
+        if not started:
+            continue
+        if d in rebal:
+            scored = []
+            for t in tickers:
+                s = score_at(prices[t], calendar, k, look, skip)
+                if s is None or not prices[t].get(d) or (eligible and not eligible(t, d)):
+                    continue
+                scored.append((s, t))
+            scored.sort(reverse=True)
+            rank = {t: i for i, (_, t) in enumerate(scored)}
+            if prev_rank is not None:
+                def change(t):
+                    return prev_rank[t] - rank[t] if t in prev_rank and t in rank else None
+                climbers = [t for t in rank if rank[t] < top and (change(t) or 0) > 0]
+                climbers.sort(key=lambda t: (-change(t), rank[t]))
+                held = [t for t in shares if rank.get(t, 10 ** 9) < top]
+                if mode == 'decliners':
+                    keep = [t for t in held if (change(t) or 0) >= 0]
+                    new = [t for t in climbers if t not in keep][:max(0, slots - len(keep))]
+                    if max_new is not None:
+                        new = new[:max_new]
+                else:
+                    fresh = [t for t in climbers if t not in held]
+                    if len(held) < slots:          # open slots (e.g. the first week): fill them
+                        keep, new = held, fresh[:slots - len(held)]
+                    else:                          # full: swap the worst `swap` for the best climbers
+                        held.sort(key=lambda t: change(t) if change(t) is not None else -10 ** 9)
+                        new = fresh[:swap]
+                        keep = held[len(new):]
+                target = keep + new
+                for t in target:
+                    last_px[t] = prices[t][d]
+                slot = value / slots
+                new_shares = {t: slot / last_px[t] for t in target}
+                moved = sum(abs(new_shares.get(t, 0.0) - shares.get(t, 0.0)) * last_px[t]
+                            for t in set(shares) | set(new_shares))
+                traded += moved
+                value -= moved * cost
+                slot = value / slots
+                shares = {t: slot / last_px[t] for t in target}
+                cash = value - sum(n * last_px[t] for t, n in shares.items())
+                picks.append([d, list(target)])
+            prev_rank = rank
+        curve.append([d, value, len(shares)])
+    years = max(len(curve) / 252, 1e-9)
+    avg_value = sum(p[1] for p in curve) / len(curve) if curve else 1.0
+    return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2)
