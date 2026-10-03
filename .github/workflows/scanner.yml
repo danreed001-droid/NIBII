@@ -7,6 +7,10 @@ name: Top 5 Strongest
 # page. Holdings only change at the Friday close; weekday runs refresh the
 # rankings and the "if it rebalanced today" banner. The S&P 500 and
 # Nasdaq-100 lists refresh themselves once they're a week old.
+# On Fridays, when Monday's trade has anything to do (stock swaps, a sleeve
+# switch, an Auto / Guard / Steps mix change), it opens a "Trade Mon ..." issue
+# that @mentions the repo owner so GitHub emails / pushes it
+# (scripts/weekly_alert.py), and closes the previous week's alert.
 
 on:
   schedule:
@@ -17,6 +21,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: momentum-dashboard
@@ -58,3 +63,23 @@ jobs:
             sleep 10
           done
           exit 1
+
+      - name: Friday alert - open an issue when Monday's trade has anything to do
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          python scripts/weekly_alert.py "$RUNNER_TEMP" "$OWNER"
+          if [ ! -f "$RUNNER_TEMP/alert_title.txt" ]; then
+            echo "no alert this time"
+            exit 0
+          fi
+          title=$(cat "$RUNNER_TEMP/alert_title.txt")
+          if gh issue list --repo "$GITHUB_REPOSITORY" --state open --author "app/github-actions" --search "\"$title\" in:title" --json number --jq '.[].number' | grep -q .; then
+            echo "already sent: $title"
+            exit 0
+          fi
+          for n in $(gh issue list --repo "$GITHUB_REPOSITORY" --state open --author "app/github-actions" --search "Trade in:title" --json number,title --jq '.[] | select(.title | startswith("Trade ")) | .number'); do
+            gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "Superseded by this week's alert."
+          done
+          gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$RUNNER_TEMP/alert_body.md"
