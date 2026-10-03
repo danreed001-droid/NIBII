@@ -259,6 +259,7 @@ tbody tr:last-child td { border-bottom: 0; }
 #call-note { width: 100%; min-height: 52px; font: inherit; font-size: 0.84rem; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 8px 10px; resize: vertical; }
 .call-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
 .btn { font: inherit; font-size: 0.85rem; font-weight: 600; background: var(--ink); color: var(--bg); border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--hairline); }
 .linkbtn { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit; font-size: 0.8rem; }
 .linkbtn input { display: none; }
 #call-status { font-size: 0.8rem; color: var(--ink-2); }
@@ -335,7 +336,9 @@ footer li { margin-bottom: 6px; }
       <div class="picks" id="picks"></div>
       <textarea id="call-note" placeholder="Why? (optional — e.g. earnings week, Fed meeting, charts look heavy)"></textarea>
       <div class="call-actions"><button type="button" class="btn" id="call-save">Save my call</button>
+        <button type="button" class="btn ghost" id="call-copy">Copy for Claude</button>
         <button type="button" class="linkbtn" id="call-clear" hidden>Remove this week’s call</button><span id="call-status" role="status"></span></div>
+      <p class="note"><b>To record a call:</b> save it, tap <b>Copy for Claude</b> and paste it to Claude in chat — Claude writes it into the repo, where every device sees it and the daily update scores it. No token needed.</p>
       <p class="note">A call carries forward until you change it.
         <button type="button" class="linkbtn" id="call-export">Back up</button> ·
         <label class="linkbtn">restore<input type="file" id="call-import" accept="application/json"></label></p>
@@ -658,8 +661,8 @@ footer li { margin-bottom: 6px; }
     var syncNote = '';
     function syncUI(msg) {
       if (msg != null) syncNote = msg;
-      $('sync-status').textContent = (token ? 'Repo sync on' : 'View only on this device — calls are read from the repo') + (syncNote ? ' · ' + syncNote : '');
-      $('sync-toggle').textContent = token ? 'Sync settings' : 'Connect GitHub to save';
+      $('sync-status').textContent = (token ? 'Saving straight to the repo from this device' : 'Calls recorded in the repo are shown on every device') + (syncNote ? ' · ' + syncNote : '');
+      $('sync-toggle').textContent = token ? 'Sync settings' : 'Optional: save directly with a GitHub token';
     }
     function pull() {   // read the repo copy: through the API with a token (fresh), else the Pages copy
       var get = token ? ghGet().then(function (g) { return g.calls; })
@@ -667,7 +670,7 @@ footer li { margin-bottom: 6px; }
       return get.then(function (rc) { var n = merge(rc); saveCalls(); return n; });
     }
     function push(what, tries) {
-      if (!token) { syncUI('saved in this browser only'); return Promise.resolve(false); }
+      if (!token) { syncUI('saved here — tap Copy for Claude to record it'); return Promise.resolve(false); }
       syncUI('saving to repo…');
       return ghGet().then(function (g) {
         merge(g.calls); saveCalls();
@@ -846,6 +849,17 @@ footer li { margin-bottom: 6px; }
       var ok = saveCalls(); showCall(); draw(); drawRecord();
       if (!ok && !token) $('call-status').textContent = 'Could not save — this browser is blocking storage.';
       push('week of ' + D.tradeDate + ' — ' + callLabel(c));
+    };
+    $('call-copy').onclick = function () {
+      var c = act[FRI] || null, txt;
+      if (!c) { $('call-status').textContent = 'Save a call first, then copy it.'; return; }
+      var m = mixOf(c, FRI);
+      txt = 'My call for the week of Mon ' + D.tradeDate + ' (signal Fri ' + FRI + '): ' + callLabel(c) +
+        (m ? ' → ' + mixTxt(m) + ' (stocks/sleeve' + (m[2] ? '/cash' : '') + ')' : '') + (c.note ? ' · note: ' + c.note : '') +
+        ' · [' + JSON.stringify({ k: FRI, m: c.m, s: c.s, v: c.v, swaps: c.swaps, drops: c.drops }) + ']';
+      var done = function () { $('call-status').textContent = 'Copied — paste it to Claude to record it.'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function () { window.prompt('Copy this and send it to Claude:', txt); });
+      else window.prompt('Copy this and send it to Claude:', txt);
     };
     $('call-clear').onclick = function () { calls[FRI] = { m: 'del', note: '', at: new Date().toISOString() }; saveCalls(); showCall(); draw(); drawRecord(); push('removed week of ' + D.tradeDate); };
     $('call-export').onclick = function () {

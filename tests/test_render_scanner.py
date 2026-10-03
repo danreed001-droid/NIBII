@@ -60,3 +60,8 @@ def test_calls_can_swap_or_drop_stocks():
 def test_on_deck_cards_open_their_own_swing_chart():
     page = render_scanner.render(SCAN)
     assert 'id="swpanel2"' in page and "openSwing(c.getAttribute('data-t'), 'swpanel2')" in page
+
+
+def test_calls_can_be_copied_for_claude():
+    page = render_scanner.render(SCAN)
+    assert 'id="call-copy"' in page and 'Copy for Claude' in page
