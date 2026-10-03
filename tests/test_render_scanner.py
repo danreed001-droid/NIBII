@@ -43,3 +43,10 @@ def test_page_has_the_human_calls_model():
     for needle in ('id="choices"', 'id="call-save"', 'id="rec"', "nibii-calls-v1", 'id="call-import"'):
         assert needle in page
     assert "if (!P || !SL)" in page and "!HU || !HU.days.length" in page   # old data without the series still renders
+
+
+def test_calls_sync_to_the_repo_and_ranges_filter_the_record():
+    page = render_scanner.render(SCAN)
+    assert "docs/my_calls.json" in page and "api.github.com/repos/" in page and "my_calls.json?t=" in page
+    assert 'id="r-from"' in page and 'id="rr-from"' in page
+    assert "m: 'del'" in page          # removals sync as tombstones, not silent deletes

@@ -231,6 +231,10 @@ tbody tr:last-child td { border-bottom: 0; }
 .abar i { position: absolute; top: 0; bottom: 0; left: 50%; background: var(--c); border-radius: 3px; }
 .assets .num { text-align: right; }
 .note { font-size: 0.78rem; color: var(--muted); margin: 8px 0 0; }
+/* date range */
+.range { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0 0 10px; font-size: 0.8rem; color: var(--ink-2); }
+.range label { display: inline-flex; align-items: center; gap: 6px; }
+.range input[type="date"] { font: inherit; font-size: 0.82rem; color: var(--ink); background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 8px; padding: 4px 8px; color-scheme: inherit; }
 /* your calls (human model) */
 .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
 .choice { text-align: left; font: inherit; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink); border-radius: 10px; padding: 9px 11px; cursor: pointer; }
@@ -247,6 +251,8 @@ tbody tr:last-child td { border-bottom: 0; }
 .linkbtn { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit; font-size: 0.8rem; }
 .linkbtn input { display: none; }
 #call-status { font-size: 0.8rem; color: var(--ink-2); }
+#sync-token { flex: 1 1 180px; min-width: 0; font: 0.84rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 6px 8px; }
+.sync code { font-size: 0.74rem; }
 .rec-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 10px; }
 .rec-tile { background: var(--surface-2); border-radius: 10px; padding: 8px 10px; }
 .rec-tile .k { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); display: flex; align-items: center; gap: 6px; }
@@ -316,18 +322,35 @@ footer li { margin-bottom: 6px; }
       <textarea id="call-note" placeholder="Why? (optional — e.g. earnings week, Fed meeting, charts look heavy)"></textarea>
       <div class="call-actions"><button type="button" class="btn" id="call-save">Save my call</button>
         <button type="button" class="linkbtn" id="call-clear" hidden>Remove this week’s call</button><span id="call-status" role="status"></span></div>
-      <p class="note">A call carries forward until you change it. Calls are kept only in this browser —
-        <button type="button" class="linkbtn" id="call-export">back up</button> ·
+      <p class="note">A call carries forward until you change it.
+        <button type="button" class="linkbtn" id="call-export">Back up</button> ·
         <label class="linkbtn">restore<input type="file" id="call-import" accept="application/json"></label></p>
+      <div class="sync">
+        <p class="note" style="margin-top:6px"><span id="sync-status"></span> <button type="button" class="linkbtn" id="sync-toggle"></button></p>
+        <div id="sync-panel" hidden>
+          <p class="note">Your calls are saved to <code>docs/my_calls.json</code> in the NIBII repo, so every device sees them. To save from this device, paste a GitHub
+            <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">fine-grained token</a> limited to <b>danreed001-droid/NIBII</b> with
+            <b>Contents: Read and write</b>. It is kept only in this browser. Devices without a token still read your calls (view only).
+            Notes you write are visible to anyone who can see the repo.</p>
+          <div class="call-actions"><input type="password" id="sync-token" placeholder="github_pat_…" autocomplete="off" aria-label="GitHub token">
+            <button type="button" class="btn" id="sync-save">Connect</button><button type="button" class="linkbtn" id="sync-off">Disconnect this device</button></div>
+        </div>
+      </div>
     </div>
     <div class="card">
       <p class="chart-title">Your record</p>
       <p class="chart-sub">Your calls vs following Auto or Steps over the same weeks</p>
+      <div class="range" id="rec-range" hidden><label>From <input type="date" id="rr-from"></label><label>To <input type="date" id="rr-to"></label>
+        <button type="button" class="linkbtn" id="rr-all">All</button></div>
       <div id="rec"></div>
     </div>
   </div>
 
-  <p class="section-label">Track record since 2020 <span class="hint">$100 in the rule vs buying and holding</span></p>
+  <p class="section-label">Track record <span class="hint" id="range-hint">$100 in the rule vs buying and holding</span></p>
+  <div class="range" id="range">
+    <label>From <input type="date" id="r-from"></label><label>To <input type="date" id="r-to"></label>
+    <span class="seg" id="r-pre"><button type="button" data-r="ytd">YTD</button><button type="button" data-r="1y">1Y</button><button type="button" data-r="3y">3Y</button><button type="button" data-r="all">All</button></span>
+  </div>
   <div class="stats" id="stats"></div>
   <div class="two" style="margin-top:12px">
     <div class="card">
@@ -549,11 +572,71 @@ footer li { margin-bottom: 6px; }
     if (!P || !SL) { $('plan-hint').textContent = ''; return; }
     var A = P.auto, md = { month: 'short', day: 'numeric' };
     // ---- calls: {friday: {m: auto|steps|cash|custom, s, v, c, note, at}} in localStorage
-    var CK = 'nibii-calls-v1', calls = {};
-    try { calls = JSON.parse(localStorage.getItem(CK) || '{}') || {}; } catch (e) { calls = {}; }
-    function saveCalls() { try { localStorage.setItem(CK, JSON.stringify(calls)); return true; } catch (e) { return false; } }
+    // calls live in docs/my_calls.json in the repo (synced through GitHub's API with the viewer's
+    // token) and are cached in localStorage; a removed call is kept as {m:'del'} so removals sync too
+    var CK = 'nibii-calls-v1', TK = 'nibii-gh-token', calls = {}, act = {};
+    var GH = { owner: 'danreed001-droid', repo: 'NIBII', path: 'docs/my_calls.json', branch: 'main' };
+    var MODES = ['auto', 'steps', 'cash', 'custom', 'del'];
+    function clean(c) {
+      if (!c || MODES.indexOf(c.m) < 0) return null;
+      var cc = { m: c.m, note: String(c.note || '').slice(0, 300), at: String(c.at || '') };
+      if (c.m === 'custom') { cc.s = Math.max(0, Math.min(100, Math.round(+c.s || 0))); cc.v = Math.max(0, Math.min(100 - cc.s, Math.round(+c.v || 0))); cc.c = 100 - cc.s - cc.v; }
+      return cc;
+    }
+    function relive() { act = {}; Object.keys(calls).forEach(function (k) { if (calls[k].m !== 'del') act[k] = calls[k]; }); }
+    function merge(src) {   // newest 'at' wins per week; returns how many changed
+      var n = 0;
+      Object.keys(src || {}).forEach(function (k) {
+        var c = clean(src[k]);
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(k) || !c) return;
+        if (!calls[k] || (c.at || '') > (calls[k].at || '')) { calls[k] = c; n++; }
+      });
+      relive(); return n;
+    }
+    try { merge(JSON.parse(localStorage.getItem(CK) || '{}')); } catch (e) {}
+    function saveCalls() { relive(); try { localStorage.setItem(CK, JSON.stringify(calls)); return true; } catch (e) { return false; } }
+    var token = ''; try { token = localStorage.getItem(TK) || ''; } catch (e) {}
+    function b64e(t) { return btoa(unescape(encodeURIComponent(t))); }
+    function b64d(t) { return decodeURIComponent(escape(atob(String(t).replace(/\s/g, '')))); }
+    var API = 'https://api.github.com/repos/' + GH.owner + '/' + GH.repo + '/contents/' + GH.path;
+    function ghGet() {
+      return fetch(API + '?ref=' + GH.branch + '&t=' + Date.now(), { headers: { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json' }, cache: 'no-store' })
+        .then(function (r) {
+          if (r.status === 404) return { sha: null, calls: {} };
+          if (!r.ok) throw new Error(r.status === 401 || r.status === 403 ? 'token' : 'http ' + r.status);
+          return r.json().then(function (j) { var d = {}; try { d = JSON.parse(b64d(j.content)); } catch (x) {} return { sha: j.sha, calls: (d && d.calls) || {} }; });
+        });
+    }
+    var syncNote = '';
+    function syncUI(msg) {
+      if (msg != null) syncNote = msg;
+      $('sync-status').textContent = (token ? 'Repo sync on' : 'View only on this device — calls are read from the repo') + (syncNote ? ' · ' + syncNote : '');
+      $('sync-toggle').textContent = token ? 'Sync settings' : 'Connect GitHub to save';
+    }
+    function pull() {   // read the repo copy: through the API with a token (fresh), else the Pages copy
+      var get = token ? ghGet().then(function (g) { return g.calls; })
+        : fetch('my_calls.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : {}; }).then(function (j) { return (j && j.calls) || {}; });
+      return get.then(function (rc) { var n = merge(rc); saveCalls(); return n; });
+    }
+    function push(what, tries) {
+      if (!token) { syncUI('saved in this browser only'); return Promise.resolve(false); }
+      syncUI('saving to repo…');
+      return ghGet().then(function (g) {
+        merge(g.calls); saveCalls();
+        var body = { message: 'My calls: ' + what, branch: GH.branch,
+                     content: b64e(JSON.stringify({ app: 'nibii-calls', v: 1, calls: calls }, null, 1) + '\n') };
+        if (g.sha) body.sha = g.sha;
+        return fetch(API, { method: 'PUT', headers: { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      }).then(function (r) {
+        if ((r.status === 409 || r.status === 422) && (tries || 0) < 2) return push(what, (tries || 0) + 1);
+        if (!r.ok) throw new Error(r.status === 401 || r.status === 403 || r.status === 404 ? 'token' : 'http ' + r.status);
+        syncUI('saved to repo ' + new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })); return true;
+      }).catch(function (e) {
+        syncUI(e.message === 'token' ? 'repo refused the token — check it can write Contents on NIBII' : 'could not reach GitHub, saved in this browser'); return false;
+      });
+    }
     var WK = {}; (HU ? HU.weeks : []).forEach(function (w) { WK[w[0]] = w; });
-    function callFor(fri) { var ks = Object.keys(calls).filter(function (k) { return k <= fri; }).sort(); return ks.length ? calls[ks[ks.length - 1]] : null; }
+    function callFor(fri) { var ks = Object.keys(act).filter(function (k) { return k <= fri; }).sort(); return ks.length ? act[ks[ks.length - 1]] : null; }
     function share(txt) { return +String(txt).split('/')[0] / 100; }
     function mixOf(c, fri) {   // -> [stocks, sleeve, cash] or null
       if (!c) return null;
@@ -652,7 +735,7 @@ footer li { margin-bottom: 6px; }
     }
     $('choices').onclick = function (e) { var b = e.target.closest('.choice'); if (b) choose(b.getAttribute('data-m')); };
     function showCall() {
-      var own = calls[FRI], carried = callFor(FRI);
+      var own = act[FRI], carried = callFor(FRI);
       var c = own || carried;
       choose(c ? c.m : 'auto');
       if (c && c.m === 'custom') { $('cu-s').value = c.s; $('cu-v').value = c.v; }
@@ -668,9 +751,10 @@ footer li { margin-bottom: 6px; }
       if (pick === 'custom') { var cu = cuSync(); c.s = cu[0]; c.v = cu[1]; c.c = cu[2]; }
       calls[FRI] = c;
       var ok = saveCalls(); showCall(); draw(); drawRecord();
-      if (!ok) $('call-status').textContent = 'Could not save — this browser is blocking storage.';
+      if (!ok && !token) $('call-status').textContent = 'Could not save — this browser is blocking storage.';
+      push('week of ' + D.tradeDate + ' — ' + callLabel(c));
     };
-    $('call-clear').onclick = function () { delete calls[FRI]; saveCalls(); showCall(); draw(); drawRecord(); };
+    $('call-clear').onclick = function () { calls[FRI] = { m: 'del', note: '', at: new Date().toISOString() }; saveCalls(); showCall(); draw(); drawRecord(); push('removed week of ' + D.tradeDate); };
     $('call-export').onclick = function () {
       var blob = new Blob([JSON.stringify({ app: 'nibii-calls', v: 1, calls: calls }, null, 1)], { type: 'application/json' });
       var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'nibii-my-calls.json'; document.body.appendChild(a); a.click();
@@ -680,24 +764,32 @@ footer li { margin-bottom: 6px; }
       var f = e.target.files && e.target.files[0]; if (!f) return;
       var r = new FileReader();
       r.onload = function () {
-        var n = 0;
-        try {
-          var j = JSON.parse(r.result), src = j && j.calls ? j.calls : j;
-          Object.keys(src || {}).forEach(function (k) {
-            var c = src[k];
-            if (/^\d{4}-\d{2}-\d{2}$/.test(k) && c && ['auto', 'steps', 'cash', 'custom'].indexOf(c.m) >= 0) {
-              var cc = { m: c.m, note: String(c.note || '').slice(0, 300), at: String(c.at || '') };
-              if (c.m === 'custom') { cc.s = Math.max(0, Math.min(100, +c.s || 0)); cc.v = Math.max(0, Math.min(100 - cc.s, +c.v || 0)); cc.c = 100 - cc.s - cc.v; }
-              calls[k] = cc; n++;
-            }
-          });
-        } catch (x) {}
-        saveCalls(); showCall(); draw(); drawRecord();
+        var n = 0, src = {};
+        try { var j = JSON.parse(r.result); src = j && j.calls ? j.calls : j; } catch (x) {}
+        var now = new Date().toISOString();
+        Object.keys(src || {}).forEach(function (k) { if (src[k] && typeof src[k] === 'object') src[k] = Object.assign({}, src[k], { at: now }); });
+        n = merge(src); saveCalls(); showCall(); draw(); drawRecord();
         $('call-status').textContent = n ? 'Restored ' + n + ' call' + (n > 1 ? 's' : '') + '.' : 'That file had no calls in it.';
+        if (n) push('restored ' + n + ' calls');
         e.target.value = '';
       };
       r.readAsText(f);
     };
+    // sync settings
+    $('sync-toggle').onclick = function () { $('sync-panel').hidden = !$('sync-panel').hidden; };
+    $('sync-save').onclick = function () {
+      var t = $('sync-token').value.trim(); if (!t) return;
+      token = t; try { localStorage.setItem(TK, t); } catch (x) {}
+      $('sync-token').value = ''; syncUI('checking…');
+      pull().then(function () { showCall(); draw(); drawRecord(); return push('connected a device'); })
+        .then(function (ok) { if (ok) $('sync-panel').hidden = true; })
+        .catch(function (e) {
+          token = ''; try { localStorage.removeItem(TK); } catch (x) {}
+          syncUI(e && e.message === 'token' ? 'GitHub refused that token — it needs Contents: Read and write on NIBII' : 'could not reach GitHub — try again');
+        });
+    };
+    $('sync-off').onclick = function () { token = ''; try { localStorage.removeItem(TK); } catch (x) {} syncUI('this device disconnected'); };
+
 
     // ---- your record: your calls vs following Auto / Steps from your first call
     function simulate(mixAt, startTrade) {
@@ -712,31 +804,47 @@ footer li { margin-bottom: 6px; }
       });
       return out;
     }
+    var RR = { a: '', b: '' };
+    $('rr-from').onchange = function () { RR.a = $('rr-from').value; drawRecord(); };
+    $('rr-to').onchange = function () { RR.b = $('rr-to').value; drawRecord(); };
+    $('rr-all').onclick = function () { RR.a = RR.b = ''; drawRecord(); };
     function drawRecord() {
-      var box = $('rec'), keys = Object.keys(calls).sort();
+      var box = $('rec'), keys = Object.keys(act).sort();
+      $('rec-range').hidden = true;
       if (!HU || !HU.days.length) { box.innerHTML = '<p class="muted">Record data is not available in this build.</p>'; return; }
       if (!keys.length) { box.innerHTML = '<p class="swnote">No calls yet. Make your first call on the left — your record starts at that week’s Monday trade and is compared with simply following Auto or Steps over the same weeks.</p>'; return; }
       var f0 = keys[0], start = WK[f0] ? WK[f0][1] : D.tradeDate, lastDay = HU.days[HU.days.length - 1][0];
-      if (start > lastDay) { box.innerHTML = '<p class="swnote">Your record starts at the close of <b>Mon ' + fmtDate(start, md) + '</b>, when your first call (' + esc(callLabel(calls[f0])) + ') is traded. Check back after that close.</p>'; return; }
+      if (start > lastDay) { box.innerHTML = '<p class="swnote">Your record starts at the close of <b>Mon ' + fmtDate(start, md) + '</b>, when your first call (' + esc(callLabel(act[f0])) + ') is traded. Check back after that close.</p>'; return; }
       var me = simulate(function (f) { return mixOf(callFor(f), f); }, start);
       var au = simulate(function (f) { var w = WK[f]; return w ? [w[2], 1 - w[2], 0] : null; }, start);
       var stp = simulate(function (f) { var w = WK[f]; return w ? [w[3], 1 - w[3], 0] : null; }, start);
+      // optional From/To filter inside the record
+      $('rec-range').hidden = false;
+      var ra = RR.a && RR.a > start ? RR.a : start, rb = RR.b && RR.b < lastDay ? RR.b : lastDay;
+      if (ra > rb) { var tt = ra; ra = rb; rb = tt; }
+      $('rr-from').min = $('rr-to').min = start; $('rr-from').max = $('rr-to').max = lastDay;
+      $('rr-from').value = ra; $('rr-to').value = rb;
+      function cut(c) { return c.filter(function (p) { return p[0] >= ra && p[0] <= rb; }); }
+      me = cut(me); au = cut(au); stp = cut(stp);
+      if (me.length < 2) { box.innerHTML = '<p class="swnote">Pick a range with at least two trading days between ' + fmtDate(start, md) + ' and ' + fmtDate(lastDay, md) + '.</p>'; return; }
       function tot(c) { return c[c.length - 1][1] / c[0][1] - 1; }
       function dd(c) { var pk = c[0][1], m = 0; c.forEach(function (p) { pk = Math.max(pk, p[1]); m = Math.min(m, p[1] / pk - 1); }); return m; }
       var SER2 = [['You', me, 'var(--gold)'], ['Auto', au, 'var(--s-plan)'], ['Steps', stp, 'var(--ink-2)']];
       var html = '<div class="rec-tiles">' + SER2.map(function (s) {
         return '<div class="rec-tile"><div class="k"><i style="--c:' + s[2] + '"></i>' + s[0] + '</div><div class="v ' + tone(tot(s[1])) + '">' + pct(tot(s[1])) + '</div><div class="d">worst ' + pct(dd(s[1])) + '</div></div>';
-      }).join('') + '</div><p class="chart-sub" style="margin:0">Since Mon ' + fmtDate(start, md) + ' · ' + (me.length - 1) + ' trading days</p><div class="chart" id="rec-chart"></div>';
+      }).join('') + '</div><p class="chart-sub" style="margin:0">' + (ra === start && rb === lastDay ? 'Since Mon ' + fmtDate(start, md) : fmtDate(ra, md) + ' – ' + fmtDate(rb, md)) + ' · ' + (me.length - 1) + ' trading days</p><div class="chart" id="rec-chart"></div>';
       // weekly table, newest first
       var wks = HU.weeks.filter(function (w) { return w[1] >= start && w[1] <= lastDay; });
+      var allW = wks; wks = wks.filter(function (w, i) { var e2 = i + 1 < allW.length ? allW[i + 1][1] : lastDay; return e2 > ra && w[1] < rb; });
       function val(c, d) { var v = null; for (var i = 0; i < c.length && c[i][0] <= d; i++) v = c[i][1]; return v; }
       var rowsW = wks.map(function (w, i) {
-        var end = i + 1 < wks.length ? wks[i + 1][1] : lastDay, c = callFor(w[0]), m = mixOf(c, w[0]) || [1, 0, 0];
-        var rm = val(me, end) / val(me, w[1]) - 1, ra = val(au, end) / val(au, w[1]) - 1;
-        return '<tr><td>' + fmtDate(w[1], md) + (end === lastDay && end !== w[1] ? '*' : '') + '</td><td>' + esc(callLabel(c)) + ' <span class="muted">' + mixTxt(m) + '</span>' +
-          (calls[w[0]] && calls[w[0]].note ? '<span class="note-i">' + esc(calls[w[0]].note) + '</span>' : '') + '</td>' +
-          '<td class="r hide-xs">' + mixTxt([w[2], 1 - w[2], 0]) + '</td><td class="r ' + tone(rm) + '">' + (w[1] === end ? '–' : pct(rm)) + '</td><td class="r ' + tone(ra) + '">' + (w[1] === end ? '–' : pct(ra)) + '</td></tr>';
-      }).reverse().slice(0, 12).join('');
+        var j = allW.indexOf(w), full = j + 1 < allW.length ? allW[j + 1][1] : lastDay, c = callFor(w[0]), m = mixOf(c, w[0]) || [1, 0, 0];
+        var b0 = w[1] < ra ? ra : w[1], end = full > rb ? rb : full;
+        var rm = val(me, end) / val(me, b0) - 1, rau = val(au, end) / val(au, b0) - 1;
+        return '<tr><td>' + fmtDate(w[1], md) + (full === lastDay && full !== w[1] ? '*' : '') + (b0 !== w[1] || end !== full ? '<span class="note-i">part</span>' : '') + '</td><td>' + esc(callLabel(c)) + ' <span class="muted">' + mixTxt(m) + '</span>' +
+          (act[w[0]] && act[w[0]].note ? '<span class="note-i">' + esc(act[w[0]].note) + '</span>' : '') + '</td>' +
+          '<td class="r hide-xs">' + mixTxt([w[2], 1 - w[2], 0]) + '</td><td class="r ' + tone(rm) + '">' + (b0 === end ? '–' : pct(rm)) + '</td><td class="r ' + tone(rau) + '">' + (b0 === end ? '–' : pct(rau)) + '</td></tr>';
+      }).reverse().slice(0, 52).join('');
       html += '<table class="wk"><thead><tr><th>Week of</th><th>Your call</th><th class="r hide-xs">Auto mix</th><th class="r">You</th><th class="r">Auto</th></tr></thead><tbody>' + rowsW + '</tbody></table>' +
         '<p class="swnote">* week still running. Weeks run Monday close to Monday close; cash earns the T-bill rate. A call you skip carries the last one forward.</p>';
       box.innerHTML = html;
@@ -759,7 +867,9 @@ footer li { margin-bottom: 6px; }
         cb.appendChild(svg);
       }
     }
-    showCall(); drawRecord();
+    showCall(); drawRecord(); syncUI('');
+    pull().then(function (n) { if (n) { showCall(); draw(); drawRecord(); } syncUI(n ? 'loaded ' + n + ' from the repo' : ''); })
+      .catch(function (e) { syncUI(e && e.message === 'token' ? 'repo refused the token' : 'could not reach the repo'); });
     var rr; window.addEventListener('resize', function () { clearTimeout(rr); rr = setTimeout(drawRecord, 150); });
 
     // sleeve card
@@ -778,14 +888,48 @@ footer li { margin-bottom: 6px; }
       'Sleeve alone since 2020: ' + pct(ss.annual, 0) + ' a year, worst drop ' + pct(ss.maxDD, 0) + '. 6-month returns, dividends included.';
   })();
 
-  // stats
-  var S = D.stats;
+  // date range for the track record (defaults to everything since 2020)
+  var ALL0 = D.curves.strategy[0][0], ALL1 = D.curves.strategy[D.curves.strategy.length - 1][0];
+  var R = { a: ALL0, b: ALL1 };
+  function inR(c) { return c.filter(function (p) { return p[0] >= R.a && p[0] <= R.b; }); }
+  function rstat(key) {
+    var c = inR(D.curves[key] || []);
+    if (c.length < 2) return null;
+    var pk = c[0][1], dd = 0; c.forEach(function (p) { pk = Math.max(pk, p[1]); dd = Math.min(dd, p[1] / pk - 1); });
+    var tot = c[c.length - 1][1] / c[0][1] - 1, yrs = (Date.parse(c[c.length - 1][0]) - Date.parse(c[0][0])) / 31557600000;
+    return { tot: tot, ann: yrs >= 0.95 ? Math.pow(1 + tot, 1 / yrs) - 1 : null, dd: dd };
+  }
   function tile(label, value, sub, cls) { return '<div class="stat"><span class="stat-label">' + label + '</span><span class="stat-value ' + (cls || '') + '">' + value + '</span><span class="stat-sub">' + sub + '</span></div>'; }
-  $('stats').innerHTML =
-    tile('Since 2020', pct(S.strategy.total, 0), pct(S.strategy.annual, 0) + ' a year', 'pos') +
-    tile('vs SPY / QQQ', pct(S.SPY.total, 0) + ' / ' + pct(S.QQQ.total, 0), pct(S.SPY.annual, 0) + ' / ' + pct(S.QQQ.annual, 0) + ' a year') +
-    tile('Last 12 months', pct(S.strategy.oneYear, 0), 'SPY ' + pct(S.SPY.oneYear, 0) + ' · QQQ ' + pct(S.QQQ.oneYear, 0), tone(S.strategy.oneYear)) +
-    tile('Worst drop', pct(S.strategy.maxDD, 0), 'SPY ' + pct(S.SPY.maxDD, 0) + ' · QQQ ' + pct(S.QQQ.maxDD, 0), 'neg');
+  function drawStats() {
+    var t5 = rstat('strategy'), au = rstat('plan'), st = rstat('steps'), sp = rstat('SPY'), qq = rstat('QQQ');
+    if (!t5) { $('stats').innerHTML = tile('Range', '–', 'pick at least two trading days', ''); return; }
+    function yr(x) { return x && x.ann != null ? pct(x.ann, 0) + ' a year' : 'under a year'; }
+    $('stats').innerHTML =
+      tile('Top 5', pct(t5.tot, 0), yr(t5), tone(t5.tot)) +
+      tile('Auto / Steps', (au ? pct(au.tot, 0) : '–') + ' / ' + (st ? pct(st.tot, 0) : '–'), 'worst ' + (au ? pct(au.dd, 0) : '–') + ' / ' + (st ? pct(st.dd, 0) : '–'), tone(au && au.tot)) +
+      tile('SPY / QQQ', pct(sp.tot, 0) + ' / ' + pct(qq.tot, 0), 'worst ' + pct(sp.dd, 0) + ' / ' + pct(qq.dd, 0)) +
+      tile('Top 5 worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since 2020' : 'in this range', 'neg');
+    $('range-hint').textContent = '$100 in the rule vs buying and holding · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b);
+  }
+  var rf = $('r-from'), rto = $('r-to');
+  rf.min = rto.min = ALL0; rf.max = rto.max = ALL1; rf.value = ALL0; rto.value = ALL1;
+  function setRange(a, b) {
+    R.a = a < ALL0 ? ALL0 : a; R.b = b > ALL1 ? ALL1 : b;
+    if (R.a > R.b) { var t = R.a; R.a = R.b; R.b = t; }
+    rf.value = R.a; rto.value = R.b;
+    document.querySelectorAll('#r-pre button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+    drawStats(); drawGrowth();
+  }
+  rf.onchange = function () { if (rf.value) setRange(rf.value, R.b); };
+  rto.onchange = function () { if (rto.value) setRange(R.a, rto.value); };
+  $('r-pre').onclick = function (e) {
+    var bt = e.target.closest('button'); if (!bt) return;
+    var k = bt.getAttribute('data-r'), end = new Date(ALL1 + 'T12:00:00Z'), a = ALL0;
+    if (k === 'ytd') a = ALL1.slice(0, 4) + '-01-01';
+    else if (k === '1y' || k === '3y') { var d0 = new Date(end); d0.setUTCFullYear(d0.getUTCFullYear() - (k === '1y' ? 1 : 3)); a = d0.toISOString().slice(0, 10); }
+    setRange(a, ALL1);
+    bt.setAttribute('aria-pressed', 'true');
+  };
 
   // growth chart
   var SER = [['strategy', 'Top 5 strongest', 'var(--s-strat)', 'main'], ['QQQ', 'QQQ', 'var(--s-qqq)', ''], ['SPY', 'SPY', 'var(--s-spy)', '']];
@@ -798,7 +942,8 @@ footer li { margin-bottom: 6px; }
   function drawGrowth() {
     document.querySelectorAll('#scale-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === scale)); });
     var box = $('growth'); box.innerHTML = '';
-    var series = SER.map(function (s) { return { name: s[1], c: s[2], cls: s[3], pts: D.curves[s[0]].map(function (p) { return [day(p[0]), p[1]]; }) }; });
+    var series = SER.map(function (s) { var c = inR(D.curves[s[0]]), b0 = c.length ? c[0][1] : 1; return { name: s[1], c: s[2], cls: s[3], pts: c.map(function (p) { return [day(p[0]), p[1] / b0 * 100]; }) }; });
+    if (!series[0].pts.length) return;
     var W = Math.max(320, box.clientWidth), H = Math.round(Math.min(380, Math.max(240, W * 0.5))), m = { l: 56, r: 64, t: 10, b: 26 };
     var xs = [], ys = [];
     series.forEach(function (s) { s.pts.forEach(function (p) { xs.push(p[0]); ys.push(p[1]); }); });
@@ -806,13 +951,14 @@ footer li { margin-bottom: 6px; }
     var log = scale === 'log', f = log ? Math.log : function (v) { return v; };
     var ticks = [];
     if (log) { [50, 100, 200, 500, 1000, 2000, 5000, 10000].forEach(function (v) { if (v >= lo * 0.9 && v <= hi * 1.1) ticks.push(v); }); }
-    else { var st = Math.pow(10, Math.floor(Math.log10((hi - lo) / 4))); st = (hi - lo) / st > 20 ? st * 5 : (hi - lo) / st > 8 ? st * 2 : st; for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) ticks.push(v); }
+    if (!log || ticks.length < 3) { ticks = []; var st = Math.pow(10, Math.floor(Math.log10((hi - lo) / 4))); st = (hi - lo) / st > 20 ? st * 5 : (hi - lo) / st > 8 ? st * 2 : st; for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) ticks.push(v); }
     var y0 = f(Math.min(lo, ticks[0] || lo)), y1 = f(Math.max(hi, ticks[ticks.length - 1] || hi));
     function X(t) { return m.l + (t - x0) / (x1 - x0) * (W - m.l - m.r); }
     function Y(v) { return m.t + (1 - (f(v) - y0) / (y1 - y0 || 1)) * (H - m.t - m.b); }
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Growth of $100' }), g = el('g', { class: 'grid axis' });
     ticks.forEach(function (v) { g.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) })); var t = el('text', { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end' }); t.textContent = money(v); g.appendChild(t); });
-    for (var yr = new Date(x0).getUTCFullYear() + 1; Date.UTC(yr, 0, 1) <= x1; yr++) { var tx = el('text', { x: X(Date.UTC(yr, 0, 1)), y: H - 6, 'text-anchor': 'middle' }); tx.textContent = yr; g.appendChild(tx); }
+    if (x1 - x0 > 400 * 864e5) { for (var yr = new Date(x0).getUTCFullYear() + 1; Date.UTC(yr, 0, 1) <= x1; yr++) { var tx = el('text', { x: X(Date.UTC(yr, 0, 1)), y: H - 6, 'text-anchor': 'middle' }); tx.textContent = yr; g.appendChild(tx); } }
+    else { [x0, (x0 + x1) / 2, x1].forEach(function (t, j) { var tx = el('text', { x: X(t), y: H - 6, 'text-anchor': j === 0 ? 'start' : j === 2 ? 'end' : 'middle' }); tx.textContent = new Date(t).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: '2-digit' }); g.appendChild(tx); }); }
     svg.appendChild(g);
     svg.appendChild(el('line', { class: 'base', x1: m.l, x2: W - m.r, y1: Y(100), y2: Y(100) }));
     var ends = [];
@@ -847,7 +993,7 @@ footer li { margin-bottom: 6px; }
     svg.addEventListener('pointerleave', function () { tip.hidden = true; cross.setAttribute('visibility', 'hidden'); dots.forEach(function (d) { d.setAttribute('visibility', 'hidden'); }); });
   }
   $('scale-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; scale = b.getAttribute('data-v'); try { localStorage.setItem('nibii-mom-scale', scale); } catch (x) {} drawGrowth(); };
-  drawGrowth();
+  drawStats(); drawGrowth();
   var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(drawGrowth, 150); });
 
   // years
