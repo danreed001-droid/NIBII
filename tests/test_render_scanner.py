@@ -36,3 +36,10 @@ def test_holding_cards_open_a_swing_chart_panel():
     page = render_scanner.render(SCAN)
     assert 'id="swpanel"' in page and 'function drawSwing' in page
     assert "h.chart ?" in page            # cards without chart data stay plain
+
+
+def test_page_has_the_human_calls_model():
+    page = render_scanner.render(SCAN)
+    for needle in ('id="choices"', 'id="call-save"', 'id="rec"', "nibii-calls-v1", 'id="call-import"'):
+        assert needle in page
+    assert "if (!P || !SL)" in page and "!HU || !HU.days.length" in page   # old data without the series still renders

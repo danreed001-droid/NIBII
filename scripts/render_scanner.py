@@ -231,6 +231,34 @@ tbody tr:last-child td { border-bottom: 0; }
 .abar i { position: absolute; top: 0; bottom: 0; left: 50%; background: var(--c); border-radius: 3px; }
 .assets .num { text-align: right; }
 .note { font-size: 0.78rem; color: var(--muted); margin: 8px 0 0; }
+/* your calls (human model) */
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+.choice { text-align: left; font: inherit; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink); border-radius: 10px; padding: 9px 11px; cursor: pointer; }
+.choice b { display: block; font-size: 0.88rem; }
+.choice span { font-size: 0.74rem; color: var(--muted); }
+.choice[aria-checked="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.choice:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.custom { display: flex; gap: 8px 14px; flex-wrap: wrap; align-items: center; font-size: 0.82rem; color: var(--ink-2); margin-bottom: 10px; }
+.custom input { width: 58px; font: 600 0.9rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 5px 6px; text-align: right; }
+.custom b { font-family: ui-monospace, monospace; }
+#call-note { width: 100%; min-height: 52px; font: inherit; font-size: 0.84rem; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 8px 10px; resize: vertical; }
+.call-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.btn { font: inherit; font-size: 0.85rem; font-weight: 600; background: var(--ink); color: var(--bg); border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit; font-size: 0.8rem; }
+.linkbtn input { display: none; }
+#call-status { font-size: 0.8rem; color: var(--ink-2); }
+.rec-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 10px; }
+.rec-tile { background: var(--surface-2); border-radius: 10px; padding: 8px 10px; }
+.rec-tile .k { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.rec-tile .k i { width: 12px; height: 3px; border-radius: 2px; background: var(--c); display: inline-block; }
+.rec-tile .v { font: 600 1.15rem ui-monospace, monospace; }
+.rec-tile .d { font-size: 0.72rem; color: var(--muted); }
+.wk { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 8px; }
+.wk th { text-align: left; font-weight: 600; color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 4px; border-bottom: 1px solid var(--hairline); }
+.wk td { padding: 6px 4px; border-bottom: 1px solid var(--hairline); text-align: left; }
+.wk td.r, .wk th.r { text-align: right; font-family: ui-monospace, monospace; }
+.wk .note-i { color: var(--muted); font-size: 0.74rem; display: block; }
+@media (max-width: 520px) { .wk .hide-xs { display: none; } .rec-tiles { gap: 6px; } .rec-tile .v { font-size: 1rem; } }
 footer { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--hairline); color: var(--muted); font-size: 0.8rem; }
 footer li { margin-bottom: 6px; }
 </style>
@@ -271,6 +299,31 @@ footer li { margin-bottom: 6px; }
       <p class="chart-sub" id="sleeve-sub"></p>
       <ul class="assets" id="assets"></ul>
       <p class="note" id="sleeve-note"></p>
+    </div>
+  </div>
+
+  <p class="section-label">Your calls <span class="hint">the human model · you decide each week · saved in this browser</span></p>
+  <div class="plan">
+    <div class="card">
+      <p class="chart-title" id="call-title">Your call</p>
+      <p class="chart-sub" id="call-sub"></p>
+      <div class="choices" id="choices" role="radiogroup" aria-label="Your call for the week"></div>
+      <div class="custom" id="custom" hidden>
+        <label>Stocks <input id="cu-s" type="number" min="0" max="100" step="5" value="70">%</label>
+        <label>Sleeve <input id="cu-v" type="number" min="0" max="100" step="5" value="20">%</label>
+        <span>Cash <b id="cu-c">10</b>%</span>
+      </div>
+      <textarea id="call-note" placeholder="Why? (optional — e.g. earnings week, Fed meeting, charts look heavy)"></textarea>
+      <div class="call-actions"><button type="button" class="btn" id="call-save">Save my call</button>
+        <button type="button" class="linkbtn" id="call-clear" hidden>Remove this week’s call</button><span id="call-status" role="status"></span></div>
+      <p class="note">A call carries forward until you change it. Calls are kept only in this browser —
+        <button type="button" class="linkbtn" id="call-export">back up</button> ·
+        <label class="linkbtn">restore<input type="file" id="call-import" accept="application/json"></label></p>
+    </div>
+    <div class="card">
+      <p class="chart-title">Your record</p>
+      <p class="chart-sub">Your calls vs following Auto or Steps over the same weeks</p>
+      <div id="rec"></div>
     </div>
   </div>
 
@@ -490,38 +543,67 @@ footer li { margin-bottom: 6px; }
   $('holdings').addEventListener('keydown', function (e) { var c = e.target.closest('.hold[data-t]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSwing(c.getAttribute('data-t')); } });
   var swr; window.addEventListener('resize', function () { clearTimeout(swr); swr = setTimeout(function () { if (openT) drawSwing(openT); }, 150); });
 
-  // plan: account size x leverage -> dollars per position
+  // plan + your own weekly calls ("Mine", the human model)
   (function () {
-    var P = D.plan, SL = D.sleeve;
+    var P = D.plan, SL = D.sleeve, HU = D.human;
     if (!P || !SL) { $('plan-hint').textContent = ''; return; }
+    var A = P.auto, md = { month: 'short', day: 'numeric' };
+    // ---- calls: {friday: {m: auto|steps|cash|custom, s, v, c, note, at}} in localStorage
+    var CK = 'nibii-calls-v1', calls = {};
+    try { calls = JSON.parse(localStorage.getItem(CK) || '{}') || {}; } catch (e) { calls = {}; }
+    function saveCalls() { try { localStorage.setItem(CK, JSON.stringify(calls)); return true; } catch (e) { return false; } }
+    var WK = {}; (HU ? HU.weeks : []).forEach(function (w) { WK[w[0]] = w; });
+    function callFor(fri) { var ks = Object.keys(calls).filter(function (k) { return k <= fri; }).sort(); return ks.length ? calls[ks[ks.length - 1]] : null; }
+    function share(txt) { return +String(txt).split('/')[0] / 100; }
+    function mixOf(c, fri) {   // -> [stocks, sleeve, cash] or null
+      if (!c) return null;
+      var w = WK[fri];
+      if (c.m === 'auto') { var s1 = w ? w[2] : A ? share(A.split) : 1; return [s1, 1 - s1, 0]; }
+      if (c.m === 'steps') { var s2 = w ? w[3] : A && A.steps ? share(A.steps.split) : 1; return [s2, 1 - s2, 0]; }
+      if (c.m === 'cash') return [0, 0, 1];
+      return [c.s / 100, c.v / 100, c.c / 100];
+    }
+    function callLabel(c) { return !c ? '—' : c.m === 'auto' ? 'Follow Auto' : c.m === 'steps' ? 'Follow Steps' : c.m === 'cash' ? 'No trade (cash)' : 'Custom'; }
+    function mixTxt(m) { return Math.round(m[0] * 100) + '/' + Math.round(m[1] * 100) + (m[2] ? '/' + Math.round(m[2] * 100) : ''); }
+    var inForce = A ? A.decided : D.asOf;   // the signal Friday whose trades are (or will be) held now
+
     var mix = P['default'], acct = 10000;
     try { mix = localStorage.getItem('nibii-plan-mix2') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
     if (P.splits.indexOf(mix) < 0) mix = P['default'];
-    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m === 'steps' ? 'Steps' : m) + '</button>'; }).join('');
+    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m === 'steps' ? 'Steps' : m === 'mine' ? 'Mine' : m) + '</button>'; }).join('');
     function usd(v) { return '$' + (v < 100 ? v.toFixed(2) : Math.round(v).toLocaleString()); }
     var name = {}; SL.assets.forEach(function (a) { name[a.t] = a; });
     function draw() {
       document.querySelectorAll('#mix-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mix)); });
-      var A = P.auto, cur = mix === 'auto' && A ? A.split : mix === 'steps' && A ? A.steps.split : mix;
-      if (cur === 'auto' || cur === 'steps') cur = '100/0';
-      var split = +cur.split('/')[0] / 100, stocks = acct * split, sleeve = acct - stocks, per = stocks / D.rule.topN;
-      $('plan-hint').textContent = (mix === 'auto' ? 'auto mix this week: ' : '') + cur.split('/')[0] + '% top 5 · ' + cur.split('/')[1] + '% sleeve · no leverage · trade & reset Mondays';
+      var m, mine = null;
+      if (mix === 'mine') { mine = callFor(inForce); m = mixOf(mine, inForce) || [A ? share(A.split) : 1, A ? 1 - share(A.split) : 0, 0]; }
+      else if (mix === 'auto' && A) m = [share(A.split), 1 - share(A.split), 0];
+      else if (mix === 'steps' && A) m = [share(A.steps.split), 1 - share(A.steps.split), 0];
+      else m = [share(mix), 1 - share(mix), 0];
+      var stocks = acct * m[0], sleeve = acct * m[1], cash = acct * m[2], per = stocks / D.rule.topN;
+      $('plan-hint').textContent = (mix === 'auto' ? 'auto mix this week: ' : mix === 'steps' ? 'steps mix this week: ' : mix === 'mine' ? 'your call: ' : '') +
+        Math.round(m[0] * 100) + '% top 5 · ' + Math.round(m[1] * 100) + '% sleeve' + (m[2] ? ' · ' + Math.round(m[2] * 100) + '% cash' : '') + ' · no leverage · trade & reset Mondays';
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
       var sp = name[SL.held] || {};
       function sh(v, px) { if (!px) return ''; var n = v / px; return '≈' + n.toFixed(n < 10 ? 2 : 0) + ' sh'; }
-      var rows = hs.map(function (h) {
+      var rows = stocks > 0 ? hs.map(function (h) {
         return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(h.t) + '</b> <span class="muted nm2">' + esc(h.n) + '</span></td>' +
           '<td class="r">' + usd(per) + '</td><td class="r muted">' + sh(per, h.close) + '</td></tr>';
-      }).join('');
+      }).join('') : '<tr class="borrow"><td>Top 5 stocks — not held this week</td><td class="r">$0</td><td></td></tr>';
       rows += sleeve > 0 ? '<tr><td><span class="sw" style="--c:var(--s-plan)"></span><b>' + esc(SL.held) + '</b> <span class="muted">sleeve<span class="nm2"> · ' + esc(sp.n || '') + '</span></span></td>' +
         '<td class="r">' + usd(sleeve) + '</td><td class="r muted">' + sh(sleeve, sp.close) + '</td></tr>'
         : '<tr class="borrow"><td>Sleeve (' + esc(SL.held) + ') — not held this week</td><td class="r">$0</td><td></td></tr>';
+      if (cash > 0) rows += '<tr><td><span class="sw" style="--c:var(--muted)"></span><b>Cash</b> <span class="muted nm2">T-bills or money market</span></td><td class="r">' + usd(cash) + '</td><td></td></tr>';
       rows += '<tr class="sum"><td>Total</td><td class="r">' + usd(acct) + '</td><td></td></tr>';
       $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
       var st = P.stats[mix], S0 = D.stats.strategy;
-      $('plan-stats').innerHTML = '<span>Since 2020 ' + (mix === 'auto' ? 'with auto' : mix === 'steps' ? 'with steps' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>' +
+      $('plan-stats').innerHTML = (st ? '<span>Since 2020 ' + (mix === 'auto' ? 'with auto' : mix === 'steps' ? 'with steps' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>'
+          : '<span>Your record is scored below, from your first call.</span>') +
         '<span class="muted">Top 5 alone: ' + pct(S0.annual, 0) + ' a year, worst drop ' + pct(S0.maxDD, 0) + '</span>';
-      if (A && mix === 'steps' && A.steps) {
+      if (mix === 'mine') {
+        $('auto-note').innerHTML = mine ? '<b>Mine:</b> your call in force — ' + callLabel(mine) + ' → <b>' + mixTxt(m) + '</b>' + (mine.note ? ' · “' + esc(mine.note) + '”' : '') + '. Change it under Your calls.'
+          : '<b>Mine:</b> no call yet, so this shows Auto. Make one under Your calls.';
+      } else if (A && mix === 'steps' && A.steps) {
         var dn2 = A.down.length, lst2 = dn2 ? ' (' + A.down.map(esc).join(', ') + ')' : '', S2 = A.steps;
         $('auto-note').innerHTML = '<b>Steps:</b> 100% top 5 when no holding is in a daily lower-low downtrend at Friday’s close; 1 down → 80/20, 2 down → 60/40, 3 or more → 40/60. ' +
           (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + dn2 + ' of ' + A.checked.length + ' in a downtrend' + lst2 + ' → <b>' + S2.split + '</b>' +
@@ -545,6 +627,140 @@ footer li { margin-bottom: 6px; }
     inp.oninput = function () { var v = +inp.value.replace(/[^0-9.]/g, ''); if (v > 0) { acct = v; try { localStorage.setItem('nibii-plan-acct', String(v)); } catch (x) {} draw(); } };
     inp.onblur = function () { inp.value = Math.round(acct).toLocaleString(); };
     draw();
+
+    // ---- your call for the coming trade (keyed by its signal Friday)
+    var FRI = D.signalDate, wkNow = WK[FRI], pick = null;
+    $('call-title').textContent = 'Your call for the week of Mon ' + fmtDate(D.tradeDate, md);
+    $('call-sub').textContent = (D.signalDay ? 'Uses today’s' : 'Will use Friday ' + fmtDate(FRI, md) + '’s') + ' signal · trade Mon ' + fmtDate(D.tradeDate, md) + ', 3:30–4:00 pm ET · held until the next Monday trade';
+    function autoNow(kind) {
+      if (wkNow) return mixTxt([wkNow[kind === 'auto' ? 2 : 3], 1 - wkNow[kind === 'auto' ? 2 : 3], 0]) + ' this week';
+      var pv = A && (kind === 'auto' ? A.preview : A.steps && A.steps.preview);
+      return 'set Friday' + (pv ? ' (now ' + pv + ')' : '');
+    }
+    var OPTS = [['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
+                ['cash', 'No trade', 'sit in cash this week'], ['custom', 'Custom', 'your own stocks / sleeve / cash']];
+    $('choices').innerHTML = OPTS.map(function (o) { return '<button type="button" class="choice" role="radio" aria-checked="false" data-m="' + o[0] + '"><b>' + o[1] + '</b><span>' + o[2] + '</span></button>'; }).join('');
+    function cuSync() {
+      var sv = Math.max(0, Math.min(100, Math.round(+$('cu-s').value || 0))), vv = Math.max(0, Math.min(100 - sv, Math.round(+$('cu-v').value || 0)));
+      $('cu-c').textContent = 100 - sv - vv; return [sv, vv, 100 - sv - vv];
+    }
+    $('cu-s').oninput = cuSync; $('cu-v').oninput = cuSync;
+    function choose(mm) {
+      pick = mm;
+      document.querySelectorAll('#choices .choice').forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-m') === mm)); });
+      $('custom').hidden = mm !== 'custom';
+    }
+    $('choices').onclick = function (e) { var b = e.target.closest('.choice'); if (b) choose(b.getAttribute('data-m')); };
+    function showCall() {
+      var own = calls[FRI], carried = callFor(FRI);
+      var c = own || carried;
+      choose(c ? c.m : 'auto');
+      if (c && c.m === 'custom') { $('cu-s').value = c.s; $('cu-v').value = c.v; }
+      cuSync();
+      $('call-note').value = own && own.note ? own.note : '';
+      $('call-clear').hidden = !own;
+      $('call-status').textContent = own ? 'Saved: ' + callLabel(own) + (own.m === 'custom' ? ' ' + own.s + '/' + own.v + '/' + own.c : '')
+        : carried ? 'Carrying forward: ' + callLabel(carried) : 'No call yet for this week.';
+    }
+    $('call-save').onclick = function () {
+      if (!pick) return;
+      var c = { m: pick, note: $('call-note').value.trim().slice(0, 300), at: new Date().toISOString() };
+      if (pick === 'custom') { var cu = cuSync(); c.s = cu[0]; c.v = cu[1]; c.c = cu[2]; }
+      calls[FRI] = c;
+      var ok = saveCalls(); showCall(); draw(); drawRecord();
+      if (!ok) $('call-status').textContent = 'Could not save — this browser is blocking storage.';
+    };
+    $('call-clear').onclick = function () { delete calls[FRI]; saveCalls(); showCall(); draw(); drawRecord(); };
+    $('call-export').onclick = function () {
+      var blob = new Blob([JSON.stringify({ app: 'nibii-calls', v: 1, calls: calls }, null, 1)], { type: 'application/json' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'nibii-my-calls.json'; document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+    };
+    $('call-import').onchange = function (e) {
+      var f = e.target.files && e.target.files[0]; if (!f) return;
+      var r = new FileReader();
+      r.onload = function () {
+        var n = 0;
+        try {
+          var j = JSON.parse(r.result), src = j && j.calls ? j.calls : j;
+          Object.keys(src || {}).forEach(function (k) {
+            var c = src[k];
+            if (/^\d{4}-\d{2}-\d{2}$/.test(k) && c && ['auto', 'steps', 'cash', 'custom'].indexOf(c.m) >= 0) {
+              var cc = { m: c.m, note: String(c.note || '').slice(0, 300), at: String(c.at || '') };
+              if (c.m === 'custom') { cc.s = Math.max(0, Math.min(100, +c.s || 0)); cc.v = Math.max(0, Math.min(100 - cc.s, +c.v || 0)); cc.c = 100 - cc.s - cc.v; }
+              calls[k] = cc; n++;
+            }
+          });
+        } catch (x) {}
+        saveCalls(); showCall(); draw(); drawRecord();
+        $('call-status').textContent = n ? 'Restored ' + n + ' call' + (n > 1 ? 's' : '') + '.' : 'That file had no calls in it.';
+        e.target.value = '';
+      };
+      r.readAsText(f);
+    };
+
+    // ---- your record: your calls vs following Auto / Steps from your first call
+    function simulate(mixAt, startTrade) {
+      var tradeFri = {}; HU.weeks.forEach(function (w) { tradeFri[w[1]] = w[0]; });
+      var out = [], a = 0, b = 0, c = 0, prev = null;
+      HU.days.forEach(function (x) {
+        if (x[0] < startTrade) return;
+        if (prev) { a *= x[1] / prev[1]; b *= x[2] / prev[2]; c *= x[3] / prev[3]; }
+        var nav = prev ? a + b + c : 1;
+        if (x[0] in tradeFri) { var mm = mixAt(tradeFri[x[0]]) || [1, 0, 0]; a = nav * mm[0]; b = nav * mm[1]; c = nav * mm[2]; }
+        out.push([x[0], nav]); prev = x;
+      });
+      return out;
+    }
+    function drawRecord() {
+      var box = $('rec'), keys = Object.keys(calls).sort();
+      if (!HU || !HU.days.length) { box.innerHTML = '<p class="muted">Record data is not available in this build.</p>'; return; }
+      if (!keys.length) { box.innerHTML = '<p class="swnote">No calls yet. Make your first call on the left — your record starts at that week’s Monday trade and is compared with simply following Auto or Steps over the same weeks.</p>'; return; }
+      var f0 = keys[0], start = WK[f0] ? WK[f0][1] : D.tradeDate, lastDay = HU.days[HU.days.length - 1][0];
+      if (start > lastDay) { box.innerHTML = '<p class="swnote">Your record starts at the close of <b>Mon ' + fmtDate(start, md) + '</b>, when your first call (' + esc(callLabel(calls[f0])) + ') is traded. Check back after that close.</p>'; return; }
+      var me = simulate(function (f) { return mixOf(callFor(f), f); }, start);
+      var au = simulate(function (f) { var w = WK[f]; return w ? [w[2], 1 - w[2], 0] : null; }, start);
+      var stp = simulate(function (f) { var w = WK[f]; return w ? [w[3], 1 - w[3], 0] : null; }, start);
+      function tot(c) { return c[c.length - 1][1] / c[0][1] - 1; }
+      function dd(c) { var pk = c[0][1], m = 0; c.forEach(function (p) { pk = Math.max(pk, p[1]); m = Math.min(m, p[1] / pk - 1); }); return m; }
+      var SER2 = [['You', me, 'var(--gold)'], ['Auto', au, 'var(--s-plan)'], ['Steps', stp, 'var(--ink-2)']];
+      var html = '<div class="rec-tiles">' + SER2.map(function (s) {
+        return '<div class="rec-tile"><div class="k"><i style="--c:' + s[2] + '"></i>' + s[0] + '</div><div class="v ' + tone(tot(s[1])) + '">' + pct(tot(s[1])) + '</div><div class="d">worst ' + pct(dd(s[1])) + '</div></div>';
+      }).join('') + '</div><p class="chart-sub" style="margin:0">Since Mon ' + fmtDate(start, md) + ' · ' + (me.length - 1) + ' trading days</p><div class="chart" id="rec-chart"></div>';
+      // weekly table, newest first
+      var wks = HU.weeks.filter(function (w) { return w[1] >= start && w[1] <= lastDay; });
+      function val(c, d) { var v = null; for (var i = 0; i < c.length && c[i][0] <= d; i++) v = c[i][1]; return v; }
+      var rowsW = wks.map(function (w, i) {
+        var end = i + 1 < wks.length ? wks[i + 1][1] : lastDay, c = callFor(w[0]), m = mixOf(c, w[0]) || [1, 0, 0];
+        var rm = val(me, end) / val(me, w[1]) - 1, ra = val(au, end) / val(au, w[1]) - 1;
+        return '<tr><td>' + fmtDate(w[1], md) + (end === lastDay && end !== w[1] ? '*' : '') + '</td><td>' + esc(callLabel(c)) + ' <span class="muted">' + mixTxt(m) + '</span>' +
+          (calls[w[0]] && calls[w[0]].note ? '<span class="note-i">' + esc(calls[w[0]].note) + '</span>' : '') + '</td>' +
+          '<td class="r hide-xs">' + mixTxt([w[2], 1 - w[2], 0]) + '</td><td class="r ' + tone(rm) + '">' + (w[1] === end ? '–' : pct(rm)) + '</td><td class="r ' + tone(ra) + '">' + (w[1] === end ? '–' : pct(ra)) + '</td></tr>';
+      }).reverse().slice(0, 12).join('');
+      html += '<table class="wk"><thead><tr><th>Week of</th><th>Your call</th><th class="r hide-xs">Auto mix</th><th class="r">You</th><th class="r">Auto</th></tr></thead><tbody>' + rowsW + '</tbody></table>' +
+        '<p class="swnote">* week still running. Weeks run Monday close to Monday close; cash earns the T-bill rate. A call you skip carries the last one forward.</p>';
+      box.innerHTML = html;
+      if (me.length >= 2) {
+        var cb = $('rec-chart'), W = Math.max(280, cb.clientWidth), H = 150, mg = { l: 40, r: 52, t: 8, b: 18 };
+        var lo = Infinity, hi = -Infinity; SER2.forEach(function (s) { s[1].forEach(function (p) { lo = Math.min(lo, p[1]); hi = Math.max(hi, p[1]); }); });
+        var pad = (hi - lo) * 0.1 || 0.01; lo -= pad; hi += pad;
+        var n = me.length;
+        function X(i) { return mg.l + i / (n - 1) * (W - mg.l - mg.r); }
+        function Y(v) { return mg.t + (1 - (v - lo) / (hi - lo)) * (H - mg.t - mg.b); }
+        var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Your record vs Auto and Steps' });
+        var g = el('g', { class: 'grid axis' }); svg.appendChild(g);
+        [lo + pad, 1, hi - pad].forEach(function (v, j) { if (j === 1 && (v < lo || v > hi)) return; g.appendChild(el('line', { x1: mg.l, x2: W - mg.r, y1: Y(v), y2: Y(v) })); var t = el('text', { x: mg.l - 6, y: Y(v) + 4, 'text-anchor': 'end' }); t.textContent = pct(v - 1, 0); g.appendChild(t); });
+        SER2.slice().reverse().forEach(function (s) {
+          svg.appendChild(el('path', { d: s[1].map(function (p, i) { return (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join(''), style: 'fill:none;stroke-width:2;stroke:' + s[2] + (s[0] === 'Steps' ? ';stroke-dasharray:4 3' : '') }));
+          var t = el('text', { x: W - mg.r + 6, y: Y(s[1][n - 1][1]) + 4, style: 'fill:var(--ink-2);font-size:11px' }); t.textContent = s[0]; svg.appendChild(t);
+        });
+        var ax = el('g', { class: 'axis' }); svg.appendChild(ax);
+        [0, n - 1].forEach(function (i) { var t = el('text', { x: X(i), y: H - 4, 'text-anchor': i ? 'end' : 'start' }); t.textContent = fmtDate(me[i][0], md); ax.appendChild(t); });
+        cb.appendChild(svg);
+      }
+    }
+    showCall(); drawRecord();
+    var rr; window.addEventListener('resize', function () { clearTimeout(rr); rr = setTimeout(drawRecord, 150); });
 
     // sleeve card
     var maxR = 0.01; SL.assets.forEach(function (a) { maxR = Math.max(maxR, Math.abs(a.r6 || 0)); });

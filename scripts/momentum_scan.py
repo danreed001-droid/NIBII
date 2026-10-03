@@ -47,6 +47,7 @@ PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
 AUTO_NEED, AUTO_LOW = 2, 0.6            # auto: 60/40 while 2+ holdings are in a daily downtrend, else 100%
 STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+ -> STEPS_MIN
 STEPS_MIN = 0.4
+HUMAN_FROM = '2024-01-01'               # daily series shipped for scoring the viewer's own weekly calls
 STATE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
 
 
@@ -303,6 +304,18 @@ def main():
         auto['preview'] = split_key(AUTO_LOW if len(auto['previewDown']) >= AUTO_NEED else 1.0)
         auto['steps']['preview'] = split_key(steps_split(as_of, len(auto['previewDown'])))
 
+    # the viewer's own calls ("Mine") are scored in the browser from these: daily
+    # values of the top-5 rule, the sleeve and T-bills (cash), and each week's
+    # signal Friday -> trade day with the Auto and Steps stock shares
+    sl_val, bil = dict(sl_curve), f['BIL']
+    human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_])] for d_, v in strat
+                  if d_ >= HUMAN_FROM and d_ in sl_val and bil.get(d_)]
+    nxt = {calendar[i]: calendar[i + 1] for i in range(len(calendar) - 1)}
+    coming_trade = (today + timedelta(days=(4 - today.weekday()) % 7 + 3)).isoformat()
+    human_weeks = [[f_, nxt.get(f_, coming_trade), auto_split(f_), steps_split(f_)]
+                   for f_ in [calendar[k] for k in week_ends] + ([as_of] if signal_day else [])
+                   if f_ >= HUMAN_FROM]
+
     years = {k: yearly(v) for k, v in curves.items()}
     stats = {k: curve_stats([p[1] for p in v]) for k, v in curves.items()}
     one_year = {k: (v[-1][1] / next(p[1] for p in v if p[0] >= calendar[max(0, K - 252)]) - 1) for k, v in curves.items()}
@@ -326,7 +339,8 @@ def main():
                for k, s in stats.items()},
         turnover=r4(r['turnover']),
         sleeve=sleeve,
-        plan=dict(splits=['auto', 'steps'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
+        human=dict(days=human_days, weeks=human_weeks),
+        plan=dict(splits=['auto', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)
