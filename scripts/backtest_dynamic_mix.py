@@ -27,37 +27,17 @@ from backtest_protect import START, WINDOWS  # noqa: E402
 from backtest_variants import load_data  # noqa: E402
 from mtl.backtest import resample  # noqa: E402
 from mtl.momentum import last_sessions_of_weeks, run_momentum  # noqa: E402
-from mtl.sleeve import sleeve_curve  # noqa: E402
+from mtl.sleeve import plan_curve_dynamic, sleeve_curve  # noqa: E402
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import ETFS, default_universe, load_added  # noqa: E402
 
 
 def dynamic_plan(main, sleeve, calendar, split_at):
-    """Main/sleeve mix reset at the session after each week's last session
-    (Monday's close) to split_at(friday) - the stock share decided that Friday."""
+    """plan_curve_dynamic plus the average share held in the top 5."""
+    c = plan_curve_dynamic(main, sleeve, calendar, split_at)
     week_ends = last_sessions_of_weeks(calendar)
-    idx = {d: i for i, d in enumerate(calendar)}
-    reset = {}
-    for f in week_ends:
-        i = idx[f] + 1
-        if i < len(calendar):
-            reset[calendar[i]] = split_at(f)
-    other = dict(sleeve)
-    out, prev, a, b, share = [], None, None, None, []
-    for d, v in main:
-        if prev is None:
-            s = split_at(d)
-            a, b = s, 1 - s
-        else:
-            a *= v / prev[0]
-            b *= other[d] / prev[1]
-        nav = a + b
-        out.append([d, nav])
-        if d in reset:
-            a, b = nav * reset[d], nav * (1 - reset[d])
-        share.append(a / (a + b))
-        prev = (v, other[d])
-    return out, sum(share) / len(share)
+    shares = [split_at(f) for f in week_ends if f >= c[0][0]]
+    return c, sum(shares) / len(shares)
 
 
 def main():

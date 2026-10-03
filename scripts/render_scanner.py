@@ -244,6 +244,7 @@ footer li { margin-bottom: 6px; }
       </div>
       <table class="alloc" id="alloc"></table>
       <div class="plan-stats" id="plan-stats"></div>
+      <p class="note" id="auto-note"></p>
     </div>
     <div class="card">
       <p class="chart-title">The sleeve this week</p>
@@ -348,9 +349,10 @@ footer li { margin-bottom: 6px; }
   var tags = ch.sell.map(function (t) { return '<span class="tag sell">sell ' + esc(t) + '</span>'; }).join('') +
     ch.buy.map(function (t) { return '<span class="tag buy">buy ' + esc(t) + '</span>'; }).join('');
   if (D.signalDay) {
+    var PA = D.plan && D.plan.auto, mixTag = PA && PA.split !== PA.prevSplit ? '<span class="tag ' + (PA.split === '100/0' ? 'buy' : 'sell') + '">auto mix → ' + PA.split + '</span>' : '';
     var sw = SLb && SLb.held !== SLb.prevHeld ? '<span class="tag sell">sell ' + esc(SLb.prevHeld) + '</span><span class="tag buy">buy ' + esc(SLb.held) + ' (sleeve)</span>' : '';
     $('banner').innerHTML = '<b>Trade Mon ' + fmtDate(D.tradeDate, md) + ', 3:30–4:00 pm ET</b><span class="muted">signal from ' + fmtDate(D.asOf, wd) + '’s close:</span>' +
-      (tags || sw ? tags + sw : '<span>No stock or sleeve changes — just reset to your mix.</span>');
+      (tags || sw || mixTag ? tags + sw + mixTag : '<span>No stock, sleeve or mix changes — just reset to your mix.</span>');
   } else {
     $('banner').innerHTML = (tags ? '<b>Preview — if Friday’s signal were ' + fmtDate(D.asOf, wd) + '’s close:</b>' + tags
         : '<b>No changes so far</b><span class="muted">At ' + fmtDate(D.asOf, wd) + '’s close all five holdings still rank in the top ' + D.rule.keepRank + '.</span>') +
@@ -382,15 +384,16 @@ footer li { margin-bottom: 6px; }
     var P = D.plan, SL = D.sleeve;
     if (!P || !SL) { $('plan-hint').textContent = ''; return; }
     var mix = P['default'], acct = 10000;
-    try { mix = localStorage.getItem('nibii-plan-mix') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
+    try { mix = localStorage.getItem('nibii-plan-mix2') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
     if (P.splits.indexOf(mix) < 0) mix = P['default'];
-    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + m + '</button>'; }).join('');
+    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m) + '</button>'; }).join('');
     function usd(v) { return '$' + (v < 100 ? v.toFixed(2) : Math.round(v).toLocaleString()); }
     var name = {}; SL.assets.forEach(function (a) { name[a.t] = a; });
     function draw() {
       document.querySelectorAll('#mix-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mix)); });
-      var split = +mix.split('/')[0] / 100, stocks = acct * split, sleeve = acct - stocks, per = stocks / D.rule.topN;
-      $('plan-hint').textContent = mix.split('/')[0] + '% top 5 · ' + mix.split('/')[1] + '% sleeve · no leverage · trade & reset Mondays';
+      var A = P.auto, cur = mix === 'auto' && A ? A.split : mix;
+      var split = +cur.split('/')[0] / 100, stocks = acct * split, sleeve = acct - stocks, per = stocks / D.rule.topN;
+      $('plan-hint').textContent = (mix === 'auto' ? 'auto mix this week: ' : '') + cur.split('/')[0] + '% top 5 · ' + cur.split('/')[1] + '% sleeve · no leverage · trade & reset Mondays';
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
       var sp = name[SL.held] || {};
       function sh(v, px) { if (!px) return ''; var n = v / px; return '≈' + n.toFixed(n < 10 ? 2 : 0) + ' sh'; }
@@ -398,15 +401,24 @@ footer li { margin-bottom: 6px; }
         return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(h.t) + '</b> <span class="muted nm2">' + esc(h.n) + '</span></td>' +
           '<td class="r">' + usd(per) + '</td><td class="r muted">' + sh(per, h.close) + '</td></tr>';
       }).join('');
-      rows += '<tr><td><span class="sw" style="--c:var(--s-plan)"></span><b>' + esc(SL.held) + '</b> <span class="muted">sleeve<span class="nm2"> · ' + esc(sp.n || '') + '</span></span></td>' +
-        '<td class="r">' + usd(sleeve) + '</td><td class="r muted">' + sh(sleeve, sp.close) + '</td></tr>';
+      rows += sleeve > 0 ? '<tr><td><span class="sw" style="--c:var(--s-plan)"></span><b>' + esc(SL.held) + '</b> <span class="muted">sleeve<span class="nm2"> · ' + esc(sp.n || '') + '</span></span></td>' +
+        '<td class="r">' + usd(sleeve) + '</td><td class="r muted">' + sh(sleeve, sp.close) + '</td></tr>'
+        : '<tr class="borrow"><td>Sleeve (' + esc(SL.held) + ') — not held this week</td><td class="r">$0</td><td></td></tr>';
       rows += '<tr class="sum"><td>Total</td><td class="r">' + usd(acct) + '</td><td></td></tr>';
       $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
       var st = P.stats[mix], S0 = D.stats.strategy;
-      $('plan-stats').innerHTML = '<span>Since 2020 at ' + mix + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>' +
+      $('plan-stats').innerHTML = '<span>Since 2020 ' + (mix === 'auto' ? 'with auto' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>' +
         '<span class="muted">Top 5 alone: ' + pct(S0.annual, 0) + ' a year, worst drop ' + pct(S0.maxDD, 0) + '</span>';
+      if (A) {
+        var dn = A.down.length, lst = dn ? ' (' + A.down.map(esc).join(', ') + ')' : '';
+        $('auto-note').innerHTML = '<b>Auto:</b> 100% top 5, moving to ' + A.low + ' for the week when ' + A.need + '+ holdings are in a daily lower-low downtrend at Friday’s close. ' +
+          (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + dn + ' of ' + A.checked.length + ' in a downtrend' + lst + ' → <b>' + A.split + '</b>' +
+          (D.signalDay && A.split !== A.prevSplit ? ' (was ' + A.prevSplit + ' — change it Monday)' : '') + '.' +
+          (!D.signalDay && A.preview ? ' If Friday were today: ' + A.previewDown.length + ' in a downtrend → ' + A.preview + '.' : '') +
+          ' Since 2020 it was at ' + A.low + ' in ' + A.weeksLow + ' of ' + A.weeks + ' weeks.';
+      }
     }
-    $('mix-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mix = b.getAttribute('data-v'); try { localStorage.setItem('nibii-plan-mix', mix); } catch (x) {} draw(); };
+    $('mix-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mix = b.getAttribute('data-v'); try { localStorage.setItem('nibii-plan-mix2', mix); } catch (x) {} draw(); };
     var inp = $('acct');
     inp.value = Math.round(acct).toLocaleString();
     inp.oninput = function () { var v = +inp.value.replace(/[^0-9.]/g, ''); if (v > 0) { acct = v; try { localStorage.setItem('nibii-plan-acct', String(v)); } catch (x) {} draw(); } };
@@ -440,7 +452,7 @@ footer li { margin-bottom: 6px; }
 
   // growth chart
   var SER = [['strategy', 'Top 5 strongest', 'var(--s-strat)', 'main'], ['QQQ', 'QQQ', 'var(--s-qqq)', ''], ['SPY', 'SPY', 'var(--s-spy)', '']];
-  if (D.curves.plan && D.plan) SER.splice(1, 0, ['plan', 'Plan ' + D.plan['default'], 'var(--s-plan)', 'main']);
+  if (D.curves.plan && D.plan) SER.splice(1, 0, ['plan', 'Plan (auto mix)', 'var(--s-plan)', 'main']);
   var scale = 'log';
   try { scale = localStorage.getItem('nibii-mom-scale') || 'log'; } catch (e) {}
   $('legend').innerHTML = SER.map(function (s) { return '<span><i class="key" style="--c:' + s[2] + '"></i>' + s[1] + '</span>'; }).join('');
@@ -505,7 +517,7 @@ footer li { margin-bottom: 6px; }
   var ys = Object.keys(D.years.strategy).sort(), maxAbs = 0;
   var YK = D.years.plan ? ['strategy', 'plan', 'SPY', 'QQQ'] : ['strategy', 'SPY', 'QQQ'];
   var YC = { strategy: 'var(--s-strat)', plan: 'var(--s-plan)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)' };
-  var YH = { strategy: 'Top 5', plan: 'Plan ' + (D.plan ? D.plan['default'] : ''), SPY: 'SPY', QQQ: 'QQQ' };
+  var YH = { strategy: 'Top 5', plan: 'Plan auto', SPY: 'SPY', QQQ: 'QQQ' };
   ys.forEach(function (y) { YK.forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
   var barMax = YK.length > 3 ? 26 : 70;
   function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * barMax); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }
