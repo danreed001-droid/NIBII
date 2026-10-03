@@ -16,7 +16,8 @@ The page's plan pairs the rule with the best-of sleeve (mtl/sleeve.py), whicheve
 of gold / bonds / dollar / commodities / T-bills had the best 6 months, no
 leverage. 'Auto' (the default) holds 100% in the top 5 and moves to 60/40 for
 the week when 2 or more holdings are in a daily lower-low downtrend at Friday's
-close (the swing read shown on each card); fixed 100/0, 80/20 and 60/40 mixes
+close (the swing read shown on each card). 'Steps' scales with the count instead:
+1 holding down -> 80/20, 2 -> 60/40, 3+ -> 40/60. Fixed 100/0, 80/20 and 60/40 mixes
 are offered too. Signals come from each Friday's close; trades (stocks,
 sleeve switch, reset to the split) are made on Monday before the close, and the
 track record is computed that way.
@@ -44,6 +45,8 @@ START, LOOK, SKIP, TOP_N, TABLE = '2020-01-02', 126, 21, 5, 100
 GLITCH_BLOCK = 150
 PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
 AUTO_NEED, AUTO_LOW = 2, 0.6            # auto: 60/40 while 2+ holdings are in a daily downtrend, else 100%
+STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+ -> STEPS_MIN
+STEPS_MIN = 0.4
 STATE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
 
 
@@ -257,7 +260,14 @@ def main():
     def auto_split(d_):
         return AUTO_LOW if sum(in_downtrend(t, d_) for t in held_at(d_)) >= AUTO_NEED else 1.0
 
-    plans = {'auto': plan_curve_dynamic(strat, sl_curve, calendar, auto_split)}
+    def n_down(d_):
+        return sum(in_downtrend(t, d_) for t in held_at(d_))
+
+    def steps_split(d_, n=None):
+        return STEPS.get(n_down(d_) if n is None else n, STEPS_MIN)
+
+    plans = {'auto': plan_curve_dynamic(strat, sl_curve, calendar, auto_split),
+             'steps': plan_curve_dynamic(strat, sl_curve, calendar, steps_split)}
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
     curves['plan'] = growth(plans['auto'])
@@ -285,10 +295,13 @@ def main():
                 down=[t for t in held_at(sig_d) if in_downtrend(t, sig_d)],
                 checked=held_at(sig_d), decided=sig_d,
                 weeksLow=sum(1 for f in last_sessions_of_weeks(calendar) if f >= START and auto_split(f) < 1),
-                weeks=sum(1 for f in last_sessions_of_weeks(calendar) if f >= START))
+                weeks=sum(1 for f in last_sessions_of_weeks(calendar) if f >= START),
+                steps=dict(split=split_key(steps_split(sig_d)), prevSplit=split_key(steps_split(prev_d)),
+                           weeksLow=sum(1 for f in last_sessions_of_weeks(calendar) if f >= START and steps_split(f) < 1)))
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(AUTO_LOW if len(auto['previewDown']) >= AUTO_NEED else 1.0)
+        auto['steps']['preview'] = split_key(steps_split(as_of, len(auto['previewDown'])))
 
     years = {k: yearly(v) for k, v in curves.items()}
     stats = {k: curve_stats([p[1] for p in v]) for k, v in curves.items()}
@@ -313,7 +326,7 @@ def main():
                for k, s in stats.items()},
         turnover=r4(r['turnover']),
         sleeve=sleeve,
-        plan=dict(splits=['auto'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
+        plan=dict(splits=['auto', 'steps'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)
