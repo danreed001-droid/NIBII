@@ -93,7 +93,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  sector_of=None, top_sectors=None, sector_grace=1, sector_min=3,
                  rsi_exit=None, rsi_period=14, buy_ok=None, weighting='equal', vol_target=None,
                  vol_window=63, max_corr=None, corr_window=63, risk_adj=False, exec_next=None,
-                 exit_when=None, exit_daily=True):
+                 exit_when=None, exit_daily=True, buy_when=None):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -137,7 +137,10 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       sold (checked every session with exit_daily=True, else only on
       rebalance days) and barred for `cooldown` sessions; no stock is bought
       while it is True for that stock - the next-best ranked one is taken.
-      Counted in `stops`."""
+      Counted in `stops`.
+    buy_when: optional callable(ticker, k) -> bool; a stock not held is only
+      bought when it is True (e.g. "its daily chart is in an uptrend") - the
+      next-best ranked stock that passes is taken instead."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
@@ -290,6 +293,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             if t not in target and fits(t):
                 if exit_when and t not in shares and exit_when(t, k):
                     continue          # its chart is breaking down: take the next one
+                if buy_when and t not in shares and not buy_when(t, k):
+                    continue
                 if max_corr is not None and any(corr(rets(t, k, corr_window), rets(u, k, corr_window)) > max_corr
                                                 for u in target):
                     continue
