@@ -148,11 +148,6 @@ def growth(points):
     return [[d, round(100 * v / base, 3)] for d, v in points]
 
 
-def weekly_thin(points):
-    """Every 5th point plus the last - enough for a multi-year chart."""
-    return points[::5] + ([points[-1]] if (len(points) - 1) % 5 else [])
-
-
 def main():
     names = momentum_universe(refresh='--no-refresh' not in sys.argv)
     sp = load_sp500()
@@ -272,6 +267,7 @@ def main():
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
     curves['plan'] = growth(plans['auto'])
+    curves['steps'] = growth(plans['steps'])
     f = filled(sleeve_px, calendar)
     today = date.fromisoformat(as_of)
     week_ends = [k for k in range(K) if date.fromisoformat(calendar[k]).isocalendar()[:2]
@@ -333,7 +329,7 @@ def main():
         trades=[dict(d=d_, side=s, t=t, n=names.get(t, ('', ''))[0], px=r4(prices[t].get(d_)))
                 for d_, s, t in trades[-24:]][::-1],
         table=table,
-        curves={k: weekly_thin(v) for k, v in curves.items()},
+        curves={k: [[d_, round(v, 2)] for d_, v in c] for k, c in curves.items()},   # daily: the page filters by date range
         years=years,
         stats={k: dict(total=r4(s['total']), annual=r4(s['annual']), maxDD=r4(s['maxDD']), oneYear=r4(one_year[k]))
                for k, s in stats.items()},
