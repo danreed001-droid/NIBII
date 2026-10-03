@@ -246,3 +246,29 @@ def test_buy_ok_false_keeps_holdings_but_buys_nothing_new():
     # with nothing held, a freeze keeps the account in cash
     r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=2, cost=0.0, buy_ok=lambda d: False)
     assert all(h == [] for _, h in r['picks'])
+
+
+def test_vol_target_scales_a_wild_basket_down_and_leaves_cash():
+    c = cal(120)
+    wild = {d: 100 * 1.01 ** i * (1.08 if i % 2 else 0.95) for i, d in enumerate(c)}
+    prices = {'SPY': {d: 100.0 for d in c}, 'A': wild}
+    r = run_momentum(prices, c, c[70], look=20, skip=0, top_n=1, cost=0.0, vol_target=0.30)
+    full = run_momentum(prices, c, c[70], look=20, skip=0, top_n=1, cost=0.0)
+    # same pick, but the scaled account moves far less day to day
+    assert r['picks'][0][1] == ['A']
+    moves = [abs(b[1] / a[1] - 1) for a, b in zip(r['curve'], r['curve'][1:])]
+    full_moves = [abs(b[1] / a[1] - 1) for a, b in zip(full['curve'], full['curve'][1:])]
+    assert max(moves) < 0.6 * max(full_moves)
+
+
+def test_correlation_cap_skips_a_twin_of_a_stock_already_picked():
+    c = cal(100)
+    base = [100 * 1.01 ** i * (1.03 if i % 3 == 0 else 0.99) for i in range(100)]
+    other = [100 * 1.006 ** i * (1.02 if i % 4 == 1 else 0.995) for i in range(100)]
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': dict(zip(c, base)),
+              'A2': {d: v * 0.999 for d, v in zip(c, base)},   # moves exactly like A
+              'B': dict(zip(c, other))}
+    r = run_momentum(prices, c, c[70], look=20, skip=0, top_n=2, cost=0.0, max_corr=0.9)
+    held = r['picks'][0][1]
+    assert 'B' in held and not ({'A', 'A2'} <= set(held))

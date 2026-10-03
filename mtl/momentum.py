@@ -91,7 +91,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  rebalance_on_start=False, risk_daily=False, windows=None, blend='rank',
                  trail_stop=None, cooldown=20, group_of=None, max_per_group=None,
                  sector_of=None, top_sectors=None, sector_grace=1, sector_min=3,
-                 rsi_exit=None, rsi_period=14, buy_ok=None):
+                 rsi_exit=None, rsi_period=14, buy_ok=None, weighting='equal', vol_target=None,
+                 vol_window=63, max_corr=None, corr_window=63, risk_adj=False):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -116,7 +117,15 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       level. Counted in `stops`.
     buy_ok: optional callable(date) -> bool; while False no new stock is
       bought - holdings that still qualify are kept, sold ones leave their
-      slot in cash."""
+      slot in cash.
+    weighting: 'equal' (each holding 1/top_n) or 'inv_vol' (the same total, split
+      in proportion to 1 / each stock's `vol_window`-day volatility).
+    vol_target: e.g. 0.30 - at each rebalance, scale every position down so the
+      basket's volatility over the last `vol_window` sessions would have been
+      at most 30% a year (never above 100% invested); the rest sits in cash.
+    max_corr: e.g. 0.7 - skip a new buy whose daily returns over the last
+      `corr_window` sessions correlate above this with a stock already chosen.
+    risk_adj: rank buy candidates by score / volatility instead of score."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
@@ -131,6 +140,54 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     peak, banned_until, stops = {}, {}, 0
     sector_out = {}
     rsi_cache = {}
+    ret_cache = {}
+
+    def rets(t, k, n):
+        """Daily returns of t for the n sessions ending at calendar[k] (gaps carry the price)."""
+        if t not in ret_cache:
+            out, last, prev = [0.0] * len(calendar), None, None
+            for i, d in enumerate(calendar):
+                px = prices[t].get(d) or last
+                out[i] = px / prev - 1 if px and prev else 0.0
+                prev = last = px
+            ret_cache[t] = out
+        return ret_cache[t][max(1, k - n + 1):k + 1]
+
+    def vol(t, k):
+        r = rets(t, k, vol_window)
+        if len(r) < 2:
+            return 1.0
+        m = sum(r) / len(r)
+        return max(1e-4, (sum((x - m) ** 2 for x in r) / (len(r) - 1)) ** 0.5 * 252 ** 0.5)
+
+    def corr(a, b):
+        n = len(a)
+        if n < 3:
+            return 0.0
+        ma, mb = sum(a) / n, sum(b) / n
+        sab = sum((x - ma) * (y - mb) for x, y in zip(a, b))
+        sa = sum((x - ma) ** 2 for x in a) ** 0.5
+        sb = sum((y - mb) ** 2 for y in b) ** 0.5
+        return sab / (sa * sb) if sa and sb else 0.0
+
+    def weights(target, k):
+        if not target:
+            return {}
+        if weighting == 'inv_vol':
+            inv = {t: 1 / vol(t, k) for t in target}
+            tot = sum(inv.values())
+            w = {t: inv[t] / tot * len(target) / top_n for t in target}
+        else:
+            w = {t: 1 / top_n for t in target}
+        if vol_target:
+            basket = [sum(w[t] * r for t, r in zip(target, day)) for day in
+                      zip(*[rets(t, k, vol_window) for t in target])]
+            if len(basket) > 2:
+                m = sum(basket) / len(basket)
+                pv = (sum((x - m) ** 2 for x in basket) / (len(basket) - 1)) ** 0.5 * 252 ** 0.5
+                scale = min(1.0, vol_target / pv) if pv > 0 else 1.0
+                w = {t: x * scale for t, x in w.items()}
+        return w
 
     def rsi_at(t, k):
         if t not in rsi_cache:
@@ -213,10 +270,15 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                 add(t)
         if buy_ok is not None and not buy_ok(d):
             return [t for t in target if t in shares]
+        if risk_adj:
+            scored = sorted(scored, key=lambda x: -x[0] / vol(x[1], k))
         for _, t in scored:
             if len(target) >= top_n:
                 break
             if t not in target and fits(t):
+                if max_corr is not None and any(corr(rets(t, k, corr_window), rets(u, k, corr_window)) > max_corr
+                                                for u in target):
+                    continue
                 add(t)
         return target
 
@@ -256,14 +318,13 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             # rebalance to equal weight across the N slots (unfilled = cash)
             for t in target:
                 last_px[t] = prices[t][d]
-            slot = value / top_n
-            new_shares = {t: slot / last_px[t] for t in target}
+            w = weights(target, k)
+            new_shares = {t: value * w[t] / last_px[t] for t in target}
             moved = sum(abs(new_shares.get(t, 0.0) - shares.get(t, 0.0)) * last_px[t]
                         for t in set(shares) | set(new_shares))
             fee = moved * cost
             traded += moved
             value -= fee
-            slot = value / top_n
             for t in target:
                 if t not in shares:
                     peak[t] = last_px[t]
@@ -273,7 +334,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             for t in list(sector_out):
                 if t not in target:
                     sector_out.pop(t)
-            shares = {t: slot / last_px[t] for t in target}
+            shares = {t: value * w[t] / last_px[t] for t in target}
             cash = value - sum(n * last_px[t] for t, n in shares.items())
             picks.append([d, list(target)])
         curve.append([d, value, len(shares)])
