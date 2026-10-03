@@ -24,6 +24,7 @@
   color-scheme: light;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body { background: var(--bg); color: var(--ink); margin: 0; font: 15px/1.55 "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif; }
 .wrap { max-width: 1120px; margin-inline: auto; padding: 0 16px 64px; }
 h1, h2 { font-family: "Fraunces", Georgia, serif; margin: 0; text-wrap: balance; }
@@ -239,6 +240,9 @@ tbody tr:last-child td { border-bottom: 0; }
 #call-note { width: 100%; min-height: 52px; font: inherit; font-size: 0.84rem; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 8px 10px; resize: vertical; }
 .call-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
 .btn { font: inherit; font-size: 0.85rem; font-weight: 600; background: var(--ink); color: var(--bg); border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+.submitbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border: 1px solid var(--gold); border-radius: 10px; background: color-mix(in srgb, var(--gold) 10%, transparent); font-size: 0.84rem; }
+.submitbar .btn { text-decoration: none; }
+.submitbar[hidden] { display: none; }
 .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--hairline); }
 .linkbtn { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit; font-size: 0.8rem; }
 .linkbtn input { display: none; }
@@ -316,13 +320,14 @@ footer li { margin-bottom: 6px; }
       <div class="picks" id="picks"></div>
       <textarea id="call-note" placeholder="Why? (optional — e.g. earnings week, Fed meeting, charts look heavy)"></textarea>
       <div class="call-actions"><button type="button" class="btn" id="call-save">Save my call</button>
-        <button type="button" class="btn ghost" id="call-copy">Copy for Claude</button>
         <button type="button" class="linkbtn" id="call-clear" hidden>Remove this week’s call</button><span id="call-status" role="status"></span></div>
-      <p class="note"><b>To record a call:</b> save it, tap <b>Copy for Claude</b> and paste it to Claude in chat — Claude writes it into the repo, where every device sees it and the daily update scores it. No token needed.</p>
+      <div class="submitbar" id="submitbar" hidden><span id="submit-msg"></span>
+        <a class="btn" id="call-submit" target="_blank" rel="noopener">Submit to repo ↗</a></div>
+      <p class="note">Saved calls stay in this browser until you <b>Submit to repo</b>: it opens a filled-in GitHub issue — tap <b>Create</b> and the repo records your calls within a minute and closes it. No token needed; only issues from your GitHub account are accepted.</p>
       <p class="note">A call carries forward until you change it.
         <button type="button" class="linkbtn" id="call-export">Back up</button> ·
         <label class="linkbtn">restore<input type="file" id="call-import" accept="application/json"></label></p>
-      <div class="sync">
+      <div class="sync" hidden>
         <p class="note" style="margin-top:6px"><span id="sync-status"></span> <button type="button" class="linkbtn" id="sync-toggle"></button></p>
         <div id="sync-panel" hidden>
           <p class="note">Your calls are saved to <code>docs/my_calls.json</code> in the NIBII repo, so every device sees them. To save from this device, paste a GitHub
@@ -638,7 +643,29 @@ footer li { margin-bottom: 6px; }
           return r.json().then(function (j) { var d = {}; try { d = JSON.parse(b64d(j.content)); } catch (x) {} return { sha: j.sha, calls: (d && d.calls) || {} }; });
         });
     }
-    var syncNote = '';
+    var syncNote = '', remote = null;   // remote: the repo copy, once loaded
+    function same(a, b) {
+      var f = function (c) { return c ? JSON.stringify([c.m, c.s, c.v, c.swaps || [], c.drops || [], c.note || '']) : ''; };
+      return f(a) === f(b);
+    }
+    function pendingCalls() {   // saved here but not (yet) in the repo copy
+      var out = {};
+      Object.keys(calls).forEach(function (k) {
+        var r = remote && remote[k];
+        if (calls[k].m === 'del' ? r && r.m !== 'del' : !same(calls[k], r)) out[k] = calls[k];
+      });
+      return out;
+    }
+    function submitBar() {
+      if (!$('submitbar')) return;
+      var pc = pendingCalls(), n = Object.keys(pc).length;
+      $('submitbar').hidden = !n;
+      if (!n) return;
+      $('submit-msg').innerHTML = '<b>' + n + '</b> call' + (n > 1 ? 's' : '') + ' saved in this browser, not in the repo yet.';
+      var body = 'Calls submitted from the Top 5 dashboard. Leave the block below as-is — the Calls intake workflow reads it, records the calls in docs/my_calls.json and closes this issue.\n\n```json\n' +
+        JSON.stringify({ calls: pc }) + '\n```\n';
+      $('call-submit').href = 'https://github.com/' + GH.owner + '/' + GH.repo + '/issues/new?title=' + encodeURIComponent('calls ' + Object.keys(pc).sort().pop()) + '&body=' + encodeURIComponent(body);
+    }
     function syncUI(msg) {
       if (msg != null) syncNote = msg;
       $('sync-status').textContent = (token ? 'Saving straight to the repo from this device' : 'Calls recorded in the repo are shown on every device') + (syncNote ? ' · ' + syncNote : '');
@@ -647,10 +674,13 @@ footer li { margin-bottom: 6px; }
     function pull() {   // read the repo copy: through the API with a token (fresh), else the Pages copy
       var get = token ? ghGet().then(function (g) { return g.calls; })
         : fetch('my_calls.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : {}; }).then(function (j) { return (j && j.calls) || {}; });
-      return get.then(function (rc) { var n = merge(rc); saveCalls(); return n; });
+      return get.then(function (rc) {
+        remote = {}; Object.keys(rc || {}).forEach(function (k) { var c = clean(rc[k]); if (c) remote[k] = c; });
+        var n = merge(rc); saveCalls(); submitBar(); return n;
+      });
     }
     function push(what, tries) {
-      if (!token) { syncUI('saved here — tap Copy for Claude to record it'); return Promise.resolve(false); }
+      if (!token) { submitBar(); return Promise.resolve(false); }
       syncUI('saving to repo…');
       return ghGet().then(function (g) {
         merge(g.calls); saveCalls();
@@ -829,17 +859,6 @@ footer li { margin-bottom: 6px; }
       var ok = saveCalls(); showCall(); draw(); drawRecord();
       if (!ok && !token) $('call-status').textContent = 'Could not save — this browser is blocking storage.';
       push('week of ' + D.tradeDate + ' — ' + callLabel(c));
-    };
-    $('call-copy').onclick = function () {
-      var c = act[FRI] || null, txt;
-      if (!c) { $('call-status').textContent = 'Save a call first, then copy it.'; return; }
-      var m = mixOf(c, FRI);
-      txt = 'My call for the week of Mon ' + D.tradeDate + ' (signal Fri ' + FRI + '): ' + callLabel(c) +
-        (m ? ' → ' + mixTxt(m) + ' (stocks/sleeve' + (m[2] ? '/cash' : '') + ')' : '') + (c.note ? ' · note: ' + c.note : '') +
-        ' · [' + JSON.stringify({ k: FRI, m: c.m, s: c.s, v: c.v, swaps: c.swaps, drops: c.drops }) + ']';
-      var done = function () { $('call-status').textContent = 'Copied — paste it to Claude to record it.'; };
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function () { window.prompt('Copy this and send it to Claude:', txt); });
-      else window.prompt('Copy this and send it to Claude:', txt);
     };
     $('call-clear').onclick = function () { calls[FRI] = { m: 'del', note: '', at: new Date().toISOString() }; saveCalls(); showCall(); draw(); drawRecord(); push('removed week of ' + D.tradeDate); };
     $('call-export').onclick = function () {
