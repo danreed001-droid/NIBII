@@ -109,7 +109,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
 
 def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=21, top=100,
                       slots=10, mode='decliners', max_new=None, swap=5, eligible=None,
-                      cost=0.0005, start_value=100.0):
+                      cost=0.0005, start_value=100.0, change_weeks=1, exit_rank=50):
     """Buy the stocks CLIMBING the momentum ranking, not the ones already on top.
 
     Every week-end session: rank every eligible stock by its trailing score
@@ -125,12 +125,17 @@ def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=2
     mode='swap':      sell anything that left the top `top`, then swap the
                       `swap` holdings with the worst rank change for the
                       `swap` biggest climbers.
+    mode='hold':      the gentle version - keep a holding while it ranks
+                      within `exit_rank`, whatever its weekly wobble, and
+                      fill open slots with the biggest climbers.
+    change_weeks: measure the climb against the rank this many weeks ago
+                  (1 = last week; 4 = a steadier month-long climb).
     Returns dict(curve, picks, turnover) like run_momentum."""
     rebal = set(last_sessions_of_weeks(calendar))
     tickers = [t for t in prices if t != benchmark]
     cash, shares, last_px = start_value, {}, {}
     curve, picks, traded = [], [], 0.0
-    prev_rank, started = None, False
+    history, started = [], False
     for k, d in enumerate(calendar):
         for t in shares:
             px = prices[t].get(d)
@@ -150,13 +155,17 @@ def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=2
                 scored.append((s, t))
             scored.sort(reverse=True)
             rank = {t: i for i, (_, t) in enumerate(scored)}
+            prev_rank = history[-change_weeks] if len(history) >= change_weeks else None
             if prev_rank is not None:
                 def change(t):
                     return prev_rank[t] - rank[t] if t in prev_rank and t in rank else None
                 climbers = [t for t in rank if rank[t] < top and (change(t) or 0) > 0]
                 climbers.sort(key=lambda t: (-change(t), rank[t]))
                 held = [t for t in shares if rank.get(t, 10 ** 9) < top]
-                if mode == 'decliners':
+                if mode == 'hold':
+                    keep = [t for t in shares if rank.get(t, 10 ** 9) < exit_rank]
+                    new = [t for t in climbers if t not in keep][:max(0, slots - len(keep))]
+                elif mode == 'decliners':
                     keep = [t for t in held if (change(t) or 0) >= 0]
                     new = [t for t in climbers if t not in keep][:max(0, slots - len(keep))]
                     if max_new is not None:
@@ -182,7 +191,7 @@ def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=2
                 shares = {t: slot / last_px[t] for t in target}
                 cash = value - sum(n * last_px[t] for t, n in shares.items())
                 picks.append([d, list(target)])
-            prev_rank = rank
+            history.append(rank)
         curve.append([d, value, len(shares)])
     years = max(len(curve) / 252, 1e-9)
     avg_value = sum(p[1] for p in curve) / len(curve) if curve else 1.0

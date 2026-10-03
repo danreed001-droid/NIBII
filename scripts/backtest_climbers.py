@@ -9,6 +9,7 @@ Reuses the price cache from scripts/backtest_variants.py.
 
 Usage:
     python scripts/backtest_climbers.py
+    python scripts/backtest_climbers.py --gentle   # just the hold-while-strong versions
 """
 import os
 import sys
@@ -26,7 +27,13 @@ VERSIONS = {
     'A. sell rank drops, refill with climbers': dict(mode='decliners'),
     'B. swap worst 5 for top 5 climbers': dict(mode='swap', swap=5),
     'C. A, max 5 new buys a week': dict(mode='decliners', max_new=5),
+    'D. GENTLE: 4-wk climb, hold while top 50': dict(mode='hold', change_weeks=4, exit_rank=50),
+    'E. gentle: 8-wk climb, hold while top 50': dict(mode='hold', change_weeks=8, exit_rank=50),
+    'F. gentle: 4-wk climb, hold while top 100': dict(mode='hold', change_weeks=4, exit_rank=100),
+    'G. gentle: 4-wk climb, hold while top 25': dict(mode='hold', change_weeks=4, exit_rank=25),
 }
+if '--gentle' in sys.argv:
+    VERSIONS = {k: v for k, v in VERSIONS.items() if k[0] in 'DEFG'}
 
 
 def row(label, r):
@@ -51,6 +58,8 @@ def main():
     print(f"{'version (from 2020)':52} {'total':>7} {'CAGR':>6} {'maxDD':>6} | {'2020-24':>7} {'DD':>5} | "
           f"{'2025-26':>7} {'DD':>5} | turn/yr")
     for sname, (look, skip) in SCORES.items():
+        if '--gentle' in sys.argv and sname != '6-1m':
+            continue
         print(f"-- ranked by {sname} performance --")
         for label, kw in VERSIONS.items():
             row(f"{label} ({sname})", run_rank_climbers(prices, calendar, START, look=look, skip=skip,
