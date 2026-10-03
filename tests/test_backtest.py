@@ -137,3 +137,37 @@ def test_consistent_rejects_prices_outside_the_daily_range():
     bad = dict(ok, entry=10.64)
     assert consistent(ok, ranges) and not consistent(bad, ranges)
     assert consistent(dict(ok, ticker='ZZZ'), ranges)
+
+
+from mtl.backtest import simulate_variant
+
+
+def _series_v():
+    bars = v_then_down()
+    ends = with_ends(bars, timedelta(hours=1))
+    up = wave(len(bars), 100, 1.0)
+    import mtl.backtest as bt
+    bt.SWING_N.update(trig=3, ctx=3)
+    return {'trig': (bars, ends), 'ctx': (up, with_ends(up, timedelta(hours=1)))}, dict(context=('ctx',), trigger='trig')
+
+
+def test_variant_with_defaults_reproduces_simulate():
+    series, setup = _series_v()
+    a = simulate(series, setup, 4, T0, ticker='X')
+    b = simulate_variant(series, setup, 4, T0, ticker='X')
+    strip = lambda ts: [(t['side'], t['entryTime'], t['exitTime'], round(t['ret'], 12)) for t in ts]
+    assert strip(a) == strip(b) and b
+
+
+def test_variant_stop_and_target_bound_the_result():
+    series, setup = _series_v()
+    for rr in (1.0, 2.0):
+        for t in simulate_variant(series, setup, 4, T0, exit='rr', rr=rr, use_stop=True):
+            assert t['exitReason'] in ('stop', 'target', 'open')
+            if t['exitReason'] == 'target':
+                assert t['ret'] > 0
+
+
+def test_variant_allow_filter_blocks_entries():
+    series, setup = _series_v()
+    assert simulate_variant(series, setup, 4, T0, allow=lambda side, when: False) == []

@@ -248,3 +248,82 @@ def consistent(trade, daily_ranges, tol=0.02):
         if r and not (r[0] * (1 - tol) <= px <= r[1] * (1 + tol)):
             return False
     return True
+
+
+def simulate_variant(series, setup, lookback, start, ticker='', stake=100.0,
+                     exit='flip', rr=2.0, use_stop=False, allow=None):
+    """simulate() with configurable risk management, for testing fixes.
+
+    exit:  'flip'  - next opposite break on the trigger timeframe (the
+                     original rule; simulate() exactly when use_stop=False
+                     and allow=None)
+           'rr'    - take profit at entry +/- rr x risk (risk = distance to
+                     the stop), so it requires use_stop
+           'daily' - next opposite break on the DAILY chart (lets a
+                     daily-trend trade run instead of exiting on 1h noise)
+    use_stop: stop at the CHoCH's protected swing (the swing low under a
+           bullish break / high over a bearish one). Checked on every
+           trigger bar; a bar that opens beyond the stop fills at its open;
+           a bar touching both stop and target counts as the stop
+           (conservative).
+    allow(side, when) -> bool: optional entry filter (e.g. market regime).
+    One position per side at a time; trades carry an 'exitReason'."""
+    trig = setup['trigger']
+    bars, ends = series[trig]
+    if not bars:
+        return []
+    ctx = {tf: Context(*series[tf], SWING_N[tf], lookback) for tf in setup['context']}
+    brks = structure_breaks(bars, n=SWING_N[trig], lookback=lookback)
+    daily_flips = []
+    if exit == 'daily':
+        dbars, dends = series['daily']
+        daily_flips = [(dends[b['i']], b['direction'], dbars[b['i']][4])
+                       for b in structure_breaks(dbars, n=SWING_N['daily'], lookback=lookback)]
+    trades, busy_until = [], {'long': -1, 'short': -1}
+    for k, b in enumerate(brks):
+        i = b['i']
+        if b['kind'] != 'CHoCH' or ends[i] < start:
+            continue
+        side, want = ('long', 'uptrend') if b['direction'] == 'bull' else ('short', 'downtrend')
+        if i <= busy_until[side]:
+            continue
+        if not all(c.at(ends[i]) == want for c in ctx.values()):
+            continue
+        if allow and not allow(side, ends[i]):
+            continue
+        entry, sgn = bars[i][4], 1.0 if side == 'long' else -1.0
+        stop = b['protected'] if use_stop else None
+        if stop is not None and sgn * (entry - stop) <= 0:
+            stop = None
+        if exit == 'rr' and stop is None:
+            continue
+        target = entry + sgn * rr * abs(entry - stop) if exit == 'rr' else None
+        opp = 'bear' if side == 'long' else 'bull'
+        flip_i = next((x['i'] for x in brks[k + 1:] if x['direction'] == opp), None) if exit == 'flip' else None
+        dflip = next(((t, px) for t, d, px in daily_flips if t > ends[i] and d == opp), None) if exit == 'daily' else None
+        out = None
+        for j in range(i + 1, len(bars)):
+            o, h, l, c = bars[j][1:]
+            if dflip and ends[j] >= dflip[0]:
+                out = (j, dflip[1], 'daily flip', dflip[0])
+                break
+            if stop is not None and (l <= stop if side == 'long' else h >= stop):
+                hit_open = o <= stop if side == 'long' else o >= stop
+                out = (j, o if hit_open else stop, 'stop', ends[j])
+                break
+            if target is not None and (h >= target if side == 'long' else l <= target):
+                hit_open = o >= target if side == 'long' else o <= target
+                out = (j, o if hit_open else target, 'target', ends[j])
+                break
+            if flip_i is not None and j == flip_i:
+                out = (j, c, 'flip', ends[j])
+                break
+        if out is None:
+            out = (len(bars) - 1, bars[-1][4], 'open', ends[-1])
+        j, px, reason, when = out
+        ret = sgn * (px - entry) / entry
+        trades.append(dict(ticker=ticker, side=side, entryTime=ends[i].isoformat(), entry=entry,
+                           exitTime=when.isoformat(), exit=px, ret=ret, pnl=stake * ret,
+                           bars=j - i, open=reason == 'open', exitReason=reason))
+        busy_until[side] = j
+    return trades

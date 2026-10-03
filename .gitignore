@@ -5,3 +5,5 @@ out/
 data/scan.json
 data/backtest.json
 data/backtest_trades.csv
+data/.bt_cache.pkl
+data/variants.json
