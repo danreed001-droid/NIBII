@@ -93,7 +93,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  sector_of=None, top_sectors=None, sector_grace=1, sector_min=3,
                  rsi_exit=None, rsi_period=14, buy_ok=None, weighting='equal', vol_target=None,
                  vol_window=63, max_corr=None, corr_window=63, risk_adj=False, exec_next=None,
-                 exit_when=None, exit_daily=True, buy_when=None):
+                 exit_when=None, exit_daily=True, buy_when=None, lookback_at=None):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -140,7 +140,10 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       Counted in `stops`.
     buy_when: optional callable(ticker, k) -> bool; a stock not held is only
       bought when it is True (e.g. "its daily chart is in an uptrend") - the
-      next-best ranked stock that passes is taken instead."""
+      next-best ranked stock that passes is taken instead.
+    lookback_at: optional callable(k) -> (look, skip) to change the strength
+      window by regime (e.g. 3 months while the market's 12-month return is
+      negative); defaults to (look, skip)."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
@@ -244,7 +247,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         """Target holdings on day k: keepers (ranked within keep_rank, or every
         name in keep_from when keep_from is a forced keep-list) then the best
         ranked qualifying stocks, honoring the industry cap and cooldowns."""
-        rows = score_table(prices, calendar, k, look, skip, windows, blend, eligible, benchmark)
+        lk, sk = lookback_at(k) if lookback_at else (look, skip)
+        rows = score_table(prices, calendar, k, lk, sk, windows, blend, eligible, benchmark)
         scored = [(sc, t) for t, sc, beats in rows
                   if beats and banned_until.get(t, -1) < k and t not in exclude
                   and not (rsi_exit and t not in shares and rsi_weak(t, k))]
