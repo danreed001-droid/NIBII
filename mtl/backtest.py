@@ -404,3 +404,63 @@ def timing_curve(daily, weekly, lookback, start, start_value=100.0):
         out.append([bars[k][0][:10], value, int(invested)])
         invested = not (states[k] == 'downtrend' and wk.at(ends[k]) == 'downtrend')
     return out
+
+
+def simulate_dip(series, lookback, start, ticker='', stake=100.0, drop=0.10, high_window=20,
+                 dip_valid=5, target=0.20, stop=None, max_bars=None, weekly_up=False, allow=None):
+    """Buy-the-dip on the 1h chart, longs only.
+
+    Dip: at some completed daily close within the last `dip_valid` sessions,
+    the close sat at least `drop` below the highest high of the
+    `high_window` sessions up to that day. Entry: the 1h chart's next
+    bullish CHoCH (closes above its last swing high after falling - the
+    first higher high) while a dip is live, at that bar's close. Exit:
+    +`target` (touch; a bar opening above fills at its open), optional
+    -`stop`, optional time stop after `max_bars` 1h bars; a bar touching
+    stop and target counts as the stop. weekly_up: only when the weekly
+    chart is in an uptrend. Trades still open at the end are marked at the
+    last close with open=True."""
+    bars, ends = series['1h']
+    dbars, dends = series['daily']
+    if not bars or not dbars:
+        return []
+    dipped = []
+    for k in range(len(dbars)):
+        hi = max(b[2] for b in dbars[max(0, k - high_window + 1):k + 1])
+        dipped.append(dbars[k][4] <= (1 - drop) * hi)
+    wk = Context(*series['weekly'], SWING_N['weekly'], lookback) if weekly_up else None
+    trades, busy = [], -1
+    for b in structure_breaks(bars, n=SWING_N['1h'], lookback=lookback):
+        i = b['i']
+        if b['direction'] != 'bull' or b['kind'] != 'CHoCH' or i <= busy or ends[i] < start:
+            continue
+        kd = bisect_right(dends, ends[i]) - 1
+        if kd < 0 or not any(dipped[max(0, kd - dip_valid + 1):kd + 1]):
+            continue
+        if wk and wk.at(ends[i]) != 'uptrend':
+            continue
+        if allow and not allow('long', ends[i]):
+            continue
+        entry = bars[i][4]
+        tgt, stp = entry * (1 + target), (entry * (1 - stop) if stop else None)
+        out = None
+        for j in range(i + 1, len(bars)):
+            o, h, l, c = bars[j][1:]
+            if stp is not None and l <= stp:
+                out = (j, o if o <= stp else stp, 'stop')
+                break
+            if h >= tgt:
+                out = (j, o if o >= tgt else tgt, 'target')
+                break
+            if max_bars and j - i >= max_bars:
+                out = (j, c, 'time')
+                break
+        if out is None:
+            out = (len(bars) - 1, bars[-1][4], 'open')
+        j, px, reason = out
+        ret = px / entry - 1.0
+        trades.append(dict(ticker=ticker, side='long', entryTime=ends[i].isoformat(), entry=entry,
+                           exitTime=ends[j].isoformat(), exit=px, ret=ret, pnl=stake * ret,
+                           bars=j - i, open=reason == 'open', exitReason=reason))
+        busy = j
+    return trades

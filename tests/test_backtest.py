@@ -228,3 +228,40 @@ def test_timing_curve_is_cash_only_in_a_double_downtrend():
     # once in cash the value stops changing
     flat = [p for p in curve if p[2] == 0]
     assert len({round(p[1], 9) for p in curve[curve.index(flat[0]) + 1:] if p[2] == 0}) <= 2
+
+
+from mtl.backtest import simulate_dip
+
+
+def _dip_series(rebound=1.35):
+    """Daily: flat at 100 then a ~15% drop; 1h: falls then turns up and rallies."""
+    from datetime import date
+    days = [(date(2024, 1, 1) + timedelta(days=i)) for i in range(40)]
+    daily = []
+    for i, d in enumerate(days):
+        px = 100.0 if i < 30 else 85.0
+        daily.append((d.isoformat() + "T00:00:00", px, px + 0.5, px - 0.5, px))
+    hourly, t0 = [], datetime(2024, 2, 10, 14, tzinfo=timezone.utc)
+    prices = [85 - 0.3 * i + 2 * math.sin(i) for i in range(30)]
+    prices += [prices[-1] + (rebound - 1) * 80 * k / 40 + 1.5 * math.sin(k) for k in range(1, 41)]
+    for k, p in enumerate(prices):
+        hourly.append(((t0 + timedelta(hours=k)).isoformat(), p, p + 0.2, p - 0.2, p))
+    return {'1h': (hourly, with_ends(hourly, timedelta(hours=1))), 'daily': (daily, with_ends(daily)),
+            'weekly': resample(daily, 'W')}
+
+
+def test_dip_buys_the_first_1h_higher_high_after_a_drop_and_takes_profit():
+    tr = simulate_dip(_dip_series(), 4, T0, target=0.05)
+    assert tr and tr[0]['exitReason'] == 'target' and abs(tr[0]['ret'] - 0.05) < 0.02
+
+
+def test_dip_needs_a_drop():
+    s = _dip_series()
+    flat = [(ts, 100.0, 100.5, 99.5, 100.0) for ts, *_ in s['daily'][0]]
+    s['daily'] = (flat, with_ends(flat))
+    assert simulate_dip(s, 4, T0) == []
+
+
+def test_dip_without_target_hit_stays_open_and_is_marked():
+    tr = simulate_dip(_dip_series(rebound=1.1), 4, T0, target=0.5)
+    assert tr and tr[-1]['open'] and tr[-1]['exitReason'] == 'open'
