@@ -43,12 +43,15 @@ def score_at(prices, calendar, k, look, skip):
 
 
 def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, top_n=10,
-                 keep_rank=None, eligible=None, risk_on=None, cost=0.0005, start_value=100.0):
+                 keep_rank=None, eligible=None, risk_on=None, cost=0.0005, start_value=100.0,
+                 rebalance_on_start=False):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction)."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
+    if rebalance_on_start:   # buy on the first session >= start, not the next week-end
+        rebal.add(next(d for d in calendar if d >= start))
     tickers = [t for t in prices if t != benchmark]
     value, cash = start_value, start_value
     shares = {}          # ticker -> shares held
