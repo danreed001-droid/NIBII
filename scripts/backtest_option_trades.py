@@ -17,8 +17,13 @@ the "pricier options" check; floor 20%), 4% rate, 2% bid/ask paid each way
 Portfolio: each new trade risks 5% of the account (premium paid, the most it
 can lose); the rest sits in cash (0% interest, to be conservative).
 
+--account: an options-ONLY account (no stocks) that risks 5 / 10 / 15 / 20% of
+its value on each new call, compared year by year with the dashboard's
+current setup (auto mix), the top 5 in stock, SPY and QQQ.
+
 Usage:
     python scripts/backtest_option_trades.py
+    python scripts/backtest_option_trades.py --account
 """
 import math
 import os
@@ -90,7 +95,7 @@ def main():
             s.append(last)
         series[t] = s
 
-    def run(tenor, strike, tp=None, sl=None, bump=0.10):
+    def run(tenor, strike, tp=None, sl=None, bump=0.10, risk=RISK):
         """Returns (per-trade returns, portfolio curve)."""
         def iv(t, i):
             return max(0.20, realized(series[t], i) + bump)
@@ -146,15 +151,17 @@ def main():
                 c1 = bs_call(s, k1, tt, v, RATE)
                 c2 = bs_call(s, k2, tt, v, RATE) if k2 else 0.0
                 cost = c1 * (1 + SPREAD) - c2 * (1 - SPREAD)
-                spend = min(cash, acct * RISK)
+                spend = min(cash, acct * risk)
                 if cost <= 0 or spend <= 0:
                     continue
                 n = spend / cost
                 cash -= spend
                 openp.append(dict(t=t, k1=k1, k2=k2, exp=exp_d, cost=cost, n=n, out=out, mid=c1 - c2))
             curve.append(cash + sum(p['n'] * p['mid'] for p in openp))
-        return rets, curve
+        return rets, curve, [cal[i] for i, d in enumerate(cal) if d >= first]
 
+    if '--account' in sys.argv:
+        return account(run, r, bench)
     # the same trades held as stock, for reference
     stock = []
     for t, d0, out in episodes:
@@ -170,7 +177,7 @@ def main():
     for tenor in (60, 90, 180):
         for strike in (0.70, 0.50, 0.30, 'spread'):
             for tp, sl in ((None, None), (1.0, 0.5)):
-                rets, curve = run(tenor, strike, tp, sl)
+                rets, curve, _ = run(tenor, strike, tp, sl)
                 wins, losses = [x for x in rets if x > 0], [x for x in rets if x <= 0]
                 st = curve_stats(curve)
                 label = f"{tenor}d {labels[strike]}" + (' TP/SL' if tp else '')
@@ -185,10 +192,44 @@ def main():
     best = sorted(results, key=lambda x: -x[4]['annual'])[:3]
     print("\nPricier options check (volatility cushion 20 points instead of 10) for the 3 best:")
     for label, tenor, strike, tp, _ in best:
-        rets, curve = run(tenor, strike, tp, 0.5 if tp else None, bump=0.20)
+        rets, curve, _ = run(tenor, strike, tp, 0.5 if tp else None, bump=0.20)
         st = curve_stats(curve)
         print(f"  {label:32} per $1 {statistics.mean(rets):+6.0%}   win {sum(1 for x in rets if x > 0) / len(rets):4.0%}   "
               f"account {st['total']:+7.0%} ({st['annual']:+.0%}/yr, worst {st['maxDD']:.0%})")
+
+
+def account(run, r, bench):
+    import json
+    scan = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'momentum_scan.json')))
+    rows = {}
+    for tenor, strike, name in ((90, 0.70, '90d in-the-money'), (90, 0.50, '90d at-the-money'), (180, 0.70, '180d in-the-money')):
+        for risk in (0.05, 0.10, 0.15, 0.20):
+            for bump, tag in ((0.10, ''), (0.20, ' [pricier]')):
+                if bump == 0.20 and risk not in (0.10, 0.20):
+                    continue
+                _, curve, dates = run(tenor, strike, risk=risk, bump=bump)
+                rows[f"options only: {name}, {risk:.0%}/trade{tag}"] = list(zip(dates, curve))
+    rows['current setup (auto mix)'] = scan['curves']['plan']
+    rows['top 5 in stock'] = [p[:2] for p in r['curve']]
+    for b in ('SPY', 'QQQ'):
+        rows['buy & hold ' + b] = [[d, v] for d, v in bench[b] if d >= START]
+    years = sorted({d[:4] for d, _ in rows['top 5 in stock']})
+    print(f"{'since 2020':48} {'total':>9} {'/yr':>5} {'worst':>6} | " + ' '.join(f"{y:>6}" for y in years))
+    for label, c in rows.items():
+        c = [(d, v) for d, v in c]
+        st = curve_stats([v for _, v in c])
+        ye, prev, ys = {}, c[0][1], []
+        for d, v in c:
+            ye[d[:4]] = v
+        for y in years:
+            if y in ye:
+                ys.append(f"{ye[y] / prev - 1:+6.0%}")
+                prev = ye[y]
+            else:
+                ys.append(f"{'':>6}")
+        print(f"{label:48} {st['total']:+9.0%} {st['annual']:+5.0%} {st['maxDD']:6.0%} | " + ' '.join(ys), flush=True)
+        if label.startswith('options only') and label.endswith('20%/trade [pricier]'):
+            print()
 
 
 if __name__ == '__main__':
