@@ -16,6 +16,7 @@ flatters it.
 
 Usage:
     python scripts/backtest_long_history.py
+    python scripts/backtest_long_history.py 2014-01-01:2016-12-31 2017-01-01:2019-12-31   # just those spans
 """
 import os
 import pickle
@@ -58,7 +59,7 @@ def load():
     return data
 
 
-def main():
+def build():
     D = load()
     names, bars, bench = D['names'], D['bars'], D['bench']
     sp, added = load_sp500(), load_added()
@@ -101,6 +102,31 @@ def main():
     curves = {'Current setup (auto mix)': auto, 'Top 5 in stock': top5,
               'SPY': [[d, v] for d, v in ((b[0], b[4]) for b in bench['SPY']) if d >= START],
               'QQQ (Nasdaq-100)': [[d, v] for d, v in ((b[0], b[4]) for b in bench['QQQ']) if d >= START]}
+    return curves, cal, downs
+
+
+def ranges(curves, spans):
+    """Per span: total, per year, worst drop inside it, and each calendar year."""
+    for a, b in spans:
+        print(f"\n== {a} to {b} ==")
+        print(f"{'':28} {'total':>8} {'per yr':>7} {'worst':>6} | " + ' '.join(f"{y:>6}" for y in range(int(a[:4]), int(b[:4]) + 1)))
+        for k, c in curves.items():
+            v = [(d, x) for d, x in c if a <= d <= b]
+            st = curve_stats([x for _, x in v])
+            ye, prev, ys = {}, v[0][1], []
+            for d, x in v:
+                ye[d[:4]] = x
+            for y in sorted(ye):
+                ys.append(f"{ye[y] / prev - 1:+6.0%}")
+                prev = ye[y]
+            print(f"{k:28} {st['total']:+8.0%} {st['annual']:+7.0%} {st['maxDD']:6.0%} | " + ' '.join(ys))
+
+
+def main():
+    curves, cal, downs = build()
+    spans = [a.split(':') for a in sys.argv[1:] if ':' in a]
+    if spans:
+        return ranges(curves, spans)
 
     print(f"\n{'since ' + START:30} {'total':>10} {'per yr':>7} {'worst drop':>11}   $10k became")
     for k, c in curves.items():
