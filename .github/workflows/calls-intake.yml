@@ -1,0 +1,66 @@
+name: Calls intake
+
+# The Top 5 dashboard's "Submit to repo" opens a GitHub issue titled
+# "calls YYYY-MM-DD" whose body carries the viewer's saved calls as a ```json
+# block. This workflow merges them into docs/my_calls.json (read by the daily
+# scan, which scores them), comments, and closes the issue. Only issues opened
+# by the repository owner are processed; the body is handled as data, never
+# run, and every field is validated by scripts/intake_calls.py.
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: calls-intake
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    if: github.event.issue.user.login == github.repository_owner && startsWith(github.event.issue.title, 'calls')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Merge the submitted calls
+        id: merge
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: echo "changed=$(python scripts/intake_calls.py)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        if: steps.merge.outputs.changed != '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/my_calls.json
+          git commit -m "My calls: from issue #${{ github.event.issue.number }}"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            sleep 5
+          done
+          exit 1
+
+      - name: Reply and close
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CHANGED: ${{ steps.merge.outputs.changed }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: |
+          if [ "$CHANGED" = "0" ]; then
+            msg="Nothing new to record - these calls were already in the repo (or the block below was empty)."
+          else
+            msg="Recorded $CHANGED call(s) in docs/my_calls.json. They're scored by the next daily update (weekdays ~5:20pm ET) and appear on every device after the page refreshes."
+          fi
+          gh issue comment "$NUMBER" --repo "$GITHUB_REPOSITORY" --body "$msg"
+          gh issue close "$NUMBER" --repo "$GITHUB_REPOSITORY"

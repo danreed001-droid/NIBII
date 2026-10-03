@@ -62,6 +62,6 @@ def test_on_deck_cards_open_their_own_swing_chart():
     assert 'id="swpanel2"' in page and "openSwing(c.getAttribute('data-t'), 'swpanel2')" in page
 
 
-def test_calls_can_be_copied_for_claude():
+def test_calls_are_submitted_as_a_github_issue():
     page = render_scanner.render(SCAN)
-    assert 'id="call-copy"' in page and 'Copy for Claude' in page
+    assert 'id="call-submit"' in page and '/issues/new?title=' in page and 'Calls intake workflow' in page
