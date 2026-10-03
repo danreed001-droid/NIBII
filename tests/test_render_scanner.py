@@ -28,5 +28,5 @@ def test_page_links_to_the_ledger_and_the_backtests():
 
 def test_page_has_the_plan_section_and_tolerates_old_data_without_it():
     page = render_scanner.render(SCAN)
-    assert 'id="alloc"' in page and 'id="lev-seg"' in page and 'id="assets"' in page
+    assert 'id="alloc"' in page and 'id="mix-seg"' in page and 'id="assets"' in page
     assert "if (!P || !SL)" in page          # scans without plan data still render

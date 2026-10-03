@@ -240,7 +240,7 @@ footer li { margin-bottom: 6px; }
     <div class="card">
       <div class="plan-controls">
         <label>Account <span class="money-in"><span>$</span><input id="acct" type="text" inputmode="numeric" value="10,000" aria-label="Account size in dollars"></span></label>
-        <label>Leverage <span class="seg" id="lev-seg"></span></label>
+        <label>Mix <span class="seg" id="mix-seg"></span></label>
       </div>
       <table class="alloc" id="alloc"></table>
       <div class="plan-stats" id="plan-stats"></div>
@@ -257,7 +257,7 @@ footer li { margin-bottom: 6px; }
   <div class="stats" id="stats"></div>
   <div class="two" style="margin-top:12px">
     <div class="card">
-      <div class="chart-head"><div><p class="chart-title">Growth of $100</p><p class="chart-sub">Weekly rebalanced, 0.05% trading cost · plan includes margin interest</p></div>
+      <div class="chart-head"><div><p class="chart-title">Growth of $100</p><p class="chart-sub">Weekly rebalanced, 0.05% trading cost · plan = top 5 + sleeve, reset weekly</p></div>
         <span class="seg" id="scale-seg"><button type="button" data-v="log">Log</button><button type="button" data-v="linear">Linear</button></span></div>
       <div class="legend" id="legend"></div>
       <div class="chart" id="growth"></div>
@@ -374,33 +374,32 @@ footer li { margin-bottom: 6px; }
   (function () {
     var P = D.plan, SL = D.sleeve;
     if (!P || !SL) { $('plan-hint').textContent = ''; return; }
-    var lev = P['default'], acct = 10000;
-    try { lev = localStorage.getItem('nibii-plan-lev') || lev; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
-    if (P.levels.indexOf(lev) < 0) lev = P['default'];
-    var split = Math.round(P.split * 100);
-    $('plan-hint').textContent = split + '% top 5 · ' + (100 - split) + '% sleeve · reset every Friday';
-    $('lev-seg').innerHTML = P.levels.map(function (l) { return '<button type="button" data-v="' + l + '">×' + l + '</button>'; }).join('');
-    function usd(v) { return '$' + Math.round(v).toLocaleString(); }
+    var mix = P['default'], acct = 10000;
+    try { mix = localStorage.getItem('nibii-plan-mix') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
+    if (P.splits.indexOf(mix) < 0) mix = P['default'];
+    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + m + '</button>'; }).join('');
+    function usd(v) { return '$' + (v < 100 ? v.toFixed(2) : Math.round(v).toLocaleString()); }
     var name = {}; SL.assets.forEach(function (a) { name[a.t] = a; });
     function draw() {
-      document.querySelectorAll('#lev-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === lev)); });
-      var L = +lev, stocks = acct * P.split * L, sleeve = acct * (1 - P.split) * L, per = stocks / D.rule.topN;
+      document.querySelectorAll('#mix-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mix)); });
+      var split = +mix.split('/')[0] / 100, stocks = acct * split, sleeve = acct - stocks, per = stocks / D.rule.topN;
+      $('plan-hint').textContent = mix.split('/')[0] + '% top 5 · ' + mix.split('/')[1] + '% sleeve · no leverage · reset every Friday';
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
       var sp = name[SL.held] || {};
+      function sh(v, px) { if (!px) return ''; var n = v / px; return '≈' + n.toFixed(n < 10 ? 2 : 0) + ' sh'; }
       var rows = hs.map(function (h) {
-        return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(h.t) + '</b> <span class="muted">' + esc(h.n) + '</span></td>' +
-          '<td class="r">' + usd(per) + '</td><td class="r muted">' + (h.close ? '≈' + (per / h.close).toFixed(per / h.close < 10 ? 1 : 0) + ' sh' : '') + '</td></tr>';
+        return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(h.t) + '</b> <span class="muted nm2">' + esc(h.n) + '</span></td>' +
+          '<td class="r">' + usd(per) + '</td><td class="r muted">' + sh(per, h.close) + '</td></tr>';
       }).join('');
-      rows += '<tr><td><span class="sw" style="--c:var(--s-plan)"></span><b>' + esc(SL.held) + '</b> <span class="muted">' + esc(sp.n || '') + ' · sleeve</span></td>' +
-        '<td class="r">' + usd(sleeve) + '</td><td class="r muted">' + (sp.close ? '≈' + (sleeve / sp.close).toFixed(0) + ' sh' : '') + '</td></tr>';
-      rows += '<tr class="sum"><td>Total invested</td><td class="r">' + usd(stocks + sleeve) + '</td><td></td></tr>';
-      if (L > 1) rows += '<tr class="borrow"><td>Borrowed on margin (≈' + Math.round(P.rate * 100) + '% a year)</td><td class="r">' + usd(acct * (L - 1)) + '</td><td class="r">' + usd(acct * (L - 1) * P.rate / 12) + '/mo</td></tr>';
+      rows += '<tr><td><span class="sw" style="--c:var(--s-plan)"></span><b>' + esc(SL.held) + '</b> <span class="muted">sleeve<span class="nm2"> · ' + esc(sp.n || '') + '</span></span></td>' +
+        '<td class="r">' + usd(sleeve) + '</td><td class="r muted">' + sh(sleeve, sp.close) + '</td></tr>';
+      rows += '<tr class="sum"><td>Total</td><td class="r">' + usd(acct) + '</td><td></td></tr>';
       $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
-      var st = P.stats[lev], S0 = D.stats.strategy;
-      $('plan-stats').innerHTML = '<span>Since 2020 at ×' + lev + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>' +
+      var st = P.stats[mix], S0 = D.stats.strategy;
+      $('plan-stats').innerHTML = '<span>Since 2020 at ' + mix + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>' +
         '<span class="muted">Top 5 alone: ' + pct(S0.annual, 0) + ' a year, worst drop ' + pct(S0.maxDD, 0) + '</span>';
     }
-    $('lev-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; lev = b.getAttribute('data-v'); try { localStorage.setItem('nibii-plan-lev', lev); } catch (x) {} draw(); };
+    $('mix-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mix = b.getAttribute('data-v'); try { localStorage.setItem('nibii-plan-mix', mix); } catch (x) {} draw(); };
     var inp = $('acct');
     inp.value = Math.round(acct).toLocaleString();
     inp.oninput = function () { var v = +inp.value.replace(/[^0-9.]/g, ''); if (v > 0) { acct = v; try { localStorage.setItem('nibii-plan-acct', String(v)); } catch (x) {} draw(); } };
@@ -433,7 +432,7 @@ footer li { margin-bottom: 6px; }
 
   // growth chart
   var SER = [['strategy', 'Top 5 strongest', 'var(--s-strat)', 'main'], ['QQQ', 'QQQ', 'var(--s-qqq)', ''], ['SPY', 'SPY', 'var(--s-spy)', '']];
-  if (D.curves.plan && D.plan) SER.splice(1, 0, ['plan', 'Plan 60/40 ×' + D.plan['default'], 'var(--s-plan)', 'main']);
+  if (D.curves.plan && D.plan) SER.splice(1, 0, ['plan', 'Plan ' + D.plan['default'], 'var(--s-plan)', 'main']);
   var scale = 'log';
   try { scale = localStorage.getItem('nibii-mom-scale') || 'log'; } catch (e) {}
   $('legend').innerHTML = SER.map(function (s) { return '<span><i class="key" style="--c:' + s[2] + '"></i>' + s[1] + '</span>'; }).join('');
@@ -498,7 +497,7 @@ footer li { margin-bottom: 6px; }
   var ys = Object.keys(D.years.strategy).sort(), maxAbs = 0;
   var YK = D.years.plan ? ['strategy', 'plan', 'SPY', 'QQQ'] : ['strategy', 'SPY', 'QQQ'];
   var YC = { strategy: 'var(--s-strat)', plan: 'var(--s-plan)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)' };
-  var YH = { strategy: 'Top 5', plan: 'Plan ×' + (D.plan ? D.plan['default'] : ''), SPY: 'SPY', QQQ: 'QQQ' };
+  var YH = { strategy: 'Top 5', plan: 'Plan ' + (D.plan ? D.plan['default'] : ''), SPY: 'SPY', QQQ: 'QQQ' };
   ys.forEach(function (y) { YK.forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
   var barMax = YK.length > 3 ? 26 : 70;
   function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * barMax); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }
