@@ -1937,5 +1937,45 @@
       "time": "Market hours",
       "vsExp": "Miss: revenue ~$11.21B vs ~$11.33B expected"
     }
+  },
+  {
+    "id": "2026-10-03-1-houthi-attack-aramco-riyadh-facility",
+    "data": {
+      "addedAt": "2026-10-03",
+      "category": "Energy",
+      "date": "2026-10-03",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Houthis claim a ballistic missile and drone attack on an Aramco facility in Riyadh; fire and heavy smoke seen near the site, but Saudi Arabia and Aramco have not confirmed the strike or damage",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 1,
+      "reaction": "Markets are closed for the weekend; unconfirmed but escalating Houthi attacks on Saudi energy infrastructure add a fresh supply-risk premium heading into Monday's oil open, layered on top of the ongoing Strait of Hormuz standoff",
+      "region": "Saudi Arabia / Middle East",
+      "source": "https://www.jpost.com/middle-east/article-910460",
+      "tickers": "USO, BNO, XLE, 2222.SE",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-03-2-camp-david-secret-meeting-iran-yemen",
+    "data": {
+      "addedAt": "2026-10-03",
+      "category": "Geopolitics",
+      "date": "2026-10-03",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Axios reports Trump's national security team (VP Vance chairing; Rubio, Hegseth, Witkoff, Ratcliffe, Gen. Caine, Treasury Sec. Bessent) held a secret, unannounced Camp David meeting on Iran and Yemen/Houthi strategy; Trump repeated his ultimatum that Iran \"signs the deal, or it won't exist any longer\" and teased a \"major story\" to come; Saudi Arabia is reportedly pressing the US for airstrikes on the Houthis",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "No market reaction yet with exchanges closed; the secrecy, Bessent's presence, and echoes of the meeting that preceded the June 2025 Israel-Iran strikes raise the odds of imminent US military action against Iran/Houthi targets, a risk investors will have to price in at Monday's open",
+      "region": "US / Middle East",
+      "source": "https://www.axios.com/2026/10/03/trumps-cabinet-camp-david-iran-war-yemen-houthis",
+      "tickers": "USO, BNO, XLE, ITA, LMT, RTX",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
