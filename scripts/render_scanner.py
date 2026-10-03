@@ -369,7 +369,10 @@ footer li { margin-bottom: 6px; }
   var tags = ch.sell.map(function (t) { return '<span class="tag sell">sell ' + esc(t) + '</span>'; }).join('') +
     ch.buy.map(function (t) { return '<span class="tag buy">buy ' + esc(t) + '</span>'; }).join('');
   if (D.signalDay) {
-    var PA = D.plan && D.plan.auto, mixTag = PA && PA.split !== PA.prevSplit ? '<span class="tag ' + (PA.split === '100/0' ? 'buy' : 'sell') + '">auto mix → ' + PA.split + '</span>' : '';
+    var PA = D.plan && D.plan.auto, pm = 'auto';
+    try { pm = localStorage.getItem('nibii-plan-mix2') || 'auto'; } catch (e) {}
+    var PM = PA && (pm === 'steps' ? PA.steps : pm === 'auto' ? PA : null);
+    var mixTag = PM && PM.split !== PM.prevSplit ? '<span class="tag ' + (PM.split === '100/0' ? 'buy' : 'sell') + '">' + (pm === 'steps' ? 'steps' : 'auto') + ' mix → ' + PM.split + '</span>' : '';
     var sw = SLb && SLb.held !== SLb.prevHeld ? '<span class="tag sell">sell ' + esc(SLb.prevHeld) + '</span><span class="tag buy">buy ' + esc(SLb.held) + ' (sleeve)</span>' : '';
     $('banner').innerHTML = '<b>Trade Mon ' + fmtDate(D.tradeDate, md) + ', 3:30–4:00 pm ET</b><span class="muted">signal from ' + fmtDate(D.asOf, wd) + '’s close:</span>' +
       (tags || sw || mixTag ? tags + sw + mixTag : '<span>No stock, sleeve or mix changes — just reset to your mix.</span>');
@@ -494,12 +497,13 @@ footer li { margin-bottom: 6px; }
     var mix = P['default'], acct = 10000;
     try { mix = localStorage.getItem('nibii-plan-mix2') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
     if (P.splits.indexOf(mix) < 0) mix = P['default'];
-    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m) + '</button>'; }).join('');
+    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m === 'steps' ? 'Steps' : m) + '</button>'; }).join('');
     function usd(v) { return '$' + (v < 100 ? v.toFixed(2) : Math.round(v).toLocaleString()); }
     var name = {}; SL.assets.forEach(function (a) { name[a.t] = a; });
     function draw() {
       document.querySelectorAll('#mix-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mix)); });
-      var A = P.auto, cur = mix === 'auto' && A ? A.split : mix;
+      var A = P.auto, cur = mix === 'auto' && A ? A.split : mix === 'steps' && A ? A.steps.split : mix;
+      if (cur === 'auto' || cur === 'steps') cur = '100/0';
       var split = +cur.split('/')[0] / 100, stocks = acct * split, sleeve = acct - stocks, per = stocks / D.rule.topN;
       $('plan-hint').textContent = (mix === 'auto' ? 'auto mix this week: ' : '') + cur.split('/')[0] + '% top 5 · ' + cur.split('/')[1] + '% sleeve · no leverage · trade & reset Mondays';
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
@@ -515,9 +519,18 @@ footer li { margin-bottom: 6px; }
       rows += '<tr class="sum"><td>Total</td><td class="r">' + usd(acct) + '</td><td></td></tr>';
       $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
       var st = P.stats[mix], S0 = D.stats.strategy;
-      $('plan-stats').innerHTML = '<span>Since 2020 ' + (mix === 'auto' ? 'with auto' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>' +
+      $('plan-stats').innerHTML = '<span>Since 2020 ' + (mix === 'auto' ? 'with auto' : mix === 'steps' ? 'with steps' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>' +
         '<span class="muted">Top 5 alone: ' + pct(S0.annual, 0) + ' a year, worst drop ' + pct(S0.maxDD, 0) + '</span>';
-      if (A) {
+      if (A && mix === 'steps' && A.steps) {
+        var dn2 = A.down.length, lst2 = dn2 ? ' (' + A.down.map(esc).join(', ') + ')' : '', S2 = A.steps;
+        $('auto-note').innerHTML = '<b>Steps:</b> 100% top 5 when no holding is in a daily lower-low downtrend at Friday’s close; 1 down → 80/20, 2 down → 60/40, 3 or more → 40/60. ' +
+          (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + dn2 + ' of ' + A.checked.length + ' in a downtrend' + lst2 + ' → <b>' + S2.split + '</b>' +
+          (D.signalDay && S2.split !== S2.prevSplit ? ' (was ' + S2.prevSplit + ' — change it Monday)' : '') + '.' +
+          (!D.signalDay && S2.preview ? ' If Friday were today: ' + A.previewDown.length + ' in a downtrend → ' + S2.preview + '.' : '') +
+          ' Since 2020 it was below 100% in ' + S2.weeksLow + ' of ' + A.weeks + ' weeks.';
+      } else if (A && mix !== 'auto') {
+        $('auto-note').innerHTML = 'Fixed mix: reset to ' + mix + ' every Monday whatever the charts say. Auto and Steps adjust it to how many holdings are in a downtrend.';
+      } else if (A) {
         var dn = A.down.length, lst = dn ? ' (' + A.down.map(esc).join(', ') + ')' : '';
         $('auto-note').innerHTML = '<b>Auto:</b> 100% top 5, moving to ' + A.low + ' for the week when ' + A.need + '+ holdings are in a daily lower-low downtrend at Friday’s close. ' +
           (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + dn + ' of ' + A.checked.length + ' in a downtrend' + lst + ' → <b>' + A.split + '</b>' +
