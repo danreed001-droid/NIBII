@@ -38,14 +38,15 @@ def load_sp500(path=SP500_PATH):
 
 
 def fetch_sp500():
-    """Downloads the constituents table -> {symbol: (name, sector)}, with
-    symbols in Yahoo's form (BRK.B -> BRK-B)."""
+    """Downloads the constituents table -> {symbol: (name, sector, date
+    added to the index)}, with symbols in Yahoo's form (BRK.B -> BRK-B)."""
     import pandas as pd
     req = urllib.request.Request(URL, headers={'User-Agent': 'Mozilla/5.0'})
     html = urllib.request.urlopen(req, timeout=60).read().decode()
     t = pd.read_html(io.StringIO(html), attrs={'id': 'constituents'})[0]
-    return {s.replace('.', '-'): (n, sec)
-            for s, n, sec in zip(t['Symbol'], t['Security'], t['GICS Sector'])}
+    added = pd.to_datetime(t['Date added'], errors='coerce').dt.strftime('%Y-%m-%d').fillna('')
+    return {s.replace('.', '-'): (n, sec, a)
+            for s, n, sec, a in zip(t['Symbol'], t['Security'], t['GICS Sector'], added)}
 
 
 def last_refreshed(asof_path=ASOF_PATH):
@@ -66,8 +67,8 @@ def refresh_sp500(path=SP500_PATH, asof_path=ASOF_PATH, today=None, fetch=fetch_
     old = load_sp500(path) if os.path.exists(path) else {}
     with open(path, 'w', newline='') as f:
         w = csv.writer(f)
-        w.writerow(['symbol', 'name', 'sector'])
-        w.writerows((s, n, sec) for s, (n, sec) in sorted(new.items()))
+        w.writerow(['symbol', 'name', 'sector', 'added'])
+        w.writerows((s, *v, '')[:4] for s, v in sorted(new.items()))
     with open(asof_path, 'w') as f:
         f.write((today or date.today()).isoformat() + '\n')
     return sorted(set(new) - set(old)), sorted(set(old) - set(new))
@@ -90,6 +91,14 @@ def ensure_fresh(path=SP500_PATH, asof_path=ASOF_PATH, today=None, max_age_days=
                                      f"removed {' '.join(removed)}" if removed else '']))
     log(f"S&P 500 list refreshed: {change or 'no changes'}")
     return True
+
+
+def load_added(path=SP500_PATH):
+    """{symbol: 'YYYY-MM-DD' it joined the S&P 500} where known - lets a
+    backtest skip a stock before it was actually in the index (otherwise
+    today's list smuggles in hindsight: stocks get added AFTER big runs)."""
+    with open(path, newline='') as f:
+        return {r['symbol']: r['added'] for r in csv.DictReader(f) if r.get('added')}
 
 
 def default_universe(refresh=True):
