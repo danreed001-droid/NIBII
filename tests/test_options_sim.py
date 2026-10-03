@@ -48,3 +48,11 @@ def test_all_in_calls_lose_more_than_stock_on_a_fall_but_equiv_is_capped():
     lev = simulate(picks, closes, c, start_value=100, n=1, mode='all_in')['curve'][-1][1]
     eq = simulate(picks, closes, c, start_value=100, n=1, mode='equiv')['curve'][-1][1]
     assert lev < stock < 100 and eq > lev
+
+
+from mtl.options_sim import strike_at_premium
+
+
+def test_strike_at_premium_is_price_plus_its_own_premium():
+    k = strike_at_premium(100, 0.5, 0.4, 0.04)
+    assert abs(k - (100 + bs_call(100, k, 0.5, 0.4, 0.04))) < 1e-6 and 100 < k < 125

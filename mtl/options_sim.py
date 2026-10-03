@@ -12,6 +12,8 @@ slot's value moves to the replacement. Modes per slot:
   'equiv'      - calls sized to the same stock exposure (dollar delta =
                  slot value), the rest in cash earning `rate`
   'all_in'     - the whole slot value in calls (leveraged)
+Strike choice (`delta`): a delta like 0.75 (in the money), 'atm', or
+'premium' - one premium out of the money (strike = price + that call's price).
 Calls are bought at mid*(1+spread), sold at mid*(1-spread), marked at mid,
 and rolled to a new contract when fewer than `roll_days` calendar days are
 left. Pure and network-free.
@@ -49,6 +51,20 @@ def strike_for_delta(s, t, vol, rate, delta):
         mid = (lo + hi) / 2
         if bs_delta(s, mid, t, vol, rate) > delta:
             lo = mid      # delta too high -> strike too low
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+def strike_at_premium(s, t, vol, rate, iters=60):
+    """Strike K with K = s + call(K): one premium out of the money (stock 100,
+    call worth 5 -> buy the 105 call). C(K) falls as K rises, so the fixed
+    point is unique; found by bisection on K - s - C(K)."""
+    lo, hi = s, s * 4.0
+    for _ in range(iters):
+        mid = (lo + hi) / 2
+        if mid - s - bs_call(s, mid, t, vol, rate) < 0:
+            lo = mid
         else:
             hi = mid
     return (lo + hi) / 2
@@ -120,7 +136,12 @@ class Slot:
             return
         self.expiry = self._expiry(d)
         tt = _years(d, self.expiry)
-        self.k = s if self.delta == 'atm' else strike_for_delta(s, tt, vol, self.rate, self.delta)
+        if self.delta == 'atm':
+            self.k = s
+        elif self.delta == 'premium':
+            self.k = strike_at_premium(s, tt, vol, self.rate)
+        else:
+            self.k = strike_for_delta(s, tt, vol, self.rate, self.delta)
         ask = bs_call(s, self.k, tt, vol, self.rate) * (1 + self.spread)
         if self.mode == 'all_in':
             self.units, self.cash = cap / ask, 0.0

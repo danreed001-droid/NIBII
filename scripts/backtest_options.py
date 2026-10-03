@@ -32,6 +32,8 @@ MODES = {
     'calls, same exposure': dict(mode='equiv', delta=0.75, months=6),
     'calls, all in': dict(mode='all_in', delta=0.75, months=6),
     '2-month ATM calls, all in': dict(mode='all_in', delta='atm', months=2, roll_days=14),
+    'price+premium calls, all in': dict(mode='all_in', delta='premium', months=6),
+    'price+premium, same exposure': dict(mode='equiv', delta='premium', months=6),
 }
 WINDOWS = [('2020-01-02', None), ('2025-02-19', '2025-04-09'), ('2026-01-01', '2026-03-31'),
            ('2026-09-01', None), ('2026-09-15', None)]
