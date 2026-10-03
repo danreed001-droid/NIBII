@@ -48,6 +48,24 @@ def load_extra():
     return out
 
 
+def yearly(points):
+    """{year: return} from [[date, value], ...], each year from the prior year's last value."""
+    out, prev_end, cur_year, last = {}, None, None, None
+    for d, v in points:
+        y = d[:4]
+        if y != cur_year:
+            if cur_year is not None:
+                out[cur_year] = last / (prev_end or first) - 1
+                prev_end = last
+            else:
+                first = v
+            cur_year = y
+        last = v
+    if cur_year is not None:
+        out[cur_year] = last / (prev_end or first) - 1
+    return out
+
+
 def stats(curve, lo='2020-01-02', hi='9999'):
     return curve_stats([p[1] for p in curve if lo <= p[0] < hi])
 
@@ -83,6 +101,14 @@ def main():
         o = curve_stats([c for d, c in pts if d >= '2025-01-01'])
         print(f"{'buy & hold ' + b:40} {f['total']:+7.0%} {f['annual']:+5.0%} {f['maxDD']:6.0%} | "
               f"{i['total']:+7.0%} | {o['total']:+7.0%}")
+
+    cols = [('S&P top 5', [p[:2] for p in runs[('S&P 500 only', '6-1m')][0]['curve']]),
+            ('S&P+NDX top 5', [p[:2] for p in runs[('S&P 500 + Nasdaq-100', '6-1m')][0]['curve']])]
+    cols += [(b, [[d, c] for d, c in bench[b] if d >= '2019-12-31']) for b in ('SPY', 'QQQ')]
+    years = {name: yearly(pts) for name, pts in cols}
+    print(f"\nyear by year (6-month strength):\n{'year':6}" + ''.join(f"{n:>15}" for n, _ in cols))
+    for y in sorted(years['S&P top 5']):
+        print(f"{y:6}" + ''.join(f"{years[n].get(y, 0):+15.0%}" for n, _ in cols))
 
     r, prices = runs[('S&P 500 + Nasdaq-100', '6-1m')]
     val = {p[0]: p[1] for p in r['curve']}
