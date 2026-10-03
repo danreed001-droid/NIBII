@@ -58,7 +58,7 @@ The first swing of each type and exact ties get `label=None`.
 
 This feeds category 13 (weight 3) through `vote_from_signal`.
 
-## 3. Break of structure (BOS) and change of character (CHoCH) (to build)
+## 3. Break of structure (BOS) and change of character (CHoCH) (implemented: `structure_breaks`)
 
 The current `last_break` flags the latest swing whose *label* contradicts
 the prior trend, for example a fresh `LL` after a run of `HH`/`HL`. That is
@@ -146,7 +146,7 @@ Edge case: weekly bars resampled with `weekly_from_daily` have a partial
 final week, so its high and low can still change. Do not report an FVG
 whose `i+1` candle is the partial week.
 
-## 5. Multi-timeframe alignment (to build)
+## 5. Multi-timeframe alignment (partly built: `mtl/mtf.py` / `scripts/mtf_scan.py` buy scanner)
 
 Today each horizon reads one timeframe: 1D reads hourly, and 5D/10D read
 weekly. Nothing checks whether the timeframes agree. Proposal:

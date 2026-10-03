@@ -258,6 +258,29 @@ been. `structure_signal` still degrades to `state=None` with a note rather
 than guessing if a given ticker's series ever comes up short - that
 fallback stays even though the common case now checks out.
 
+
+### Multi-timeframe buy scanner
+
+`scripts/mtf_scan.py` (logic in `mtl/mtf.py`) is a standalone tool, not part
+of the daily board. It reads weekly / daily / 1h / 15m structure for any
+Yahoo ticker and checks two long-only setups:
+
+| Setup | Larger timeframes must be in an uptrend (HH/HL) | Trigger: just flipped bearish -> bullish |
+|-------|------------------|---------|
+| `DAILY` trade  | weekly + daily        | 1h bullish CHoCH within the last 7 bars |
+| `HOURLY` trade | weekly + daily + 1h   | 15m bullish CHoCH within the last 8 bars |
+
+A CHoCH (change of character) is a close above the last confirmed swing high
+after a bearish run (`mtl.structure.structure_breaks`, see
+`docs/market-structure-spec.md`). Verdicts: `BUY` (with entry ~ last close and
+stop below the swing low under the break), `WATCH` (context bullish, no flip
+yet), `NO` (names the timeframe that isn't bullish). Unfinished bars are
+dropped unless `--include-forming`; `--lookback 2` loosens the trend read to
+the latest high + low.
+
+    python scripts/mtf_scan.py NQ=F AAPL
+    python scripts/mtf_scan.py SPY --json
+
 ## News catalysts and pattern analysis
 
 A separate Routine ("Daily market news log") logs dated, ticker-tagged,

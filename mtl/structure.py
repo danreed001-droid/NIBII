@@ -171,3 +171,57 @@ def vote_from_signal(sig, timeframe_label):
         reason = f"{timeframe_label} structure is {state} - last labeled swings: {labels}{brk}."
 
     return [side, reason]
+
+
+def structure_breaks(bars, n=3, break_on='close', lookback=STRUCTURE_LOOKBACK):
+    """Price-level breaks of structure, oldest first - see
+    docs/market-structure-spec.md section 3. Unlike last_break (a label
+    read, kept as-is for the golden board), this fires on the bar whose
+    close (or wick, break_on='wick') crosses the most recent CONFIRMED
+    swing level - a swing at i only counts from bar i+n, so nothing here
+    uses a bar the caller couldn't have seen yet.
+
+    Each event is classified against the trend in force before it: the
+    previous break's direction if there is one, else trend_state of the
+    swings confirmed so far. With the trend -> 'BOS' (continuation),
+    against it -> 'CHoCH' (change of character), no trend -> 'break'.
+    Each swing level can be broken only once.
+
+    [{'i', 'ts', 'kind', 'direction': 'bull'|'bear', 'level', 'ref_swing_i',
+      'close', 'protected'}, ...] - 'protected' is the latest confirmed swing
+    on the other side (the low under a bullish break, the high over a
+    bearish one): the level whose loss would undo the break, or None.
+    """
+    swings = label_structure(find_swings(bars, n=n))
+    events = []
+    confirmed = []
+    unbroken = {'high': None, 'low': None}
+    latest = {'high': None, 'low': None}
+    prev_dir = None
+    si = 0
+    for t, (ts, o, h, l, c) in enumerate(bars):
+        while si < len(swings) and swings[si]['i'] + n <= t:
+            s = swings[si]
+            confirmed.append(s)
+            unbroken[s['type']] = latest[s['type']] = s
+            si += 1
+        up_px = c if break_on == 'close' else h
+        dn_px = c if break_on == 'close' else l
+        for direction, side, other, hit in (
+                ('bull', 'high', 'low', unbroken['high'] and up_px > unbroken['high']['price']),
+                ('bear', 'low', 'high', unbroken['low'] and dn_px < unbroken['low']['price'])):
+            if not hit:
+                continue
+            if prev_dir is not None:
+                kind = 'BOS' if direction == prev_dir else 'CHoCH'
+            else:
+                state = trend_state(confirmed, lookback=lookback)
+                with_trend = {'uptrend': 'bull', 'downtrend': 'bear'}.get(state)
+                kind = 'break' if with_trend is None else ('BOS' if direction == with_trend else 'CHoCH')
+            ref = unbroken[side]
+            events.append(dict(i=t, ts=ts, kind=kind, direction=direction, level=ref['price'],
+                               ref_swing_i=ref['i'], close=c,
+                               protected=latest[other]['price'] if latest[other] else None))
+            unbroken[side] = None
+            prev_dir = direction
+    return events
