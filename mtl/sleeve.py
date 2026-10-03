@@ -116,3 +116,32 @@ def plan_curve_dynamic(main, sleeve, calendar, split_at):
             a, b = nav * reset[d], nav * (1 - reset[d])
         prev = (v, other[d])
     return out
+
+
+def plan_curve_mix(parts, calendar, weights_at):
+    """Several holdings mixed by weights decided at each week's last session and
+    applied at the next session's close (Monday), like plan_curve_dynamic.
+    parts: {name: [[date, value]]} (the first one sets the dates);
+    weights_at(friday) -> {name: weight} (weights sum to 1).
+    Returns [[date, value]] from 1.0."""
+    week_ends = last_sessions_of_weeks(calendar)
+    idx = {d: i for i, d in enumerate(calendar)}
+    reset = {calendar[idx[f] + 1]: weights_at(f) for f in week_ends if idx[f] + 1 < len(calendar)}
+    names = list(parts)
+    val = {n: dict(c) for n, c in parts.items()}
+    out, prev, held = [], None, None
+    for d, _ in parts[names[0]]:
+        if any(d not in val[n] for n in names):
+            continue
+        if prev is None:
+            w = weights_at(d)
+            held = {n: w.get(n, 0.0) for n in names}
+        else:
+            held = {n: held[n] * val[n][d] / val[n][prev] for n in names}
+        nav = sum(held.values())
+        out.append([d, nav])
+        if d in reset:
+            w = reset[d]
+            held = {n: nav * w.get(n, 0.0) for n in names}
+        prev = d
+    return out

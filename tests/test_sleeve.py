@@ -65,3 +65,16 @@ def test_dynamic_plan_changes_the_mix_at_the_session_after_the_decision():
     # identical through Monday's close, then only 60% keeps growing
     assert abs(p[k + 1][1] - full[k + 1][1]) < 1e-9
     assert p[k + 2][1] < full[k + 2][1]
+
+
+def test_plan_curve_mix_matches_the_two_part_version():
+    from mtl.sleeve import plan_curve_dynamic, plan_curve_mix
+    c = cal(40)
+    a = [[d, 1.01 ** i] for i, d in enumerate(c)]
+    b = [[d, 0.995 ** i] for i, d in enumerate(c)]
+    s = [[d, 1.0] for d in c]
+    two = plan_curve_dynamic(a, b, c, lambda f: 0.7)
+    three = plan_curve_mix({'a': a, 'b': b, 's': s}, c, lambda f: {'a': 0.7, 'b': 0.3})
+    assert abs(two[-1][1] - three[-1][1]) < 1e-9
+    half = plan_curve_mix({'a': a, 'b': b, 's': s}, c, lambda f: {'a': 0.35, 'b': 0.3, 's': 0.35})
+    assert 1.0 < half[-1][1] < two[-1][1]

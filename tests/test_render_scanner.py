@@ -65,3 +65,8 @@ def test_on_deck_cards_open_their_own_swing_chart():
 def test_calls_are_submitted_as_a_github_issue():
     page = render_scanner.render(SCAN)
     assert 'id="call-submit"' in page and '/issues/new?title=' in page and 'Calls intake workflow' in page
+
+
+def test_page_offers_the_bear_guard_mix():
+    page = render_scanner.render(SCAN)
+    assert "m === 'guard' ? 'Guard'" in page and 'bear guard' in page and 'A.guard.weights' in page
