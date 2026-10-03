@@ -29,21 +29,21 @@ def filled(prices, calendar):
     return out
 
 
-def six_month(f, calendar, k, look=126):
+def six_month(f, calendar, k, look=126, assets=None):
     """{asset: return over the last `look` sessions to calendar[k]} (None if unknown)."""
     out = {}
-    for t in ASSETS:
+    for t in assets or ASSETS:
         a, b = (f.get(t) or {}).get(calendar[max(0, k - look)]), (f.get(t) or {}).get(calendar[k])
         out[t] = b / a - 1 if a and b and k >= look else None
     return out
 
 
-def best_of(f, calendar, k, look=126):
-    r = six_month(f, calendar, k, look)
-    return max((t for t in ASSETS if r[t] is not None), key=lambda t: r[t], default='BIL')
+def best_of(f, calendar, k, look=126, assets=None):
+    r = six_month(f, calendar, k, look, assets)
+    return max((t for t in r if r[t] is not None), key=lambda t: r[t], default='BIL')
 
 
-def sleeve_curve(prices, calendar, start, look=126):
+def sleeve_curve(prices, calendar, start, look=126, assets=None):
     """([[date, value]], [[rebalance date, asset]]) - the sleeve from `start`, value 1.0."""
     f = filled(prices, calendar)
     rebal = set(last_sessions_of_weeks(calendar))
@@ -52,14 +52,14 @@ def sleeve_curve(prices, calendar, start, look=126):
         if d < start:
             continue
         if held is None:
-            held = best_of(f, calendar, k, look)
+            held = best_of(f, calendar, k, look, assets)
             picks.append([d, held])
         elif k:
             p = calendar[k - 1]
             val *= f[held][d] / f[held][p]
         curve.append([d, val])
         if d in rebal:
-            nxt = best_of(f, calendar, k, look)
+            nxt = best_of(f, calendar, k, look, assets)
             if nxt != held:
                 picks.append([d, nxt])
             held = nxt
