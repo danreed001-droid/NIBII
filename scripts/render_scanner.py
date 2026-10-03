@@ -179,7 +179,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .dk[data-t]:hover { border-color: var(--muted); }
 .dk[data-t]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .dk[aria-expanded="true"] { border-color: var(--gold); }
-.deck > .swpanel { grid-column: 1 / -1; margin-top: 0; }
+.deck > .swpanel, .holdings > .swpanel { grid-column: 1 / -1; margin-top: 0; }
 .dk .tk2 { font-weight: 600; } .dk .nm2 { font-size: 0.72rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; grid-column: 2; }
 .dk .val { text-align: right; font-family: ui-monospace, monospace; font-size: 0.85rem; font-weight: 600; }
 .dk .chg { text-align: right; font-size: 0.72rem; grid-column: 3; }
@@ -575,9 +575,15 @@ footer li { margin-bottom: 6px; }
     pid = pid || 'swpanel';
     if (openT[pid] === t) { closeSwing(pid); return; }
     openT[pid] = t; $(pid).hidden = false;
-    if (pid === 'swpanel2') {   // drop the chart down right under the tapped on-deck card
-      var card = document.querySelector('.dk[data-t="' + t + '"]');
-      if (card && card.nextSibling !== $(pid)) card.parentNode.insertBefore($(pid), card.nextSibling);
+    // drop the chart down right under the tapped card (full row in the grid)
+    var card = document.querySelector(SWSEL[pid] + '[data-t="' + t + '"]');
+    if (card) {   // after the last card on the tapped card's row, so the row stays intact
+      var panel = $(pid), grid = card.parentNode;
+      panel.hidden = true;            // measure the rows without the panel in the way
+      var row = card.offsetTop, last = card;
+      Array.prototype.forEach.call(grid.children, function (c) { if (c !== panel && c.offsetTop === row) last = c; });
+      if (last.nextSibling !== panel) grid.insertBefore(panel, last.nextSibling);
+      panel.hidden = false;
     }
     document.querySelectorAll(SWSEL[pid]).forEach(function (c) { c.setAttribute('aria-expanded', String(c.getAttribute('data-t') === t)); });
     drawSwing(t, pid);
