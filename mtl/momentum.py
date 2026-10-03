@@ -44,7 +44,7 @@ def score_at(prices, calendar, k, look, skip):
 
 def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, top_n=10,
                  keep_rank=None, eligible=None, risk_on=None, cost=0.0005, start_value=100.0,
-                 rebalance_on_start=False):
+                 rebalance_on_start=False, risk_daily=False):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction)."""
@@ -58,6 +58,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     last_px = {}         # ticker -> last seen close
     curve, picks, traded = [], [], 0.0
     started = False
+    prev_risk = None
     for k, d in enumerate(calendar):
         for t in shares:
             px = prices[t].get(d)
@@ -68,7 +69,12 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             started = True
         if not started:
             continue
-        if d in rebal:
+        flip = False
+        if risk_on is not None and risk_daily:
+            cur_risk = bool(risk_on(d))
+            flip = prev_risk is not None and cur_risk != prev_risk
+            prev_risk = cur_risk
+        if d in rebal or flip:
             target = []
             if risk_on is None or risk_on(d):
                 bench = score_at(prices[benchmark], calendar, k, look, skip)

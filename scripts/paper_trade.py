@@ -22,7 +22,9 @@ from datetime import datetime, timedelta
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from momentum_scan import LOOK, SKIP, TOP_N, blocked_dates, fetch  # noqa: E402
+from momentum_scan import TOP_N, blocked_dates, fetch  # noqa: E402
+
+WINDOWS = {3: (63, 0), 6: (126, 21), 12: (252, 21)}   # months -> (look, skip) sessions
 from mtl.momentum import run_momentum  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 
@@ -41,10 +43,37 @@ def hourly(tickers, start, end):
     return out
 
 
+CACHE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', '.paper_cache.pkl')
+
+
+def load_history(tickers, hist):
+    """Daily bars for the universe and SPY/QQQ from `hist`, cached for 12 hours
+    in data/.paper_cache.pkl (gitignored) so several windows can be compared
+    without re-downloading 500+ stocks each time."""
+    import pickle
+    import time
+    if os.path.exists(CACHE) and time.time() - os.path.getmtime(CACHE) < 12 * 3600:
+        with open(CACHE, 'rb') as f:
+            c = pickle.load(f)
+        if c['hist'] <= hist and set(tickers) <= set(c['bars']) | c['missing']:
+            print("using cached daily history", file=sys.stderr)
+            return c['bars'], c['bench']
+    hist = min(hist, '2023-01-01')
+    bars = fetch(tickers, start=hist)
+    bench = fetch(['SPY', 'QQQ'], start=hist, adjusted=True)
+    with open(CACHE, 'wb') as f:
+        pickle.dump(dict(hist=hist, bars=bars, bench=bench, missing=set(tickers) - set(bars)), f)
+    return bars, bench
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--start', default='2026-09-01')
     ap.add_argument('--per-stock', type=float, default=100.0)
+    ap.add_argument('--months', type=int, choices=sorted(WINDOWS), default=6,
+                    help='strength window: 3 = last 3 months; 6 / 12 = 6 or 12 months skipping the latest (default 6)')
+    ap.add_argument('--spy-filter', action='store_true',
+                    help='hold cash while SPY closes below its 200-day average (checked daily)')
     ap.add_argument('--end', default='9999-12-31', help='value the account at this date\'s close (default: latest)')
     args = ap.parse_args()
 
@@ -52,9 +81,8 @@ def main():
     sp, added = load_sp500(), load_added()
     print(f"Fetching daily history for {len(names)} stocks...", file=sys.stderr)
     # the score needs ~7 months of history before the start; fetch a year and a half
-    hist = (datetime.fromisoformat(args.start) - timedelta(days=550)).date().isoformat()
-    bars = fetch(sorted(names), start=hist)
-    bench = fetch(['SPY', 'QQQ'], start=hist, adjusted=True)
+    hist = (datetime.fromisoformat(args.start) - timedelta(days=750)).date().isoformat()
+    bars, bench = load_history(sorted(names), hist)
     prices = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items() if bs}
     prices['SPY'] = {b[0]: b[4] for b in bench['SPY']}
     full_calendar = [b[0] for b in bench['SPY']]
@@ -65,8 +93,15 @@ def main():
 
     # Run the rule on the full calendar so the --end cut-off is never mistaken for a
     # week-end rebalance; keep only rebalances on or before it.
-    r = run_momentum(prices, full_calendar, args.start, look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible,
-                     cost=0.0, rebalance_on_start=True)
+    risk = {}
+    if args.spy_filter:
+        closes = [b[4] for b in bench['SPY']]
+        for k in range(199, len(closes)):
+            risk[full_calendar[k]] = closes[k] > sum(closes[k - 199:k + 1]) / 200
+    look, skip = WINDOWS[args.months]
+    r = run_momentum(prices, full_calendar, args.start, look=look, skip=skip, top_n=TOP_N, eligible=eligible,
+                     cost=0.0, rebalance_on_start=True,
+                     risk_on=(lambda d: risk.get(d, True)) if args.spy_filter else None, risk_daily=True)
     calendar = [d for d in full_calendar if d <= args.end]
     picks = [p for p in r['picks'] if p[0] <= calendar[-1]]
     bench = {t: [b for b in bs if b[0] <= calendar[-1]] for t, bs in bench.items()}
@@ -104,7 +139,7 @@ def main():
         marks[t] = {ts[:16]: px for ts, px in series}
     timeline = sorted({ts for t in involved for ts in marks[t]})
     events = sorted({d for d, *_ in trades})
-    states, cur, cash_now = {}, {}, 0.0
+    states, cur, cash_now = {}, {}, args.per_stock * TOP_N   # the account starts as cash
     for d in events:
         for _, side, t, px, v in (x for x in trades if x[0] == d):
             if side == 'sell':
@@ -113,7 +148,7 @@ def main():
             else:
                 cur[t] = v / px
                 cash_now -= v
-        states[d] = (dict(cur), max(0.0, cash_now))
+        states[d] = (dict(cur), max(0.0, cash_now))   # fp dust below zero -> 0
     values, last_px = [], {}
     for _, side, t, px, _ in trades:
         last_px.setdefault(t, px)
@@ -132,6 +167,9 @@ def main():
     for t in shares:          # a holding without a close on the last day carries its last price
         prices[t].setdefault(calendar[-1], prices[t][max(d for d in prices[t] if d <= calendar[-1])])
     final = cash + sum(n * prices[t][calendar[-1]] for t, n in shares.items())
+    print(f"Strength window: {args.months} months")
+    if args.spy_filter:
+        print("SPY 200-day filter ON: all cash while SPY closes below its 200-day average")
     print(f"\nStarted {args.start} with ${start_value:,.0f} (${args.per_stock:,.0f} in each of {TOP_N}); "
           f"valued at the {calendar[-1]} close\n")
     print("Trades (filled at that day's close):")

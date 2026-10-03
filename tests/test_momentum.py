@@ -129,3 +129,15 @@ def test_momentum_scan_glitch_guard_blocks_after_a_crash_print():
     assert 'd009' not in blocked and 'd010' in blocked and 'd160' in blocked and 'd161' not in blocked
     assert ms.yearly([['2020-01-02', 100], ['2020-12-31', 110], ['2021-12-31', 99]]) == \
         {'2020': 0.10000000000000009, '2021': 99 / 110 - 1}
+
+
+def test_daily_risk_filter_goes_to_cash_midweek_and_back():
+    c = cal(80)
+    prices = {'SPY': {d: 100.0 for d in c}, 'A': {d: 100 * 1.01 ** i for i, d in enumerate(c)}}
+    off_days = set(c[40:45])
+    r = run_momentum(prices, c, c[25], look=20, skip=0, top_n=1, cost=0.0,
+                     risk_on=lambda d: d not in off_days, risk_daily=True)
+    picked = dict((d, h) for d, h in r['picks'])
+    assert picked[c[40]] == [] and picked[c[45]] == ['A']
+    held = {p[0]: p[2] for p in r['curve']}
+    assert held[c[42]] == 0 and held[c[46]] == 1
