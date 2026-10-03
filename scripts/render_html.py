@@ -940,7 +940,7 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
       </span>
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
-    <p class="scanner-link"><a href="scanner.html">◆ Trend Scanner <span>S&amp;P 500 + ETF buy/sell signals</span> →</a></p>
+    <p class="scanner-link"><a href="scanner.html">◆ Top 5 Strongest <span>S&amp;P 500 + Nasdaq-100 momentum picks</span> →</a></p>
     {freshness}
     <p class="submit-news"><a href="{submit_url}" target="_blank" rel="noopener">＋ Submit a news event</a>
       <span>adds it to the news log the research reads; the page updates in about a minute</span></p>

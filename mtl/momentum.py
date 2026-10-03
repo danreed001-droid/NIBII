@@ -196,3 +196,31 @@ def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=2
     years = max(len(curve) / 252, 1e-9)
     avg_value = sum(p[1] for p in curve) / len(curve) if curve else 1.0
     return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2)
+
+
+def ranking(prices, calendar, k, look=126, skip=21, eligible=None, benchmark='SPY'):
+    """[(ticker, score)] best first, for every eligible stock with a score at
+    calendar[k] (the same ranking run_momentum uses on that day)."""
+    out = []
+    for t, px in prices.items():
+        if t == benchmark or not px.get(calendar[k]) or (eligible and not eligible(t, calendar[k])):
+            continue
+        s = score_at(px, calendar, k, look, skip)
+        if s is not None:
+            out.append((t, s))
+    out.sort(key=lambda x: -x[1])
+    return out
+
+
+def trades_from_picks(picks):
+    """[(date, 'buy'|'sell', ticker)] from consecutive rebalance holdings."""
+    out, prev = [], []
+    for d, held in picks:
+        for t in prev:
+            if t not in held:
+                out.append((d, 'sell', t))
+        for t in held:
+            if t not in prev:
+                out.append((d, 'buy', t))
+        prev = held
+    return out

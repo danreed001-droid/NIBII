@@ -1,4 +1,4 @@
-"""docs/scanner.html rendering - the scan data is embedded as JSON."""
+"""docs/scanner.html - the Top 5 Strongest dashboard - embeds its data as JSON."""
 import importlib.util
 import json
 import os
@@ -8,19 +8,19 @@ spec = importlib.util.spec_from_file_location(
 render_scanner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(render_scanner)
 
-SCAN = dict(generatedAt='2026-10-03T03:22:15+00:00', timeframes=['weekly', 'daily', '1h', '15m'],
-            modes={'strict': 4, 'loose': 2},
-            setups={'daily': dict(context=['weekly', 'daily'], trigger='1h', recentBars=7)},
-            tickers=[dict(t='EVIL', n='</script><script>alert(1)</script>', sec='X', etf=False)])
+SCAN = dict(generatedAt='2026-10-03T03:22:15+00:00', asOf='2026-10-02',
+            holdings=[dict(t='EVIL', n='</script><script>alert(1)</script>', sec='X', rank=1)],
+            table=[], trades=[], curves={}, years={}, stats={})
 
 
 def test_data_is_embedded_and_cannot_close_the_script_block():
     page = render_scanner.render(SCAN)
     start = page.index('id="scan-data">') + len('id="scan-data">')
     blob = page[start:page.index('</script>', start)]
-    assert json.loads(blob)['tickers'][0]['n'] == SCAN['tickers'][0]['n']
+    assert json.loads(blob)['holdings'][0]['n'] == SCAN['holdings'][0]['n']
     assert '__DATA__' not in page
 
 
-def test_page_links_back_to_the_ledger():
-    assert 'href="index.html"' in render_scanner.render(SCAN)
+def test_page_links_to_the_ledger_and_the_backtests():
+    page = render_scanner.render(SCAN)
+    assert 'href="index.html"' in page and 'href="backtest.html"' in page

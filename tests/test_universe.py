@@ -64,3 +64,21 @@ def test_failed_or_short_download_keeps_the_saved_list(tmp_path):
         logs = []
         assert not ensure_fresh(path, asof, today=date(2026, 10, 5), fetch=bad, log=logs.append)
         assert list(load_sp500(path)) == ['OLD', 'S000'] and 'failed' in logs[0]
+
+
+from mtl.universe import ensure_fresh_ndx, load_ndx, momentum_universe
+
+
+def test_momentum_universe_is_sp500_plus_nasdaq_only_members():
+    u = momentum_universe(refresh=False)
+    assert 'AAPL' in u and 'ASML' in u and 'XLF' not in u
+    assert len(u) == len(set(load_sp500()) | set(load_ndx()))
+
+
+def test_ndx_refresh_keeps_the_saved_list_when_the_download_is_short(tmp_path):
+    path, asof = tmp_path / 'ndx.csv', tmp_path / 'ndx.asof'
+    path.write_text("symbol,name,industry\nAAA,Aaa,Tech\n")
+    logs = []
+    assert not ensure_fresh_ndx(str(path), str(asof), today=date(2026, 10, 5),
+                                fetch=lambda: {'X': ('x', 'y')}, log=logs.append)
+    assert list(load_ndx(str(path))) == ['AAA'] and 'failed' in logs[0]

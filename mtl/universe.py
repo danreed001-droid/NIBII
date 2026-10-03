@@ -106,3 +106,74 @@ def default_universe(refresh=True):
     if refresh:
         ensure_fresh()
     return {**ETFS, **load_sp500()}
+
+
+# --- Nasdaq-100 (QQQ) - the momentum dashboard ranks S&P 500 + Nasdaq-100 ---
+
+NDX_PATH = os.path.join(DATA_DIR, 'ndx100.csv')
+NDX_ASOF_PATH = os.path.join(DATA_DIR, 'ndx100.asof')
+NDX_URL = "https://en.wikipedia.org/wiki/List_of_NASDAQ-100_companies"
+NDX_MIN = 95
+
+
+def fetch_ndx():
+    """Downloads the Nasdaq-100 table -> {symbol: (name, industry)}."""
+    import pandas as pd
+    req = urllib.request.Request(NDX_URL, headers={'User-Agent': 'Mozilla/5.0'})
+    html = urllib.request.urlopen(req, timeout=60).read().decode()
+    t = next(x for x in pd.read_html(io.StringIO(html)) if 'Ticker' in x.columns and len(x) >= NDX_MIN)
+    ind = next((c for c in t.columns if str(c).startswith('ICB Industry')), None)
+    return {str(s).replace('.', '-'): (n, t[ind][i] if ind is not None else '')
+            for i, (s, n) in enumerate(zip(t['Ticker'], t['Company']))}
+
+
+def load_ndx(path=NDX_PATH):
+    """{symbol: (name, industry)} - industry is '' for an older saved copy."""
+    with open(path, newline='') as f:
+        return {r['symbol']: (r['name'], r.get('industry', '')) for r in csv.DictReader(f)}
+
+
+def refresh_ndx(path=NDX_PATH, asof_path=NDX_ASOF_PATH, today=None, fetch=fetch_ndx):
+    """Same contract as refresh_sp500, for the Nasdaq-100 list."""
+    new = fetch()
+    if len(new) < NDX_MIN:
+        raise ValueError(f"only {len(new)} Nasdaq-100 members parsed - page layout changed?")
+    old = load_ndx(path) if os.path.exists(path) else {}
+    with open(path, 'w', newline='') as f:
+        w = csv.writer(f)
+        w.writerow(['symbol', 'name', 'industry'])
+        w.writerows((s, *v) for s, v in sorted(new.items()))
+    with open(asof_path, 'w') as f:
+        f.write((today or date.today()).isoformat() + '\n')
+    return sorted(set(new) - set(old)), sorted(set(old) - set(new))
+
+
+def ensure_fresh_ndx(path=NDX_PATH, asof_path=NDX_ASOF_PATH, today=None, max_age_days=MAX_AGE_DAYS,
+                     fetch=fetch_ndx, log=lambda msg: print(msg, file=sys.stderr)):
+    """ensure_fresh for the Nasdaq-100 list: refresh when stale, never raise."""
+    today = today or date.today()
+    asof = last_refreshed(asof_path)
+    if asof is not None and (today - asof).days <= max_age_days and os.path.exists(path):
+        return False
+    try:
+        added, removed = refresh_ndx(path, asof_path, today, fetch)
+    except Exception as e:
+        log(f"Nasdaq-100 list refresh failed ({e}); using saved list from {asof or 'unknown date'}")
+        return False
+    change = ', '.join(filter(None, [f"added {' '.join(added)}" if added else '',
+                                     f"removed {' '.join(removed)}" if removed else '']))
+    log(f"Nasdaq-100 list refreshed: {change or 'no changes'}")
+    return True
+
+
+def momentum_universe(refresh=True):
+    """{symbol: (name, sector)} for the momentum dashboard: every S&P 500
+    stock plus the Nasdaq-100 members that aren't in it (sector = their ICB
+    industry). No ETFs - an ETF never ranks among the strongest stocks."""
+    if refresh:
+        ensure_fresh()
+        ensure_fresh_ndx()
+    out = load_sp500()
+    for s, (n, ind) in load_ndx().items():
+        out.setdefault(s, (n, ind))
+    return out

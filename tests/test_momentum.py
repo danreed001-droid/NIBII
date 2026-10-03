@@ -99,3 +99,33 @@ def test_hold_mode_keeps_a_holding_through_a_wobble_until_it_leaves_the_exit_ran
     # every holding kept from one week to the next ranked within exit_rank that week
     for (_, h1), (_, h2) in zip(r['picks'], r['picks'][1:]):
         assert len(h2) <= 3
+
+
+from mtl.momentum import ranking, trades_from_picks
+
+
+def test_ranking_matches_scores_best_first():
+    c = cal(40)
+    prices = {'SPY': {d: 100.0 for d in c}, 'A': {d: 100 + i for i, d in enumerate(c)},
+              'B': {d: 100 + 2 * i for i, d in enumerate(c)}}
+    r = ranking(prices, c, 39, look=20, skip=0)
+    assert [t for t, _ in r] == ['B', 'A'] and abs(r[0][1] - prices['B'][c[39]] / prices['B'][c[19]] + 1) < 1e-12
+
+
+def test_trades_from_picks():
+    picks = [['d1', ['A', 'B']], ['d2', ['B', 'C']], ['d3', ['C']]]
+    assert trades_from_picks(picks) == [('d1', 'buy', 'A'), ('d1', 'buy', 'B'), ('d2', 'sell', 'A'),
+                                        ('d2', 'buy', 'C'), ('d3', 'sell', 'B')]
+
+
+def test_momentum_scan_glitch_guard_blocks_after_a_crash_print():
+    import importlib.util, os
+    spec = importlib.util.spec_from_file_location(
+        'momentum_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'momentum_scan.py'))
+    ms = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ms)
+    bars = [(f"d{i:03d}", 1, 1, 1, 100.0 if i < 10 else 12.0) for i in range(200)]
+    blocked = ms.blocked_dates(bars)
+    assert 'd009' not in blocked and 'd010' in blocked and 'd160' in blocked and 'd161' not in blocked
+    assert ms.yearly([['2020-01-02', 100], ['2020-12-31', 110], ['2021-12-31', 99]]) == \
+        {'2020': 0.10000000000000009, '2021': 99 / 110 - 1}
