@@ -289,3 +289,30 @@ def test_simulate_rsi_buys_the_cross_above_50_and_sells_the_cross_below():
     i_in = [t[0] for t in enumerate(ends) if t[1].isoformat() == tr[0]['entryTime']][0]
     i_out = [t[0] for t in enumerate(ends) if t[1].isoformat() == tr[0]['exitTime']][0]
     assert rsi[i_in - 1] <= 50 < rsi[i_in] and rsi[i_out - 1] >= 50 > rsi[i_out]
+
+
+from mtl.backtest import rsi_next, rsi_states, simulate_rsi_mtf
+
+
+def test_rsi_next_equals_the_rsi_of_the_extended_series():
+    closes = [100 + 3 * math.sin(i / 3) + 0.2 * i for i in range(40)]
+    st = rsi_states(closes)
+    for k in range(14, 39):
+        assert abs(rsi_next(st[k], closes[k], closes[k + 1]) - rsi_series(closes)[k + 1]) < 1e-9
+
+
+def _mtf_fixture(daily_up=True):
+    from datetime import date
+    dcl = [100 + (i if daily_up else -i) * 0.5 + math.sin(i) for i in range(40)]
+    daily = [((date(2024, 1, 1) + timedelta(days=i)).isoformat() + "T00:00:00", c, c, c, c) for i, c in enumerate(dcl)]
+    t0 = datetime(2024, 2, 10, 15, tzinfo=timezone.utc)
+    hcl = [120 - 0.3 * i for i in range(20)] + [114 + 0.4 * i for i in range(20)] + [122 - 0.5 * i for i in range(20)]
+    hourly = [((t0 + timedelta(hours=i)).isoformat(), c, c, c, c) for i, c in enumerate(hcl)]
+    return (hourly, with_ends(hourly, timedelta(hours=1))), (daily, with_ends(daily))
+
+
+def test_mtf_rsi_needs_the_daily_rsi_above_50():
+    h, d = _mtf_fixture(daily_up=True)
+    assert simulate_rsi_mtf(h, d, T0)
+    h, d = _mtf_fixture(daily_up=False)
+    assert simulate_rsi_mtf(h, d, T0) == []

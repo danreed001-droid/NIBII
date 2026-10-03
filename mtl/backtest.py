@@ -512,3 +512,89 @@ def simulate_rsi(bars, ends, start, ticker='', stake=100.0, period=14, level=50.
         trades.append(dict(pos, exitTime=ends[-1].isoformat(), exit=closes[-1], ret=ret, pnl=stake * ret,
                            bars=len(bars) - 1 - pos.pop('_i'), open=True, exitReason='open'))
     return trades
+
+
+def rsi_states(closes, period=14):
+    """Per bar: (avg_gain, avg_loss) of Wilder's RSI after that bar, or None -
+    enough to compute what the RSI WOULD read if the next bar closed at
+    any given price (a live, still-forming daily bar)."""
+    out = [None] * len(closes)
+    if len(closes) < period + 1:
+        return out
+    ag = al = 0.0
+    for i in range(1, len(closes)):
+        ch = closes[i] - closes[i - 1]
+        g, l = max(ch, 0.0), max(-ch, 0.0)
+        if i <= period:
+            ag += g / period
+            al += l / period
+            if i < period:
+                continue
+        else:
+            ag = (ag * (period - 1) + g) / period
+            al = (al * (period - 1) + l) / period
+        out[i] = (ag, al)
+    return out
+
+
+def rsi_next(state, prev_close, price, period=14):
+    """RSI if the next bar closed at `price`, given the prior bar's state."""
+    ag, al = state
+    ch = price - prev_close
+    ag = (ag * (period - 1) + max(ch, 0.0)) / period
+    al = (al * (period - 1) + max(-ch, 0.0)) / period
+    return 100.0 if al == 0 else 100 - 100 / (1 + ag / al)
+
+
+def simulate_rsi_mtf(hourly, daily, start, ticker='', stake=100.0, period=14, level=50.0,
+                     daily_mode='closed', exit='hourly', allow=None):
+    """Hourly RSI crossing above `level` while the daily RSI is above it.
+
+    daily_mode: 'closed' = the daily RSI as of the last finished session;
+                'live'   = the daily RSI with today's bar still forming at the
+                           current hourly close (what a live daily chart shows).
+    exit: 'hourly' = sell when the hourly RSI crosses back below `level`;
+          'daily'  = sell when the (live) daily RSI drops below `level`.
+    Fills at hourly closes, longs only; open trades marked at the end."""
+    hbars, hends = hourly
+    dbars, dends = daily
+    hc = [b[4] for b in hbars]
+    hr = rsi_series(hc, period)
+    dc = [b[4] for b in dbars]
+    dr = rsi_series(dc, period)
+    ds = rsi_states(dc, period)
+
+    def daily_rsi(k):
+        """Daily RSI at hourly bar k under daily_mode (None if unknown)."""
+        j = bisect_right(dends, hends[k]) - 1          # last finished session
+        if daily_mode == 'closed' or (j >= 0 and dends[j] == hends[k]):
+            return dr[j] if j >= 0 else None           # 4pm bar: today just closed
+        if j < 0 or ds[j] is None:
+            return None
+        return rsi_next(ds[j], dc[j], hc[k], period)
+
+    trades, pos = [], None
+    for k in range(1, len(hbars)):
+        if hr[k] is None or hr[k - 1] is None:
+            continue
+        if pos:
+            if exit == 'hourly':
+                out = hr[k - 1] >= level > hr[k]
+            else:
+                d = daily_rsi(k)
+                out = d is not None and d < level
+            if out:
+                ret = hc[k] / pos['entry'] - 1.0
+                trades.append(dict(pos, exitTime=hends[k].isoformat(), exit=hc[k], ret=ret, pnl=stake * ret,
+                                   bars=k - pos.pop('_i'), open=False, exitReason='rsi'))
+                pos = None
+            continue
+        if hr[k - 1] <= level < hr[k] and hends[k] >= start:
+            d = daily_rsi(k)
+            if d is not None and d > level and (allow is None or allow('long', hends[k])):
+                pos = dict(ticker=ticker, side='long', entryTime=hends[k].isoformat(), entry=hc[k], _i=k)
+    if pos:
+        ret = hc[-1] / pos['entry'] - 1.0
+        trades.append(dict(pos, exitTime=hends[-1].isoformat(), exit=hc[-1], ret=ret, pnl=stake * ret,
+                           bars=len(hbars) - 1 - pos.pop('_i'), open=True, exitReason='open'))
+    return trades
