@@ -110,7 +110,12 @@ def drop_forming(bars, bar_len, now):
     """Drops the last bar if it hasn't closed yet (its start + bar_len is
     after `now`) - a forming bar's close can still change, and a break
     called on it can repaint."""
-    if bars and datetime.fromisoformat(bars[-1][0]) + bar_len > now:
+    if not bars:
+        return bars
+    start = datetime.fromisoformat(bars[-1][0])
+    if start.tzinfo is None:  # date-only daily bars from a batch download
+        start = start.replace(tzinfo=timezone.utc)
+    if start + bar_len > now:
         return bars[:-1]
     return bars
 
@@ -137,6 +142,36 @@ def fetch_series(ticker, now=None, include_forming=False):
     for tf, (interval, period, bar_len) in _FETCH.items():
         bars = fetch_ohlc(ticker, interval=interval, period=period)
         out[tf] = bars if include_forming else drop_forming(bars, bar_len, now)
+    return out
+
+
+def _bars_from_frame(df):
+    out = []
+    for ts, o, h, l, c in zip(df.index, df['Open'], df['High'], df['Low'], df['Close']):
+        if c == c and h == h and l == l:  # skip NaN rows (batch frames share one index)
+            out.append((ts.isoformat(), float(o), float(h), float(l), float(c)))
+    return out
+
+
+def fetch_series_many(tickers, now=None, include_forming=False, chunk=100):
+    """Like fetch_series, for many tickers via yfinance's batch download
+    (one request per chunk per interval instead of three per ticker).
+    {ticker: {'daily': bars, '1h': bars, '15m': bars}}; a ticker Yahoo has
+    no data for comes back with empty series."""
+    import yfinance as yf
+    now = now or datetime.now(timezone.utc)
+    tickers = list(tickers)
+    out = {t: {} for t in tickers}
+    for tf, (interval, period, bar_len) in _FETCH.items():
+        for k in range(0, len(tickers), chunk):
+            part = tickers[k:k + chunk]
+            df = yf.download(part, interval=interval, period=period, group_by='ticker',
+                             auto_adjust=False, threads=True, progress=False)
+            for t in part:
+                bars = []
+                if df is not None and not df.empty and t in df.columns.get_level_values(0):
+                    bars = _bars_from_frame(df[t])
+                out[t][tf] = bars if include_forming else drop_forming(bars, bar_len, now)
     return out
 
 

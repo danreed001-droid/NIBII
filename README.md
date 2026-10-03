@@ -282,7 +282,16 @@ down). Unfinished bars are
 dropped unless `--include-forming`; `--lookback 2` loosens the trend read to
 the latest high + low.
 
-    python scripts/mtf_scan.py NQ=F AAPL
+With no tickers it scans the default universe in `mtl/universe.py` - the
+XLF / XLU / XLY / EEM / GLD / SLV ETFs plus every S&P 500 stock in
+`data/sp500.csv` (refresh with `python scripts/update_sp500.py`) - using
+batched Yahoo downloads (~2 minutes for ~510 tickers), and prints only the
+BUY / SELL hits plus WATCH/NO counts. Ten or fewer tickers get the full
+per-timeframe detail.
+
+    python scripts/mtf_scan.py                    # ETFs + S&P 500 summary
+    python scripts/mtf_scan.py --watch --csv scan.csv
+    python scripts/mtf_scan.py NQ=F AAPL          # detail view
     python scripts/mtf_scan.py SPY --json
 
 ## News catalysts and pattern analysis

@@ -125,3 +125,9 @@ def test_drop_forming_removes_only_an_unfinished_bar():
     bars = [("2026-10-02T15:30:00+00:00", 1, 1, 1, 1), ("2026-10-02T15:45:00+00:00", 1, 1, 1, 1)]
     assert len(drop_forming(bars, timedelta(minutes=15), now)) == 1
     assert len(drop_forming(bars, timedelta(minutes=15), now + timedelta(minutes=10))) == 2
+
+
+def test_drop_forming_handles_date_only_daily_bars():
+    now = datetime(2026, 10, 2, 20, 0, tzinfo=timezone.utc)
+    bars = [("2026-10-01T00:00:00", 1, 1, 1, 1), ("2026-10-02T00:00:00", 1, 1, 1, 1)]
+    assert len(drop_forming(bars, timedelta(days=1), now)) == 1
