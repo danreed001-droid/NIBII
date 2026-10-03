@@ -13,6 +13,7 @@ its replacement (winners are not trimmed back). Positions are marked on the
 Usage:
     python scripts/paper_trade.py                         # from 2026-09-01, $100 a stock
     python scripts/paper_trade.py --start 2026-08-03 --per-stock 1000
+    python scripts/paper_trade.py --start 2026-01-01 --end 2026-03-31   # a past window
 """
 import argparse
 import os
@@ -26,15 +27,17 @@ from mtl.momentum import run_momentum  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 
 
-def hourly(tickers, start):
-    """{ticker: [(datetime_iso, close)]} on the 1h chart from `start`."""
+def hourly(tickers, start, end):
+    """{ticker: [(datetime_iso, close)]} on the 1h chart from `start` to `end`
+    (Yahoo keeps about two years of hourly bars)."""
     import yfinance as yf
-    df = yf.download(tickers, interval='60m', period='60d', group_by='ticker', auto_adjust=False,
+    df = yf.download(tickers, interval='60m', period='730d', group_by='ticker', auto_adjust=False,
                      progress=False, threads=True)
     out = {}
     for t in tickers:
         d = df[t].dropna(subset=['Close']) if len(tickers) > 1 else df.dropna(subset=['Close'])
-        out[t] = [(ts.isoformat(), float(c)) for ts, c in zip(d.index, d['Close']) if ts.date().isoformat() >= start]
+        out[t] = [(ts.isoformat(), float(c)) for ts, c in zip(d.index, d['Close'])
+                  if start <= ts.date().isoformat() <= end]
     return out
 
 
@@ -42,6 +45,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--start', default='2026-09-01')
     ap.add_argument('--per-stock', type=float, default=100.0)
+    ap.add_argument('--end', default='9999-12-31', help='value the account at this date\'s close (default: latest)')
     args = ap.parse_args()
 
     names = momentum_universe(refresh=False)
@@ -49,6 +53,8 @@ def main():
     print(f"Fetching daily history for {len(names)} stocks...", file=sys.stderr)
     bars = fetch(sorted(names), start='2025-01-01')
     bench = fetch(['SPY', 'QQQ'], start='2025-01-01', adjusted=True)
+    bars = {t: [b for b in bs if b[0] <= args.end] for t, bs in bars.items()}
+    bench = {t: [b for b in bs if b[0] <= args.end] for t, bs in bench.items()}
     prices = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items() if bs}
     prices['SPY'] = {b[0]: b[4] for b in bench['SPY']}
     calendar = [b[0] for b in bench['SPY']]
@@ -84,7 +90,7 @@ def main():
 
     # hour-by-hour value of the real share counts
     involved = sorted({t for _, h in picks for t in h})
-    hr = hourly(involved + ['SPY', 'QQQ'], args.start)
+    hr = hourly(involved + ['SPY', 'QQQ'], args.start, calendar[-1])
     timeline = sorted({ts for t in involved for ts, _ in hr[t]})
     holding_at = []   # share map in force at each hour (changes take effect after the rebalance day's close)
     sh_state, last_px = {}, {}
@@ -114,6 +120,8 @@ def main():
             values.append((ts, cash + sum(n * last_px[t] for t, n in sh_state.items())))
 
     start_value = args.per_stock * TOP_N
+    for t in shares:          # a holding without a close on the last day carries its last price
+        prices[t].setdefault(calendar[-1], prices[t][max(d for d in prices[t] if d <= calendar[-1])])
     final = cash + sum(n * prices[t][calendar[-1]] for t, n in shares.items())
     print(f"\nStarted {args.start} with ${start_value:,.0f} (${args.per_stock:,.0f} in each of {TOP_N}); "
           f"valued at the {calendar[-1]} close\n")
@@ -126,9 +134,9 @@ def main():
         print(f"  {t:5} {n:9.4f} sh x ${px:9,.2f} = ${n * px:8,.2f}")
     print(f"\nValue now: ${final:,.2f}  ({final / start_value - 1:+.1%})")
     for b in ('SPY', 'QQQ'):
-        p0 = next(c for d, c in ((x[0], x[4]) for x in bench[b]) if d >= args.start)
+        d0, p0 = next((x[0], x[4]) for x in bench[b] if x[0] >= args.start)
         p1 = bench[b][-1][4]
-        print(f"  same ${start_value:,.0f} in {b} (bought {args.start} close): ${start_value * p1 / p0:,.2f} ({p1 / p0 - 1:+.1%})")
+        print(f"  same ${start_value:,.0f} in {b} (bought {d0} close): ${start_value * p1 / p0:,.2f} ({p1 / p0 - 1:+.1%})")
     if values:
         peak, dd, lo, hi = values[0][1], 0.0, min(values, key=lambda x: x[1]), max(values, key=lambda x: x[1])
         for _, v in values:
