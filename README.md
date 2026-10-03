@@ -258,6 +258,54 @@ been. `structure_signal` still degrades to `state=None` with a note rather
 than guessing if a given ticker's series ever comes up short - that
 fallback stays even though the common case now checks out.
 
+
+### Multi-timeframe buy/sell scanner
+
+`scripts/mtf_scan.py` (logic in `mtl/mtf.py`) is a standalone tool, not part
+of the daily board. It reads weekly / daily / 1h / 15m structure for any
+Yahoo ticker and checks two setups, each mirrored for buys and sells:
+
+| Setup | Larger timeframes must be in an uptrend (HH/HL) | Trigger: just flipped bearish -> bullish |
+|-------|------------------|---------|
+| `DAILY` trade  | weekly + daily        | 1h bullish CHoCH within the last 7 bars |
+| `HOURLY` trade | weekly + daily + 1h   | 15m bullish CHoCH within the last 8 bars |
+
+SELL is the mirror image: the same larger timeframes all in a downtrend
+(LH/LL) and the trigger timeframe just printing a bearish CHoCH.
+
+A CHoCH (change of character) is a close above the last confirmed swing high
+after a bearish run (or below the last swing low after a bullish one) (`mtl.structure.structure_breaks`, see
+`docs/market-structure-spec.md`). Verdicts: `BUY` / `SELL` (with entry ~ last
+close and a stop beyond the swing on the other side of the break), `WATCH`
+(context aligned, no flip yet), `NO` (larger timeframes not all up or all
+down). Unfinished bars are
+dropped unless `--include-forming`; `--lookback 2` loosens the trend read to
+the latest high + low.
+
+With no tickers it scans the default universe in `mtl/universe.py` - the
+XLF / XLU / XLY / EEM / GLD / SLV ETFs plus every S&P 500 stock in
+`data/sp500.csv` - re-downloaded from Wikipedia automatically whenever the
+saved copy is more than 7 days old (date kept in `data/sp500.asof`; a failed
+download falls back to the saved list; `--no-refresh` skips it,
+`python scripts/update_sp500.py` forces it) - using
+batched Yahoo downloads (~2 minutes for ~510 tickers), and prints only the
+BUY / SELL hits plus WATCH/NO counts. Ten or fewer tickers get the full
+per-timeframe detail.
+
+    python scripts/mtf_scan.py                    # ETFs + S&P 500 summary
+    python scripts/mtf_scan.py --watch --csv scan.csv
+    python scripts/mtf_scan.py NQ=F AAPL          # detail view
+    python scripts/mtf_scan.py SPY --json
+
+**Dashboard.** `docs/scanner.html` (served by GitHub Pages next to the
+Ledger at `/scanner.html`, linked from the Ledger's masthead) shows the
+latest scan: BUY/SELL signal cards with entry/stop/risk, the six ETFs,
+breadth by sector per timeframe, and a searchable/sortable table of every
+ticker, with a strict/loose trend-rule toggle. `.github/workflows/scanner.yml`
+re-runs it hourly through the US session (and on demand from the Actions
+tab): `mtf_scan.py --out data/scan.json` (both trend rules; the JSON itself
+is gitignored) then `scripts/render_scanner.py`, committing only the page.
+
 ## News catalysts and pattern analysis
 
 A separate Routine ("Daily market news log") logs dated, ticker-tagged,
