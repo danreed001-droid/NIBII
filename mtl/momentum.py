@@ -89,7 +89,8 @@ def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='ran
 def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, top_n=10,
                  keep_rank=None, eligible=None, risk_on=None, cost=0.0005, start_value=100.0,
                  rebalance_on_start=False, risk_daily=False, windows=None, blend='rank',
-                 trail_stop=None, cooldown=20, group_of=None, max_per_group=None):
+                 trail_stop=None, cooldown=20, group_of=None, max_per_group=None,
+                 sector_of=None, top_sectors=None, sector_grace=1, sector_min=3):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -100,7 +101,13 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       replaced by the best-ranked qualifying stock not held; the stopped
       stock can't be bought again for `cooldown` sessions.
     group_of / max_per_group: {ticker: industry} and a cap - at most that many
-      holdings from one industry (keepers and new buys alike)."""
+      holdings from one industry (keepers and new buys alike).
+    sector_of / top_sectors: {ticker: sector}; each rebalance ranks sectors by
+      the median score of their stocks (sectors with fewer than `sector_min`
+      scored stocks are skipped) and only buys stocks from the top
+      `top_sectors`. A holding whose sector is out of the top is sold once it
+      has been out for more than `sector_grace` consecutive rebalances
+      (1 = it gets one week's grace)."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
@@ -113,19 +120,49 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     started = False
     prev_risk = None
     peak, banned_until, stops = {}, {}, 0
+    sector_out = {}
+
+    def top_sector_set(rows):
+        groups = {}
+        for t, sc, _ in rows:
+            sec = sector_of.get(t)
+            if sec:
+                groups.setdefault(sec, []).append(sc)
+        med = {}
+        for sec, v in groups.items():
+            if len(v) >= sector_min:
+                v = sorted(v)
+                m = len(v) // 2
+                med[sec] = v[m] if len(v) % 2 else (v[m - 1] + v[m]) / 2
+        return set(sorted(med, key=lambda x: -med[x])[:top_sectors])
 
     def choose(k, d, keep_from, exclude=()):
         """Target holdings on day k: keepers (ranked within keep_rank, or every
         name in keep_from when keep_from is a forced keep-list) then the best
         ranked qualifying stocks, honoring the industry cap and cooldowns."""
-        scored = [(sc, t) for t, sc, beats in
-                  score_table(prices, calendar, k, look, skip, windows, blend, eligible, benchmark)
+        rows = score_table(prices, calendar, k, look, skip, windows, blend, eligible, benchmark)
+        scored = [(sc, t) for t, sc, beats in rows
                   if beats and banned_until.get(t, -1) < k and t not in exclude]
+        allowed = None
+        if sector_of and top_sectors:
+            allowed = top_sector_set(rows)
+            scored = [(sc, t) for sc, t in scored if sector_of.get(t) in allowed]
         rank = {t: i for i, (_, t) in enumerate(scored)}
         if isinstance(keep_from, list):
             keep = list(keep_from)
         else:
-            keep = sorted((t for t in shares if rank.get(t, 10 ** 9) < keep_rank), key=lambda t: rank[t])
+            full_rank = {t: i for i, (t, sc, beats) in enumerate([r for r in rows if r[2]])}
+            keep = []
+            for t in shares:
+                if allowed is not None and sector_of.get(t) not in allowed:
+                    sector_out[t] = sector_out.get(t, 0) + 1
+                    if sector_out[t] > sector_grace:
+                        continue      # its sector has been out of the top too long: sell
+                else:
+                    sector_out.pop(t, None)
+                if full_rank.get(t, 10 ** 9) < keep_rank:
+                    keep.append(t)
+            keep.sort(key=lambda t: full_rank[t])
         target, count = [], {}
 
         def fits(t):
@@ -194,6 +231,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             for t in list(peak):
                 if t not in target:
                     peak.pop(t)
+            for t in list(sector_out):
+                if t not in target:
+                    sector_out.pop(t)
             shares = {t: slot / last_px[t] for t in target}
             cash = value - sum(n * last_px[t] for t, n in shares.items())
             picks.append([d, list(target)])

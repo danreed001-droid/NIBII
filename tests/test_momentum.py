@@ -192,3 +192,22 @@ def test_industry_cap_limits_holdings_per_group():
     for _, h in r['picks']:
         assert sum(group[t] == 'x' for t in h) <= 2
     assert r['picks'][0][1] == ['S0', 'S1', 'S3']
+
+
+def test_sector_filter_buys_only_from_the_top_sector_and_sells_after_grace():
+    c = cal(160)
+    prices = {'SPY': {d: 100.0 for d in c}}
+    sector = {}
+    # sector H: strong early then weak; sector L: weak early then strong; each has 3 stocks
+    for j in range(3):
+        prices[f"H{j}"] = {d: 100 * ((1.012 - 0.001 * j) ** i if i < 80 else (1.012 - 0.001 * j) ** 80 * 0.995 ** (i - 80))
+                           for i, d in enumerate(c)}
+        prices[f"L{j}"] = {d: 100 * ((1.003 - 0.0005 * j) ** i if i < 80 else (1.003 - 0.0005 * j) ** 80 * 1.015 ** (i - 80))
+                           for i, d in enumerate(c)}
+        sector[f"H{j}"], sector[f"L{j}"] = 'H', 'L'
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=2, cost=0.0, keep_rank=6,
+                     sector_of=sector, top_sectors=1, sector_grace=1)
+    first = r['picks'][0][1]
+    assert all(sector[t] == 'H' for t in first)
+    last = r['picks'][-1][1]
+    assert last and all(sector[t] == 'L' for t in last)
