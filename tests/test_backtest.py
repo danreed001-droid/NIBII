@@ -192,3 +192,39 @@ def test_confirmed_exit_never_exits_before_the_unconfirmed_one():
     for k in a:
         if k in b:
             assert b[k] >= a[k]
+
+
+from mtl.backtest import timing_curve, trend_hold
+
+
+def _daily(prices, start='2024-01-01'):
+    from datetime import date
+    d0 = date.fromisoformat(start)
+    bars = [((d0 + timedelta(days=i)).isoformat() + "T00:00:00", p, p + 0.1, p - 0.1, p) for i, p in enumerate(prices)]
+    return bars, with_ends(bars)
+
+
+def test_trend_hold_buys_an_uptrend_and_exits_on_the_daily_break():
+    import mtl.backtest as bt
+    up = [100 + i + 5 * math.sin(2 * math.pi * i / 10) for i in range(80)]
+    down = [up[-1] - 1.5 * i + 5 * math.sin(2 * math.pi * (80 + i) / 10) for i in range(1, 40)]
+    daily = _daily(up + down)
+    weekly = (daily[0], daily[1])  # the same rising-then-falling read stands in for weekly
+    bt.SWING_N.update(weekly=3)
+    tr = trend_hold(daily, weekly, 4, daily[1][0])
+    bt.SWING_N.update(weekly=2)
+    assert tr and all(t['side'] == 'long' for t in tr)
+    assert all(t['entryTime'] < t['exitTime'] for t in tr)
+
+
+def test_timing_curve_is_cash_only_in_a_double_downtrend():
+    import mtl.backtest as bt
+    prices = [200 - i + 5 * math.sin(2 * math.pi * i / 10) for i in range(80)]
+    daily = _daily(prices)
+    bt.SWING_N.update(weekly=3)
+    curve = timing_curve(daily, daily, 4, daily[1][0])
+    bt.SWING_N.update(weekly=2)
+    assert curve[0][2] == 1 and curve[-1][2] == 0
+    # once in cash the value stops changing
+    flat = [p for p in curve if p[2] == 0]
+    assert len({round(p[1], 9) for p in curve[curve.index(flat[0]) + 1:] if p[2] == 0}) <= 2

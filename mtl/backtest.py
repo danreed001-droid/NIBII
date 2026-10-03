@@ -349,3 +349,58 @@ def simulate_variant(series, setup, lookback, start, ticker='', stake=100.0,
                            bars=j - i, open=reason == 'open', exitReason=reason))
         busy_until[side] = j
     return trades
+
+
+def trend_hold(daily, weekly, lookback, start, ticker='', stake=100.0, allow=None):
+    """Long-only, daily-chart trend following - no intraday data, so it can
+    run back years. Enter at a daily close when the weekly AND daily charts
+    are both in an uptrend and the daily chart's latest break is bullish;
+    exit at the close of the first bearish daily break. Re-entry waits for
+    a fresh bullish break. daily / weekly: (bars, ends)."""
+    bars, ends = daily
+    if not bars:
+        return []
+    states = state_series(bars, SWING_N['daily'], lookback)
+    wk = Context(*weekly, SWING_N['weekly'], lookback)
+    brk_at = {b['i']: b['direction'] for b in structure_breaks(bars, n=SWING_N['daily'], lookback=lookback)}
+    trades, pos, last_dir = [], None, None
+    for k in range(len(bars)):
+        d = brk_at.get(k)
+        if d:
+            last_dir = d
+        if pos and d == 'bear':
+            px = bars[k][4]
+            ret = px / pos['entry'] - 1.0
+            trades.append(dict(pos, exitTime=ends[k].isoformat(), exit=px, ret=ret, pnl=stake * ret,
+                               bars=k - pos.pop('_i'), open=False))
+            pos = None
+            continue
+        if (not pos and ends[k] >= start and last_dir == 'bull' and states[k] == 'uptrend'
+                and wk.at(ends[k]) == 'uptrend' and (allow is None or allow('long', ends[k]))):
+            pos = dict(ticker=ticker, side='long', entryTime=ends[k].isoformat(), entry=bars[k][4], _i=k)
+    if pos:
+        px = bars[-1][4]
+        ret = px / pos['entry'] - 1.0
+        trades.append(dict(pos, exitTime=ends[-1].isoformat(), exit=px, ret=ret, pnl=stake * ret,
+                           bars=len(bars) - 1 - pos.pop('_i'), open=True))
+    return trades
+
+
+def timing_curve(daily, weekly, lookback, start, start_value=100.0):
+    """Hold one instrument, step aside to cash only while its weekly AND
+    daily charts are both in a downtrend. The decision made at day k's
+    close applies to day k+1's return - nothing from day k+1 is used.
+    Returns [[date, value, invested(0/1)], ...] from `start`."""
+    bars, ends = daily
+    states = state_series(bars, SWING_N['daily'], lookback)
+    wk = Context(*weekly, SWING_N['weekly'], lookback)
+    out, value, invested = [], start_value, True
+    for k in range(1, len(bars)):
+        if ends[k] < start:
+            invested = not (states[k] == 'downtrend' and wk.at(ends[k]) == 'downtrend')
+            continue
+        if invested:
+            value *= bars[k][4] / bars[k - 1][4]
+        out.append([bars[k][0][:10], value, int(invested)])
+        invested = not (states[k] == 'downtrend' and wk.at(ends[k]) == 'downtrend')
+    return out
