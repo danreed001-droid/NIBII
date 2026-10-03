@@ -330,3 +330,83 @@ def test_rsi_band_needs_to_clear_both_levels():
     assert rsi[k_in - 1] <= 55 < rsi[k_in] and rsi[k_out - 1] >= 45 > rsi[k_out]
     # defaults are unchanged
     assert simulate_rsi(bars, ends, T0) == simulate_rsi(bars, ends, T0, buy_level=50, sell_level=50)
+
+
+from mtl.backtest import semivol_series, simulate_semivol
+
+
+def test_semivol_compares_typical_up_and_down_move_sizes():
+    # small rises (+1%) and big falls (-3%): up vol < down vol
+    closes = [100.0]
+    for i in range(30):
+        closes.append(closes[-1] * (1.01 if i % 3 else 0.97))
+    up, dn = semivol_series(closes, 20)[-1]
+    assert abs(up - 0.01) < 1e-9 and abs(dn - 0.03) < 1e-9
+
+
+def test_simulate_semivol_enters_when_calm_up_begins_and_exits_when_it_ends():
+    closes = [100.0]
+    for i in range(40):            # big rises, small falls first
+        closes.append(closes[-1] * (1.03 if i % 3 else 0.99))
+    for i in range(40):            # then small rises, big falls
+        closes.append(closes[-1] * (1.01 if i % 3 else 0.97))
+    for i in range(40):            # then back to big rises
+        closes.append(closes[-1] * (1.03 if i % 3 else 0.99))
+    bars = [((T0 + timedelta(days=i)).isoformat(), c, c, c, c) for i, c in enumerate(closes)]
+    ends = with_ends(bars, timedelta(days=1))
+    sv = semivol_series(closes, 20)
+    tr = simulate_semivol(bars, ends, T0, window=20, calm='up')
+    assert tr and not tr[0]['open']
+    k_in = [e.isoformat() for e in ends].index(tr[0]['entryTime'])
+    k_out = [e.isoformat() for e in ends].index(tr[0]['exitTime'])
+    assert sv[k_in][0] < sv[k_in][1] and not sv[k_out][0] < sv[k_out][1]
+    assert 40 <= k_in <= 80 <= k_out
+
+
+from mtl.backtest import efficiency, simulate_choppiness
+
+
+def test_efficiency_ratio_signed():
+    closes = [10, 11, 12, 13, 12, 13]
+    path = [0.0]
+    for i in range(1, len(closes)):
+        path.append(path[-1] + abs(closes[i] - closes[i - 1]))
+    assert efficiency(closes, 0, 3, path) == 1.0
+    assert abs(efficiency(closes, 0, 5, path) - 3 / 5) < 1e-12
+    assert efficiency(closes, 3, 4, path) == -1.0
+
+
+def test_choppiness_buys_a_smooth_rise_after_choppy_falls():
+    import random
+    random.seed(1)
+    closes, c = [], 100.0
+    for cyc in range(4):                 # choppy declines: zig-zag drifting down
+        for i in range(30):
+            c += (-1.0 if i % 2 else 0.6) + random.uniform(-0.05, 0.05)
+            closes.append(c)
+        for i in range(8):               # brief bounce so swings form
+            c += 0.8
+            closes.append(c)
+    for i in range(40):                  # then a clean, steady rise
+        c += 1.0
+        closes.append(c)
+    bars = [((T0 + timedelta(days=i)).isoformat(), x, x + 0.05, x - 0.05, x) for i, x in enumerate(closes)]
+    ends = with_ends(bars, timedelta(days=1))
+    tr = simulate_choppiness(bars, ends, T0, window=10)
+    assert tr and tr[-1]['entryTime'] >= ends[len(closes) - 48].isoformat()  # the final bounce runs into the rise
+    assert tr[-1]['ret'] > 0
+
+
+def test_choppiness_like_for_like_reference_runs_and_only_buys_rises():
+    import random
+    random.seed(2)
+    closes, c = [], 100.0
+    for i in range(300):
+        c *= 1 + random.gauss(0.0005, 0.01)
+        closes.append(c)
+    bars = [((T0 + timedelta(days=i)).isoformat(), x, x, x, x) for i, x in enumerate(closes)]
+    ends = with_ends(bars, timedelta(days=1))
+    tr = simulate_choppiness(bars, ends, T0, window=10, reference='windows')
+    for t in tr:
+        k = [e.isoformat() for e in ends].index(t['entryTime'])
+        assert closes[k] > closes[k - 10]

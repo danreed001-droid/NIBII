@@ -603,3 +603,135 @@ def simulate_rsi_mtf(hourly, daily, start, ticker='', stake=100.0, period=14, le
         trades.append(dict(pos, exitTime=hends[-1].isoformat(), exit=hc[-1], ret=ret, pnl=stake * ret,
                            bars=len(hbars) - 1 - pos.pop('_i'), open=True, exitReason='open'))
     return trades
+
+
+def semivol_series(closes, window=20):
+    """Per bar: (up_vol, down_vol) over the last `window` bar-to-bar returns -
+    the root-mean-square size of the UP moves and of the DOWN moves,
+    each averaged over its own moves only (so it compares how big a
+    typical rise is with how big a typical fall is, not how many of each).
+    None until the window is full or either side has no moves."""
+    rets = [None] + [closes[i] / closes[i - 1] - 1.0 for i in range(1, len(closes))]
+    out = [None] * len(closes)
+    for k in range(window, len(closes)):
+        w = rets[k - window + 1:k + 1]
+        up = [r * r for r in w if r > 0]
+        dn = [r * r for r in w if r < 0]
+        if up and dn:
+            out[k] = ((sum(up) / len(up)) ** 0.5, (sum(dn) / len(dn)) ** 0.5)
+    return out
+
+
+def simulate_semivol(bars, ends, start, ticker='', stake=100.0, window=20, calm='up',
+                     trend_sma=None, allow=None):
+    """Long only. calm='up': hold while up-move volatility < down-move
+    volatility (steady rises, sharper drops) - buy at the close of the bar
+    where that becomes true, sell where it stops. calm='down' is the
+    opposite condition (a control). trend_sma: also require the close above
+    its N-bar simple average to buy (and sell if it falls below)."""
+    closes = [b[4] for b in bars]
+    sv = semivol_series(closes, window)
+
+    def ok(k):
+        if sv[k] is None:
+            return None
+        up, dn = sv[k]
+        cond = up < dn if calm == 'up' else up > dn
+        if cond and trend_sma:
+            if k + 1 < trend_sma:
+                return False
+            cond = closes[k] > sum(closes[k - trend_sma + 1:k + 1]) / trend_sma
+        return cond
+
+    trades, pos = [], None
+    prev = None
+    for k in range(len(bars)):
+        cur = ok(k)
+        if cur is None:
+            prev = cur
+            continue
+        if pos and not cur:
+            ret = closes[k] / pos['entry'] - 1.0
+            trades.append(dict(pos, exitTime=ends[k].isoformat(), exit=closes[k], ret=ret, pnl=stake * ret,
+                               bars=k - pos.pop('_i'), open=False, exitReason='flip'))
+            pos = None
+        elif (not pos and cur and prev is False and ends[k] >= start
+              and (allow is None or allow('long', ends[k]))):
+            pos = dict(ticker=ticker, side='long', entryTime=ends[k].isoformat(), entry=closes[k], _i=k)
+        prev = cur
+    if pos:
+        ret = closes[-1] / pos['entry'] - 1.0
+        trades.append(dict(pos, exitTime=ends[-1].isoformat(), exit=closes[-1], ret=ret, pnl=stake * ret,
+                           bars=len(bars) - 1 - pos.pop('_i'), open=True, exitReason='open'))
+    return trades
+
+
+def efficiency(closes, a, b, path):
+    """Kaufman efficiency ratio from bar a to bar b, SIGNED: net change over
+    the total bar-to-bar distance travelled (path = prefix sums of
+    |close change|). +1 = a straight rise, -1 = a straight fall, ~0 = chop."""
+    dist = path[b] - path[a]
+    return 0.0 if dist <= 0 else (closes[b] - closes[a]) / dist
+
+
+def simulate_choppiness(bars, ends, start, ticker='', stake=100.0, n=3, legs=3, window=10,
+                        compare_to_down=True, allow=None, reference='legs', ref_bars=100):
+    """Long only: hold while the recent rise is SMOOTHER than this chart's
+    own recent downtrends were choppy.
+
+    Downtrend choppiness: the average |efficiency| of the last `legs`
+    confirmed down legs (swing high -> next swing low, fractal swings of
+    `n` bars, only swings confirmed by the current bar). Hold-state at
+    bar k: efficiency over the last `window` bars > that reference (so the
+    price is rising, and rising more cleanly than it fell). Buy at the
+    close where the state turns on, sell where it turns off.
+    compare_to_down=False is the control: hold whenever that efficiency
+    is above zero (just "going up"), ignoring the downtrends.
+    reference='windows' measures downtrend choppiness like-for-like
+    instead: the average |efficiency| of every falling `window`-bar
+    stretch within the last `ref_bars` bars (swing legs end at turning
+    points, so they read straighter than any fixed window)."""
+    closes = [b[4] for b in bars]
+    path = [0.0]
+    for i in range(1, len(closes)):
+        path.append(path[-1] + abs(closes[i] - closes[i - 1]))
+    swings = find_swings(bars, n=n)
+    trades, pos, prev = [], None, None
+    si, last_high, down_ers = 0, None, []
+    for k in range(len(bars)):
+        while si < len(swings) and swings[si]['i'] + n <= k:
+            s = swings[si]
+            if s['type'] == 'high':
+                last_high = s['i']
+            elif last_high is not None and s['i'] > last_high:
+                down_ers.append(abs(efficiency(closes, last_high, s['i'], path)))
+                last_high = None
+            si += 1
+        if k < window or (compare_to_down and reference == 'legs' and len(down_ers) < legs):
+            continue
+        if not compare_to_down:
+            ref = 0.0
+        elif reference == 'legs':
+            ref = sum(down_ers[-legs:]) / legs
+        else:
+            if k < ref_bars + window:
+                continue
+            falls = [-e for e in (efficiency(closes, j - window, j, path) for j in range(k - ref_bars, k + 1)) if e < 0]
+            if not falls:
+                continue
+            ref = sum(falls) / len(falls)
+        cur = efficiency(closes, k - window, k, path) > ref
+        if pos and not cur:
+            ret = closes[k] / pos['entry'] - 1.0
+            trades.append(dict(pos, exitTime=ends[k].isoformat(), exit=closes[k], ret=ret, pnl=stake * ret,
+                               bars=k - pos.pop('_i'), open=False, exitReason='chop'))
+            pos = None
+        elif (not pos and cur and prev is False and ends[k] >= start
+              and (allow is None or allow('long', ends[k]))):
+            pos = dict(ticker=ticker, side='long', entryTime=ends[k].isoformat(), entry=closes[k], _i=k)
+        prev = cur
+    if pos:
+        ret = closes[-1] / pos['entry'] - 1.0
+        trades.append(dict(pos, exitTime=ends[-1].isoformat(), exit=closes[-1], ret=ret, pnl=stake * ret,
+                           bars=len(bars) - 1 - pos.pop('_i'), open=True, exitReason='open'))
+    return trades
