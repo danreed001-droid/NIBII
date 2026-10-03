@@ -159,6 +159,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .dk[data-t]:hover { border-color: var(--muted); }
 .dk[data-t]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .dk[aria-expanded="true"] { border-color: var(--gold); }
+.deck > .swpanel { grid-column: 1 / -1; margin-top: 0; }
 .dk .tk2 { font-weight: 600; } .dk .nm2 { font-size: 0.72rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; grid-column: 2; }
 .dk .val { text-align: right; font-family: ui-monospace, monospace; font-size: 0.85rem; font-weight: 600; }
 .dk .chg { text-align: right; font-size: 0.72rem; grid-column: 3; }
@@ -360,7 +361,7 @@ footer li { margin-bottom: 6px; }
 
   <div class="two" style="margin-top:0">
     <div>
-      <p class="section-label">On deck <span class="hint">ranks 6–20 · climbing ▲ / slipping ▼ vs last week · tap for a swing chart</span></p>
+      <p class="section-label">On deck <span class="hint">ranks 6–20 · climbing ▲ / slipping ▼ vs last week · tap one to open its swing chart below it</span></p>
       <div class="deck" id="deck"></div>
       <div class="card swpanel" id="swpanel2" hidden></div>
     </div>
@@ -554,6 +555,10 @@ footer li { margin-bottom: 6px; }
     pid = pid || 'swpanel';
     if (openT[pid] === t) { closeSwing(pid); return; }
     openT[pid] = t; $(pid).hidden = false;
+    if (pid === 'swpanel2') {   // drop the chart down right under the tapped on-deck card
+      var card = document.querySelector('.dk[data-t="' + t + '"]');
+      if (card && card.nextSibling !== $(pid)) card.parentNode.insertBefore($(pid), card.nextSibling);
+    }
     document.querySelectorAll(SWSEL[pid]).forEach(function (c) { c.setAttribute('aria-expanded', String(c.getAttribute('data-t') === t)); });
     drawSwing(t, pid);
     $(pid).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
