@@ -50,3 +50,8 @@ def test_calls_sync_to_the_repo_and_ranges_filter_the_record():
     assert "docs/my_calls.json" in page and "api.github.com/repos/" in page and "my_calls.json?t=" in page
     assert 'id="r-from"' in page and 'id="rr-from"' in page
     assert "m: 'del'" in page          # removals sync as tombstones, not silent deletes
+
+
+def test_calls_can_swap_or_drop_stocks():
+    page = render_scanner.render(SCAN)
+    assert 'id="picks"' in page and 'Drop → cash' in page and 'function sigOf' in page and 'function slotsFor' in page
