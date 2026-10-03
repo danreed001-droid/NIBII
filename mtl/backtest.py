@@ -1,0 +1,737 @@
+"""Backtest of the multi-timeframe structure setups in mtl/mtf.py.
+
+Rules, per ticker, per setup, run separately for longs and shorts:
+
+- Long entry: the trigger timeframe prints a bullish CHoCH (structure_breaks)
+  while every context timeframe is in an uptrend. Fill at that bar's close.
+- Long exit: the trigger timeframe's next bearish break (after a bullish
+  CHoCH the next bearish break is, by definition, a bearish CHoCH - "the
+  smaller timeframe changed to bearish"). Fill at that bar's close.
+- Shorts mirror both: downtrend context + bearish CHoCH in, next bullish
+  break out. Return = (entry - exit) / entry.
+
+No look-ahead anywhere: a context timeframe's state at time E is computed
+only from its bars that had closed by E, using only swings already
+confirmed (a fractal swing at i only exists from bar i+n). structure_breaks
+is itself point-in-time. Every bar carries an explicit end time to make
+that comparison exact.
+
+Pure and network-free; scripts/backtest.py fetches the bars.
+"""
+from bisect import bisect_right
+from datetime import datetime, time, timedelta
+from zoneinfo import ZoneInfo
+
+from mtl.structure import find_swings, label_structure, structure_breaks, trend_state
+
+ET = ZoneInfo('America/New_York')
+SESSION_CLOSE = time(16, 0)
+
+SWING_N = {'weekly': 2, 'daily': 3, '1h': 3, '15m': 3}
+
+SETUPS = {
+    # The live scanner's two setups (mtl/mtf.py SETUPS), exact.
+    'daily': dict(context=('weekly', 'daily'), trigger='1h',
+                  label='Daily trade: W+D context, 1h trigger/exit'),
+    'hourly': dict(context=('weekly', 'daily', '1h'), trigger='15m',
+                   label='Hourly trade: W+D+1h context, 15m trigger/exit'),
+}
+
+
+def daily_end(ts):
+    """A daily bar's close time: 4pm ET on its date."""
+    return datetime.combine(datetime.fromisoformat(ts[:10]).date(), SESSION_CLOSE, ET)
+
+
+def with_ends(bars, bar_len=None):
+    """[(bar, end_datetime)]-style parallel list of end times. Daily bars
+    end at 4pm ET on their date; intraday bars at start + bar_len."""
+    if bar_len is None:
+        return [daily_end(b[0]) for b in bars]
+    out = []
+    for b in bars:
+        start = datetime.fromisoformat(b[0])
+        if start.tzinfo is None:
+            start = start.replace(tzinfo=ET)
+        # the session's last hourly bar starts 3:30pm but closes at 4pm, not 4:30
+        close = datetime.combine(start.astimezone(ET).date(), SESSION_CLOSE, ET)
+        end = start + bar_len
+        out.append(close if start < close < end else end)
+    return out
+
+
+def resample(daily_bars, period):
+    """Daily bars -> weekly ('W', ISO week) or monthly ('M') bars, plus each
+    bucket's end time (the close of its last daily bar). Only used
+    point-in-time via those end times, so a bucket is never read before
+    it has finished."""
+    buckets, order = {}, []
+    for ts, o, h, l, c in daily_bars:
+        d = datetime.fromisoformat(ts[:10]).date()
+        key = d.isocalendar()[:2] if period == 'W' else (d.year, d.month)
+        if key not in buckets:
+            buckets[key] = [ts, o, h, l, c, ts]
+            order.append(key)
+        else:
+            b = buckets[key]
+            b[2], b[3], b[4], b[5] = max(b[2], h), min(b[3], l), c, ts
+    bars = [tuple(buckets[k][:5]) for k in order]
+    ends = [daily_end(buckets[k][5]) for k in order]
+    return bars, ends
+
+
+def state_series(bars, n, lookback):
+    """states[k] = the trend state a reader would have seen with bars[0..k]:
+    trend_state over swings confirmed by k (swing index + n <= k). Same
+    answer as structure_signal(bars[:k+1]) for every k, in one pass."""
+    swings = label_structure(find_swings(bars, n=n))
+    states, labeled, si = [], [], 0
+    for k in range(len(bars)):
+        while si < len(swings) and swings[si]['i'] + n <= k:
+            if swings[si]['label']:
+                labeled.append(swings[si])
+            si += 1
+        states.append(trend_state(labeled[-lookback:], lookback=lookback))
+    return states
+
+
+class Context:
+    """A context timeframe's point-in-time trend state lookup."""
+
+    def __init__(self, bars, ends, n, lookback):
+        self.ends = ends
+        self.states = state_series(bars, n, lookback)
+
+    def at(self, when):
+        k = bisect_right(self.ends, when) - 1
+        return self.states[k] if k >= 0 else None
+
+
+def simulate(series, setup, lookback, start, ticker='', stake=100.0):
+    """series: {tf: (bars, ends)} for every timeframe the setup uses.
+    Returns a list of trade dicts (closed and still-open)."""
+    trig = setup['trigger']
+    bars, ends = series[trig]
+    if not bars:
+        return []
+    ctx = {tf: Context(*series[tf], SWING_N[tf], lookback) for tf in setup['context']}
+    pos = {'long': None, 'short': None}
+    trades = []
+
+    def close(side, b_i, reason):
+        p = pos[side]
+        px = bars[b_i][4]
+        ret = (px - p['entry']) / p['entry'] if side == 'long' else (p['entry'] - px) / p['entry']
+        trades.append(dict(p, exitTime=ends[b_i].isoformat(), exit=px, ret=ret, pnl=stake * ret,
+                           bars=b_i - p['_i'], open=reason == 'open'))
+        pos[side] = None
+
+    for b in structure_breaks(bars, n=SWING_N[trig], lookback=lookback):
+        i, d = b['i'], b['direction']
+        if pos['long'] and d == 'bear':
+            close('long', i, 'flip')
+        if pos['short'] and d == 'bull':
+            close('short', i, 'flip')
+        if b['kind'] != 'CHoCH' or ends[i] < start:
+            continue
+        side, want = ('long', 'uptrend') if d == 'bull' else ('short', 'downtrend')
+        if pos[side]:
+            continue
+        states = {tf: c.at(ends[i]) for tf, c in ctx.items()}
+        if all(s == want for s in states.values()):
+            pos[side] = dict(ticker=ticker, side=side, entryTime=ends[i].isoformat(),
+                             entry=bars[i][4], _i=i)
+    for side in ('long', 'short'):
+        if pos[side]:
+            close(side, len(bars) - 1, 'open')
+    for t in trades:
+        t.pop('_i', None)
+    return trades
+
+
+def summarize(trades):
+    """Aggregate stats over closed trades: count, win rate, average /
+    median % return, total P&L on the stake, best / worst, average bars
+    held, and a compounded-growth figure for one stake rolled trade to
+    trade in time order (a rough "what would $100 have become")."""
+    closed = sorted((t for t in trades if not t['open']), key=lambda t: t['exitTime'])
+    if not closed:
+        return dict(trades=0)
+    rets = sorted(t['ret'] for t in closed)
+    wins = [r for r in rets if r > 0]
+    losses = [r for r in rets if r <= 0]
+    mid = len(rets) // 2
+    median = rets[mid] if len(rets) % 2 else (rets[mid - 1] + rets[mid]) / 2
+    gross_win, gross_loss = sum(wins), -sum(losses)
+    return dict(
+        trades=len(closed), winRate=len(wins) / len(closed),
+        avgRet=sum(rets) / len(rets), medianRet=median,
+        avgWin=gross_win / len(wins) if wins else 0.0,
+        avgLoss=-gross_loss / len(losses) if losses else 0.0,
+        profitFactor=gross_win / gross_loss if gross_loss else None,
+        totalPnl=sum(t['pnl'] for t in closed),
+        best=rets[-1], worst=rets[0],
+        avgBars=sum(t['bars'] for t in closed) / len(closed),
+        stillOpen=sum(t['open'] for t in trades),
+    )
+
+
+def portfolio_index(trades, daily_closes, calendar, start_value=100.0):
+    """Growth of `start_value` for one account that splits itself equally
+    across every trade open on a given day (in cash when none are open),
+    so the strategy can sit on the same chart as buying and holding an
+    index. Each trade is marked at the daily close of every session it
+    spans: entry price -> that day's close -> ... -> exit price on its exit
+    day. A short's daily return is the negative of the price change.
+
+    trades: closed trade dicts from simulate(); daily_closes: {ticker:
+    {'YYYY-MM-DD': close}} on the same (split-adjusted) basis as the
+    trade prices; calendar: sorted session dates to report.
+    Returns [[date, value, open_positions], ...]."""
+    sums, counts = {}, {}
+    for t in trades:
+        if t['open']:
+            continue
+        closes = daily_closes.get(t['ticker'], {})
+        d0, d1 = t['entryTime'][:10], t['exitTime'][:10]
+        path = [(d, closes[d]) for d in calendar if d0 <= d < d1 and d in closes]
+        path.append((d1, t['exit']))
+        prev = t['entry']
+        sign = 1.0 if t['side'] == 'long' else -1.0
+        for d, px in path:
+            r = sign * (px / prev - 1.0)
+            sums[d] = sums.get(d, 0.0) + r
+            counts[d] = counts.get(d, 0) + 1
+            prev = px
+    value, out = start_value, []
+    for d in calendar:
+        if counts.get(d):
+            value *= 1.0 + sums[d] / counts[d]
+        out.append([d, value, counts.get(d, 0)])
+    return out
+
+
+def growth(points, start_value=100.0):
+    """[[date, close], ...] -> [[date, value]] for start_value bought at
+    the first close and held."""
+    if not points:
+        return []
+    base = points[0][1]
+    return [[d, start_value * c / base] for d, c in points]
+
+
+def curve_stats(values, sessions_per_year=252):
+    """Total return, annualized return and max drawdown of a value series."""
+    if len(values) < 2:
+        return dict(total=None, annual=None, maxDD=None)
+    total = values[-1] / values[0] - 1.0
+    years = (len(values) - 1) / sessions_per_year
+    annual = (1.0 + total) ** (1.0 / years) - 1.0 if years >= 0.5 and total > -1 else None
+    peak, dd = values[0], 0.0
+    for v in values:
+        peak = max(peak, v)
+        dd = min(dd, v / peak - 1.0)
+    return dict(total=total, annual=annual, maxDD=dd)
+
+
+def consistent(trade, daily_ranges, tol=0.02):
+    """False when the trade's entry or exit price sits outside that day's
+    daily low-high range (with `tol` slack) - the intraday and daily
+    series disagree about what the ticker even is. Real case: Yahoo's
+    hourly "BNY" history before Bank of New York Mellon took that symbol
+    in 2024 is a ~$10 fund, while its daily "BNY" history is the ~$55
+    bank; marking one against the other invents +400% days. Trades on a
+    day with no daily bar are kept."""
+    ranges = daily_ranges.get(trade['ticker'], {})
+    for when, px in ((trade['entryTime'], trade['entry']), (trade['exitTime'], trade['exit'])):
+        r = ranges.get(when[:10])
+        if r and not (r[0] * (1 - tol) <= px <= r[1] * (1 + tol)):
+            return False
+    return True
+
+
+def simulate_variant(series, setup, lookback, start, ticker='', stake=100.0,
+                     exit='flip', rr=2.0, use_stop=False, allow=None, confirm=0, confirm_exit=False):
+    """simulate() with configurable risk management, for testing fixes.
+
+    exit:  'flip'  - next opposite break on the trigger timeframe (the
+                     original rule; simulate() exactly when use_stop=False
+                     and allow=None)
+           'rr'    - take profit at entry +/- rr x risk (risk = distance to
+                     the stop), so it requires use_stop
+           'daily' - next opposite break on the DAILY chart (lets a
+                     daily-trend trade run instead of exiting on 1h noise)
+    use_stop: stop at the CHoCH's protected swing (the swing low under a
+           bullish break / high over a bearish one). Checked on every
+           trigger bar; a bar that opens beyond the stop fills at its open;
+           a bar touching both stop and target counts as the stop
+           (conservative).
+    allow(side, when) -> bool: optional entry filter (e.g. market regime).
+    confirm: wait this many trigger candles after the CHoCH and enter only
+           if every one of them closed beyond the broken level (and no
+           opposite break printed meanwhile) - a reversal that snaps back
+           is skipped as noise. Entry fills at the last confirming close.
+    confirm_exit: apply the same test to the 1h flip exit - exit only once
+           an opposite break has held for `confirm` candles; one that
+           fails is ignored and the trade stays open (stop still active).
+    One position per side at a time; trades carry an 'exitReason'."""
+    trig = setup['trigger']
+    bars, ends = series[trig]
+    if not bars:
+        return []
+    ctx = {tf: Context(*series[tf], SWING_N[tf], lookback) for tf in setup['context']}
+    brks = structure_breaks(bars, n=SWING_N[trig], lookback=lookback)
+    daily_flips = []
+    if exit == 'daily':
+        dbars, dends = series['daily']
+        daily_flips = [(dends[b['i']], b['direction'], dbars[b['i']][4])
+                       for b in structure_breaks(dbars, n=SWING_N['daily'], lookback=lookback)]
+    trades, busy_until = [], {'long': -1, 'short': -1}
+    for k, b in enumerate(brks):
+        sig = b['i']
+        if b['kind'] != 'CHoCH' or ends[sig] < start:
+            continue
+        side, want = ('long', 'uptrend') if b['direction'] == 'bull' else ('short', 'downtrend')
+        sgn, opp = (1.0, 'bear') if side == 'long' else (-1.0, 'bull')
+        i = sig + confirm
+        if sig <= busy_until[side] or i >= len(bars):
+            continue
+        if confirm and (any(sgn * (bars[x][4] - b['level']) <= 0 for x in range(sig + 1, i + 1))
+                        or any(sig < x['i'] <= i and x['direction'] == opp for x in brks[k + 1:])):
+            continue
+        if not all(c.at(ends[i]) == want for c in ctx.values()):
+            continue
+        if allow and not allow(side, ends[i]):
+            continue
+        entry = bars[i][4]
+        stop = b['protected'] if use_stop else None
+        if stop is not None and sgn * (entry - stop) <= 0:
+            stop = None
+        if exit == 'rr' and stop is None:
+            continue
+        target = entry + sgn * rr * abs(entry - stop) if exit == 'rr' else None
+        flip_i = None
+        if exit == 'flip':
+            for x in brks[k + 1:]:
+                if x['direction'] != opp or x['i'] <= i:
+                    continue
+                if not (confirm and confirm_exit):
+                    flip_i = x['i']
+                    break
+                xe = x['i'] + confirm
+                if xe < len(bars) and all(sgn * (bars[y][4] - x['level']) < 0 for y in range(x['i'] + 1, xe + 1)):
+                    flip_i = xe
+                    break
+        dflip = next(((t, px) for t, d, px in daily_flips if t > ends[i] and d == opp), None) if exit == 'daily' else None
+        out = None
+        for j in range(i + 1, len(bars)):
+            o, h, l, c = bars[j][1:]
+            if dflip and ends[j] >= dflip[0]:
+                out = (j, dflip[1], 'daily flip', dflip[0])
+                break
+            if stop is not None and (l <= stop if side == 'long' else h >= stop):
+                hit_open = o <= stop if side == 'long' else o >= stop
+                out = (j, o if hit_open else stop, 'stop', ends[j])
+                break
+            if target is not None and (h >= target if side == 'long' else l <= target):
+                hit_open = o >= target if side == 'long' else o <= target
+                out = (j, o if hit_open else target, 'target', ends[j])
+                break
+            if flip_i is not None and j == flip_i:
+                out = (j, c, 'flip', ends[j])
+                break
+        if out is None:
+            out = (len(bars) - 1, bars[-1][4], 'open', ends[-1])
+        j, px, reason, when = out
+        ret = sgn * (px - entry) / entry
+        trades.append(dict(ticker=ticker, side=side, entryTime=ends[i].isoformat(), entry=entry,
+                           exitTime=when.isoformat(), exit=px, ret=ret, pnl=stake * ret,
+                           bars=j - i, open=reason == 'open', exitReason=reason))
+        busy_until[side] = j
+    return trades
+
+
+def trend_hold(daily, weekly, lookback, start, ticker='', stake=100.0, allow=None):
+    """Long-only, daily-chart trend following - no intraday data, so it can
+    run back years. Enter at a daily close when the weekly AND daily charts
+    are both in an uptrend and the daily chart's latest break is bullish;
+    exit at the close of the first bearish daily break. Re-entry waits for
+    a fresh bullish break. daily / weekly: (bars, ends)."""
+    bars, ends = daily
+    if not bars:
+        return []
+    states = state_series(bars, SWING_N['daily'], lookback)
+    wk = Context(*weekly, SWING_N['weekly'], lookback)
+    brk_at = {b['i']: b['direction'] for b in structure_breaks(bars, n=SWING_N['daily'], lookback=lookback)}
+    trades, pos, last_dir = [], None, None
+    for k in range(len(bars)):
+        d = brk_at.get(k)
+        if d:
+            last_dir = d
+        if pos and d == 'bear':
+            px = bars[k][4]
+            ret = px / pos['entry'] - 1.0
+            trades.append(dict(pos, exitTime=ends[k].isoformat(), exit=px, ret=ret, pnl=stake * ret,
+                               bars=k - pos.pop('_i'), open=False))
+            pos = None
+            continue
+        if (not pos and ends[k] >= start and last_dir == 'bull' and states[k] == 'uptrend'
+                and wk.at(ends[k]) == 'uptrend' and (allow is None or allow('long', ends[k]))):
+            pos = dict(ticker=ticker, side='long', entryTime=ends[k].isoformat(), entry=bars[k][4], _i=k)
+    if pos:
+        px = bars[-1][4]
+        ret = px / pos['entry'] - 1.0
+        trades.append(dict(pos, exitTime=ends[-1].isoformat(), exit=px, ret=ret, pnl=stake * ret,
+                           bars=len(bars) - 1 - pos.pop('_i'), open=True))
+    return trades
+
+
+def timing_curve(daily, weekly, lookback, start, start_value=100.0):
+    """Hold one instrument, step aside to cash only while its weekly AND
+    daily charts are both in a downtrend. The decision made at day k's
+    close applies to day k+1's return - nothing from day k+1 is used.
+    Returns [[date, value, invested(0/1)], ...] from `start`."""
+    bars, ends = daily
+    states = state_series(bars, SWING_N['daily'], lookback)
+    wk = Context(*weekly, SWING_N['weekly'], lookback)
+    out, value, invested = [], start_value, True
+    for k in range(1, len(bars)):
+        if ends[k] < start:
+            invested = not (states[k] == 'downtrend' and wk.at(ends[k]) == 'downtrend')
+            continue
+        if invested:
+            value *= bars[k][4] / bars[k - 1][4]
+        out.append([bars[k][0][:10], value, int(invested)])
+        invested = not (states[k] == 'downtrend' and wk.at(ends[k]) == 'downtrend')
+    return out
+
+
+def simulate_dip(series, lookback, start, ticker='', stake=100.0, drop=0.10, high_window=20,
+                 dip_valid=5, target=0.20, stop=None, max_bars=None, weekly_up=False, allow=None):
+    """Buy-the-dip on the 1h chart, longs only.
+
+    Dip: at some completed daily close within the last `dip_valid` sessions,
+    the close sat at least `drop` below the highest high of the
+    `high_window` sessions up to that day. Entry: the 1h chart's next
+    bullish CHoCH (closes above its last swing high after falling - the
+    first higher high) while a dip is live, at that bar's close. Exit:
+    +`target` (touch; a bar opening above fills at its open), optional
+    -`stop`, optional time stop after `max_bars` 1h bars; a bar touching
+    stop and target counts as the stop. weekly_up: only when the weekly
+    chart is in an uptrend. Trades still open at the end are marked at the
+    last close with open=True."""
+    bars, ends = series['1h']
+    dbars, dends = series['daily']
+    if not bars or not dbars:
+        return []
+    dipped = []
+    for k in range(len(dbars)):
+        hi = max(b[2] for b in dbars[max(0, k - high_window + 1):k + 1])
+        dipped.append(dbars[k][4] <= (1 - drop) * hi)
+    wk = Context(*series['weekly'], SWING_N['weekly'], lookback) if weekly_up else None
+    trades, busy = [], -1
+    for b in structure_breaks(bars, n=SWING_N['1h'], lookback=lookback):
+        i = b['i']
+        if b['direction'] != 'bull' or b['kind'] != 'CHoCH' or i <= busy or ends[i] < start:
+            continue
+        kd = bisect_right(dends, ends[i]) - 1
+        if kd < 0 or not any(dipped[max(0, kd - dip_valid + 1):kd + 1]):
+            continue
+        if wk and wk.at(ends[i]) != 'uptrend':
+            continue
+        if allow and not allow('long', ends[i]):
+            continue
+        entry = bars[i][4]
+        tgt, stp = entry * (1 + target), (entry * (1 - stop) if stop else None)
+        out = None
+        for j in range(i + 1, len(bars)):
+            o, h, l, c = bars[j][1:]
+            if stp is not None and l <= stp:
+                out = (j, o if o <= stp else stp, 'stop')
+                break
+            if h >= tgt:
+                out = (j, o if o >= tgt else tgt, 'target')
+                break
+            if max_bars and j - i >= max_bars:
+                out = (j, c, 'time')
+                break
+        if out is None:
+            out = (len(bars) - 1, bars[-1][4], 'open')
+        j, px, reason = out
+        ret = px / entry - 1.0
+        trades.append(dict(ticker=ticker, side='long', entryTime=ends[i].isoformat(), entry=entry,
+                           exitTime=ends[j].isoformat(), exit=px, ret=ret, pnl=stake * ret,
+                           bars=j - i, open=reason == 'open', exitReason=reason))
+        busy = j
+    return trades
+
+
+def rsi_series(closes, period=14):
+    """Wilder RSI for every bar (None until period+1 closes exist) - the
+    same arithmetic as mtl.fetch.rsi14, which returns only the last value."""
+    out = [None] * len(closes)
+    if len(closes) < period + 1:
+        return out
+    ag = al = 0.0
+    for i in range(1, len(closes)):
+        ch = closes[i] - closes[i - 1]
+        g, l = max(ch, 0.0), max(-ch, 0.0)
+        if i <= period:
+            ag += g / period
+            al += l / period
+            if i < period:
+                continue
+        else:
+            ag = (ag * (period - 1) + g) / period
+            al = (al * (period - 1) + l) / period
+        out[i] = 100.0 if al == 0 else 100 - 100 / (1 + ag / al)
+    return out
+
+
+def simulate_rsi(bars, ends, start, ticker='', stake=100.0, period=14, level=50.0, allow=None,
+                 buy_level=None, sell_level=None):
+    """Long only: buy at the close of the bar where RSI crosses above
+    `level`, sell at the close of the bar where it crosses back below.
+    buy_level / sell_level split the two (e.g. 55 / 45) so RSI must clear
+    a band, not just wiggle across one line. allow(side, when) filters
+    entries. An open trade at the end is marked at the last close with
+    open=True."""
+    buy_level = level if buy_level is None else buy_level
+    sell_level = level if sell_level is None else sell_level
+    closes = [b[4] for b in bars]
+    rsi = rsi_series(closes, period)
+    trades, pos = [], None
+    for k in range(1, len(bars)):
+        if rsi[k] is None or rsi[k - 1] is None:
+            continue
+        if pos and rsi[k - 1] >= sell_level > rsi[k]:
+            ret = closes[k] / pos['entry'] - 1.0
+            trades.append(dict(pos, exitTime=ends[k].isoformat(), exit=closes[k], ret=ret,
+                               pnl=stake * ret, bars=k - pos.pop('_i'), open=False, exitReason='rsi'))
+            pos = None
+        elif (not pos and rsi[k - 1] <= buy_level < rsi[k] and ends[k] >= start
+              and (allow is None or allow('long', ends[k]))):
+            pos = dict(ticker=ticker, side='long', entryTime=ends[k].isoformat(), entry=closes[k], _i=k)
+    if pos:
+        ret = closes[-1] / pos['entry'] - 1.0
+        trades.append(dict(pos, exitTime=ends[-1].isoformat(), exit=closes[-1], ret=ret, pnl=stake * ret,
+                           bars=len(bars) - 1 - pos.pop('_i'), open=True, exitReason='open'))
+    return trades
+
+
+def rsi_states(closes, period=14):
+    """Per bar: (avg_gain, avg_loss) of Wilder's RSI after that bar, or None -
+    enough to compute what the RSI WOULD read if the next bar closed at
+    any given price (a live, still-forming daily bar)."""
+    out = [None] * len(closes)
+    if len(closes) < period + 1:
+        return out
+    ag = al = 0.0
+    for i in range(1, len(closes)):
+        ch = closes[i] - closes[i - 1]
+        g, l = max(ch, 0.0), max(-ch, 0.0)
+        if i <= period:
+            ag += g / period
+            al += l / period
+            if i < period:
+                continue
+        else:
+            ag = (ag * (period - 1) + g) / period
+            al = (al * (period - 1) + l) / period
+        out[i] = (ag, al)
+    return out
+
+
+def rsi_next(state, prev_close, price, period=14):
+    """RSI if the next bar closed at `price`, given the prior bar's state."""
+    ag, al = state
+    ch = price - prev_close
+    ag = (ag * (period - 1) + max(ch, 0.0)) / period
+    al = (al * (period - 1) + max(-ch, 0.0)) / period
+    return 100.0 if al == 0 else 100 - 100 / (1 + ag / al)
+
+
+def simulate_rsi_mtf(hourly, daily, start, ticker='', stake=100.0, period=14, level=50.0,
+                     daily_mode='closed', exit='hourly', allow=None):
+    """Hourly RSI crossing above `level` while the daily RSI is above it.
+
+    daily_mode: 'closed' = the daily RSI as of the last finished session;
+                'live'   = the daily RSI with today's bar still forming at the
+                           current hourly close (what a live daily chart shows).
+    exit: 'hourly' = sell when the hourly RSI crosses back below `level`;
+          'daily'  = sell when the (live) daily RSI drops below `level`.
+    Fills at hourly closes, longs only; open trades marked at the end."""
+    hbars, hends = hourly
+    dbars, dends = daily
+    hc = [b[4] for b in hbars]
+    hr = rsi_series(hc, period)
+    dc = [b[4] for b in dbars]
+    dr = rsi_series(dc, period)
+    ds = rsi_states(dc, period)
+
+    def daily_rsi(k):
+        """Daily RSI at hourly bar k under daily_mode (None if unknown)."""
+        j = bisect_right(dends, hends[k]) - 1          # last finished session
+        if daily_mode == 'closed' or (j >= 0 and dends[j] == hends[k]):
+            return dr[j] if j >= 0 else None           # 4pm bar: today just closed
+        if j < 0 or ds[j] is None:
+            return None
+        return rsi_next(ds[j], dc[j], hc[k], period)
+
+    trades, pos = [], None
+    for k in range(1, len(hbars)):
+        if hr[k] is None or hr[k - 1] is None:
+            continue
+        if pos:
+            if exit == 'hourly':
+                out = hr[k - 1] >= level > hr[k]
+            else:
+                d = daily_rsi(k)
+                out = d is not None and d < level
+            if out:
+                ret = hc[k] / pos['entry'] - 1.0
+                trades.append(dict(pos, exitTime=hends[k].isoformat(), exit=hc[k], ret=ret, pnl=stake * ret,
+                                   bars=k - pos.pop('_i'), open=False, exitReason='rsi'))
+                pos = None
+            continue
+        if hr[k - 1] <= level < hr[k] and hends[k] >= start:
+            d = daily_rsi(k)
+            if d is not None and d > level and (allow is None or allow('long', hends[k])):
+                pos = dict(ticker=ticker, side='long', entryTime=hends[k].isoformat(), entry=hc[k], _i=k)
+    if pos:
+        ret = hc[-1] / pos['entry'] - 1.0
+        trades.append(dict(pos, exitTime=hends[-1].isoformat(), exit=hc[-1], ret=ret, pnl=stake * ret,
+                           bars=len(hbars) - 1 - pos.pop('_i'), open=True, exitReason='open'))
+    return trades
+
+
+def semivol_series(closes, window=20):
+    """Per bar: (up_vol, down_vol) over the last `window` bar-to-bar returns -
+    the root-mean-square size of the UP moves and of the DOWN moves,
+    each averaged over its own moves only (so it compares how big a
+    typical rise is with how big a typical fall is, not how many of each).
+    None until the window is full or either side has no moves."""
+    rets = [None] + [closes[i] / closes[i - 1] - 1.0 for i in range(1, len(closes))]
+    out = [None] * len(closes)
+    for k in range(window, len(closes)):
+        w = rets[k - window + 1:k + 1]
+        up = [r * r for r in w if r > 0]
+        dn = [r * r for r in w if r < 0]
+        if up and dn:
+            out[k] = ((sum(up) / len(up)) ** 0.5, (sum(dn) / len(dn)) ** 0.5)
+    return out
+
+
+def simulate_semivol(bars, ends, start, ticker='', stake=100.0, window=20, calm='up',
+                     trend_sma=None, allow=None):
+    """Long only. calm='up': hold while up-move volatility < down-move
+    volatility (steady rises, sharper drops) - buy at the close of the bar
+    where that becomes true, sell where it stops. calm='down' is the
+    opposite condition (a control). trend_sma: also require the close above
+    its N-bar simple average to buy (and sell if it falls below)."""
+    closes = [b[4] for b in bars]
+    sv = semivol_series(closes, window)
+
+    def ok(k):
+        if sv[k] is None:
+            return None
+        up, dn = sv[k]
+        cond = up < dn if calm == 'up' else up > dn
+        if cond and trend_sma:
+            if k + 1 < trend_sma:
+                return False
+            cond = closes[k] > sum(closes[k - trend_sma + 1:k + 1]) / trend_sma
+        return cond
+
+    trades, pos = [], None
+    prev = None
+    for k in range(len(bars)):
+        cur = ok(k)
+        if cur is None:
+            prev = cur
+            continue
+        if pos and not cur:
+            ret = closes[k] / pos['entry'] - 1.0
+            trades.append(dict(pos, exitTime=ends[k].isoformat(), exit=closes[k], ret=ret, pnl=stake * ret,
+                               bars=k - pos.pop('_i'), open=False, exitReason='flip'))
+            pos = None
+        elif (not pos and cur and prev is False and ends[k] >= start
+              and (allow is None or allow('long', ends[k]))):
+            pos = dict(ticker=ticker, side='long', entryTime=ends[k].isoformat(), entry=closes[k], _i=k)
+        prev = cur
+    if pos:
+        ret = closes[-1] / pos['entry'] - 1.0
+        trades.append(dict(pos, exitTime=ends[-1].isoformat(), exit=closes[-1], ret=ret, pnl=stake * ret,
+                           bars=len(bars) - 1 - pos.pop('_i'), open=True, exitReason='open'))
+    return trades
+
+
+def efficiency(closes, a, b, path):
+    """Kaufman efficiency ratio from bar a to bar b, SIGNED: net change over
+    the total bar-to-bar distance travelled (path = prefix sums of
+    |close change|). +1 = a straight rise, -1 = a straight fall, ~0 = chop."""
+    dist = path[b] - path[a]
+    return 0.0 if dist <= 0 else (closes[b] - closes[a]) / dist
+
+
+def simulate_choppiness(bars, ends, start, ticker='', stake=100.0, n=3, legs=3, window=10,
+                        compare_to_down=True, allow=None, reference='legs', ref_bars=100):
+    """Long only: hold while the recent rise is SMOOTHER than this chart's
+    own recent downtrends were choppy.
+
+    Downtrend choppiness: the average |efficiency| of the last `legs`
+    confirmed down legs (swing high -> next swing low, fractal swings of
+    `n` bars, only swings confirmed by the current bar). Hold-state at
+    bar k: efficiency over the last `window` bars > that reference (so the
+    price is rising, and rising more cleanly than it fell). Buy at the
+    close where the state turns on, sell where it turns off.
+    compare_to_down=False is the control: hold whenever that efficiency
+    is above zero (just "going up"), ignoring the downtrends.
+    reference='windows' measures downtrend choppiness like-for-like
+    instead: the average |efficiency| of every falling `window`-bar
+    stretch within the last `ref_bars` bars (swing legs end at turning
+    points, so they read straighter than any fixed window)."""
+    closes = [b[4] for b in bars]
+    path = [0.0]
+    for i in range(1, len(closes)):
+        path.append(path[-1] + abs(closes[i] - closes[i - 1]))
+    swings = find_swings(bars, n=n)
+    trades, pos, prev = [], None, None
+    si, last_high, down_ers = 0, None, []
+    for k in range(len(bars)):
+        while si < len(swings) and swings[si]['i'] + n <= k:
+            s = swings[si]
+            if s['type'] == 'high':
+                last_high = s['i']
+            elif last_high is not None and s['i'] > last_high:
+                down_ers.append(abs(efficiency(closes, last_high, s['i'], path)))
+                last_high = None
+            si += 1
+        if k < window or (compare_to_down and reference == 'legs' and len(down_ers) < legs):
+            continue
+        if not compare_to_down:
+            ref = 0.0
+        elif reference == 'legs':
+            ref = sum(down_ers[-legs:]) / legs
+        else:
+            if k < ref_bars + window:
+                continue
+            falls = [-e for e in (efficiency(closes, j - window, j, path) for j in range(k - ref_bars, k + 1)) if e < 0]
+            if not falls:
+                continue
+            ref = sum(falls) / len(falls)
+        cur = efficiency(closes, k - window, k, path) > ref
+        if pos and not cur:
+            ret = closes[k] / pos['entry'] - 1.0
+            trades.append(dict(pos, exitTime=ends[k].isoformat(), exit=closes[k], ret=ret, pnl=stake * ret,
+                               bars=k - pos.pop('_i'), open=False, exitReason='chop'))
+            pos = None
+        elif (not pos and cur and prev is False and ends[k] >= start
+              and (allow is None or allow('long', ends[k]))):
+            pos = dict(ticker=ticker, side='long', entryTime=ends[k].isoformat(), entry=closes[k], _i=k)
+        prev = cur
+    if pos:
+        ret = closes[-1] / pos['entry'] - 1.0
+        trades.append(dict(pos, exitTime=ends[-1].isoformat(), exit=closes[-1], ret=ret, pnl=stake * ret,
+                           bars=len(bars) - 1 - pos.pop('_i'), open=True, exitReason='open'))
+    return trades

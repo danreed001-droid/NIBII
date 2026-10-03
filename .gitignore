@@ -3,3 +3,13 @@ __pycache__/
 .pytest_cache/
 out/
 data/scan.json
+data/backtest.json
+data/backtest_trades.csv
+data/.bt_cache.pkl
+data/variants.json
+data/next_ideas.json
+data/momentum.json
+data/.ndx_extra.pkl
+data/.etf8.pkl
+data/.r2k.pkl
+data/momentum_scan.json
