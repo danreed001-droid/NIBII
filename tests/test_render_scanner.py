@@ -55,3 +55,8 @@ def test_calls_sync_to_the_repo_and_ranges_filter_the_record():
 def test_calls_can_swap_or_drop_stocks():
     page = render_scanner.render(SCAN)
     assert 'id="picks"' in page and 'Drop → cash' in page and 'function sigOf' in page and 'function slotsFor' in page
+
+
+def test_on_deck_cards_open_their_own_swing_chart():
+    page = render_scanner.render(SCAN)
+    assert 'id="swpanel2"' in page and "openSwing(c.getAttribute('data-t'), 'swpanel2')" in page
