@@ -182,6 +182,27 @@ def test_trailing_stop_sells_a_falling_holding_and_bans_it_for_a_while():
     assert all('A' not in h for d, h in r['picks'] if k < c.index(d) <= k + 20)
 
 
+def test_rsi_exit_sells_when_rsi_drops_below_the_level_and_skips_weak_buys():
+    from mtl.backtest import rsi_series
+    c = cal(120)
+    # A climbs (with small dips so RSI is defined) then slides steadily from day 60
+    a = [100 * 1.01 ** i * (0.995 if i % 3 == 0 else 1) if i < 60 else 0 for i in range(120)]
+    for i in range(60, 120):
+        a[i] = a[59] * 0.99 ** (i - 59) * (1.004 if i % 3 == 0 else 1)
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': dict(zip(c, a)),
+              'B': {d: 100 * 1.004 ** i * (0.998 if i % 4 == 0 else 1) for i, d in enumerate(c)}}
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0, rsi_exit=40, cooldown=20)
+    assert r['stops'] >= 1
+    rsi = dict(zip(c, rsi_series(a)))
+    sold = next(d for d, h in r['picks'] if d > c[60] and 'A' not in h)
+    assert rsi[sold] < 40
+    # held A every earlier session while its RSI was still 40 or higher
+    assert all(rsi[d] >= 40 for d in c[c.index(c[30]):c.index(sold)] if rsi[d] is not None)
+    # never buys a stock whose RSI is below 40 that day
+    assert all(not (t == 'A' and rsi[d] is not None and rsi[d] < 40) for d, h in r['picks'] for t in h)
+
+
 def test_industry_cap_limits_holdings_per_group():
     c = cal(60)
     prices = {'SPY': {d: 100.0 for d in c}}

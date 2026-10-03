@@ -90,7 +90,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  keep_rank=None, eligible=None, risk_on=None, cost=0.0005, start_value=100.0,
                  rebalance_on_start=False, risk_daily=False, windows=None, blend='rank',
                  trail_stop=None, cooldown=20, group_of=None, max_per_group=None,
-                 sector_of=None, top_sectors=None, sector_grace=1, sector_min=3):
+                 sector_of=None, top_sectors=None, sector_grace=1, sector_min=3,
+                 rsi_exit=None, rsi_period=14):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -107,7 +108,12 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       scored stocks are skipped) and only buys stocks from the top
       `top_sectors`. A holding whose sector is out of the top is sold once it
       has been out for more than `sector_grace` consecutive rebalances
-      (1 = it gets one week's grace)."""
+      (1 = it gets one week's grace).
+    rsi_exit: e.g. 40 - checked every session: a holding whose daily RSI
+      (Wilder, `rsi_period`) closes below this level is sold at that close and
+      replaced by the best-ranked qualifying stock not held; it is barred for
+      `cooldown` sessions, and no stock is bought while its RSI is below the
+      level. Counted in `stops`."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
@@ -121,6 +127,29 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     prev_risk = None
     peak, banned_until, stops = {}, {}, 0
     sector_out = {}
+    rsi_cache = {}
+
+    def rsi_at(t, k):
+        if t not in rsi_cache:
+            from mtl.backtest import rsi_series
+            idx, closes = [], []
+            for i, d in enumerate(calendar):
+                px = prices[t].get(d)
+                if px:
+                    idx.append(i)
+                    closes.append(px)
+            vals = rsi_series(closes, rsi_period)
+            out, j = [None] * len(calendar), 0
+            for i in range(len(calendar)):   # carry the last value over missing sessions
+                while j < len(idx) and idx[j] <= i:
+                    j += 1
+                out[i] = vals[j - 1] if j else None
+            rsi_cache[t] = out
+        return rsi_cache[t][k]
+
+    def rsi_weak(t, k):
+        r = rsi_at(t, k)
+        return r is not None and r < rsi_exit
 
     def top_sector_set(rows):
         groups = {}
@@ -142,7 +171,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         ranked qualifying stocks, honoring the industry cap and cooldowns."""
         rows = score_table(prices, calendar, k, look, skip, windows, blend, eligible, benchmark)
         scored = [(sc, t) for t, sc, beats in rows
-                  if beats and banned_until.get(t, -1) < k and t not in exclude]
+                  if beats and banned_until.get(t, -1) < k and t not in exclude
+                  and not (rsi_exit and t not in shares and rsi_weak(t, k))]
         allowed = None
         if sector_of and top_sectors:
             allowed = top_sector_set(rows)
@@ -154,6 +184,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             full_rank = {t: i for i, (t, sc, beats) in enumerate([r for r in rows if r[2]])}
             keep = []
             for t in shares:
+                if banned_until.get(t, -1) >= k:
+                    continue          # stopped out today: sell even on a rebalance day
                 if allowed is not None and sector_of.get(t) not in allowed:
                     sector_out[t] = sector_out.get(t, 0) + 1
                     if sector_out[t] > sector_grace:
@@ -204,9 +236,11 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                 peak[t] = max(peak.get(t, last_px[t]), last_px[t])
                 if last_px[t] <= peak[t] * (1 - trail_stop):
                     stopped.append(t)
-            for t in stopped:
-                banned_until[t] = k + cooldown
-                stops += 1
+        if rsi_exit and shares:
+            stopped += [t for t in shares if t not in stopped and rsi_weak(t, k)]
+        for t in stopped:
+            banned_until[t] = k + cooldown
+            stops += 1
         if d in rebal or flip or stopped:
             target = []
             if risk_on is None or risk_on(d):
