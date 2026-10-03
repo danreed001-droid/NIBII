@@ -265,3 +265,27 @@ def test_dip_needs_a_drop():
 def test_dip_without_target_hit_stays_open_and_is_marked():
     tr = simulate_dip(_dip_series(rebound=1.1), 4, T0, target=0.5)
     assert tr and tr[-1]['open'] and tr[-1]['exitReason'] == 'open'
+
+
+from mtl.backtest import rsi_series, simulate_rsi
+from mtl.fetch import rsi14
+
+
+def test_rsi_series_matches_the_existing_wilder_rsi_at_every_bar():
+    closes = [100 + 3 * math.sin(i / 3) + 0.2 * i for i in range(60)]
+    series = rsi_series(closes)
+    assert series[13] is None and series[14] is not None
+    for k in range(14, 60):
+        assert abs(series[k] - rsi14(closes[:k + 1])) < 0.006
+
+
+def test_simulate_rsi_buys_the_cross_above_50_and_sells_the_cross_below():
+    closes = [100 - i for i in range(20)] + [80 + 2 * i for i in range(20)] + [120 - 2 * i for i in range(20)]
+    bars = [((T0 + timedelta(days=i)).isoformat(), c, c, c, c) for i, c in enumerate(closes)]
+    ends = with_ends(bars, timedelta(days=1))
+    rsi = rsi_series(closes)
+    tr = simulate_rsi(bars, ends, T0)
+    assert len(tr) == 1 and not tr[0]['open']
+    i_in = [t[0] for t in enumerate(ends) if t[1].isoformat() == tr[0]['entryTime']][0]
+    i_out = [t[0] for t in enumerate(ends) if t[1].isoformat() == tr[0]['exitTime']][0]
+    assert rsi[i_in - 1] <= 50 < rsi[i_in] and rsi[i_out - 1] >= 50 > rsi[i_out]

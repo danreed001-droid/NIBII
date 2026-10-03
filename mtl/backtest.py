@@ -464,3 +464,51 @@ def simulate_dip(series, lookback, start, ticker='', stake=100.0, drop=0.10, hig
                            bars=j - i, open=reason == 'open', exitReason=reason))
         busy = j
     return trades
+
+
+def rsi_series(closes, period=14):
+    """Wilder RSI for every bar (None until period+1 closes exist) - the
+    same arithmetic as mtl.fetch.rsi14, which returns only the last value."""
+    out = [None] * len(closes)
+    if len(closes) < period + 1:
+        return out
+    ag = al = 0.0
+    for i in range(1, len(closes)):
+        ch = closes[i] - closes[i - 1]
+        g, l = max(ch, 0.0), max(-ch, 0.0)
+        if i <= period:
+            ag += g / period
+            al += l / period
+            if i < period:
+                continue
+        else:
+            ag = (ag * (period - 1) + g) / period
+            al = (al * (period - 1) + l) / period
+        out[i] = 100.0 if al == 0 else 100 - 100 / (1 + ag / al)
+    return out
+
+
+def simulate_rsi(bars, ends, start, ticker='', stake=100.0, period=14, level=50.0, allow=None):
+    """Long only: buy at the close of the bar where RSI crosses above
+    `level`, sell at the close of the bar where it crosses back below.
+    allow(side, when) filters entries. An open trade at the end is marked
+    at the last close with open=True."""
+    closes = [b[4] for b in bars]
+    rsi = rsi_series(closes, period)
+    trades, pos = [], None
+    for k in range(1, len(bars)):
+        if rsi[k] is None or rsi[k - 1] is None:
+            continue
+        if pos and rsi[k - 1] >= level > rsi[k]:
+            ret = closes[k] / pos['entry'] - 1.0
+            trades.append(dict(pos, exitTime=ends[k].isoformat(), exit=closes[k], ret=ret,
+                               pnl=stake * ret, bars=k - pos.pop('_i'), open=False, exitReason='rsi'))
+            pos = None
+        elif (not pos and rsi[k - 1] <= level < rsi[k] and ends[k] >= start
+              and (allow is None or allow('long', ends[k]))):
+            pos = dict(ticker=ticker, side='long', entryTime=ends[k].isoformat(), entry=closes[k], _i=k)
+    if pos:
+        ret = closes[-1] / pos['entry'] - 1.0
+        trades.append(dict(pos, exitTime=ends[-1].isoformat(), exit=closes[-1], ret=ret, pnl=stake * ret,
+                           bars=len(bars) - 1 - pos.pop('_i'), open=True, exitReason='open'))
+    return trades
