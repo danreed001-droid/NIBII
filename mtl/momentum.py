@@ -42,9 +42,53 @@ def score_at(prices, calendar, k, look, skip):
     return b / a - 1.0
 
 
+def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='rank',
+                eligible=None, benchmark='SPY'):
+    """[(ticker, score, beats_benchmark)] best first for every eligible stock
+    with a score on calendar[k].
+
+    One window (windows=None): score = return from `look` to `skip` sessions
+    ago; beats_benchmark = score > the benchmark's score.
+    Blended (windows=[(look, skip), ...]): each window's return is computed,
+    and the score is either their average return (blend='mean') or the average
+    of the stock's percentile rank in each window (blend='rank', 1 = best, so
+    every window counts equally). beats_benchmark = the stock's average excess
+    return over the benchmark across the windows is positive."""
+    d = calendar[k]
+    cands = [t for t in prices if t != benchmark and prices[t].get(d) and (eligible is None or eligible(t, d))]
+    if not windows:
+        b = score_at(prices[benchmark], calendar, k, look, skip) if benchmark in prices else None
+        rows = []
+        for t in cands:
+            sc = score_at(prices[t], calendar, k, look, skip)
+            if sc is not None:
+                rows.append((t, sc, b is not None and sc > b))
+    else:
+        bench = [score_at(prices[benchmark], calendar, k, lk, sk) if benchmark in prices else None
+                 for lk, sk in windows]
+        rets = {}
+        for t in cands:
+            r = [score_at(prices[t], calendar, k, lk, sk) for lk, sk in windows]
+            if all(x is not None for x in r):
+                rets[t] = r
+        if blend == 'mean':
+            score = {t: sum(r) / len(r) for t, r in rets.items()}
+        else:
+            score = {t: 0.0 for t in rets}
+            n = len(rets)
+            for w in range(len(windows)):
+                order = sorted(rets, key=lambda t: rets[t][w])
+                for i, t in enumerate(order):
+                    score[t] += (i + 1) / n / len(windows) if n else 0.0
+        ok = all(x is not None for x in bench)
+        rows = [(t, score[t], ok and sum(a - b for a, b in zip(rets[t], bench)) > 0) for t in rets]
+    rows.sort(key=lambda x: -x[1])
+    return rows
+
+
 def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, top_n=10,
                  keep_rank=None, eligible=None, risk_on=None, cost=0.0005, start_value=100.0,
-                 rebalance_on_start=False, risk_daily=False):
+                 rebalance_on_start=False, risk_daily=False, windows=None, blend='rank'):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction)."""
@@ -77,16 +121,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         if d in rebal or flip:
             target = []
             if risk_on is None or risk_on(d):
-                bench = score_at(prices[benchmark], calendar, k, look, skip)
-                scored = []
-                for t in tickers:
-                    s = score_at(prices[t], calendar, k, look, skip)
-                    if s is None or bench is None or s <= bench or not prices[t].get(d):
-                        continue
-                    if eligible and not eligible(t, d):
-                        continue
-                    scored.append((s, t))
-                scored.sort(reverse=True)
+                scored = [(sc, t) for t, sc, beats in
+                          score_table(prices, calendar, k, look, skip, windows, blend, eligible, benchmark)
+                          if beats]
                 rank = {t: i for i, (_, t) in enumerate(scored)}
                 keep = [t for t in shares if rank.get(t, 10 ** 9) < keep_rank]
                 keep.sort(key=lambda t: rank[t])
@@ -207,18 +244,10 @@ def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=2
     return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2)
 
 
-def ranking(prices, calendar, k, look=126, skip=21, eligible=None, benchmark='SPY'):
+def ranking(prices, calendar, k, look=126, skip=21, eligible=None, benchmark='SPY', windows=None, blend='rank'):
     """[(ticker, score)] best first, for every eligible stock with a score at
     calendar[k] (the same ranking run_momentum uses on that day)."""
-    out = []
-    for t, px in prices.items():
-        if t == benchmark or not px.get(calendar[k]) or (eligible and not eligible(t, calendar[k])):
-            continue
-        s = score_at(px, calendar, k, look, skip)
-        if s is not None:
-            out.append((t, s))
-    out.sort(key=lambda x: -x[1])
-    return out
+    return [(t, sc) for t, sc, _ in score_table(prices, calendar, k, look, skip, windows, blend, eligible, benchmark)]
 
 
 def trades_from_picks(picks):

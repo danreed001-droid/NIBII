@@ -141,3 +141,28 @@ def test_daily_risk_filter_goes_to_cash_midweek_and_back():
     assert picked[c[40]] == [] and picked[c[45]] == ['A']
     held = {p[0]: p[2] for p in r['curve']}
     assert held[c[42]] == 0 and held[c[46]] == 1
+
+
+from mtl.momentum import score_table
+
+
+def test_blended_rank_counts_every_window_equally():
+    c = cal(60)
+    # A: strong over the long window only; B: strong over the short window only; C: middling on both
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': {d: 100 + (2 * i if i < 30 else 60) for i, d in enumerate(c)},
+              'B': {d: 100 + (0 if i < 50 else 5 * (i - 49)) for i, d in enumerate(c)},
+              'C': {d: 100 + 0.8 * i for i, d in enumerate(c)}}
+    rows = score_table(prices, c, 59, windows=[(10, 0), (50, 0)], blend='rank')
+    scores = {t: sc for t, sc, _ in rows}
+    assert all(0 < v <= 1 for v in scores.values()) and all(b for _, _, b in rows)
+    assert abs(sum(scores.values()) - 2.0) < 1e-9   # each window's ranks sum to (n+1)/2 / ... = 2 for n=3
+    single = score_table(prices, c, 59, look=10, skip=0)
+    assert single[0][0] == 'B'
+
+
+def test_single_window_score_table_matches_score_at():
+    c = cal(40)
+    prices = {'SPY': {d: 100.0 for d in c}, 'A': {d: 100 + i for i, d in enumerate(c)}}
+    (t, sc, beats), = score_table(prices, c, 39, look=20, skip=0)
+    assert t == 'A' and beats and abs(sc - (prices['A'][c[39]] / prices['A'][c[19]] - 1)) < 1e-12
