@@ -166,3 +166,29 @@ def test_single_window_score_table_matches_score_at():
     prices = {'SPY': {d: 100.0 for d in c}, 'A': {d: 100 + i for i, d in enumerate(c)}}
     (t, sc, beats), = score_table(prices, c, 39, look=20, skip=0)
     assert t == 'A' and beats and abs(sc - (prices['A'][c[39]] / prices['A'][c[19]] - 1)) < 1e-12
+
+
+def test_trailing_stop_sells_a_falling_holding_and_bans_it_for_a_while():
+    c = cal(120)
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': {d: (100 * 1.01 ** i if i < 60 else 100 * 1.01 ** 60 * 0.97 ** (i - 60)) for i, d in enumerate(c)},
+              'B': {d: 100 * 1.004 ** i for i, d in enumerate(c)}}
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0, trail_stop=0.20, cooldown=20)
+    assert r['stops'] >= 1
+    stop_day = next(d for d, h in r['picks'] if d > c[60] and h == ['B'])
+    k = c.index(stop_day)
+    assert prices['A'][stop_day] <= max(prices['A'][x] for x in c[30:k + 1]) * 0.8 + 1e-9
+    # A is not bought back during the cooldown
+    assert all('A' not in h for d, h in r['picks'] if k < c.index(d) <= k + 20)
+
+
+def test_industry_cap_limits_holdings_per_group():
+    c = cal(60)
+    prices = {'SPY': {d: 100.0 for d in c}}
+    for j, g in enumerate(['x', 'x', 'x', 'y', 'z']):
+        prices[f"S{j}"] = {d: 100 * (1.02 - 0.002 * j) ** i for i, d in enumerate(c)}
+    group = {'S0': 'x', 'S1': 'x', 'S2': 'x', 'S3': 'y', 'S4': 'z'}
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=3, cost=0.0, group_of=group, max_per_group=2)
+    for _, h in r['picks']:
+        assert sum(group[t] == 'x' for t in h) <= 2
+    assert r['picks'][0][1] == ['S0', 'S1', 'S3']

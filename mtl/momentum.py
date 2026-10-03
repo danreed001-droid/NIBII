@@ -88,10 +88,19 @@ def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='ran
 
 def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, top_n=10,
                  keep_rank=None, eligible=None, risk_on=None, cost=0.0005, start_value=100.0,
-                 rebalance_on_start=False, risk_daily=False, windows=None, blend='rank'):
+                 rebalance_on_start=False, risk_daily=False, windows=None, blend='rank',
+                 trail_stop=None, cooldown=20, group_of=None, max_per_group=None):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
-    holdings]], picks=[[date, [tickers]]], turnover=annualized fraction)."""
+    holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
+    stops=number of trailing-stop exits).
+
+    trail_stop: e.g. 0.20 - checked every session: a holding that closes 20%
+      below its highest close since it was bought is sold at that close and
+      replaced by the best-ranked qualifying stock not held; the stopped
+      stock can't be bought again for `cooldown` sessions.
+    group_of / max_per_group: {ticker: industry} and a cap - at most that many
+      holdings from one industry (keepers and new buys alike)."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
@@ -103,6 +112,40 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     curve, picks, traded = [], [], 0.0
     started = False
     prev_risk = None
+    peak, banned_until, stops = {}, {}, 0
+
+    def choose(k, d, keep_from, exclude=()):
+        """Target holdings on day k: keepers (ranked within keep_rank, or every
+        name in keep_from when keep_from is a forced keep-list) then the best
+        ranked qualifying stocks, honoring the industry cap and cooldowns."""
+        scored = [(sc, t) for t, sc, beats in
+                  score_table(prices, calendar, k, look, skip, windows, blend, eligible, benchmark)
+                  if beats and banned_until.get(t, -1) < k and t not in exclude]
+        rank = {t: i for i, (_, t) in enumerate(scored)}
+        if isinstance(keep_from, list):
+            keep = list(keep_from)
+        else:
+            keep = sorted((t for t in shares if rank.get(t, 10 ** 9) < keep_rank), key=lambda t: rank[t])
+        target, count = [], {}
+
+        def fits(t):
+            return not (group_of and max_per_group) or count.get(group_of.get(t, t), 0) < max_per_group
+
+        def add(t):
+            target.append(t)
+            g = group_of.get(t, t) if group_of else t
+            count[g] = count.get(g, 0) + 1
+
+        for t in keep:
+            if len(target) < top_n and fits(t):
+                add(t)
+        for _, t in scored:
+            if len(target) >= top_n:
+                break
+            if t not in target and fits(t):
+                add(t)
+        return target
+
     for k, d in enumerate(calendar):
         for t in shares:
             px = prices[t].get(d)
@@ -118,21 +161,22 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             cur_risk = bool(risk_on(d))
             flip = prev_risk is not None and cur_risk != prev_risk
             prev_risk = cur_risk
-        if d in rebal or flip:
+        stopped = []
+        if trail_stop and shares:
+            for t in shares:
+                peak[t] = max(peak.get(t, last_px[t]), last_px[t])
+                if last_px[t] <= peak[t] * (1 - trail_stop):
+                    stopped.append(t)
+            for t in stopped:
+                banned_until[t] = k + cooldown
+                stops += 1
+        if d in rebal or flip or stopped:
             target = []
             if risk_on is None or risk_on(d):
-                scored = [(sc, t) for t, sc, beats in
-                          score_table(prices, calendar, k, look, skip, windows, blend, eligible, benchmark)
-                          if beats]
-                rank = {t: i for i, (_, t) in enumerate(scored)}
-                keep = [t for t in shares if rank.get(t, 10 ** 9) < keep_rank]
-                keep.sort(key=lambda t: rank[t])
-                target = keep[:top_n]
-                for _, t in scored:
-                    if len(target) >= top_n:
-                        break
-                    if t not in target:
-                        target.append(t)
+                if d in rebal or flip:
+                    target = choose(k, d, None)
+                else:   # mid-week stop: keep the others, replace only the stopped names
+                    target = choose(k, d, [t for t in shares if t not in stopped])
             # rebalance to equal weight across the N slots (unfilled = cash)
             for t in target:
                 last_px[t] = prices[t][d]
@@ -144,13 +188,19 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             traded += moved
             value -= fee
             slot = value / top_n
+            for t in target:
+                if t not in shares:
+                    peak[t] = last_px[t]
+            for t in list(peak):
+                if t not in target:
+                    peak.pop(t)
             shares = {t: slot / last_px[t] for t in target}
             cash = value - sum(n * last_px[t] for t, n in shares.items())
             picks.append([d, list(target)])
         curve.append([d, value, len(shares)])
     years = max(len(curve) / 252, 1e-9)
     avg_value = sum(p[1] for p in curve) / len(curve) if curve else 1.0
-    return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2)
+    return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2, stops=stops)
 
 
 def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=21, top=100,
