@@ -259,22 +259,26 @@ than guessing if a given ticker's series ever comes up short - that
 fallback stays even though the common case now checks out.
 
 
-### Multi-timeframe buy scanner
+### Multi-timeframe buy/sell scanner
 
 `scripts/mtf_scan.py` (logic in `mtl/mtf.py`) is a standalone tool, not part
 of the daily board. It reads weekly / daily / 1h / 15m structure for any
-Yahoo ticker and checks two long-only setups:
+Yahoo ticker and checks two setups, each mirrored for buys and sells:
 
 | Setup | Larger timeframes must be in an uptrend (HH/HL) | Trigger: just flipped bearish -> bullish |
 |-------|------------------|---------|
 | `DAILY` trade  | weekly + daily        | 1h bullish CHoCH within the last 7 bars |
 | `HOURLY` trade | weekly + daily + 1h   | 15m bullish CHoCH within the last 8 bars |
 
+SELL is the mirror image: the same larger timeframes all in a downtrend
+(LH/LL) and the trigger timeframe just printing a bearish CHoCH.
+
 A CHoCH (change of character) is a close above the last confirmed swing high
-after a bearish run (`mtl.structure.structure_breaks`, see
-`docs/market-structure-spec.md`). Verdicts: `BUY` (with entry ~ last close and
-stop below the swing low under the break), `WATCH` (context bullish, no flip
-yet), `NO` (names the timeframe that isn't bullish). Unfinished bars are
+after a bearish run (or below the last swing low after a bullish one) (`mtl.structure.structure_breaks`, see
+`docs/market-structure-spec.md`). Verdicts: `BUY` / `SELL` (with entry ~ last
+close and a stop beyond the swing on the other side of the break), `WATCH`
+(context aligned, no flip yet), `NO` (larger timeframes not all up or all
+down). Unfinished bars are
 dropped unless `--include-forming`; `--lookback 2` loosens the trend read to
 the latest high + low.
 

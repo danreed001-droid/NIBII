@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Multi-timeframe buy scanner - see mtl/mtf.py for the rules.
+"""Multi-timeframe buy/sell scanner - see mtl/mtf.py for the rules.
 
 Usage:
     python scripts/mtf_scan.py                 # the Ledger's six markets
@@ -30,9 +30,10 @@ def render(r):
     for name in SETUPS:
         s = r['setups'][name]
         line = f"  {name.upper():>6} trade: {s['verdict']:<5}  {s['reason']}"
-        if s['verdict'] == 'BUY':
+        if s['verdict'] in ('BUY', 'SELL'):
             stop = f"{s['stop']:.4g}" if s['stop'] is not None else 'n/a'
-            line += f"\n{'':>21}entry ~{s['entry']:.4g}  stop below {stop}"
+            where = 'below' if s['verdict'] == 'BUY' else 'above'
+            line += f"\n{'':>21}entry ~{s['entry']:.4g}  stop {where} {stop}"
         lines.append(line)
     return '\n'.join(lines)
 

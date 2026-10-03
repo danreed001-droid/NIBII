@@ -59,11 +59,20 @@ def test_fresh_choch_flags_flipped_bull_and_stale_one_does_not():
     assert read['lastBreak']['direction'] == 'bull' and read['flippedBull']
     stale = tf_read(bars, n=3, recent_bars=1, lookback=4)
     assert read['barsAgo'] >= 1 and not stale['flippedBull']
+    assert not read['flippedBear']
 
 
-def _read(state, flipped=False, brk=None, bars_ago=None, close=100.0):
+def test_fresh_bearish_choch_flags_flipped_bear():
+    # mirror image of v_shape: a rising channel that rolls over
+    bars = [(ts, -o, -l, -h, -c) for ts, o, h, l, c in v_shape()]
+    read = tf_read(bars, n=3, recent_bars=50, lookback=4)
+    assert read['lastBreak']['direction'] == 'bear' and read['lastBreak']['kind'] == 'CHoCH'
+    assert read['flippedBear'] and not read['flippedBull']
+
+
+def _read(state, flipped=False, brk=None, bars_ago=None, close=100.0, flipped_bear=False):
     return dict(state=state, labels=[], lastBreak=brk, flippedBull=flipped,
-                close=close, barsAgo=bars_ago, bars=50, note=None)
+                flippedBear=flipped_bear, close=close, barsAgo=bars_ago, bars=50, note=None)
 
 
 CHOCH = dict(kind='CHoCH', direction='bull', level=99.0, protected=95.0)
@@ -85,7 +94,30 @@ def test_setup_no_names_the_failing_timeframe():
     reads = {'weekly': _read('uptrend'), 'daily': _read('choppy'), '1h': _read('uptrend'),
              '15m': _read('downtrend', flipped=True, brk=CHOCH, bars_ago=1)}
     r = evaluate_setup(reads, SETUPS['hourly'])
-    assert r['verdict'] == 'NO' and 'daily is choppy' in r['reason'] and '1h' not in r['reason']
+    assert r['verdict'] == 'NO' and r['side'] is None and 'daily choppy' in r['reason']
+
+
+BEAR_CHOCH = dict(kind='CHoCH', direction='bear', level=101.0, protected=105.0)
+
+
+def test_setup_sell_when_context_down_and_trigger_flipped_bearish():
+    reads = {'weekly': _read('downtrend'), 'daily': _read('downtrend'),
+             '1h': _read('choppy', flipped_bear=True, brk=BEAR_CHOCH, bars_ago=3)}
+    r = evaluate_setup(reads, SETUPS['daily'])
+    assert r['verdict'] == 'SELL' and r['side'] == 'sell' and r['stop'] == 105.0
+
+
+def test_setup_watch_sell_side_ignores_a_bullish_flip():
+    reads = {'weekly': _read('downtrend'), 'daily': _read('downtrend'),
+             '1h': _read('uptrend', flipped=True, brk=CHOCH, bars_ago=1)}
+    r = evaluate_setup(reads, SETUPS['daily'])
+    assert r['verdict'] == 'WATCH' and r['side'] == 'sell'
+
+
+def test_mixed_up_and_down_context_is_no():
+    reads = {'weekly': _read('uptrend'), 'daily': _read('downtrend'),
+             '1h': _read('choppy', flipped_bear=True, brk=BEAR_CHOCH, bars_ago=1)}
+    assert evaluate_setup(reads, SETUPS['daily'])['verdict'] == 'NO'
 
 
 def test_drop_forming_removes_only_an_unfinished_bar():
