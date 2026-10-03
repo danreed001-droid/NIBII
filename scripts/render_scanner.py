@@ -32,7 +32,7 @@ PAGE = r'''<!doctype html>
   --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
   --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   --pos: #3fbf5f; --neg: #e5605a; --grid: #2c2c2a;
-  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181;
+  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-plan: #3fb8a0;
   color-scheme: dark;
 }
 :root[data-mtl-theme="light"] {
@@ -40,7 +40,7 @@ PAGE = r'''<!doctype html>
   --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
   --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
   --pos: #0a8f0a; --neg: #c43232; --grid: #e1e0d9;
-  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4;
+  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-plan: #13866f;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -120,6 +120,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 14px 16px; }
 .two { display: grid; grid-template-columns: 1.7fr 1fr; gap: 12px; }
 @media (max-width: 900px) { .two { grid-template-columns: 1fr; } }
+.two > * { min-width: 0; }
 .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
 .chart-title { font-size: 0.95rem; font-weight: 600; margin: 0; }
 .chart-sub { font-size: 0.78rem; color: var(--muted); margin: 2px 0 0; }
@@ -145,7 +146,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .tip b { font-family: ui-monospace, monospace; }
 
 /* years */
-.years td, .years th { padding: 6px 8px; }
+.years td, .years th { padding: 6px 6px; }
 .ybar { display: flex; align-items: center; gap: 6px; }
 .ybar i { display: block; height: 8px; border-radius: 3px; background: var(--c); min-width: 2px; }
 .ybar.neg i { background: var(--neg); opacity: 0.8; }
@@ -180,6 +181,37 @@ td .sub { display: block; color: var(--muted); font-size: 0.72rem; max-width: 21
 tbody tr:last-child td { border-bottom: 0; }
 @media (max-width: 640px) { .hide-sm { display: none; } }
 .more { display: block; margin: 12px auto 0; font: inherit; font-size: 0.82rem; color: var(--accent); background: none; border: 1px solid var(--hairline); border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+/* plan */
+.plan { display: grid; grid-template-columns: 1.25fr 1fr; gap: 12px; }
+.plan > * { min-width: 0; }
+@media (max-width: 520px) { .alloc .nm2 { display: none; } .alloc td { padding: 7px 2px; } }
+@media (max-width: 900px) { .plan { grid-template-columns: 1fr; } }
+.plan-controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 10px; }
+.plan-controls label { font-size: 0.8rem; color: var(--ink-2); display: inline-flex; align-items: center; gap: 8px; }
+.money-in { display: inline-flex; align-items: center; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); padding: 0 8px; }
+.money-in span { color: var(--muted); }
+.money-in input { font: 600 0.95rem ui-monospace, monospace; width: 110px; border: 0; background: transparent; color: var(--ink); padding: 6px 4px; outline: none; }
+.money-in:focus-within { border-color: var(--accent); }
+.alloc { width: 100%; border-collapse: collapse; font-size: 0.86rem; table-layout: fixed; }
+.alloc td:nth-child(2) { width: 86px; } .alloc td:nth-child(3) { width: 72px; }
+.alloc td:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.alloc tr.borrow td:first-child { white-space: normal; }
+.alloc td { padding: 7px 4px; border-bottom: 1px solid var(--hairline); }
+.alloc td.r { text-align: right; font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.alloc tr.sum td { font-weight: 600; border-bottom: 0; }
+.alloc tr.borrow td { color: var(--muted); }
+.alloc .sw { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 8px; background: var(--c); }
+.plan-stats { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: 0.8rem; color: var(--ink-2); }
+.plan-stats b { font-family: ui-monospace, monospace; }
+.assets { list-style: none; margin: 6px 0 0; padding: 0; }
+.assets li { display: grid; grid-template-columns: 52px 1fr 70px; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--hairline); font-size: 0.84rem; }
+.assets li:last-child { border-bottom: 0; }
+.assets li.pick { font-weight: 600; }
+.assets li.pick .atk::after { content: ' ★'; color: var(--gold); }
+.abar { height: 6px; border-radius: 3px; background: var(--surface-2); position: relative; overflow: hidden; }
+.abar i { position: absolute; top: 0; bottom: 0; left: 50%; background: var(--c); border-radius: 3px; }
+.assets .num { text-align: right; }
+.note { font-size: 0.78rem; color: var(--muted); margin: 8px 0 0; }
 footer { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--hairline); color: var(--muted); font-size: 0.8rem; }
 footer li { margin-bottom: 6px; }
 </style>
@@ -203,11 +235,29 @@ footer li { margin-bottom: 6px; }
   <p class="section-label">Current holdings <span class="hint" id="hold-hint"></span></p>
   <div class="holdings" id="holdings"></div>
 
+  <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
+  <div class="plan">
+    <div class="card">
+      <div class="plan-controls">
+        <label>Account <span class="money-in"><span>$</span><input id="acct" type="text" inputmode="numeric" value="10,000" aria-label="Account size in dollars"></span></label>
+        <label>Leverage <span class="seg" id="lev-seg"></span></label>
+      </div>
+      <table class="alloc" id="alloc"></table>
+      <div class="plan-stats" id="plan-stats"></div>
+    </div>
+    <div class="card">
+      <p class="chart-title">The sleeve this week</p>
+      <p class="chart-sub" id="sleeve-sub"></p>
+      <ul class="assets" id="assets"></ul>
+      <p class="note" id="sleeve-note"></p>
+    </div>
+  </div>
+
   <p class="section-label">Track record since 2020 <span class="hint">$100 in the rule vs buying and holding</span></p>
   <div class="stats" id="stats"></div>
   <div class="two" style="margin-top:12px">
     <div class="card">
-      <div class="chart-head"><div><p class="chart-title">Growth of $100</p><p class="chart-sub">Weekly rebalanced, 0.05% trading cost</p></div>
+      <div class="chart-head"><div><p class="chart-title">Growth of $100</p><p class="chart-sub">Weekly rebalanced, 0.05% trading cost · plan includes margin interest</p></div>
         <span class="seg" id="scale-seg"><button type="button" data-v="log">Log</button><button type="button" data-v="linear">Linear</button></span></div>
       <div class="legend" id="legend"></div>
       <div class="chart" id="growth"></div>
@@ -320,6 +370,58 @@ footer li { margin-bottom: 6px; }
       '<div style="display:flex;justify-content:space-between;align-items:center"><span class="small">' + esc(h.sec) + '</span>' + trend(h.trend) + '</div></article>';
   }).join('');
 
+  // plan: account size x leverage -> dollars per position
+  (function () {
+    var P = D.plan, SL = D.sleeve;
+    if (!P || !SL) { $('plan-hint').textContent = ''; return; }
+    var lev = P['default'], acct = 10000;
+    try { lev = localStorage.getItem('nibii-plan-lev') || lev; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
+    if (P.levels.indexOf(lev) < 0) lev = P['default'];
+    var split = Math.round(P.split * 100);
+    $('plan-hint').textContent = split + '% top 5 · ' + (100 - split) + '% sleeve · reset every Friday';
+    $('lev-seg').innerHTML = P.levels.map(function (l) { return '<button type="button" data-v="' + l + '">×' + l + '</button>'; }).join('');
+    function usd(v) { return '$' + Math.round(v).toLocaleString(); }
+    var name = {}; SL.assets.forEach(function (a) { name[a.t] = a; });
+    function draw() {
+      document.querySelectorAll('#lev-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === lev)); });
+      var L = +lev, stocks = acct * P.split * L, sleeve = acct * (1 - P.split) * L, per = stocks / D.rule.topN;
+      var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
+      var sp = name[SL.held] || {};
+      var rows = hs.map(function (h) {
+        return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(h.t) + '</b> <span class="muted">' + esc(h.n) + '</span></td>' +
+          '<td class="r">' + usd(per) + '</td><td class="r muted">' + (h.close ? '≈' + (per / h.close).toFixed(per / h.close < 10 ? 1 : 0) + ' sh' : '') + '</td></tr>';
+      }).join('');
+      rows += '<tr><td><span class="sw" style="--c:var(--s-plan)"></span><b>' + esc(SL.held) + '</b> <span class="muted">' + esc(sp.n || '') + ' · sleeve</span></td>' +
+        '<td class="r">' + usd(sleeve) + '</td><td class="r muted">' + (sp.close ? '≈' + (sleeve / sp.close).toFixed(0) + ' sh' : '') + '</td></tr>';
+      rows += '<tr class="sum"><td>Total invested</td><td class="r">' + usd(stocks + sleeve) + '</td><td></td></tr>';
+      if (L > 1) rows += '<tr class="borrow"><td>Borrowed on margin (≈' + Math.round(P.rate * 100) + '% a year)</td><td class="r">' + usd(acct * (L - 1)) + '</td><td class="r">' + usd(acct * (L - 1) * P.rate / 12) + '/mo</td></tr>';
+      $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
+      var st = P.stats[lev], S0 = D.stats.strategy;
+      $('plan-stats').innerHTML = '<span>Since 2020 at ×' + lev + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>' +
+        '<span class="muted">Top 5 alone: ' + pct(S0.annual, 0) + ' a year, worst drop ' + pct(S0.maxDD, 0) + '</span>';
+    }
+    $('lev-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; lev = b.getAttribute('data-v'); try { localStorage.setItem('nibii-plan-lev', lev); } catch (x) {} draw(); };
+    var inp = $('acct');
+    inp.value = Math.round(acct).toLocaleString();
+    inp.oninput = function () { var v = +inp.value.replace(/[^0-9.]/g, ''); if (v > 0) { acct = v; try { localStorage.setItem('nibii-plan-acct', String(v)); } catch (x) {} draw(); } };
+    inp.onblur = function () { inp.value = Math.round(acct).toLocaleString(); };
+    draw();
+
+    // sleeve card
+    var maxR = 0.01; SL.assets.forEach(function (a) { maxR = Math.max(maxR, Math.abs(a.r6 || 0)); });
+    var since = SL.history.length ? SL.history[0].d : null;
+    $('sleeve-sub').textContent = 'Holds the best 6-month return of the six · ' + SL.held + (since ? ' since ' + fmtDate(since) : '');
+    $('assets').innerHTML = SL.assets.slice().sort(function (a, b) { return (b.r6 || -9) - (a.r6 || -9); }).map(function (a) {
+      var w = Math.abs(a.r6 || 0) / maxR * 50, neg = (a.r6 || 0) < 0;
+      return '<li class="' + (a.t === SL.held ? 'pick' : '') + '"><span class="atk">' + esc(a.t) + '</span>' +
+        '<span title="' + esc(a.n) + '"><span class="small">' + esc(a.n) + '</span><span class="abar"><i style="--c:' + (neg ? 'var(--neg)' : 'var(--pos)') + ';' + (neg ? 'right:50%;left:auto;' : '') + 'width:' + w + '%"></i></span></span>' +
+        '<span class="num ' + tone(a.r6) + '">' + pct(a.r6) + '</span></li>';
+    }).join('');
+    var ss = SL.stats;
+    $('sleeve-note').innerHTML = (SL.preview !== SL.held ? '<b>If it rebalanced at ' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + '’s close: switch ' + esc(SL.held) + ' → ' + esc(SL.preview) + '.</b> ' : '') +
+      'Sleeve alone since 2020: ' + pct(ss.annual, 0) + ' a year, worst drop ' + pct(ss.maxDD, 0) + '. 6-month returns, dividends included.';
+  })();
+
   // stats
   var S = D.stats;
   function tile(label, value, sub, cls) { return '<div class="stat"><span class="stat-label">' + label + '</span><span class="stat-value ' + (cls || '') + '">' + value + '</span><span class="stat-sub">' + sub + '</span></div>'; }
@@ -331,6 +433,7 @@ footer li { margin-bottom: 6px; }
 
   // growth chart
   var SER = [['strategy', 'Top 5 strongest', 'var(--s-strat)', 'main'], ['QQQ', 'QQQ', 'var(--s-qqq)', ''], ['SPY', 'SPY', 'var(--s-spy)', '']];
+  if (D.curves.plan && D.plan) SER.splice(1, 0, ['plan', 'Plan 60/40 ×' + D.plan['default'], 'var(--s-plan)', 'main']);
   var scale = 'log';
   try { scale = localStorage.getItem('nibii-mom-scale') || 'log'; } catch (e) {}
   $('legend').innerHTML = SER.map(function (s) { return '<span><i class="key" style="--c:' + s[2] + '"></i>' + s[1] + '</span>'; }).join('');
@@ -393,10 +496,14 @@ footer li { margin-bottom: 6px; }
 
   // years
   var ys = Object.keys(D.years.strategy).sort(), maxAbs = 0;
-  ys.forEach(function (y) { ['strategy', 'SPY', 'QQQ'].forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
-  function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * 70); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }
-  $('years').innerHTML = '<thead><tr><th class="l">Year</th><th class="l">Top 5</th><th class="l">SPY</th><th class="l">QQQ</th></tr></thead><tbody>' +
-    ys.map(function (y) { return '<tr><td class="l">' + y + '</td><td class="l">' + ybar(D.years.strategy[y], 'var(--s-strat)') + '</td><td class="l">' + ybar(D.years.SPY[y], 'var(--s-spy)') + '</td><td class="l">' + ybar(D.years.QQQ[y], 'var(--s-qqq)') + '</td></tr>'; }).join('') + '</tbody>';
+  var YK = D.years.plan ? ['strategy', 'plan', 'SPY', 'QQQ'] : ['strategy', 'SPY', 'QQQ'];
+  var YC = { strategy: 'var(--s-strat)', plan: 'var(--s-plan)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)' };
+  var YH = { strategy: 'Top 5', plan: 'Plan ×' + (D.plan ? D.plan['default'] : ''), SPY: 'SPY', QQQ: 'QQQ' };
+  ys.forEach(function (y) { YK.forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
+  var barMax = YK.length > 3 ? 26 : 70;
+  function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * barMax); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }
+  $('years').innerHTML = '<thead><tr><th class="l">Year</th>' + YK.map(function (k) { return '<th class="l">' + YH[k] + '</th>'; }).join('') + '</tr></thead><tbody>' +
+    ys.map(function (y) { return '<tr><td class="l">' + y + '</td>' + YK.map(function (k) { return '<td class="l">' + ybar(D.years[k][y] || 0, YC[k]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
   $('ytd-note').textContent = ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ')';
 
   // on deck

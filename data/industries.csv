@@ -1,0 +1,519 @@
+symbol,scheme,industry
+A,GICS,Life Sciences Tools & Services
+AAPL,GICS,"Technology Hardware, Storage & Peripherals"
+ABBV,GICS,Biotechnology
+ABNB,GICS,"Hotels, Resorts & Cruise Lines"
+ABT,GICS,Health Care Equipment
+ACGL,GICS,Property & Casualty Insurance
+ACN,GICS,IT Consulting & Other Services
+ADBE,GICS,Application Software
+ADI,GICS,Semiconductors
+ADM,GICS,Agricultural Products & Services
+ADP,GICS,Human Resource & Employment Services
+ADSK,GICS,Application Software
+AEE,GICS,Multi-Utilities
+AEP,GICS,Electric Utilities
+AES,GICS,Independent Power Producers & Energy Traders
+AFL,GICS,Life & Health Insurance
+AIG,GICS,Multi-line Insurance
+AIZ,GICS,Multi-line Insurance
+AJG,GICS,Insurance Brokers
+AKAM,GICS,Internet Services & Infrastructure
+ALAB,ICB,Semiconductors
+ALB,GICS,Specialty Chemicals
+ALGN,GICS,Health Care Supplies
+ALL,GICS,Property & Casualty Insurance
+ALLE,GICS,Building Products
+ALNY,ICB,Biotechnology
+AMAT,GICS,Semiconductor Materials & Equipment
+AMCR,GICS,Paper & Plastic Packaging Products & Materials
+AMD,GICS,Semiconductors
+AME,GICS,Electrical Components & Equipment
+AMGN,GICS,Biotechnology
+AMP,GICS,Asset Management & Custody Banks
+AMT,GICS,Telecom Tower REITs
+AMZN,GICS,Broadline Retail
+ANET,GICS,Communications Equipment
+AON,GICS,Insurance Brokers
+AOS,GICS,Building Products
+APA,GICS,Oil & Gas Exploration & Production
+APD,GICS,Industrial Gases
+APH,GICS,Electronic Components
+APO,GICS,Asset Management & Custody Banks
+APP,GICS,Advertising
+APTV,GICS,Automotive Parts & Equipment
+ARE,GICS,Office REITs
+ARES,GICS,Asset Management & Custody Banks
+ARM,ICB,Semiconductors
+ASML,ICB,Industrial Machinery
+ATO,GICS,Gas Utilities
+AVGO,GICS,Semiconductors
+AVY,GICS,Paper & Plastic Packaging Products & Materials
+AWK,GICS,Water Utilities
+AXON,GICS,Aerospace & Defense
+AXP,GICS,Consumer Finance
+AZO,GICS,Automotive Retail
+BA,GICS,Aerospace & Defense
+BAC,GICS,Diversified Banks
+BALL,GICS,"Metal, Glass & Plastic Containers"
+BAX,GICS,Health Care Equipment
+BBY,GICS,Computer & Electronics Retail
+BDX,GICS,Health Care Equipment
+BE,GICS,Electrical Components & Equipment
+BEN,GICS,Asset Management & Custody Banks
+BF-B,GICS,Distillers & Vintners
+BG,GICS,Agricultural Products & Services
+BIIB,GICS,Biotechnology
+BKNG,GICS,"Hotels, Resorts & Cruise Lines"
+BKR,GICS,Oil & Gas Equipment & Services
+BLK,GICS,Asset Management & Custody Banks
+BMY,GICS,Pharmaceuticals
+BNY,GICS,Asset Management & Custody Banks
+BR,GICS,Data Processing & Outsourced Services
+BRK-B,GICS,Multi-Sector Holdings
+BRO,GICS,Insurance Brokers
+BSX,GICS,Health Care Equipment
+BX,GICS,Asset Management & Custody Banks
+BXP,GICS,Office REITs
+C,GICS,Diversified Banks
+CAH,GICS,Health Care Distributors
+CARR,GICS,Building Products
+CASY,GICS,Food Retail
+CAT,GICS,Construction Machinery & Heavy Transportation Equipment
+CB,GICS,Property & Casualty Insurance
+CBOE,GICS,Financial Exchanges & Data
+CBRE,GICS,Real Estate Services
+CCEP,ICB,Soft Drinks
+CCI,GICS,Telecom Tower REITs
+CCL,GICS,"Hotels, Resorts & Cruise Lines"
+CDNS,GICS,Application Software
+CDW,GICS,Technology Distributors
+CEG,GICS,Electric Utilities
+CF,GICS,Fertilizers & Agricultural Chemicals
+CFG,GICS,Regional Banks
+CHD,GICS,Household Products
+CHRW,GICS,Air Freight & Logistics
+CHTR,GICS,Cable & Satellite
+CI,GICS,Health Care Services
+CIEN,GICS,Communications Equipment
+CINF,GICS,Property & Casualty Insurance
+CL,GICS,Household Products
+CLX,GICS,Household Products
+CMCSA,GICS,Cable & Satellite
+CME,GICS,Financial Exchanges & Data
+CMG,GICS,Restaurants
+CMI,GICS,Construction Machinery & Heavy Transportation Equipment
+CMS,GICS,Multi-Utilities
+CNC,GICS,Managed Health Care
+CNP,GICS,Multi-Utilities
+COF,GICS,Consumer Finance
+COHR,GICS,Electronic Components
+COIN,GICS,Financial Exchanges & Data
+COO,GICS,Health Care Supplies
+COP,GICS,Oil & Gas Exploration & Production
+COR,GICS,Health Care Distributors
+COST,GICS,Consumer Staples Merchandise Retail
+CPAY,GICS,Transaction & Payment Processing Services
+CPRT,GICS,Diversified Support Services
+CPT,GICS,Multi-Family Residential REITs
+CRH,GICS,Construction Materials
+CRL,GICS,Life Sciences Tools & Services
+CRM,GICS,Application Software
+CRWD,GICS,Systems Software
+CRWV,ICB,Computer Services
+CSCO,GICS,Communications Equipment
+CSGP,GICS,Real Estate Services
+CSX,GICS,Rail Transportation
+CTAS,GICS,Diversified Support Services
+CTSH,GICS,IT Consulting & Other Services
+CTVA,GICS,Fertilizers & Agricultural Chemicals
+CVNA,GICS,Automotive Retail
+CVS,GICS,Health Care Services
+CVX,GICS,Integrated Oil & Gas
+D,GICS,Multi-Utilities
+DAL,GICS,Passenger Airlines
+DASH,GICS,Specialized Consumer Services
+DD,GICS,Industrial Conglomerates
+DDOG,GICS,Application Software
+DE,GICS,Agricultural & Farm Machinery
+DECK,GICS,Footwear
+DELL,GICS,"Technology Hardware, Storage & Peripherals"
+DG,GICS,Consumer Staples Merchandise Retail
+DGX,GICS,Health Care Services
+DHI,GICS,Homebuilding
+DHR,GICS,Life Sciences Tools & Services
+DIS,GICS,Movies & Entertainment
+DLR,GICS,Data Center REITs
+DLTR,GICS,Consumer Staples Merchandise Retail
+DOC,GICS,Health Care REITs
+DOV,GICS,Industrial Machinery & Supplies & Components
+DOW,GICS,Commodity Chemicals
+DPZ,GICS,Restaurants
+DRI,GICS,Restaurants
+DTE,GICS,Multi-Utilities
+DUK,GICS,Electric Utilities
+DVA,GICS,Health Care Services
+DVN,GICS,Oil & Gas Exploration & Production
+DXCM,GICS,Health Care Equipment
+EBAY,GICS,Broadline Retail
+ECHO,GICS,Wireless Telecommunication Services
+ECL,GICS,Specialty Chemicals
+ED,GICS,Multi-Utilities
+EFX,GICS,Research & Consulting Services
+EG,GICS,Reinsurance
+EIX,GICS,Electric Utilities
+EL,GICS,Personal Care Products
+ELV,GICS,Managed Health Care
+EME,GICS,Construction & Engineering
+EMR,GICS,Electrical Components & Equipment
+EOG,GICS,Oil & Gas Exploration & Production
+EQIX,GICS,Data Center REITs
+EQT,GICS,Oil & Gas Exploration & Production
+ERIE,GICS,Insurance Brokers
+ES,GICS,Electric Utilities
+ESS,GICS,Multi-Family Residential REITs
+ETN,GICS,Electrical Components & Equipment
+ETR,GICS,Electric Utilities
+EVRG,GICS,Electric Utilities
+EW,GICS,Health Care Equipment
+EXC,GICS,Electric Utilities
+EXE,GICS,Oil & Gas Exploration & Production
+EXPD,GICS,Air Freight & Logistics
+EXPE,GICS,"Hotels, Resorts & Cruise Lines"
+EXR,GICS,Self-Storage REITs
+F,GICS,Automobile Manufacturers
+FANG,GICS,Oil & Gas Exploration & Production
+FAST,GICS,Trading Companies & Distributors
+FCX,GICS,Copper
+FDS,GICS,Financial Exchanges & Data
+FDX,GICS,Air Freight & Logistics
+FDXF,GICS,Cargo Ground Transportation
+FE,GICS,Electric Utilities
+FER,ICB,"Military, Government, Technical"
+FERG,GICS,Trading Companies & Distributors
+FFIV,GICS,Communications Equipment
+FICO,GICS,Application Software
+FIS,GICS,Transaction & Payment Processing Services
+FISV,GICS,Transaction & Payment Processing Services
+FITB,GICS,Regional Banks
+FIX,GICS,Construction & Engineering
+FLEX,GICS,Electronic Manufacturing Services
+FOX,GICS,Broadcasting
+FOXA,GICS,Broadcasting
+FRT,GICS,Retail REITs
+FSLR,GICS,Semiconductors
+FTNT,GICS,Systems Software
+FTV,GICS,Industrial Machinery & Supplies & Components
+GD,GICS,Aerospace & Defense
+GDDY,GICS,Internet Services & Infrastructure
+GE,GICS,Aerospace & Defense
+GEHC,GICS,Health Care Equipment
+GEN,GICS,Systems Software
+GEV,GICS,Heavy Electrical Equipment
+GILD,GICS,Biotechnology
+GIS,GICS,Packaged Foods & Meats
+GL,GICS,Life & Health Insurance
+GLW,GICS,Electronic Components
+GM,GICS,Automobile Manufacturers
+GNRC,GICS,Heavy Electrical Equipment
+GOOG,GICS,Interactive Media & Services
+GOOGL,GICS,Interactive Media & Services
+GPC,GICS,Distributors
+GPN,GICS,Transaction & Payment Processing Services
+GRMN,GICS,Consumer Electronics
+GS,GICS,Investment Banking & Brokerage
+GWW,GICS,Industrial Machinery & Supplies & Components
+HAL,GICS,Oil & Gas Equipment & Services
+HAS,GICS,Leisure Products
+HBAN,GICS,Regional Banks
+HCA,GICS,Health Care Facilities
+HD,GICS,Home Improvement Retail
+HIG,GICS,Property & Casualty Insurance
+HII,GICS,Aerospace & Defense
+HLT,GICS,"Hotels, Resorts & Cruise Lines"
+HON,GICS,Industrial Conglomerates
+HONA,GICS,Aerospace & Defense
+HOOD,GICS,Investment Banking & Brokerage
+HPE,GICS,"Technology Hardware, Storage & Peripherals"
+HPQ,GICS,"Technology Hardware, Storage & Peripherals"
+HRL,GICS,Packaged Foods & Meats
+HSIC,GICS,Health Care Distributors
+HST,GICS,Hotel & Resort REITs
+HSY,GICS,Packaged Foods & Meats
+HUBB,GICS,Industrial Machinery & Supplies & Components
+HUM,GICS,Managed Health Care
+HWM,GICS,Aerospace & Defense
+IBKR,GICS,Investment Banking & Brokerage
+IBM,GICS,IT Consulting & Other Services
+ICE,GICS,Financial Exchanges & Data
+IDXX,GICS,Health Care Equipment
+IEX,GICS,Industrial Machinery & Supplies & Components
+IFF,GICS,Specialty Chemicals
+ILMN,GICS,Life Sciences Tools & Services
+INCY,GICS,Biotechnology
+INTC,GICS,Semiconductors
+INTU,GICS,Application Software
+INVH,GICS,Single-Family Residential REITs
+IP,GICS,Paper & Plastic Packaging Products & Materials
+IQV,GICS,Life Sciences Tools & Services
+IR,GICS,Industrial Machinery & Supplies & Components
+IRM,GICS,Other Specialized REITs
+ISRG,GICS,Health Care Equipment
+IT,GICS,IT Consulting & Other Services
+ITW,GICS,Industrial Machinery & Supplies & Components
+IVZ,GICS,Asset Management & Custody Banks
+J,GICS,Construction & Engineering
+JBHT,GICS,Cargo Ground Transportation
+JBL,GICS,Electronic Manufacturing Services
+JCI,GICS,Building Products
+JKHY,GICS,Transaction & Payment Processing Services
+JNJ,GICS,Pharmaceuticals
+JPM,GICS,Diversified Banks
+KDP,GICS,Soft Drinks & Non-alcoholic Beverages
+KEY,GICS,Regional Banks
+KEYS,GICS,Electronic Equipment & Instruments
+KHC,GICS,Packaged Foods & Meats
+KIM,GICS,Retail REITs
+KKR,GICS,Asset Management & Custody Banks
+KLAC,GICS,Semiconductor Materials & Equipment
+KMB,GICS,Household Products
+KMI,GICS,Oil & Gas Storage & Transportation
+KO,GICS,Soft Drinks & Non-alcoholic Beverages
+KR,GICS,Food Retail
+KVUE,GICS,Personal Care Products
+L,GICS,Multi-line Insurance
+LDOS,GICS,Diversified Support Services
+LEN,GICS,Homebuilding
+LH,GICS,Health Care Services
+LHX,GICS,Aerospace & Defense
+LII,GICS,Building Products
+LIN,GICS,Industrial Gases
+LITE,GICS,Communications Equipment
+LLY,GICS,Pharmaceuticals
+LMT,GICS,Aerospace & Defense
+LNT,GICS,Electric Utilities
+LOW,GICS,Home Improvement Retail
+LRCX,GICS,Semiconductor Materials & Equipment
+LULU,GICS,"Apparel, Accessories & Luxury Goods"
+LUV,GICS,Passenger Airlines
+LVS,GICS,Casinos & Gaming
+LYB,GICS,Specialty Chemicals
+LYV,GICS,Movies & Entertainment
+MA,GICS,Transaction & Payment Processing Services
+MAA,GICS,Multi-Family Residential REITs
+MAR,GICS,"Hotels, Resorts & Cruise Lines"
+MAS,GICS,Building Products
+MCD,GICS,Restaurants
+MCHP,GICS,Semiconductors
+MCK,GICS,Health Care Distributors
+MCO,GICS,Financial Exchanges & Data
+MDLZ,GICS,Packaged Foods & Meats
+MDT,GICS,Health Care Equipment
+MELI,ICB,Catalog/Specialty Distribution
+MET,GICS,Life & Health Insurance
+META,GICS,Interactive Media & Services
+MGM,GICS,Casinos & Gaming
+MKC,GICS,Packaged Foods & Meats
+MLM,GICS,Construction Materials
+MMM,GICS,Industrial Conglomerates
+MNST,GICS,Soft Drinks & Non-alcoholic Beverages
+MO,GICS,Tobacco
+MOS,GICS,Fertilizers & Agricultural Chemicals
+MPC,GICS,Oil & Gas Refining & Marketing
+MPWR,GICS,Semiconductors
+MRK,GICS,Pharmaceuticals
+MRNA,GICS,Biotechnology
+MRSH,GICS,Insurance Brokers
+MRVL,GICS,Semiconductors
+MS,GICS,Investment Banking & Brokerage
+MSCI,GICS,Financial Exchanges & Data
+MSFT,GICS,Systems Software
+MSI,GICS,Communications Equipment
+MSTR,ICB,Software
+MTB,GICS,Regional Banks
+MTD,GICS,Life Sciences Tools & Services
+MU,GICS,Semiconductors
+NBIS,ICB,Computer Services
+NCLH,GICS,"Hotels, Resorts & Cruise Lines"
+NDAQ,GICS,Financial Exchanges & Data
+NDSN,GICS,Industrial Machinery & Supplies & Components
+NEE,GICS,Multi-Utilities
+NEM,GICS,Gold
+NFLX,GICS,Movies & Entertainment
+NI,GICS,Multi-Utilities
+NKE,GICS,"Apparel, Accessories & Luxury Goods"
+NOC,GICS,Aerospace & Defense
+NOW,GICS,Systems Software
+NRG,GICS,Independent Power Producers & Energy Traders
+NSC,GICS,Rail Transportation
+NTAP,GICS,"Technology Hardware, Storage & Peripherals"
+NTRS,GICS,Asset Management & Custody Banks
+NUE,GICS,Steel
+NVDA,GICS,Semiconductors
+NVR,GICS,Homebuilding
+NWS,GICS,Publishing
+NWSA,GICS,Publishing
+NXPI,GICS,Semiconductors
+O,GICS,Retail REITs
+ODFL,GICS,Cargo Ground Transportation
+OKE,GICS,Oil & Gas Storage & Transportation
+OMC,GICS,Advertising
+ON,GICS,Semiconductors
+ORCL,GICS,Application Software
+ORLY,GICS,Automotive Retail
+OTIS,GICS,Industrial Machinery & Supplies & Components
+OXY,GICS,Oil & Gas Exploration & Production
+P,GICS,"Technology Hardware, Storage & Peripherals"
+PANW,GICS,Systems Software
+PAYX,GICS,Human Resource & Employment Services
+PCAR,GICS,Construction Machinery & Heavy Transportation Equipment
+PCG,GICS,Multi-Utilities
+PDD,ICB,EDP Services
+PEG,GICS,Electric Utilities
+PEP,GICS,Soft Drinks & Non-alcoholic Beverages
+PFE,GICS,Pharmaceuticals
+PFG,GICS,Life & Health Insurance
+PG,GICS,Personal Care Products
+PGR,GICS,Property & Casualty Insurance
+PH,GICS,Industrial Machinery & Supplies & Components
+PHM,GICS,Homebuilding
+PKG,GICS,Paper & Plastic Packaging Products & Materials
+PLD,GICS,Industrial REITs
+PLTR,GICS,Application Software
+PM,GICS,Tobacco
+PNC,GICS,Diversified Banks
+PNR,GICS,Industrial Machinery & Supplies & Components
+PNW,GICS,Multi-Utilities
+PODD,GICS,Health Care Equipment
+PPG,GICS,Specialty Chemicals
+PPL,GICS,Electric Utilities
+PRU,GICS,Life & Health Insurance
+PSA,GICS,Self-Storage REITs
+PSKY,GICS,Movies & Entertainment
+PSX,GICS,Oil & Gas Refining & Marketing
+PTC,GICS,Application Software
+PWR,GICS,Construction & Engineering
+PYPL,GICS,Transaction & Payment Processing Services
+Q,GICS,Semiconductor Materials & Equipment
+QCOM,GICS,Semiconductors
+RCL,GICS,"Hotels, Resorts & Cruise Lines"
+RDDT,GICS,Interactive Media & Services
+REG,GICS,Retail REITs
+REGN,GICS,Biotechnology
+RF,GICS,Regional Banks
+RJF,GICS,Investment Banking & Brokerage
+RKLB,ICB,Aerospace
+RL,GICS,"Apparel, Accessories & Luxury Goods"
+RMD,GICS,Health Care Equipment
+ROK,GICS,Electrical Components & Equipment
+ROL,GICS,Environmental & Facilities Services
+ROP,GICS,Electronic Equipment & Instruments
+ROST,GICS,Apparel Retail
+RSG,GICS,Environmental & Facilities Services
+RTX,GICS,Aerospace & Defense
+RVTY,GICS,Health Care Equipment
+SBAC,GICS,Telecom Tower REITs
+SBUX,GICS,Restaurants
+SCHW,GICS,Investment Banking & Brokerage
+SHOP,ICB,Software
+SHW,GICS,Specialty Chemicals
+SJM,GICS,Packaged Foods & Meats
+SLB,GICS,Oil & Gas Equipment & Services
+SMCI,GICS,"Technology Hardware, Storage & Peripherals"
+SNA,GICS,Industrial Machinery & Supplies & Components
+SNDK,GICS,"Technology Hardware, Storage & Peripherals"
+SNPS,GICS,Application Software
+SO,GICS,Electric Utilities
+SOLV,GICS,Health Care Technology
+SPCX,ICB,Telecommunications Services
+SPG,GICS,Retail REITs
+SPGI,GICS,Financial Exchanges & Data
+SRE,GICS,Multi-Utilities
+STE,GICS,Health Care Equipment
+STLD,GICS,Steel
+STT,GICS,Asset Management & Custody Banks
+STX,GICS,"Technology Hardware, Storage & Peripherals"
+STZ,GICS,Distillers & Vintners
+SW,GICS,Paper & Plastic Packaging Products & Materials
+SWK,GICS,Industrial Machinery & Supplies & Components
+SWKS,GICS,Semiconductors
+SYF,GICS,Consumer Finance
+SYK,GICS,Health Care Equipment
+SYY,GICS,Food Distributors
+T,GICS,Integrated Telecommunication Services
+TDG,GICS,Aerospace & Defense
+TDY,GICS,Electronic Equipment & Instruments
+TECH,GICS,Life Sciences Tools & Services
+TEL,GICS,Electronic Manufacturing Services
+TER,GICS,Semiconductor Materials & Equipment
+TFC,GICS,Diversified Banks
+TGT,GICS,Consumer Staples Merchandise Retail
+TJX,GICS,Apparel Retail
+TKO,GICS,Movies & Entertainment
+TMO,GICS,Life Sciences Tools & Services
+TMUS,GICS,Wireless Telecommunication Services
+TPL,GICS,Oil & Gas Exploration & Production
+TPR,GICS,"Apparel, Accessories & Luxury Goods"
+TRGP,GICS,Oil & Gas Storage & Transportation
+TRI,ICB,Software
+TRMB,GICS,Application Software
+TROW,GICS,Asset Management & Custody Banks
+TRV,GICS,Property & Casualty Insurance
+TSCO,GICS,Other Specialty Retail
+TSLA,GICS,Automobile Manufacturers
+TSN,GICS,Packaged Foods & Meats
+TT,GICS,Building Products
+TTWO,GICS,Interactive Home Entertainment
+TXN,GICS,Semiconductors
+TXT,GICS,Aerospace & Defense
+TYL,GICS,Application Software
+UAL,GICS,Passenger Airlines
+UBER,GICS,Passenger Ground Transportation
+UDR,GICS,Multi-Family Residential REITs
+UHS,GICS,Health Care Facilities
+ULTA,GICS,Other Specialty Retail
+UNH,GICS,Managed Health Care
+UNP,GICS,Rail Transportation
+UPS,GICS,Air Freight & Logistics
+URI,GICS,Trading Companies & Distributors
+USB,GICS,Diversified Banks
+V,GICS,Transaction & Payment Processing Services
+VEEV,GICS,Health Care Technology
+VICI,GICS,Hotel & Resort REITs
+VLO,GICS,Oil & Gas Refining & Marketing
+VLTO,GICS,Environmental & Facilities Services
+VMC,GICS,Construction Materials
+VMRK,GICS,Multi-Family Residential REITs
+VRSK,GICS,Research & Consulting Services
+VRSN,GICS,Internet Services & Infrastructure
+VRT,GICS,Electrical Components & Equipment
+VRTX,GICS,Biotechnology
+VST,GICS,Electric Utilities
+VTR,GICS,Health Care REITs
+VTRS,GICS,Pharmaceuticals
+VZ,GICS,Integrated Telecommunication Services
+WAB,GICS,Construction Machinery & Heavy Transportation Equipment
+WAT,GICS,Life Sciences Tools & Services
+WBD,GICS,Broadcasting
+WDAY,GICS,Application Software
+WDC,GICS,"Technology Hardware, Storage & Peripherals"
+WEC,GICS,Electric Utilities
+WELL,GICS,Health Care REITs
+WFC,GICS,Diversified Banks
+WM,GICS,Environmental & Facilities Services
+WMB,GICS,Oil & Gas Storage & Transportation
+WMT,GICS,Consumer Staples Merchandise Retail
+WRB,GICS,Property & Casualty Insurance
+WSM,GICS,Homefurnishing Retail
+WST,GICS,Health Care Supplies
+WTW,GICS,Insurance Brokers
+WY,GICS,Timber REITs
+WYNN,GICS,Casinos & Gaming
+XEL,GICS,Multi-Utilities
+XOM,GICS,Integrated Oil & Gas
+XYL,GICS,Industrial Machinery & Supplies & Components
+XYZ,GICS,Transaction & Payment Processing Services
+YUM,GICS,Restaurants
+ZBH,GICS,Health Care Equipment
+ZBRA,GICS,Electronic Equipment & Instruments
+ZTS,GICS,Pharmaceuticals

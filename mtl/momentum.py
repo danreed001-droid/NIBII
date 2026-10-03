@@ -42,19 +42,246 @@ def score_at(prices, calendar, k, look, skip):
     return b / a - 1.0
 
 
+def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='rank',
+                eligible=None, benchmark='SPY'):
+    """[(ticker, score, beats_benchmark)] best first for every eligible stock
+    with a score on calendar[k].
+
+    One window (windows=None): score = return from `look` to `skip` sessions
+    ago; beats_benchmark = score > the benchmark's score.
+    Blended (windows=[(look, skip), ...]): each window's return is computed,
+    and the score is either their average return (blend='mean') or the average
+    of the stock's percentile rank in each window (blend='rank', 1 = best, so
+    every window counts equally). beats_benchmark = the stock's average excess
+    return over the benchmark across the windows is positive."""
+    d = calendar[k]
+    cands = [t for t in prices if t != benchmark and prices[t].get(d) and (eligible is None or eligible(t, d))]
+    if not windows:
+        b = score_at(prices[benchmark], calendar, k, look, skip) if benchmark in prices else None
+        rows = []
+        for t in cands:
+            sc = score_at(prices[t], calendar, k, look, skip)
+            if sc is not None:
+                rows.append((t, sc, b is not None and sc > b))
+    else:
+        bench = [score_at(prices[benchmark], calendar, k, lk, sk) if benchmark in prices else None
+                 for lk, sk in windows]
+        rets = {}
+        for t in cands:
+            r = [score_at(prices[t], calendar, k, lk, sk) for lk, sk in windows]
+            if all(x is not None for x in r):
+                rets[t] = r
+        if blend == 'mean':
+            score = {t: sum(r) / len(r) for t, r in rets.items()}
+        else:
+            score = {t: 0.0 for t in rets}
+            n = len(rets)
+            for w in range(len(windows)):
+                order = sorted(rets, key=lambda t: rets[t][w])
+                for i, t in enumerate(order):
+                    score[t] += (i + 1) / n / len(windows) if n else 0.0
+        ok = all(x is not None for x in bench)
+        rows = [(t, score[t], ok and sum(a - b for a, b in zip(rets[t], bench)) > 0) for t in rets]
+    rows.sort(key=lambda x: -x[1])
+    return rows
+
+
 def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, top_n=10,
-                 keep_rank=None, eligible=None, risk_on=None, cost=0.0005, start_value=100.0):
+                 keep_rank=None, eligible=None, risk_on=None, cost=0.0005, start_value=100.0,
+                 rebalance_on_start=False, risk_daily=False, windows=None, blend='rank',
+                 trail_stop=None, cooldown=20, group_of=None, max_per_group=None,
+                 sector_of=None, top_sectors=None, sector_grace=1, sector_min=3,
+                 rsi_exit=None, rsi_period=14, buy_ok=None, weighting='equal', vol_target=None,
+                 vol_window=63, max_corr=None, corr_window=63, risk_adj=False):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
-    holdings]], picks=[[date, [tickers]]], turnover=annualized fraction)."""
+    holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
+    stops=number of trailing-stop exits).
+
+    trail_stop: e.g. 0.20 - checked every session: a holding that closes 20%
+      below its highest close since it was bought is sold at that close and
+      replaced by the best-ranked qualifying stock not held; the stopped
+      stock can't be bought again for `cooldown` sessions.
+    group_of / max_per_group: {ticker: industry} and a cap - at most that many
+      holdings from one industry (keepers and new buys alike).
+    sector_of / top_sectors: {ticker: sector}; each rebalance ranks sectors by
+      the median score of their stocks (sectors with fewer than `sector_min`
+      scored stocks are skipped) and only buys stocks from the top
+      `top_sectors`. A holding whose sector is out of the top is sold once it
+      has been out for more than `sector_grace` consecutive rebalances
+      (1 = it gets one week's grace).
+    rsi_exit: e.g. 40 - checked every session: a holding whose daily RSI
+      (Wilder, `rsi_period`) closes below this level is sold at that close and
+      replaced by the best-ranked qualifying stock not held; it is barred for
+      `cooldown` sessions, and no stock is bought while its RSI is below the
+      level. Counted in `stops`.
+    buy_ok: optional callable(date) -> bool; while False no new stock is
+      bought - holdings that still qualify are kept, sold ones leave their
+      slot in cash.
+    weighting: 'equal' (each holding 1/top_n) or 'inv_vol' (the same total, split
+      in proportion to 1 / each stock's `vol_window`-day volatility).
+    vol_target: e.g. 0.30 - at each rebalance, scale every position down so the
+      basket's volatility over the last `vol_window` sessions would have been
+      at most 30% a year (never above 100% invested); the rest sits in cash.
+    max_corr: e.g. 0.7 - skip a new buy whose daily returns over the last
+      `corr_window` sessions correlate above this with a stock already chosen.
+    risk_adj: rank buy candidates by score / volatility instead of score."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
+    if rebalance_on_start:   # buy on the first session >= start, not the next week-end
+        rebal.add(next(d for d in calendar if d >= start))
     tickers = [t for t in prices if t != benchmark]
     value, cash = start_value, start_value
     shares = {}          # ticker -> shares held
     last_px = {}         # ticker -> last seen close
     curve, picks, traded = [], [], 0.0
     started = False
+    prev_risk = None
+    peak, banned_until, stops = {}, {}, 0
+    sector_out = {}
+    rsi_cache = {}
+    ret_cache = {}
+
+    def rets(t, k, n):
+        """Daily returns of t for the n sessions ending at calendar[k] (gaps carry the price)."""
+        if t not in ret_cache:
+            out, last, prev = [0.0] * len(calendar), None, None
+            for i, d in enumerate(calendar):
+                px = prices[t].get(d) or last
+                out[i] = px / prev - 1 if px and prev else 0.0
+                prev = last = px
+            ret_cache[t] = out
+        return ret_cache[t][max(1, k - n + 1):k + 1]
+
+    def vol(t, k):
+        r = rets(t, k, vol_window)
+        if len(r) < 2:
+            return 1.0
+        m = sum(r) / len(r)
+        return max(1e-4, (sum((x - m) ** 2 for x in r) / (len(r) - 1)) ** 0.5 * 252 ** 0.5)
+
+    def corr(a, b):
+        n = len(a)
+        if n < 3:
+            return 0.0
+        ma, mb = sum(a) / n, sum(b) / n
+        sab = sum((x - ma) * (y - mb) for x, y in zip(a, b))
+        sa = sum((x - ma) ** 2 for x in a) ** 0.5
+        sb = sum((y - mb) ** 2 for y in b) ** 0.5
+        return sab / (sa * sb) if sa and sb else 0.0
+
+    def weights(target, k):
+        if not target:
+            return {}
+        if weighting == 'inv_vol':
+            inv = {t: 1 / vol(t, k) for t in target}
+            tot = sum(inv.values())
+            w = {t: inv[t] / tot * len(target) / top_n for t in target}
+        else:
+            w = {t: 1 / top_n for t in target}
+        if vol_target:
+            basket = [sum(w[t] * r for t, r in zip(target, day)) for day in
+                      zip(*[rets(t, k, vol_window) for t in target])]
+            if len(basket) > 2:
+                m = sum(basket) / len(basket)
+                pv = (sum((x - m) ** 2 for x in basket) / (len(basket) - 1)) ** 0.5 * 252 ** 0.5
+                scale = min(1.0, vol_target / pv) if pv > 0 else 1.0
+                w = {t: x * scale for t, x in w.items()}
+        return w
+
+    def rsi_at(t, k):
+        if t not in rsi_cache:
+            from mtl.backtest import rsi_series
+            idx, closes = [], []
+            for i, d in enumerate(calendar):
+                px = prices[t].get(d)
+                if px:
+                    idx.append(i)
+                    closes.append(px)
+            vals = rsi_series(closes, rsi_period)
+            out, j = [None] * len(calendar), 0
+            for i in range(len(calendar)):   # carry the last value over missing sessions
+                while j < len(idx) and idx[j] <= i:
+                    j += 1
+                out[i] = vals[j - 1] if j else None
+            rsi_cache[t] = out
+        return rsi_cache[t][k]
+
+    def rsi_weak(t, k):
+        r = rsi_at(t, k)
+        return r is not None and r < rsi_exit
+
+    def top_sector_set(rows):
+        groups = {}
+        for t, sc, _ in rows:
+            sec = sector_of.get(t)
+            if sec:
+                groups.setdefault(sec, []).append(sc)
+        med = {}
+        for sec, v in groups.items():
+            if len(v) >= sector_min:
+                v = sorted(v)
+                m = len(v) // 2
+                med[sec] = v[m] if len(v) % 2 else (v[m - 1] + v[m]) / 2
+        return set(sorted(med, key=lambda x: -med[x])[:top_sectors])
+
+    def choose(k, d, keep_from, exclude=()):
+        """Target holdings on day k: keepers (ranked within keep_rank, or every
+        name in keep_from when keep_from is a forced keep-list) then the best
+        ranked qualifying stocks, honoring the industry cap and cooldowns."""
+        rows = score_table(prices, calendar, k, look, skip, windows, blend, eligible, benchmark)
+        scored = [(sc, t) for t, sc, beats in rows
+                  if beats and banned_until.get(t, -1) < k and t not in exclude
+                  and not (rsi_exit and t not in shares and rsi_weak(t, k))]
+        allowed = None
+        if sector_of and top_sectors:
+            allowed = top_sector_set(rows)
+            scored = [(sc, t) for sc, t in scored if sector_of.get(t) in allowed]
+        rank = {t: i for i, (_, t) in enumerate(scored)}
+        if isinstance(keep_from, list):
+            keep = list(keep_from)
+        else:
+            full_rank = {t: i for i, (t, sc, beats) in enumerate([r for r in rows if r[2]])}
+            keep = []
+            for t in shares:
+                if banned_until.get(t, -1) >= k:
+                    continue          # stopped out today: sell even on a rebalance day
+                if allowed is not None and sector_of.get(t) not in allowed:
+                    sector_out[t] = sector_out.get(t, 0) + 1
+                    if sector_out[t] > sector_grace:
+                        continue      # its sector has been out of the top too long: sell
+                else:
+                    sector_out.pop(t, None)
+                if full_rank.get(t, 10 ** 9) < keep_rank:
+                    keep.append(t)
+            keep.sort(key=lambda t: full_rank[t])
+        target, count = [], {}
+
+        def fits(t):
+            return not (group_of and max_per_group) or count.get(group_of.get(t, t), 0) < max_per_group
+
+        def add(t):
+            target.append(t)
+            g = group_of.get(t, t) if group_of else t
+            count[g] = count.get(g, 0) + 1
+
+        for t in keep:
+            if len(target) < top_n and fits(t):
+                add(t)
+        if buy_ok is not None and not buy_ok(d):
+            return [t for t in target if t in shares]
+        if risk_adj:
+            scored = sorted(scored, key=lambda x: -x[0] / vol(x[1], k))
+        for _, t in scored:
+            if len(target) >= top_n:
+                break
+            if t not in target and fits(t):
+                if max_corr is not None and any(corr(rets(t, k, corr_window), rets(u, k, corr_window)) > max_corr
+                                                for u in target):
+                    continue
+                add(t)
+        return target
+
     for k, d in enumerate(calendar):
         for t in shares:
             px = prices[t].get(d)
@@ -65,46 +292,55 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             started = True
         if not started:
             continue
-        if d in rebal:
+        flip = False
+        if risk_on is not None and risk_daily:
+            cur_risk = bool(risk_on(d))
+            flip = prev_risk is not None and cur_risk != prev_risk
+            prev_risk = cur_risk
+        stopped = []
+        if trail_stop and shares:
+            for t in shares:
+                peak[t] = max(peak.get(t, last_px[t]), last_px[t])
+                if last_px[t] <= peak[t] * (1 - trail_stop):
+                    stopped.append(t)
+        if rsi_exit and shares:
+            stopped += [t for t in shares if t not in stopped and rsi_weak(t, k)]
+        for t in stopped:
+            banned_until[t] = k + cooldown
+            stops += 1
+        if d in rebal or flip or stopped:
             target = []
             if risk_on is None or risk_on(d):
-                bench = score_at(prices[benchmark], calendar, k, look, skip)
-                scored = []
-                for t in tickers:
-                    s = score_at(prices[t], calendar, k, look, skip)
-                    if s is None or bench is None or s <= bench or not prices[t].get(d):
-                        continue
-                    if eligible and not eligible(t, d):
-                        continue
-                    scored.append((s, t))
-                scored.sort(reverse=True)
-                rank = {t: i for i, (_, t) in enumerate(scored)}
-                keep = [t for t in shares if rank.get(t, 10 ** 9) < keep_rank]
-                keep.sort(key=lambda t: rank[t])
-                target = keep[:top_n]
-                for _, t in scored:
-                    if len(target) >= top_n:
-                        break
-                    if t not in target:
-                        target.append(t)
+                if d in rebal or flip:
+                    target = choose(k, d, None)
+                else:   # mid-week stop: keep the others, replace only the stopped names
+                    target = choose(k, d, [t for t in shares if t not in stopped])
             # rebalance to equal weight across the N slots (unfilled = cash)
             for t in target:
                 last_px[t] = prices[t][d]
-            slot = value / top_n
-            new_shares = {t: slot / last_px[t] for t in target}
+            w = weights(target, k)
+            new_shares = {t: value * w[t] / last_px[t] for t in target}
             moved = sum(abs(new_shares.get(t, 0.0) - shares.get(t, 0.0)) * last_px[t]
                         for t in set(shares) | set(new_shares))
             fee = moved * cost
             traded += moved
             value -= fee
-            slot = value / top_n
-            shares = {t: slot / last_px[t] for t in target}
+            for t in target:
+                if t not in shares:
+                    peak[t] = last_px[t]
+            for t in list(peak):
+                if t not in target:
+                    peak.pop(t)
+            for t in list(sector_out):
+                if t not in target:
+                    sector_out.pop(t)
+            shares = {t: value * w[t] / last_px[t] for t in target}
             cash = value - sum(n * last_px[t] for t, n in shares.items())
             picks.append([d, list(target)])
         curve.append([d, value, len(shares)])
     years = max(len(curve) / 252, 1e-9)
     avg_value = sum(p[1] for p in curve) / len(curve) if curve else 1.0
-    return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2)
+    return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2, stops=stops)
 
 
 def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=21, top=100,
@@ -198,18 +434,10 @@ def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=2
     return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2)
 
 
-def ranking(prices, calendar, k, look=126, skip=21, eligible=None, benchmark='SPY'):
+def ranking(prices, calendar, k, look=126, skip=21, eligible=None, benchmark='SPY', windows=None, blend='rank'):
     """[(ticker, score)] best first, for every eligible stock with a score at
     calendar[k] (the same ranking run_momentum uses on that day)."""
-    out = []
-    for t, px in prices.items():
-        if t == benchmark or not px.get(calendar[k]) or (eligible and not eligible(t, calendar[k])):
-            continue
-        s = score_at(px, calendar, k, look, skip)
-        if s is not None:
-            out.append((t, s))
-    out.sort(key=lambda x: -x[1])
-    return out
+    return [(t, sc) for t, sc, _ in score_table(prices, calendar, k, look, skip, windows, blend, eligible, benchmark)]
 
 
 def trades_from_picks(picks):

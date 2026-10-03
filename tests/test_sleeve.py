@@ -1,0 +1,51 @@
+"""Best-of sleeve and the levered plan - synthetic prices, no network."""
+from datetime import date, timedelta
+
+from mtl.sleeve import ASSETS, best_of, filled, plan_curve, sleeve_curve
+
+
+def cal(n, start='2024-01-01'):
+    d0, out, d = date.fromisoformat(start), [], 0
+    while len(out) < n:
+        day = d0 + timedelta(days=d)
+        if day.weekday() < 5:
+            out.append(day.isoformat())
+        d += 1
+    return out
+
+
+def flat(c, v=100.0):
+    return {d: v for d in c}
+
+
+def test_best_of_picks_the_strongest_six_month_asset_and_cash_when_all_fall():
+    c = cal(200)
+    px = {t: flat(c) for t in ASSETS}
+    px['GLD'] = {d: 100 * 1.002 ** i for i, d in enumerate(c)}
+    px['DBC'] = {d: 100 * 1.001 ** i for i, d in enumerate(c)}
+    assert best_of(filled(px, c), c, 199) == 'GLD'
+    px = {t: {d: 100 * 0.999 ** i for i, d in enumerate(c)} for t in ASSETS}
+    px['BIL'] = {d: 100 * 1.0001 ** i for i, d in enumerate(c)}
+    assert best_of(filled(px, c), c, 199) == 'BIL'
+
+
+def test_sleeve_switches_to_the_new_leader_at_a_week_end():
+    c = cal(300)
+    px = {t: flat(c) for t in ASSETS}
+    px['GLD'] = {d: 100 * (1.003 ** i if i < 150 else 1.003 ** 150 * 0.997 ** (i - 150)) for i, d in enumerate(c)}
+    px['DBC'] = {d: 100 * (1.0 if i < 150 else 1.004 ** (i - 150)) for i, d in enumerate(c)}
+    curve, picks = sleeve_curve(px, c, c[130])
+    assert picks[0][1] == 'GLD' and picks[-1][1] == 'DBC'
+    assert curve[0][1] == 1.0 and len(curve) == 170
+
+
+def test_plan_without_leverage_is_the_weighted_mix_and_borrowing_costs_money():
+    c = cal(60)
+    main = [[d, 1.0 * 1.01 ** i] for i, d in enumerate(c)]
+    flat_sleeve = [[d, 1.0] for d in c]
+    p = plan_curve(main, flat_sleeve, 0.6, 0.4, c, rate=0.06)
+    assert 1.0 < p[-1][1] < main[-1][1]
+    # levered with a flat main and sleeve: only the interest shows
+    lev = plan_curve(flat_sleeve, flat_sleeve, 0.78, 0.52, c, rate=0.06)
+    assert lev[-1][1] < 1.0
+    assert abs(lev[-1][1] - (1 - 0.30 * 0.06 / 252) ** 59) < 1e-3

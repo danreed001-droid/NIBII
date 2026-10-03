@@ -129,3 +129,146 @@ def test_momentum_scan_glitch_guard_blocks_after_a_crash_print():
     assert 'd009' not in blocked and 'd010' in blocked and 'd160' in blocked and 'd161' not in blocked
     assert ms.yearly([['2020-01-02', 100], ['2020-12-31', 110], ['2021-12-31', 99]]) == \
         {'2020': 0.10000000000000009, '2021': 99 / 110 - 1}
+
+
+def test_daily_risk_filter_goes_to_cash_midweek_and_back():
+    c = cal(80)
+    prices = {'SPY': {d: 100.0 for d in c}, 'A': {d: 100 * 1.01 ** i for i, d in enumerate(c)}}
+    off_days = set(c[40:45])
+    r = run_momentum(prices, c, c[25], look=20, skip=0, top_n=1, cost=0.0,
+                     risk_on=lambda d: d not in off_days, risk_daily=True)
+    picked = dict((d, h) for d, h in r['picks'])
+    assert picked[c[40]] == [] and picked[c[45]] == ['A']
+    held = {p[0]: p[2] for p in r['curve']}
+    assert held[c[42]] == 0 and held[c[46]] == 1
+
+
+from mtl.momentum import score_table
+
+
+def test_blended_rank_counts_every_window_equally():
+    c = cal(60)
+    # A: strong over the long window only; B: strong over the short window only; C: middling on both
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': {d: 100 + (2 * i if i < 30 else 60) for i, d in enumerate(c)},
+              'B': {d: 100 + (0 if i < 50 else 5 * (i - 49)) for i, d in enumerate(c)},
+              'C': {d: 100 + 0.8 * i for i, d in enumerate(c)}}
+    rows = score_table(prices, c, 59, windows=[(10, 0), (50, 0)], blend='rank')
+    scores = {t: sc for t, sc, _ in rows}
+    assert all(0 < v <= 1 for v in scores.values()) and all(b for _, _, b in rows)
+    assert abs(sum(scores.values()) - 2.0) < 1e-9   # each window's ranks sum to (n+1)/2 / ... = 2 for n=3
+    single = score_table(prices, c, 59, look=10, skip=0)
+    assert single[0][0] == 'B'
+
+
+def test_single_window_score_table_matches_score_at():
+    c = cal(40)
+    prices = {'SPY': {d: 100.0 for d in c}, 'A': {d: 100 + i for i, d in enumerate(c)}}
+    (t, sc, beats), = score_table(prices, c, 39, look=20, skip=0)
+    assert t == 'A' and beats and abs(sc - (prices['A'][c[39]] / prices['A'][c[19]] - 1)) < 1e-12
+
+
+def test_trailing_stop_sells_a_falling_holding_and_bans_it_for_a_while():
+    c = cal(120)
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': {d: (100 * 1.01 ** i if i < 60 else 100 * 1.01 ** 60 * 0.97 ** (i - 60)) for i, d in enumerate(c)},
+              'B': {d: 100 * 1.004 ** i for i, d in enumerate(c)}}
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0, trail_stop=0.20, cooldown=20)
+    assert r['stops'] >= 1
+    stop_day = next(d for d, h in r['picks'] if d > c[60] and h == ['B'])
+    k = c.index(stop_day)
+    assert prices['A'][stop_day] <= max(prices['A'][x] for x in c[30:k + 1]) * 0.8 + 1e-9
+    # A is not bought back during the cooldown
+    assert all('A' not in h for d, h in r['picks'] if k < c.index(d) <= k + 20)
+
+
+def test_rsi_exit_sells_when_rsi_drops_below_the_level_and_skips_weak_buys():
+    from mtl.backtest import rsi_series
+    c = cal(120)
+    # A climbs (with small dips so RSI is defined) then slides steadily from day 60
+    a = [100 * 1.01 ** i * (0.995 if i % 3 == 0 else 1) if i < 60 else 0 for i in range(120)]
+    for i in range(60, 120):
+        a[i] = a[59] * 0.99 ** (i - 59) * (1.004 if i % 3 == 0 else 1)
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': dict(zip(c, a)),
+              'B': {d: 100 * 1.004 ** i * (0.998 if i % 4 == 0 else 1) for i, d in enumerate(c)}}
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0, rsi_exit=40, cooldown=20)
+    assert r['stops'] >= 1
+    rsi = dict(zip(c, rsi_series(a)))
+    sold = next(d for d, h in r['picks'] if d > c[60] and 'A' not in h)
+    assert rsi[sold] < 40
+    # held A every earlier session while its RSI was still 40 or higher
+    assert all(rsi[d] >= 40 for d in c[c.index(c[30]):c.index(sold)] if rsi[d] is not None)
+    # never buys a stock whose RSI is below 40 that day
+    assert all(not (t == 'A' and rsi[d] is not None and rsi[d] < 40) for d, h in r['picks'] for t in h)
+
+
+def test_industry_cap_limits_holdings_per_group():
+    c = cal(60)
+    prices = {'SPY': {d: 100.0 for d in c}}
+    for j, g in enumerate(['x', 'x', 'x', 'y', 'z']):
+        prices[f"S{j}"] = {d: 100 * (1.02 - 0.002 * j) ** i for i, d in enumerate(c)}
+    group = {'S0': 'x', 'S1': 'x', 'S2': 'x', 'S3': 'y', 'S4': 'z'}
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=3, cost=0.0, group_of=group, max_per_group=2)
+    for _, h in r['picks']:
+        assert sum(group[t] == 'x' for t in h) <= 2
+    assert r['picks'][0][1] == ['S0', 'S1', 'S3']
+
+
+def test_sector_filter_buys_only_from_the_top_sector_and_sells_after_grace():
+    c = cal(160)
+    prices = {'SPY': {d: 100.0 for d in c}}
+    sector = {}
+    # sector H: strong early then weak; sector L: weak early then strong; each has 3 stocks
+    for j in range(3):
+        prices[f"H{j}"] = {d: 100 * ((1.012 - 0.001 * j) ** i if i < 80 else (1.012 - 0.001 * j) ** 80 * 0.995 ** (i - 80))
+                           for i, d in enumerate(c)}
+        prices[f"L{j}"] = {d: 100 * ((1.003 - 0.0005 * j) ** i if i < 80 else (1.003 - 0.0005 * j) ** 80 * 1.015 ** (i - 80))
+                           for i, d in enumerate(c)}
+        sector[f"H{j}"], sector[f"L{j}"] = 'H', 'L'
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=2, cost=0.0, keep_rank=6,
+                     sector_of=sector, top_sectors=1, sector_grace=1)
+    first = r['picks'][0][1]
+    assert all(sector[t] == 'H' for t in first)
+    last = r['picks'][-1][1]
+    assert last and all(sector[t] == 'L' for t in last)
+
+
+def test_buy_ok_false_keeps_holdings_but_buys_nothing_new():
+    c = cal(80)
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': {d: 100 * 1.01 ** i for i, d in enumerate(c)},
+              'B': {d: 100 * 1.005 ** i for i, d in enumerate(c)}}
+    frozen_from = c[45]
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=2, cost=0.0,
+                     buy_ok=lambda d: d < frozen_from)
+    assert all(sorted(h) == ['A', 'B'] for _, h in r['picks'])
+    # with nothing held, a freeze keeps the account in cash
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=2, cost=0.0, buy_ok=lambda d: False)
+    assert all(h == [] for _, h in r['picks'])
+
+
+def test_vol_target_scales_a_wild_basket_down_and_leaves_cash():
+    c = cal(120)
+    wild = {d: 100 * 1.01 ** i * (1.08 if i % 2 else 0.95) for i, d in enumerate(c)}
+    prices = {'SPY': {d: 100.0 for d in c}, 'A': wild}
+    r = run_momentum(prices, c, c[70], look=20, skip=0, top_n=1, cost=0.0, vol_target=0.30)
+    full = run_momentum(prices, c, c[70], look=20, skip=0, top_n=1, cost=0.0)
+    # same pick, but the scaled account moves far less day to day
+    assert r['picks'][0][1] == ['A']
+    moves = [abs(b[1] / a[1] - 1) for a, b in zip(r['curve'], r['curve'][1:])]
+    full_moves = [abs(b[1] / a[1] - 1) for a, b in zip(full['curve'], full['curve'][1:])]
+    assert max(moves) < 0.6 * max(full_moves)
+
+
+def test_correlation_cap_skips_a_twin_of_a_stock_already_picked():
+    c = cal(100)
+    base = [100 * 1.01 ** i * (1.03 if i % 3 == 0 else 0.99) for i in range(100)]
+    other = [100 * 1.006 ** i * (1.02 if i % 4 == 1 else 0.995) for i in range(100)]
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': dict(zip(c, base)),
+              'A2': {d: v * 0.999 for d, v in zip(c, base)},   # moves exactly like A
+              'B': dict(zip(c, other))}
+    r = run_momentum(prices, c, c[70], look=20, skip=0, top_n=2, cost=0.0, max_corr=0.9)
+    held = r['picks'][0][1]
+    assert 'B' in held and not ({'A', 'A2'} <= set(held))
