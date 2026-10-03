@@ -306,6 +306,19 @@ re-runs it hourly through the US session (and on demand from the Actions
 tab): `mtf_scan.py --out data/scan.json` (both trend rules; the JSON itself
 is gitignored) then `scripts/render_scanner.py`, committing only the page.
 
+**Backtest.** `python scripts/backtest.py` replays both setups over the same
+universe, longs and shorts, under both trend rules (`mtl/backtest.py`): enter
+at the close of the trigger timeframe's CHoCH bar while every larger
+timeframe agrees, exit at the close of its next opposite break, $100 a
+trade, strictly point-in-time. Yahoo's intraday history caps the window
+(1h ~730 trading days for the daily trade, 15m ~60 days for the hourly
+trade), whatever `--start` says. It also tracks one $100 account split
+equally across all open signals each day and compares it with buying and
+holding SPY, QQQ, NVDA, ARKK and BTC-USD over the same window.
+`python scripts/render_backtest.py` then renders `docs/backtest.html`
+(linked from the scanner page). Every trade lands in
+`data/backtest_trades.csv` (gitignored).
+
 ## News catalysts and pattern analysis
 
 A separate Routine ("Daily market news log") logs dated, ticker-tagged,

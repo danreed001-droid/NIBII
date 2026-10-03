@@ -3,3 +3,5 @@ __pycache__/
 .pytest_cache/
 out/
 data/scan.json
+data/backtest.json
+data/backtest_trades.csv

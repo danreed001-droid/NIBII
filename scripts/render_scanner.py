@@ -58,6 +58,7 @@ a { color: var(--accent); }
 .masthead-inner { max-width: 1080px; margin-inline: auto; padding: 22px 16px 22px; border-bottom: 2px solid var(--gold); }
 .back { display: inline-block; font-size: 0.8rem; color: var(--masthead-ink-2); text-decoration: none; margin-bottom: 14px; }
 .back:hover { color: var(--gold); }
+.bt-link { float: right; color: var(--gold); font-weight: 600; }
 .eyebrow { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 0 0 6px; }
 .masthead-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; justify-content: space-between; }
 .masthead-right { display: flex; align-items: center; gap: 10px; }
@@ -193,6 +194,7 @@ footer p { margin: 0 0 8px; }
 <div class="masthead">
   <div class="masthead-inner">
     <a class="back" href="index.html">← Market Tape Ledger</a>
+    <a class="back bt-link" href="backtest.html">Backtest results →</a>
     <p class="eyebrow">NIBII · Structure Scanner</p>
     <div class="masthead-top">
       <h1>Trend Scanner</h1>
