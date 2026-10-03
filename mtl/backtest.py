@@ -488,23 +488,28 @@ def rsi_series(closes, period=14):
     return out
 
 
-def simulate_rsi(bars, ends, start, ticker='', stake=100.0, period=14, level=50.0, allow=None):
+def simulate_rsi(bars, ends, start, ticker='', stake=100.0, period=14, level=50.0, allow=None,
+                 buy_level=None, sell_level=None):
     """Long only: buy at the close of the bar where RSI crosses above
     `level`, sell at the close of the bar where it crosses back below.
-    allow(side, when) filters entries. An open trade at the end is marked
-    at the last close with open=True."""
+    buy_level / sell_level split the two (e.g. 55 / 45) so RSI must clear
+    a band, not just wiggle across one line. allow(side, when) filters
+    entries. An open trade at the end is marked at the last close with
+    open=True."""
+    buy_level = level if buy_level is None else buy_level
+    sell_level = level if sell_level is None else sell_level
     closes = [b[4] for b in bars]
     rsi = rsi_series(closes, period)
     trades, pos = [], None
     for k in range(1, len(bars)):
         if rsi[k] is None or rsi[k - 1] is None:
             continue
-        if pos and rsi[k - 1] >= level > rsi[k]:
+        if pos and rsi[k - 1] >= sell_level > rsi[k]:
             ret = closes[k] / pos['entry'] - 1.0
             trades.append(dict(pos, exitTime=ends[k].isoformat(), exit=closes[k], ret=ret,
                                pnl=stake * ret, bars=k - pos.pop('_i'), open=False, exitReason='rsi'))
             pos = None
-        elif (not pos and rsi[k - 1] <= level < rsi[k] and ends[k] >= start
+        elif (not pos and rsi[k - 1] <= buy_level < rsi[k] and ends[k] >= start
               and (allow is None or allow('long', ends[k]))):
             pos = dict(ticker=ticker, side='long', entryTime=ends[k].isoformat(), entry=closes[k], _i=k)
     if pos:

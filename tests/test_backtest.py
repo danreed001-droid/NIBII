@@ -316,3 +316,17 @@ def test_mtf_rsi_needs_the_daily_rsi_above_50():
     assert simulate_rsi_mtf(h, d, T0)
     h, d = _mtf_fixture(daily_up=False)
     assert simulate_rsi_mtf(h, d, T0) == []
+
+
+def test_rsi_band_needs_to_clear_both_levels():
+    closes = [100 - i for i in range(20)] + [80 + 2 * i for i in range(20)] + [120 - 2 * i for i in range(20)]
+    bars = [((T0 + timedelta(days=i)).isoformat(), c, c, c, c) for i, c in enumerate(closes)]
+    ends = with_ends(bars, timedelta(days=1))
+    rsi = rsi_series(closes)
+    tr = simulate_rsi(bars, ends, T0, buy_level=55, sell_level=45)
+    assert len(tr) == 1
+    k_in = [e.isoformat() for e in ends].index(tr[0]['entryTime'])
+    k_out = [e.isoformat() for e in ends].index(tr[0]['exitTime'])
+    assert rsi[k_in - 1] <= 55 < rsi[k_in] and rsi[k_out - 1] >= 45 > rsi[k_out]
+    # defaults are unchanged
+    assert simulate_rsi(bars, ends, T0) == simulate_rsi(bars, ends, T0, buy_level=50, sell_level=50)
