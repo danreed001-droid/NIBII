@@ -272,3 +272,16 @@ def test_correlation_cap_skips_a_twin_of_a_stock_already_picked():
     r = run_momentum(prices, c, c[70], look=20, skip=0, top_n=2, cost=0.0, max_corr=0.9)
     held = r['picks'][0][1]
     assert 'B' in held and not ({'A', 'A2'} <= set(held))
+
+
+def test_exec_next_trades_at_the_next_sessions_open():
+    c = cal(80)
+    prices = {'SPY': {d: 100.0 for d in c}, 'A': {d: 100 * 1.01 ** i for i, d in enumerate(c)}}
+    opens = {'A': {d: 100 * 1.01 ** i * 0.99 for i, d in enumerate(c)}}
+    now = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0)
+    nxt = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0, exec_next=opens)
+    first = now['picks'][0][0]
+    assert nxt['picks'][0][0] == c[c.index(first) + 1]
+    # bought 1% under the close: ends a bit ahead of buying a day later at the close
+    late = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0, exec_next='close')
+    assert nxt['curve'][-1][1] > late['curve'][-1][1]
