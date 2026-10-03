@@ -18,6 +18,7 @@ are still missing, so even that is somewhat optimistic.)
 
 Usage:
     python scripts/backtest_momentum.py
+    python scripts/backtest_momentum.py --sizes 5,10,20 --plain   # portfolio sizes, no trend/SPY variants
 """
 import json
 import os
@@ -85,9 +86,13 @@ def main():
 
     results = {}
     print(f"{'variant':38} {'hindsight':>9} | {'total':>7} {'CAGR':>6} {'maxDD':>6} | {'2020-24':>7} {'DD':>5} | {'2025-26':>7} {'DD':>5} | turn/yr")
+    sizes = (10, 20)
+    if '--sizes' in sys.argv:
+        sizes = tuple(int(x) for x in sys.argv[sys.argv.index('--sizes') + 1].split(','))
+    combos = ((False, False),) if '--plain' in sys.argv else ((False, False), (True, False), (True, True))
     for sname, (look, skip) in SCORES.items():
-        for n in (10, 20):
-            for tr, rk in ((False, False), (True, False), (True, True)):
+        for n in sizes:
+            for tr, rk in combos:
                 key = f"top {n}, {sname}" + (", trend check" if tr else "") + (", SPY>200d" if rk else "")
                 common = dict(look=look, skip=skip, top_n=n, risk_on=risk_on if rk else None)
                 hind = run_momentum(prices, calendar, START, eligible=combine(trend_ok if tr else None), **common)
@@ -113,8 +118,9 @@ def main():
 
     best = max(results, key=lambda k: results[k]['inS']['total'])
     print(f"\nbest on 2020-24 alone: {best} -> 2025-26 check {results[best]['out']['total']:+.0%}")
-    d, picks = results[best]['lastPicks']
-    print(f"holdings as of {d}: " + ', '.join(f"{t} ({names[t][0]})" for t in picks))
+    for key in list(dict.fromkeys([best] + [k for k in results if k.startswith('top 5,')]))[:4]:
+        d, picks = results[key]['lastPicks']
+        print(f"{key} holds as of {d}: " + ', '.join(f"{t} ({names[t][0]})" for t in picks))
     with open(os.path.join(ROOT, 'data', 'momentum.json'), 'w') as f:
         json.dump(dict(start=START, split=SPLIT, results=results, bench=bres, best=best), f)
 
