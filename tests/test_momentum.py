@@ -232,3 +232,17 @@ def test_sector_filter_buys_only_from_the_top_sector_and_sells_after_grace():
     assert all(sector[t] == 'H' for t in first)
     last = r['picks'][-1][1]
     assert last and all(sector[t] == 'L' for t in last)
+
+
+def test_buy_ok_false_keeps_holdings_but_buys_nothing_new():
+    c = cal(80)
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': {d: 100 * 1.01 ** i for i, d in enumerate(c)},
+              'B': {d: 100 * 1.005 ** i for i, d in enumerate(c)}}
+    frozen_from = c[45]
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=2, cost=0.0,
+                     buy_ok=lambda d: d < frozen_from)
+    assert all(sorted(h) == ['A', 'B'] for _, h in r['picks'])
+    # with nothing held, a freeze keeps the account in cash
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=2, cost=0.0, buy_ok=lambda d: False)
+    assert all(h == [] for _, h in r['picks'])

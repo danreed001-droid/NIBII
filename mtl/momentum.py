@@ -91,7 +91,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  rebalance_on_start=False, risk_daily=False, windows=None, blend='rank',
                  trail_stop=None, cooldown=20, group_of=None, max_per_group=None,
                  sector_of=None, top_sectors=None, sector_grace=1, sector_min=3,
-                 rsi_exit=None, rsi_period=14):
+                 rsi_exit=None, rsi_period=14, buy_ok=None):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -113,7 +113,10 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       (Wilder, `rsi_period`) closes below this level is sold at that close and
       replaced by the best-ranked qualifying stock not held; it is barred for
       `cooldown` sessions, and no stock is bought while its RSI is below the
-      level. Counted in `stops`."""
+      level. Counted in `stops`.
+    buy_ok: optional callable(date) -> bool; while False no new stock is
+      bought - holdings that still qualify are kept, sold ones leave their
+      slot in cash."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
@@ -208,6 +211,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         for t in keep:
             if len(target) < top_n and fits(t):
                 add(t)
+        if buy_ok is not None and not buy_ok(d):
+            return [t for t in target if t in shares]
         for _, t in scored:
             if len(target) >= top_n:
                 break
