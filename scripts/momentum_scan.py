@@ -34,6 +34,7 @@ from datetime import date, datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
+from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, trades_from_picks  # noqa: E402
 from mtl.sleeve import ASSETS, NAMES, best_of, filled, plan_curve_dynamic, six_month, sleeve_curve  # noqa: E402
 from mtl.structure import structure_signal  # noqa: E402
@@ -47,6 +48,7 @@ PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
 AUTO_NEED, AUTO_LOW = 2, 0.6            # auto: 60/40 while 2+ holdings are in a daily downtrend, else 100%
 STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+ -> STEPS_MIN
 STEPS_MIN = 0.4
+CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
 HUMAN_FROM = '2024-01-01'               # daily series shipped for scoring the viewer's own weekly calls
 STATE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
 
@@ -312,6 +314,28 @@ def main():
                    for f_ in [calendar[k] for k in week_ends] + ([as_of] if signal_day else [])
                    if f_ >= HUMAN_FROM]
 
+    # score the viewer's own calls (swaps / drops on real prices) from the repo copy
+    mine = None
+    try:
+        with open(CALLS_PATH) as fh:
+            my_calls = (json.load(fh) or {}).get('calls') or {}
+    except (OSError, ValueError):
+        my_calls = {}
+    if signature(my_calls):
+        pick_at = {d_: h for d_, h in picks}
+        kidx = {d_: i for i, d_ in enumerate(calendar)}
+        rank_cache = {}
+
+        def ranks_at(f_):
+            if f_ not in rank_cache:
+                rank_cache[f_] = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, kidx[f_], LOOK, SKIP, eligible))}
+            return rank_cache[f_]
+        wk = [(w[0], w[1], w[2], w[3]) for w in human_weeks]
+        args = (my_calls, calendar, wk, lambda d_: pick_at.get(d_, []), ranks_at, prices, sl_val, bil)
+        scored, base = score_calls(*args), score_calls(*args, apply_picks=False)
+        if scored:
+            mine = dict(sig=signature(my_calls), curve=scored['curve'], base=base['curve'], weeks=scored['weeks'][-60:])
+
     years = {k: yearly(v) for k, v in curves.items()}
     stats = {k: curve_stats([p[1] for p in v]) for k, v in curves.items()}
     one_year = {k: (v[-1][1] / next(p[1] for p in v if p[0] >= calendar[max(0, K - 252)]) - 1) for k, v in curves.items()}
@@ -335,7 +359,7 @@ def main():
                for k, s in stats.items()},
         turnover=r4(r['turnover']),
         sleeve=sleeve,
-        human=dict(days=human_days, weeks=human_weeks),
+        human=dict(days=human_days, weeks=human_weeks, mine=mine),
         plan=dict(splits=['auto', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
