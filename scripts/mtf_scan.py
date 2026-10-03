@@ -2,8 +2,8 @@
 """Multi-timeframe buy/sell scanner - see mtl/mtf.py for the rules.
 
 With no tickers it scans the default universe (mtl/universe.py): the
-XLF/XLU/XLY/EEM/GLD/SLV ETFs plus every S&P 500 stock in data/sp500.csv,
-and prints a summary of the BUY/SELL signals. A short list of tickers
+XLF/XLU/XLY/EEM/GLD/SLV ETFs plus every S&P 500 stock in data/sp500.csv
+(re-downloaded automatically once it's more than a week old), and prints a summary of the BUY/SELL signals. A short list of tickers
 (10 or fewer) gets the full per-timeframe detail instead.
 
 Usage:
@@ -99,11 +99,13 @@ def main():
     ap.add_argument('--watch', action='store_true', help='list WATCH setups in the summary')
     ap.add_argument('--details', action='store_true', help='full per-timeframe detail for every ticker')
     ap.add_argument('--include-forming', action='store_true')
+    ap.add_argument('--no-refresh', action='store_true',
+                    help="don't auto-refresh the S&P 500 list even if it's over a week old")
     ap.add_argument('--lookback', type=int, default=4,
                     help='recent labeled swings that must all agree for a trend (default 4)')
     args = ap.parse_args()
 
-    names = default_universe()
+    names = default_universe(refresh=not args.tickers and not args.no_refresh)
     tickers = [t.upper() for t in args.tickers] or list(names)
     print(f"Fetching weekly/daily/1h/15m bars for {len(tickers)} tickers...", file=sys.stderr)
     series = fetch_series_many(tickers, include_forming=args.include_forming)

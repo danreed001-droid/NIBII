@@ -284,7 +284,10 @@ the latest high + low.
 
 With no tickers it scans the default universe in `mtl/universe.py` - the
 XLF / XLU / XLY / EEM / GLD / SLV ETFs plus every S&P 500 stock in
-`data/sp500.csv` (refresh with `python scripts/update_sp500.py`) - using
+`data/sp500.csv` - re-downloaded from Wikipedia automatically whenever the
+saved copy is more than 7 days old (date kept in `data/sp500.asof`; a failed
+download falls back to the saved list; `--no-refresh` skips it,
+`python scripts/update_sp500.py` forces it) - using
 batched Yahoo downloads (~2 minutes for ~510 tickers), and prints only the
 BUY / SELL hits plus WATCH/NO counts. Ten or fewer tickers get the full
 per-timeframe detail.
