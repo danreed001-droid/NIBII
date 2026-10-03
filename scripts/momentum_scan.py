@@ -15,7 +15,9 @@ is skipped for 150 sessions after a one-day close move beyond +200% /
 The page's plan pairs the rule with the best-of sleeve (mtl/sleeve.py): most of
 the account in the top 5 (90/80/70/60%, 80% by default) and the rest in
 whichever of gold / bonds / dollar / commodities / T-bills had the best
-6 months, no leverage, reset to the split every Friday.
+6 months, no leverage. Signals come from each Friday's close; trades (stocks,
+sleeve switch, reset to the split) are made on Monday before the close, and the
+track record is computed that way.
 
 Usage:
     python scripts/momentum_scan.py               # writes data/momentum_scan.json
@@ -140,7 +142,9 @@ def main():
             return False
         return t not in sp or added.get(t, '0000') <= d
 
-    r = run_momentum(prices, calendar, START, look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible)
+    # decided on each Friday close, traded at Monday's close (you can't trade after the bell)
+    r = run_momentum(prices, calendar, START, look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible,
+                     exec_next='close')
     K = len(calendar) - 1
     as_of = calendar[K]
     now = ranking(prices, calendar, K, LOOK, SKIP, eligible)
@@ -185,9 +189,15 @@ def main():
         return out
 
     table = [row(t, detail=i < 25) for i, (t, _) in enumerate(now[:TABLE])]
+    # on a Friday the cards show what to own after Monday's trades (new buys flagged)
+    signal_day = date.fromisoformat(as_of).weekday() == 4
     held_rows = []
-    for t in holdings:
+    for t in (preview if signal_day else holdings):
         h = row(t, detail=True)
+        if t not in holdings:
+            h['new'] = True
+            held_rows.append(h)
+            continue
         h['since'] = entry.get(t)
         buy_px = prices[t].get(entry.get(t)) if entry.get(t) else None
         h['sinceRet'] = r4(prices[t][as_of] / buy_px - 1) if buy_px and prices[t].get(as_of) else None
@@ -204,10 +214,14 @@ def main():
     plans = {sp_: plan_curve(strat, sl_curve, sp_, 1 - sp_, calendar) for sp_ in PLAN_SPLITS}
     curves['plan'] = growth(plans[PLAN_DEFAULT])
     f = filled(sleeve_px, calendar)
-    last_fri = max(k for k, d_ in enumerate(calendar) if d_ == last_rebalance) if last_rebalance else K
+    today = date.fromisoformat(as_of)
+    week_ends = [k for k in range(K) if date.fromisoformat(calendar[k]).isocalendar()[:2]
+                 != date.fromisoformat(calendar[k + 1]).isocalendar()[:2]]
+    signal_k = K if signal_day else week_ends[-1]
+    prev_k = max(k for k in week_ends if k < signal_k)
     six = six_month(f, calendar, K)
     sleeve = dict(
-        held=best_of(f, calendar, last_fri), preview=best_of(f, calendar, K),
+        held=best_of(f, calendar, signal_k), prevHeld=best_of(f, calendar, prev_k), preview=best_of(f, calendar, K),
         assets=[dict(t=t, n=NAMES[t], r6=r4(six[t]), r1m=r4(ret(f[t], calendar, K, 21)), close=r4(f[t].get(as_of)))
                 for t in ASSETS],
         history=[dict(d=d_, t=t) for d_, t in sl_picks[-8:]][::-1],
@@ -221,11 +235,12 @@ def main():
     stats = {k: curve_stats([p[1] for p in v]) for k, v in curves.items()}
     one_year = {k: (v[-1][1] / next(p[1] for p in v if p[0] >= calendar[max(0, K - 252)]) - 1) for k, v in curves.items()}
 
-    d = date.fromisoformat(as_of)
-    next_rebal = d + timedelta(days=(4 - d.weekday()) % 7 or (7 if d.weekday() == 4 else 0))
+    signal_date = today + timedelta(days=(4 - today.weekday()) % 7)   # today if Friday, else the coming Friday
+    trade_date = signal_date + timedelta(days=3)
     payload = dict(
         generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'), asOf=as_of,
-        lastRebalance=last_rebalance, nextRebalance=next_rebal.isoformat(),
+        lastRebalance=last_rebalance, signalDay=signal_day, signalDate=signal_date.isoformat(),
+        tradeDate=trade_date.isoformat(),
         rule=dict(look=LOOK, skip=SKIP, topN=TOP_N, keepRank=2 * TOP_N, start=START),
         universe=dict(total=len(names), sp=sum(1 for t in names if t in sp), ndxOnly=sum(1 for t in names if t not in sp)),
         spyScore=r4(spy_score), holdings=held_rows, preview=preview,

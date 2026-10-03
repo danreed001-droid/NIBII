@@ -92,7 +92,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  trail_stop=None, cooldown=20, group_of=None, max_per_group=None,
                  sector_of=None, top_sectors=None, sector_grace=1, sector_min=3,
                  rsi_exit=None, rsi_period=14, buy_ok=None, weighting='equal', vol_target=None,
-                 vol_window=63, max_corr=None, corr_window=63, risk_adj=False):
+                 vol_window=63, max_corr=None, corr_window=63, risk_adj=False, exec_next=None):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -125,7 +125,12 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       at most 30% a year (never above 100% invested); the rest sits in cash.
     max_corr: e.g. 0.7 - skip a new buy whose daily returns over the last
       `corr_window` sessions correlate above this with a stock already chosen.
-    risk_adj: rank buy candidates by score / volatility instead of score."""
+    risk_adj: rank buy candidates by score / volatility instead of score.
+    exec_next: None = trade at the deciding session's close. 'close' = decide
+      at that close but trade at the next session's close; or a
+      {ticker: {date: price}} map (e.g. opens) = trade at the next session's
+      price from that map (falling back to the last close). Picks are dated
+      by the trading session."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
@@ -282,7 +287,39 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                 add(t)
         return target
 
+    pending = None
+
+    def trade(target, w, d, px_of):
+        nonlocal shares, cash, value, traded
+        fill = {t: px_of(t) for t in set(shares) | set(target)}
+        value = cash + sum(n * fill[t] for t, n in shares.items())
+        new_shares = {t: value * w[t] / fill[t] for t in target}
+        moved = sum(abs(new_shares.get(t, 0.0) - shares.get(t, 0.0)) * fill[t]
+                    for t in set(shares) | set(new_shares))
+        traded += moved
+        value -= moved * cost
+        for t in target:
+            if t not in shares:
+                peak[t] = fill[t]
+        for t in list(peak):
+            if t not in target:
+                peak.pop(t)
+        for t in list(sector_out):
+            if t not in target:
+                sector_out.pop(t)
+        shares = {t: value * w[t] / fill[t] for t in target}
+        last_px.update({t: fill[t] for t in target})
+        cash = value - sum(n * fill[t] for t, n in shares.items())
+        picks.append([d, list(target)])
+
     for k, d in enumerate(calendar):
+        if pending is not None:   # yesterday's decision fills today
+            target, w = pending
+            pending = None
+            if exec_next == 'close':
+                trade(target, w, d, lambda t: prices[t].get(d) or last_px.get(t))
+            else:
+                trade(target, w, d, lambda t: exec_next.get(t, {}).get(d) or prices[t].get(d) or last_px.get(t))
         for t in shares:
             px = prices[t].get(d)
             if px:
@@ -315,28 +352,12 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                     target = choose(k, d, None)
                 else:   # mid-week stop: keep the others, replace only the stopped names
                     target = choose(k, d, [t for t in shares if t not in stopped])
-            # rebalance to equal weight across the N slots (unfilled = cash)
-            for t in target:
-                last_px[t] = prices[t][d]
+            # rebalance to the target weights (equal by default; unfilled slots = cash)
             w = weights(target, k)
-            new_shares = {t: value * w[t] / last_px[t] for t in target}
-            moved = sum(abs(new_shares.get(t, 0.0) - shares.get(t, 0.0)) * last_px[t]
-                        for t in set(shares) | set(new_shares))
-            fee = moved * cost
-            traded += moved
-            value -= fee
-            for t in target:
-                if t not in shares:
-                    peak[t] = last_px[t]
-            for t in list(peak):
-                if t not in target:
-                    peak.pop(t)
-            for t in list(sector_out):
-                if t not in target:
-                    sector_out.pop(t)
-            shares = {t: value * w[t] / last_px[t] for t in target}
-            cash = value - sum(n * last_px[t] for t, n in shares.items())
-            picks.append([d, list(target)])
+            if exec_next is None:
+                trade(target, w, d, lambda t: prices[t].get(d) or last_px.get(t))
+            else:
+                pending = (target, w)
         curve.append([d, value, len(shares)])
     years = max(len(curve) / 252, 1e-9)
     avg_value = sum(p[1] for p in curve) / len(curve) if curve else 1.0
