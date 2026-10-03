@@ -3,7 +3,8 @@
 original rule, over the same universe and window as scripts/backtest.py.
 
 Exits: the original 1h flip, 1h flip + structure stop, stop + take profit
-at 1/2/3R, stop + exit on the daily chart's flip. Filter: SPY above its
+at 1/2/3R, stop + exit on the daily chart's flip, and a 3-candle
+confirmation of the 1h reversal on entry (and optionally exit). Filter: SPY above its
 200-day average for buys, below it for sells. Each variant is reported for
 buys, sells and both, and split into an in-sample period (entries before
 --split) and an out-of-sample period (from --split on) - choose on the
@@ -41,6 +42,11 @@ EXITS = {
     'rr2':        dict(exit='rr', rr=2.0, use_stop=True, label='stop + target 2R'),
     'rr3':        dict(exit='rr', rr=3.0, use_stop=True, label='stop + target 3R'),
     'daily+stop': dict(exit='daily', use_stop=True, label='stop + daily-chart flip'),
+    'conf3':      dict(exit='flip', use_stop=False, confirm=3, label='enter 3 candles after a held 1h reversal'),
+    'conf3x':     dict(exit='flip', use_stop=False, confirm=3, confirm_exit=True,
+                       label='enter and exit 3 candles after a held 1h reversal'),
+    'conf3x+stop': dict(exit='flip', use_stop=True, confirm=3, confirm_exit=True,
+                        label='3-candle confirmed entry/exit + swing stop'),
 }
 
 
@@ -111,6 +117,7 @@ def main():
                 for tk, ser in series.items():
                     for t in simulate_variant(ser, setup, lookback, start, ticker=tk, exit=ex['exit'],
                                               rr=ex.get('rr', 2.0), use_stop=ex['use_stop'],
+                                              confirm=ex.get('confirm', 0), confirm_exit=ex.get('confirm_exit', False),
                                               allow=allow_regime if filt == 'spy200' else None):
                         if consistent(t, ranges):
                             trades.append(t)

@@ -171,3 +171,24 @@ def test_variant_stop_and_target_bound_the_result():
 def test_variant_allow_filter_blocks_entries():
     series, setup = _series_v()
     assert simulate_variant(series, setup, 4, T0, allow=lambda side, when: False) == []
+
+
+def test_confirm_delays_entry_and_skips_failed_reversals():
+    series, setup = _series_v()
+    base = simulate_variant(series, setup, 4, T0)
+    conf = simulate_variant(series, setup, 4, T0, confirm=3)
+    bars = series['trig'][0]
+    assert len(conf) <= len(base)
+    for t in conf:
+        assert t['entryTime'] not in {b['entryTime'] for b in base} or not base
+    # zero confirmation is the original rule
+    assert [t['entryTime'] for t in simulate_variant(series, setup, 4, T0, confirm=0)] == [t['entryTime'] for t in base]
+
+
+def test_confirmed_exit_never_exits_before_the_unconfirmed_one():
+    series, setup = _series_v()
+    a = {t['entryTime']: t['exitTime'] for t in simulate_variant(series, setup, 4, T0, confirm=3)}
+    b = {t['entryTime']: t['exitTime'] for t in simulate_variant(series, setup, 4, T0, confirm=3, confirm_exit=True)}
+    for k in a:
+        if k in b:
+            assert b[k] >= a[k]
