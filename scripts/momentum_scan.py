@@ -113,6 +113,28 @@ def split_key(x):
     return f"{a}/{100 - a}"
 
 
+def chart_data(bs, sessions=90):
+    """The card's swing chart: the last `sessions` daily candles, every labeled
+    swing in that window (from a 320-session read; each is only known 3 sessions
+    after it forms), the daily read at each Friday close in the window (data up
+    to that Friday only), and today's read."""
+    if len(bs) < 40:
+        return None
+    window = bs[-sessions:]
+    first = window[0][0]
+    daily = [(b[0],) + tuple(b[1:]) for b in bs[-320:]]
+    sig = structure_signal(daily, n=3, lookback=2)
+    swings = [dict(d=s_['ts'], k=s_['type'][0], p=round(s_['price'], 2), l=s_['label'])
+              for s_ in sig['swings'] if s_['label'] and s_['ts'] >= first]
+    fridays = []
+    for j, b in enumerate(bs):
+        if b[0] >= first and date.fromisoformat(b[0]).weekday() == 4:
+            part = [(x[0],) + tuple(x[1:]) for x in bs[max(0, j + 1 - 320):j + 1]]
+            fridays.append([b[0], STATE[structure_signal(part, n=3, lookback=2)['state']]])
+    return dict(c=[[b[0], round(b[1], 2), round(b[2], 2), round(b[3], 2), round(b[4], 2)] for b in window],
+                sw=swings, fri=fridays, now=STATE[sig['state']])
+
+
 def r4s(st):
     return dict(total=r4(st['total']), annual=r4(st['annual']), maxDD=r4(st['maxDD']))
 
@@ -190,6 +212,8 @@ def main():
                             STATE[structure_signal(daily, n=3, lookback=2)['state']]]
         if detail:
             out['spark'] = [r4(b[4]) for b in bs[-130:]][::3]
+        if detail == 'chart':
+            out['chart'] = chart_data(bs)
         return out
 
     table = [row(t, detail=i < 25) for i, (t, _) in enumerate(now[:TABLE])]
@@ -197,7 +221,7 @@ def main():
     signal_day = date.fromisoformat(as_of).weekday() == 4
     held_rows = []
     for t in (preview if signal_day else holdings):
-        h = row(t, detail=True)
+        h = row(t, detail='chart')
         if t not in holdings:
             h['new'] = True
             held_rows.append(h)

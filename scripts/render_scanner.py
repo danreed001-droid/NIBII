@@ -92,6 +92,25 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 @media (max-width: 1000px) { .holdings { grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); } }
 .hold { position: relative; background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 14px 14px 12px;
   display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+.hold[data-t] { cursor: pointer; transition: border-color .15s; }
+.hold[data-t]:hover { border-color: var(--muted); }
+.hold[data-t]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.hold[aria-expanded="true"] { border-color: var(--gold); }
+.chart-hint { font-size: 0.7rem; color: var(--muted); text-align: right; }
+.swpanel { margin-top: 12px; }
+.swhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.swhead h3 { margin: 0; font: 600 1.05rem "Space Grotesk", system-ui, sans-serif; }
+.swhead .x { font: inherit; font-size: 0.8rem; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink-2); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.swread { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; }
+.swread.up { background: color-mix(in srgb, var(--pos) 18%, transparent); color: var(--pos); }
+.swread.down { background: color-mix(in srgb, var(--neg) 18%, transparent); color: var(--neg); }
+.swread.chop { background: var(--surface-2); color: var(--muted); }
+.swchart { position: relative; margin-top: 8px; }
+.swchart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.swchart .wick { stroke-width: 1; }
+.swchart .lbl { font: 700 10px ui-monospace, monospace; fill: var(--ink); }
+.swchart .strip text { font: 700 9px "Space Grotesk", system-ui, sans-serif; }
+.swnote { font-size: 0.78rem; color: var(--muted); margin: 8px 0 0; }
 .hold::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--gold), transparent); }
 .hold-top { display: flex; justify-content: space-between; align-items: center; }
 .rank { font-family: ui-monospace, monospace; font-size: 0.74rem; color: var(--gold); font-weight: 600; }
@@ -234,6 +253,7 @@ footer li { margin-bottom: 6px; }
 
   <p class="section-label">Current holdings <span class="hint" id="hold-hint"></span></p>
   <div class="holdings" id="holdings"></div>
+  <div class="card swpanel" id="swpanel" hidden></div>
 
   <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
   <div class="plan">
@@ -370,14 +390,102 @@ footer li { margin-bottom: 6px; }
   // holdings
   $('hold-hint').textContent = (D.signalDay ? 'after Monday’s trades · ' : '') + 'equal weight · 6-1m = return from 6 months to 1 month ago';
   $('holdings').innerHTML = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) {
-    return '<article class="hold"><div class="hold-top"><span class="rank">#' + (h.rank || '–') + '</span><span>' + (h.new ? '<span class="tag buy">buy Mon</span> ' : '') + (h.ndx ? '<span class="tag ndx" title="Nasdaq-100 only">NDX</span>' : '') + '</span></div>' +
+    var tap = h.chart ? ' data-t="' + esc(h.t) + '" tabindex="0" role="button" aria-expanded="false" aria-controls="swpanel" aria-label="' + esc(h.t) + ': show swing chart"' : '';
+    return '<article class="hold"' + tap + '><div class="hold-top"><span class="rank">#' + (h.rank || '–') + '</span><span>' + (h.new ? '<span class="tag buy">buy Mon</span> ' : '') + (h.ndx ? '<span class="tag ndx" title="Nasdaq-100 only">NDX</span>' : '') + '</span></div>' +
       '<div><div class="tk">' + esc(h.t) + '</div><div class="nm" title="' + esc(h.n) + '">' + esc(h.n) + '</div></div>' +
       '<div><div class="big ' + tone(h.score) + '">' + pct(h.score, 0) + '</div><div class="small">6-1m · ' + pct(h.vsSpy, 0) + ' vs SPY</div></div>' +
       spark(h.spark, 200, 44) +
       '<div class="kv"><span>Held</span><b>' + (h.new ? 'new' : (h.weeks || 0) + ' wk') + '</b><span>Since buy</span><b class="' + tone(h.sinceRet) + '">' + pct(h.sinceRet) + '</b>' +
       '<span>1 month</span><b class="' + tone(h.r1m) + '">' + pct(h.r1m) + '</b><span>Off high</span><b>' + pct(h.offHigh) + '</b></div>' +
-      '<div style="display:flex;justify-content:space-between;align-items:center"><span class="small">' + esc(h.sec) + '</span>' + trend(h.trend) + '</div></article>';
+      '<div style="display:flex;justify-content:space-between;align-items:center"><span class="small">' + esc(h.sec) + '</span>' + trend(h.trend) + '</div>' +
+      (h.chart ? '<div class="chart-hint">Swing chart ›</div>' : '') + '</article>';
   }).join('');
+
+  // swing chart panel: tap a card to open it
+  var HB = {}; D.holdings.forEach(function (h) { HB[h.t] = h; });
+  var openT = null;
+  function svgEl(tag, a, txt) { var e = el(tag, a); if (txt != null) e.textContent = txt; return e; }
+  function drawSwing(t) {
+    var h = HB[t], C = h.chart, panel = $('swpanel');
+    var READ = { up: ['up', 'Uptrend'], down: ['down', 'Downtrend'], chop: ['chop', 'Mixed'] };
+    var rd = READ[C.now] || ['chop', 'No read'];
+    var A = D.plan && D.plan.auto, counts = A && A.down.indexOf(t) >= 0;
+    panel.innerHTML = '<div class="swhead"><div><h3>' + esc(t) + ' · daily swings <span class="swread ' + rd[0] + '">' + rd[1] + ' now</span></h3>' +
+      '<p class="chart-sub">' + esc(h.n) + ' · last ' + C.c.length + ' sessions · ▼ swing high, ▲ swing low</p></div>' +
+      '<button type="button" class="x" id="swclose">Close</button></div><div class="swchart" id="swchart"></div>' +
+      '<p class="swnote">A swing high is the highest high of 7 days (3 before, 3 after), so it is only known 3 days later; lows likewise. ' +
+      '<b>HH/LH</b> = higher/lower than the previous swing high, <b>HL/LL</b> = vs the previous swing low. Down = the last two swings are both LH/LL; up = both HH/HL; otherwise mixed. ' +
+      (counts ? '<b>This holding is in a downtrend at the signal close and counts toward the auto mix (' + A.need + '+ moves it to ' + A.low + ').</b>' : 'The auto mix moves to ' + (A ? A.low : '60/40') + ' when ' + (A ? A.need : 2) + '+ holdings read down at Friday’s close.') + '</p>';
+    $('swclose').onclick = function () { closeSwing(); };
+    var box = $('swchart'), W = Math.max(300, box.clientWidth), PH = Math.round(Math.min(340, Math.max(220, W * 0.42))), SH = 26, H = PH + SH + 26;
+    var m = { l: 52, r: 10, t: 22, b: 8 }, n = C.c.length, step = (W - m.l - m.r) / n;
+    var lo = Infinity, hi = -Infinity; C.c.forEach(function (b) { lo = Math.min(lo, b[3]); hi = Math.max(hi, b[2]); });
+    var pad = (hi - lo) * 0.09; lo -= pad; hi += pad;
+    function X(i) { return m.l + (i + 0.5) * step; }
+    function Y(v) { return m.t + (1 - (v - lo) / (hi - lo)) * (PH - m.t - m.b); }
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': t + ' daily candles with swing labels' });
+    var g = el('g', { class: 'grid axis' }); svg.appendChild(g);
+    var span = hi - lo, raw = span / 4, mag = Math.pow(10, Math.floor(Math.log10(raw))), stp = [1, 2, 2.5, 5, 10].map(function (k) { return k * mag; }).find(function (v) { return v >= raw; });
+    for (var v = Math.ceil(lo / stp) * stp; v <= hi; v += stp) {
+      g.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }));
+      g.appendChild(svgEl('text', { x: m.l - 6, y: Y(v) + 4, 'text-anchor': 'end' }, '$' + (v >= 100 ? Math.round(v) : v.toFixed(v >= 10 ? 0 : 1))));
+    }
+    var idx = {}; C.c.forEach(function (b, i) { idx[b[0]] = i; });
+    var bw = Math.max(1.4, step * 0.62);
+    C.c.forEach(function (b, i) {
+      var col = b[4] >= b[1] ? 'var(--pos)' : 'var(--neg)', x = X(i);
+      svg.appendChild(el('line', { class: 'wick', x1: x, x2: x, y1: Y(b[2]), y2: Y(b[3]), style: 'stroke:' + col }));
+      var y0 = Y(Math.max(b[1], b[4])), y1 = Y(Math.min(b[1], b[4]));
+      svg.appendChild(el('rect', { x: x - bw / 2, y: y0, width: bw, height: Math.max(1, y1 - y0), rx: Math.min(1.5, bw / 3), style: 'fill:' + col }));
+    });
+    var labelAll = step >= 7, sws = C.sw.filter(function (s) { return s.d in idx; });
+    sws.forEach(function (s, j) {
+      var x = X(idx[s.d]), isH = s.k === 'h', down = s.l === 'LH' || s.l === 'LL', col = down ? 'var(--neg)' : 'var(--pos)';
+      var y = Y(s.p) + (isH ? -6 : 6), tri = isH ? 'M' + (x - 4) + ' ' + (y - 5) + 'L' + (x + 4) + ' ' + (y - 5) + 'L' + x + ' ' + y + 'Z' : 'M' + (x - 4) + ' ' + (y + 5) + 'L' + (x + 4) + ' ' + (y + 5) + 'L' + x + ' ' + y + 'Z';
+      svg.appendChild(el('path', { d: tri, style: 'fill:' + col }));
+      if (labelAll || j >= sws.length - 4) svg.appendChild(svgEl('text', { class: 'lbl', x: x, y: isH ? y - 8 : y + 16, 'text-anchor': 'middle' }, s.l));
+    });
+    // Friday reads
+    var strip = el('g', { class: 'strip' }); svg.appendChild(strip);
+    var SC = { up: 'var(--pos)', down: 'var(--neg)', chop: 'var(--muted)' }, ST = { up: 'up', down: 'DOWN', chop: 'mixed' };
+    C.fri.forEach(function (f, j) {
+      if (!(f[0] in idx)) return;
+      var a = idx[f[0]], b = j + 1 < C.fri.length && C.fri[j + 1][0] in idx ? idx[C.fri[j + 1][0]] : n, x0 = m.l + (a + 0.5) * step, x1 = m.l + (b + 0.5) * step;
+      x1 = Math.min(x1, W - m.r);
+      strip.appendChild(el('rect', { x: x0 + 1, y: PH + 6, width: Math.max(1, x1 - x0 - 2), height: SH - 6, rx: 3, style: 'fill:' + (SC[f[1]] || 'var(--hairline)') + ';opacity:' + (f[1] === 'chop' || !f[1] ? 0.45 : 0.85) }));
+      if (x1 - x0 > 34) strip.appendChild(svgEl('text', { x: (x0 + x1) / 2, y: PH + 6 + (SH - 6) / 2 + 3.5, 'text-anchor': 'middle', style: 'fill:' + (f[1] === 'chop' || !f[1] ? 'var(--ink)' : '#fff') }, ST[f[1]] || '–'));
+    });
+    svg.appendChild(svgEl('text', { x: m.l - 6, y: PH + 6 + (SH - 6) / 2 + 3.5, 'text-anchor': 'end', style: 'fill:var(--muted);font-size:10px' }, 'Fri read'));
+    var ax = el('g', { class: 'axis' }); svg.appendChild(ax);
+    C.c.forEach(function (b, i) { if (i && b[0].slice(5, 7) !== C.c[i - 1][0].slice(5, 7)) ax.appendChild(svgEl('text', { x: X(i), y: H - 4, 'text-anchor': 'middle' }, fmtDate(b[0], { month: 'short' }))); });
+    var cross = el('line', { class: 'cross', y1: m.t, y2: PH, visibility: 'hidden' }); svg.appendChild(cross);
+    var tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true;
+    box.innerHTML = ''; box.appendChild(svg); box.appendChild(tip);
+    svg.addEventListener('pointermove', function (e) {
+      var r = svg.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width * W, i = Math.max(0, Math.min(n - 1, Math.floor((sx - m.l) / step))), b = C.c[i];
+      cross.setAttribute('x1', X(i)); cross.setAttribute('x2', X(i)); cross.setAttribute('visibility', 'visible');
+      var sw = C.sw.filter(function (s) { return s.d === b[0]; }).map(function (s) { return s.l; }).join(' ');
+      tip.innerHTML = '<div style="margin-bottom:3px">' + fmtDate(b[0], { weekday: 'short', month: 'short', day: 'numeric' }) + (sw ? ' · <b>' + sw + '</b>' : '') + '</div>' +
+        '<div class="row">O <b>' + b[1].toFixed(2) + '</b> H <b>' + b[2].toFixed(2) + '</b></div><div class="row">L <b>' + b[3].toFixed(2) + '</b> C <b>' + b[4].toFixed(2) + '</b></div>';
+      tip.hidden = false; var bx = X(i) / W * r.width, left = bx + 12; if (left + tip.offsetWidth > r.width) left = bx - tip.offsetWidth - 12;
+      tip.style.left = Math.max(0, left) + 'px'; tip.style.top = '8px';
+    });
+    svg.addEventListener('pointerleave', function () { tip.hidden = true; cross.setAttribute('visibility', 'hidden'); });
+  }
+  function closeSwing() {
+    openT = null; $('swpanel').hidden = true;
+    document.querySelectorAll('.hold[data-t]').forEach(function (c) { c.setAttribute('aria-expanded', 'false'); });
+  }
+  function openSwing(t) {
+    if (openT === t) { closeSwing(); return; }
+    openT = t; $('swpanel').hidden = false;
+    document.querySelectorAll('.hold[data-t]').forEach(function (c) { c.setAttribute('aria-expanded', String(c.getAttribute('data-t') === t)); });
+    drawSwing(t);
+    $('swpanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  $('holdings').addEventListener('click', function (e) { var c = e.target.closest('.hold[data-t]'); if (c) openSwing(c.getAttribute('data-t')); });
+  $('holdings').addEventListener('keydown', function (e) { var c = e.target.closest('.hold[data-t]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSwing(c.getAttribute('data-t')); } });
+  var swr; window.addEventListener('resize', function () { clearTimeout(swr); swr = setTimeout(function () { if (openT) drawSwing(openT); }, 150); });
 
   // plan: account size x leverage -> dollars per position
   (function () {

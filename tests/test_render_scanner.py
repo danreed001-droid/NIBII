@@ -30,3 +30,9 @@ def test_page_has_the_plan_section_and_tolerates_old_data_without_it():
     page = render_scanner.render(SCAN)
     assert 'id="alloc"' in page and 'id="mix-seg"' in page and 'id="assets"' in page
     assert "if (!P || !SL)" in page          # scans without plan data still render
+
+
+def test_holding_cards_open_a_swing_chart_panel():
+    page = render_scanner.render(SCAN)
+    assert 'id="swpanel"' in page and 'function drawSwing' in page
+    assert "h.chart ?" in page            # cards without chart data stay plain
