@@ -12,10 +12,10 @@ dates, so the track record carries a little hindsight from them. A stock
 is skipped for 150 sessions after a one-day close move beyond +200% /
 -80% (unadjusted spin-offs and data glitches read as crashes).
 
-The page's plan pairs the rule with the best-of sleeve (mtl/sleeve.py): 60% of
-the account in the top 5 and 40% in whichever of gold / bonds / dollar /
-commodities / T-bills had the best 6 months, run at 1.0x, 1.3x or 1.5x (the
-extra borrowed at PLAN_RATE a year), rebalanced every Friday.
+The page's plan pairs the rule with the best-of sleeve (mtl/sleeve.py): most of
+the account in the top 5 (90/80/70/60%, 80% by default) and the rest in
+whichever of gold / bonds / dollar / commodities / T-bills had the best
+6 months, no leverage, reset to the split every Friday.
 
 Usage:
     python scripts/momentum_scan.py               # writes data/momentum_scan.json
@@ -37,7 +37,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'data', 'momentum_scan.json')
 START, LOOK, SKIP, TOP_N, TABLE = '2020-01-02', 126, 21, 5, 100
 GLITCH_BLOCK = 150
-PLAN_SPLIT, PLAN_LEVELS, PLAN_DEFAULT, PLAN_RATE = 0.6, (1.0, 1.3, 1.5), 1.3, 0.06
+PLAN_SPLITS, PLAN_DEFAULT = (0.9, 0.8, 0.7, 0.6), 0.8
 STATE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
 
 
@@ -99,6 +99,12 @@ def ret(px, calendar, k, n):
 
 def r4(x):
     return None if x is None else round(x, 4)
+
+
+def split_key(x):
+    """0.8 -> '80/20'."""
+    a = round(x * 100)
+    return f"{a}/{100 - a}"
 
 
 def r4s(st):
@@ -193,10 +199,9 @@ def main():
     qqq = [[d, c] for d, c in ((b[0], b[4]) for b in bench['QQQ']) if d >= START]
     curves = {'strategy': growth(strat), 'SPY': growth(spy), 'QQQ': growth(qqq)}
 
-    # the plan: top 5 + best-of sleeve, at each leverage level
+    # the plan: top 5 + best-of sleeve at each split, no leverage
     sl_curve, sl_picks = sleeve_curve(sleeve_px, calendar, START)
-    plans = {lev: plan_curve(strat, sl_curve, PLAN_SPLIT * lev, (1 - PLAN_SPLIT) * lev, calendar, PLAN_RATE)
-             for lev in PLAN_LEVELS}
+    plans = {sp_: plan_curve(strat, sl_curve, sp_, 1 - sp_, calendar) for sp_ in PLAN_SPLITS}
     curves['plan'] = growth(plans[PLAN_DEFAULT])
     f = filled(sleeve_px, calendar)
     last_fri = max(k for k, d_ in enumerate(calendar) if d_ == last_rebalance) if last_rebalance else K
@@ -208,10 +213,10 @@ def main():
         history=[dict(d=d_, t=t) for d_, t in sl_picks[-8:]][::-1],
         stats=r4s(curve_stats([p[1] for p in sl_curve])))
     plan_stats = {}
-    for lev, c in plans.items():
+    for sp_, c in plans.items():
         st = curve_stats([p[1] for p in c])
-        plan_stats[f"{lev:.1f}"] = dict(total=r4(st['total']), annual=r4(st['annual']), maxDD=r4(st['maxDD']),
-                                        years={y: r4(v) for y, v in yearly(c).items()})
+        plan_stats[split_key(sp_)] = dict(total=r4(st['total']), annual=r4(st['annual']), maxDD=r4(st['maxDD']))
+
     years = {k: yearly(v) for k, v in curves.items()}
     stats = {k: curve_stats([p[1] for p in v]) for k, v in curves.items()}
     one_year = {k: (v[-1][1] / next(p[1] for p in v if p[0] >= calendar[max(0, K - 252)]) - 1) for k, v in curves.items()}
@@ -234,8 +239,7 @@ def main():
                for k, s in stats.items()},
         turnover=r4(r['turnover']),
         sleeve=sleeve,
-        plan=dict(split=PLAN_SPLIT, levels=[f"{x:.1f}" for x in PLAN_LEVELS], default=f"{PLAN_DEFAULT:.1f}",
-                  rate=PLAN_RATE, stats=plan_stats))
+        plan=dict(splits=[split_key(x) for x in PLAN_SPLITS], default=split_key(PLAN_DEFAULT), stats=plan_stats))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)
