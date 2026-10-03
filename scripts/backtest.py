@@ -25,7 +25,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from mtl.backtest import (ET, SETUPS, curve_stats, growth, portfolio_index, resample, simulate,
+from mtl.backtest import (ET, SETUPS, consistent, curve_stats, growth, portfolio_index, resample, simulate,
                           summarize, with_ends)
 from mtl.universe import default_universe
 
@@ -150,9 +150,10 @@ def main():
     raw = fetch_all(tickers)
     bench = fetch_benchmarks()
     closes = {tk: {b[0][:10]: b[4] for b in raw[tk].get('daily', [])} for tk in tickers}
+    ranges = {tk: {b[0][:10]: (b[3], b[2]) for b in raw[tk].get('daily', [])} for tk in tickers}
     sessions = [d for d, _ in bench['SPY']]
 
-    all_trades = []
+    all_trades, dropped = [], {}
     for tk in tickers:
         if not raw[tk].get('daily'):
             continue
@@ -160,7 +161,10 @@ def main():
         for mode, lookback in MODES.items():
             for name, setup in SETUPS.items():
                 for t in simulate(series, setup, lookback, start, ticker=tk, stake=args.stake):
-                    all_trades.append(dict(t, mode=mode, setup=name))
+                    if consistent(t, ranges):
+                        all_trades.append(dict(t, mode=mode, setup=name))
+                    else:
+                        dropped[tk] = dropped.get(tk, 0) + 1
 
     fields = ['mode', 'setup', 'ticker', 'side', 'entryTime', 'entry', 'exitTime', 'exit',
               'ret', 'pnl', 'bars', 'open']
@@ -169,6 +173,9 @@ def main():
         w.writeheader()
         w.writerows({k: t[k] for k in fields} for t in all_trades)
     print(f"wrote {args.csv} ({len(all_trades)} trades)", file=sys.stderr)
+    if dropped:
+        print(f"dropped {sum(dropped.values())} trades whose prices fell outside the daily range: "
+              + ', '.join(f"{t} ({n})" for t, n in sorted(dropped.items(), key=lambda x: -x[1])), file=sys.stderr)
 
     results = {}
     for mode in MODES:
@@ -213,7 +220,7 @@ def main():
     payload = dict(generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'),
                    start=args.start, stake=args.stake, tickers=len(tickers), modes=MODES,
                    setups={k: dict(v, context=list(v['context'])) for k, v in SETUPS.items()},
-                   benchmarks=BENCHMARKS,
+                   benchmarks=BENCHMARKS, dropped=dropped,
                    results=results)
     with open(args.json, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))

@@ -232,3 +232,19 @@ def curve_stats(values, sessions_per_year=252):
         peak = max(peak, v)
         dd = min(dd, v / peak - 1.0)
     return dict(total=total, annual=annual, maxDD=dd)
+
+
+def consistent(trade, daily_ranges, tol=0.02):
+    """False when the trade's entry or exit price sits outside that day's
+    daily low-high range (with `tol` slack) - the intraday and daily
+    series disagree about what the ticker even is. Real case: Yahoo's
+    hourly "BNY" history before Bank of New York Mellon took that symbol
+    in 2024 is a ~$10 fund, while its daily "BNY" history is the ~$55
+    bank; marking one against the other invents +400% days. Trades on a
+    day with no daily bar are kept."""
+    ranges = daily_ranges.get(trade['ticker'], {})
+    for when, px in ((trade['entryTime'], trade['entry']), (trade['exitTime'], trade['exit'])):
+        r = ranges.get(when[:10])
+        if r and not (r[0] * (1 - tol) <= px <= r[1] * (1 + tol)):
+            return False
+    return True

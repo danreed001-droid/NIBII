@@ -126,3 +126,14 @@ def test_growth_and_curve_stats():
     assert [round(v[1], 6) for v in g] == [100.0, 150.0, 120.0]
     s = curve_stats([v[1] for v in g])
     assert abs(s['total'] - 0.2) < 1e-9 and abs(s['maxDD'] - (120 / 150 - 1)) < 1e-9 and s['annual'] is None
+
+
+from mtl.backtest import consistent
+
+
+def test_consistent_rejects_prices_outside_the_daily_range():
+    ranges = {'BNY': {'2024-03-08': (54.0, 56.0), '2024-03-14': (54.5, 55.5)}}
+    ok = dict(ticker='BNY', entryTime='2024-03-08T15:00', entry=55.0, exitTime='2024-03-14T11:00', exit=55.2)
+    bad = dict(ok, entry=10.64)
+    assert consistent(ok, ranges) and not consistent(bad, ranges)
+    assert consistent(dict(ok, ticker='ZZZ'), ranges)
