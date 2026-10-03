@@ -90,3 +90,29 @@ def plan_curve(main, sleeve, w_main, w_sleeve, calendar, rate=0.06):
         if d in rebal:
             a, b, debt = nav * w_main, nav * w_sleeve, nav * borrow
     return out
+
+
+def plan_curve_dynamic(main, sleeve, calendar, split_at):
+    """Top-5 / sleeve mix whose stock share is decided at each week's last
+    session by split_at(date) and applied at the next session's close (Monday),
+    like the live page's trades. Returns [[date, value]] from 1.0."""
+    week_ends = last_sessions_of_weeks(calendar)
+    idx = {d: i for i, d in enumerate(calendar)}
+    reset = {calendar[idx[f] + 1]: split_at(f) for f in week_ends if idx[f] + 1 < len(calendar)}
+    other = dict(sleeve)
+    out, prev, a, b = [], None, None, None
+    for d, v in main:
+        if d not in other:
+            continue
+        if prev is None:
+            a = split_at(d)
+            b = 1 - a
+        else:
+            a *= v / prev[0]
+            b *= other[d] / prev[1]
+        nav = a + b
+        out.append([d, nav])
+        if d in reset:
+            a, b = nav * reset[d], nav * (1 - reset[d])
+        prev = (v, other[d])
+    return out

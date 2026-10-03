@@ -12,10 +12,12 @@ dates, so the track record carries a little hindsight from them. A stock
 is skipped for 150 sessions after a one-day close move beyond +200% /
 -80% (unadjusted spin-offs and data glitches read as crashes).
 
-The page's plan pairs the rule with the best-of sleeve (mtl/sleeve.py): most of
-the account in the top 5 (90/80/70/60%, 80% by default) and the rest in
-whichever of gold / bonds / dollar / commodities / T-bills had the best
-6 months, no leverage. Signals come from each Friday's close; trades (stocks,
+The page's plan pairs the rule with the best-of sleeve (mtl/sleeve.py), whichever
+of gold / bonds / dollar / commodities / T-bills had the best 6 months, no
+leverage. 'Auto' (the default) holds 100% in the top 5 and moves to 60/40 for
+the week when 2 or more holdings are in a daily lower-low downtrend at Friday's
+close (the swing read shown on each card); fixed 100/0, 80/20 and 60/40 mixes
+are offered too. Signals come from each Friday's close; trades (stocks,
 sleeve switch, reset to the split) are made on Monday before the close, and the
 track record is computed that way.
 
@@ -26,12 +28,13 @@ Usage:
 import json
 import os
 import sys
+from bisect import bisect_right
 from datetime import date, datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
-from mtl.momentum import ranking, run_momentum, trades_from_picks  # noqa: E402
-from mtl.sleeve import ASSETS, NAMES, best_of, filled, plan_curve, six_month, sleeve_curve  # noqa: E402
+from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, trades_from_picks  # noqa: E402
+from mtl.sleeve import ASSETS, NAMES, best_of, filled, plan_curve_dynamic, six_month, sleeve_curve  # noqa: E402
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 
@@ -39,7 +42,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'data', 'momentum_scan.json')
 START, LOOK, SKIP, TOP_N, TABLE = '2020-01-02', 126, 21, 5, 100
 GLITCH_BLOCK = 150
-PLAN_SPLITS, PLAN_DEFAULT = (0.9, 0.8, 0.7, 0.6), 0.8
+PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
+AUTO_NEED, AUTO_LOW = 2, 0.6            # auto: 60/40 while 2+ holdings are in a daily downtrend, else 100%
 STATE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
 
 
@@ -211,8 +215,28 @@ def main():
 
     # the plan: top 5 + best-of sleeve at each split, no leverage
     sl_curve, sl_picks = sleeve_curve(sleeve_px, calendar, START)
-    plans = {sp_: plan_curve(strat, sl_curve, sp_, 1 - sp_, calendar) for sp_ in PLAN_SPLITS}
-    curves['plan'] = growth(plans[PLAN_DEFAULT])
+    pick_days = [p[0] for p in picks]
+    bar_days = {t: [b[0] for b in bs] for t, bs in bars.items()}
+    down_cache = {}
+
+    def held_at(d_):
+        i = bisect_right(pick_days, d_) - 1
+        return picks[i][1] if i >= 0 else []
+
+    def in_downtrend(t, d_):
+        if (t, d_) not in down_cache:
+            j = bisect_right(bar_days.get(t, []), d_)
+            daily = [(b[0],) + tuple(b[1:]) for b in bars.get(t, [])[max(0, j - 320):j]]
+            down_cache[(t, d_)] = structure_signal(daily, n=3, lookback=2)['state'] == 'downtrend'
+        return down_cache[(t, d_)]
+
+    def auto_split(d_):
+        return AUTO_LOW if sum(in_downtrend(t, d_) for t in held_at(d_)) >= AUTO_NEED else 1.0
+
+    plans = {'auto': plan_curve_dynamic(strat, sl_curve, calendar, auto_split)}
+    for x in PLAN_SPLITS:
+        plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
+    curves['plan'] = growth(plans['auto'])
     f = filled(sleeve_px, calendar)
     today = date.fromisoformat(as_of)
     week_ends = [k for k in range(K) if date.fromisoformat(calendar[k]).isocalendar()[:2]
@@ -227,9 +251,20 @@ def main():
         history=[dict(d=d_, t=t) for d_, t in sl_picks[-8:]][::-1],
         stats=r4s(curve_stats([p[1] for p in sl_curve])))
     plan_stats = {}
-    for sp_, c in plans.items():
+    for key, c in plans.items():
         st = curve_stats([p[1] for p in c])
-        plan_stats[split_key(sp_)] = dict(total=r4(st['total']), annual=r4(st['annual']), maxDD=r4(st['maxDD']))
+        plan_stats[key] = dict(total=r4(st['total']), annual=r4(st['annual']), maxDD=r4(st['maxDD']))
+    # this week's auto mix: decided at the signal Friday's close from the holdings going into it
+    sig_d, prev_d = calendar[signal_k], calendar[prev_k]
+    auto = dict(need=AUTO_NEED, low=split_key(AUTO_LOW),
+                split=split_key(auto_split(sig_d)), prevSplit=split_key(auto_split(prev_d)),
+                down=[t for t in held_at(sig_d) if in_downtrend(t, sig_d)],
+                checked=held_at(sig_d), decided=sig_d,
+                weeksLow=sum(1 for f in last_sessions_of_weeks(calendar) if f >= START and auto_split(f) < 1),
+                weeks=sum(1 for f in last_sessions_of_weeks(calendar) if f >= START))
+    if not signal_day:   # mid-week preview with today's charts
+        auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
+        auto['preview'] = split_key(AUTO_LOW if len(auto['previewDown']) >= AUTO_NEED else 1.0)
 
     years = {k: yearly(v) for k, v in curves.items()}
     stats = {k: curve_stats([p[1] for p in v]) for k, v in curves.items()}
@@ -254,7 +289,7 @@ def main():
                for k, s in stats.items()},
         turnover=r4(r['turnover']),
         sleeve=sleeve,
-        plan=dict(splits=[split_key(x) for x in PLAN_SPLITS], default=split_key(PLAN_DEFAULT), stats=plan_stats))
+        plan=dict(splits=['auto'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)

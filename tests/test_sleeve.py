@@ -49,3 +49,19 @@ def test_plan_without_leverage_is_the_weighted_mix_and_borrowing_costs_money():
     lev = plan_curve(flat_sleeve, flat_sleeve, 0.78, 0.52, c, rate=0.06)
     assert lev[-1][1] < 1.0
     assert abs(lev[-1][1] - (1 - 0.30 * 0.06 / 252) ** 59) < 1e-3
+
+
+def test_dynamic_plan_changes_the_mix_at_the_session_after_the_decision():
+    from mtl.momentum import last_sessions_of_weeks
+    from mtl.sleeve import plan_curve_dynamic
+    c = cal(30)
+    main = [[d, 1.0 * 1.01 ** i] for i, d in enumerate(c)]
+    flat_sleeve = [[d, 1.0] for d in c]
+    full = plan_curve_dynamic(main, flat_sleeve, c, lambda d: 1.0)
+    assert abs(full[-1][1] - main[-1][1]) < 1e-9
+    fri = last_sessions_of_weeks(c)[1]
+    p = plan_curve_dynamic(main, flat_sleeve, c, lambda d: 0.6 if d >= fri else 1.0)
+    k = c.index(fri)
+    # identical through Monday's close, then only 60% keeps growing
+    assert abs(p[k + 1][1] - full[k + 1][1]) < 1e-9
+    assert p[k + 2][1] < full[k + 2][1]
