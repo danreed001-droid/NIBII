@@ -51,6 +51,7 @@ from mtl.momentum import run_momentum  # noqa: E402
 from mtl.options_sim import bs_call, bs_delta, strike_for_delta  # noqa: E402
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import load_added, load_sp500  # noqa: E402
+from study_big_moves import roll_std, volumes  # noqa: E402
 
 RATE, SPREAD = 0.04, 0.02
 
@@ -59,13 +60,7 @@ def rolling_vol(c, w=63):
     r = np.full(len(c), np.nan)
     with np.errstate(divide='ignore', invalid='ignore'):
         r[1:] = np.log(c[1:] / c[:-1])
-    out = np.full(len(c), np.nan)
-    for i in range(w, len(c)):
-        x = r[i - w + 1:i + 1]
-        x = x[np.isfinite(x)]
-        if len(x) >= w * 0.8:
-            out[i] = x.std(ddof=1) * math.sqrt(252)
-    return out
+    return roll_std(r, w) * math.sqrt(252)
 
 
 def days(a, b):
@@ -101,7 +96,7 @@ def main():
         held_at[i] = cur
     trade_days = set(pk)
 
-    C, V = {}, {}
+    C, V, V20 = {}, {}, {}
 
     def series(t, src=None):
         if t not in C:
@@ -111,7 +106,7 @@ def main():
                 v = p.get(d)
                 last = v if v else last
                 s[i] = last
-            C[t], V[t] = s, rolling_vol(s)
+            C[t], V[t], V20[t] = s, rolling_vol(s), rolling_vol(s, 20)
         return C[t]
 
     for t in {x for h in held_at for x in h}:
@@ -121,6 +116,31 @@ def main():
     spy200 = np.array([spy[max(0, i - 199):i + 1].mean() for i in range(n)])
     q = C['QQQ']
     q200 = np.array([q[max(0, i - 199):i + 1].mean() for i in range(n)])
+
+    # panic signals (scripts/study_big_moves.py): Friday close with VIX 35+ ; stocks down 20%+ over the
+    # last month, most beaten-down first, bought at the next session's close
+    vix_px = volumes(sorted(bars)).get('^VIX', {})
+    vix = np.array([vix_px.get(d, np.nan) for d in cal])
+    vmax20 = np.array([np.nanmax(vix[max(0, i - 19):i + 1]) for i in range(n)])
+    wd = [date.fromisoformat(d).weekday() for d in cal]
+
+    def panic_signals(vix_min=35, drop=-0.20, fading=False, per_week=5):
+        out = {}
+        for i in range(max(i0, 300), n - 1):
+            if wd[i + 1] > wd[i] or not vix[i] >= vix_min:
+                continue
+            if fading and not vix[i] <= 0.8 * vmax20[i]:
+                continue
+            cands = []
+            for t, bs in bars.items():
+                if not eligible(t, cal[i]):
+                    continue
+                c = series(t)
+                if c[i] > 0 and c[i - 21] > 0 and c[i - 260] > 0 and c[i] / c[i - 21] - 1 <= drop:
+                    cands.append((c[i] / c[i - 21] - 1, t))
+            if cands:
+                out[i + 1] = [t for _, t in sorted(cands)[:per_week]]
+        return out
 
     # auto read: 2+ holdings in a daily lower-low downtrend at the previous close
     dates = {t: [b[0] for b in bs] for t, bs in bars.items()}
@@ -136,8 +156,10 @@ def main():
             dcache[f] = k
         return dcache[f]
 
-    def iv(t, i, bump):
-        v = V[t][i]
+    def iv(t, i, bump, fast=False):
+        """fast: price off the higher of 20- and 63-day volatility (a panic shows up in 20-day first,
+        and real option prices jump at once)."""
+        v = max(V[t][i], V20[t][i]) if fast and not np.isnan(V20[t][i]) else V[t][i]
         if t == 'QQQ':
             return max(0.12, (0.20 if np.isnan(v) else v) + 0.04)
         return max(0.20, (0.40 if np.isnan(v) else v) + bump)
@@ -145,16 +167,26 @@ def main():
     def expiry(d, tenor):
         return date.fromordinal(date.fromisoformat(d).toordinal() + tenor).isoformat()
 
-    def calls_on_top5(risk=0.10, delta=0.70, tenor=90, roll_at=21, roll=False, filt=None, bump=0.10):
+    def calls_on_top5(risk=0.10, delta=0.70, tenor=90, roll_at=21, roll=False, filt=None, bump=0.10,
+                      top5=True, panic=None, p_risk=0.05, p_delta=0.50, p_tenor=90, p_roll=21, p_max=10, p_bump=0.10):
+        """top5=False: no top-5 calls. panic: {entry index: [tickers]} - calls bought on those, held until
+        p_roll days before expiry, p_risk of the account each, at most p_max open."""
         cash, pos, curve = 100.0, [], []
         for i in range(i0, n):
             d = cal[i]
-            held = held_at[i]
+            held = held_at[i] if top5 else ()
             keep, reopen = [], []
             for p in pos:
                 s = C[p['t']][i]
                 left = days(d, p['exp'])
-                mid = bs_call(s, p['k'], max(0, left) / 365, iv(p['t'], i, bump), RATE)
+                mid = bs_call(s, p['k'], max(0, left) / 365, iv(p['t'], i, p_bump if p.get('panic') else bump, p.get('panic')), RATE)
+                if p.get('panic'):
+                    if left <= p_roll:
+                        cash += p['n'] * mid * (1 - SPREAD)
+                    else:
+                        p['mid'] = mid
+                        keep.append(p)
+                    continue
                 if p['t'] not in held or left <= roll_at:
                     cash += p['n'] * mid * (1 - SPREAD)
                     if p['t'] in held and roll:
@@ -164,7 +196,21 @@ def main():
                     keep.append(p)
             pos = keep
             acct = cash + sum(p['n'] * p['mid'] for p in pos)
-            have = {p['t'] for p in pos}
+            have = {p['t'] for p in pos if not p.get('panic')}
+            if panic and i in panic:
+                npan = sum(1 for p in pos if p.get('panic'))
+                for t in panic[i]:
+                    if npan >= p_max or any(p['t'] == t and p.get('panic') for p in pos):
+                        continue
+                    s, v = C[t][i], iv(t, i, p_bump, True)
+                    k = strike_for_delta(s, p_tenor / 365, v, RATE, p_delta)
+                    mid = bs_call(s, k, p_tenor / 365, v, RATE)
+                    spend = min(cash, acct * p_risk)
+                    if spend <= acct * p_risk * 0.5 or mid <= 0:
+                        continue
+                    cash -= spend
+                    npan += 1
+                    pos.append(dict(t=t, k=k, exp=expiry(d, p_tenor), n=spend / (mid * (1 + SPREAD)), mid=mid, panic=True))
             new = [t for t in held if t not in have and (i in trade_days and t not in held_at[i - 1])]
             for t in list(dict.fromkeys(new + reopen)):
                 size = risk
@@ -271,6 +317,8 @@ def main():
 
     print("simulating...", flush=True)
     t5 = r['curve']
+    P35, P30, PF = panic_signals(), panic_signals(vix_min=30), panic_signals(vix_min=30, fading=True)
+    print(f"panic weeks: VIX 35+ {len(P35)}, VIX 30+ {len(P30)}, fading {len(PF)}", flush=True)
     rows = {
         'calls on entries 10% (earlier best)': calls_on_top5(),
         'calls + roll 10%': calls_on_top5(roll=True),
@@ -283,6 +331,17 @@ def main():
         'deep 0.80 / 180d 15%, SPY filter': calls_on_top5(roll=True, delta=0.80, tenor=180, roll_at=45, risk=0.15, filt='spy200'),
         'deep 0.80 / 180d 15%, guard filter': calls_on_top5(roll=True, delta=0.80, tenor=180, roll_at=45, risk=0.15, filt='guard'),
         'calls + roll 15%, SPY filter': calls_on_top5(roll=True, risk=0.15, filt='spy200'),
+        'PANIC calls only, 90d ATM 5%': calls_on_top5(top5=False, panic=P35),
+        'PANIC calls only, 90d ATM 10%': calls_on_top5(top5=False, panic=P35, p_risk=0.10),
+        'PANIC calls only, 45d ATM 5%': calls_on_top5(top5=False, panic=P35, p_tenor=45, p_roll=3),
+        'PANIC calls only, 90d ITM.70 10%': calls_on_top5(top5=False, panic=P35, p_risk=0.10, p_delta=0.70),
+        'PANIC calls only, VIX fading, 90d ATM 10%': calls_on_top5(top5=False, panic=PF, p_risk=0.10),
+        'PANIC calls only, VIX 30+, 90d ATM 10%': calls_on_top5(top5=False, panic=P30, p_risk=0.10),
+        'PANIC calls only 10% [pricier +25pt]': calls_on_top5(top5=False, panic=P35, p_risk=0.10, p_bump=0.25),
+        'deep top-5 SPY filter + PANIC 5%': calls_on_top5(roll=True, delta=0.80, tenor=180, roll_at=45, filt='spy200', panic=P35),
+        'deep top-5 SPY filter + PANIC 10%': calls_on_top5(roll=True, delta=0.80, tenor=180, roll_at=45, filt='spy200', panic=P35, p_risk=0.10),
+        'deep top-5 SPY filter + PANIC 10% [pricier]': calls_on_top5(roll=True, delta=0.80, tenor=180, roll_at=45, filt='spy200', panic=P35, p_risk=0.10, bump=0.20, p_bump=0.25),
+        'deep 15% SPY filter + PANIC 10%': calls_on_top5(roll=True, delta=0.80, tenor=180, roll_at=45, risk=0.15, filt='spy200', panic=P35, p_risk=0.10),
         'calls + roll 15%, auto filter': calls_on_top5(roll=True, risk=0.15, filt='auto'),
         'calls + roll 15%, guard filter': calls_on_top5(roll=True, risk=0.15, filt='guard'),
         'calls + roll 15% [pricier +20pt]': calls_on_top5(roll=True, risk=0.15, bump=0.20),
@@ -321,7 +380,7 @@ def main():
 
     years = sorted({d[:4] for d in cal[i0:]})
     pick = ['calls on entries 10% (earlier best)', 'calls + roll 15%', 'calls + roll 15%, guard filter',
-            'calls + roll, deep 0.80 / 180d 10%', 'deep 0.80 / 180d 10%, SPY filter', 'QQQ trend calls 2x', 'sell puts on top 5 (cushion 5)', 'sell puts on top 5 (cushion 0)',
+            'deep 0.80 / 180d 10%, SPY filter', 'PANIC calls only, 90d ATM 10%', 'deep top-5 SPY filter + PANIC 10%', 'deep 15% SPY filter + PANIC 10%', 'QQQ trend calls 2x', 'sell puts on top 5 (cushion 5)', 'sell puts on top 5 (cushion 0)',
             'top 5 in stock', 'buy & hold QQQ']
     print(f"\n{'by year':38} " + ' '.join(f"{y:>6}" for y in years))
     for label in pick:
