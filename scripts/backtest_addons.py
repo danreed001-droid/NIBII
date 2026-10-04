@@ -19,6 +19,8 @@ Long-history data of backtest_long_history.py (today's index lists).
 
 Usage:
     python scripts/backtest_addons.py
+    python scripts/backtest_addons.py --robust   # any-stock news gap: gap size 8-15%, window 2-6 weeks,
+                                                 # fill vs force, and random-flag placebos
     python scripts/backtest_addons.py --wide   # news gap from the top 10 / 20 / 50 / any stock beating SPY /
                                                # any stock at all, and news gaps alone with no ranking
 """
@@ -71,6 +73,41 @@ def main():
         return lambda t, k: a(t, k) or b(t, k)
 
     base = dict(look=126, skip=21, top_n=5, eligible=eligible, exec_next='close')
+    if '--robust' in sys.argv:
+        import random
+        news = {}
+        for th in (0.08, 0.10, 0.12, 0.15):
+            f = {}
+            for t, bs in bars.items():
+                for j in range(1, len(bs)):
+                    d, o, h, lo, c = bs[j]
+                    pc = bs[j - 1][4]
+                    k = pos.get(d)
+                    if k is not None and pc and h > lo and o / pc - 1 >= th and c / pc - 1 >= th and (c - lo) / (h - lo) >= 0.6:
+                        f.setdefault(t, set()).add(k)
+            news[th] = f
+
+        def win(f, w):
+            return lambda t, k: any((k - x) in f.get(t, ()) for x in range(w))
+
+        variants = [('top 5 as is', {})]
+        for th in (0.08, 0.10, 0.12, 0.15):
+            for w in (10, 21, 31):
+                variants.append((f"gap {th:.0%}, {w // 5} weeks, force", dict(prefer=win(news[th], w), prefer_mode='force',
+                                                                         prefer_rank=None, prefer_pool='all')))
+        for th in (0.08, 0.12):
+            variants.append((f"gap {th:.0%}, 4 weeks, fill", dict(prefer=win(news[th], 21), prefer_rank=None, prefer_pool='all')))
+        # placebo: the same number of flags on random stocks / days - if this also 'helps', the edge is fake
+        n10 = sum(len(v) for v in news[0.10].values())
+        names = [t for t in news[0.10]] + [t for t in bars if t not in news[0.10]]
+        for seed in (1, 2, 3):
+            rnd = random.Random(seed)
+            f = {}
+            for _ in range(n10):
+                f.setdefault(rnd.choice(names), set()).add(rnd.randrange(260, len(cal)))
+            variants.append((f"PLACEBO random flags #{seed}, 4 weeks, force",
+                             dict(prefer=win(f, 21), prefer_mode='force', prefer_rank=None, prefer_pool='all')))
+        return report(variants, prices, cal, eligible)
     if '--wide' in sys.argv:
         g = flagged('gap10', 21)
         variants = [('top 5 as is', {})]
