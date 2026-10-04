@@ -36,6 +36,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, trades_from_picks  # noqa: E402
+from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix, six_month, sleeve_curve  # noqa: E402
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
@@ -235,7 +236,33 @@ def main():
         h['weeks'] = sum(1 for _ in [p for p in picks if entry.get(t) and p[0] >= entry[t]])
         held_rows.append(h)
 
+    # news boost: a second run where any stock that gapped up 12%+ on news (mtl/news.py) in the
+    # last 4 weeks replaces the weakest holding. On a Friday the post-trade holdings come from a
+    # run with one more (flat) session appended, so the pending Monday trade fills.
+    gaps = {t: news_gap_days(bs) for t, bs in bars.items() if bs}
+    boost_kw = dict(look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible, exec_next='close',
+                    prefer_mode='force', prefer_rank=None, prefer_pool='all')
+    rb = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), **boost_kw)
+    picks_b = rb['picks']
+    hold_b = picks_b[-1][1] if picks_b else []
+    after_b = hold_b
+    if signal_day:
+        nd = (today_d := date.fromisoformat(as_of)) + timedelta(days=3 if today_d.weekday() == 4 else 1)
+        nd = nd.isoformat()
+        added_px = [t for t in prices if prices[t].get(as_of)]
+        for t in added_px:
+            prices[t][nd] = prices[t][as_of]
+        cal_x = calendar + [nd]
+        try:
+            rx = run_momentum(prices, cal_x, START, prefer=booster(gaps, cal_x), **boost_kw)
+            if rx['picks'] and rx['picks'][-1][0] == nd:
+                after_b = rx['picks'][-1][1]
+        finally:
+            for t in added_px:
+                prices[t].pop(nd, None)
+
     strat = [[d, v] for d, v, _ in r['curve']]
+    strat_b = [[d, v] for d, v, _ in rb['curve']]
     spy = [[d, c] for d, c in ((b[0], b[4]) for b in bench['SPY']) if d >= START]
     qqq = [[d, c] for d, c in ((b[0], b[4]) for b in bench['QQQ']) if d >= START]
     curves = {'strategy': growth(strat), 'SPY': growth(spy), 'QQQ': growth(qqq)}
@@ -260,6 +287,15 @@ def main():
     def auto_split(d_):
         return AUTO_LOW if sum(in_downtrend(t, d_) for t in held_at(d_)) >= AUTO_NEED else 1.0
 
+    pick_days_b = [p[0] for p in picks_b]
+
+    def held_at_b(d_):
+        i = bisect_right(pick_days_b, d_) - 1
+        return picks_b[i][1] if i >= 0 else []
+
+    def auto_split_b(d_):
+        return AUTO_LOW if sum(in_downtrend(t, d_) for t in held_at_b(d_)) >= AUTO_NEED else 1.0
+
     def n_down(d_):
         return sum(in_downtrend(t, d_) for t in held_at(d_))
 
@@ -282,6 +318,7 @@ def main():
 
     spy_curve = [[d_, spy_px[d_]] for d_ in calendar if d_ >= START and d_ in spy_px]
     plans = {'auto': plan_curve_dynamic(strat, sl_curve, calendar, auto_split),
+             'boost': plan_curve_dynamic(strat_b, sl_curve, calendar, auto_split_b),
              'steps': plan_curve_dynamic(strat, sl_curve, calendar, steps_split),
              'guard': plan_curve_mix({'top5': strat, 'sleeve': sl_curve, 'spy': spy_curve}, calendar, guard_weights)}
     for x in PLAN_SPLITS:
@@ -289,6 +326,7 @@ def main():
     curves['plan'] = growth(plans['auto'])
     curves['steps'] = growth(plans['steps'])
     curves['guard'] = growth(plans['guard'])
+    curves['boost'] = growth(plans['boost'])
     f = filled(sleeve_px, calendar)
     today = date.fromisoformat(as_of)
     week_ends = [k for k in range(K) if date.fromisoformat(calendar[k]).isocalendar()[:2]
@@ -324,6 +362,19 @@ def main():
                          spyNow=r4(spy_px[sig_d]), spyYearAgo=r4(spy_px[calendar[k_sig - 252]]) if k_sig >= 252 else None,
                          spyClose=r4(spy_px[as_of]),
                          weeksBear=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and bear(f_)))
+    news_now = recent_gaps(gaps, calendar, K)
+    auto['boost'] = dict(
+        gap=NEWS_GAP, window=NEWS_WINDOW,
+        split=split_key(auto_split_b(sig_d)), prevSplit=split_key(auto_split_b(prev_d)),
+        down=[t for t in held_at_b(sig_d) if in_downtrend(t, sig_d)],
+        holdings=after_b, prev=hold_b,
+        sell=[t for t in hold_b if t not in after_b], buy=[t for t in after_b if t not in hold_b],
+        boosted=[t for t in after_b if t not in (preview if signal_day else holdings)],
+        replaced=[t for t in (preview if signal_day else holdings) if t not in after_b],
+        gaps=[dict(t=t, d=d_, n=names.get(t, ('', ''))[0], held=t in after_b) for t, d_ in sorted(news_now.items(), key=lambda x: x[1], reverse=True)],
+        rows=[row(t, detail='chart') for t in after_b],
+        weeksDiff=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and set(held_at(f_)) != set(held_at_b(f_))),
+        top5=r4s(curve_stats([p[1] for p in strat_b])))
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(AUTO_LOW if len(auto['previewDown']) >= AUTO_NEED else 1.0)
@@ -388,7 +439,7 @@ def main():
         turnover=r4(r['turnover']),
         sleeve=sleeve,
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
-        plan=dict(splits=['auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
+        plan=dict(splits=['auto', 'boost', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)

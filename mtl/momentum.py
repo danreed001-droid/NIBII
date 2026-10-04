@@ -93,7 +93,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  sector_of=None, top_sectors=None, sector_grace=1, sector_min=3,
                  rsi_exit=None, rsi_period=14, buy_ok=None, weighting='equal', vol_target=None,
                  vol_window=63, max_corr=None, corr_window=63, risk_adj=False, exec_next=None,
-                 exit_when=None, exit_daily=True, buy_when=None, lookback_at=None):
+                 exit_when=None, exit_daily=True, buy_when=None, lookback_at=None,
+                 prefer=None, prefer_rank=20, prefer_mode='fill', prefer_pool='qualified'):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -143,7 +144,14 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       next-best ranked stock that passes is taken instead.
     lookback_at: optional callable(k) -> (look, skip) to change the strength
       window by regime (e.g. 3 months while the market's 12-month return is
-      negative); defaults to (look, skip)."""
+      negative); defaults to (look, skip).
+    prefer: optional callable(ticker, k) -> bool (e.g. "gapped up 10%+ on news
+      this week"). On a rebalance, qualifying stocks ranked within
+      `prefer_rank` for which it is True jump the queue for open slots.
+      prefer_mode='force' also lets them replace the lowest-ranked holding
+      when no slot is open (at most one swap per preferred stock).
+      prefer_rank=None: any rank. prefer_pool='all': flagged stocks qualify even
+      when they don't beat the benchmark (ranked by score among all stocks)."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(last_sessions_of_weeks(calendar))
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
@@ -291,6 +299,23 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             return [t for t in target if t in shares]
         if risk_adj:
             scored = sorted(scored, key=lambda x: -x[0] / vol(x[1], k))
+        if prefer is not None and not isinstance(keep_from, list):
+            if prefer_pool == 'all':
+                pool = [(sc, t) for t, sc, _ in rows if banned_until.get(t, -1) < k and t not in exclude]
+            else:
+                pool = scored
+            pool = pool if prefer_rank is None else pool[:prefer_rank]
+            pref = [x for x in pool if x[1] not in target and prefer(x[1], k)]
+            if prefer_mode == 'force':
+                for _, t in pref:
+                    if len(target) >= top_n and fits(t):
+                        held = [u for u in target if u in rank or u in shares]
+                        worst = max(held, key=lambda u: rank.get(u, 10 ** 9)) if held else None
+                        if worst is not None:
+                            target.remove(worst)
+                            g = group_of.get(worst, worst) if group_of else worst
+                            count[g] -= 1
+            scored = pref + [x for x in scored if x not in pref]
         for _, t in scored:
             if len(target) >= top_n:
                 break
