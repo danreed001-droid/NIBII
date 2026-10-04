@@ -19,6 +19,8 @@ Long-history data of backtest_long_history.py (today's index lists).
 
 Usage:
     python scripts/backtest_addons.py
+    python scripts/backtest_addons.py --wide   # news gap from the top 10 / 20 / 50 / any stock beating SPY /
+                                               # any stock at all, and news gaps alone with no ranking
 """
 import os
 import sys
@@ -69,6 +71,15 @@ def main():
         return lambda t, k: a(t, k) or b(t, k)
 
     base = dict(look=126, skip=21, top_n=5, eligible=eligible, exec_next='close')
+    if '--wide' in sys.argv:
+        g = flagged('gap10', 21)
+        variants = [('top 5 as is', {})]
+        for mode in ('fill', 'force'):
+            for lab, kw in (('top 10', dict(prefer_rank=10)), ('top 20', dict(prefer_rank=20)),
+                            ('top 50', dict(prefer_rank=50)), ('any stock beating SPY', dict(prefer_rank=None)),
+                            ('ANY stock, even weak', dict(prefer_rank=None, prefer_pool='all'))):
+                variants.append((f"news gap, {lab}, {mode}", dict(prefer=g, prefer_mode=mode, **kw)))
+        return report(variants, prices, cal, eligible, gap_only(flags['gap10'], prices, cal, eligible, pos))
     variants = [
         ('top 5 as is', {}),
         ('news gap this week, fill', dict(prefer=flagged('gap10', 5))),
@@ -82,6 +93,43 @@ def main():
         ('dip this week, top 10 only, fill', dict(prefer=flagged('dip', 5), prefer_rank=10)),
         ('news gap last month OR dip this week, fill', dict(prefer=either(flagged('gap10', 21), flagged('dip', 5)))),
     ]
+    report(variants, prices, cal, eligible)
+
+
+def gap_only(gaps, prices, cal, eligible, pos, slots=5, hold=60):
+    """No strength ranking at all: buy each news-gap stock at the next close (open slots only,
+    newest gaps first), hold it `hold` sessions, `slots` equal slots, the rest in cash."""
+    by_day = {}
+    for t, ks in gaps.items():
+        for k in ks:
+            by_day.setdefault(k, []).append(t)
+    start = pos[next(d for d in cal if d >= START)]
+    cash, held, curve, last = 100.0, {}, [], {}
+    for k in range(start, len(cal)):
+        d = cal[k]
+        for t in list(held):
+            px = prices[t].get(d) or last.get(t)
+            last[t] = px
+            if k >= held[t][1]:
+                cash += held[t][0] * px
+                del held[t]
+        val = cash + sum(n * last[t] for t, (n, _) in held.items())
+        for t in by_day.get(k - 1, []):
+            if len(held) >= slots or t in held or not eligible(t, cal[k - 1]):
+                continue
+            px = prices[t].get(d)
+            if not px:
+                continue
+            spend = min(cash, val / slots)
+            held[t] = (spend * (1 - 0.0005) / px, k + hold)
+            last[t] = px
+            cash -= spend
+        curve.append((d, cash + sum(n * last[t] for t, (n, _) in held.items())))
+    return curve
+
+
+def report(variants, prices, cal, eligible, extra=None):
+    base = dict(look=126, skip=21, top_n=5, eligible=eligible, exec_next='close')
     spans = [('since 2000', '2000-01-01', '2100'), ('2000-09', '2000-01-01', '2009-12-31'),
              ('2010-19', '2010-01-01', '2019-12-31'), ('since 2020', '2020-01-01', '2100')]
     print(f"{'top-5 stock account':44} | " + ' | '.join(f"{lab:^22}" for lab, _, _ in spans) + " | trades/yr")
@@ -97,6 +145,13 @@ def main():
             out.append(f"{st['total']:+9.0%} {st['annual']:+5.0%} {st['maxDD']:6.0%}")
         buys = sum(len(set(h) - set(p)) for (_, p), (_, h) in zip(r['picks'], r['picks'][1:]))
         print(f"{label:44} | " + ' | '.join(out) + f" | {buys / (len(c) / 252):6.0f}", flush=True)
+    if extra:
+        curves['news gaps only, no ranking (5 slots, 60 days)'] = extra
+        out = []
+        for _, a, b in spans:
+            st = curve_stats([v for d, v in extra if a <= d <= b])
+            out.append(f"{st['total']:+9.0%} {st['annual']:+5.0%} {st['maxDD']:6.0%}")
+        print(f"{'news gaps only, no ranking (5 slots, 60 days)':44} | " + ' | '.join(out), flush=True)
     years = sorted({d[:4] for d, _ in curves['top 5 as is']})
     print(f"\n{'by year':44} " + ' '.join(f"{y[2:]:>5}" for y in years))
     for label, c in curves.items():
