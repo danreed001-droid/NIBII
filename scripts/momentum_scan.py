@@ -385,11 +385,12 @@ def main():
     # values of the top-5 rule, the sleeve and T-bills (cash), and each week's
     # signal Friday -> trade day with the Auto and Steps stock shares
     sl_val, bil = dict(sl_curve), f['BIL']
-    human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_])] for d_, v in strat
+    strat_b_val = dict((d_, v) for d_, v in strat_b)
+    human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_]), round(strat_b_val.get(d_, v), 6)] for d_, v in strat
                   if d_ >= HUMAN_FROM and d_ in sl_val and bil.get(d_)]
     nxt = {calendar[i]: calendar[i + 1] for i in range(len(calendar) - 1)}
     coming_trade = (today + timedelta(days=(4 - today.weekday()) % 7 + 3)).isoformat()
-    human_weeks = [[f_, nxt.get(f_, coming_trade), auto_split(f_), steps_split(f_)]
+    human_weeks = [[f_, nxt.get(f_, coming_trade), auto_split(f_), steps_split(f_), auto_split_b(f_)]
                    for f_ in [calendar[k] for k in week_ends] + ([as_of] if signal_day else [])
                    if f_ >= HUMAN_FROM]
 
@@ -409,9 +410,11 @@ def main():
             if f_ not in rank_cache:
                 rank_cache[f_] = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, kidx[f_], LOOK, SKIP, eligible))}
             return rank_cache[f_]
-        wk = [(w[0], w[1], w[2], w[3]) for w in human_weeks]
+        pick_at_b = {d_: h for d_, h in picks_b}
+        wk = [tuple(w) for w in human_weeks]
         args = (my_calls, calendar, wk, lambda d_: pick_at.get(d_, []), ranks_at, prices, sl_val, bil)
-        scored, base = score_calls(*args), score_calls(*args, apply_picks=False)
+        kw = dict(boost_picks_at=lambda d_: pick_at_b.get(d_, []))
+        scored, base = score_calls(*args, **kw), score_calls(*args, apply_picks=False, **kw)
         if scored:
             mine = dict(sig=signature(my_calls), curve=scored['curve'], base=base['curve'], weeks=scored['weeks'][-60:])
 
@@ -439,7 +442,7 @@ def main():
         turnover=r4(r['turnover']),
         sleeve=sleeve,
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
-        plan=dict(splits=['auto', 'boost', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='auto', stats=plan_stats, auto=auto))
+        plan=dict(splits=['boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='boost', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)

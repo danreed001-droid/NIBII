@@ -17,7 +17,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PATH = os.path.join(ROOT, 'docs', 'my_calls.json')
-MODES = ('auto', 'steps', 'cash', 'custom', 'del')
+MODES = ('auto', 'boost', 'steps', 'cash', 'custom', 'del')
 DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 TICKER = re.compile(r'^[A-Z][A-Z0-9.\-]{0,9}$')
 STAMP = re.compile(r'^[0-9T:.\-+Z]{0,40}$')

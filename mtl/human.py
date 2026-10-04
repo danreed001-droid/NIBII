@@ -1,7 +1,8 @@
 """Scores the viewer's own weekly calls ("Mine", the human model) on real prices.
 
 A call is keyed by its signal Friday and carries forward until the next one:
-  m       'auto' | 'steps' | 'cash' | 'custom' ('del' = removed)
+  m       'auto' | 'boost' | 'steps' | 'cash' | 'custom' ('del' = removed); 'boost'
+          follows the News-boost list (its own five stocks) with its Auto mix
   s, v, c custom stock / sleeve / cash percentages
   swaps   [[model_pick, replacement], ...]  replacement must rank in the top 10
   drops   [model_pick, ...]                 that slot sits in cash
@@ -14,7 +15,7 @@ still holds the stock it replaced and the replacement still ranks in the top
 Pure and network-free.
 """
 SWAP_RANK = 10
-LIVE = ('auto', 'steps', 'cash', 'custom')
+LIVE = ('auto', 'boost', 'steps', 'cash', 'custom')
 
 
 def live_calls(calls):
@@ -33,11 +34,14 @@ def call_for(calls, friday):
     return calls[keys[-1]] if keys else None
 
 
-def mix_of(call, auto_share, steps_share):
+def mix_of(call, auto_share, steps_share, boost_share=None):
     """(stocks, sleeve, cash) fractions for a call."""
     m = call['m']
     if m == 'auto':
         return auto_share, 1 - auto_share, 0.0
+    if m == 'boost':
+        b = auto_share if boost_share is None else boost_share
+        return b, 1 - b, 0.0
     if m == 'steps':
         return steps_share, 1 - steps_share, 0.0
     if m == 'cash':
@@ -64,9 +68,11 @@ def slots_for(model, call, ranks):
     return out
 
 
-def score(calls, calendar, weeks, picks_at, ranks_at, closes, sleeve, cash, slots_n=5, apply_picks=True):
-    """weeks: [(signal_friday, trade_day, auto_share, steps_share)], oldest first;
-    picks_at(trade_day) -> the model's holdings traded that day; ranks_at(friday)
+def score(calls, calendar, weeks, picks_at, ranks_at, closes, sleeve, cash, slots_n=5, apply_picks=True,
+          boost_picks_at=None):
+    """weeks: [(signal_friday, trade_day, auto_share, steps_share[, boost_share])], oldest first;
+    picks_at(trade_day) -> the model's holdings traded that day (boost_picks_at: the
+    News-boost list's, used for 'boost' calls); ranks_at(friday)
     -> {ticker: rank}; closes {ticker: {date: close}}; sleeve / cash {date: value}.
     apply_picks=False ignores swaps and drops (same mixes, the model's own stocks).
     Returns dict(curve=[[date, nav]], weeks=[[friday, trade_day, slots, [s, v, c]]]) or None."""
@@ -97,10 +103,11 @@ def score(calls, calendar, weeks, picks_at, ranks_at, closes, sleeve, cash, slot
         for t in list(sh):   # keep last prices current even on quiet days
             px(t, d)
         if d in trade:
-            f, _, a_sh, s_sh = trade[d]
+            f, _, a_sh, s_sh = trade[d][:4]
+            b_sh = trade[d][4] if len(trade[d]) > 4 else None
             call = call_for(calls, f)
-            s, v, c = mix_of(call, a_sh, s_sh)
-            model = list(picks_at(d))
+            s, v, c = mix_of(call, a_sh, s_sh, b_sh)
+            model = list((boost_picks_at if call['m'] == 'boost' and boost_picks_at else picks_at)(d))
             slots = slots_for(model, call if apply_picks else None, ranks_at(f)) if model else []
             per = nav * s / slots_n
             sh = {}

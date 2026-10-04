@@ -32,7 +32,7 @@ PAGE = r'''<!doctype html>
   --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
   --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   --pos: #3fbf5f; --neg: #e5605a; --grid: #2c2c2a;
-  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-plan: #3fb8a0;
+  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-plan: #3fb8a0; --s-boost: #a989f5;
   color-scheme: dark;
 }
 :root[data-mtl-theme="light"] {
@@ -40,7 +40,7 @@ PAGE = r'''<!doctype html>
   --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
   --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
   --pos: #0a8f0a; --neg: #c43232; --grid: #e1e0d9;
-  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-plan: #13866f;
+  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-plan: #13866f; --s-boost: #6d44d4;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -146,6 +146,9 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .chart-sub { font-size: 0.78rem; color: var(--muted); margin: 2px 0 0; }
 .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.78rem; color: var(--ink-2); margin: 4px 0 6px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend .lg { display: inline-flex; align-items: center; gap: 6px; font: inherit; color: inherit; background: none; border: 1px solid var(--hairline); border-radius: 999px; padding: 3px 9px; cursor: pointer; }
+.legend .lg[aria-pressed="false"] { opacity: 0.45; text-decoration: line-through; }
+.legend .lg-hint { font-size: 0.72rem; }
 .key { width: 16px; height: 3px; border-radius: 2px; background: var(--c); }
 .seg { display: inline-flex; border: 1px solid var(--hairline); border-radius: 999px; padding: 2px; background: var(--surface-2); }
 .seg button { font: inherit; font-size: 0.76rem; border: 0; background: transparent; color: var(--ink-2); padding: 3px 10px; border-radius: 999px; cursor: pointer; }
@@ -271,7 +274,7 @@ tbody tr:last-child td { border-bottom: 0; }
 #call-status { font-size: 0.8rem; color: var(--ink-2); }
 #sync-token { flex: 1 1 180px; min-width: 0; font: 0.84rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 6px 8px; }
 .sync code { font-size: 0.74rem; }
-.rec-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 10px; }
+.rec-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0 10px; }
 .rec-tile { background: var(--surface-2); border-radius: 10px; padding: 8px 10px; }
 .rec-tile .k { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); display: flex; align-items: center; gap: 6px; }
 .rec-tile .k i { width: 12px; height: 3px; border-radius: 2px; background: var(--c); display: inline-block; }
@@ -284,7 +287,7 @@ tbody tr:last-child td { border-bottom: 0; }
 .wk td { padding: 6px 4px; border-bottom: 1px solid var(--hairline); text-align: left; }
 .wk td.r, .wk th.r { text-align: right; font-family: ui-monospace, monospace; }
 .wk .note-i { color: var(--muted); font-size: 0.74rem; display: block; }
-@media (max-width: 520px) { .wk .hide-xs { display: none; } .rec-tiles { gap: 6px; } .rec-tile .v { font-size: 1rem; } }
+@media (max-width: 520px) { .years .y-strategy { display: none; } .wk .hide-xs { display: none; } .rec-tiles { gap: 6px; grid-template-columns: repeat(2, 1fr); } .rec-tile .v { font-size: 1rem; } }
 footer { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--hairline); color: var(--muted); font-size: 0.8rem; }
 footer li { margin-bottom: 6px; }
 </style>
@@ -470,8 +473,8 @@ footer li { margin-bottom: 6px; }
   var tags = ch.sell.map(function (t) { return '<span class="tag sell">sell ' + esc(t) + '</span>'; }).join('') +
     ch.buy.map(function (t) { return '<span class="tag buy">buy ' + esc(t) + '</span>'; }).join('');
   if (D.signalDay) {
-    var PA = D.plan && D.plan.auto, pm = 'auto';
-    try { pm = localStorage.getItem('nibii-plan-mix2') || 'auto'; } catch (e) {}
+    var PA = D.plan && D.plan.auto, pm = (D.plan && D.plan['default']) || 'auto';
+    try { pm = localStorage.getItem('nibii-plan-mix3') || pm; } catch (e) {}
     var BO = PA && PA.boost;
     var PM = PA && (pm === 'steps' ? PA.steps : pm === 'boost' ? BO : pm === 'auto' || pm === 'guard' ? PA : null);
     var mixTag = PM && PM.split !== PM.prevSplit ? '<span class="tag ' + (PM.split === '100/0' ? 'buy' : 'sell') + '">' + (pm === 'steps' ? 'steps' : 'auto') + ' mix → ' + PM.split + '</span>' : '';
@@ -612,7 +615,7 @@ footer li { margin-bottom: 6px; }
 
   // plan + your own weekly calls ("Mine", the human model)
   (function () {
-    var P = D.plan, SL = D.sleeve, HU = D.human;
+    var P = D.plan, SL = D.sleeve, HU = D.human, A_ = null;
     if (!P || !SL) { $('plan-hint').textContent = ''; return; }
     var A = P.auto, md = { month: 'short', day: 'numeric' };
     // ---- calls: {friday: {m: auto|steps|cash|custom, s, v, c, note, at}} in localStorage
@@ -620,7 +623,7 @@ footer li { margin-bottom: 6px; }
     // token) and are cached in localStorage; a removed call is kept as {m:'del'} so removals sync too
     var CK = 'nibii-calls-v1', TK = 'nibii-gh-token', calls = {}, act = {};
     var GH = { owner: 'danreed001-droid', repo: 'NIBII', path: 'docs/my_calls.json', branch: 'main' };
-    var MODES = ['auto', 'steps', 'cash', 'custom', 'del'];
+    var MODES = ['auto', 'boost', 'steps', 'cash', 'custom', 'del'];
     function clean(c) {
       if (!c || MODES.indexOf(c.m) < 0) return null;
       var cc = { m: c.m, note: String(c.note || '').slice(0, 300), at: String(c.at || '') };
@@ -636,7 +639,11 @@ footer li { margin-bottom: 6px; }
     var MODEL = D.holdings.map(function (h) { return h.t; }), TBL = {};
     D.table.forEach(function (r) { TBL[r.t] = r; });
     D.holdings.forEach(function (h) { if (!TBL[h.t]) TBL[h.t] = h; });
-    var CANDS = D.table.filter(function (r) { return r.rank && r.rank <= 10 && MODEL.indexOf(r.t) < 0; });
+    var BOOSTL = (A_ = D.plan && D.plan.auto && D.plan.auto.boost) ? A_.holdings : MODEL;
+    if (A_) A_.rows.forEach(function (r) { if (!TBL[r.t]) TBL[r.t] = r; });
+    function modelFor(m) { return m === 'boost' ? BOOSTL : MODEL; }
+    function candsFor(m) { var ml = modelFor(m); return D.table.filter(function (r) { return r.rank && r.rank <= 10 && ml.indexOf(r.t) < 0; }); }
+    var CANDS = candsFor('auto');
     function slotsFor(model, c) {   // mirrors mtl/human.slots_for for this week's ranks
       var drops = (c && c.drops) || [], swaps = {}, used = {};
       ((c && c.swaps) || []).forEach(function (x) { swaps[x[0]] = x[1]; });
@@ -739,23 +746,24 @@ footer li { margin-bottom: 6px; }
       if (!c) return null;
       var w = WK[fri];
       if (c.m === 'auto') { var s1 = w ? w[2] : A ? share(A.split) : 1; return [s1, 1 - s1, 0]; }
+      if (c.m === 'boost') { var s3 = w && w[4] != null ? w[4] : A && A.boost ? share(A.boost.split) : 1; return [0, 1 - s3, 0, s3]; }
       if (c.m === 'steps') { var s2 = w ? w[3] : A && A.steps ? share(A.steps.split) : 1; return [s2, 1 - s2, 0]; }
       if (c.m === 'cash') return [0, 0, 1];
       return [c.s / 100, c.v / 100, c.c / 100];
     }
     function callLabel(c) {
       if (!c) return '—';
-      var b = c.m === 'auto' ? 'Follow Auto' : c.m === 'steps' ? 'Follow Steps' : c.m === 'cash' ? 'No trade (cash)' : 'Custom';
+      var b = c.m === 'auto' ? 'Follow Auto' : c.m === 'boost' ? 'Follow Boost' : c.m === 'steps' ? 'Follow Steps' : c.m === 'cash' ? 'No trade (cash)' : 'Custom';
       var x = [];
       (c.swaps || []).forEach(function (s2) { x.push(s2[0] + '→' + s2[1]); });
       (c.drops || []).forEach(function (d2) { x.push('drop ' + d2); });
       return b + (c.m !== 'cash' && x.length ? ' · ' + x.join(', ') : '');
     }
-    function mixTxt(m) { return Math.round(m[0] * 100) + '/' + Math.round(m[1] * 100) + (m[2] ? '/' + Math.round(m[2] * 100) : ''); }
+    function mixTxt(m) { return Math.round((m[0] + (m[3] || 0)) * 100) + '/' + Math.round(m[1] * 100) + (m[2] ? '/' + Math.round(m[2] * 100) : ''); }
     var inForce = A ? A.decided : D.asOf;   // the signal Friday whose trades are (or will be) held now
 
     var mix = P['default'], acct = 10000;
-    try { mix = localStorage.getItem('nibii-plan-mix2') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
+    try { mix = localStorage.getItem('nibii-plan-mix3') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
     if (P.splits.indexOf(mix) < 0) mix = P['default'];
     $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m === 'boost' ? 'Boost' : m === 'guard' ? 'Guard' : m === 'steps' ? 'Steps' : m === 'mine' ? 'Mine' : m) + '</button>'; }).join('');
     function usd(v) { return '$' + (v < 100 ? v.toFixed(2) : Math.round(v).toLocaleString()); }
@@ -769,6 +777,8 @@ footer li { margin-bottom: 6px; }
       else if (mix === 'boost' && A && A.boost) m = [share(A.boost.split), 1 - share(A.boost.split), 0];
       else if (mix === 'steps' && A) m = [share(A.steps.split), 1 - share(A.steps.split), 0];
       else m = [share(mix), 1 - share(mix), 0];
+      var mineBoost = mix === 'mine' && mine && mine.m === 'boost';
+      if (mineBoost) m = [m[3], m[1], m[2]];
       var spyAmt = acct * (m[3] || 0);
       var stocks = acct * m[0], sleeve = acct * m[1], cash = acct * m[2], per = stocks / D.rule.topN;
       $('plan-hint').textContent = (mix === 'auto' ? 'auto mix this week: ' : mix === 'boost' ? 'auto + news boost this week: ' : mix === 'guard' ? 'auto + guard this week: ' : mix === 'steps' ? 'steps mix this week: ' : mix === 'mine' ? 'your call: ' : '') +
@@ -776,7 +786,7 @@ footer li { margin-bottom: 6px; }
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
       var sp = name[SL.held] || {};
       function sh(v, px) { if (!px) return ''; var n = v / px; return '≈' + n.toFixed(n < 10 ? 2 : 0) + ' sh'; }
-      var BS = mix === 'boost' && A && A.boost ? A.boost : null;
+      var BS = (mix === 'boost' || mineBoost) && A && A.boost ? A.boost : null;
       if (BS) {   // the boosted list: model holdings it keeps first, boosted names in the slots they took
         BS.rows.forEach(function (r) { if (!TBL[r.t]) TBL[r.t] = r; });
         var keepB = hs.filter(function (h) { return BS.holdings.indexOf(h.t) >= 0; }), inB = BS.holdings.filter(function (t) { return !hs.some(function (h) { return h.t === t; }); });
@@ -784,11 +794,12 @@ footer li { margin-bottom: 6px; }
       }
       var shown = BS ? hs.map(function (h, i) { return i < keepB.length ? h.t : inB[i - keepB.length] || h.t; })
         : mix === 'mine' && mine ? slotsFor(hs.map(function (h) { return h.t; }), mine) : hs.map(function (h) { return h.t; });
+      if (mineBoost) { var sb = slotsFor(shown, mine); hs = shown.map(function (t) { return TBL[t] || { t: t }; }); shown = sb; }
       var gapOf = {}; if (BS) BS.gaps.forEach(function (g) { gapOf[g.t] = g.d; });
       var rows = stocks > 0 ? shown.map(function (t, i) {
         if (!t) return '<tr><td><span class="sw" style="--c:var(--muted)"></span><b>Cash</b> <span class="muted">dropped ' + esc(hs[i].t) + '</span></td><td class="r">' + usd(per) + '</td><td></td></tr>';
         var h = TBL[t] || {}, swapped = t !== hs[i].t;
-        return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(t) + '</b> <span class="muted nm2">' + (swapped ? (BS ? (gapOf[t] ? 'news boost (gap ' + fmtDate(gapOf[t], md) + ') instead of ' : 'boost list holds it instead of ') : 'swapped in for ') + esc(hs[i].t) : esc(h.n || '')) + '</span></td>' +
+        return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(t) + '</b> <span class="muted nm2">' + (swapped ? (BS && !mineBoost ? (gapOf[t] ? 'news boost (gap ' + fmtDate(gapOf[t], md) + ') instead of ' : 'boost list holds it instead of ') : 'swapped in for ') + esc(hs[i].t) : esc(h.n || '')) + '</span></td>' +
           '<td class="r">' + usd(per) + '</td><td class="r muted">' + sh(per, h.close) + '</td></tr>';
       }).join('') : '<tr class="borrow"><td>Top 5 stocks — not held this week</td><td class="r">$0</td><td></td></tr>';
       rows += sleeve > 0 ? '<tr><td><span class="sw" style="--c:var(--s-plan)"></span><b>' + esc(SL.held) + '</b> <span class="muted">sleeve<span class="nm2"> · ' + esc(sp.n || '') + '</span></span></td>' +
@@ -839,7 +850,7 @@ footer li { margin-bottom: 6px; }
           ' Since 2020 it was at ' + A.low + ' in ' + A.weeksLow + ' of ' + A.weeks + ' weeks.';
       }
     }
-    $('mix-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mix = b.getAttribute('data-v'); try { localStorage.setItem('nibii-plan-mix2', mix); } catch (x) {} draw(); };
+    $('mix-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mix = b.getAttribute('data-v'); try { localStorage.setItem('nibii-plan-mix3', mix); } catch (x) {} draw(); };
     var inp = $('acct');
     inp.value = Math.round(acct).toLocaleString();
     inp.oninput = function () { var v = +inp.value.replace(/[^0-9.]/g, ''); if (v > 0) { acct = v; try { localStorage.setItem('nibii-plan-acct', String(v)); } catch (x) {} draw(); } };
@@ -851,11 +862,12 @@ footer li { margin-bottom: 6px; }
     $('call-title').textContent = 'Your call for the week of Mon ' + fmtDate(D.tradeDate, md);
     $('call-sub').textContent = (D.signalDay ? 'Uses today’s' : 'Will use Friday ' + fmtDate(FRI, md) + '’s') + ' signal · trade Mon ' + fmtDate(D.tradeDate, md) + ', 3:30–4:00 pm ET · held until the next Monday trade';
     function autoNow(kind) {
-      if (wkNow) return mixTxt([wkNow[kind === 'auto' ? 2 : 3], 1 - wkNow[kind === 'auto' ? 2 : 3], 0]) + ' this week';
-      var pv = A && (kind === 'auto' ? A.preview : A.steps && A.steps.preview);
+      var col = kind === 'auto' ? 2 : kind === 'boost' ? 4 : 3;
+      if (wkNow && wkNow[col] != null) return mixTxt([wkNow[col], 1 - wkNow[col], 0]) + ' this week';
+      var pv = A && (kind === 'auto' ? A.preview : kind === 'boost' ? A.boost && A.boost.split : A.steps && A.steps.preview);
       return 'set Friday' + (pv ? ' (now ' + pv + ')' : '');
     }
-    var OPTS = [['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
+    var OPTS = [['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
                 ['cash', 'No trade', 'sit in cash this week'], ['custom', 'Custom', 'your own stocks / sleeve / cash']];
     $('choices').innerHTML = OPTS.map(function (o) { return '<button type="button" class="choice" role="radio" aria-checked="false" data-m="' + o[0] + '"><b>' + o[1] + '</b><span>' + o[2] + '</span></button>'; }).join('');
     function cuSync() {
@@ -867,12 +879,14 @@ footer li { margin-bottom: 6px; }
       pick = mm;
       document.querySelectorAll('#choices .choice').forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-m') === mm)); });
       $('custom').hidden = mm !== 'custom';
-      if ($('picks')) $('picks').hidden = mm === 'cash';
+      if ($('picks')) { $('picks').hidden = mm === 'cash'; if (pickList !== modelFor(mm)) drawPicks(curCall && curCall.m === mm ? curCall : null); }
     }
+    var pickList = null, curCall = null;
     $('choices').onclick = function (e) { var b = e.target.closest('.choice'); if (b) choose(b.getAttribute('data-m')); };
     function drawPicks(c) {
-      var box = $('picks');
-      if (!MODEL.length) { box.innerHTML = ''; return; }
+      var box = $('picks'), ml = modelFor(pick), CANDS = candsFor(pick);
+      pickList = ml;
+      if (!ml.length) { box.innerHTML = ''; return; }
       var swaps = {}, drops = (c && c.drops) || [];
       ((c && c.swaps) || []).forEach(function (x) { swaps[x[0]] = x[1]; });
       var opts = function (t) {
@@ -880,7 +894,7 @@ footer li { margin-bottom: 6px; }
         return '<option value="keep"' + (cur === 'keep' ? ' selected' : '') + '>Keep</option><option value="drop"' + (cur === 'drop' ? ' selected' : '') + '>Drop → cash</option>' +
           CANDS.map(function (r) { var v = 'swap:' + r.t; return '<option value="' + v + '"' + (cur === v ? ' selected' : '') + '>Swap → #' + r.rank + ' ' + esc(r.t) + ' (' + pct(r.score, 0) + ')</option>'; }).join('');
       };
-      box.innerHTML = '<p class="ph">Stocks · keep, drop (slot goes to cash), or swap in a top-10 stock not held</p>' + D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) {
+      box.innerHTML = '<p class="ph">' + (pick === 'boost' ? 'Boost list' : 'Stocks') + ' · keep, drop (slot goes to cash), or swap in a top-10 stock not held</p>' + ml.map(function (t) { return TBL[t] || { t: t }; }).sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) {
         return '<div class="pk" data-t="' + esc(h.t) + '"><span><b>' + esc(h.t) + '</b> <span class="muted">#' + (h.rank || '–') + ' · ' + pct(h.score, 0) + '</span></span>' +
           '<select aria-label="' + esc(h.t) + ': keep, drop or swap">' + opts(h.t) + '</select></div>';
       }).join('') + (CANDS.length ? '' : '<p class="swnote">No stocks ranked 6–10 outside the five this week.</p>');
@@ -898,7 +912,8 @@ footer li { margin-bottom: 6px; }
     function showCall() {
       var own = act[FRI], carried = callFor(FRI);
       var c = own || carried;
-      choose(c ? c.m : 'auto');
+      curCall = c;
+      choose(c ? c.m : 'boost');
       drawPicks(c);
       if (c && c.m === 'custom') { $('cu-s').value = c.s; $('cu-v').value = c.v; }
       cuSync();
@@ -957,12 +972,12 @@ footer li { margin-bottom: 6px; }
     // ---- your record: your calls vs following Auto / Steps from your first call
     function simulate(mixAt, startTrade) {
       var tradeFri = {}; HU.weeks.forEach(function (w) { tradeFri[w[1]] = w[0]; });
-      var out = [], a = 0, b = 0, c = 0, prev = null;
+      var out = [], a = 0, b = 0, c = 0, bb = 0, prev = null;
       HU.days.forEach(function (x) {
         if (x[0] < startTrade) return;
-        if (prev) { a *= x[1] / prev[1]; b *= x[2] / prev[2]; c *= x[3] / prev[3]; }
-        var nav = prev ? a + b + c : 1;
-        if (x[0] in tradeFri) { var mm = mixAt(tradeFri[x[0]]) || [1, 0, 0]; a = nav * mm[0]; b = nav * mm[1]; c = nav * mm[2]; }
+        if (prev) { a *= x[1] / prev[1]; b *= x[2] / prev[2]; c *= x[3] / prev[3]; bb *= (x[4] || x[1]) / (prev[4] || prev[1]); }
+        var nav = prev ? a + b + c + bb : 1;
+        if (x[0] in tradeFri) { var mm = mixAt(tradeFri[x[0]]) || [1, 0, 0]; a = nav * mm[0]; b = nav * mm[1]; c = nav * mm[2]; bb = nav * (mm[3] || 0); }
         out.push([x[0], nav]); prev = x;
       });
       return out;
@@ -988,6 +1003,7 @@ footer li { margin-bottom: 6px; }
       if (scored) { me = SM.curve; baseC = SM.base; SM.weeks.forEach(function (w) { slotsBy[w[0]] = w[2]; }); }
       var au = simulate(function (f) { var w = WK[f]; return w ? [w[2], 1 - w[2], 0] : null; }, start);
       var stp = simulate(function (f) { var w = WK[f]; return w ? [w[3], 1 - w[3], 0] : null; }, start);
+      var bst = simulate(function (f) { var w = WK[f]; return w && w[4] != null ? [0, 1 - w[4], 0, w[4]] : null; }, start);
       // optional From/To filter inside the record
       $('rec-range').hidden = false;
       var ra = RR.a && RR.a > start ? RR.a : start, rb = RR.b && RR.b < lastDay ? RR.b : lastDay;
@@ -995,11 +1011,11 @@ footer li { margin-bottom: 6px; }
       $('rr-from').min = $('rr-to').min = start; $('rr-from').max = $('rr-to').max = lastDay;
       $('rr-from').value = ra; $('rr-to').value = rb;
       function cut(c) { return c.filter(function (p) { return p[0] >= ra && p[0] <= rb; }); }
-      me = cut(me); au = cut(au); stp = cut(stp); if (baseC) baseC = cut(baseC);
+      me = cut(me); au = cut(au); stp = cut(stp); bst = cut(bst); if (baseC) baseC = cut(baseC);
       if (me.length < 2) { box.innerHTML = '<p class="swnote">Pick a range with at least two trading days between ' + fmtDate(start, md) + ' and ' + fmtDate(lastDay, md) + '.</p>'; return; }
       function tot(c) { return c[c.length - 1][1] / c[0][1] - 1; }
       function dd(c) { var pk = c[0][1], m = 0; c.forEach(function (p) { pk = Math.max(pk, p[1]); m = Math.min(m, p[1] / pk - 1); }); return m; }
-      var SER2 = [['You', me, 'var(--gold)'], ['Auto', au, 'var(--s-plan)'], ['Steps', stp, 'var(--ink-2)']];
+      var SER2 = [['You', me, 'var(--gold)'], ['Boost', bst, 'var(--s-boost)'], ['Auto', au, 'var(--s-plan)'], ['Steps', stp, 'var(--ink-2)']];
       var pickNote = scored && hasPicks && baseC && baseC.length > 1
         ? '<p class="swnote" style="margin:4px 0 0">Your swaps & drops: <b class="' + tone(tot(me) - tot(baseC)) + '">' + pct(tot(me) - tot(baseC)) + '</b> vs the same mixes with the model’s own five stocks.</p>'
         : hasPicks && !scored ? '<p class="swnote" style="margin:4px 0 0">Swaps and drops are scored on real prices by the next daily update (after 5:20pm ET) once your calls are synced to the repo — until then “You” uses the model’s stocks.</p>' : '';
@@ -1075,12 +1091,12 @@ footer li { margin-bottom: 6px; }
   }
   function tile(label, value, sub, cls) { return '<div class="stat"><span class="stat-label">' + label + '</span><span class="stat-value ' + (cls || '') + '">' + value + '</span><span class="stat-sub">' + sub + '</span></div>'; }
   function drawStats() {
-    var t5 = rstat('strategy'), au = rstat('plan'), st = rstat('steps'), sp = rstat('SPY'), qq = rstat('QQQ');
+    var t5 = rstat('strategy'), au = rstat('plan'), st = rstat('steps'), sp = rstat('SPY'), qq = rstat('QQQ'), bo = rstat('boost');
     if (!t5) { $('stats').innerHTML = tile('Range', '–', 'pick at least two trading days', ''); return; }
     function yr(x) { return x && x.ann != null ? pct(x.ann, 0) + ' a year' : 'under a year'; }
     $('stats').innerHTML =
       tile('Top 5', pct(t5.tot, 0), yr(t5), tone(t5.tot)) +
-      tile('Auto / Steps', (au ? pct(au.tot, 0) : '–') + ' / ' + (st ? pct(st.tot, 0) : '–'), 'worst ' + (au ? pct(au.dd, 0) : '–') + ' / ' + (st ? pct(st.dd, 0) : '–'), tone(au && au.tot)) +
+      tile('Boost / Auto', (bo ? pct(bo.tot, 0) : '–') + ' / ' + (au ? pct(au.tot, 0) : '–'), (bo ? yr(bo) : '') + ' · worst ' + (bo ? pct(bo.dd, 0) : '–') + ' / ' + (au ? pct(au.dd, 0) : '–'), tone(bo && bo.tot)) +
       tile('SPY / QQQ', pct(sp.tot, 0) + ' / ' + pct(qq.tot, 0), 'worst ' + pct(sp.dd, 0) + ' / ' + pct(qq.dd, 0)) +
       tile('Top 5 worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since 2020' : 'in this range', 'neg');
     $('range-hint').textContent = '$100 in the rule vs buying and holding · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b);
@@ -1108,15 +1124,29 @@ footer li { margin-bottom: 6px; }
   // growth chart
   var SER = [['strategy', 'Top 5 strongest', 'var(--s-strat)', 'main'], ['QQQ', 'QQQ', 'var(--s-qqq)', ''], ['SPY', 'SPY', 'var(--s-spy)', '']];
   if (D.curves.plan && D.plan) SER.splice(1, 0, ['plan', 'Plan (auto mix)', 'var(--s-plan)', 'main']);
+  if (D.curves.boost && D.plan) SER.splice(1, 0, ['boost', 'Plan (boost)', 'var(--s-boost)', 'main']);
+  var HIDE = {}; try { HIDE = JSON.parse(localStorage.getItem('nibii-hide-lines') || '{}') || {}; } catch (e) {}
+  function drawLegend() {
+    $('legend').innerHTML = SER.map(function (s) { return '<button type="button" class="lg" data-k="' + s[0] + '" aria-pressed="' + String(!HIDE[s[0]]) + '"><i class="key" style="--c:' + s[2] + '"></i>' + s[1] + '</button>'; }).join('') +
+      '<span class="muted lg-hint">tap a line to hide / show it</span>';
+  }
   var scale = 'log';
   try { scale = localStorage.getItem('nibii-mom-scale') || 'log'; } catch (e) {}
-  $('legend').innerHTML = SER.map(function (s) { return '<span><i class="key" style="--c:' + s[2] + '"></i>' + s[1] + '</span>'; }).join('');
+  drawLegend();
+  $('legend').onclick = function (e) {
+    var b = e.target.closest('.lg'); if (!b) return;
+    var k = b.getAttribute('data-k'), shownN = SER.filter(function (s) { return !HIDE[s[0]]; }).length;
+    if (!HIDE[k] && shownN <= 1) return;   // keep at least one line
+    if (HIDE[k]) delete HIDE[k]; else HIDE[k] = 1;
+    try { localStorage.setItem('nibii-hide-lines', JSON.stringify(HIDE)); } catch (x) {}
+    drawLegend(); drawGrowth();
+  };
   function day(s) { return Date.parse(s + 'T12:00:00Z'); }
   function money(v) { return '$' + (v >= 1000 ? Math.round(v).toLocaleString() : v.toFixed(0)); }
   function drawGrowth() {
     document.querySelectorAll('#scale-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === scale)); });
     var box = $('growth'); box.innerHTML = '';
-    var series = SER.map(function (s) { var c = inR(D.curves[s[0]]), b0 = c.length ? c[0][1] : 1; return { name: s[1], c: s[2], cls: s[3], pts: c.map(function (p) { return [day(p[0]), p[1] / b0 * 100]; }) }; });
+    var series = SER.filter(function (s) { return !HIDE[s[0]]; }).map(function (s) { var c = inR(D.curves[s[0]]), b0 = c.length ? c[0][1] : 1; return { name: s[1], c: s[2], cls: s[3], pts: c.map(function (p) { return [day(p[0]), p[1] / b0 * 100]; }) }; });
     if (!series[0].pts.length) return;
     var W = Math.max(320, box.clientWidth), H = Math.round(Math.min(380, Math.max(240, W * 0.5))), m = { l: 56, r: 64, t: 10, b: 26 };
     var xs = [], ys = [];
@@ -1172,15 +1202,15 @@ footer li { margin-bottom: 6px; }
 
   // years
   var ys = Object.keys(D.years.strategy).sort(), maxAbs = 0;
-  var YK = D.years.plan ? ['strategy', 'plan', 'SPY', 'QQQ'] : ['strategy', 'SPY', 'QQQ'];
-  var YC = { strategy: 'var(--s-strat)', plan: 'var(--s-plan)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)' };
-  var YH = { strategy: 'Top 5', plan: 'Plan auto', SPY: 'SPY', QQQ: 'QQQ' };
+  var YK = ['strategy', 'boost', 'plan', 'SPY', 'QQQ'].filter(function (k) { return D.years[k]; });
+  var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', plan: 'var(--s-plan)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)' };
+  var YH = { strategy: 'Top 5', boost: 'Boost', plan: 'Auto', SPY: 'SPY', QQQ: 'QQQ' };
   ys.forEach(function (y) { YK.forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
-  var barMax = YK.length > 3 ? 26 : 70;
+  var barMax = YK.length > 4 ? 18 : YK.length > 3 ? 26 : 70;
   function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * barMax); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }
-  $('years').innerHTML = '<thead><tr><th class="l">Year</th>' + YK.map(function (k) { return '<th class="l">' + YH[k] + '</th>'; }).join('') + '</tr></thead><tbody>' +
-    ys.map(function (y) { return '<tr><td class="l">' + y + '</td>' + YK.map(function (k) { return '<td class="l">' + ybar(D.years[k][y] || 0, YC[k]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
-  $('ytd-note').textContent = ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ')';
+  $('years').innerHTML = '<thead><tr><th class="l">Year</th>' + YK.map(function (k) { return '<th class="l y-' + k + '">' + YH[k] + '</th>'; }).join('') + '</tr></thead><tbody>' +
+    ys.map(function (y) { return '<tr><td class="l">' + y + '</td>' + YK.map(function (k) { return '<td class="l y-' + k + '">' + ybar(D.years[k][y] || 0, YC[k]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
+  $('ytd-note').textContent = ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ')' + (window.innerWidth <= 520 ? ' · Top 5 column on wider screens' : '');
 
   // on deck
   $('deck').innerHTML = D.table.filter(function (r) { return r.rank > 5 && r.rank <= 20; }).map(function (r) {
