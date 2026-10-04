@@ -1977,5 +1977,45 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-04-1-opec-plus-holds-november-output-steady",
+    "data": {
+      "addedAt": "2026-10-04",
+      "category": "Energy",
+      "date": "2026-10-04",
+      "day": "Sun",
+      "direction": "Mixed",
+      "event": "OPEC+ agrees to hold November crude production targets steady for a second straight month rather than raise output, as most members already pump below quota amid the Strait of Hormuz standoff",
+      "impact": "High",
+      "numbers": "Core-8 joint quota ~31M bpd unchanged; 1.65M bpd of 2023 voluntary cuts already unwound; 2M bpd of 2022-vintage cuts held through year-end; next OPEC+ review meeting Nov 1",
+      "order": 1,
+      "reaction": "Brent settled near-flat at $102.25/bbl Friday, WTI fell 1.9% to $91.11/bbl (weekly: Brent ~-2%, WTI ~-1.4%); holding output steady rather than raising it keeps a supply-risk premium in place for Monday's open",
+      "region": "Global / OPEC+",
+      "source": "https://www.thenationalnews.com/business/energy/2026/10/04/opec-keeps-oil-output-targets-unchanged-for-november/",
+      "tickers": "USO, BNO, XLE, CL=F, BZ=F, XOM, CVX",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-04-2-yemen-offensive-aramco-claim-disputed",
+    "data": {
+      "addedAt": "2026-10-04",
+      "category": "Geopolitics",
+      "date": "2026-10-04",
+      "day": "Sun",
+      "direction": "Mixed",
+      "event": "Yemen's Saudi-backed government launches a major offensive on Iran-backed Houthis (257 strikes claimed, ~700 Houthi casualties claimed); Saudi-led coalition dismisses the Houthis' claimed missile/drone attack on an Aramco site near Riyadh as \"misleading\"",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "Markets closed for the weekend; escalating Yemen ground offensive, a disputed Aramco attack claim, and Houthi control of Bab al-Mandeb/Red Sea chokepoints keep a geopolitical risk premium on oil and tanker/shipping names into Monday's open, layered on the ongoing Hormuz standoff",
+      "region": "Saudi Arabia / Yemen / Middle East",
+      "source": "https://www.thenationalnews.com/news/gulf/2026/10/04/yemen-government-forces-strike-sanaa-and-saada-as-houthis-claim-aramco-attack/",
+      "tickers": "USO, BNO, XLE, 2222.SE, FRO, ZIM",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
