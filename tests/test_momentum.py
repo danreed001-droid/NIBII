@@ -285,3 +285,24 @@ def test_exec_next_trades_at_the_next_sessions_open():
     # bought 1% under the close: ends a bit ahead of buying a day later at the close
     late = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0, exec_next='close')
     assert nxt['curve'][-1][1] > late['curve'][-1][1]
+
+
+def test_prefer_jumps_the_queue_and_force_replaces_the_weakest_holding():
+    c = cal(80)
+    prices = {'SPY': {d: 100.0 for d in c},
+              'A': {d: 100 * 1.010 ** i for i, d in enumerate(c)},
+              'B': {d: 100 * 1.008 ** i for i, d in enumerate(c)},
+              'C': {d: 100 * 1.006 ** i for i, d in enumerate(c)}}
+    plain = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0)
+    assert plain['picks'][0][1] == ['A']
+    # C is flagged: it is bought first even though A ranks higher
+    r = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0, prefer=lambda t, k: t == 'C')
+    assert r['picks'][0][1] == ['C']
+    # flagged only later: 'fill' keeps A (no open slot), 'force' swaps out A for C
+    later = c.index(c[50])
+    flag = lambda t, k: t == 'C' and k >= later  # noqa: E731
+    fill = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0, keep_rank=3, prefer=flag)
+    force = run_momentum(prices, c, c[30], look=20, skip=0, top_n=1, cost=0.0, keep_rank=3, prefer=flag,
+                         prefer_mode='force')
+    assert all(h == ['A'] for _, h in fill['picks'])
+    assert force['picks'][-1][1] == ['C']
