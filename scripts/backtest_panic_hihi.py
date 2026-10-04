@@ -105,10 +105,10 @@ def main():
             scache[key] = structure_signal([tuple(b) for b in bs], n=nb, lookback=2)['state'] if k >= 0 else None
         return scache[key]
 
-    def entries(mode):
+    def entries(mode, q=None):
         """[(ticker, entry index)] - one trade per watch streak (a new qualifying Friday after the exit starts a new one)."""
         out = []
-        for t, fr in qual.items():
+        for t, fr in (q or qual).items():
             k, busy_until = 0, -1
             while k < len(fr):
                 q = fr[k]
@@ -163,8 +163,10 @@ def main():
             path.append((i, mid))
         return path
 
-    def account(trades, risk, max_open=10):
-        """trades: [(entry index, path)]."""
+    def account(trades, risk, max_open=10, per_week=None):
+        """trades: [(entry index, path)]; per_week: at most that many new calls in any 5 sessions
+        (spreads the buying over the panic instead of filling every slot on day one)."""
+        recent = []
         by_entry = {}
         for e, p in trades:
             by_entry.setdefault(e, []).append(p)
@@ -184,9 +186,11 @@ def main():
                     still.append(o)
             open_ = still
             acct = cash + sum(o['units'] * o['val'] for o in open_)
+            recent = [r for r in recent if r > i - 5]
             for p in by_entry.get(i, []):
-                if len(open_) >= max_open:
+                if len(open_) >= max_open or (per_week and len(recent) >= per_week):
                     break
+                recent.append(i)
                 spend = min(cash, acct * risk)
                 if spend < acct * risk * 0.5:
                     continue
@@ -243,6 +247,59 @@ def main():
             rs = [p[-1][1] - 1 for e, p in results[lab][0] if lo <= int(cal[e][:4]) * 12 + int(cal[e][5:7]) <= hi]
             cells.append(f"{len(rs):4} {statistics.mean(rs):+6.0%} {sum(1 for x in rs if x > 0) / len(rs):5.0%}".center(26) if rs else ' ' * 26)
         print(f"   {a:7}{'+' + str(hi - lo) + 'mo' if hi > lo else '':10} " + ' | '.join(cells))
+
+    # SPY-high filter: only panics where SPY's 52-week high is recent (a shock to a healthy market),
+    # skipping ones where the high is old (already in a bear market - 2001-02, 2008-09)
+    spy = np.array([b[4] for b in bench['SPY']])
+    age = np.array([i - (max(0, i - 251) + int(np.argmax(spy[max(0, i - 251):i + 1]))) for i in range(n)])
+    print("\nSPY-high filter (buy right away; sessions since SPY's 52-week high at the qualifying Friday):")
+    print(f"{'':44} {'trades':>6} {'win%':>5} {'avg':>6} {'median':>7} {'best':>6} | "
+          f"{'acct 5%':>8} {'/yr':>5} {'worst':>6} | {'acct 10%':>8} {'/yr':>5} {'worst':>6}")
+    fres = {}
+    for months, lim in ((3, 63), (6, 126), (9, 189), ('no filter', 10 ** 6)):
+        q = {t: [i for i in fr if age[i] <= lim] for t, fr in qual.items()}
+        q = {t: fr for t, fr in q.items() if fr}
+        en = entries('now', q)
+        for delta, dl in ((0.70, 'ITM'), (0.50, 'ATM')):
+            for ex, el in (('hold', 'hold'), ('lolo', 'lo-lo exit')):
+                for bump, bl in ((0.10, ''), (0.25, ' [pricier]')):
+                    if bl and not (delta == 0.70 and ex == 'hold'):
+                        continue
+                    tr = [(e, trade(t, e, delta, ex, bump)) for t, e in en]
+                    tr = [(e, p) for e, p in tr if p]
+                    rets = [p[-1][1] - 1 for _, p in tr]
+                    a5, a10 = account(tr, 0.05), account(tr, 0.10)
+                    s5, s10 = curve_stats([v for _, v in a5]), curve_stats([v for _, v in a10])
+                    label = (f"high within {months} months" if months != 'no filter' else 'no filter') + f", {dl}, {el}{bl}"
+                    fres[label] = (tr, a10)
+                    print(f"{label:44} {len(rets):6} {sum(1 for x in rets if x > 0) / len(rets):5.0%} {statistics.mean(rets):+6.0%} "
+                          f"{statistics.median(rets):+7.0%} {max(rets):+6.0%} | {s5['total']:+8.0%} {s5['annual']:+5.0%} {s5['maxDD']:6.0%} | "
+                          f"{s10['total']:+8.0%} {s10['annual']:+5.0%} {s10['maxDD']:6.0%}", flush=True)
+        print()
+    print("Spread out: at most 2 new calls a week (6-month filter), account 5% / 10% per call:")
+    for lab in ('high within 6 months, ITM, hold', 'high within 6 months, ITM, lo-lo exit', 'high within 6 months, ATM, lo-lo exit',
+                'no filter, ITM, hold', 'no filter, ATM, lo-lo exit'):
+        tr = fres[lab][0]
+        out = []
+        for risk in (0.05, 0.10):
+            a = account(tr, risk, per_week=2)
+            st = curve_stats([v for _, v in a])
+            out.append(f"{st['total']:+8.0%} {st['annual']:+5.0%} {st['maxDD']:6.0%}")
+        fres[lab + ', 2/week'] = (tr, account(tr, 0.10, per_week=2))
+        print(f"   {lab + ', 2/week':58} | " + ' | '.join(out))
+    print()
+    print("Panics the 6-month filter keeps / skips (right away, ITM, hold):")
+    kept = {cal[e][:7] for e, _ in fres['high within 6 months, ITM, hold'][0]}
+    allm = {}
+    for e, p in fres['no filter, ITM, hold'][0]:
+        allm.setdefault(cal[e][:7], []).append(p[-1][1] - 1)
+    for m in sorted(allm):
+        rs = allm[m]
+        print(f"   {m}  {'KEEP' if m in kept else 'skip'}  {len(rs):4} trades  avg {statistics.mean(rs):+5.0%}  "
+              f"SPY high {age[pos[m + '-01'] if m + '-01' in pos else next(i for i, d in enumerate(cal) if d >= m)] / 21:4.1f} months old")
+    results.update({k: v for k, v in fres.items() if 'within 6' in k and 'pricier' not in k})
+    results.update({k: v for k, v in fres.items() if k.endswith('2/week') and 'within 6' in k})
+    show = show + ['high within 6 months, ITM, hold', 'high within 6 months, ITM, hold, 2/week', 'high within 6 months, ATM, lo-lo exit, 2/week']
 
     years = sorted({d[:4] for d in cal[pos.get(START, 0):]})
     print(f"\n{'account 10% per call, by year':40} " + ' '.join(f"{y[2:]:>5}" for y in years))
