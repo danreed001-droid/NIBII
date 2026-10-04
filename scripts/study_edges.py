@@ -19,13 +19,21 @@ Universe: S&P 500 (with join dates) + Nasdaq-100, long-history data of
 backtest_long_history.py (today's lists: survivorship flatters 'buy the
 loser' patterns in the early years); volume from data/.volume.pkl.
 
+--early: option columns only, SOLD before expiry instead (Black-Scholes price on the
+sale day from that day's volatility, 2% bid/ask each way): 1mExp = 1-month at-the-money
+held to expiry (as above), 1m@2w = 1-month at-the-money sold after 2 weeks (10 sessions),
+3m@2w / 3m@4w = 3-month at-the-money sold after 2 / 4 weeks, I3@2w / I3@4w = 3-month
+in-the-money (delta 0.70) sold after 2 / 4 weeks. Calls for 'up' patterns, puts for 'down'.
+
 Usage:
     python scripts/study_edges.py
+    python scripts/study_edges.py --early
 """
 import math
 import os
 import sys
 from datetime import date
+from statistics import NormalDist
 
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
@@ -37,12 +45,24 @@ from momentum_scan import blocked_dates  # noqa: E402
 from mtl.universe import load_added, load_sp500  # noqa: E402
 from study_big_moves import roll_mean, roll_std, volumes  # noqa: E402
 
-RATE, COST, T = 0.04, 0.03, 28 / 365
+RATE, COST, T, SPREAD = 0.04, 0.03, 28 / 365, 0.02
+EARLY = '--early' in sys.argv
 SPLIT = '2013-01-01'
 
 
 def ncdf(x):
     return 0.5 * (1 + np.vectorize(math.erf)(x / math.sqrt(2)))
+
+
+def bs(s, k, t, v, side):
+    """Black-Scholes call (side > 0) or put price, numpy arrays; t in years (0 = intrinsic)."""
+    t = np.asarray(t, float)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        sd = v * np.sqrt(np.maximum(t, 1e-9))
+        d1 = (np.log(s / k) + (RATE + 0.5 * v * v) * t) / sd
+        call = s * ncdf(d1) - k * np.exp(-RATE * t) * ncdf(d1 - sd)
+    call = np.where(t > 0, call, np.maximum(s - k, 0))
+    return call if side > 0 else call - s + k * np.exp(-RATE * t)
 
 
 def atm_cost(iv, T=T):
@@ -134,9 +154,36 @@ def main():
         call, put = atm_cost(iv[a, e], 88 / 365)
         f = out['f60']
         out['opt60'] = (np.maximum(f, 0) / call - 1) if side > 0 else (np.maximum(-f, 0) / put - 1)
+        if EARLY:   # bought at the entry close, SOLD after `k` sessions at the Black-Scholes price then (2% each way)
+            for key, days, k, delta in (('m1w2', 28, 10, None), ('m3w2', 88, 10, None), ('m3w4', 88, 20, None),
+                                        ('i3w4', 88, 20, 0.70), ('i3w2', 88, 10, 0.70)):
+                out[key] = sold_early(a, e, days, k, delta, side)
         return out
 
+    ords = np.array([date.fromisoformat(d).toordinal() for d in cal])
+
+    def sold_early(a, e, days, k, delta, side):
+        s0, v0, T0 = C[a, e], iv[a, e], days / 365
+        if delta is None:
+            K = s0
+        else:   # strike with |delta| = delta (in the money): d1 = N^-1(delta) for calls, N^-1(1 - delta) for puts
+            z = NormalDist().inv_cdf(delta if side > 0 else 1 - delta)
+            K = s0 * np.exp((RATE + 0.5 * v0 * v0) * T0 - z * v0 * math.sqrt(T0))
+        p0 = bs(s0, K, T0, v0, side) * (1 + SPREAD)
+        s1, v1 = C[a, e + k], iv[a, e + k]
+        v1 = np.where(np.isfinite(v1), v1, v0)
+        T1 = np.maximum(days - (ords[e + k] - ords[e]), 0) / 365
+        p1 = bs(s1, K, T1, v1, side) * (1 - SPREAD)
+        return p1 / p0 - 1
+
     def line(ev, sel):
+        if EARLY:
+            k = int(sel.sum())
+            if k < 30:
+                return f"{k:>6} {'(too few)':>35}"
+            m = lambda x: np.nanmean(ev[x][sel])  # noqa: E731
+            return (f"{k:>6} {m('opt'):+5.0%} {m('m1w2'):+5.0%} {m('m3w2'):+5.0%} {m('m3w4'):+5.0%} "
+                    f"{m('i3w2'):+5.0%} {m('i3w4'):+5.0%}")
         k = int(sel.sum())
         if k < 30:
             return f"{k:>6} {'(too few)':>44}"
@@ -148,6 +195,8 @@ def main():
                 f"{beat:4.0%} {np.nanmean(ev['opt'][sel]):+5.0%} {np.nanmean(ev['opt60'][sel]):+5.0%}")
 
     hdr = f"{'n':>6} {'':>6} {'ex5':>5} {'ex20':>5} {'ex60':>5} {'beat':>4} {'opt':>5} {'opt3m':>5}"
+    if EARLY:
+        hdr = f"{'n':>6} {'1mExp':>5} {'1m@2w':>5} {'3m@2w':>5} {'3m@4w':>5} {'I3@2w':>5} {'I3@4w':>5}"
     print(f"\n{'pattern (+ = edge in its direction)':46} {'dir':>4} | {'2001-2012':^48} | {'2013-2026':^48}")
     print(f"{'':46} {'':>4} | {hdr} | {hdr}")
     results = {}
