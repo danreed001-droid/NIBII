@@ -472,8 +472,13 @@ footer li { margin-bottom: 6px; }
   if (D.signalDay) {
     var PA = D.plan && D.plan.auto, pm = 'auto';
     try { pm = localStorage.getItem('nibii-plan-mix2') || 'auto'; } catch (e) {}
-    var PM = PA && (pm === 'steps' ? PA.steps : pm === 'auto' || pm === 'guard' ? PA : null);
+    var BO = PA && PA.boost;
+    var PM = PA && (pm === 'steps' ? PA.steps : pm === 'boost' ? BO : pm === 'auto' || pm === 'guard' ? PA : null);
     var mixTag = PM && PM.split !== PM.prevSplit ? '<span class="tag ' + (PM.split === '100/0' ? 'buy' : 'sell') + '">' + (pm === 'steps' ? 'steps' : 'auto') + ' mix → ' + PM.split + '</span>' : '';
+    if (pm === 'boost' && BO) {   // the boosted rule trades its own list
+      tags = BO.sell.map(function (t) { return '<span class="tag sell">sell ' + esc(t) + '</span>'; }).join('') +
+        BO.buy.map(function (t) { return '<span class="tag buy">buy ' + esc(t) + (BO.boosted.indexOf(t) >= 0 ? ' (news boost)' : '') + '</span>'; }).join('');
+    }
     var GD = PA && PA.guard;
     if (pm === 'guard' && GD && GD.bear !== GD.prevBear) mixTag += '<span class="tag ' + (GD.bear ? 'sell' : 'buy') + '">bear guard ' + (GD.bear ? 'ON → ' + Math.round(GD.share * 100) + '% of stocks into SPY' : 'OFF → back to the top 5') + '</span>';
     var sw = SLb && SLb.held !== SLb.prevHeld ? '<span class="tag sell">sell ' + esc(SLb.prevHeld) + '</span><span class="tag buy">buy ' + esc(SLb.held) + ' (sleeve)</span>' : '';
@@ -752,7 +757,7 @@ footer li { margin-bottom: 6px; }
     var mix = P['default'], acct = 10000;
     try { mix = localStorage.getItem('nibii-plan-mix2') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
     if (P.splits.indexOf(mix) < 0) mix = P['default'];
-    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m === 'guard' ? 'Guard' : m === 'steps' ? 'Steps' : m === 'mine' ? 'Mine' : m) + '</button>'; }).join('');
+    $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m === 'boost' ? 'Boost' : m === 'guard' ? 'Guard' : m === 'steps' ? 'Steps' : m === 'mine' ? 'Mine' : m) + '</button>'; }).join('');
     function usd(v) { return '$' + (v < 100 ? v.toFixed(2) : Math.round(v).toLocaleString()); }
     var name = {}; SL.assets.forEach(function (a) { name[a.t] = a; });
     function draw() {
@@ -761,20 +766,29 @@ footer li { margin-bottom: 6px; }
       if (mix === 'mine') { mine = callFor(inForce); m = mixOf(mine, inForce) || [A ? share(A.split) : 1, A ? 1 - share(A.split) : 0, 0]; }
       else if (mix === 'auto' && A) m = [share(A.split), 1 - share(A.split), 0];
       else if (mix === 'guard' && A && A.guard) m = [A.guard.weights[0], A.guard.weights[1], 0, A.guard.weights[2]];
+      else if (mix === 'boost' && A && A.boost) m = [share(A.boost.split), 1 - share(A.boost.split), 0];
       else if (mix === 'steps' && A) m = [share(A.steps.split), 1 - share(A.steps.split), 0];
       else m = [share(mix), 1 - share(mix), 0];
       var spyAmt = acct * (m[3] || 0);
       var stocks = acct * m[0], sleeve = acct * m[1], cash = acct * m[2], per = stocks / D.rule.topN;
-      $('plan-hint').textContent = (mix === 'auto' ? 'auto mix this week: ' : mix === 'guard' ? 'auto + guard this week: ' : mix === 'steps' ? 'steps mix this week: ' : mix === 'mine' ? 'your call: ' : '') +
+      $('plan-hint').textContent = (mix === 'auto' ? 'auto mix this week: ' : mix === 'boost' ? 'auto + news boost this week: ' : mix === 'guard' ? 'auto + guard this week: ' : mix === 'steps' ? 'steps mix this week: ' : mix === 'mine' ? 'your call: ' : '') +
         Math.round(m[0] * 100) + '% top 5 · ' + Math.round(m[1] * 100) + '% sleeve' + (m[3] ? ' · ' + Math.round(m[3] * 100) + '% SPY' : '') + (m[2] ? ' · ' + Math.round(m[2] * 100) + '% cash' : '') + ' · no leverage · trade & reset Mondays';
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
       var sp = name[SL.held] || {};
       function sh(v, px) { if (!px) return ''; var n = v / px; return '≈' + n.toFixed(n < 10 ? 2 : 0) + ' sh'; }
-      var shown = mix === 'mine' && mine ? slotsFor(hs.map(function (h) { return h.t; }), mine) : hs.map(function (h) { return h.t; });
+      var BS = mix === 'boost' && A && A.boost ? A.boost : null;
+      if (BS) {   // the boosted list: model holdings it keeps first, boosted names in the slots they took
+        BS.rows.forEach(function (r) { if (!TBL[r.t]) TBL[r.t] = r; });
+        var keepB = hs.filter(function (h) { return BS.holdings.indexOf(h.t) >= 0; }), inB = BS.holdings.filter(function (t) { return !hs.some(function (h) { return h.t === t; }); });
+        hs = keepB.concat(hs.filter(function (h) { return BS.holdings.indexOf(h.t) < 0; }));
+      }
+      var shown = BS ? hs.map(function (h, i) { return i < keepB.length ? h.t : inB[i - keepB.length] || h.t; })
+        : mix === 'mine' && mine ? slotsFor(hs.map(function (h) { return h.t; }), mine) : hs.map(function (h) { return h.t; });
+      var gapOf = {}; if (BS) BS.gaps.forEach(function (g) { gapOf[g.t] = g.d; });
       var rows = stocks > 0 ? shown.map(function (t, i) {
         if (!t) return '<tr><td><span class="sw" style="--c:var(--muted)"></span><b>Cash</b> <span class="muted">dropped ' + esc(hs[i].t) + '</span></td><td class="r">' + usd(per) + '</td><td></td></tr>';
         var h = TBL[t] || {}, swapped = t !== hs[i].t;
-        return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(t) + '</b> <span class="muted nm2">' + (swapped ? 'swapped in for ' + esc(hs[i].t) : esc(h.n || '')) + '</span></td>' +
+        return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(t) + '</b> <span class="muted nm2">' + (swapped ? (BS ? (gapOf[t] ? 'news boost (gap ' + fmtDate(gapOf[t], md) + ') instead of ' : 'boost list holds it instead of ') : 'swapped in for ') + esc(hs[i].t) : esc(h.n || '')) + '</span></td>' +
           '<td class="r">' + usd(per) + '</td><td class="r muted">' + sh(per, h.close) + '</td></tr>';
       }).join('') : '<tr class="borrow"><td>Top 5 stocks — not held this week</td><td class="r">$0</td><td></td></tr>';
       rows += sleeve > 0 ? '<tr><td><span class="sw" style="--c:var(--s-plan)"></span><b>' + esc(SL.held) + '</b> <span class="muted">sleeve<span class="nm2"> · ' + esc(sp.n || '') + '</span></span></td>' +
@@ -785,12 +799,21 @@ footer li { margin-bottom: 6px; }
       rows += '<tr class="sum"><td>Total</td><td class="r">' + usd(acct) + '</td><td></td></tr>';
       $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
       var st = P.stats[mix], S0 = D.stats.strategy;
-      $('plan-stats').innerHTML = (st ? '<span>Since 2020 ' + (mix === 'auto' ? 'with auto' : mix === 'guard' ? 'with auto + guard' : mix === 'steps' ? 'with steps' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>'
+      $('plan-stats').innerHTML = (st ? '<span>Since 2020 ' + (mix === 'auto' ? 'with auto' : mix === 'boost' ? 'with auto + news boost' : mix === 'guard' ? 'with auto + guard' : mix === 'steps' ? 'with steps' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>'
           : '<span>Your record is scored below, from your first call.</span>') +
         '<span class="muted">Top 5 alone: ' + pct(S0.annual, 0) + ' a year, worst drop ' + pct(S0.maxDD, 0) + '</span>';
       if (mix === 'mine') {
         $('auto-note').innerHTML = mine ? '<b>Mine:</b> your call in force — ' + callLabel(mine) + ' → <b>' + mixTxt(m) + '</b>' + (mine.note ? ' · “' + esc(mine.note) + '”' : '') + '. Change it under Your calls.'
           : '<b>Mine:</b> no call yet, so this shows Auto. Make one under Your calls.';
+      } else if (A && mix === 'boost' && A.boost) {
+        var B = A.boost, gl = B.gaps.length ? B.gaps.map(function (g) { return '<b>' + esc(g.t) + '</b> ' + fmtDate(g.d, md) + (g.held ? ' (held)' : ''); }).join(', ') : 'none';
+        $('auto-note').innerHTML = '<b>Auto + News boost:</b> the same top 5, but any stock that gapped up ' + Math.round(B.gap * 100) + '%+ on news (opened and closed ' + Math.round(B.gap * 100) +
+          '%+ up, near the day’s high — usually earnings) in the last 4 weeks replaces the weakest holding, even if it isn’t in the top 5 yet; then the Auto mix on top. ' +
+          'News gaps in the last 4 weeks: ' + gl + '. ' +
+          (B.boosted.length ? 'This week it holds <b>' + B.boosted.map(esc).join(', ') + '</b> instead of ' + B.replaced.map(esc).join(', ') + '. ' : 'This week it holds the same stocks as the plain top 5. ') +
+          (D.signalDay ? 'Auto mix ' + B.split + (B.split !== B.prevSplit ? ' (was ' + B.prevSplit + ')' : '') + '. ' : '') +
+          'Since 2020: ' + pct(P.stats.boost.annual, 0) + ' a year vs ' + pct(P.stats.auto.annual, 0) + ' for Auto; tested 2000–2026 about +32% a year vs +25%, worst drop −62% vs −73%, and it caught the 2009 rebound (+35% vs −27%). ' +
+          'Its list differed from the plain top 5 in ' + B.weeksDiff + ' of ' + A.weeks + ' weeks. Expect fewer real gains than the test: it only knows today’s index members.';
       } else if (A && mix === 'guard' && A.guard) {
         var G = A.guard;
         $('auto-note').innerHTML = '<b>Auto + Guard:</b> the Auto mix, plus a bear-market guard: while SPY closes below its level a year earlier, ' + Math.round(G.share * 100) +

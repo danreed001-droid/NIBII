@@ -16,6 +16,7 @@ flatters it.
 
 Usage:
     python scripts/backtest_long_history.py
+    python scripts/backtest_long_history.py --boost   # also with the news-gap boost (mtl/news.py)
     python scripts/backtest_long_history.py 2014-01-01:2016-12-31 2017-01-01:2019-12-31   # just those spans
 """
 import os
@@ -28,6 +29,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from momentum_scan import blocked_dates, fetch  # noqa: E402
 from mtl.backtest import curve_stats  # noqa: E402
 from mtl.momentum import last_sessions_of_weeks, run_momentum  # noqa: E402
+from mtl.news import booster, news_gap_days  # noqa: E402
 from mtl.sleeve import ASSETS, plan_curve_dynamic, sleeve_curve  # noqa: E402
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
@@ -59,7 +61,9 @@ def load():
     return data
 
 
-def build():
+def build(boost=False):
+    """boost=True: the news-gap boost (mtl/news.py) - any stock that gapped up 12%+ on news in the
+    last 4 weeks replaces the weakest holding."""
     D = load()
     names, bars, bench = D['names'], D['bars'], D['bench']
     sp, added = load_sp500(), load_added()
@@ -73,7 +77,11 @@ def build():
     def eligible(t, d):
         return d not in blocked.get(t, ()) and (t not in sp or added.get(t, '0000') <= d)
 
-    r = run_momentum(prices, cal, START, look=126, skip=21, top_n=5, eligible=eligible, exec_next='close')
+    extra = {}
+    if boost:
+        gaps = {t: news_gap_days(bs) for t, bs in bars.items() if bs}
+        extra = dict(prefer=booster(gaps, cal), prefer_mode='force', prefer_rank=None, prefer_pool='all')
+    r = run_momentum(prices, cal, START, look=126, skip=21, top_n=5, eligible=eligible, exec_next='close', **extra)
     top5 = [p[:2] for p in r['curve']]
     # sleeve: an asset is pickable once it has 6 months of prices; cash = BIL, flat 0% before BIL exists
     apx = {t: {b[0]: b[4] for b in bs} for t, bs in D['assets'].items() if bs}
@@ -124,6 +132,12 @@ def ranges(curves, spans):
 
 def main():
     curves, cal, downs = build()
+    if '--boost' in sys.argv:
+        b, _, _ = build(boost=True)
+        curves = {'Current (auto mix)': curves['Current setup (auto mix)'],
+                  'Auto + news boost': b['Current setup (auto mix)'],
+                  'Top 5': curves['Top 5 in stock'], 'Top 5 + boost': b['Top 5 in stock'],
+                  'SPY': curves['SPY'], 'QQQ': curves['QQQ (Nasdaq-100)']}
     spans = [a.split(':') for a in sys.argv[1:] if ':' in a]
     if spans:
         return ranges(curves, spans)

@@ -29,3 +29,15 @@ def test_swaps_and_guard_flip_make_one_alert():
     title, body = alert.build(s, 'someone')
     assert title.startswith('Trade Mon Oct 5') and 'sell MRVL' in title and 'bear guard ON' in title
     assert '@someone' in body and '| Guard | 50% | 0% | 50% |' in body and 'MU' in body
+
+
+def test_boost_list_changes_are_listed_when_they_differ():
+    s = scan(changes={'sell': ['MRVL'], 'buy': ['MU']})
+    s['plan']['auto']['boost'] = dict(split='100/0', prevSplit='100/0', sell=['MRVL'], buy=['NBIS'],
+                                      holdings=['AAA', 'BBB', 'NBIS'])
+    title, body = alert.build(s)
+    assert 'boost: sell MRVL, buy NBIS' in title and 'Boost list:** AAA, BBB, NBIS' in body and '| Boost | 100% |' in body
+    # same trades as the plain model -> no separate boost line
+    s['plan']['auto']['boost'].update(buy=['MU'], holdings=['AAA', 'BBB'])
+    title, body = alert.build(s)
+    assert 'boost' not in title

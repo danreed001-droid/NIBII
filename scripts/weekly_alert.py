@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Friday alert: writes a GitHub issue title/body when Monday's trade has
-anything to do - stock swaps, a sleeve switch, or a change in the Auto,
-Guard or Steps mix (including the bear guard turning on or off).
+anything to do - stock swaps (also the News boost list's), a sleeve switch, or a change in the Auto,
+Boost, Guard or Steps mix (including the bear guard turning on or off).
 
 Reads data/momentum_scan.json (written by scripts/momentum_scan.py). Only on a
 signal day (Friday's close); on other days, or when nothing changes, it writes
@@ -58,6 +58,14 @@ def build(scan, owner=None):
     if steps.get('split') and steps.get('prevSplit') and steps['split'] != steps['prevSplit']:
         items.append(f"**Steps mix:** {steps['prevSplit']} → **{steps['split']}**")
         tags.append(f"steps {steps['split']}")
+    boost = auto.get('boost') or {}
+    if boost.get('sell') or boost.get('buy'):
+        bs, bb = boost.get('sell') or [], boost.get('buy') or []
+        if (bs, bb) != (sells, buys):
+            items.append('**If you follow Boost (news boost list):** ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
+            tags.append('boost: ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
+    if boost.get('split') and boost.get('prevSplit') and boost['split'] != boost['prevSplit']:
+        items.append(f"**Boost mix:** {boost['prevSplit']} → **{boost['split']}**")
     if not items:
         return None
     hold = [h['t'] for h in sorted(scan.get('holdings') or [], key=lambda h: h.get('rank') or 99)]
@@ -66,10 +74,14 @@ def build(scan, owner=None):
     lines = [f"Signal from {fmt(scan['asOf'])}'s close. **Trade {fmt(scan['tradeDate'])}, 3:30–4:00 pm ET.**", '',
              '### What to do Monday', *[f"- {x}" for x in items], '',
              '### After the trades', f"- **Top 5:** {', '.join(hold)} (equal amounts)",
+             *([f"- **Boost list:** {', '.join(boost['holdings'])}"] if boost.get('holdings') and set(boost['holdings']) != set(hold) else []),
              f"- **Sleeve pick:** {sl.get('held')}" + (f" ({sl.get('n')})" if sl.get('n') else ''), '',
              '| Mix | Top 5 | Sleeve | SPY |', '|---|---|---|---|',
              f"| Auto | {pctw(a_s)} | {pctw(1 - a_s)} | 0% |",
              f"| Guard | {pctw(gw[0])} | {pctw(gw[1])} | {pctw(gw[2])} |"]
+    if boost.get('split'):
+        b_s = int(boost['split'].split('/')[0]) / 100
+        lines.append(f"| Boost | {pctw(b_s)} | {pctw(1 - b_s)} | 0% |")
     if steps.get('split'):
         s_s = int(steps['split'].split('/')[0]) / 100
         lines.append(f"| Steps | {pctw(s_s)} | {pctw(1 - s_s)} | 0% |")
