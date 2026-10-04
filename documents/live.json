@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-10-03T21:31:26Z",
+ "fetchedAt": "2026-10-04T21:31:22Z",
  "prices": {
   "equities": {
    "ticker": "ES=F",
@@ -45,7 +45,7 @@
     "lastBreak": null,
     "lookback": 4,
     "note": null,
-    "bars": 1140,
+    "bars": 1123,
     "swings": [
      {
       "ts": "2026-10-01T11:00:00-04:00",
@@ -2571,7 +2571,7 @@
     "lastBreak": null,
     "lookback": 4,
     "note": null,
-    "bars": 1140,
+    "bars": 1123,
     "swings": [
      {
       "ts": "2026-10-01T20:00:00-04:00",
@@ -5097,7 +5097,7 @@
     "lastBreak": null,
     "lookback": 4,
     "note": null,
-    "bars": 1141,
+    "bars": 1124,
     "swings": [
      {
       "ts": "2026-10-02T02:00:00-04:00",
@@ -7623,7 +7623,7 @@
     "lastBreak": null,
     "lookback": 4,
     "note": null,
-    "bars": 1179,
+    "bars": 1162,
     "swings": [
      {
       "ts": "2026-10-01T21:00:00-04:00",
@@ -10149,7 +10149,7 @@
     "lastBreak": null,
     "lookback": 4,
     "note": null,
-    "bars": 1139,
+    "bars": 1122,
     "swings": [
      {
       "ts": "2026-10-01T13:00:00-04:00",
@@ -12675,7 +12675,7 @@
     "lastBreak": null,
     "lookback": 4,
     "note": null,
-    "bars": 1139,
+    "bars": 1122,
     "swings": [
      {
       "ts": "2026-10-01T20:00:00-04:00",
