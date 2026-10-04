@@ -49,3 +49,17 @@ def test_auto_call_uses_that_weeks_auto_share():
     px = closes({t: 1.02 for t in 'ABCDE'})
     r = score({'2026-01-02': {'m': 'auto'}}, CAL, WEEKS, picks, lambda f: {}, px, FLAT, FLAT)
     assert [w[3][0] for w in r['weeks']] == [1.0, 0.6]
+
+
+def test_boost_call_uses_the_boost_list_and_its_mix():
+    from mtl.human import score
+    cal = ['2024-01-05', '2024-01-08', '2024-01-09']
+    closes = {'A': {d: 10.0 for d in cal}, 'B': {'2024-01-05': 10.0, '2024-01-08': 10.0, '2024-01-09': 12.0}}
+    flat = {d: 1.0 for d in cal}
+    weeks = [('2024-01-05', '2024-01-08', 1.0, 1.0, 1.0)]
+    r = score({'2024-01-05': {'m': 'boost'}}, cal, weeks, lambda d: ['A'], lambda f: {}, closes, flat, flat,
+              slots_n=1, boost_picks_at=lambda d: ['B'])
+    assert r['weeks'][0][2] == ['B'] and abs(r['curve'][-1][1] - 1.2) < 1e-9
+    r = score({'2024-01-05': {'m': 'auto'}}, cal, weeks, lambda d: ['A'], lambda f: {}, closes, flat, flat,
+              slots_n=1, boost_picks_at=lambda d: ['B'])
+    assert r['weeks'][0][2] == ['A'] and abs(r['curve'][-1][1] - 1.0) < 1e-9
