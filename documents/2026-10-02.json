@@ -343,7 +343,7 @@
       [
        "bull",
        "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -373,7 +373,7 @@
       [
        "bull",
        "WTI fell 1.57% to $91.41 at the close (investingLive wrap; the news log shows -4.22% pre-market); equities' oil correlation is -0.473, so lower crude helps. ES=F rose 0.62%",
-       false
+       true
       ],
       [
        "neu",
@@ -381,13 +381,12 @@
        null
       ]
      ],
-     "maturityClose": 7802.75,
-     "ret": 0.003376,
+     "maturityClose": 7830.0,
+     "ret": 0.00688,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2521,13 +2520,12 @@
        null
       ]
      ],
-     "maturityClose": 104.296875,
-     "ret": -0.000749,
+     "maturityClose": 104.25,
+     "ret": -0.001198,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5249,13 +5247,12 @@
        null
       ]
      ],
-     "maturityClose": 4169.7998046875,
-     "ret": -0.000551,
+     "maturityClose": 4167.60009765625,
+     "ret": -0.001079,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7326,13 +7323,12 @@
        null
       ]
      ],
-     "maturityClose": 102.32599639892578,
-     "ret": 0.003944,
+     "maturityClose": 102.125,
+     "ret": 0.001972,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9543,13 +9539,12 @@
        null
       ]
      ],
-     "maturityClose": 2859.5,
-     "ret": 0.0027,
+     "maturityClose": 2868.5,
+     "ret": 0.005856,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11492,7 +11487,7 @@
       [
        "bull",
        "1H structure is uptrend (structure.hourly); NQ=F closed 31049 vs 50-day 29576.76 and 200-day 27602.76, RSI(14) 66.18",
-       false
+       true
       ],
       [
        "neu",
@@ -11517,7 +11512,7 @@
       [
        "bull",
        "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -11532,7 +11527,7 @@
       [
        "bull",
        "Nvidia hit a fresh intraday record (about $237.88, market cap above $5.7T) and the Nasdaq set a record close (news log); the effect beyond one day is not documented",
-       false
+       true
       ],
       [
        "neu",
@@ -11547,21 +11542,20 @@
       [
        "bull",
        "WTI fell 1.57% to $91.41 at the close (investingLive wrap; the news log shows -4.22% pre-market); Nasdaq-100's oil correlation is -0.552, so lower crude helps. NQ=F rose 0.74%",
-       false
+       true
       ],
       [
        "bull",
        "1H structure is uptrend - last labeled swings: HH/HL/HL/HH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 31186.75,
-     "ret": 0.004437,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "maturityClose": 31339.5,
+     "ret": 0.009356,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,
