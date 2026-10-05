@@ -2017,5 +2017,65 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-05-1-euro-17m-low-french-spreads-yields-rise",
+    "data": {
+      "date": "2026-10-05",
+      "day": "Mon",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "addedAt": "2026-10-05",
+      "order": 1,
+      "category": "Rates",
+      "region": "Europe / US",
+      "event": "Euro hits a 17-month low as French political gridlock stokes budget-deficit fears; French-German bond spread widens to its highest since 2011; US 10Y yield edges higher",
+      "numbers": "10Y 5.31% (+0.03); French-German spread widest since 2011; euro at 17-month low",
+      "tickers": "TLT, 10Y, yield, Treasury, DXY, USD, dollar, SPY",
+      "reaction": "Rising yields and euro weakness (firmer dollar) weighed on equity futures into the open",
+      "direction": "Bearish",
+      "impact": "High",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-5-dow-sp-500-nasdaq-081220790.html"
+    }
+  },
+  {
+    "id": "2026-10-05-2-us-futures-slip-nasdaq-near-records",
+    "data": {
+      "date": "2026-10-05",
+      "day": "Mon",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "addedAt": "2026-10-05",
+      "order": 2,
+      "category": "Market",
+      "region": "US",
+      "event": "US stock futures edge lower as bond yields stay near 20-year highs; light data/earnings calendar, S&P Global and ISM PMIs due; Fed minutes later in week; Nasdaq still near record highs",
+      "numbers": "S&P fut 7,773 (-0.05%); Dow fut 51,458 (-0.04%); Nasdaq fut 31,015 (-0.15%); Russell fut 2,855.6 (+0.16%); gold ~$4,178 (+0.38%)",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell, GLD, gold",
+      "reaction": "Muted, slightly lower open indicated; small caps modestly firmer, gold bid",
+      "direction": "Neutral",
+      "impact": "Medium",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-5-dow-sp-500-nasdaq-081220790.html"
+    }
+  },
+  {
+    "id": "2026-10-05-3-oil-split-brent-102-hormuz-premium",
+    "data": {
+      "date": "2026-10-05",
+      "day": "Mon",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "addedAt": "2026-10-05",
+      "order": 3,
+      "category": "Energy",
+      "region": "Global / Middle East",
+      "event": "Oil mixed: Brent holds above $100 and Murban near $110 on Hormuz/Red Sea risk premium, tanker shortages and high freight, while US WTI edges lower",
+      "numbers": "Brent ~$101.3-102.3; Murban ~$110; WTI (Nov) $89.28 (-2.0%)",
+      "tickers": "USO, BNO, XLE, CL=F, BZ=F",
+      "reaction": "Seaborne crude carries a wider geopolitical premium than US crude; energy names supported",
+      "direction": "Mixed",
+      "impact": "Medium",
+      "source": "https://gulfnews.com/world/americas/oil-prices-split-as-brent-tops-102-murban-hits-110-per-barrel-on-oct-5-2026-1.500698305"
+    }
   }
 ]
