@@ -525,8 +525,8 @@
        null
       ]
      ],
-     "maturityClose": 7774.0,
-     "ret": 0.003259,
+     "maturityClose": 7802.75,
+     "ret": 0.006969,
      "correct": true,
      "shadowCorrect": false,
      "preReversionCorrect": true,
@@ -2698,8 +2698,8 @@
        null
       ]
      ],
-     "maturityClose": 104.25,
-     "ret": -0.002392,
+     "maturityClose": 104.296875,
+     "ret": -0.001944,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5494,8 +5494,8 @@
        false
       ]
      ],
-     "maturityClose": 4180.60009765625,
-     "ret": 0.00621,
+     "maturityClose": 4169.7998046875,
+     "ret": 0.00361,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7572,8 +7572,8 @@
        null
       ]
      ],
-     "maturityClose": 102.2699966430664,
-     "ret": 0.010154,
+     "maturityClose": 102.32599639892578,
+     "ret": 0.010707,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9852,8 +9852,8 @@
        false
       ]
      ],
-     "maturityClose": 2853.800048828125,
-     "ret": 0.005142,
+     "maturityClose": 2859.5,
+     "ret": 0.00715,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -11843,7 +11843,7 @@
       [
        "bull",
        "Weekly structure is choppy (LL 27201.5 (week of 27 July), LH 30343 (week of 17 August), HL 28763.8 (week of 14 September)); the read leans on the moving averages (29432.77 and 27496.38), since the weekly swings are not a clean HH/HL sequence.",
-       false
+       true
       ],
       [
        "neu",
@@ -11873,7 +11873,7 @@
       [
        "bull",
        "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale (broad-market survey, not tech-specific)",
-       false
+       true
       ],
       [
        "neu",
@@ -11883,7 +11883,7 @@
       [
        "bull",
        "Nvidia's record $150 billion buyback boost ($235 billion remaining) and Akamai's seven-year, $11.6 billion Anthropic infrastructure deal (AKAM +3.2%) point to continued AI-capex deal flow on 28 September, though semiconductors fell about 1.8% that day",
-       false
+       true
       ],
       [
        "neu",
@@ -11906,11 +11906,11 @@
        null
       ]
      ],
-     "maturityClose": 31011.25,
-     "ret": 0.013713,
-     "correct": true,
-     "shadowCorrect": true,
-     "preReversionCorrect": true,
+     "maturityClose": 31186.75,
+     "ret": 0.01945,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
      "settlementNote": "graded against NQ=F",
      "provisional": true
     },
