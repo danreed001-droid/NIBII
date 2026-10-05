@@ -2077,5 +2077,85 @@
       "impact": "Medium",
       "source": "https://gulfnews.com/world/americas/oil-prices-split-as-brent-tops-102-murban-hits-110-per-barrel-on-oct-5-2026-1.500698305"
     }
+  },
+  {
+    "id": "2026-10-05-4-payrolls-miss-10y-yield-fresh-high",
+    "data": {
+      "addedAt": "2026-10-05",
+      "category": "Macro",
+      "date": "2026-10-05",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "September payrolls rose just 29,000, far below expectations, as unemployment climbed to 4.2%; reduced odds of another Fed rate hike in October, while long-end Treasury yields extended to fresh multi-decade highs ahead of Wednesday's FOMC minutes",
+      "impact": "High",
+      "numbers": "Nonfarm payrolls +29K; unemployment 4.2%; 10Y yield 5.35% (+7bp)",
+      "order": 4,
+      "reaction": "Equities shrugged off bond-market caution as softer jobs data cooled Fed hike bets even as yields pushed higher on term-premium/supply concerns",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-05-2026",
+      "tickers": "SPY, TLT, ^TNX, DXY",
+      "time": "Market hours",
+      "vsExp": "Payrolls badly missed consensus (~+150K expected)"
+    }
+  },
+  {
+    "id": "2026-10-05-5-sp500-dow-nasdaq-close-higher",
+    "data": {
+      "addedAt": "2026-10-05",
+      "category": "Market",
+      "date": "2026-10-05",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "US stocks closed higher, led by tech, as investors looked past rising bond yields; Nasdaq notched a fresh high on strength in TSMC and SpaceX-linked names",
+      "impact": "High",
+      "numbers": "S&P 500 7,775.30 (+0.68%); Dow 51,302.25 (+0.24%); Nasdaq Composite 27,449.43 (+0.95%); 10Y Treasury yield 5.35% (+7bp)",
+      "order": 5,
+      "reaction": "Tech-led gains outweighed bond-market jitters; Dow lagged as rate-sensitive sectors underperformed",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-5-dow-sp-500-nasdaq-081220790.html",
+      "tickers": "SPY, DIA, QQQ, ^TNX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-05-6-houthi-aramco-strike-iran-hormuz-threat",
+    "data": {
+      "addedAt": "2026-10-05",
+      "category": "Geopolitics",
+      "date": "2026-10-05",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Houthis claimed missile/drone strikes on Saudi Aramco facilities in Riyadh and Khurais (Sat Oct 3); Iran's parliament speaker said the Strait of Hormuz stays closed until Washington meets seven conditions (Sun Oct 4); G7 weighing an emergency release of ~100 million barrels of crude/diesel",
+      "impact": "High",
+      "numbers": "Brent $102.30/bbl; WTI $90.62/bbl (-0.5%); Brent-WTI spread >$11 (vs normal $3-5); Murban ~$110/bbl",
+      "order": 6,
+      "reaction": "Seaborne Middle East crude (Brent/Murban) carries a wider war-risk premium than US crude even as Brent eased on rising regional exports and reported G7 release plans",
+      "region": "Middle East",
+      "source": "https://oilprice.com/Latest-Energy-News/World-News/Possible-Fire-Reported-at-Saudi-Refinery-as-Attack-Claims-Circulate.html",
+      "tickers": "USO, BNO, XLE, CL=F, BZ=F",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-05-7-tsmc-record-high-spacex-surge-terafab",
+    "data": {
+      "addedAt": "2026-10-05",
+      "category": "Deals",
+      "date": "2026-10-05",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "TSMC shares hit an intraday all-time high after Elon Musk confirmed early-stage talks for TSMC to join his 'Terafab' chip-fab project supplying Tesla, SpaceX and xAI; Intel (an existing Terafab partner) fell on the news. Separately, SpaceX (SPCX) jumped after Morgan Stanley's Adam Jonas reiterated Overweight with a $300 price target",
+      "impact": "Medium",
+      "numbers": "TSM +2.79% (record high); INTC approx -2%; SPCX +7.63% to $171.09 (MS $300 PT, ~89% implied upside)",
+      "order": 7,
+      "reaction": "AI/chip-supply optimism lifted semis and SpaceX; Jonas called SPCX shares 'cheap and getting cheaper' versus AI mega-cap peers",
+      "region": "US / Asia",
+      "source": "https://ca.finance.yahoo.com/news/tsmc-stock-hits-all-time-high-after-elon-musk-confirms-early-terafab-talks-162904771.html",
+      "tickers": "TSM, INTC, SPCX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
