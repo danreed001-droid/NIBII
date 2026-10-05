@@ -317,62 +317,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly); ES=F closed 7776.5 vs 50-day 7684.29 and 200-day 7254.23, RSI(14) 56.19"
+       "1H structure is choppy (structure.hourly); ES=F closed 7776.5 vs 50-day 7684.29 and 200-day 7254.23, RSI(14) 56.19",
+       null
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA counts were obtained; breadth is neutral"
+       "No advance/decline or %-above-MA counts were obtained; breadth is neutral",
+       null
       ],
       [
        "neu",
-       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed"
+       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No 2 October high-yield spread print was obtainable, so credit gives no clean read"
+       "No 2 October high-yield spread print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "neu",
-       "Sources disagree on the 2 October 10-year close (news log 5.18%, -6bp vs investingLive 5.29%, +6bp), so the 1-day rates read is two-sided"
+       "Sources disagree on the 2 October 10-year close (news log 5.18%, -6bp vs investingLive 5.29%, +6bp), so the 1-day rates read is two-sided",
+       null
       ],
       [
        "bull",
-       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)"
+       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)",
+       false
       ],
       [
        "neu",
-       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral"
+       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning figure for this window names an extreme, so positioning is neutral"
+       "No dated positioning figure for this window names an extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No asset-level earnings catalyst applies; Nike's miss (NKE -4.8%) is single-stock and is not weighed here"
+       "No asset-level earnings catalyst applies; Nike's miss (NKE -4.8%) is single-stock and is not weighed here",
+       null
       ],
       [
        "neu",
-       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral"
+       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bull",
-       "WTI fell 1.57% to $91.41 at the close (investingLive wrap; the news log shows -4.22% pre-market); equities' oil correlation is -0.473, so lower crude helps. ES=F rose 0.62%"
+       "WTI fell 1.57% to $91.41 at the close (investingLive wrap; the news log shows -4.22% pre-market); equities' oil correlation is -0.473, so lower crude helps. ES=F rose 0.62%",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7774.0,
+     "ret": -0.000321,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -2442,62 +2457,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly); ZN=F closed 104.375 vs 50-day 107.39 and 200-day 110.14, RSI(14) 26.67"
+       "1H structure is choppy (structure.hourly); ZN=F closed 104.375 vs 50-day 107.39 and 200-day 110.14, RSI(14) 26.67",
+       null
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA counts were obtained; breadth is neutral"
+       "No advance/decline or %-above-MA counts were obtained; breadth is neutral",
+       null
       ],
       [
        "neu",
-       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed"
+       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No 2 October high-yield spread print was obtainable, so credit gives no clean read"
+       "No 2 October high-yield spread print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "neu",
-       "Sources disagree on the 2 October 10-year close (news log 5.18%, -6bp vs investingLive 5.29%, +6bp); ZN=F closed down 0.14% at 104.375, so the rates read is two-sided"
+       "Sources disagree on the 2 October 10-year close (news log 5.18%, -6bp vs investingLive 5.29%, +6bp); ZN=F closed down 0.14% at 104.375, so the rates read is two-sided",
+       null
       ],
       [
        "bull",
-       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)"
+       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)",
+       false
       ],
       [
        "neu",
-       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral"
+       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning figure for this window names an extreme, so positioning is neutral"
+       "No dated positioning figure for this window names an extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No asset-level earnings catalyst applies; Nike's miss (NKE -4.8%) is single-stock and is not weighed here"
+       "No asset-level earnings catalyst applies; Nike's miss (NKE -4.8%) is single-stock and is not weighed here",
+       null
       ],
       [
        "neu",
-       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral"
+       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bull",
-       "WTI fell 1.57% to $91.41 at the close (investingLive wrap; the news log shows -4.22% pre-market), easing inflation pressure; the dollar index eased 0.19%"
+       "WTI fell 1.57% to $91.41 at the close (investingLive wrap; the news log shows -4.22% pre-market), easing inflation pressure; the dollar index eased 0.19%",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 104.25,
+     "ret": -0.001198,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -5155,62 +5185,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly); GC=F closed 4172.1 vs 50-day 4366.47 and 200-day 4553.41, RSI(14) 34.74"
+       "1H structure is choppy (structure.hourly); GC=F closed 4172.1 vs 50-day 4366.47 and 200-day 4553.41, RSI(14) 34.74",
+       null
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA counts were obtained; breadth is neutral"
+       "No advance/decline or %-above-MA counts were obtained; breadth is neutral",
+       null
       ],
       [
        "neu",
-       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed"
+       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No 2 October high-yield spread print was obtainable, so credit gives no clean read"
+       "No 2 October high-yield spread print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "neu",
-       "Sources disagree on the 2 October 10-year close, so the 1-day rates read is two-sided"
+       "Sources disagree on the 2 October 10-year close, so the 1-day rates read is two-sided",
+       null
       ],
       [
        "bull",
-       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log), supportive for gold"
+       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log), supportive for gold",
+       false
       ],
       [
        "neu",
-       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral"
+       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning figure for this window names an extreme, so positioning is neutral"
+       "No dated positioning figure for this window names an extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No asset-level earnings catalyst applies; Nike's miss (NKE -4.8%) is single-stock and is not weighed here"
+       "No asset-level earnings catalyst applies; Nike's miss (NKE -4.8%) is single-stock and is not weighed here",
+       null
       ],
       [
        "neu",
-       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral"
+       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bull",
-       "The dollar index eased 0.19% to 101.92 and WTI fell, a modest tailwind for gold; GC=F nonetheless closed -0.08%, so only the 1-day read leans bullish"
+       "The dollar index eased 0.19% to 101.92 and WTI fell, a modest tailwind for gold; GC=F nonetheless closed -0.08%, so only the 1-day read leans bullish",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4180.60009765625,
+     "ret": 0.002037,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -7217,62 +7262,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly); DX-Y.NYB closed 101.924 vs 50-day 100.00 and 200-day 99.27, RSI(14) 71.61"
+       "1H structure is choppy (structure.hourly); DX-Y.NYB closed 101.924 vs 50-day 100.00 and 200-day 99.27, RSI(14) 71.61",
+       null
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA counts were obtained; breadth is neutral"
+       "No advance/decline or %-above-MA counts were obtained; breadth is neutral",
+       null
       ],
       [
        "neu",
-       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed"
+       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No 2 October high-yield spread print was obtainable, so credit gives no clean read"
+       "No 2 October high-yield spread print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "neu",
-       "Sources disagree on the 2 October 10-year close, so the rates read is two-sided"
+       "Sources disagree on the 2 October 10-year close, so the rates read is two-sided",
+       null
       ],
       [
        "bear",
-       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log), reducing the policy-rate support for the dollar"
+       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log), reducing the policy-rate support for the dollar",
+       false
       ],
       [
        "neu",
-       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral"
+       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning figure for this window names an extreme, so positioning is neutral"
+       "No dated positioning figure for this window names an extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No asset-level earnings catalyst applies; Nike's miss (NKE -4.8%) is single-stock and is not weighed here"
+       "No asset-level earnings catalyst applies; Nike's miss (NKE -4.8%) is single-stock and is not weighed here",
+       null
       ],
       [
        "neu",
-       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral"
+       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The dollar index eased 0.19% to 101.92 while the 21-session driver regime shows no dominant driver; risk-on equities and lower oil give no clean cross-asset signal"
+       "The dollar index eased 0.19% to 101.92 while the 21-session driver regime shows no dominant driver; risk-on equities and lower oil give no clean cross-asset signal",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 102.2699966430664,
+     "ret": 0.003395,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 5,
@@ -9419,62 +9479,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly); RTY=F closed 2851.8 vs 50-day 2952.23 and 200-day 2791.02, RSI(14) 40.66"
+       "1H structure is choppy (structure.hourly); RTY=F closed 2851.8 vs 50-day 2952.23 and 200-day 2791.02, RSI(14) 40.66",
+       null
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA counts were obtained; breadth is neutral"
+       "No advance/decline or %-above-MA counts were obtained; breadth is neutral",
+       null
       ],
       [
        "neu",
-       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed"
+       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No 2 October high-yield spread print was obtainable, so credit gives no clean read"
+       "No 2 October high-yield spread print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "neu",
-       "Sources disagree on the 2 October 10-year close, so the 1-day rates read is two-sided"
+       "Sources disagree on the 2 October 10-year close, so the 1-day rates read is two-sided",
+       null
       ],
       [
        "bull",
-       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)"
+       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)",
+       false
       ],
       [
        "neu",
-       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral"
+       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning figure for this window names an extreme, so positioning is neutral"
+       "No dated positioning figure for this window names an extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No asset-level earnings catalyst applies; Nike's miss (NKE -4.8%) is single-stock and is not weighed here"
+       "No asset-level earnings catalyst applies; Nike's miss (NKE -4.8%) is single-stock and is not weighed here",
+       null
       ],
       [
        "neu",
-       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral"
+       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Oil's 21-session correlation (-0.377) is below the 0.40 dominance threshold and the dollar was little changed, so the cross-asset read is neutral"
+       "Oil's 21-session correlation (-0.377) is below the 0.40 dominance threshold and the dollar was little changed, so the cross-asset read is neutral",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2853.800048828125,
+     "ret": 0.000701,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -11416,62 +11491,77 @@
      "votes": [
       [
        "bull",
-       "1H structure is uptrend (structure.hourly); NQ=F closed 31049 vs 50-day 29576.76 and 200-day 27602.76, RSI(14) 66.18"
+       "1H structure is uptrend (structure.hourly); NQ=F closed 31049 vs 50-day 29576.76 and 200-day 27602.76, RSI(14) 66.18",
+       false
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA counts were obtained; breadth is neutral"
+       "No advance/decline or %-above-MA counts were obtained; breadth is neutral",
+       null
       ],
       [
        "neu",
-       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed"
+       "No source names a percentile or record for the volatility gauge, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No 2 October high-yield spread print was obtainable, so credit gives no clean read"
+       "No 2 October high-yield spread print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "neu",
-       "Sources disagree on the 2 October 10-year close, so the 1-day rates read is two-sided"
+       "Sources disagree on the 2 October 10-year close, so the 1-day rates read is two-sided",
+       null
       ],
       [
        "bull",
-       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)"
+       "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)",
+       false
       ],
       [
        "neu",
-       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral"
+       "No dated sentiment survey for 2 October was obtainable (latest AAII is the week to 23 September), so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning figure for this window names an extreme, so positioning is neutral"
+       "No dated positioning figure for this window names an extreme, so positioning is neutral",
+       null
       ],
       [
        "bull",
-       "Nvidia hit a fresh intraday record (about $237.88, market cap above $5.7T) and the Nasdaq set a record close (news log); the effect beyond one day is not documented"
+       "Nvidia hit a fresh intraday record (about $237.88, market cap above $5.7T) and the Nasdaq set a record close (news log); the effect beyond one day is not documented",
+       false
       ],
       [
        "neu",
-       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral"
+       "The September jobs report was the key 2 October release and is reflected in the Fed-path category; no further dated event was obtained for this window, so the calendar read is neutral",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral."
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bull",
-       "WTI fell 1.57% to $91.41 at the close (investingLive wrap; the news log shows -4.22% pre-market); Nasdaq-100's oil correlation is -0.552, so lower crude helps. NQ=F rose 0.74%"
+       "WTI fell 1.57% to $91.41 at the close (investingLive wrap; the news log shows -4.22% pre-market); Nasdaq-100's oil correlation is -0.552, so lower crude helps. NQ=F rose 0.74%",
+       false
       ],
       [
        "bull",
-       "1H structure is uptrend - last labeled swings: HH/HL/HL/HH."
+       "1H structure is uptrend - last labeled swings: HH/HL/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 31011.25,
+     "ret": -0.001216,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 5,
