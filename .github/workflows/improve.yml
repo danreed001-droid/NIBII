@@ -28,7 +28,7 @@ jobs:
       - name: Run the audit
         run: |
           set -o pipefail
-          WITH_VOLUME=1 ONLY=ldt2x,liq10,liq20,liq30 python scripts/improve.py 2>&1 | tee data/improve.log
+          WITH_VOLUME=1 ONLY=liq25,liq35,liq40,liq50,liq60 python scripts/improve.py 2>&1 | tee data/improve.log
       - name: Commit the results
         if: always()
         run: |
