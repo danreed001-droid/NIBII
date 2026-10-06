@@ -69,7 +69,10 @@ from mtl.universe import URL as SP_URL, load_added, load_sp500, momentum_univers
 
 HIST_URL = 'https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_500'
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, 'data', 'robustness.json')
+RULE = os.environ.get('RULE', '')
+# RULE=weekrank: sum of weekly cross-sectional ranks, 21 weeks from 6 months to 1 month ago
+EXTRA = dict(windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank') if RULE == 'weekrank' else {}
+OUT = os.path.join(ROOT, 'data', f"robustness{'_' + RULE if RULE else ''}.json")
 CACHE = os.path.join(ROOT, 'data', '.robust.pkl')
 START, FROM = '2010-01-04', '2008-06-01'
 LOOK, SKIP, TOP_N = 126, 21, 5
@@ -245,7 +248,7 @@ def run_core(universe, start, boost, exclude=()):
         base = P['elig_base'] if universe == 'base' else P['elig_pit']
     ex = set(exclude)
     elig = (lambda t, d: t not in ex and base(t, d)) if ex else base
-    kw = dict(look=LOOK, skip=SKIP, top_n=TOP_N, eligible=elig, exec_next='close')
+    kw = dict(look=LOOK, skip=SKIP, top_n=TOP_N, eligible=elig, exec_next='close', **EXTRA)
     if boost:
         kw.update(prefer=booster(P['gaps'], P['calendar']), prefer_mode='force', prefer_rank=None, prefer_pool='all')
     return run_momentum(P['prices'], P['calendar'], start, **kw)
@@ -731,7 +734,7 @@ def leak_test(D, P, dates):
             return t not in sp or added.get(t, '0000') <= d
         r = run_momentum(prices_t, cal_t, START, look=LOOK, skip=SKIP, top_n=TOP_N, eligible=elig,
                          exec_next='close', prefer=booster(gaps_t, cal_t), prefer_mode='force',
-                         prefer_rank=None, prefer_pool='all')
+                         prefer_rank=None, prefer_pool='all', **EXTRA)
         fp = {d: sorted(h) for d, h in full['picks'] if d <= nxt}
         tp = {d: sorted(h) for d, h in r['picks']}
         past_ok = all(fp.get(d) == h for d, h in tp.items() if d < nxt)

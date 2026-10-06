@@ -27,12 +27,12 @@ jobs:
       - name: Run the audit
         run: |
           set -o pipefail
-          python scripts/robustness.py 2>&1 | tee data/robustness.log
+          RULE=weekrank python scripts/robustness.py 2>&1 | tee data/robustness_weekrank.log
       - name: Commit the results
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f data/robustness.log; if [ -f data/robustness.json ]; then git add data/robustness.json; fi
+          git add -f data/robustness_weekrank.log; if [ -f data/robustness_weekrank.json ]; then git add data/robustness_weekrank.json; fi
           git commit -m "Robustness audit results" || exit 0
           git push
