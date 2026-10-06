@@ -376,7 +376,7 @@
       [
        "bull",
        "September payrolls were +29K with unemployment 4.2%, and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 October); the 5 October log entry confirms the reduced hike bets",
-       false
+       true
       ],
       [
        "neu",
@@ -391,7 +391,7 @@
       [
        "bull",
        "TSMC hit an all-time high on Musk-confirmed Terafab talks and chip strength lifted the Nasdaq to a fresh high on 5 October (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -414,8 +414,8 @@
        null
       ]
      ],
-     "maturityClose": 7861.75,
-     "ret": 0.003638,
+     "maturityClose": 7885.75,
+     "ret": 0.006702,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2526,8 +2526,8 @@
        null
       ]
      ],
-     "maturityClose": 104.4375,
-     "ret": 0.001949,
+     "maturityClose": 104.46875,
+     "ret": 0.002249,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5261,8 +5261,8 @@
        null
       ]
      ],
-     "maturityClose": 4191.0,
-     "ret": 0.006218,
+     "maturityClose": 4187.39990234375,
+     "ret": 0.005354,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7338,8 +7338,8 @@
        null
       ]
      ],
-     "maturityClose": 101.87799835205078,
-     "ret": -0.002692,
+     "maturityClose": 101.87999725341797,
+     "ret": -0.002672,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9548,8 +9548,8 @@
        null
       ]
      ],
-     "maturityClose": 2878.60009765625,
-     "ret": 0.003836,
+     "maturityClose": 2857.699951171875,
+     "ret": -0.003452,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11534,8 +11534,8 @@
        null
       ]
      ],
-     "maturityClose": 31510.75,
-     "ret": 0.004327,
+     "maturityClose": 31540.5,
+     "ret": 0.005275,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

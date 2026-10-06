@@ -517,8 +517,8 @@
        null
       ]
      ],
-     "maturityClose": 7861.75,
-     "ret": 0.016781,
+     "maturityClose": 7885.75,
+     "ret": 0.019885,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2661,8 +2661,8 @@
        null
       ]
      ],
-     "maturityClose": 104.4375,
-     "ret": 0.00015,
+     "maturityClose": 104.46875,
+     "ret": 0.000449,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5435,8 +5435,8 @@
        false
       ]
      ],
-     "maturityClose": 4191.0,
-     "ret": 0.002703,
+     "maturityClose": 4187.39990234375,
+     "ret": 0.001842,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7474,8 +7474,8 @@
        null
       ]
      ],
-     "maturityClose": 101.87799835205078,
-     "ret": 0.005011,
+     "maturityClose": 101.87999725341797,
+     "ret": 0.005031,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9673,7 +9673,7 @@
       [
        "bull",
        "Weekly structure is uptrend (HH 3068.4 (week of 29 June), HL 2902.3 (week of 27 July), HH 3079.9 (week of 17 August)); RTY=F closed 2829.2 against a 50-day average of 2960.67 and a 200-day of 2786.94 with RSI(14) at 32.93.",
-       true
+       false
       ],
       [
        "bear",
@@ -9703,7 +9703,7 @@
       [
        "bull",
        "The Conference Board's 29 September consumer-confidence reading (81.9, lowest since April 2014) and AAII's week-to-23 September survey (bulls 32.7%, bears 48.1%, a week stale) are both depressed, a contrarian-bullish backdrop, but neither is a small-cap-specific extreme",
-       true
+       false
       ],
       [
        "neu",
@@ -9733,14 +9733,14 @@
       [
        "bull",
        "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
-       true
+       false
       ]
      ],
-     "maturityClose": 2878.60009765625,
-     "ret": 0.017461,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 2857.699951171875,
+     "ret": 0.010074,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against RTY=F",
      "provisional": true
     },
@@ -11765,8 +11765,8 @@
        null
       ]
      ],
-     "maturityClose": 31510.75,
-     "ret": 0.029317,
+     "maturityClose": 31540.5,
+     "ret": 0.030289,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
