@@ -45,11 +45,11 @@ from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'data', 'momentum_scan.json')
 START, LOOK, SKIP, TOP_N, TABLE = '2010-01-04', 126, 21, 5, 100
-# weekly plans rank by the sum of weekly ranks: each of the 21 weeks from 6 months to 1 month ago is
-# ranked across all stocks and the ranks are added (monthly plans keep the plain 6-1 month score)
-WIN = [(5 * i + 26, 5 * i + 21) for i in range(21)]
-RANK = dict(windows=WIN, blend='rank')                  # ranking only
-RK = dict(RANK, weighting='top2x')                       # the rule: the best-ranked holding gets 2x the others
+# the rule ranks by the plain 6-1 month return in equal weight. (Oct 2026: a weekly rank sum with the
+# #1 holding at 2x was tried and reverted - it did worse on 2000-2009 data the rules were never tuned on.)
+WIN = None
+RANK = {}
+RK = {}
 GLITCH_BLOCK = 150
 PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
 AUTO_NEED, AUTO_LOW = 2, 0.6            # monthly plans: 60/40 while 2+ holdings are in a daily downtrend, else 100%
@@ -297,9 +297,8 @@ def main():
     signal_day = date.fromisoformat(as_of).weekday() == 4
     held_rows = []
     shown = preview if signal_day else holdings
-    if signal_day or not r['weights']:   # Monday's weights: the best-ranked one at 2x
-        top = min(shown, key=lambda t: rank.get(t, 10 ** 9)) if shown else None
-        wnow = {t: (2.0 if t == top else 1.0) / (TOP_N + 1) for t in shown}
+    if signal_day or not r['weights']:   # Monday's weights: equal
+        wnow = {t: 1.0 / TOP_N for t in shown}
     else:
         wnow = r['weights'][-1][1]
     for t in shown:
