@@ -86,6 +86,17 @@ def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='ran
             score = {t: sum(r) / len(r) for t, r in rets.items()}
         elif blend in ('sortino', 'sharpe'):
             score = {t: ratio(r, blend == 'sortino') for t, r in rets.items()}
+        elif blend == 'rank_ret':     # consensus: average of the weekly rank-sum and the 6-1 month return places
+            n = len(rets)
+            W = len(windows)
+            rs = {t: 0.0 for t in rets}
+            for w in range(W):
+                for i, t in enumerate(sorted(rets, key=lambda t: rets[t][w])):
+                    rs[t] += i + 1
+            r61 = {t: score_at(prices[t], calendar, k, look, skip) or -1e9 for t in rets}
+            p1 = {t: (i + 1) / n for i, t in enumerate(sorted(rets, key=lambda t: rs[t]))}
+            p2 = {t: (i + 1) / n for i, t in enumerate(sorted(rets, key=lambda t: r61[t]))}
+            score = {t: (p1[t] + p2[t]) / 2 for t in rets}
         elif blend in ('rank_resid', 'rank_52'):
             n = len(rets)
             W = len(windows)
@@ -283,6 +294,28 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             inv = {t: 1 / vol(t, k) for t in target}
             tot = sum(inv.values())
             w = {t: inv[t] / tot * len(target) / top_n for t in target}
+        elif isinstance(weighting, str) and weighting.startswith('drift'):
+            # let winners run: each new buy gets a normal 1/top_n slot; the kept holdings share the
+            # rest in proportion to their current values (no trimming of winners), each capped
+            cap = float(weighting.split(':')[1]) if ':' in weighting else 1.0
+            cur = {t: shares[t] * last_px[t] for t in target if t in shares and last_px.get(t)}
+            new = [t for t in target if t not in cur]
+            w = {t: 1.0 / top_n for t in new}
+            room = len(target) / top_n - len(new) / top_n
+            tot_c = sum(cur.values())
+            for t, v in cur.items():
+                w[t] = room * v / tot_c if tot_c > 0 else room / len(cur)
+            for _ in range(5):          # cap, spreading the excess over the uncapped ones
+                over = sum(max(0.0, x - cap) for x in w.values())
+                if over <= 1e-12:
+                    break
+                under = [t for t, x in w.items() if x < cap]
+                w = {t: min(cap, x) for t, x in w.items()}
+                if not under:
+                    break
+                tot_u = sum(w[t] for t in under)
+                for t in under:
+                    w[t] += over * w[t] / tot_u if tot_u else over / len(under)
         elif weighting == 'top3x':
             best = min(target, key=lambda t: rank_now.get(t, 10 ** 9))
             w = {t: (3.0 if t == best else 1.0) / (top_n + 2) for t in target}

@@ -161,6 +161,9 @@ VARIANTS = {
     'rg50': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', regime_ma=50, weighting='top2x', plan=dict(ladder=True)), None),
     'rg200': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', regime_ma=200, weighting='top2x', plan=dict(ladder=True)), None),
     'old2x': (dict(top_n=5, weighting='top2x', plan=dict(ladder=True)), None),
+    'cons': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank_ret', weighting='top2x', plan=dict(ladder=True)), None),
+    'drift': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='drift', plan=dict(ladder=True)), None),
+    'drift35': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='drift:0.35', plan=dict(ladder=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -597,7 +600,7 @@ def main():
             R.log(f"  run done: {key}")
 
     def evaluate(key, run):
-        sc = schedule(run, cal, P['sleeve_f'], down, R.START)
+        sc = run['sched'] if 'sched' in run else schedule(run, cal, P['sleeve_f'], down, R.START)
         pre = R.simulate(sc, px_all, cal, SLIP, taxes=False)
         tax = R.simulate(sc, px_all, cal, SLIP, taxes=True)
         st = R.stats(pre['curve'], 0.015)
@@ -638,6 +641,32 @@ def main():
             scheds[sk] = sc2
             R.log(f"  {sk}: pre {out2['preTax'].get('cagr')} after {out2['afterTax']}")
 
+    # two engines side by side: fixed capital split between two independent plans
+    def combine(sa, sb, wa):
+        da, db = dict(sa), dict(sb)
+        dates = sorted(set(da) | set(db))
+        ia = ib = None
+        out = []
+        for T in dates:
+            ia = da.get(T, ia)
+            ib = db.get(T, ib)
+            if ia is None or ib is None:
+                continue
+            w = {}
+            for t, x in ia.items():
+                w[t] = w.get(t, 0.0) + wa * x
+            for t, x in ib.items():
+                w[t] = w.get(t, 0.0) + (1 - wa) * x
+            out.append((T, w))
+        return out
+    for name, a_k, b_k, wa in (('two50', 'ldt2x', 'cur', 0.5), ('two70', 'ldt2x', 'cur', 0.7)):
+        for side in ('auto', 'boost'):
+            ka, kb = f'{a_k}_auto', f'{b_k}_{side}'
+            if ka in scheds and kb in scheds:
+                key = f'{name}_{side}'
+                _, _, out = evaluate(key, dict(sched=combine(scheds[ka], scheds[kb], wa)))
+                res[key] = out
+                R.log(f"  {key}: pre {out['preTax'].get('cagr')} after {out['afterTax']}")
     extra = {}
     if only:
         global OUT

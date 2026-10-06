@@ -28,7 +28,7 @@ jobs:
       - name: Run the audit
         run: |
           set -o pipefail
-          ONLY=cur,ldt2x,old2x,rg20,rg50,rg200 python scripts/improve.py 2>&1 | tee data/improve.log
+          ONLY=cur,ldt2x,cons,drift,drift35 python scripts/improve.py 2>&1 | tee data/improve.log
       - name: Commit the results
         if: always()
         run: |
