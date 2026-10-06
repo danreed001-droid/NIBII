@@ -142,6 +142,7 @@ VARIANTS = {
     'w13': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(13)], blend='rank', weighting='top2x', plan=dict(ladder=True)), None),
     'w26': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(26)], blend='rank', weighting='top2x', plan=dict(ladder=True)), None),
     'ws2': (dict(top_n=5, windows=[(5 * i + 15, 5 * i + 10) for i in range(23)], blend='rank', weighting='top2x', plan=dict(ladder=True)), None),
+    'btc': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, btc=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -293,6 +294,8 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
                 a = best_of(sleeve_f, calendar, idx[f], assets=ok)
             elif po.get('srank'):      # sleeve fund by the weekly rank sum (like the stocks)
                 a = sleeve_rank(sleeve_f, calendar, idx[f], po['srank'])
+            elif po.get('btc'):        # Bitcoin as a seventh sleeve choice (from its first price, Sep 2014)
+                a = best_of(G['sleeve_f_btc'], calendar, idx[f], assets=ASSETS + ['BTC-USD'])
             else:
                 a = best_of(sleeve_f, calendar, idx[f], look=po.get('slook', 126))
             out_w[a] = out_w.get(a, 0.0) + (1 - split)
@@ -451,6 +454,17 @@ def main():
     px_all = dict(P['prices'])
     px_all.update(P['sleeve_px'])
     px_all['QQQ'] = {b[0]: b[4] for b in D['bench']['QQQ']}
+    try:
+        from momentum_scan import fetch as _fetch
+        from mtl.sleeve import filled as _filled
+        _btc = _fetch(['BTC-USD'], start='2014-01-01', adjusted=True).get('BTC-USD') or []
+        calset = set(cal)
+        btc_px = {b[0]: b[4] for b in _btc if b[0] in calset and b[4]}
+        R.log(f"BTC-USD closes: {len(btc_px)} from {min(btc_px) if btc_px else None}")
+        px_all['BTC-USD'] = btc_px
+        G['sleeve_f_btc'] = _filled(dict(P['sleeve_px'], **{'BTC-USD': btc_px}), cal)
+    except Exception as e:   # noqa: BLE001
+        R.log(f"BTC fetch failed: {e}")
     spx = P['prices']['SPY']
     sma_ok = {}
     for k_ in range(200, len(cal)):
@@ -530,6 +544,8 @@ def main():
             afterTaxSharpe=R.r4(R.stats(tax['curve'], 0.015).get('sharpe')),
             afterTaxDD=R.r4(R.stats(tax['curve'], 0.015).get('maxDD')),
             longestHold=longest_hold(sc),
+            btcWeeks=sum(1 for _, w in sc if w.get('BTC-USD', 0) > 0),
+            btcMax=R.r4(max((w.get('BTC-USD', 0) for _, w in sc), default=0)),
             final=round(tax['final'], 2), finalPre=round(pre['final'], 2),
             taxPaid=round(tax['taxPaid'], 2), wash=round(tax['wash'], 2), stShare=R.r4(tax['stShare']),
             turnover=R.r4(pre['turnover']),
