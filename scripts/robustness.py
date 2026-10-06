@@ -89,7 +89,11 @@ def fetch_sp500_changes():
     import pandas as pd
     req = urllib.request.Request(SP_URL, headers={'User-Agent': 'Mozilla/5.0'})
     html = urllib.request.urlopen(req, timeout=60).read().decode()
-    t = pd.read_html(io.StringIO(html), attrs={'id': 'changes'})[0]
+    try:
+        t = pd.read_html(io.StringIO(html), attrs={'id': 'changes'})[0]
+    except ValueError:
+        tables = pd.read_html(io.StringIO(html))
+        t = next(x for x in tables if any('Removed' in str(c) for c in x.columns))
     cols = []
     for c in t.columns:
         parts = [str(x) for x in (c if isinstance(c, tuple) else (c,)) if 'Unnamed' not in str(x)]
