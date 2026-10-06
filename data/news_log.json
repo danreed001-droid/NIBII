@@ -2157,5 +2157,65 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-06-1-futures-up-as-yields-and-oil-ease",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Rates",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "US stock futures rise as Treasury yields retreat from multi-year highs and oil falls; 30-year yield eased from a 2002-high 5.702% touched the prior day, with a softer payrolls report last week reducing rate-hike expectations",
+      "impact": "High",
+      "numbers": "Dow E-minis +281 pts (+0.55%); S&P 500 E-minis +19.5 pts (+0.25%); Nasdaq 100 E-minis +102 pts (+0.33%); 10Y 5.276% (-0.70%); 30Y 5.626%",
+      "reaction": "Relief bid across equities and bonds ahead of Q3 earnings season (big banks report next week)",
+      "region": "US",
+      "source": "https://investing.com/news/economy-news/wall-st-futures-rise-as-yields-oil-dip-4933888",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "order": 1
+    }
+  },
+  {
+    "id": "2026-10-06-2-oil-slides-brent-below-99",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Energy",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "Oil falls on resilient Middle East crude exports and a G7 emergency stockpile release, easing supply and inflation concerns",
+      "impact": "Medium",
+      "numbers": "Brent $98.58 (down >1%); WTI -2.12%",
+      "reaction": "Lower crude is helping pull yields down and supporting risk appetite",
+      "region": "Global",
+      "source": "https://investing.com/news/economy-news/wall-st-futures-rise-as-yields-oil-dip-4933888",
+      "tickers": "USO, oil, crude",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "order": 2
+    }
+  },
+  {
+    "id": "2026-10-06-3-mckesson-cdr-near-option-care-buyout",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Deals",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "McKesson and Clayton Dubilier & Rice reported closing in on a deal to buy infusion services provider Option Care Health for nearly $5 billion",
+      "impact": "Low",
+      "numbers": "OPCH +21.4% pre-market; deal value approx $5B incl. debt",
+      "reaction": "Target jumps on takeover report; not yet confirmed by the companies",
+      "region": "US",
+      "source": "https://investing.com/news/economy-news/wall-st-futures-rise-as-yields-oil-dip-4933888",
+      "tickers": "OPCH, MCK",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "order": 3
+    }
   }
 ]
