@@ -2582,62 +2582,77 @@
      "votes": [
       [
        "bear",
-       "Weekly structure is choppy (LH 110.33 (week of 22 June), LL 107.98 (week of 27 July), LH 109.11 (week of 10 August)); ZN=F closed 104.42 against a 50-day average of 107.63 and a 200-day of 110.26 with RSI(14) at 20.6."
+       "Weekly structure is choppy (LH 110.33 (week of 22 June), LL 107.98 (week of 27 July), LH 109.11 (week of 10 August)); ZN=F closed 104.42 against a 50-day average of 107.63 and a 200-day of 110.26 with RSI(14) at 20.6.",
+       false
       ],
       [
        "neu",
-       "Bond futures have no exchange breadth statistic; no dated, sourced breadth-type measure for Treasuries was obtainable, so this category is neutral"
+       "Bond futures have no exchange breadth statistic; no dated, sourced breadth-type measure for Treasuries was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "No dated MOVE index close for 29 September was obtainable (101.82 on 28 September, below 104.58 on 24 September), so no volatility-regime edge is claimed"
+       "No dated MOVE index close for 29 September was obtainable (101.82 on 28 September, below 104.58 on 24 September), so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "High-yield OAS was 2.80% on 24 September and no later print was obtainable; credit spreads give no clean read on Treasury duration"
+       "High-yield OAS was 2.80% on 24 September and no later print was obtainable; credit spreads give no clean read on Treasury duration",
+       null
       ],
       [
        "bear",
-       "The 10-year yield closed about 5.25% on 29 September, a fresh multiyear high, the 30-year is above 5.6% (highest since 2002 per market wraps) and ZN=F closed 104.42, a new 52-week closing low; bonds' correlation to the 10-year is mechanical (-0.958)"
+       "The 10-year yield closed about 5.25% on 29 September, a fresh multiyear high, the 30-year is above 5.6% (highest since 2002 per market wraps) and ZN=F closed 104.42, a new 52-week closing low; bonds' correlation to the 10-year is mechanical (-0.958)",
+       false
       ],
       [
        "bear",
-       "Fed funds futures still price a better-than-even chance of a 25bp October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket on 29 September); the softer JOLTS and confidence data leave the December path less certain, so only the near horizons lean bearish"
+       "Fed funds futures still price a better-than-even chance of a 25bp October hike (about 64% CME FedWatch to about 69% Kalshi/Polymarket on 29 September); the softer JOLTS and confidence data leave the December path less certain, so only the near horizons lean bearish",
+       false
       ],
       [
        "neu",
-       "No dated bond-market sentiment survey was obtainable for 29 September, so this category is neutral"
+       "No dated bond-market sentiment survey was obtainable for 29 September, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "No 10-year note futures COT report newer than 15 September was obtainable, so positioning is neutral"
+       "No 10-year note futures COT report newer than 15 September was obtainable, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to a Treasury note future; no dated corporate-supply figure for 29 September was obtainable"
+       "Earnings catalysts do not apply to a Treasury note future; no dated corporate-supply figure for 29 September was obtainable",
+       null
       ],
       [
        "neu",
-       "August JOLTS (7.079 million vs 7.23 million est.) and consumer confidence (81.9, lowest since April 2014) were weak on 29 September, yet yields still rose to new highs - the data did not bring a bid; PCE/ADP on 30 September and the 2 October jobs report keep the calendar two-sided"
+       "August JOLTS (7.079 million vs 7.23 million est.) and consumer confidence (81.9, lowest since April 2014) were weak on 29 September, yet yields still rose to new highs - the data did not bring a bid; PCE/ADP on 30 September and the 2 October jobs report keep the calendar two-sided",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "Oil stayed elevated (Brent near $103-105) and equities held within about 1.3% of their 52-week high while the 10-year set a new high; bonds' 21-session correlation to oil is only -0.233, so the cross-asset tilt is bearish only for the 1D window"
+       "Oil stayed elevated (Brent near $103-105) and equities held within about 1.3% of their 52-week high while the 10-year set a new high; bonds' 21-session correlation to oil is only -0.233, so the cross-asset tilt is bearish only for the 1D window",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 104.203125,
+     "ret": -0.002095,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 10,
