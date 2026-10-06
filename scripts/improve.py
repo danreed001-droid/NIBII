@@ -42,6 +42,7 @@ G = {}
 VARIANTS = {
     # name: (engine kwargs, boost?)
     'cur': (dict(top_n=5), None),
+    'n5m': (dict(top_n=5, monthly=True), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
