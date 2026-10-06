@@ -2217,5 +2217,65 @@
       "vsExp": "n/a",
       "order": 3
     }
+  },
+  {
+    "id": "2026-10-06-4-stocks-close-higher-tech-led-gains",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Market",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "U.S. stocks closed higher, with the S&P 500 and Nasdaq extending their 2026 record run as megacap tech led gains and Treasury yields eased from recent multi-decade highs",
+      "impact": "High",
+      "numbers": "S&P 500 7,840.02 (+0.85%); Dow 51,633.51 (+0.71%); Nasdaq 27,691.09 (+0.78%); 10Y yield ~5.26% (-0.05)",
+      "order": 4,
+      "reaction": "Broad risk-on close; Nvidia, Apple and Microsoft now exceed 21% of S&P 500 weight, a record concentration",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-october-6-dow-sp-500-nasdaq-080526166.html",
+      "tickers": "SPY, DIA, QQQ, NVDA, AAPL, MSFT, 10Y",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-06-5-skydance-paramount-wbd-merger-closes",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Deals",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Neutral",
+      "event": "Paramount Skydance and Warner Bros. Discovery officially closed their merger, forming a combined media company operating under the Skydance name",
+      "impact": "High",
+      "numbers": "~$110B combined transaction per original deal terms",
+      "order": 5,
+      "reaction": "Formal close removes merger-arbitrage overhang; new combined company name Skydance confirmed",
+      "region": "US",
+      "source": "https://finviz.com/news/397490/paramount-skydance-and-warner-bros-discovery-expect-merger-to-close-october-6",
+      "tickers": "PSKY, WBD",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-06-6-alphabet-constellation-nuclear-ppa",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Deals",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Alphabet signed a 20-year, $4.3 billion nuclear power purchase agreement with Constellation Energy to supply power for AI data centers",
+      "impact": "Medium",
+      "numbers": "CEG +13%; deal value $4.3B over 20 years",
+      "order": 6,
+      "reaction": "Constellation shares jumped as AI-driven power-demand deals continue to re-rate nuclear and utility names",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-october-6-dow-sp-500-nasdaq-080526166.html",
+      "tickers": "GOOGL, CEG",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
