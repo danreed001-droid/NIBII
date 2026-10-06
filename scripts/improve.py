@@ -113,6 +113,9 @@ VARIANTS = {
     'svok': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(slv_ok=True)), None),
     'ldok': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True, slv_ok=True)), None),
     'ldstok': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=(1.0, 0.7, 0.5, 0.25), slv_ok=True)), None),
+    'svup': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(slv_up=True)), None),
+    'ldup': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True, slv_up=True)), None),
+    'ldstup': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=(1.0, 0.7, 0.5, 0.25), slv_up=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -245,6 +248,9 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
         if split < 1:
             if (po.get('cash') and G['spy_below'](f)) or (po.get('cash3') and n_down >= 3):
                 a = 'BIL'
+            elif po.get('slv_up'):     # only sleeve funds whose daily chart is in a higher-high uptrend
+                ok = [x for x in ASSETS if x == 'BIL' or G['asset_up'](x, f)]
+                a = best_of(sleeve_f, calendar, idx[f], assets=ok)
             elif po.get('slv_ok'):     # skip sleeve funds whose own daily chart is in a lower-low downtrend
                 ok = [x for x in ASSETS if x == 'BIL' or not G['asset_down'](x, f)]
                 a = best_of(sleeve_f, calendar, idx[f], assets=ok)
@@ -377,6 +383,16 @@ def main():
             sma_ok[cal[k_]] = spx[cal[k_]] < sum(w_) / 200
     G['spy_below'] = lambda d_: sma_ok.get(d_, False)
     G['asset_down'] = R.downtrend_fn(D['assets'])
+    a_days = {t: [b[0] for b in bs] for t, bs in D['assets'].items()}
+    a_cache = {}
+
+    def asset_up(t, d_):
+        if (t, d_) not in a_cache:
+            j_ = bisect_right(a_days.get(t, []), d_)
+            daily = [tuple(b) for b in D['assets'].get(t, [])[max(0, j_ - 320):j_]]
+            a_cache[(t, d_)] = R.structure_signal(daily, n=3, lookback=2)['state'] == 'uptrend'
+        return a_cache[(t, d_)]
+    G['asset_up'] = asset_up
     G['spy_down'] = R.downtrend_fn({'SPY': D['bench']['SPY']})
     G['spy_down'] = (lambda f_, _d=G['spy_down']: _d('SPY', f_))
     spy = [[b[0], b[4]] for b in D['bench']['SPY'] if b[0] >= R.START]
