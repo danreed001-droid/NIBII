@@ -127,6 +127,9 @@ VARIANTS = {
     'srk0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, srank=[(5 * i + 5, 5 * i) for i in range(25)])), None),
     'srk1': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, srank=[(5 * i + 26, 5 * i + 21) for i in range(21)])), None),
     'srk13': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, srank=[(5 * i + 5, 5 * i) for i in range(13)])), None),
+    'tl0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, tl=0.0)), None),
+    'tl2': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, tl=0.02)), None),
+    'tl5': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, tl=0.05)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -237,7 +240,10 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
         f = calendar[idx[T] - 1]
         j = bisect_right(pdays, f) - 1
         before = picks[j][1] if j >= 0 else []
-        n_down = sum(down(t, f) for t in before)
+        if po.get('tl') is not None:   # a break of the rising higher-low trend line also counts
+            n_down = sum(down(t, f) or G['tl_break'](t, f, po['tl']) for t in before)
+        else:
+            n_down = sum(down(t, f) for t in before)
         if po.get('spy') and before:
             n_down += G['spy_down'](f)
         lad = po.get('ladder')
@@ -421,6 +427,28 @@ def main():
             sma_ok[cal[k_]] = spx[cal[k_]] < sum(w_) / 200
     G['spy_below'] = lambda d_: sma_ok.get(d_, False)
     G['asset_down'] = R.downtrend_fn(D['assets'])
+    from mtl.structure import find_swings, label_structure
+    b_days = {t: [b[0] for b in bs] for t, bs in D['bars'].items()}
+    tl_cache = {}
+
+    def tl_break(t, d_, buf=0.0):
+        """True when the last two swing lows are rising (a higher low) and the close at d_
+        is below the line through them, extended to d_ (less `buf`, e.g. 0.02 = 2% below)."""
+        key = (t, d_, buf)
+        if key not in tl_cache:
+            j_ = bisect_right(b_days.get(t, []), d_)
+            bs = [tuple(b) for b in D['bars'].get(t, [])[max(0, j_ - 320):j_]]
+            out = False
+            if len(bs) > 20:
+                lows = [x for x in label_structure(find_swings(bs, n=3)) if x['type'] == 'low']
+                if len(lows) >= 2 and lows[-1]['price'] > lows[-2]['price']:
+                    a, b = lows[-2], lows[-1]
+                    slope = (b['price'] - a['price']) / (b['i'] - a['i'])
+                    line = b['price'] + slope * (len(bs) - 1 - b['i'])
+                    out = bs[-1][4] < line * (1 - buf)
+            tl_cache[key] = out
+        return tl_cache[key]
+    G['tl_break'] = tl_break
     a_days = {t: [b[0] for b in bs] for t, bs in D['assets'].items()}
     a_cache = {}
 
