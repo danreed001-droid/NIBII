@@ -71,8 +71,28 @@ def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='ran
             r = [score_at(prices[t], calendar, k, lk, sk) for lk, sk in windows]
             if all(x is not None for x in r):
                 rets[t] = r
+        def ratio(r, down):
+            m = sum(r) / len(r)
+            if down:
+                dd = (sum(min(x, 0.0) ** 2 for x in r) / len(r)) ** 0.5
+            else:
+                dd = (sum((x - m) ** 2 for x in r) / max(len(r) - 1, 1)) ** 0.5
+            return m / dd if dd > 1e-12 else (1e6 if m > 0 else 0.0)
         if blend == 'mean':
             score = {t: sum(r) / len(r) for t, r in rets.items()}
+        elif blend in ('sortino', 'sharpe'):
+            score = {t: ratio(r, blend == 'sortino') for t, r in rets.items()}
+        elif blend == 'rank_sortino':   # average of the weekly rank-sum percentile and the Sortino percentile
+            W = len(windows)
+            rs = {t: 0.0 for t in rets}
+            for w in range(W):
+                for i, t in enumerate(sorted(rets, key=lambda t: rets[t][w])):
+                    rs[t] += i + 1
+            so = {t: ratio(r, True) for t, r in rets.items()}
+            n = len(rets)
+            p1 = {t: (i + 1) / n for i, t in enumerate(sorted(rets, key=lambda t: rs[t]))}
+            p2 = {t: (i + 1) / n for i, t in enumerate(sorted(rets, key=lambda t: so[t]))}
+            score = {t: (p1[t] + p2[t]) / 2 for t in rets}
         else:
             # blend=('rank', bonus, top_k, recent): a week where the stock ranks in the top
             # `top_k` adds `bonus` (in units of one week's best rank); `recent` > 0 weights
