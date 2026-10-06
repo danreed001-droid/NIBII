@@ -1,34 +1,12 @@
 Traceback (most recent call last):
-  File "/home/runner/work/NIBII/NIBII/scripts/robustness.py", line 93, in fetch_sp500_changes
-    t = pd.read_html(io.StringIO(html), attrs={'id': 'changes'}, flavor='lxml')[0]
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/pandas/io/html.py", line 1226, in read_html
-    return _parse(
-           ^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/pandas/io/html.py", line 999, in _parse
-    raise retained
-  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/pandas/io/html.py", line 979, in _parse
-    tables = p.parse_tables()
-             ^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/pandas/io/html.py", line 237, in parse_tables
-    tables = self._parse_tables(self._build_doc(), self.match, self.attrs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/pandas/io/html.py", line 758, in _parse_tables
-    raise ValueError(f"No tables found matching regex {pattern!r}")
-ValueError: No tables found matching regex '.+'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/runner/work/NIBII/NIBII/scripts/robustness.py", line 906, in <module>
+  File "/home/runner/work/NIBII/NIBII/scripts/robustness.py", line 913, in <module>
     main()
-  File "/home/runner/work/NIBII/NIBII/scripts/robustness.py", line 781, in main
+  File "/home/runner/work/NIBII/NIBII/scripts/robustness.py", line 788, in main
     D = load_data()
         ^^^^^^^^^^^
-  File "/home/runner/work/NIBII/NIBII/scripts/robustness.py", line 165, in load_data
+  File "/home/runner/work/NIBII/NIBII/scripts/robustness.py", line 172, in load_data
     changes = fetch_sp500_changes()
               ^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/NIBII/NIBII/scripts/robustness.py", line 96, in fetch_sp500_changes
-    t = next(x for x in tables if any('Removed' in str(c) for c in x.columns))
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-StopIteration
+  File "/home/runner/work/NIBII/NIBII/scripts/robustness.py", line 124, in fetch_sp500_changes
+    out.sort()
+TypeError: '<' not supported between instances of 'NoneType' and 'str'
