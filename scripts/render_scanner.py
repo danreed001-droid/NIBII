@@ -170,6 +170,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 
 /* years */
 .years td, .years th { padding: 6px 6px; }
+.years.tight td, .years.tight th { padding: 6px 4px; } .years.tight .ybar i { display: none; } .years.tight .ybar { gap: 0; }
 .ybar { display: flex; align-items: center; gap: 6px; }
 .ybar i { display: block; height: 8px; border-radius: 3px; background: var(--c); min-width: 2px; }
 .ybar.neg i { background: var(--neg); opacity: 0.8; }
@@ -1248,15 +1249,17 @@ footer li { margin-bottom: 6px; }
   })();
   // years
   var ys = Object.keys(D.years.strategy).sort(), maxAbs = 0;
-  var YK = ['strategy', 'boost', 'plan', 'monthlyBoost', 'monthly', 'SPY', 'QQQ'].filter(function (k) { return D.years[k]; });
+  var YK = (D.years.monthly ? ['boost', 'plan', 'monthlyBoost', 'monthly', 'SPY', 'QQQ'] : ['strategy', 'boost', 'plan', 'SPY', 'QQQ'])
+    .filter(function (k) { return D.years[k]; });
   var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', plan: 'var(--s-plan)', monthlyBoost: 'var(--s-monb)', monthly: 'var(--s-mon)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)' };
   var YH = { strategy: 'Top 5', boost: 'Boost', plan: 'Auto', monthlyBoost: 'M boost', monthly: 'M auto', SPY: 'SPY', QQQ: 'QQQ' };
   ys.forEach(function (y) { YK.forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
-  var barMax = YK.length > 4 ? 18 : YK.length > 3 ? 26 : 70;
+  var barMax = YK.length > 5 ? 3 : YK.length > 4 ? 18 : YK.length > 3 ? 26 : 70;
   function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * barMax); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }
+  $('years').className = 'years' + (YK.length > 5 ? ' tight' : '');
   $('years').innerHTML = '<thead><tr><th class="l">Year</th>' + YK.map(function (k) { return '<th class="l y-' + k + '">' + YH[k] + '</th>'; }).join('') + '</tr></thead><tbody>' +
     ys.map(function (y) { return '<tr><td class="l">' + y + '</td>' + YK.map(function (k) { return '<td class="l y-' + k + '">' + ybar(D.years[k][y] || 0, YC[k]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
-  $('ytd-note').textContent = ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ')' + (window.innerWidth <= 520 ? ' · Top 5 column on wider screens' : '');
+  $('ytd-note').textContent = ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ')' + (D.years.monthly ? ' · M = monthly' : window.innerWidth <= 520 ? ' · Top 5 column on wider screens' : '');
 
   // on deck
   $('deck').innerHTML = D.table.filter(function (r) { return r.rank > 5 && r.rank <= 20; }).map(function (r) {
