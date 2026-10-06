@@ -112,7 +112,7 @@ def main():
     tops = [(T, max(w, key=lambda t: w[t])) for T, w in trades]
     days = [d for d in cal if d >= R.START]
 
-    def priced(T, top, ivm, tp=None):
+    def priced(T, top, ivm, tp=None, atm=False):
         k = idx[T]
         if k + DAYS >= len(cal) or top in ASSETS:
             return None
@@ -125,7 +125,7 @@ def main():
             return None
         sig *= ivm
         Tm = DAYS / 252
-        K = strike_plus_premium(S, Tm, sig)
+        K = S if atm else strike_plus_premium(S, Tm, sig)
         prem = bs_call(S, K, Tm, sig) * (1 + SPREAD)
         end, mult = cal[k + DAYS], max(0.0, E - K) / prem
         if tp:   # take profit: sell (after a 5% bid/ask cost) once the call is worth tp x what it cost
@@ -165,14 +165,14 @@ def main():
         return pts
 
     res, ev_stats = {}, {}
-    for mode, tp in (('roll4', None), ('roll4', 1.8), ('roll4', 2.0), ('new1', None), ('new1', 1.8), ('new1', 2.0)):
+    for mode, tp, atm in (('roll4', None, False), ('roll4', None, True), ('new1', None, False), ('new1', None, True)):
         for ivm in (1.15, 1.3, 1.5):
             if mode == 'roll4':
                 src = tops[::4]
             else:
                 src = [(T, t) for i_, (T, t) in enumerate(tops) if i_ == 0 or t != tops[i_ - 1][1]]
-            events = [e for e in (priced(T, t, ivm, tp) for T, t in src) if e]
-            mode_k = mode + (f'_tp{int(round((tp - 1) * 100))}' if tp else '')
+            events = [e for e in (priced(T, t, ivm, tp, atm) for T, t in src) if e]
+            mode_k = mode + (f'_tp{int(round((tp - 1) * 100))}' if tp else '') + ('_atm' if atm else '')
             hits = [e for e in events if e['mult'] > 0]
             ev_stats[f'{mode_k}_{ivm}'] = dict(n=len(events), hit=round(len(hits) / max(1, len(events)), 3),
                                              avgMult=round(sum(e['mult'] for e in events) / max(1, len(events)), 3),
