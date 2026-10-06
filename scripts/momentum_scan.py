@@ -48,10 +48,11 @@ START, LOOK, SKIP, TOP_N, TABLE = '2010-01-04', 126, 21, 5, 100
 # weekly plans rank by the sum of weekly ranks: each of the 21 weeks from 6 months to 1 month ago is
 # ranked across all stocks and the ranks are added (monthly plans keep the plain 6-1 month score)
 WIN = [(5 * i + 26, 5 * i + 21) for i in range(21)]
-RK = dict(windows=WIN, blend='rank')
+RK = dict(windows=WIN, blend='rank', weighting='top2x')   # the best-ranked holding gets 2x the others
 GLITCH_BLOCK = 150
 PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
-AUTO_NEED, AUTO_LOW = 2, 0.6            # auto: 60/40 while 2+ holdings are in a daily downtrend, else 100%
+AUTO_NEED, AUTO_LOW = 2, 0.6            # monthly plans: 60/40 while 2+ holdings are in a daily downtrend, else 100%
+# weekly Auto and Boost use the STEPS tiers below (1 holding down -> 80/20, 2 -> 60/40, 3+ -> 40/60)
 STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+ -> STEPS_MIN
 STEPS_MIN = 0.4
 CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
@@ -249,8 +250,15 @@ def main():
     # on a Friday the cards show what to own after Monday's trades (new buys flagged)
     signal_day = date.fromisoformat(as_of).weekday() == 4
     held_rows = []
-    for t in (preview if signal_day else holdings):
+    shown = preview if signal_day else holdings
+    if signal_day or not r['weights']:   # Monday's weights: the best-ranked one at 2x
+        top = min(shown, key=lambda t: rank.get(t, 10 ** 9)) if shown else None
+        wnow = {t: (2.0 if t == top else 1.0) / (TOP_N + 1) for t in shown}
+    else:
+        wnow = r['weights'][-1][1]
+    for t in shown:
         h = row(t, detail='chart')
+        h['w'] = r4(wnow.get(t))
         if t not in holdings:
             h['new'] = True
             held_rows.append(h)
@@ -310,7 +318,7 @@ def main():
         return down_cache[(t, d_)]
 
     def auto_split(d_):
-        return AUTO_LOW if sum(in_downtrend(t, d_) for t in held_at(d_)) >= AUTO_NEED else 1.0
+        return STEPS.get(sum(in_downtrend(t, d_) for t in held_at(d_)), STEPS_MIN)
 
     pick_days_b = [p[0] for p in picks_b]
 
@@ -319,7 +327,7 @@ def main():
         return picks_b[i][1] if i >= 0 else []
 
     def auto_split_b(d_):
-        return AUTO_LOW if sum(in_downtrend(t, d_) for t in held_at_b(d_)) >= AUTO_NEED else 1.0
+        return STEPS.get(sum(in_downtrend(t, d_) for t in held_at_b(d_)), STEPS_MIN)
 
     def n_down(d_):
         return sum(in_downtrend(t, d_) for t in held_at(d_))
@@ -438,7 +446,7 @@ def main():
         plan_stats[key] = dict(total=r4(st['total']), annual=r4(st['annual']), maxDD=r4(st['maxDD']))
     # this week's auto mix: decided at the signal Friday's close from the holdings going into it
     sig_d, prev_d = calendar[signal_k], calendar[prev_k]
-    auto = dict(need=AUTO_NEED, low=split_key(AUTO_LOW),
+    auto = dict(need=1, low=split_key(STEPS[1]), tiers=True,
                 split=split_key(auto_split(sig_d)), prevSplit=split_key(auto_split(prev_d)),
                 down=[t for t in held_at(sig_d) if in_downtrend(t, sig_d)],
                 checked=held_at(sig_d), decided=sig_d,
@@ -469,7 +477,7 @@ def main():
         top5=r4s(curve_stats([p[1] for p in strat_b])))
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
-        auto['preview'] = split_key(AUTO_LOW if len(auto['previewDown']) >= AUTO_NEED else 1.0)
+        auto['preview'] = split_key(STEPS.get(len(auto['previewDown']), STEPS_MIN))
         auto['steps']['preview'] = split_key(steps_split(as_of, len(auto['previewDown'])))
         auto['guard']['previewBear'] = bear(as_of)
 

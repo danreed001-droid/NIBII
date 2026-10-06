@@ -121,8 +121,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     buy_ok: optional callable(date) -> bool; while False no new stock is
       bought - holdings that still qualify are kept, sold ones leave their
       slot in cash.
-    weighting: 'equal' (each holding 1/top_n) or 'inv_vol' (the same total, split
-      in proportion to 1 / each stock's `vol_window`-day volatility).
+    weighting: 'equal' (each holding 1/top_n), 'inv_vol' (the same total, split
+      in proportion to 1 / each stock's `vol_window`-day volatility) or 'top2x'
+      (the best-ranked holding at twice the weight of each other one).
     vol_target: e.g. 0.30 - at each rebalance, scale every position down so the
       basket's volatility over the last `vol_window` sessions would have been
       at most 30% a year (never above 100% invested); the rest sits in cash.
@@ -201,6 +202,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         sb = sum((y - mb) ** 2 for y in b) ** 0.5
         return sab / (sa * sb) if sa and sb else 0.0
 
+    rank_now = {}
+
     def weights(target, k):
         if not target:
             return {}
@@ -208,6 +211,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             inv = {t: 1 / vol(t, k) for t in target}
             tot = sum(inv.values())
             w = {t: inv[t] / tot * len(target) / top_n for t in target}
+        elif weighting == 'top2x':   # the best-ranked holding gets twice the others' weight
+            best = min(target, key=lambda t: rank_now.get(t, 10 ** 9))
+            w = {t: (2.0 if t == best else 1.0) / (top_n + 1) for t in target}
         else:
             w = {t: 1 / top_n for t in target}
         if vol_target:
@@ -262,6 +268,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         ranked qualifying stocks, honoring the industry cap and cooldowns."""
         lk, sk = lookback_at(k) if lookback_at else (look, skip)
         rows = score_table(prices, calendar, k, lk, sk, windows, blend, eligible, benchmark)
+        rank_now.clear()
+        rank_now.update({r[0]: i for i, r in enumerate(rows)})
         scored = [(sc, t) for t, sc, beats in rows
                   if beats and banned_until.get(t, -1) < k and t not in exclude
                   and not (rsi_exit and t not in shares and rsi_weak(t, k))]
