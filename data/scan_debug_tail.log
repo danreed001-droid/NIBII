@@ -1,0 +1,16 @@
+Fetching daily history for 518 stocks + SPY/QQQ...
+  prices 100/518
+  prices 200/518
+  prices 300/518
+  prices 400/518
+  prices 500/518
+  prices 518/518
+  prices 2/2
+  prices 6/6
+Traceback (most recent call last):
+  File "/home/runner/work/NIBII/NIBII/scripts/momentum_scan.py", line 553, in <module>
+    main()
+  File "/home/runner/work/NIBII/NIBII/scripts/momentum_scan.py", line 202, in main
+    prev1 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 5, LOOK, SKIP, eligible, **RK))}
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ranking() got an unexpected keyword argument 'weighting'
