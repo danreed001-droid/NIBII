@@ -146,6 +146,11 @@ VARIANTS = {
     'btcsma': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, btc=True, btc_gate='sma')), None),
     'btclolo': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, btc=True, btc_gate='lolo')), None),
     'btcboth': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, btc=True, btc_gate='both')), None),
+    'fri': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', exec_next=None, plan=dict(ladder=True, same=True)), None),
+    'spk15': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', skip_spike=0.15, plan=dict(ladder=True)), None),
+    'spk25': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', skip_spike=0.25, plan=dict(ladder=True)), None),
+    'biw': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', biweekly=True, plan=dict(ladder=True)), None),
+    'spy0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, spare_spy=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -174,6 +179,15 @@ def run_one(args):
     sig = kw.pop('sig_exit', None)
     plan = kw.pop('plan', None)
     lx = kw.pop('lolo_exit', None)
+    biweekly = kw.pop('biweekly', False)
+    spike = kw.pop('skip_spike', None)
+    if spike:
+        cal_s, px_s = P['calendar'], P['prices']
+
+        def no_spike(t, k):
+            a_, b_ = px_s[t].get(cal_s[k - 5]) if k >= 5 else None, px_s[t].get(cal_s[k])
+            return not (a_ and b_ and b_ / a_ - 1 >= spike)
+        kw['buy_when'] = no_spike
     if lx:
         cal_ = P['calendar']
         kw['exit_when'] = lambda t, k: G['down'](t, cal_[k])
@@ -238,6 +252,8 @@ def run_one(args):
     opts.update(kw)
     if monthly:
         opts['rebal_dates'] = set(G['months'])
+    if biweekly:
+        opts['rebal_dates'] = set(G['biweeks'])
     if boost:
         opts.update(prefer=booster(P['gaps'], P['calendar']), prefer_mode='force', prefer_rank=boost_rank,
                     prefer_pool='all')
@@ -261,8 +277,12 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
     eng = set(wdays)
 
     def build(T, w):
-        f = calendar[idx[T] - 1]
-        j = bisect_right(pdays, f) - 1
+        if po.get('same'):      # traded at the deciding close: read the charts at that close,
+            f = T               # with the holdings going into it
+            j = bisect_right(pdays, calendar[idx[T] - 1]) - 1
+        else:
+            f = calendar[idx[T] - 1]
+            j = bisect_right(pdays, f) - 1
         before = picks[j][1] if j >= 0 else []
         if po.get('tl') is not None:   # a break of the rising higher-low trend line also counts
             n_down = sum(down(t, f) or G['tl_break'](t, f, po['tl']) for t in before)
@@ -285,7 +305,8 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
         out_w = {t: split * x for t, x in w.items()}
         spare = split * (1 - sum(w.values()))
         if spare > 1e-6:
-            out_w['BIL'] = out_w.get('BIL', 0.0) + spare
+            sp_a = 'SPY' if po.get('spare_spy') else 'BIL'
+            out_w[sp_a] = out_w.get(sp_a, 0.0) + spare
         if split < 1:
             if (po.get('cash') and G['spy_below'](f)) or (po.get('cash3') and n_down >= 3):
                 a = 'BIL'
@@ -448,6 +469,8 @@ def main():
     R.G['P'] = P
     cal = P['calendar']
     G['months'] = month_ends(cal)
+    from mtl.momentum import last_sessions_of_weeks as _lsw
+    G['biweeks'] = [d_ for i_, d_ in enumerate(x for x in _lsw(cal) if x >= '2009-01-01') if i_ % 2 == 0]
     down = R.downtrend_fn(D['bars'])
     G['down'] = down
     from mtl.structure import structure_signal as _ss
