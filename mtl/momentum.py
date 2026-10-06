@@ -82,6 +82,36 @@ def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='ran
             score = {t: sum(r) / len(r) for t, r in rets.items()}
         elif blend in ('sortino', 'sharpe'):
             score = {t: ratio(r, blend == 'sortino') for t, r in rets.items()}
+        elif blend in ('rank_resid', 'rank_52'):
+            n = len(rets)
+            W = len(windows)
+            if blend == 'rank_resid' and all(x is not None for x in bench):
+                # residual momentum: each week's return less beta x SPY's week, beta fit over the windows
+                mb = sum(bench) / W
+                vb = sum((x - mb) ** 2 for x in bench) or 1e-12
+                use = {}
+                for t, r in rets.items():
+                    mr = sum(r) / W
+                    beta = sum((x - mr) * (y - mb) for x, y in zip(r, bench)) / vb
+                    use[t] = [x - beta * y for x, y in zip(r, bench)]
+            else:
+                use = rets
+            rs = {t: 0.0 for t in use}
+            for w in range(W):
+                for i, t in enumerate(sorted(use, key=lambda t: use[t][w])):
+                    rs[t] += i + 1
+            if blend == 'rank_52':      # blend with closeness to the 52-week high (closes)
+                near = {}
+                for t in rets:
+                    px = prices[t]
+                    hs = [px.get(calendar[j]) for j in range(max(0, k - 251), k + 1)]
+                    hs = [h for h in hs if h]
+                    near[t] = px[d] / max(hs) if hs else 0.0
+                p1 = {t: (i + 1) / n for i, t in enumerate(sorted(rets, key=lambda t: rs[t]))}
+                p2 = {t: (i + 1) / n for i, t in enumerate(sorted(rets, key=lambda t: near[t]))}
+                score = {t: (p1[t] + p2[t]) / 2 for t in rets}
+            else:
+                score = {t: rs[t] / n / W for t in rets}
         elif blend == 'rank_sortino':   # average of the weekly rank-sum percentile and the Sortino percentile
             W = len(windows)
             rs = {t: 0.0 for t in rets}
