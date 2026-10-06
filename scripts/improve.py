@@ -119,6 +119,8 @@ VARIANTS = {
     't2x': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x'), None),
     'ldt2x': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True)), None),
     'lint2x': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=(1.0, 0.8, 0.6, 0.4, 0.2, 0.0))), None),
+    'ld9': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=(1.0, 0.9, 0.8, 0.7, 0.4, 0.1))), None),
+    'ld9t2x': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=(1.0, 0.9, 0.8, 0.7, 0.4, 0.1))), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
