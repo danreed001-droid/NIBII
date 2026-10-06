@@ -124,6 +124,9 @@ VARIANTS = {
     'sl21': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, slook=21)), None),
     'sl63': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, slook=63)), None),
     'sl252': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, slook=252)), None),
+    'srk0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, srank=[(5 * i + 5, 5 * i) for i in range(25)])), None),
+    'srk1': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, srank=[(5 * i + 26, 5 * i + 21) for i in range(21)])), None),
+    'srk13': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, srank=[(5 * i + 5, 5 * i) for i in range(13)])), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -262,6 +265,8 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
             elif po.get('slv_ok'):     # skip sleeve funds whose own daily chart is in a lower-low downtrend
                 ok = [x for x in ASSETS if x == 'BIL' or not G['asset_down'](x, f)]
                 a = best_of(sleeve_f, calendar, idx[f], assets=ok)
+            elif po.get('srank'):      # sleeve fund by the weekly rank sum (like the stocks)
+                a = sleeve_rank(sleeve_f, calendar, idx[f], po['srank'])
             else:
                 a = best_of(sleeve_f, calendar, idx[f], look=po.get('slook', 126))
             out_w[a] = out_w.get(a, 0.0) + (1 - split)
@@ -314,6 +319,31 @@ def slot_weights(run, slots=SLOTS):
     r = dict(run)
     r['weights'] = out
     return r
+
+
+def sleeve_rank(f, calendar, k, windows):
+    """The sleeve fund with the best sum of weekly ranks (each week's return ranked
+    across the 6 funds), T-bills included as one of them."""
+    rets = {}
+    for t in ASSETS:
+        px = f.get(t) or {}
+        r = []
+        for lk, sk in windows:
+            if k - lk < 0:
+                break
+            a, b = px.get(calendar[k - lk]), px.get(calendar[k - sk])
+            if not (a and b):
+                break
+            r.append(b / a - 1)
+        if len(r) == len(windows):
+            rets[t] = r
+    if not rets:
+        return 'BIL'
+    score = {t: 0 for t in rets}
+    for w in range(len(windows)):
+        for i, t in enumerate(sorted(rets, key=lambda t: rets[t][w])):
+            score[t] += i
+    return max(score, key=lambda t: score[t])
 
 
 def longest_hold(sc):
