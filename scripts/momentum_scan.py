@@ -35,7 +35,7 @@ from datetime import date, datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
-from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, trades_from_picks  # noqa: E402
+from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -45,6 +45,10 @@ from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'data', 'momentum_scan.json')
 START, LOOK, SKIP, TOP_N, TABLE = '2010-01-04', 126, 21, 5, 100
+# weekly plans rank by the sum of weekly ranks: each of the 21 weeks from 6 months to 1 month ago is
+# ranked across all stocks and the ranks are added (monthly plans keep the plain 6-1 month score)
+WIN = [(5 * i + 26, 5 * i + 21) for i in range(21)]
+RK = dict(windows=WIN, blend='rank')
 GLITCH_BLOCK = 150
 PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
 AUTO_NEED, AUTO_LOW = 2, 0.6            # auto: 60/40 while 2+ holdings are in a daily downtrend, else 100%
@@ -188,14 +192,20 @@ def main():
 
     # decided on each Friday close, traded at Monday's close (you can't trade after the bell)
     r = run_momentum(prices, calendar, START, look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible,
-                     exec_next='close')
+                     exec_next='close', **RK)
     K = len(calendar) - 1
     as_of = calendar[K]
-    now = ranking(prices, calendar, K, LOOK, SKIP, eligible)
+    rows_now = score_table(prices, calendar, K, LOOK, SKIP, WIN, 'rank', eligible)
+    now = [(t, sc) for t, sc, _ in rows_now]
     rank = {t: i + 1 for i, (t, _) in enumerate(now)}
-    prev1 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 5, LOOK, SKIP, eligible))}
-    prev4 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 20, LOOK, SKIP, eligible))}
+    prev1 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 5, LOOK, SKIP, eligible, **RK))}
+    prev4 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 20, LOOK, SKIP, eligible, **RK))}
     spy_score = (prices['SPY'][calendar[K - SKIP]] / prices['SPY'][calendar[K - LOOK]] - 1)
+    ret61 = {t: score_at(prices[t], calendar, K, LOOK, SKIP) for t, _ in now}   # shown as the 6-1m column
+    # the monthly plans' own ranking (plain 6-1 month score)
+    now_m = ranking(prices, calendar, K, LOOK, SKIP, eligible)
+    rank_m = {t: i + 1 for i, (t, _) in enumerate(now_m)}
+    qualifying_m = [t for t, s in now_m if s > spy_score]
 
     picks = r['picks']
     holdings = picks[-1][1] if picks else []
@@ -208,15 +218,15 @@ def main():
 
     # what the rule would hold if the rebalance happened at today's close
     keep = sorted((t for t in holdings if rank.get(t, 10 ** 9) <= 2 * TOP_N), key=lambda t: rank[t])[:TOP_N]
-    qualifying = [t for t, s in now if s > spy_score]
+    qualifying = [t for t, _, ok in rows_now if ok]
     preview = keep + [t for t in qualifying if t not in keep][:TOP_N - len(keep)]
 
     def row(t, detail=False):
         px, k = prices[t], K
         hi = max((px[d] for d in calendar[max(0, k - 251):k + 1] if d in px), default=None)
         out = dict(t=t, n=names.get(t, ('', ''))[0], sec=names.get(t, ('', ''))[1] or '',
-                   ndx=t not in sp, rank=rank.get(t), score=r4(dict(now).get(t)),
-                   vsSpy=r4(dict(now).get(t, 0) - spy_score) if t in rank else None,
+                   ndx=t not in sp, rank=rank.get(t), score=r4(ret61.get(t)),
+                   vsSpy=r4(ret61[t] - spy_score) if ret61.get(t) is not None else None,
                    r1m=r4(ret(px, calendar, k, 21)), r3m=r4(ret(px, calendar, k, 63)),
                    r12m=r4(ret(px, calendar, k, 252)), close=r4(px.get(calendar[k])),
                    d1w=(prev1[t] - rank[t]) if t in prev1 and t in rank else None,
@@ -256,7 +266,7 @@ def main():
     # run with one more (flat) session appended, so the pending Monday trade fills.
     gaps = {t: news_gap_days(bs) for t, bs in bars.items() if bs}
     boost_kw = dict(look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible, exec_next='close',
-                    prefer_mode='force', prefer_rank=None, prefer_pool='all')
+                    prefer_mode='force', prefer_rank=None, prefer_pool='all', **RK)
     rb = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), **boost_kw)
     picks_b = rb['picks']
     hold_b = picks_b[-1][1] if picks_b else []
@@ -399,9 +409,9 @@ def main():
                     stats=dict(total=r4(st['total']), annual=r4(st['annual']), maxDD=r4(st['maxDD'])),
                     turnover=r4(run['turnover']))
     # what the auto list would hold if the month ended at today's close
-    keep_m = sorted((t for t in (rm['picks'][-1][1] if rm['picks'] else []) if rank.get(t, 10 ** 9) <= 2 * TOP_N),
-                    key=lambda t: rank[t])[:TOP_N]
-    preview_m = keep_m + [t for t in qualifying if t not in keep_m][:TOP_N - len(keep_m)]
+    keep_m = sorted((t for t in (rm['picks'][-1][1] if rm['picks'] else []) if rank_m.get(t, 10 ** 9) <= 2 * TOP_N),
+                    key=lambda t: rank_m[t])[:TOP_N]
+    preview_m = keep_m + [t for t in qualifying_m if t not in keep_m][:TOP_N - len(keep_m)]
     monthly = dict(nextDecision=dec_d.isoformat(), nextTrade=trd_d.isoformat(),
                    auto=monthly_block(rm, m_held, m_split, m_auto),
                    boost=monthly_block(rmb, mb_held, mb_split, m_boost),
@@ -490,7 +500,7 @@ def main():
 
         def ranks_at(f_):
             if f_ not in rank_cache:
-                rank_cache[f_] = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, kidx[f_], LOOK, SKIP, eligible))}
+                rank_cache[f_] = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, kidx[f_], LOOK, SKIP, eligible, **RK))}
             return rank_cache[f_]
         pick_at_b = {d_: h for d_, h in picks_b}
         wk = [tuple(w) for w in human_weeks]
