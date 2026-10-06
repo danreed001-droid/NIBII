@@ -198,6 +198,7 @@ VARIANTS = {
     'liq40': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', liq_w=0.4, plan=dict(ladder=True)), None),
     'liq50': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', liq_w=0.5, plan=dict(ladder=True)), None),
     'liq60': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', liq_w=0.6, plan=dict(ladder=True)), None),
+    'oldld': (dict(top_n=5, plan=dict(ladder=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),

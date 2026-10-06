@@ -28,7 +28,7 @@ jobs:
       - name: Run the audit
         run: |
           set -o pipefail
-          START=2000-01-03 FROM=1998-06-01 WITH_VOLUME=1 ONLY=cur,rwkw,ldt2x,liq30,liq40,liq50 python scripts/improve.py 2>&1 | tee data/improve.log
+          START=2000-01-03 FROM=1998-06-01 ONLY=cur,oldld,old2x,ldt2x python scripts/improve.py 2>&1 | tee data/improve.log
       - name: Commit the results
         if: always()
         run: |
