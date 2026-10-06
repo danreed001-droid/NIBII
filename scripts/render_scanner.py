@@ -32,7 +32,7 @@ PAGE = r'''<!doctype html>
   --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
   --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   --pos: #3fbf5f; --neg: #e5605a; --grid: #2c2c2a;
-  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-plan: #3fb8a0; --s-boost: #a989f5;
+  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-plan: #3fb8a0; --s-boost: #a989f5; --s-mon: #f08c4a; --s-monb: #8fbf3a;
   color-scheme: dark;
 }
 :root[data-mtl-theme="light"] {
@@ -40,7 +40,7 @@ PAGE = r'''<!doctype html>
   --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
   --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
   --pos: #0a8f0a; --neg: #c43232; --grid: #e1e0d9;
-  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-plan: #13866f; --s-boost: #6d44d4;
+  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-plan: #13866f; --s-boost: #6d44d4; --s-mon: #c4561a; --s-monb: #5f8a12;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -170,6 +170,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 
 /* years */
 .years td, .years th { padding: 6px 6px; }
+.years.tight td, .years.tight th { padding: 6px 4px; } .years.tight .ybar i { display: none; } .years.tight .ybar { gap: 0; }
 .ybar { display: flex; align-items: center; gap: 6px; }
 .ybar i { display: block; height: 8px; border-radius: 3px; background: var(--c); min-width: 2px; }
 .ybar.neg i { background: var(--neg); opacity: 0.8; }
@@ -222,6 +223,8 @@ tbody tr:last-child td { border-bottom: 0; }
 .money-in span { color: var(--muted); }
 .money-in input { font: 600 0.95rem ui-monospace, monospace; width: 110px; border: 0; background: transparent; color: var(--ink); padding: 6px 4px; outline: none; }
 .money-in:focus-within { border-color: var(--accent); }
+.mlist { margin: 6px 0 0; font-size: 0.8rem; color: var(--ink-2); }
+.mlist b { font-family: ui-monospace, monospace; }
 .alloc { width: 100%; border-collapse: collapse; font-size: 0.86rem; table-layout: fixed; }
 .alloc td:nth-child(2) { width: 86px; } .alloc td:nth-child(3) { width: 72px; }
 .alloc td:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -329,6 +332,11 @@ footer li { margin-bottom: 6px; }
       <ul class="assets" id="assets"></ul>
       <p class="note" id="sleeve-note"></p>
     </div>
+  </div>
+
+  <div id="monthly-wrap" hidden>
+  <p class="section-label">Monthly plan <span class="hint">tracked alongside the weekly plans · decided at the last close of each month, traded the next session</span></p>
+  <div class="plan" id="monthly"></div>
   </div>
 
   <p class="section-label">Your calls <span class="hint">the human model · you decide each week · saved in this browser</span></p>
@@ -1122,10 +1130,39 @@ footer li { margin-bottom: 6px; }
     bt.setAttribute('aria-pressed', 'true');
   };
 
+  // monthly plans
+  (function () {
+    var M = D.monthly;
+    if (!M) return;
+    var md = { month: 'short', day: 'numeric' };
+    function card(b, title, color, note) {
+      var sp = (b.split || '100/0').split('/');
+      var rows = b.holdings.map(function (h) {
+        return '<tr><td><span class="sw" style="--c:' + color + '"></span><b>' + esc(h.t) + '</b> <span class="muted"><span class="nm2">' + esc(h.n) + '</span></span></td>' +
+          '<td class="r muted">' + (h.since ? fmtDate(h.since, md) : '') + '</td><td class="r ' + tone(h.sinceRet || 0) + '">' + (h.sinceRet == null ? '–' : pct(h.sinceRet, 1)) + '</td></tr>';
+      }).join('');
+      var tr = (b.trades || []).slice(0, 6).map(function (x) {
+        return (x.side === 'buy' ? 'bought ' : 'sold ') + '<b>' + esc(x.t) + '</b> ' + fmtDate(x.d, md);
+      }).join(' · ');
+      return '<div class="card"><p class="chart-title">' + title + '</p>' +
+        '<p class="chart-sub">Since ' + SINCE + ': <b class="pos">' + pct(b.stats.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(b.stats.maxDD, 0) + '</b> · this month ' + sp[0] + '% stocks' +
+        (b.sleeve ? ', ' + sp[1] + '% in ' + esc(b.sleeve) : '') + '</p>' +
+        '<table class="alloc"><tbody>' + (rows || '<tr><td class="muted">No holdings yet</td></tr>') + '</tbody></table>' +
+        '<p class="mlist">Held since · gain since bought' + (tr ? '<br>Recent: ' + tr : '') + '</p>' +
+        (note ? '<p class="note">' + note + '</p>' : '') + '</div>';
+    }
+    var next = 'Next decision at the ' + fmtDate(M.nextDecision, md) + ' close, traded ' + fmtDate(M.nextTrade, md) + '.';
+    var pv = (M.preview || []).length ? ' If the month ended today it would hold ' + M.preview.map(esc).join(', ') + '.' : '';
+    $('monthly').innerHTML = card(M.boost, 'Monthly boost', 'var(--s-monb)', next) + card(M.auto, 'Monthly auto', 'var(--s-mon)', next + pv);
+    $('monthly-wrap').hidden = false;
+  })();
+
   // growth chart
   var SER = [['strategy', 'Top 5 strongest', 'var(--s-strat)', 'main'], ['QQQ', 'QQQ', 'var(--s-qqq)', ''], ['SPY', 'SPY', 'var(--s-spy)', '']];
   if (D.curves.plan && D.plan) SER.splice(1, 0, ['plan', 'Plan (auto mix)', 'var(--s-plan)', 'main']);
   if (D.curves.boost && D.plan) SER.splice(1, 0, ['boost', 'Plan (boost)', 'var(--s-boost)', 'main']);
+  if (D.curves.monthlyBoost) SER.splice(SER.length - 2, 0, ['monthlyBoost', 'Monthly boost', 'var(--s-monb)', 'main']);
+  if (D.curves.monthly) SER.splice(SER.length - 2, 0, ['monthly', 'Monthly auto', 'var(--s-mon)', 'main']);
   var HIDE = {}; try { HIDE = JSON.parse(localStorage.getItem('nibii-hide-lines') || '{}') || {}; } catch (e) {}
   function drawLegend() {
     $('legend').innerHTML = SER.map(function (s) { return '<button type="button" class="lg" data-k="' + s[0] + '" aria-pressed="' + String(!HIDE[s[0]]) + '"><i class="key" style="--c:' + s[2] + '"></i>' + s[1] + '</button>'; }).join('') +
@@ -1212,15 +1249,17 @@ footer li { margin-bottom: 6px; }
   })();
   // years
   var ys = Object.keys(D.years.strategy).sort(), maxAbs = 0;
-  var YK = ['strategy', 'boost', 'plan', 'SPY', 'QQQ'].filter(function (k) { return D.years[k]; });
-  var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', plan: 'var(--s-plan)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)' };
-  var YH = { strategy: 'Top 5', boost: 'Boost', plan: 'Auto', SPY: 'SPY', QQQ: 'QQQ' };
+  var YK = (D.years.monthly ? ['boost', 'plan', 'monthlyBoost', 'monthly', 'SPY', 'QQQ'] : ['strategy', 'boost', 'plan', 'SPY', 'QQQ'])
+    .filter(function (k) { return D.years[k]; });
+  var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', plan: 'var(--s-plan)', monthlyBoost: 'var(--s-monb)', monthly: 'var(--s-mon)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)' };
+  var YH = { strategy: 'Top 5', boost: 'Boost', plan: 'Auto', monthlyBoost: 'M boost', monthly: 'M auto', SPY: 'SPY', QQQ: 'QQQ' };
   ys.forEach(function (y) { YK.forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
-  var barMax = YK.length > 4 ? 18 : YK.length > 3 ? 26 : 70;
+  var barMax = YK.length > 5 ? 3 : YK.length > 4 ? 18 : YK.length > 3 ? 26 : 70;
   function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * barMax); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }
+  $('years').className = 'years' + (YK.length > 5 ? ' tight' : '');
   $('years').innerHTML = '<thead><tr><th class="l">Year</th>' + YK.map(function (k) { return '<th class="l y-' + k + '">' + YH[k] + '</th>'; }).join('') + '</tr></thead><tbody>' +
     ys.map(function (y) { return '<tr><td class="l">' + y + '</td>' + YK.map(function (k) { return '<td class="l y-' + k + '">' + ybar(D.years[k][y] || 0, YC[k]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
-  $('ytd-note').textContent = ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ')' + (window.innerWidth <= 520 ? ' · Top 5 column on wider screens' : '');
+  $('ytd-note').textContent = ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ')' + (D.years.monthly ? ' · M = monthly' : window.innerWidth <= 520 ? ' · Top 5 column on wider screens' : '');
 
   // on deck
   $('deck').innerHTML = D.table.filter(function (r) { return r.rank > 5 && r.rank <= 20; }).map(function (r) {
