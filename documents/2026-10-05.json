@@ -414,8 +414,8 @@
        null
       ]
      ],
-     "maturityClose": 7885.75,
-     "ret": 0.006702,
+     "maturityClose": 7879.75,
+     "ret": 0.005936,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5223,7 +5223,7 @@
       [
        "bull",
        "September payrolls were +29K with unemployment 4.2%, and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 October); the 5 October log entry confirms the reduced hike bets",
-       false
+       true
       ],
       [
        "neu",
@@ -5261,8 +5261,8 @@
        null
       ]
      ],
-     "maturityClose": 4187.39990234375,
-     "ret": 0.005354,
+     "maturityClose": 4197.5,
+     "ret": 0.007779,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7338,8 +7338,8 @@
        null
       ]
      ],
-     "maturityClose": 101.87999725341797,
-     "ret": -0.002672,
+     "maturityClose": 101.86399841308594,
+     "ret": -0.002829,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9505,7 +9505,7 @@
       [
        "bear",
        "The 10-year yield rose 7bp to 5.35% on 5 October, a fresh multi-decade high on term-premium/supply concerns (news log, thestreet.com 5 October); small caps carry the strongest yield sensitivity on the board (10Y corr -0.653)",
-       false
+       true
       ],
       [
        "bull",
@@ -9548,8 +9548,8 @@
        null
       ]
      ],
-     "maturityClose": 2857.699951171875,
-     "ret": -0.003452,
+     "maturityClose": 2848.800048828125,
+     "ret": -0.006556,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11534,8 +11534,8 @@
        null
       ]
      ],
-     "maturityClose": 31540.5,
-     "ret": 0.005275,
+     "maturityClose": 31518.5,
+     "ret": 0.004574,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
