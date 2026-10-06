@@ -41,7 +41,7 @@ def main():
     c = pickle.load(open(os.path.join(ROOT, 'data', '.bt_cache.pkl'), 'rb'))
     raw = c['raw']
     tick = [t for t in raw if raw[t].get('1h') and raw[t].get('daily') and t not in ETFS]
-    spy = {b[0][:10]: b[4] for b in raw['SPY']['daily']} if 'SPY' in raw else {}
+    spy = {d: v for d, v in c['bench']['SPY']}
     days = sorted({b[0][:10] for t in tick for b in raw[t]['daily'] if b[0][:10] >= '2025-09-01'})
     dpos = {d: i for i, d in enumerate(days)}
     # equal-weight average stock (daily closes)
