@@ -238,7 +238,11 @@ def coverage(D, P):
 
 def run_core(universe, start, boost, exclude=()):
     P = G['P']
-    base = P['elig_base'] if universe == 'base' else P['elig_pit']
+    if universe == 'sp':
+        sp = G['sp']
+        base = lambda t, d: t in sp and P['elig_base'](t, d)   # noqa: E731
+    else:
+        base = P['elig_base'] if universe == 'base' else P['elig_pit']
     ex = set(exclude)
     elig = (lambda t, d: t not in ex and base(t, d)) if ex else base
     kw = dict(look=LOOK, skip=SKIP, top_n=TOP_N, eligible=elig, exec_next='close')
@@ -359,27 +363,30 @@ class Ledger:
         return sorted(lots, key=key)
 
     def sell(self, t, sh, d):
-        if sh <= 1e-9:
+        if sh <= 1e-9 or t not in self.lots:
             return
         px = self.px[t]
         pps = px * (1 - self.slip)
-        left = sh
-        sold = []
-        for l in self._order(t, d, pps):
+        left = min(sh, self.shares(t))
+        plan = []
+        for l in self._order(t, d, pps):     # decide the lots first: none of them can be a replacement
             if left <= 1e-12:
                 break
             q = min(l['sh'], left)
+            plan.append((l, q))
+            left -= q
+        touched = [l for l, _ in plan]
+        for l, q in plan:
             gain = q * (pps - l['ps'])
             term = 'LT' if d > plus_year(l['acq']) else 'ST'
             rec = dict(d=d, t=t, gain=gain, term=term, coll=t in self.coll)
             self.recs.append(rec)
+            acq = l['acq']
             l['sh'] -= q
-            left -= q
             self.cash += q * pps
             self.traded += q * px
-            sold.append(l)
             if gain < 0 and self.taxes:
-                self._wash_back(t, d, q, -gain / q, rec, l['acq'], sold)
+                self._wash_back(t, d, q, -gain / q, rec, acq, touched)
         self.lots[t] = [l for l in self.lots[t] if l['sh'] > 1e-9]
         if not self.lots[t]:
             del self.lots[t]
@@ -404,7 +411,7 @@ class Ledger:
         for l in list(self.lots.get(t, [])):
             if left <= 1e-12:
                 break
-            if l in sold or l['sh'] <= 1e-9 or l['cap'] <= 1e-9:
+            if any(l is x for x in sold) or l['sh'] <= 1e-9 or l['cap'] <= 1e-9:
                 continue
             if d - timedelta(days=30) <= l['buy'] < d:
                 m = min(left, l['sh'], l['cap'])
@@ -440,6 +447,30 @@ class Ledger:
             if have > n + 1e-9:
                 self.sell(t, have - n, d)
         need = {t: n - self.shares(t) for t, n in tgt.items() if n > self.shares(t) + 1e-9}
+        cost = sum(q * self.px[t] * (1 + self.slip) for t, q in need.items())
+        scale = min(1.0, self.cash / cost) if cost > 0 else 1.0
+        for t, q in need.items():
+            self.buy(t, q * scale, d)
+
+    def rebalance_band(self, w, d, band):
+        """Tax-aware: sell names that left the target, trade a continuing name only when its
+        weight is more than `band` (relative) away from target, buy new names to target."""
+        E = self.equity()
+        for t in list(self.lots):
+            if w.get(t, 0.0) <= 0:
+                self.sell(t, self.shares(t), d)
+        for t in list(self.lots):
+            cur = self.shares(t) * self.px[t] / E
+            if cur > w.get(t, 0.0) * (1 + band):
+                self.sell(t, self.shares(t) - w[t] * E / self.px[t], d)
+        need = {}
+        for t, x in w.items():
+            if x <= 0:
+                continue
+            have = self.shares(t)
+            cur = have * self.px[t] / E
+            if have <= 1e-9 or cur < x * (1 - band):
+                need[t] = x * E / self.px[t] - have
         cost = sum(q * self.px[t] * (1 + self.slip) for t, q in need.items())
         scale = min(1.0, self.cash / cost) if cost > 0 else 1.0
         for t, q in need.items():
@@ -548,7 +579,8 @@ def due_events(calendar):
     return out
 
 
-def simulate(schedule, prices, calendar, slip, taxes=True, method='taxopt', niit=0.0, start_cash=START_CASH):
+def simulate(schedule, prices, calendar, slip, taxes=True, method='taxopt', niit=0.0, start_cash=START_CASH,
+             band=None):
     """Replays a weight schedule through the ledger. Returns curve and tax detail."""
     led = Ledger(start_cash, slip, niit=niit, method=method, taxes=taxes)
     sched = dict(schedule)
@@ -569,7 +601,10 @@ def simulate(schedule, prices, calendar, slip, taxes=True, method='taxopt', niit
         led.expire(dd)
         if d in sched:
             w = {t: x for t, x in sched[d].items() if t in led.px}
-            led.rebalance(w, dd)
+            if band is None:
+                led.rebalance(w, dd)
+            else:
+                led.rebalance_band(w, dd, band)
         for kind, y, cut in events.get(d, []):
             ch = led.chain(y, cut)
             due = ch[y]['tax'] - led.paid.get(y, 0.0)
@@ -788,13 +823,15 @@ def main():
     D = load_data()
     P = prepare(D)
     G['P'] = P
+    G['sp'] = set(D['sp'])
     G['down'] = downtrend_fn(D['bars'])
     cal = P['calendar']
     log(f"calendar {cal[0]} - {cal[-1]}; usable point-in-time series {len(P['ok'])}")
     cov = coverage(D, P)
 
     # 1. main runs
-    jobs = [('base_top5', 'base', START, False, ()), ('base_boost', 'base', START, True, ()),
+    jobs = [('sp_top5', 'sp', START, False, ()), ('sp_boost', 'sp', START, True, ()),
+            ('base_top5', 'base', START, False, ()), ('base_boost', 'base', START, True, ()),
             ('pit_top5', 'pit', START, False, ()), ('pit_boost', 'pit', START, True, ())]
     runs = run_many(jobs)
     G['runs'] = runs
@@ -809,7 +846,7 @@ def main():
     px_all.update(P['sleeve_px'])
 
     sched = {}
-    for name in ('base_top5', 'base_boost', 'pit_top5', 'pit_boost'):
+    for name in ('sp_top5', 'sp_boost', 'base_top5', 'base_boost', 'pit_top5', 'pit_boost'):
         sched[name] = plan_schedule(runs[name]['picks'], cal, P['sleeve_f'], down, START)
     sched['pit_top5_only'] = [(d, {t: 1 / TOP_N for t in h}) for d, h in runs['pit_boost']['picks'] if d >= START]
 
@@ -822,6 +859,9 @@ def main():
         log(f"  ledger {key}: final {res['final']:,.0f}")
         return res
     sim('base_boost_ledger_005', sched['base_boost'], slip=0.0005, taxes=False)
+    sim('base_auto_ledger_005', sched['base_top5'], slip=0.0005, taxes=False)
+    sim('sp_boost_ledger_005', sched['sp_boost'], slip=0.0005, taxes=False)
+    sim('sp_auto_ledger_005', sched['sp_top5'], slip=0.0005, taxes=False)
     for sl in SLIPS:
         sim(f'pit_boost_pretax_{sl}', sched['pit_boost'], slip=sl, taxes=False)
         sim(f'pit_auto_pretax_{sl}', sched['pit_top5'], slip=sl, taxes=False)
@@ -829,6 +869,11 @@ def main():
     sim('pit_boost_tax_fifo', sched['pit_boost'], slip=BASE_SLIP, method='fifo')
     sim('pit_boost_tax_niit', sched['pit_boost'], slip=BASE_SLIP, niit=0.038)
     sim('pit_auto_tax', sched['pit_top5'], slip=BASE_SLIP)
+    for band in (0.25, 0.5):
+        sim(f'pit_boost_band{band}_pretax', sched['pit_boost'], slip=BASE_SLIP, taxes=False, band=band)
+        sim(f'pit_boost_band{band}_tax', sched['pit_boost'], slip=BASE_SLIP, band=band)
+        sim(f'pit_auto_band{band}_pretax', sched['pit_top5'], slip=BASE_SLIP, taxes=False, band=band)
+        sim(f'pit_auto_band{band}_tax', sched['pit_top5'], slip=BASE_SLIP, band=band)
     spy_t = bench_after_tax(D, 'SPY', cal, START)
     qqq_t = bench_after_tax(D, 'QQQ', cal, START)
     spy_t2 = bench_after_tax(D, 'SPY', cal, START, 0.238, 0.238)
@@ -849,6 +894,14 @@ def main():
                 starts.append(s)
     contrib = week_contrib(sched['pit_boost'], px_all, cal, P['prices']['SPY'])
     out_tab = outlier_table(contrib, P['prices']['SPY'], sched['pit_boost'], cal)
+    gone = {}
+    for d0, t, x, r, rs in contrib:
+        if t not in D['sp'] and t not in ASSETS:
+            g = gone.setdefault(t, dict(weeks=0, excess=0.0))
+            g['weeks'] += 1
+            g['excess'] += x * (r - rs)
+    out_tab['removedHeld'] = sorted([[t, v['weeks'], round(v['excess'], 4)] for t, v in gone.items()],
+                                    key=lambda z: z[2])
     best = [t for t, _ in out_tab['topStocks'][:3]]
     jobs = [(f'start_{s}', 'pit', s, True, ()) for s in starts]
     jobs += [('ex_best1', 'pit', START, True, tuple(best[:1])), ('ex_best3', 'pit', START, True, tuple(best[:3]))]
@@ -889,6 +942,10 @@ def main():
                      spy=s4(stats(spy_curve, 0.015)), qqq=s4(stats(qqq_curve, 0.015))),
         ledgerCheck=dict(dashboardBoost=s4(stats(cur_boost, 0.015)),
                          ledgerBoost=summ(scen['base_boost_ledger_005'])),
+        spOnly=dict(top5=s4(stats([[d, v] for d, v in runs['sp_top5']['curve'] if d >= START], 0.015)),
+                    boostTop5=s4(stats([[d, v] for d, v in runs['sp_boost']['curve'] if d >= START], 0.015))),
+        base=dict(top5=s4(stats([[d, v] for d, v in runs['base_top5']['curve'] if d >= START], 0.015)),
+                  boostTop5=s4(stats([[d, v] for d, v in runs['base_boost']['curve'] if d >= START], 0.015))),
         pit=dict(top5=s4(stats([[d, v] for d, v in runs['pit_top5']['curve'] if d >= START], 0.015)),
                  boostTop5=s4(stats([[d, v] for d, v in runs['pit_boost']['curve'] if d >= START], 0.015))),
         scenarios={k: summ(v) for k, v in scen.items()},
