@@ -55,6 +55,10 @@ def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='ran
     every window counts equally). beats_benchmark = the stock's average excess
     return over the benchmark across the windows is positive."""
     d = calendar[k]
+    if isinstance(blend, tuple) and blend[0] == 'regime':   # ('regime', fn): fn(k) True -> plain 6-1 score
+        if blend[1](k):
+            windows = None
+        blend = 'rank'
     cands = [t for t in prices if t != benchmark and prices[t].get(d) and (eligible is None or eligible(t, d))]
     if not windows:
         b = score_at(prices[benchmark], calendar, k, look, skip) if benchmark in prices else None

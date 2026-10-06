@@ -157,6 +157,10 @@ VARIANTS = {
     't3x': (dict(top_n=5, weighting='top3x', windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
     'kr7': (dict(top_n=5, weighting='top2x', keep_rank=7, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
     'lev': (dict(top_n=5, weighting='top2x', lev_etf=True, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
+    'rg20': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', regime_ma=20, weighting='top2x', plan=dict(ladder=True)), None),
+    'rg50': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', regime_ma=50, weighting='top2x', plan=dict(ladder=True)), None),
+    'rg200': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', regime_ma=200, weighting='top2x', plan=dict(ladder=True)), None),
+    'old2x': (dict(top_n=5, weighting='top2x', plan=dict(ladder=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -194,6 +198,15 @@ def run_one(args):
     plan = kw.pop('plan', None)
     lx = kw.pop('lolo_exit', None)
     biweekly = kw.pop('biweekly', False)
+    regime = kw.pop('regime_ma', None)
+    if regime:
+        cal_r, spy_r = P['calendar'], P['prices']['SPY']
+        up_r = {}
+        for k_ in range(regime, len(cal_r)):
+            w_ = [spy_r.get(cal_r[j]) for j in range(k_ - regime + 1, k_ + 1)]
+            if all(w_):
+                up_r[k_] = spy_r[cal_r[k_]] > sum(w_) / regime
+        kw['blend'] = ('regime', lambda k: up_r.get(k, False))
     spike = kw.pop('skip_spike', None)
     if spike:
         cal_s, px_s = P['calendar'], P['prices']
