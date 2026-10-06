@@ -121,6 +121,9 @@ VARIANTS = {
     'lint2x': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=(1.0, 0.8, 0.6, 0.4, 0.2, 0.0))), None),
     'ld9': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=(1.0, 0.9, 0.8, 0.7, 0.4, 0.1))), None),
     'ld9t2x': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=(1.0, 0.9, 0.8, 0.7, 0.4, 0.1))), None),
+    'sl21': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, slook=21)), None),
+    'sl63': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, slook=63)), None),
+    'sl252': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, slook=252)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -260,7 +263,7 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
                 ok = [x for x in ASSETS if x == 'BIL' or not G['asset_down'](x, f)]
                 a = best_of(sleeve_f, calendar, idx[f], assets=ok)
             else:
-                a = best_of(sleeve_f, calendar, idx[f])
+                a = best_of(sleeve_f, calendar, idx[f], look=po.get('slook', 126))
             out_w[a] = out_w.get(a, 0.0) + (1 - split)
         if po.get('qqq'):
             out_w = {t: x * (1 - po['qqq']) for t, x in out_w.items()}
