@@ -155,7 +155,15 @@ def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='ran
             score = {t: 0.0 for t in rets}
             n = len(rets)
             W = len(windows)
-            wts = [1 + recent * (W - 1 - j) / max(W - 1, 1) for j in range(W)]
+            shape = blend[4] if isinstance(blend, tuple) and len(blend) > 4 else 'lin'
+            xs = [(W - 1 - j) / max(W - 1, 1) for j in range(W)]   # 0 = oldest week, 1 = newest
+            if shape == 'exp':        # geometric: newest = (1 + recent) x oldest
+                wts = [(1 + recent) ** x for x in xs]
+            elif shape.startswith('pow'):   # flat for old weeks, rising steeply into the present
+                pw = float(shape[3:])
+                wts = [1 + recent * x ** pw for x in xs]
+            else:
+                wts = [1 + recent * x for x in xs]
             tot = sum(wts)
             for w in range(W):
                 order = sorted(rets, key=lambda t: rets[t][w])
