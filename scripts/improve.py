@@ -59,6 +59,10 @@ VARIANTS = {
     'rkm': (dict(top_n=5, monthly=True, windows=[(21 * (i + 1), 21 * i) for i in range(1, 7)], blend='rank'), None),
     'rk0w': (dict(top_n=5, windows=[(21 * (i + 1), 21 * i) for i in range(0, 6)], blend='rank'), None),
     'rk0m': (dict(top_n=5, monthly=True, windows=[(21 * (i + 1), 21 * i) for i in range(0, 6)], blend='rank'), None),
+    'rwkw': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank'), None),
+    'rwkm': (dict(top_n=5, monthly=True, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank'), None),
+    'rwk0w': (dict(top_n=5, windows=[(5 * i + 5, 5 * i) for i in range(25)], blend='rank'), None),
+    'rwk0m': (dict(top_n=5, monthly=True, windows=[(5 * i + 5, 5 * i) for i in range(25)], blend='rank'), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -179,6 +183,30 @@ def yr_windows(curve, spy, starts):
     return wins, n
 
 
+def concentration(runs, scheds, px_all, cal, P, evaluate):
+    extra = {}
+    for key in ('v2_auto', 'v2_boost'):
+        contrib = R.week_contrib(scheds[key], px_all, cal, P['prices']['SPY'])
+        tab = R.outlier_table(contrib, P['prices']['SPY'], scheds[key], cal)
+        extra[key] = dict(rows=tab['rows'], topStocks=tab['topStocks'][:5], weeksBeatSpy=tab['weeksBeatSpy'],
+                          top10Share=tab['top10ShareOfExcess'])
+    best = {k: [t for t, _ in extra[k]['topStocks'][:3]] for k in extra}
+    jobs = []
+    for k in ('v2_auto', 'v2_boost'):
+        kw = VARIANTS['v2'][0]
+        jobs.append((f'{k}_ex1', kw, k.endswith('boost'), tuple(best[k][:1])))
+        jobs.append((f'{k}_ex3', kw, k.endswith('boost'), tuple(best[k][:3])))
+    with get_context('fork').Pool(4) as pool:
+        for key, run in pool.imap_unordered(run_one, jobs):
+            _, _, out = evaluate(key, run)
+            base_key = key.rsplit('_', 1)[0]
+            extra[base_key][key.rsplit('_', 1)[1]] = dict(excluded=best[base_key][:1 if key.endswith('ex1') else 3],
+                                                          preTax=out['preTax'], afterTax=out['afterTax'])
+            R.log(f"  {key}: pre {out['preTax'].get('cagr')}")
+
+    return extra
+
+
 def main():
     t0 = datetime.now()
     D = R.load_data()
@@ -196,7 +224,10 @@ def main():
                           for y in range(2010, 2024) for m in ('01', '07')) if d and d >= R.START]
 
     jobs = []
+    only = [x for x in os.environ.get('ONLY', '').split(',') if x]
     for name, (kw, _) in VARIANTS.items():
+        if only and name not in only:
+            continue
         jobs.append((f'{name}_auto', kw, False, ()))
         jobs.append((f'{name}_boost', kw, True, ()))
     runs = {}
@@ -243,26 +274,15 @@ def main():
             scheds[sk] = sc2
             R.log(f"  {sk}: pre {out2['preTax'].get('cagr')} after {out2['afterTax']}")
 
-    # concentration check on the new rule
     extra = {}
-    for key in ('v2_auto', 'v2_boost'):
-        contrib = R.week_contrib(scheds[key], px_all, cal, P['prices']['SPY'])
-        tab = R.outlier_table(contrib, P['prices']['SPY'], scheds[key], cal)
-        extra[key] = dict(rows=tab['rows'], topStocks=tab['topStocks'][:5], weeksBeatSpy=tab['weeksBeatSpy'],
-                          top10Share=tab['top10ShareOfExcess'])
-    best = {k: [t for t, _ in extra[k]['topStocks'][:3]] for k in extra}
-    jobs = []
-    for k in ('v2_auto', 'v2_boost'):
-        kw = VARIANTS['v2'][0]
-        jobs.append((f'{k}_ex1', kw, k.endswith('boost'), tuple(best[k][:1])))
-        jobs.append((f'{k}_ex3', kw, k.endswith('boost'), tuple(best[k][:3])))
-    with get_context('fork').Pool(4) as pool:
-        for key, run in pool.imap_unordered(run_one, jobs):
-            _, _, out = evaluate(key, run)
-            base_key = key.rsplit('_', 1)[0]
-            extra[base_key][key.rsplit('_', 1)[1]] = dict(excluded=best[base_key][:1 if key.endswith('ex1') else 3],
-                                                          preTax=out['preTax'], afterTax=out['afterTax'])
-            R.log(f"  {key}: pre {out['preTax'].get('cagr')}")
+    if only:
+        global OUT
+        OUT = OUT.replace('improve.json', 'improve_only.json')
+    # concentration check on the new rule
+    for key in (() if only else ('v2_auto', 'v2_boost')):
+        pass
+    if not only:
+        extra = concentration(runs, scheds, px_all, cal, P, evaluate)
 
     yrs = len(spy) / 252
     spy_t = R.bench_after_tax(D, 'SPY', cal, R.START)
