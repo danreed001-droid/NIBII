@@ -43,6 +43,8 @@ VARIANTS = {
     # name: (engine kwargs, boost?)
     'cur': (dict(top_n=5), None),
     'n5m': (dict(top_n=5, monthly=True), None),
+    'l12w': (dict(top_n=5, look=252), None),
+    'l12m': (dict(top_n=5, monthly=True, look=252), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -66,7 +68,8 @@ def run_one(args):
     elig = (lambda t, d: t not in ex and base(t, d)) if ex else base
     kw = dict(kw)
     monthly = kw.pop('monthly', False)
-    opts = dict(look=R.LOOK, skip=R.SKIP, eligible=elig, exec_next='close', **kw)
+    opts = dict(look=R.LOOK, skip=R.SKIP, eligible=elig, exec_next='close')
+    opts.update(kw)
     if monthly:
         opts['rebal_dates'] = set(G['months'])
     if boost:
