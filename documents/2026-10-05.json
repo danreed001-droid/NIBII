@@ -414,13 +414,12 @@
        null
       ]
      ],
-     "maturityClose": 7876.75,
-     "ret": 0.005553,
+     "maturityClose": 7880.5,
+     "ret": 0.006032,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2526,13 +2525,12 @@
        null
       ]
      ],
-     "maturityClose": 104.46875,
-     "ret": 0.002249,
+     "maturityClose": 104.4375,
+     "ret": 0.001949,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5223,7 +5221,7 @@
       [
        "bull",
        "September payrolls were +29K with unemployment 4.2%, and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 October); the 5 October log entry confirms the reduced hike bets",
-       true
+       false
       ],
       [
        "neu",
@@ -5261,13 +5259,12 @@
        null
       ]
      ],
-     "maturityClose": 4196.7998046875,
-     "ret": 0.007611,
+     "maturityClose": 4192.7001953125,
+     "ret": 0.006627,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7338,13 +7335,12 @@
        null
       ]
      ],
-     "maturityClose": 101.85800170898438,
-     "ret": -0.002888,
+     "maturityClose": 101.86100006103516,
+     "ret": -0.002858,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9548,13 +9544,12 @@
        null
       ]
      ],
-     "maturityClose": 2844.0,
-     "ret": -0.00823,
+     "maturityClose": 2849.199951171875,
+     "ret": -0.006417,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11534,13 +11529,12 @@
        null
       ]
      ],
-     "maturityClose": 31507.0,
-     "ret": 0.004207,
+     "maturityClose": 31501.0,
+     "ret": 0.004016,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,
