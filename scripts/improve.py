@@ -86,6 +86,18 @@ VARIANTS = {
     'sx3u': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sig_exit=(3, True)), None),
     'sx4': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sig_exit=(4, False)), None),
     'sx5': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sig_exit=(5, False)), None),
+    'dtf50': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(trend=0.5)), None),
+    'dtf0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(trend=0.0)), None),
+    'dtf60': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(trend=0.6)), None),
+    'dsc2': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sector_cap=2), None),
+    'dsc1': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sector_cap=1), None),
+    'dbl70': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(cap=0.7)), None),
+    'dq30': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(qqq=0.3)), None),
+    'dvt25': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', vol_target=0.25, vol_window=63), None),
+    'dvt35': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', vol_target=0.35, vol_window=63), None),
+    'dld': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
+    'd1': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(one=True)), None),
+    'dmix': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sector_cap=2, plan=dict(trend=0.5, ladder=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -112,6 +124,14 @@ def run_one(args):
     accel = kw.pop('accel', None)
     boost_rank = kw.pop('boost_rank', None)
     sig = kw.pop('sig_exit', None)
+    plan = kw.pop('plan', None)
+    cap = kw.pop('sector_cap', None)
+    if cap:
+        import csv
+        with open(os.path.join(ROOT, 'data', 'industries.csv')) as fh:
+            ind = {r['symbol']: r['industry'] for r in csv.DictReader(fh) if r.get('industry')}
+        kw['group_of'] = ind
+        kw['max_per_group'] = cap
     if sig:
         nsig, upweek = sig
         prices_, cal_ = P['prices'], P['calendar']
@@ -166,7 +186,7 @@ def run_one(args):
         opts.update(prefer=booster(P['gaps'], P['calendar']), prefer_mode='force', prefer_rank=boost_rank,
                     prefer_pool='all')
     r = run_momentum(P['prices'], P['calendar'], R.START, **opts)
-    return key, dict(picks=r['picks'], weights=r['weights'], turnover=r['turnover'])
+    return key, dict(picks=r['picks'], weights=r['weights'], turnover=r['turnover'], plan=plan)
 
 
 def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
@@ -183,7 +203,17 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
         j = bisect_right(pdays, f) - 1
         before = picks[j][1] if j >= 0 else []
         n_down = sum(down(t, f) for t in before)
-        split = 0.6 if before and n_down / len(before) >= frac - 1e-9 else 1.0
+        po = run.get('plan') or {}
+        if po.get('ladder'):
+            split = {0: 1.0, 1: 0.8, 2: 0.6}.get(n_down, 0.4) if before else 1.0
+        elif po.get('one'):
+            split = 0.6 if n_down >= 1 else 1.0
+        else:
+            split = 0.6 if before and n_down / len(before) >= frac - 1e-9 else 1.0
+        if po.get('trend') is not None and G['spy_below'](f):
+            split = min(split, po['trend'])
+        if po.get('cap') is not None:
+            split = min(split, po['cap'])
         out_w = {t: split * x for t, x in w.items()}
         spare = split * (1 - sum(w.values()))
         if spare > 1e-6:
@@ -191,6 +221,9 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
         if split < 1:
             a = best_of(sleeve_f, calendar, idx[f])
             out_w[a] = out_w.get(a, 0.0) + (1 - split)
+        if po.get('qqq'):
+            out_w = {t: x * (1 - po['qqq']) for t, x in out_w.items()}
+            out_w['QQQ'] = out_w.get('QQQ', 0.0) + po['qqq']
         out.append((T, out_w))
     return out
 
@@ -269,6 +302,14 @@ def main():
     down = R.downtrend_fn(D['bars'])
     px_all = dict(P['prices'])
     px_all.update(P['sleeve_px'])
+    px_all['QQQ'] = {b[0]: b[4] for b in D['bench']['QQQ']}
+    spx = P['prices']['SPY']
+    sma_ok = {}
+    for k_ in range(200, len(cal)):
+        w_ = [spx.get(cal[j]) for j in range(k_ - 199, k_ + 1)]
+        if all(w_):
+            sma_ok[cal[k_]] = spx[cal[k_]] < sum(w_) / 200
+    G['spy_below'] = lambda d_: sma_ok.get(d_, False)
     spy = [[b[0], b[4]] for b in D['bench']['SPY'] if b[0] >= R.START]
     qqq = [[b[0], b[4]] for b in D['bench']['QQQ'] if b[0] >= R.START]
     starts = [d for d in (next((x for x in cal if x >= f'{y}-{m}-01'), None)
@@ -304,6 +345,7 @@ def main():
         return sc, pre, dict(
             preTax=R.s4(st), afterTax=R.r4((tax['final'] / R.START_CASH) ** (1 / yrs) - 1),
             afterTaxSharpe=R.r4(R.stats(tax['curve'], 0.015).get('sharpe')),
+            afterTaxDD=R.r4(R.stats(tax['curve'], 0.015).get('maxDD')),
             final=round(tax['final'], 2), finalPre=round(pre['final'], 2),
             taxPaid=round(tax['taxPaid'], 2), wash=round(tax['wash'], 2), stShare=R.r4(tax['stShare']),
             turnover=R.r4(pre['turnover']),
