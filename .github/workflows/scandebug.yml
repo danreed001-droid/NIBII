@@ -1,0 +1,27 @@
+name: Scan debug
+on:
+  push:
+    branches: [scan-debug]
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Scan and render
+        run: |
+          (python scripts/momentum_scan.py && python scripts/render_scanner.py) > data/scan_debug.log 2>&1 || true
+          tail -40 data/scan_debug.log
+      - name: Save the log
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          tail -60 data/scan_debug.log > data/scan_debug_tail.log
+          git add -f data/scan_debug_tail.log
+          git commit -m "scan debug log" || exit 0
+          git push
