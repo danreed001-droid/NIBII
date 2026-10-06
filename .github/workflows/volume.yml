@@ -1,0 +1,38 @@
+name: Volume pattern study
+
+# Runs scripts/robustness.py (lookahead test, point-in-time universe,
+# start-date / outlier sensitivity, slippage and tax ledger) and commits
+# data/volume_study.json on this branch. Never touches main.
+on:
+  push:
+    branches: [robustness]
+    paths:
+      - scripts/volume_study.py
+      - .github/workflows/volume.yml
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Run the audit
+        run: |
+          set -o pipefail
+          python scripts/volume_study.py 2>&1 | tee data/volume_study.log
+      - name: Commit the results
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f data/volume_study.log; if [ -f data/volume_study.json ]; then git add data/volume_study.json; fi; if [ -f data/volume_study.json ]; then git add data/volume_study.json; fi
+          git commit -m "Volume pattern study results" || exit 0
+          git push
