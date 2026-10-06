@@ -43,7 +43,7 @@ from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'data', 'momentum_scan.json')
-START, LOOK, SKIP, TOP_N, TABLE = '2020-01-02', 126, 21, 5, 100
+START, LOOK, SKIP, TOP_N, TABLE = '2010-01-04', 126, 21, 5, 100
 GLITCH_BLOCK = 150
 PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
 AUTO_NEED, AUTO_LOW = 2, 0.6            # auto: 60/40 while 2+ holdings are in a daily downtrend, else 100%
@@ -55,7 +55,7 @@ HUMAN_FROM = '2024-01-01'               # daily series shipped for scoring the v
 STATE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
 
 
-def fetch(tickers, start='2015-01-01', chunk=100, adjusted=False):
+def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False):
     """{ticker: [(date, open, high, low, close)]} - closes are split-adjusted
     (adjusted=True: also dividend-adjusted, used for the benchmarks)."""
     import yfinance as yf
