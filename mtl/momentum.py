@@ -340,6 +340,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     def trade(target, w, d, px_of):
         nonlocal shares, cash, value, traded
         fill = {t: px_of(t) for t in set(shares) | set(target)}
+        if any(not fill[t] for t in target):   # no price to trade at (e.g. delisted that day): that slot stays cash
+            target = [t for t in target if fill[t]]
+            w = {t: x for t, x in w.items() if t in target}
         value = cash + sum(n * fill[t] for t, n in shares.items())
         new_shares = {t: value * w[t] / fill[t] for t in target}
         moved = sum(abs(new_shares.get(t, 0.0) - shares.get(t, 0.0)) * fill[t]
