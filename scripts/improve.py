@@ -190,6 +190,9 @@ VARIANTS = {
     'e5o2': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=5, offset=2, plan=dict(ladder=True)), None),
     'e5o3': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=5, offset=3, plan=dict(ladder=True)), None),
     'e5o4': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=5, offset=4, plan=dict(ladder=True)), None),
+    'liq10': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', liq_w=0.1, plan=dict(ladder=True)), None),
+    'liq20': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', liq_w=0.2, plan=dict(ladder=True)), None),
+    'liq30': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', liq_w=0.3, plan=dict(ladder=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -230,6 +233,29 @@ def run_one(args):
     daily_rb = kw.pop('daily_rebal', False)
     every_n = kw.pop('every_n', None)
     offset = kw.pop('offset', 0)
+    liq_w = kw.pop('liq_w', None)
+    if liq_w:
+        cal_l = P['calendar']
+        cum = G['dvcum']
+        pct_cache = {}
+
+        def liq_pct(k):
+            if k not in pct_cache:
+                vals = {}
+                for t, c in cum.items():
+                    if k - 63 < 0 or k >= len(c):
+                        continue
+                    a_, b_ = c[k - 63], c[k]
+                    if b_ > a_:
+                        vals[t] = b_ - a_
+                order = sorted(vals, key=vals.get)
+                n_ = len(order) or 1
+                pct_cache[k] = {t: (i + 1) / n_ for i, t in enumerate(order)}
+            return pct_cache[k]
+
+        def liq_key(t, k, sc):
+            return -((1 - liq_w) * sc + liq_w * liq_pct(k).get(t, 0.0))
+        kw['rank_key'] = liq_key
     regime = kw.pop('regime_ma', None)
     if regime:
         cal_r, spy_r = P['calendar'], P['prices']['SPY']
@@ -538,6 +564,31 @@ def main():
     except Exception as e:   # noqa: BLE001
         R.log(f"leveraged ETF fetch failed: {e}")
     G['LEV'] = set(LEV)
+    if os.environ.get('WITH_VOLUME'):
+        import yfinance as yf
+        from itertools import accumulate
+        tick = sorted(t for t, bs in D['bars'].items() if bs)
+        calx = [b[0] for b in D['bench']['SPY']]
+        pos = {d_: i_ for i_, d_ in enumerate(calx)}
+        dvcum = {}
+        for k_ in range(0, len(tick), 100):
+            part = tick[k_:k_ + 100]
+            df = yf.download(part, start=R.FROM, interval='1d', group_by='ticker', auto_adjust=False,
+                             progress=False, threads=True)
+            for t_ in part:
+                try:
+                    d_ = df[t_].dropna(subset=['Close'])
+                except KeyError:
+                    continue
+                dv = [0.0] * len(calx)
+                for ts, c_, v_ in zip(d_.index, d_['Close'], d_['Volume']):
+                    i_ = pos.get(ts.date().isoformat())
+                    if i_ is not None and c_ == c_ and v_ == v_:
+                        dv[i_] = float(c_) * float(v_)
+                acc = list(accumulate(dv))
+                dvcum[t_] = acc
+            R.log(f"  dollar volume {min(k_ + 100, len(tick))}/{len(tick)}")
+        G['dvcum'] = dvcum
     P = R.prepare(D)
     G['P'] = P
     R.G['P'] = P
