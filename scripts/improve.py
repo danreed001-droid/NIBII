@@ -151,6 +151,12 @@ VARIANTS = {
     'spk25': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', skip_spike=0.25, plan=dict(ladder=True)), None),
     'biw': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', biweekly=True, plan=dict(ladder=True)), None),
     'spy0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, spare_spy=True)), None),
+    'c3': (dict(top_n=3, weighting='top2x', windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
+    'c4': (dict(top_n=4, weighting='top2x', windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
+    'rkw5': (dict(top_n=5, weighting='rankw', windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
+    't3x': (dict(top_n=5, weighting='top3x', windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
+    'kr7': (dict(top_n=5, weighting='top2x', keep_rank=7, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
+    'lev': (dict(top_n=5, weighting='top2x', lev_etf=True, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -170,6 +176,14 @@ def run_one(args):
     key, kw, boost, exclude = args
     P = G['P']
     base = P['elig_pit']
+    if kw.get('lev_etf'):
+        _b0 = base
+        base = (lambda t, d: (t in G['LEV'] and t in P['prices']) or (t not in G['LEV'] and _b0(t, d)))
+    else:
+        _b1 = base
+        base = (lambda t, d: t not in G['LEV'] and _b1(t, d))
+    kw = dict(kw)
+    kw.pop('lev_etf', None)
     ex = set(exclude)
     elig = (lambda t, d: t not in ex and base(t, d)) if ex else base
     kw = dict(kw)
@@ -464,6 +478,17 @@ def concentration(runs, scheds, px_all, cal, P, evaluate):
 def main():
     t0 = datetime.now()
     D = R.load_data()
+    LEV = ['TQQQ', 'SOXL', 'UPRO', 'TECL']
+    try:
+        from momentum_scan import fetch as _fetch2
+        lev = _fetch2(LEV, start=R.FROM, adjusted=True)
+        for t_, bs_ in lev.items():
+            if bs_:
+                D['bars'][t_] = bs_
+        R.log(f"leveraged ETFs: {sorted(t for t in lev if lev[t])}")
+    except Exception as e:   # noqa: BLE001
+        R.log(f"leveraged ETF fetch failed: {e}")
+    G['LEV'] = set(LEV)
     P = R.prepare(D)
     G['P'] = P
     R.G['P'] = P

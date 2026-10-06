@@ -279,6 +279,13 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             inv = {t: 1 / vol(t, k) for t in target}
             tot = sum(inv.values())
             w = {t: inv[t] / tot * len(target) / top_n for t in target}
+        elif weighting == 'top3x':
+            best = min(target, key=lambda t: rank_now.get(t, 10 ** 9))
+            w = {t: (3.0 if t == best else 1.0) / (top_n + 2) for t in target}
+        elif weighting == 'rankw':   # top_n, top_n-1, ... 1 by rank
+            order = sorted(target, key=lambda t: rank_now.get(t, 10 ** 9))
+            tot = top_n * (top_n + 1) / 2
+            w = {t: (top_n - i) / tot for i, t in enumerate(order)}
         elif weighting == 'top2x':   # the best-ranked holding gets twice the others' weight
             best = min(target, key=lambda t: rank_now.get(t, 10 ** 9))
             w = {t: (2.0 if t == best else 1.0) / (top_n + 1) for t in target}
