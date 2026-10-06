@@ -67,6 +67,7 @@ from mtl.sleeve import ASSETS, best_of, filled, plan_curve_dynamic, sleeve_curve
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import URL as SP_URL, load_added, load_sp500, momentum_universe  # noqa: E402
 
+HIST_URL = 'https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_500'
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'data', 'robustness.json')
 CACHE = os.path.join(ROOT, 'data', '.robust.pkl')
@@ -87,13 +88,19 @@ def log(msg):
 def fetch_sp500_changes():
     """[(date, added, removed)] from Wikipedia's 'Selected changes' table, Yahoo symbols."""
     import pandas as pd
-    req = urllib.request.Request(SP_URL, headers={'User-Agent': 'Mozilla/5.0'})
-    html = urllib.request.urlopen(req, timeout=60).read().decode()
-    try:
-        t = pd.read_html(io.StringIO(html), attrs={'id': 'changes'}, flavor='lxml')[0]
-    except ValueError:
-        tables = pd.read_html(io.StringIO(html), flavor='lxml')
-        t = next(x for x in tables if any('Removed' in str(c) for c in x.columns))
+    t = None
+    for url in (HIST_URL, SP_URL):
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        html = urllib.request.urlopen(req, timeout=60).read().decode()
+        try:
+            tables = pd.read_html(io.StringIO(html), flavor='lxml')
+        except ValueError:
+            continue
+        t = next((x for x in tables if any('Removed' in str(c) for c in x.columns)), None)
+        if t is not None:
+            break
+    if t is None:
+        raise ValueError('no S&P 500 change table found on Wikipedia')
     cols = []
     for c in t.columns:
         parts = [str(x) for x in (c if isinstance(c, tuple) else (c,)) if 'Unnamed' not in str(x)]
