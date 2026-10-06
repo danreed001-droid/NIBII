@@ -48,7 +48,8 @@ START, LOOK, SKIP, TOP_N, TABLE = '2010-01-04', 126, 21, 5, 100
 # weekly plans rank by the sum of weekly ranks: each of the 21 weeks from 6 months to 1 month ago is
 # ranked across all stocks and the ranks are added (monthly plans keep the plain 6-1 month score)
 WIN = [(5 * i + 26, 5 * i + 21) for i in range(21)]
-RK = dict(windows=WIN, blend='rank', weighting='top2x')   # the best-ranked holding gets 2x the others
+RANK = dict(windows=WIN, blend='rank')                  # ranking only
+RK = dict(RANK, weighting='top2x')                       # the rule: the best-ranked holding gets 2x the others
 GLITCH_BLOCK = 150
 PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
 AUTO_NEED, AUTO_LOW = 2, 0.6            # monthly plans: 60/40 while 2+ holdings are in a daily downtrend, else 100%
@@ -199,8 +200,8 @@ def main():
     rows_now = score_table(prices, calendar, K, LOOK, SKIP, WIN, 'rank', eligible)
     now = [(t, sc) for t, sc, _ in rows_now]
     rank = {t: i + 1 for i, (t, _) in enumerate(now)}
-    prev1 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 5, LOOK, SKIP, eligible, **RK))}
-    prev4 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 20, LOOK, SKIP, eligible, **RK))}
+    prev1 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 5, LOOK, SKIP, eligible, **RANK))}
+    prev4 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 20, LOOK, SKIP, eligible, **RANK))}
     spy_score = (prices['SPY'][calendar[K - SKIP]] / prices['SPY'][calendar[K - LOOK]] - 1)
     ret61 = {t: score_at(prices[t], calendar, K, LOOK, SKIP) for t, _ in now}   # shown as the 6-1m column
     # the monthly plans' own ranking (plain 6-1 month score)
@@ -508,7 +509,7 @@ def main():
 
         def ranks_at(f_):
             if f_ not in rank_cache:
-                rank_cache[f_] = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, kidx[f_], LOOK, SKIP, eligible, **RK))}
+                rank_cache[f_] = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, kidx[f_], LOOK, SKIP, eligible, **RANK))}
             return rank_cache[f_]
         pick_at_b = {d_: h for d_, h in picks_b}
         wk = [tuple(w) for w in human_weeks]
