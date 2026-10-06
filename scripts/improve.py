@@ -102,6 +102,32 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
     return out
 
 
+SLOTS = (0.30, 0.30, 0.40 / 3, 0.40 / 3, 0.40 / 3)
+
+
+def slot_weights(run, slots=SLOTS):
+    """Fixed slot weights: the first holdings are placed best-ranked into the biggest
+    slots; a holding keeps its slot until sold, and a new buy takes over the biggest
+    free slot (best-ranked new buy first). Returns a copy of run with 'weights'
+    replaced; slots left empty sit in cash."""
+    occ = {}
+    out = []
+    for T, held in run['picks']:
+        for t in list(occ):
+            if t not in held:
+                del occ[t]
+        free = sorted(slots, reverse=True)
+        for w in occ.values():
+            free.remove(w)
+        for t in held:               # held is keepers (by rank) then new buys (by rank)
+            if t not in occ and free:
+                occ[t] = free.pop(0)
+        out.append([T, {t: occ[t] for t in held if t in occ}])
+    r = dict(run)
+    r['weights'] = out
+    return r
+
+
 def yr_windows(curve, spy, starts):
     wins, n = 0, 0
     for s in starts:
@@ -167,11 +193,17 @@ def main():
             lowWeeks=R.r4(sum(1 for _, w in sc if any(t in ASSETS and t != 'BIL' for t in w)) / len(sc)))
 
     res, scheds = {}, {}
-    for key, run in runs.items():
+    for key, run in list(runs.items()):
         sc, pre, out = evaluate(key, run)
         res[key] = out
         scheds[key] = sc
         R.log(f"  {key}: pre {out['preTax'].get('cagr')} after {out['afterTax']}")
+        if key.startswith(('cur_', 'n5m_')):
+            sk = key + '_slot'
+            sc2, _, out2 = evaluate(sk, slot_weights(run))
+            res[sk] = out2
+            scheds[sk] = sc2
+            R.log(f"  {sk}: pre {out2['preTax'].get('cagr')} after {out2['afterTax']}")
 
     # concentration check on the new rule
     extra = {}
