@@ -98,6 +98,9 @@ VARIANTS = {
     'dld': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
     'd1': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(one=True)), None),
     'dmix': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sector_cap=2, plan=dict(trend=0.5, ladder=True)), None),
+    'dtc0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(trend=0.0, cash=True)), None),
+    'dtc50': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(trend=0.5, cash=True)), None),
+    'dq30ld': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(qqq=0.3, ladder=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -219,7 +222,10 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
         if spare > 1e-6:
             out_w['BIL'] = out_w.get('BIL', 0.0) + spare
         if split < 1:
-            a = best_of(sleeve_f, calendar, idx[f])
+            if po.get('cash') and G['spy_below'](f):
+                a = 'BIL'                  # trend filter: the cut goes to T-bills
+            else:
+                a = best_of(sleeve_f, calendar, idx[f])
             out_w[a] = out_w.get(a, 0.0) + (1 - split)
         if po.get('qqq'):
             out_w = {t: x * (1 - po['qqq']) for t, x in out_w.items()}
