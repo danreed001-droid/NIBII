@@ -112,7 +112,7 @@ def main():
     tops = [(T, max(w, key=lambda t: w[t])) for T, w in trades]
     days = [d for d in cal if d >= R.START]
 
-    def priced(T, top, ivm):
+    def priced(T, top, ivm, tp=None):
         k = idx[T]
         if k + DAYS >= len(cal) or top in ASSETS:
             return None
@@ -127,8 +127,19 @@ def main():
         Tm = DAYS / 252
         K = strike_plus_premium(S, Tm, sig)
         prem = bs_call(S, K, Tm, sig) * (1 + SPREAD)
-        return dict(d=T, end=cal[k + DAYS], t=top, S=round(S, 2), K=round(K, 2), premPct=round(prem / S, 4),
-                    E=round(E, 2), mult=max(0.0, E - K) / prem)
+        end, mult = cal[k + DAYS], max(0.0, E - K) / prem
+        if tp:   # take profit: sell (after a 5% bid/ask cost) once the call is worth tp x what it cost
+            px_t = P['prices'][top]
+            for j in range(1, DAYS):
+                Sj = px_t.get(cal[k + j])
+                if not Sj:
+                    continue
+                v = bs_call(Sj, K, (DAYS - j) / 252, sig) * (1 - SPREAD)
+                if v >= tp * prem:
+                    end, mult = cal[k + j], v / prem
+                    break
+        return dict(d=T, end=end, t=top, S=round(S, 2), K=round(K, 2), premPct=round(prem / S, 4),
+                    E=round(E, 2), mult=mult)
 
     def overlay(events, f):
         """Daily: the plan's value follows its curve; on each event f x total buys calls (taken
@@ -154,25 +165,26 @@ def main():
         return pts
 
     res, ev_stats = {}, {}
-    for mode in ('roll4', 'new1'):
+    for mode, tp in (('roll4', None), ('roll4', 1.8), ('roll4', 2.0), ('new1', None), ('new1', 1.8), ('new1', 2.0)):
         for ivm in (1.15, 1.3, 1.5):
             if mode == 'roll4':
                 src = tops[::4]
             else:
                 src = [(T, t) for i_, (T, t) in enumerate(tops) if i_ == 0 or t != tops[i_ - 1][1]]
-            events = [e for e in (priced(T, t, ivm) for T, t in src) if e]
+            events = [e for e in (priced(T, t, ivm, tp) for T, t in src) if e]
+            mode_k = mode + (f'_tp{int(round((tp - 1) * 100))}' if tp else '')
             hits = [e for e in events if e['mult'] > 0]
-            ev_stats[f'{mode}_{ivm}'] = dict(n=len(events), hit=round(len(hits) / max(1, len(events)), 3),
+            ev_stats[f'{mode_k}_{ivm}'] = dict(n=len(events), hit=round(len(hits) / max(1, len(events)), 3),
                                              avgMult=round(sum(e['mult'] for e in events) / max(1, len(events)), 3),
                                              perYear=round(len(events) / 16.75, 1))
             for f in (0.0, 0.02, 0.05):
-                if f == 0.0 and (mode, ivm) != ('roll4', 1.15):
+                if f == 0.0 and (mode_k, ivm) != ('roll4', 1.15):
                     continue
                 pts = overlay(events, f)
                 at = after_tax(pts)
                 first = [p for p in pts if p[0] <= '2019-12-31']
                 second = [p for p in pts if p[0] >= '2019-12-31']
-                key = 'plan' if f == 0.0 else f'{mode}_{ivm}_{f}'
+                key = 'plan' if f == 0.0 else f'{mode_k}_{ivm}_{f}'
                 res[key] = dict(pre=round(cagr(pts), 4), after=round(cagr(at), 4), dd=round(maxdd(pts), 4),
                                 first=round(cagr(first), 4), second=round(cagr(second), 4), final=round(pts[-1][1], 2))
                 R.log(f"{key}: {res[key]}")
