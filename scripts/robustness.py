@@ -121,7 +121,7 @@ def fetch_sp500_changes():
         if pd.isna(d):
             continue
         out.append((d.strftime('%Y-%m-%d'), norm(r[acol]), norm(r[rcol])))
-    out.sort()
+    out.sort(key=lambda x: (x[0], x[1] or '', x[2] or ''))
     if len(out) < 200:
         raise ValueError(f"only {len(out)} S&P changes parsed - page layout changed?")
     return out
@@ -388,14 +388,14 @@ class Ledger:
         """q replacement shares of `lot` absorb the disallowed loss."""
         rec['gain'] += q * loss_ps
         self.wash_total += q * loss_ps
-        held_days = (d_sale - acq_sold).days
+        held_days = max(0, (d_sale - acq_sold).days)
         if q < lot['sh'] - 1e-9:
             rest = dict(lot)
             rest['sh'] = lot['sh'] - q
-            rest['cap'] = max(0.0, lot['cap'] - q)
+            rest['cap'] = min(rest['sh'], max(0.0, lot['cap'] - q))
             self.lots[rec['t']].append(rest)
             lot['sh'] = q
-        lot['cap'] = max(0.0, lot['cap'] - q)
+        lot['cap'] = 0.0          # each replacement share absorbs one disallowed loss
         lot['ps'] += loss_ps
         lot['acq'] = lot['acq'] - timedelta(days=held_days)
 
@@ -844,8 +844,8 @@ def main():
     starts = []
     for y in range(2010, 2024):
         for m in ('01', '07'):
-            s = next(d for d in cal if d >= f'{y}-{m}-01')
-            if s > START:
+            s = next((d for d in cal if d >= f'{y}-{m}-01'), None)
+            if s and s > START and s < cal[-260]:
                 starts.append(s)
     contrib = week_contrib(sched['pit_boost'], px_all, cal, P['prices']['SPY'])
     out_tab = outlier_table(contrib, P['prices']['SPY'], sched['pit_boost'], cal)
