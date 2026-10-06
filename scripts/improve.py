@@ -101,6 +101,15 @@ VARIANTS = {
     'dtc0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(trend=0.0, cash=True)), None),
     'dtc50': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(trend=0.5, cash=True)), None),
     'dq30ld': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(qqq=0.3, ladder=True)), None),
+    'ld': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True)), None),
+    'ldlin': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=(1.0, 0.8, 0.6, 0.4, 0.2, 0.0))), None),
+    'ldst': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=(1.0, 0.7, 0.5, 0.25))), None),
+    'ldspy': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True, spy=True)), None),
+    'ldday': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True, daily=True)), None),
+    'ldc3': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True, cash3=True)), None),
+    'ldk8': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', max_corr=0.8, plan=dict(ladder=True)), None),
+    'ldk7': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', max_corr=0.7, plan=dict(ladder=True)), None),
+    'ldiv': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='inv_vol', plan=dict(ladder=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -194,21 +203,30 @@ def run_one(args):
 
 def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
     """[(trade date, {asset: weight})]: stocks at split x engine weight, unused stock
-    weight in BIL, sleeve asset at 1-split when the downtrend share reaches `frac`."""
+    weight in BIL, sleeve asset at 1-split when the downtrend share reaches `frac`.
+    Plan options (run['plan']): ladder (True or a tuple of splits by downtrend count),
+    one, trend, cash, cap, qqq, spy (SPY's own daily downtrend counts as one more),
+    cash3 (3+ downtrends: the sleeve part goes to T-bills), daily (the split is
+    re-checked every session, not only on the weekly trade)."""
     idx = {d: i for i, d in enumerate(calendar)}
     picks = run['picks']
     pdays = [p[0] for p in picks]
-    out = []
-    for T, w in run['weights']:
-        if T < start or idx[T] == 0:
-            continue
+    po = run.get('plan') or {}
+    wl = run['weights']
+    wdays = [x[0] for x in wl]
+    eng = set(wdays)
+
+    def build(T, w):
         f = calendar[idx[T] - 1]
         j = bisect_right(pdays, f) - 1
         before = picks[j][1] if j >= 0 else []
         n_down = sum(down(t, f) for t in before)
-        po = run.get('plan') or {}
-        if po.get('ladder'):
-            split = {0: 1.0, 1: 0.8, 2: 0.6}.get(n_down, 0.4) if before else 1.0
+        if po.get('spy') and before:
+            n_down += G['spy_down'](f)
+        lad = po.get('ladder')
+        if lad:
+            lad = (1.0, 0.8, 0.6, 0.4) if lad is True else lad
+            split = lad[min(n_down, len(lad) - 1)] if before else 1.0
         elif po.get('one'):
             split = 0.6 if n_down >= 1 else 1.0
         else:
@@ -222,15 +240,33 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
         if spare > 1e-6:
             out_w['BIL'] = out_w.get('BIL', 0.0) + spare
         if split < 1:
-            if po.get('cash') and G['spy_below'](f):
-                a = 'BIL'                  # trend filter: the cut goes to T-bills
+            if (po.get('cash') and G['spy_below'](f)) or (po.get('cash3') and n_down >= 3):
+                a = 'BIL'
             else:
                 a = best_of(sleeve_f, calendar, idx[f])
             out_w[a] = out_w.get(a, 0.0) + (1 - split)
         if po.get('qqq'):
             out_w = {t: x * (1 - po['qqq']) for t, x in out_w.items()}
             out_w['QQQ'] = out_w.get('QQQ', 0.0) + po['qqq']
-        out.append((T, out_w))
+        return out_w
+
+    out = []
+    if not po.get('daily'):
+        for T, w in wl:
+            if T < start or idx[T] == 0:
+                continue
+            out.append((T, build(T, w)))
+        return out
+    last = None
+    for T in calendar:
+        if T < start or idx[T] == 0 or T < wdays[0]:
+            continue
+        w = wl[bisect_right(wdays, T) - 1][1]
+        ow = build(T, w)
+        sig = tuple(sorted((k, round(v, 4)) for k, v in ow.items() if k in ASSETS or v == 0))
+        if T in eng or sig != last:
+            out.append((T, ow))
+        last = sig
     return out
 
 
@@ -258,6 +294,24 @@ def slot_weights(run, slots=SLOTS):
     r = dict(run)
     r['weights'] = out
     return r
+
+
+def longest_hold(sc):
+    """Longest unbroken stretch any asset (stock or sleeve fund) is held, in days, and which."""
+    open_, best = {}, (0, None, None)
+    for T, w in sc:
+        held = {t for t, x in w.items() if x > 1e-9}
+        for t in list(open_):
+            if t not in held:
+                d = (date.fromisoformat(T) - date.fromisoformat(open_[t])).days
+                best = max(best, (d, t, open_[t]))
+                del open_[t]
+        for t in held:
+            open_.setdefault(t, T)
+    last = sc[-1][0] if sc else None
+    for t, a in open_.items():
+        best = max(best, ((date.fromisoformat(last) - date.fromisoformat(a)).days, t, a))
+    return list(best)
 
 
 def yr_windows(curve, spy, starts):
@@ -316,6 +370,8 @@ def main():
         if all(w_):
             sma_ok[cal[k_]] = spx[cal[k_]] < sum(w_) / 200
     G['spy_below'] = lambda d_: sma_ok.get(d_, False)
+    G['spy_down'] = R.downtrend_fn({'SPY': D['bench']['SPY']})
+    G['spy_down'] = (lambda f_, _d=G['spy_down']: _d('SPY', f_))
     spy = [[b[0], b[4]] for b in D['bench']['SPY'] if b[0] >= R.START]
     qqq = [[b[0], b[4]] for b in D['bench']['QQQ'] if b[0] >= R.START]
     starts = [d for d in (next((x for x in cal if x >= f'{y}-{m}-01'), None)
@@ -352,6 +408,7 @@ def main():
             preTax=R.s4(st), afterTax=R.r4((tax['final'] / R.START_CASH) ** (1 / yrs) - 1),
             afterTaxSharpe=R.r4(R.stats(tax['curve'], 0.015).get('sharpe')),
             afterTaxDD=R.r4(R.stats(tax['curve'], 0.015).get('maxDD')),
+            longestHold=longest_hold(sc),
             final=round(tax['final'], 2), finalPre=round(pre['final'], 2),
             taxPaid=round(tax['taxPaid'], 2), wash=round(tax['wash'], 2), stShare=R.r4(tax['stShare']),
             turnover=R.r4(pre['turnover']),
