@@ -248,6 +248,7 @@ tbody tr:last-child td { border-bottom: 0; }
 /* date range */
 .range { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0 0 10px; font-size: 0.8rem; color: var(--ink-2); }
 .range label { display: inline-flex; align-items: center; gap: 6px; }
+.range select { font: inherit; font-size: 0.82rem; color: var(--ink); background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 8px; padding: 4px 8px; }
 .range input[type="date"] { font: inherit; font-size: 0.82rem; color: var(--ink); background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 8px; padding: 4px 8px; color-scheme: inherit; }
 /* your calls (human model) */
 .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
@@ -383,8 +384,9 @@ footer li { margin-bottom: 6px; }
 
   <p class="section-label">Track record <span class="hint" id="range-hint">$100 in the rule vs buying and holding</span></p>
   <div class="range" id="range">
+    <label>Years <select id="ry-from" aria-label="From year"></select></label><label>to <select id="ry-to" aria-label="To year"></select></label>
+    <span class="seg" id="r-pre"><button type="button" data-r="ytd">YTD</button><button type="button" data-r="1y">1Y</button><button type="button" data-r="3y">3Y</button><button type="button" data-r="5y">5Y</button><button type="button" data-r="10y">10Y</button><button type="button" data-r="all">All</button></span>
     <label>From <input type="date" id="r-from"></label><label>To <input type="date" id="r-to"></label>
-    <span class="seg" id="r-pre"><button type="button" data-r="ytd">YTD</button><button type="button" data-r="1y">1Y</button><button type="button" data-r="3y">3Y</button><button type="button" data-r="all">All</button></span>
   </div>
   <div class="stats" id="stats"></div>
   <div class="two" style="margin-top:12px">
@@ -1110,12 +1112,25 @@ footer li { margin-bottom: 6px; }
       tile('Top 5 worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since ' + SINCE : 'in this range', 'neg');
     $('range-hint').textContent = '$100 in the rule vs buying and holding · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b);
   }
-  var rf = $('r-from'), rto = $('r-to');
+  var rf = $('r-from'), rto = $('r-to'), ryf = $('ry-from'), ryt = $('ry-to');
+  (function () {
+    var o = '';
+    for (var y = +ALL0.slice(0, 4); y <= +ALL1.slice(0, 4); y++) o += '<option value="' + y + '">' + y + '</option>';
+    ryf.innerHTML = ryt.innerHTML = o;
+    ryf.value = ALL0.slice(0, 4); ryt.value = ALL1.slice(0, 4);
+  })();
+  // a whole-year range: Jan 1 of the first year (the prior year's last close is the base) to Dec 31 of the last
+  // a range based on the last close of December belongs to the next year
+  function shownYear(d) { var y = +d.slice(0, 4); return String(d.slice(5) >= '12-24' && y < +ALL1.slice(0, 4) ? y + 1 : y); }
+  function yearStart(y) { var prev = D.curves.strategy.filter(function (p) { return p[0] < y + '-01-01'; }); return prev.length ? prev[prev.length - 1][0] : ALL0; }
+  ryf.onchange = function () { var a = +ryf.value, b = Math.max(a, +ryt.value); setRange(yearStart(a), b + '-12-31'); };
+  ryt.onchange = function () { var b = +ryt.value, a = Math.min(+ryf.value, b); setRange(yearStart(a), b + '-12-31'); };
   rf.min = rto.min = ALL0; rf.max = rto.max = ALL1; rf.value = ALL0; rto.value = ALL1;
   function setRange(a, b) {
     R.a = a < ALL0 ? ALL0 : a; R.b = b > ALL1 ? ALL1 : b;
     if (R.a > R.b) { var t = R.a; R.a = R.b; R.b = t; }
     rf.value = R.a; rto.value = R.b;
+    ryf.value = shownYear(R.a); ryt.value = R.b.slice(0, 4);
     document.querySelectorAll('#r-pre button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
     drawStats(); drawGrowth();
   }
@@ -1124,8 +1139,8 @@ footer li { margin-bottom: 6px; }
   $('r-pre').onclick = function (e) {
     var bt = e.target.closest('button'); if (!bt) return;
     var k = bt.getAttribute('data-r'), end = new Date(ALL1 + 'T12:00:00Z'), a = ALL0;
-    if (k === 'ytd') a = ALL1.slice(0, 4) + '-01-01';
-    else if (k === '1y' || k === '3y') { var d0 = new Date(end); d0.setUTCFullYear(d0.getUTCFullYear() - (k === '1y' ? 1 : 3)); a = d0.toISOString().slice(0, 10); }
+    if (k === 'ytd') a = yearStart(+ALL1.slice(0, 4));
+    else if (k !== 'all') { var d0 = new Date(end); d0.setUTCFullYear(d0.getUTCFullYear() - parseInt(k, 10)); a = d0.toISOString().slice(0, 10); }
     setRange(a, ALL1);
     bt.setAttribute('aria-pressed', 'true');
   };
