@@ -231,6 +231,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         sb = sum((y - mb) ** 2 for y in b) ** 0.5
         return sab / (sa * sb) if sa and sb else 0.0
 
+    rank_now = {}
+
     def weights(target, k):
         if not target:
             return {}
@@ -238,6 +240,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             inv = {t: 1 / vol(t, k) for t in target}
             tot = sum(inv.values())
             w = {t: inv[t] / tot * len(target) / top_n for t in target}
+        elif weighting == 'top2x':   # the best-ranked holding gets twice the others' weight
+            best = min(target, key=lambda t: rank_now.get(t, 10 ** 9))
+            w = {t: (2.0 if t == best else 1.0) / (top_n + 1) for t in target}
         else:
             w = {t: 1 / top_n for t in target}
         if vol_target:
@@ -294,6 +299,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         rows = score_table(prices, calendar, k, lk, sk, windows, blend, eligible, benchmark)
         if rank_key is not None:
             rows = sorted(rows, key=lambda r: rank_key(r[0], k, r[1]))
+        rank_now.clear()
+        rank_now.update({r[0]: i for i, r in enumerate(rows)})
         scored = [(sc, t) for t, sc, beats in rows
                   if beats and banned_until.get(t, -1) < k and t not in exclude
                   and not (rsi_exit and t not in shares and rsi_weak(t, k))]
