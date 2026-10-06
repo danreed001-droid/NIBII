@@ -122,6 +122,51 @@ def r4(x):
     return None if x is None else round(x, 4)
 
 
+def next_earnings(t):
+    """Next earnings date (ISO) from Yahoo, or None if unknown."""
+    try:
+        import yfinance as yf
+        cal = yf.Ticker(t).calendar
+        ds = cal.get('Earnings Date') if isinstance(cal, dict) else None
+        ds = [d for d in (ds or []) if d]
+        return min(ds).isoformat() if ds else None
+    except Exception:   # noqa: BLE001
+        return None
+
+
+def option_check(held_rows, bars, as_of, calendar, signal_day):
+    """How to tell whether a 4-week at-the-money call on the #1 holding is cheap.
+    Fair price ~ half the stock's usual 4-week move (~ 0.113 x HV x price); from the
+    backtest the overlay paid when calls cost up to ~1.15x that and lost above ~1.35x."""
+    import math
+    if not held_rows:
+        return None
+    top = max(held_rows, key=lambda h: (h.get('w') or 0, -(h.get('rank') or 99)))
+    bs = bars.get(top['t']) or []
+    c = [b[4] for b in bs if b[4]]
+    if len(c) < 80:
+        return None
+    S = c[-1]
+    r = [math.log(c[i + 1] / c[i]) for i in range(len(c) - 64, len(c) - 1)]
+    m = sum(r) / len(r)
+    hv = math.sqrt(sum((x - m) ** 2 for x in r) / (len(r) - 1)) * math.sqrt(252)
+    span = c[-273:] if len(c) >= 273 else c
+    moves = [abs(span[i + 20] / span[i] - 1) for i in range(len(span) - 20)]
+    usual = sum(moves) / len(moves)
+    fair = 0.113 * hv * S
+    trade = date.fromisoformat(as_of)
+    if signal_day:
+        trade += timedelta(days=3)
+    exp = trade + timedelta(days=28)
+    while exp.weekday() != 4:
+        exp -= timedelta(days=1)
+    earn = next_earnings(top['t'])
+    return dict(t=top['t'], n=top.get('n'), price=r4(S), hv=r4(hv), usual=r4(usual), usualUsd=r4(usual * S),
+                fair=r4(fair), cheap=r4(min(0.13 * hv * S, 0.57 * usual * S)),
+                skip=r4(max(0.15 * hv * S, 0.70 * usual * S)), expiry=exp.isoformat(), earnings=earn,
+                earningsInside=bool(earn and trade.isoformat() <= earn <= exp.isoformat()))
+
+
 def split_key(x):
     """0.8 -> '80/20'."""
     a = round(x * 100)
@@ -544,6 +589,7 @@ def main():
         sleeve=sleeve,
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
         monthly=monthly,
+        option=option_check(held_rows, bars, as_of, calendar, signal_day),
         plan=dict(splits=['boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='boost', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))

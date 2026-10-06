@@ -245,6 +245,7 @@ tbody tr:last-child td { border-bottom: 0; }
 .abar i { position: absolute; top: 0; bottom: 0; left: 50%; background: var(--c); border-radius: 3px; }
 .assets .num { text-align: right; }
 .note { font-size: 0.78rem; color: var(--muted); margin: 8px 0 0; }
+.optcheck { margin-top: 12px; }
 /* date range */
 .range { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0 0 10px; font-size: 0.8rem; color: var(--ink-2); }
 .range label { display: inline-flex; align-items: center; gap: 6px; }
@@ -314,6 +315,7 @@ footer li { margin-bottom: 6px; }
 
   <p class="section-label">Current holdings <span class="hint" id="hold-hint"></span></p>
   <div class="holdings" id="holdings"></div>
+  <div class="card optcheck" id="optcheck" hidden></div>
   <div class="card swpanel" id="swpanel" hidden></div>
 
   <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
@@ -515,6 +517,25 @@ footer li { margin-bottom: 6px; }
 
   // holdings
   $('hold-hint').textContent = (D.signalDay ? 'after Monday’s trades · ' : '') + '#1-ranked holding at 2× (about 33% of the stock part), the others about 17% each · 6-1m = return from 6 months to 1 month ago';
+  (function () {
+    var O = D.option;
+    if (!O) return;
+    var md = { month: 'short', day: 'numeric' };
+    var usd = function (x) { return '$' + (x >= 100 ? x.toFixed(0) : x.toFixed(2)); };
+    $('optcheck').innerHTML =
+      '<p class="chart-title">Option check · #1 ' + esc(O.t) + '</p>' +
+      '<p class="chart-sub">Optional add-on: a 4-week at-the-money call on the #1 stock (strike ≈ ' + usd(O.price) + ', expiring ' + fmtDate(O.expiry, md) + '), sized at about 2% of the account. ' +
+      'It only paid in testing when the call was cheap.</p>' +
+      '<div class="stats" style="margin-top:8px">' +
+      '<div class="stat"><span class="stat-label">Cheap: buy at or under</span><span class="stat-value pos">' + usd(O.cheap) + '</span><span class="stat-sub">' + pct(O.cheap / O.price, 1) + ' of the price</span></div>' +
+      '<div class="stat"><span class="stat-label">Skip if over</span><span class="stat-value neg">' + usd(O.skip) + '</span><span class="stat-sub">' + pct(O.skip / O.price, 1) + ' of the price</span></div>' +
+      '<div class="stat"><span class="stat-label">Usual 4-week move</span><span class="stat-value">' + pct(O.usual, 1) + '</span><span class="stat-sub">≈ ' + usd(O.usualUsd) + ' (last year)</span></div>' +
+      '<div class="stat"><span class="stat-label">Swing (HV, 3 months)</span><span class="stat-value">' + pct(O.hv, 0) + '</span><span class="stat-sub">fair call ≈ ' + usd(O.fair) + '</span></div></div>' +
+      '<p class="note" style="margin-top:8px">' + (O.earningsInside ? '<b class="neg">Earnings ' + fmtDate(O.earnings, md) + ' fall inside the 4 weeks — options are usually overpriced; skip this one.</b> ' :
+        (O.earnings ? 'Next earnings ' + fmtDate(O.earnings, md) + ' (after expiry). ' : 'Check the earnings date before buying. ')) +
+      'Compare your broker’s ask price for the call with the numbers above. Between them is borderline. A rough guide from a backtest with modelled option prices, not a recommendation.</p>';
+    $('optcheck').hidden = false;
+  })();
   $('holdings').innerHTML = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) {
     var tap = h.chart ? ' data-t="' + esc(h.t) + '" tabindex="0" role="button" aria-expanded="false" aria-controls="swpanel" aria-label="' + esc(h.t) + ': show swing chart"' : '';
     return '<article class="hold"' + tap + '><div class="hold-top"><span class="rank">#' + (h.rank || '–') + '</span><span>' + (h.new ? '<span class="tag buy">buy Mon</span> ' : '') + (h.ndx ? '<span class="tag ndx" title="Nasdaq-100 only">NDX</span>' : '') + '</span></div>' +
