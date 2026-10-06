@@ -1,0 +1,270 @@
+[04:05:32] universe: dashboard 518, point-in-time S&P candidates 835, fetching 850
+  prices 100/850
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: BCR"}}}
+$BCR: possibly delisted; no timezone found
+$AET: possibly delisted; no timezone found
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: ANDV"}}}
+$ANDV: possibly delisted; no timezone found
+$ALXN: possibly delisted; no timezone found
+$ABMD: possibly delisted; no timezone found
+$ATVI: possibly delisted; no timezone found
+$ARG: possibly delisted; no timezone found
+$AGN: possibly delisted; no timezone found
+$ACAS: possibly delisted; no timezone found
+$APOL: possibly delisted; no timezone found
+$AKS: possibly delisted; no timezone found
+$ANSS: possibly delisted; no timezone found
+$ALTR: possibly delisted; no timezone found
+$ABK: possibly delisted; no timezone found
+$ANR: possibly delisted; no timezone found
+$ADS: possibly delisted; no timezone found
+$ACE: possibly delisted; no timezone found
+$AVP: possibly delisted; no timezone found
+$AYE: possibly delisted; no timezone found
+$ARNC: possibly delisted; no timezone found
+
+20 Failed downloads:
+['BCR', 'AET', 'ANDV', 'ALXN', 'ABMD', 'ATVI', 'ARG', 'AGN', 'ACAS', 'APOL', 'AKS', 'ANSS', 'ALTR', 'ABK', 'ANR', 'ADS', 'ACE', 'AVP', 'AYE', 'ARNC']: possibly delisted; no timezone found
+  prices 200/850
+$CELG: possibly delisted; no timezone found
+$CFC: possibly delisted; no timezone found
+$BXLT: possibly delisted; no timezone found
+$CHK: possibly delisted; no timezone found
+$CSC: possibly delisted; no timezone found
+$CERN: possibly delisted; no timezone found
+$BRCM: possibly delisted; no timezone found
+$CMCSK: possibly delisted; no timezone found
+$BMC: possibly delisted; no timezone found
+$CCE: possibly delisted; no timezone found
+$CPGX: possibly delisted; no timezone found
+$CA: possibly delisted; no timezone found
+$BJS: possibly delisted; no timezone found
+$CDAY: possibly delisted; no timezone found
+$CMA: possibly delisted; no timezone found
+$BHI: possibly delisted; no timezone found
+$CFN: possibly delisted; no timezone found
+$COV: possibly delisted; no timezone found
+$CBE: possibly delisted; no timezone found
+$BMS: possibly delisted; no timezone found
+$CEPH: possibly delisted; no timezone found
+$COL: possibly delisted; no timezone found
+$BIG: possibly delisted; no timezone found
+
+23 Failed downloads:
+['CELG', 'CFC', 'BXLT', 'CHK', 'CSC', 'CERN', 'BRCM', 'CMCSK', 'BMC', 'CCE', 'CPGX', 'CA', 'BJS', 'CDAY', 'CMA', 'BHI', 'CFN', 'COV', 'CBE', 'BMS', 'CEPH', 'COL', 'BIG']: possibly delisted; no timezone found
+  prices 300/850
+$DISCK: possibly delisted; no timezone found
+$ESV: possibly delisted; no timezone found
+$DNR: possibly delisted; no timezone found
+$CTXS: possibly delisted; no timezone found
+$CTRA: possibly delisted; no timezone found
+$DFS: possibly delisted; no timezone found
+$CTLT: possibly delisted; no timezone found
+$DTV: possibly delisted; no timezone found
+$DAY: possibly delisted; no timezone found
+$DPS: possibly delisted; no timezone found
+$CVG: possibly delisted; no timezone found
+$DNB: possibly delisted; no timezone found
+$DRE: possibly delisted; no timezone found
+$CVH: possibly delisted; no timezone found
+$DO: possibly delisted; no timezone found
+$DISCA: possibly delisted; no timezone found
+$EK: possibly delisted; no timezone found
+$DF: possibly delisted; no timezone found
+$ENDP: possibly delisted; no timezone found
+$CTX: possibly delisted; no timezone found
+$DISH: possibly delisted; no timezone found
+$FBHS: possibly delisted; no timezone found
+$EVHC: possibly delisted; no timezone found
+$ETFC: possibly delisted; no timezone found
+$CVC: possibly delisted; no timezone found
+$DWDP: possibly delisted; no timezone found
+$CXO: possibly delisted; no timezone found
+$ESRX: possibly delisted; no timezone found
+
+28 Failed downloads:
+['DISCK', 'ESV', 'DNR', 'CTXS', 'CTRA', 'DFS', 'CTLT', 'DTV', 'DAY', 'DPS', 'CVG', 'DNB', 'DRE', 'CVH', 'DO', 'DISCA', 'EK', 'DF', 'ENDP', 'CTX', 'DISH', 'FBHS', 'EVHC', 'ETFC', 'CVC', 'DWDP', 'CXO', 'ESRX']: possibly delisted; no timezone found
+  prices 400/850
+$HES: possibly delisted; no timezone found
+$GAS: possibly delisted; no timezone found
+$GMCR: possibly delisted; no timezone found
+$FTR: possibly delisted; no timezone found
+$HBI: possibly delisted; no timezone found
+$HSP: possibly delisted; no timezone found
+$HAR: possibly delisted; no timezone found
+$HNZ: possibly delisted; no timezone found
+$FII: possibly delisted; no timezone found
+$HOT: possibly delisted; no timezone found
+$HOLX: possibly delisted; no timezone found
+$GPS: possibly delisted; no timezone found
+$FLIR: possibly delisted; no timezone found
+$FL: possibly delisted; no timezone found
+$HFC: possibly delisted; no timezone found
+$FDO: possibly delisted; no timezone found
+$HCBK: possibly delisted; no timezone found
+$FNM: possibly delisted; no timezone found
+$FRX: possibly delisted; no timezone found
+$FRE: possibly delisted; no timezone found
+$FRC: possibly delisted; no timezone found
+$GGP: possibly delisted; no timezone found
+
+22 Failed downloads:
+['HES', 'GAS', 'GMCR', 'FTR', 'HBI', 'HSP', 'HAR', 'HNZ', 'FII', 'HOT', 'HOLX', 'GPS', 'FLIR', 'FL', 'HFC', 'FDO', 'HCBK', 'FNM', 'FRX', 'FRE', 'FRC', 'GGP']: possibly delisted; no timezone found
+  prices 500/850
+$LEH: possibly delisted; no timezone found
+$K: possibly delisted; no timezone found
+$LVLT: possibly delisted; no timezone found
+$JWN: possibly delisted; no timezone found
+$JNS: possibly delisted; no timezone found
+$ITT |: possibly delisted; no timezone found
+$KSU: possibly delisted; no timezone found
+$JDSU: possibly delisted; no timezone found
+$LLTC: possibly delisted; no timezone found
+$JOY: possibly delisted; no timezone found
+$KRFT: possibly delisted; no timezone found
+$IPG: possibly delisted; no timezone found
+$KFT: possibly delisted; no timezone found
+$LO: possibly delisted; no timezone found
+$LSI: possibly delisted; no timezone found
+$JNPR: possibly delisted; no timezone found
+$LLL: possibly delisted; no timezone found
+$IGT: possibly delisted; no timezone found
+$JNY: possibly delisted; no timezone found
+$JCP |: possibly delisted; no timezone found
+$LM: possibly delisted; no timezone found
+$LXK: possibly delisted; no timezone found
+
+22 Failed downloads:
+['LEH', 'K', 'LVLT', 'JWN', 'JNS', 'ITT |', 'KSU', 'JDSU', 'LLTC', 'JOY', 'KRFT', 'IPG', 'KFT', 'LO', 'LSI', 'JNPR', 'LLL', 'IGT', 'JNY', 'JCP |', 'LM', 'LXK']: possibly delisted; no timezone found
+  prices 600/850
+$MEE: possibly delisted; no timezone found
+$PBCT: possibly delisted; no timezone found
+$MDP: possibly delisted; no timezone found
+$MWW: possibly delisted; no timezone found
+$NOVL: possibly delisted; no timezone found
+$NBL: possibly delisted; no timezone found
+$MIL: possibly delisted; no timezone found
+$MON: possibly delisted; no timezone found
+$MRO: possibly delisted; no timezone found
+$MJN: possibly delisted; no timezone found
+$MHS: possibly delisted; no timezone found
+$MOLX: possibly delisted; no timezone found
+$NLSN: possibly delisted; no timezone found
+$NYX: possibly delisted; no price data found  (1d 2008-06-01 -> 2026-10-06)
+$NVLS: possibly delisted; no timezone found
+$ODP: possibly delisted; no timezone found
+$MFE: possibly delisted; no timezone found
+$MXIM: possibly delisted; no timezone found
+$MNK: possibly delisted; no timezone found
+$OMX: possibly delisted; no timezone found
+$NSM: possibly delisted; no timezone found
+
+21 Failed downloads:
+['MEE', 'PBCT', 'MDP', 'MWW', 'NOVL', 'NBL', 'MIL', 'MON', 'MRO', 'MJN', 'MHS', 'MOLX', 'NLSN', 'NVLS', 'ODP', 'MFE', 'MXIM', 'MNK', 'OMX', 'NSM']: possibly delisted; no timezone found
+['NYX']: possibly delisted; no price data found  (1d 2008-06-01 -> 2026-10-06)
+  prices 700/850
+$RX: possibly delisted; no timezone found
+$RAI: possibly delisted; no timezone found
+$RSH: possibly delisted; no timezone found
+$SAI: possibly delisted; no timezone found
+$RRD: possibly delisted; no timezone found
+$RHT: possibly delisted; no timezone found
+$PETM: possibly delisted; no timezone found
+$SIAL: possibly delisted; no timezone found
+$RDC: possibly delisted; no timezone found
+$PLL: possibly delisted; no timezone found
+$SNI: possibly delisted; no timezone found
+$PXD: possibly delisted; no timezone found
+$RTN: possibly delisted; no timezone found
+$PCP: possibly delisted; no timezone found
+$PTV: possibly delisted; no timezone found
+$SIVB: possibly delisted; no timezone found
+$PGN: possibly delisted; no timezone found
+$SEE: possibly delisted; no timezone found
+$QEP: possibly delisted; no timezone found
+$PDCO: possibly delisted; no timezone found
+$SCG: possibly delisted; no timezone found
+
+21 Failed downloads:
+['RX', 'RAI', 'RSH', 'SAI', 'RRD', 'RHT', 'PETM', 'SIAL', 'RDC', 'PLL', 'SNI', 'PXD', 'RTN', 'PCP', 'PTV', 'SIVB', 'PGN', 'SEE', 'QEP', 'PDCO', 'SCG']: possibly delisted; no timezone found
+  prices 800/850
+$TYC: possibly delisted; no timezone found
+$TIE: possibly delisted; no timezone found
+$VIAB: possibly delisted; no timezone found
+$VAR: possibly delisted; no timezone found
+$SWN: possibly delisted; no timezone found
+$TGNA: possibly delisted; no timezone found
+$SRCL: possibly delisted; no timezone found
+$TLAB: possibly delisted; no timezone found
+$TWX: possibly delisted; no timezone found
+$STJ: possibly delisted; no timezone found
+$SVU: possibly delisted; no timezone found
+$TWTR: possibly delisted; no timezone found
+$TEG: possibly delisted; no timezone found
+$TWC: possibly delisted; no timezone found
+$SWY: possibly delisted; no timezone found
+$STR: possibly delisted; no timezone found
+$TSS: possibly delisted; no timezone found
+$TIF: possibly delisted; no timezone found
+
+18 Failed downloads:
+['TYC', 'TIE', 'VIAB', 'VAR', 'SWN', 'TGNA', 'SRCL', 'TLAB', 'TWX', 'STJ', 'SVU', 'TWTR', 'TEG', 'TWC', 'SWY', 'STR', 'TSS', 'TIF']: possibly delisted; no timezone found
+  prices 850/850
+$WFM: possibly delisted; no timezone found
+$YHOO: possibly delisted; no timezone found
+$WPX: possibly delisted; no timezone found
+$XL: possibly delisted; no timezone found
+$WYN: possibly delisted; no timezone found
+$X: possibly delisted; no timezone found
+$XTO: possibly delisted; no price data found  (1d 2008-06-01 -> 2026-10-06)
+$XLNX: possibly delisted; no timezone found
+$WCG: possibly delisted; no timezone found
+$WLTW: possibly delisted; no timezone found
+$XEC: possibly delisted; no timezone found
+$WIN: possibly delisted; no timezone found
+$WBA: possibly delisted; no timezone found
+$WFR: possibly delisted; no timezone found
+
+14 Failed downloads:
+['WFM', 'YHOO', 'WPX', 'XL', 'WYN', 'X', 'XLNX', 'WCG', 'WLTW', 'XEC', 'WIN', 'WBA', 'WFR']: possibly delisted; no timezone found
+['XTO']: possibly delisted; no price data found  (1d 2008-06-01 -> 2026-10-06)
+  prices 2/2
+  prices 2/2
+  prices 6/6
+[04:06:50]   n5m_auto: n 404 median 61d max 396d >1y 2 (0.005) near 2
+[04:06:50]      PHM    2012-03-01 -> 2013-04-01 396d 1.3423
+[04:06:50]      PLTR   2024-11-01 -> 2025-11-03 367d 3.9423
+[04:06:50]      NVDA   2019-12-02 -> 2020-12-01 365d 1.5596
+[04:06:50]      WDC    2025-10-01 -> 2026-10-01 365d 2.5421
+[04:06:50]      MU     2013-07-01 -> 2014-04-01 274d 0.7127
+[04:06:50]      NVDA   2023-04-03 -> 2023-12-01 242d 0.6723
+[04:06:50]      MNST   2014-11-03 -> 2015-07-01 240d 0.3287
+[04:06:50]      NEM    2016-04-01 -> 2016-11-01 214d 0.4256
+[04:06:50]   n5m_boost: n 450 median 34d max 396d >1y 2 (0.0044) near 2
+[04:06:50]      PHM    2012-03-01 -> 2013-04-01 396d 1.3423
+[04:06:50]      PLTR   2024-11-01 -> 2025-11-03 367d 3.9423
+[04:06:50]      WDC    2025-10-01 -> 2026-10-01 365d 2.5421
+[04:06:50]      MU     2013-05-01 -> 2014-04-01 335d 1.6565
+[04:06:50]      NVDA   2023-03-01 -> 2023-12-01 275d 1.0603
+[04:06:50]      MNST   2014-11-03 -> 2015-07-01 240d 0.3287
+[04:06:50]      NEM    2016-04-01 -> 2016-11-01 214d 0.4256
+[04:06:50]      NVDA   2020-05-01 -> 2020-12-01 214d 0.8941
+[04:06:51]   cur_auto: n 621 median 35d max 343d >1y 0 (0.0) near 1
+[04:06:51]      WDC    2025-09-08 -> 2026-08-17 343d 4.7456
+[04:06:51]      PLTR   2024-10-21 -> 2025-08-11 294d 3.2782
+[04:06:51]      NVDA   2023-03-13 -> 2023-11-27 259d 1.1006
+[04:06:51]      BBY    2013-05-28 -> 2014-02-03 251d -0.1369
+[04:06:51]      NVDA   2016-08-08 -> 2017-04-03 238d 0.8451
+[04:06:51]      NEM    2016-03-14 -> 2016-10-10 210d 0.3035
+[04:06:51]      ALGN   2017-07-10 -> 2018-02-05 210d 0.5992
+[04:06:51]      FCX    2020-09-28 -> 2021-04-26 210d 1.456
+[04:06:51]   cur_boost: n 665 median 29d max 343d >1y 0 (0.0) near 1
+[04:06:51]      WDC    2025-09-08 -> 2026-08-17 343d 4.7456
+[04:06:51]      PLTR   2024-10-21 -> 2025-08-11 294d 3.2782
+[04:06:51]      NVDA   2023-02-27 -> 2023-11-27 273d 1.0528
+[04:06:51]      BBY    2013-05-28 -> 2014-02-03 251d -0.1369
+[04:06:51]      NEM    2016-03-14 -> 2016-10-10 210d 0.3035
+[04:06:51]      ALGN   2017-07-10 -> 2018-02-05 210d 0.5992
+[04:06:51]      TER    2025-11-03 -> 2026-06-01 210d 1.0182
+[04:06:51]      NVDA   2016-09-19 -> 2017-04-03 196d 0.7022
+[04:06:52] wrote /home/runner/work/NIBII/NIBII/data/holding.json
