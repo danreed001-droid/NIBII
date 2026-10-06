@@ -71,7 +71,18 @@ HIST_URL = 'https://en.wikipedia.org/wiki/Historical_components_of_the_S%26P_500
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RULE = os.environ.get('RULE', '')
 # RULE=weekrank: sum of weekly cross-sectional ranks, 21 weeks from 6 months to 1 month ago
-EXTRA = dict(windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank') if RULE == 'weekrank' else {}
+# RULE=weekrank_ld2x: + tiered Auto (80/60/40 stocks at 1/2/3+ holdings in a downtrend) and the
+# best-ranked holding at twice the others' weight
+EXTRA = dict(windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank') if RULE.startswith('weekrank') else {}
+if '2x' in RULE:
+    EXTRA['weighting'] = 'top2x'
+LADDER = (1.0, 0.8, 0.6, 0.4) if '_ld' in RULE else None
+
+
+def split_for(n_down):
+    if LADDER:
+        return LADDER[min(n_down, len(LADDER) - 1)]
+    return 0.6 if n_down >= 2 else 1.0
 OUT = os.path.join(ROOT, 'data', f"robustness{'_' + RULE if RULE else ''}.json")
 CACHE = os.path.join(ROOT, 'data', '.robust.pkl')
 START, FROM = '2010-01-04', '2008-06-01'
@@ -257,7 +268,8 @@ def run_core(universe, start, boost, exclude=()):
 def _job(args):
     key, universe, start, boost, exclude = args
     r = run_core(universe, start, boost, exclude)
-    return key, dict(curve=[[d, v] for d, v, _ in r['curve']], picks=r['picks'], turnover=r['turnover'])
+    return key, dict(curve=[[d, v] for d, v, _ in r['curve']], picks=r['picks'], turnover=r['turnover'],
+                     weights=r['weights'])
 
 
 def run_many(jobs, procs=4):
@@ -285,12 +297,13 @@ def downtrend_fn(bars):
     return down
 
 
-def plan_schedule(picks, calendar, sleeve_f, down, start, top_n=TOP_N):
+def plan_schedule(picks, calendar, sleeve_f, down, start, top_n=TOP_N, weights=None):
     """[(trade date, {asset: weight})] - stocks at split/top_n each, sleeve 1-split.
     Split and sleeve asset decided at the previous session's close (Friday), traded at
     this session's close (Monday) together with the stock picks."""
     idx = {d: i for i, d in enumerate(calendar)}
     pdays = [p[0] for p in picks]
+    wmap = {d: w for d, w in weights} if weights else {}
     out = []
     for T, held in picks:
         if T < start or idx[T] == 0:
@@ -298,8 +311,8 @@ def plan_schedule(picks, calendar, sleeve_f, down, start, top_n=TOP_N):
         f = calendar[idx[T] - 1]
         j = bisect_right(pdays, f) - 1
         before = picks[j][1] if j >= 0 else []
-        split = 0.6 if sum(down(t, f) for t in before) >= 2 else 1.0
-        w = {t: split / top_n for t in held}
+        split = split_for(sum(down(t, f) for t in before)) if before else 1.0
+        w = {t: split * x for t, x in wmap[T].items()} if T in wmap else {t: split / top_n for t in held}
         if split < 1:
             a = best_of(sleeve_f, calendar, idx[f])
             w[a] = w.get(a, 0.0) + (1 - split)
@@ -316,7 +329,7 @@ def dashboard_plan(run, calendar, sleeve_px, down, start):
     def split(f):
         j = bisect_right(pdays, f) - 1
         held = picks[j][1] if j >= 0 else []
-        return 0.6 if sum(down(t, f) for t in held) >= 2 else 1.0
+        return split_for(sum(down(t, f) for t in held)) if held else 1.0
     return plan_curve_dynamic(run['curve'], sl, calendar, split)
 
 
@@ -850,7 +863,7 @@ def main():
 
     sched = {}
     for name in ('sp_top5', 'sp_boost', 'base_top5', 'base_boost', 'pit_top5', 'pit_boost'):
-        sched[name] = plan_schedule(runs[name]['picks'], cal, P['sleeve_f'], down, START)
+        sched[name] = plan_schedule(runs[name]['picks'], cal, P['sleeve_f'], down, START, weights=runs[name]['weights'])
     sched['pit_top5_only'] = [(d, {t: 1 / TOP_N for t in h}) for d, h in runs['pit_boost']['picks'] if d >= START]
 
     # 2. ledger scenarios
@@ -911,7 +924,7 @@ def main():
     more = run_many(jobs)
     sweep = []
     for s in starts:
-        sc = plan_schedule(more[f'start_{s}']['picks'], cal, P['sleeve_f'], down, s)
+        sc = plan_schedule(more[f'start_{s}']['picks'], cal, P['sleeve_f'], down, s, weights=more[f'start_{s}']['weights'])
         res = simulate(sc, px_all, cal, BASE_SLIP, taxes=False)
         c = res['curve']
         end3 = (date.fromisoformat(s) + timedelta(days=round(3 * 365.25))).isoformat()
@@ -921,7 +934,7 @@ def main():
                           spy3=r4(cagr_between(spy_curve, s, end3)) if end3 <= cal[-1] else None))
     excl = {}
     for key in ('ex_best1', 'ex_best3'):
-        sc = plan_schedule(more[key]['picks'], cal, P['sleeve_f'], down, START)
+        sc = plan_schedule(more[key]['picks'], cal, P['sleeve_f'], down, START, weights=more[key]['weights'])
         res = simulate(sc, px_all, cal, BASE_SLIP, taxes=False)
         excl[key] = s4(stats(res['curve'], 0.015))
 
