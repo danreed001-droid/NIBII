@@ -163,7 +163,7 @@ def option_check(held_rows, bars, as_of, calendar, signal_day):
     earn = next_earnings(top['t'])
     return dict(t=top['t'], n=top.get('n'), price=r4(S), hv=r4(hv), usual=r4(usual), usualUsd=r4(usual * S),
                 fair=r4(fair), cheap=r4(min(0.13 * hv * S, 0.57 * usual * S)),
-                skip=r4(max(0.15 * hv * S, 0.70 * usual * S)), expiry=exp.isoformat(), earnings=earn,
+                skip=r4(min(0.15 * hv * S, 0.70 * usual * S)),   # the stricter of the two reads expiry=exp.isoformat(), earnings=earn,
                 earningsInside=bool(earn and trade.isoformat() <= earn <= exp.isoformat()))
 
 
