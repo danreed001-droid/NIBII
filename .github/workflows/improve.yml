@@ -28,7 +28,7 @@ jobs:
       - name: Run the audit
         run: |
           set -o pipefail
-          ONLY=rwkw,ld,ldlin,ldst,ldspy,ldday,ldc3,ldk8,ldk7,ldiv python scripts/improve.py 2>&1 | tee data/improve.log
+          ONLY=rwkw,ld,ldst,svok,ldok,ldstok python scripts/improve.py 2>&1 | tee data/improve.log
       - name: Commit the results
         if: always()
         run: |

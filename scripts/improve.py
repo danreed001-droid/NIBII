@@ -110,6 +110,9 @@ VARIANTS = {
     'ldk8': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', max_corr=0.8, plan=dict(ladder=True)), None),
     'ldk7': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', max_corr=0.7, plan=dict(ladder=True)), None),
     'ldiv': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='inv_vol', plan=dict(ladder=True)), None),
+    'svok': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(slv_ok=True)), None),
+    'ldok': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=True, slv_ok=True)), None),
+    'ldstok': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', plan=dict(ladder=(1.0, 0.7, 0.5, 0.25), slv_ok=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -242,6 +245,9 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
         if split < 1:
             if (po.get('cash') and G['spy_below'](f)) or (po.get('cash3') and n_down >= 3):
                 a = 'BIL'
+            elif po.get('slv_ok'):     # skip sleeve funds whose own daily chart is in a lower-low downtrend
+                ok = [x for x in ASSETS if x == 'BIL' or not G['asset_down'](x, f)]
+                a = best_of(sleeve_f, calendar, idx[f], assets=ok)
             else:
                 a = best_of(sleeve_f, calendar, idx[f])
             out_w[a] = out_w.get(a, 0.0) + (1 - split)
@@ -370,6 +376,7 @@ def main():
         if all(w_):
             sma_ok[cal[k_]] = spx[cal[k_]] < sum(w_) / 200
     G['spy_below'] = lambda d_: sma_ok.get(d_, False)
+    G['asset_down'] = R.downtrend_fn(D['assets'])
     G['spy_down'] = R.downtrend_fn({'SPY': D['bench']['SPY']})
     G['spy_down'] = (lambda f_, _d=G['spy_down']: _d('SPY', f_))
     spy = [[b[0], b[4]] for b in D['bench']['SPY'] if b[0] >= R.START]
