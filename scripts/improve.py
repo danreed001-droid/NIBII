@@ -130,6 +130,10 @@ VARIANTS = {
     'tl0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, tl=0.0)), None),
     'tl2': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, tl=0.02)), None),
     'tl5': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, tl=0.05)), None),
+    'lxA': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', lolo_exit=dict(), plan=dict(ladder=True)), None),
+    'lxB': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', lolo_exit=dict(buy_up=True), plan=dict(ladder=True)), None),
+    'lxC': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', lolo_exit=dict(daily=True), plan=dict(ladder=True)), None),
+    'lxD': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', lolo_exit=dict(), plan=dict(ladder=(1.0,))), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -157,6 +161,14 @@ def run_one(args):
     boost_rank = kw.pop('boost_rank', None)
     sig = kw.pop('sig_exit', None)
     plan = kw.pop('plan', None)
+    lx = kw.pop('lolo_exit', None)
+    if lx:
+        cal_ = P['calendar']
+        kw['exit_when'] = lambda t, k: G['down'](t, cal_[k])
+        kw['exit_daily'] = lx.get('daily', False)
+        kw['cooldown'] = lx.get('cooldown', 5)
+        if lx.get('buy_up'):
+            kw['buy_when'] = lambda t, k: G['up'](t, cal_[k])
     cap = kw.pop('sector_cap', None)
     if cap:
         import csv
@@ -416,6 +428,18 @@ def main():
     cal = P['calendar']
     G['months'] = month_ends(cal)
     down = R.downtrend_fn(D['bars'])
+    G['down'] = down
+    from mtl.structure import structure_signal as _ss
+    _bd = {t: [b[0] for b in bs] for t, bs in D['bars'].items()}
+    _uc = {}
+
+    def up_fn(t, d_):
+        if (t, d_) not in _uc:
+            j_ = bisect_right(_bd.get(t, []), d_)
+            daily = [tuple(b) for b in D['bars'].get(t, [])[max(0, j_ - 320):j_]]
+            _uc[(t, d_)] = _ss(daily, n=3, lookback=2)['state'] == 'uptrend'
+        return _uc[(t, d_)]
+    G['up'] = up_fn
     px_all = dict(P['prices'])
     px_all.update(P['sleeve_px'])
     px_all['QQQ'] = {b[0]: b[4] for b in D['bench']['QQQ']}
