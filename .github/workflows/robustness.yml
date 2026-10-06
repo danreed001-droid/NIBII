@@ -1,0 +1,35 @@
+name: Robustness audit
+
+# Runs scripts/robustness.py (lookahead test, point-in-time universe,
+# start-date / outlier sensitivity, slippage and tax ledger) and commits
+# data/robustness.json on this branch. Never touches main.
+on:
+  push:
+    branches: [robustness]
+    paths:
+      - scripts/robustness.py
+      - .github/workflows/robustness.yml
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Run the audit
+        run: python scripts/robustness.py
+      - name: Commit the results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/robustness.json
+          git commit -m "Robustness audit results" || exit 0
+          git push
