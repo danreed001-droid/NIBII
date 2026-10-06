@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Buy when a lower-low downtrend (lo-lo) ENDS - daily chart, hourly chart, or both.
+"""Buy when the chart turns HI-HI (low -> high -> higher low -> higher high) - daily, hourly, or both.
 Last 6 months only (entries 2026-04-01 .. 2026-09-15; exits by the last bar).
 
 Structure read: the dashboard's (mtl/structure.py): swings = 3 bars each side,
@@ -7,12 +7,11 @@ the last 2 labeled swings - 'downtrend' when both are LH/LL (lo-lo), 'uptrend'
 when both are HH/HL (hi-hi).
 
 Entries
-  daily end    yesterday's daily chart reads hi-hi (or at least not lo-lo) after
-               being lo-lo some day in the 10 sessions before -> buy at today's close
-  hourly end   the hourly chart turns hi-hi after being lo-lo within the last
-               30 hourly bars -> buy at that hourly close
-  both         an hourly end while the daily lo-lo ended within the last 5
-               sessions (no read from the future: the daily read is the previous close)
+  daily hi-hi   yesterday's daily chart turned hi-hi (the day before it wasn't)
+                -> buy at today's close
+  hourly hi-hi  the hourly chart turns hi-hi -> buy at that hourly close
+  both          the hourly chart turns hi-hi while the daily chart already reads
+                hi-hi (the daily read is the previous close: nothing from the future)
 Exits
   2 weeks / 4 weeks   hold 10 / 20 sessions
   hourly lo-lo        sell when the hourly chart reads lo-lo again (max 20 sessions)
@@ -21,7 +20,7 @@ One open trade per stock at a time. Universe: the scanner's ~500 stocks with hou
 (data/.bt_cache.pkl).
 
 Usage:
-    python scripts/backtest_lolo_end.py
+    python scripts/backtest_hihi_turn.py
 """
 import os
 import pickle
@@ -55,7 +54,7 @@ def main():
     EW = dict(zip(days, ew))
     first = dpos[next(d for d in days if d >= START)]
 
-    trades = {k: [] for k in ('daily end', 'hourly end', 'both')}
+    trades = {k: [] for k in ('daily hi-hi', 'hourly hi-hi', 'both')}
     for n_t, t in enumerate(tick):
         D = [tuple(b) for b in raw[t]['daily']]
         Dd = [b[0][:10] for b in D]
@@ -75,15 +74,15 @@ def main():
             hstate.append((j, structure_signal(H[max(0, j - 200):j + 1], n=3, lookback=2)['state']))
         hs = {j: s for j, s in hstate}
 
-        def daily_end_on(d):
-            """Daily lo-lo ended as of the close BEFORE day d."""
+        def daily_up(d):
+            """Daily chart reads hi-hi as of the close BEFORE day d."""
             i = dpos.get(d)
-            if i is None or i < 1:
-                return False
-            prev = days[i - 1]
-            if dstate.get(prev) in (None, 'downtrend'):
-                return False
-            return any(dstate.get(days[k]) == 'downtrend' for k in range(max(0, i - 11), i - 1))
+            return i is not None and i >= 1 and dstate.get(days[i - 1]) == 'uptrend'
+
+        def daily_turned(d):
+            """It turned hi-hi at the close before d (the close before that it wasn't)."""
+            i = dpos.get(d)
+            return daily_up(d) and i >= 2 and dstate.get(days[i - 2]) != 'uptrend'
 
         def exit_after(entry_day, entry_px, mode):
             i = dpos[entry_day]
@@ -115,8 +114,8 @@ def main():
                 break
             if d <= busy or not close[t].get(d):
                 continue
-            if daily_end_on(d):
-                record('daily end', d, close[t][d])
+            if daily_turned(d):
+                record('daily hi-hi', d, close[t][d])
                 busy = days[min(dpos[d] + 10, len(days) - 1)]
         # hourly-end entries (and 'both')
         busy_h, busy_b = '', ''
@@ -127,20 +126,19 @@ def main():
             if d < START or d > LAST_ENTRY:
                 prev_up = up
                 continue
-            if up and not prev_up and any(hs.get(k) == 'downtrend' for k in range(max(h0, j - 30), j)):
+            if up and not prev_up:
                 px = H[j][4]
                 if d > busy_h:
-                    record('hourly end', d, px)
+                    record('hourly hi-hi', d, px)
                     busy_h = days[min(dpos[d] + 10, len(days) - 1)]
-                i = dpos[d]
-                if d > busy_b and any(daily_end_on(days[k]) for k in range(max(0, i - 4), i + 1)):
+                if d > busy_b and daily_up(d):
                     record('both', d, px)
                     busy_b = days[min(dpos[d] + 10, len(days) - 1)]
             prev_up = up
         if n_t % 100 == 0:
             print(f"  {n_t}/{len(tick)}", file=sys.stderr, flush=True)
 
-    print(f"Buy when a lo-lo downtrend ends - entries {START} .. {LAST_ENTRY}, {len(tick)} stocks, exits by {days[-1]}")
+    print(f"Buy when the chart turns hi-hi - entries {START} .. {LAST_ENTRY}, {len(tick)} stocks, exits by {days[-1]}")
     print(f"{'entry':12} {'exit':12} {'trades':>6} {'win%':>5} {'avg':>6} {'median':>7} {'vs avg stock':>12} {'beat it':>8} {'vs SPY':>7}")
     for kind, rows in trades.items():
         for mode, lab in (('2w', 'hold 2 wks'), ('4w', 'hold 4 wks'), ('hlolo', 'hourly lo-lo')):
