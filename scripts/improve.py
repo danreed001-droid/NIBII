@@ -181,6 +181,15 @@ VARIANTS = {
     'ev6': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=6, plan=dict(ladder=True)), None),
     'ev7': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=7, plan=dict(ladder=True)), None),
     'ev8': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=8, plan=dict(ladder=True)), None),
+    'e4o0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=4, offset=0, plan=dict(ladder=True)), None),
+    'e4o1': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=4, offset=1, plan=dict(ladder=True)), None),
+    'e4o2': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=4, offset=2, plan=dict(ladder=True)), None),
+    'e4o3': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=4, offset=3, plan=dict(ladder=True)), None),
+    'e5o0': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=5, offset=0, plan=dict(ladder=True)), None),
+    'e5o1': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=5, offset=1, plan=dict(ladder=True)), None),
+    'e5o2': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=5, offset=2, plan=dict(ladder=True)), None),
+    'e5o3': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=5, offset=3, plan=dict(ladder=True)), None),
+    'e5o4': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=5, offset=4, plan=dict(ladder=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -220,6 +229,7 @@ def run_one(args):
     biweekly = kw.pop('biweekly', False)
     daily_rb = kw.pop('daily_rebal', False)
     every_n = kw.pop('every_n', None)
+    offset = kw.pop('offset', 0)
     regime = kw.pop('regime_ma', None)
     if regime:
         cal_r, spy_r = P['calendar'], P['prices']['SPY']
@@ -306,7 +316,7 @@ def run_one(args):
     if daily_rb:
         opts['rebal_dates'] = set(P['calendar'])
     if every_n:
-        opts['rebal_dates'] = set(G['weeks'][::every_n])
+        opts['rebal_dates'] = set(G['weeks'][offset::every_n])
     if boost:
         opts.update(prefer=booster(P['gaps'], P['calendar']), prefer_mode='force', prefer_rank=boost_rank,
                     prefer_pool='all')
