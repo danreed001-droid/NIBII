@@ -108,7 +108,16 @@ def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='ran
                     hs = [h for h in hs if h]
                     near[t] = px[d] / max(hs) if hs else 0.0
                 p1 = {t: (i + 1) / n for i, t in enumerate(sorted(rets, key=lambda t: rs[t]))}
-                p2 = {t: (i + 1) / n for i, t in enumerate(sorted(rets, key=lambda t: near[t]))}
+                # average rank for ties (many stocks sit exactly at their 52-week high)
+                order = sorted(rets, key=lambda t: near[t])
+                p2, i = {}, 0
+                while i < n:
+                    j = i
+                    while j + 1 < n and near[order[j + 1]] == near[order[i]]:
+                        j += 1
+                    for q in range(i, j + 1):
+                        p2[order[q]] = ((i + j) / 2 + 1) / n
+                    i = j + 1
                 score = {t: (p1[t] + p2[t]) / 2 for t in rets}
             else:
                 score = {t: rs[t] / n / W for t in rets}
