@@ -95,7 +95,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  vol_window=63, max_corr=None, corr_window=63, risk_adj=False, exec_next=None,
                  exit_when=None, exit_daily=True, buy_when=None, lookback_at=None,
                  prefer=None, prefer_rank=20, prefer_mode='fill', prefer_pool='qualified',
-                 rebal_dates=None):
+                 rebal_dates=None, rank_key=None):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -155,7 +155,10 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       when they don't beat the benchmark (ranked by score among all stocks).
     rebal_dates: optional set of decision dates replacing the default week-ends
       (e.g. month-ends). The result's `weights` lists [trade date, {ticker: weight}]
-      for every trade (weights below 1 in total = the rest sits in cash)."""
+      for every trade (weights below 1 in total = the rest sits in cash).
+    rank_key: optional callable(ticker, k, score) -> sort key (smaller = better) that
+      replaces the plain best-score-first order of qualifying stocks, for both the
+      buy order and the keep-while-ranked test."""
     keep_rank = keep_rank or 2 * top_n
     rebal = set(rebal_dates) if rebal_dates is not None else set(last_sessions_of_weeks(calendar))
     wlog = []
@@ -262,6 +265,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         ranked qualifying stocks, honoring the industry cap and cooldowns."""
         lk, sk = lookback_at(k) if lookback_at else (look, skip)
         rows = score_table(prices, calendar, k, lk, sk, windows, blend, eligible, benchmark)
+        if rank_key is not None:
+            rows = sorted(rows, key=lambda r: rank_key(r[0], k, r[1]))
         scored = [(sc, t) for t, sc, beats in rows
                   if beats and banned_until.get(t, -1) < k and t not in exclude
                   and not (rsi_exit and t not in shares and rsi_weak(t, k))]

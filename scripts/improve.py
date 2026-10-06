@@ -51,6 +51,10 @@ VARIANTS = {
     't3m': (dict(top_n=3, monthly=True), None),
     't4m': (dict(top_n=4, monthly=True), None),
     't10m': (dict(top_n=10, monthly=True), None),
+    'acw': (dict(top_n=5, accel='first'), None),
+    'acm': (dict(top_n=5, monthly=True, accel='first'), None),
+    'abw': (dict(top_n=5, accel='blend'), None),
+    'abm': (dict(top_n=5, monthly=True, accel='blend'), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -74,6 +78,27 @@ def run_one(args):
     elig = (lambda t, d: t not in ex and base(t, d)) if ex else base
     kw = dict(kw)
     monthly = kw.pop('monthly', False)
+    accel = kw.pop('accel', None)
+    if accel:
+        prices, cal = P['prices'], P['calendar']
+
+        def seg(t, k):
+            """Returns over 7-5, 5-3 and 3-1 months ago (42-session pieces after the skipped month)."""
+            px = prices[t]
+            pts = [px.get(cal[k - n]) if k - n >= 0 else None for n in (147, 105, 63, 21)]
+            if not all(pts):
+                return None
+            return pts[1] / pts[0] - 1, pts[2] / pts[1] - 1, pts[3] / pts[2] - 1
+
+        def key_first(t, k, sc):
+            g = seg(t, k)
+            fast = g is not None and g[2] > g[1] > g[0]
+            return (0 if fast else 1, -sc)
+
+        def key_blend(t, k, sc):
+            g = seg(t, k)
+            return -(sc + (g[2] - g[0] if g else 0.0))
+        kw['rank_key'] = key_first if accel == 'first' else key_blend
     opts = dict(look=R.LOOK, skip=R.SKIP, eligible=elig, exec_next='close')
     opts.update(kw)
     if monthly:
