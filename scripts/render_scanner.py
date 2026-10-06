@@ -386,6 +386,7 @@ footer li { margin-bottom: 6px; }
   <div class="range" id="range">
     <label>Years <select id="ry-from" aria-label="From year"></select></label><label>to <select id="ry-to" aria-label="To year"></select></label>
     <span class="seg" id="r-pre"><button type="button" data-r="ytd">YTD</button><button type="button" data-r="1y">1Y</button><button type="button" data-r="3y">3Y</button><button type="button" data-r="5y">5Y</button><button type="button" data-r="10y">10Y</button><button type="button" data-r="all">All</button></span>
+    <span class="seg" id="r-tax"><button type="button" data-t="0" aria-pressed="true">Before tax</button><button type="button" data-t="1" aria-pressed="false">After 37% tax</button></span>
     <label>From <input type="date" id="r-from"></label><label>To <input type="date" id="r-to"></label>
   </div>
   <div class="stats" id="stats"></div>
@@ -1093,8 +1094,41 @@ footer li { margin-bottom: 6px; }
   var ALL0 = D.curves.strategy[0][0], ALL1 = D.curves.strategy[D.curves.strategy.length - 1][0];
   var R = { a: ALL0, b: ALL1 };
   function inR(c) { return c.filter(function (p) { return p[0] >= R.a && p[0] <= R.b; }); }
+  // after-tax view, measured from the start of the selected range: what you would keep if you cashed out
+  // that day. Strategies: 37% on each calendar year's net gain (losses carried forward), paid the next
+  // April 15, and 37% on this year's unpaid gain. SPY / QQQ: bought at the range start and held;
+  // 20% on dividends as paid, 20% on the gain if held over a year (37% if not).
+  var TAX = false, YIELD = { SPY: 0.016, QQQ: 0.007 };
+  function taxed(c, key) {
+    if (c.length < 2) return c;
+    var out = [[c[0][0], c[0][1]]];
+    if (YIELD[key] != null) {
+      var basis = c[0][1], t0 = Date.parse(c[0][0]);
+      for (var i = 1; i < c.length; i++) {
+        var yrs = (Date.parse(c[i][0]) - t0) / 31557600000;
+        var v = c[i][1] * Math.pow(1 - 0.20 * YIELD[key], yrs), rate = yrs > 1 ? 0.20 : 0.37;
+        out.push([c[i][0], v - rate * Math.max(0, v - basis)]);
+      }
+      return out;
+    }
+    var A = c[0][1], G = 0, carry = 0, owed = 0, pay = null, yr = c[0][0].slice(0, 4);
+    for (var j = 1; j < c.length; j++) {
+      var d = c[j][0], y = d.slice(0, 4);
+      if (y !== yr) {
+        var net = G - carry;
+        if (net > 0) { owed += 0.37 * net; carry = 0; } else carry = -net;
+        G = 0; yr = y; pay = y + '-04-15';
+      }
+      if (owed > 0 && pay && d >= pay) { A -= owed; owed = 0; pay = null; }
+      var g = A * (c[j][1] / c[j - 1][1] - 1);
+      A += g; G += g;
+      out.push([d, A - owed - 0.37 * Math.max(0, G - carry)]);
+    }
+    return out;
+  }
+  function view(key) { var c = inR(D.curves[key] || []); return TAX ? taxed(c, key) : c; }
   function rstat(key) {
-    var c = inR(D.curves[key] || []);
+    var c = view(key);
     if (c.length < 2) return null;
     var pk = c[0][1], dd = 0; c.forEach(function (p) { pk = Math.max(pk, p[1]); dd = Math.min(dd, p[1] / pk - 1); });
     var tot = c[c.length - 1][1] / c[0][1] - 1, yrs = (Date.parse(c[c.length - 1][0]) - Date.parse(c[0][0])) / 31557600000;
@@ -1110,7 +1144,8 @@ footer li { margin-bottom: 6px; }
       tile('Boost / Auto', (bo ? pct(bo.tot, 0) : '–') + ' / ' + (au ? pct(au.tot, 0) : '–'), (bo ? yr(bo) : '') + ' · worst ' + (bo ? pct(bo.dd, 0) : '–') + ' / ' + (au ? pct(au.dd, 0) : '–'), tone(bo && bo.tot)) +
       tile('SPY / QQQ', pct(sp.tot, 0) + ' / ' + pct(qq.tot, 0), 'worst ' + pct(sp.dd, 0) + ' / ' + pct(qq.dd, 0)) +
       tile('Top 5 worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since ' + SINCE : 'in this range', 'neg');
-    $('range-hint').textContent = '$100 in the rule vs buying and holding · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b);
+    $('range-hint').textContent = '$100 in the rule vs buying and holding · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b) +
+      (TAX ? ' · after tax: rule 37% on each year’s gains (paid each April), SPY/QQQ held, 20% long-term · value if cashed out that day' : ' · before tax');
   }
   var rf = $('r-from'), rto = $('r-to'), ryf = $('ry-from'), ryt = $('ry-to');
   (function () {
@@ -1136,6 +1171,12 @@ footer li { margin-bottom: 6px; }
   }
   rf.onchange = function () { if (rf.value) setRange(rf.value, R.b); };
   rto.onchange = function () { if (rto.value) setRange(R.a, rto.value); };
+  $('r-tax').onclick = function (e) {
+    var bt = e.target.closest('button'); if (!bt) return;
+    TAX = bt.getAttribute('data-t') === '1';
+    document.querySelectorAll('#r-tax button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === bt)); });
+    drawStats(); drawGrowth();
+  };
   $('r-pre').onclick = function (e) {
     var bt = e.target.closest('button'); if (!bt) return;
     var k = bt.getAttribute('data-r'), end = new Date(ALL1 + 'T12:00:00Z'), a = ALL0;
@@ -1199,7 +1240,7 @@ footer li { margin-bottom: 6px; }
   function drawGrowth() {
     document.querySelectorAll('#scale-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === scale)); });
     var box = $('growth'); box.innerHTML = '';
-    var series = SER.filter(function (s) { return !HIDE[s[0]]; }).map(function (s) { var c = inR(D.curves[s[0]]), b0 = c.length ? c[0][1] : 1; return { name: s[1], c: s[2], cls: s[3], pts: c.map(function (p) { return [day(p[0]), p[1] / b0 * 100]; }) }; });
+    var series = SER.filter(function (s) { return !HIDE[s[0]]; }).map(function (s) { var c = view(s[0]), b0 = c.length ? c[0][1] : 1; return { name: s[1], c: s[2], cls: s[3], pts: c.map(function (p) { return [day(p[0]), p[1] / b0 * 100]; }) }; });
     if (!series[0].pts.length) return;
     var W = Math.max(320, box.clientWidth), H = Math.round(Math.min(380, Math.max(240, W * 0.5))), m = { l: 56, r: 64, t: 10, b: 26 };
     var xs = [], ys = [];
