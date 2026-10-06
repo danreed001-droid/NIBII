@@ -74,6 +74,11 @@ VARIANTS = {
     'so0w': (dict(top_n=5, windows=[(5 * i + 5, 5 * i) for i in range(25)], blend='sortino'), None),
     'shw': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='sharpe'), None),
     'rsow': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank_sortino'), None),
+    'bk10': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', boost_rank=10), None),
+    'bk20': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', boost_rank=20), None),
+    'bk40': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', boost_rank=40), None),
+    'bk60': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', boost_rank=60), None),
+    'bk100': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', boost_rank=100), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -98,6 +103,7 @@ def run_one(args):
     kw = dict(kw)
     monthly = kw.pop('monthly', False)
     accel = kw.pop('accel', None)
+    boost_rank = kw.pop('boost_rank', None)
     if accel:
         prices, cal = P['prices'], P['calendar']
 
@@ -123,7 +129,7 @@ def run_one(args):
     if monthly:
         opts['rebal_dates'] = set(G['months'])
     if boost:
-        opts.update(prefer=booster(P['gaps'], P['calendar']), prefer_mode='force', prefer_rank=None,
+        opts.update(prefer=booster(P['gaps'], P['calendar']), prefer_mode='force', prefer_rank=boost_rank,
                     prefer_pool='all')
     r = run_momentum(P['prices'], P['calendar'], R.START, **opts)
     return key, dict(picks=r['picks'], weights=r['weights'], turnover=r['turnover'])
