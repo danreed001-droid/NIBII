@@ -1,0 +1,36 @@
+name: Long history export
+
+# One-off: replays the rule since 2000 (scripts/backtest_long_history.py) and
+# commits the daily curves to data/long_history.json on this branch.
+# Runs when this workflow or the export script is pushed, or by hand.
+
+on:
+  push:
+    branches: [long-history]
+    paths:
+      - scripts/export_long_history.py
+      - .github/workflows/long-history.yml
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Replay since 2000 and export the curves
+        run: python scripts/export_long_history.py
+      - name: Commit the export
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/long_history.json
+          git commit -m "Long history export" || exit 0
+          git push
