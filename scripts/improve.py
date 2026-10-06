@@ -143,6 +143,9 @@ VARIANTS = {
     'w26': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(26)], blend='rank', weighting='top2x', plan=dict(ladder=True)), None),
     'ws2': (dict(top_n=5, windows=[(5 * i + 15, 5 * i + 10) for i in range(23)], blend='rank', weighting='top2x', plan=dict(ladder=True)), None),
     'btc': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, btc=True)), None),
+    'btcsma': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, btc=True, btc_gate='sma')), None),
+    'btclolo': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, btc=True, btc_gate='lolo')), None),
+    'btcboth': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', plan=dict(ladder=True, btc=True, btc_gate='both')), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -295,7 +298,14 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
             elif po.get('srank'):      # sleeve fund by the weekly rank sum (like the stocks)
                 a = sleeve_rank(sleeve_f, calendar, idx[f], po['srank'])
             elif po.get('btc'):        # Bitcoin as a seventh sleeve choice (from its first price, Sep 2014)
-                a = best_of(G['sleeve_f_btc'], calendar, idx[f], assets=ASSETS + ['BTC-USD'])
+                gate = po.get('btc_gate')
+                ok = True
+                if gate in ('sma', 'both') and G['spy_below'](f):
+                    ok = False
+                if gate in ('lolo', 'both') and G['spy_down'](f):
+                    ok = False
+                a = best_of(G['sleeve_f_btc'], calendar, idx[f], assets=ASSETS + ['BTC-USD']) if ok else \
+                    best_of(sleeve_f, calendar, idx[f])
             else:
                 a = best_of(sleeve_f, calendar, idx[f], look=po.get('slook', 126))
             out_w[a] = out_w.get(a, 0.0) + (1 - split)
