@@ -37,7 +37,8 @@ from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, trades_from_picks  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
-from mtl.sleeve import ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix, six_month, sleeve_curve  # noqa: E402
+from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
+                        plan_curve_scheduled, six_month, sleeve_curve)
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 
@@ -150,6 +151,20 @@ def r4s(st):
 def growth(points):
     base = points[0][1]
     return [[d, round(100 * v / base, 3)] for d, v in points]
+
+
+def month_ends(calendar):
+    """Completed month-ends only: sessions whose next session is in another month."""
+    return [d for d, n in zip(calendar, calendar[1:]) if d[:7] != n[:7]]
+
+
+def last_business_day(d):
+    """The last weekday of d's month (holidays aside)."""
+    nxt = (d.replace(day=28) + timedelta(days=4)).replace(day=1)
+    x = nxt - timedelta(days=1)
+    while x.weekday() >= 5:
+        x -= timedelta(days=1)
+    return x
 
 
 def main():
@@ -324,6 +339,73 @@ def main():
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
     curves['plan'] = growth(plans['auto'])
+
+    # monthly plans (tracked alongside the weekly ones): the same rule decided at the last
+    # close of each month and traded at the next session's close; the auto mix and the
+    # sleeve asset are decided and traded on the same schedule
+    months = month_ends(calendar)
+    mkw = dict(look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible, exec_next='close', rebal_dates=set(months))
+    rm = run_momentum(prices, calendar, START, **mkw)
+    rmb = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), prefer_mode='force',
+                       prefer_rank=None, prefer_pool='all', **mkw)
+
+    def monthly_plan(run):
+        pk = run['picks']
+        pdays_ = [p[0] for p in pk]
+
+        def held_m(d_):
+            i = bisect_right(pdays_, d_) - 1
+            return pk[i][1] if i >= 0 else []
+
+        def split_m(d_):
+            return AUTO_LOW if sum(in_downtrend(t, d_) for t in held_m(d_)) >= AUTO_NEED else 1.0
+        curve = plan_curve_scheduled([[d_, v] for d_, v, _ in run['curve']], f_sl, calendar, months, split_m)
+        return curve, held_m, split_m
+    f_sl = filled(sleeve_px, calendar)
+    m_auto, m_held, m_split = monthly_plan(rm)
+    m_boost, mb_held, mb_split = monthly_plan(rmb)
+    curves['monthly'] = growth(m_auto)
+    curves['monthlyBoost'] = growth(m_boost)
+    today_d = date.fromisoformat(as_of)
+    dec_d = last_business_day(today_d)          # holidays aside
+    if dec_d < today_d:
+        dec_d = last_business_day(dec_d + timedelta(days=7))
+    trd_d = dec_d + timedelta(days=1)
+    while trd_d.weekday() >= 5:
+        trd_d += timedelta(days=1)
+    last_dec = months[-1] if months else None
+
+    def monthly_block(run, held_fn, split_fn, curve):
+        pk = run['picks']
+        hold = pk[-1][1] if pk else []
+        tr = trades_from_picks(pk)
+        ent = {}
+        for d_, side_, t in tr:
+            if side_ == 'buy':
+                ent[t] = d_
+        rows = []
+        for t in hold:
+            buy_px = prices[t].get(ent.get(t)) if ent.get(t) else None
+            rows.append(dict(t=t, n=names.get(t, ('', ''))[0], sec=names.get(t, ('', ''))[1] or '',
+                             since=ent.get(t), close=r4(prices[t].get(as_of)),
+                             sinceRet=r4(prices[t][as_of] / buy_px - 1) if buy_px and prices[t].get(as_of) else None,
+                             spark=[r4(b[4]) for b in bars.get(t, [])[-130:]][::3]))
+        sp = split_fn(last_dec) if last_dec else 1.0
+        st = curve_stats([p[1] for p in curve])
+        return dict(holdings=rows, lastTrade=pk[-1][0] if pk else None, decided=last_dec,
+                    split=split_key(sp), sleeve=best_of(f_sl, calendar, calendar.index(last_dec)) if last_dec and sp < 1 else None,
+                    trades=[dict(d=d_, side=s_, t=t, n=names.get(t, ('', ''))[0], px=r4(prices[t].get(d_)))
+                            for d_, s_, t in tr[-16:]][::-1],
+                    stats=dict(total=r4(st['total']), annual=r4(st['annual']), maxDD=r4(st['maxDD'])),
+                    turnover=r4(run['turnover']))
+    # what the auto list would hold if the month ended at today's close
+    keep_m = sorted((t for t in (rm['picks'][-1][1] if rm['picks'] else []) if rank.get(t, 10 ** 9) <= 2 * TOP_N),
+                    key=lambda t: rank[t])[:TOP_N]
+    preview_m = keep_m + [t for t in qualifying if t not in keep_m][:TOP_N - len(keep_m)]
+    monthly = dict(nextDecision=dec_d.isoformat(), nextTrade=trd_d.isoformat(),
+                   auto=monthly_block(rm, m_held, m_split, m_auto),
+                   boost=monthly_block(rmb, mb_held, mb_split, m_boost),
+                   preview=preview_m)
     curves['steps'] = growth(plans['steps'])
     curves['guard'] = growth(plans['guard'])
     curves['boost'] = growth(plans['boost'])
@@ -442,6 +524,7 @@ def main():
         turnover=r4(r['turnover']),
         sleeve=sleeve,
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
+        monthly=monthly,
         plan=dict(splits=['boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='boost', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
