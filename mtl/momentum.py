@@ -74,12 +74,19 @@ def score_table(prices, calendar, k, look=126, skip=21, windows=None, blend='ran
         if blend == 'mean':
             score = {t: sum(r) / len(r) for t, r in rets.items()}
         else:
+            # blend=('rank', bonus, top_k, recent): a week where the stock ranks in the top
+            # `top_k` adds `bonus` (in units of one week's best rank); `recent` > 0 weights
+            # the newest window up to (1 + recent) times the oldest, linearly
+            bonus, top_k, recent = (blend[1], blend[2], blend[3]) if isinstance(blend, tuple) else (0.0, 0, 0.0)
             score = {t: 0.0 for t in rets}
             n = len(rets)
-            for w in range(len(windows)):
+            W = len(windows)
+            wts = [1 + recent * (W - 1 - j) / max(W - 1, 1) for j in range(W)]
+            tot = sum(wts)
+            for w in range(W):
                 order = sorted(rets, key=lambda t: rets[t][w])
                 for i, t in enumerate(order):
-                    score[t] += (i + 1) / n / len(windows) if n else 0.0
+                    score[t] += wts[w] * ((i + 1) / n + (bonus if n - i <= top_k else 0.0)) / tot if n else 0.0
         ok = all(x is not None for x in bench)
         rows = [(t, score[t], ok and sum(a - b for a, b in zip(rets[t], bench)) > 0) for t in rets]
     rows.sort(key=lambda x: -x[1])
