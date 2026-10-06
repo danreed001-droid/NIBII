@@ -173,6 +173,14 @@ VARIANTS = {
     'pcp5': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend=('rank', 0.0, 0, 2.14, 'pow5'), weighting='top2x', plan=dict(ladder=True)), None),
     'dly': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', daily_rebal=True, plan=dict(ladder=True)), None),
     'dlyd': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', daily_rebal=True, plan=dict(ladder=True, daily=True)), None),
+    'ev1': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=1, plan=dict(ladder=True)), None),
+    'ev2': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=2, plan=dict(ladder=True)), None),
+    'ev3': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=3, plan=dict(ladder=True)), None),
+    'ev4': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=4, plan=dict(ladder=True)), None),
+    'ev5': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=5, plan=dict(ladder=True)), None),
+    'ev6': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=6, plan=dict(ladder=True)), None),
+    'ev7': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=7, plan=dict(ladder=True)), None),
+    'ev8': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', every_n=8, plan=dict(ladder=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -211,6 +219,7 @@ def run_one(args):
     lx = kw.pop('lolo_exit', None)
     biweekly = kw.pop('biweekly', False)
     daily_rb = kw.pop('daily_rebal', False)
+    every_n = kw.pop('every_n', None)
     regime = kw.pop('regime_ma', None)
     if regime:
         cal_r, spy_r = P['calendar'], P['prices']['SPY']
@@ -296,6 +305,8 @@ def run_one(args):
         opts['rebal_dates'] = set(G['biweeks'])
     if daily_rb:
         opts['rebal_dates'] = set(P['calendar'])
+    if every_n:
+        opts['rebal_dates'] = set(G['weeks'][::every_n])
     if boost:
         opts.update(prefer=booster(P['gaps'], P['calendar']), prefer_mode='force', prefer_rank=boost_rank,
                     prefer_pool='all')
@@ -523,6 +534,7 @@ def main():
     cal = P['calendar']
     G['months'] = month_ends(cal)
     from mtl.momentum import last_sessions_of_weeks as _lsw
+    G['weeks'] = [x for x in _lsw(cal) if x >= '2009-01-01']
     G['biweeks'] = [d_ for i_, d_ in enumerate(x for x in _lsw(cal) if x >= '2009-01-01') if i_ % 2 == 0]
     down = R.downtrend_fn(D['bars'])
     G['down'] = down
