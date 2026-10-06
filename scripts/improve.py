@@ -79,6 +79,11 @@ VARIANTS = {
     'bk40': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', boost_rank=40), None),
     'bk60': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', boost_rank=60), None),
     'bk100': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', boost_rank=100), None),
+    'sx2': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sig_exit=(2, False)), None),
+    'sx25': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sig_exit=(2.5, False)), None),
+    'sx3': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sig_exit=(3, False)), None),
+    'sx2u': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sig_exit=(2, True)), None),
+    'sx3u': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', sig_exit=(3, True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -104,6 +109,33 @@ def run_one(args):
     monthly = kw.pop('monthly', False)
     accel = kw.pop('accel', None)
     boost_rank = kw.pop('boost_rank', None)
+    sig = kw.pop('sig_exit', None)
+    if sig:
+        nsig, upweek = sig
+        prices_, cal_ = P['prices'], P['calendar']
+
+        def day_drop(t, k):
+            """True when the close at calendar[k] fell more than nsig x the stock's own daily
+            volatility (standard deviation of the prior 63 daily returns)."""
+            if k < 65:
+                return False
+            px = prices_[t]
+            pts = [px.get(cal_[i]) for i in range(k - 64, k + 1)]
+            if not all(pts):
+                return False
+            r = [pts[i + 1] / pts[i] - 1 for i in range(64)]
+            hist = r[:-1]
+            m = sum(hist) / len(hist)
+            sd = (sum((x - m) ** 2 for x in hist) / (len(hist) - 1)) ** 0.5
+            return sd > 0 and r[-1] < -nsig * sd
+        kw['exit_when'] = day_drop
+        kw['exit_daily'] = True
+        if upweek:
+            def up_week(t, k):
+                px = prices_[t]
+                a, b = px.get(cal_[k - 5]) if k >= 5 else None, px.get(cal_[k])
+                return bool(a and b and b > a)
+            kw['buy_when'] = up_week
     if accel:
         prices, cal = P['prices'], P['calendar']
 
