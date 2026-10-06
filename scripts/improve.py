@@ -171,6 +171,8 @@ VARIANTS = {
     'pcp2': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend=('rank', 0.0, 0, 2.14, 'pow2'), weighting='top2x', plan=dict(ladder=True)), None),
     'pcp3': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend=('rank', 0.0, 0, 2.14, 'pow3'), weighting='top2x', plan=dict(ladder=True)), None),
     'pcp5': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend=('rank', 0.0, 0, 2.14, 'pow5'), weighting='top2x', plan=dict(ladder=True)), None),
+    'dly': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', daily_rebal=True, plan=dict(ladder=True)), None),
+    'dlyd': (dict(top_n=5, windows=[(5 * i + 26, 5 * i + 21) for i in range(21)], blend='rank', weighting='top2x', daily_rebal=True, plan=dict(ladder=True, daily=True)), None),
     'n12w': (dict(top_n=12), None),
     'n12m': (dict(top_n=12, monthly=True), None),
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
@@ -208,6 +210,7 @@ def run_one(args):
     plan = kw.pop('plan', None)
     lx = kw.pop('lolo_exit', None)
     biweekly = kw.pop('biweekly', False)
+    daily_rb = kw.pop('daily_rebal', False)
     regime = kw.pop('regime_ma', None)
     if regime:
         cal_r, spy_r = P['calendar'], P['prices']['SPY']
@@ -291,6 +294,8 @@ def run_one(args):
         opts['rebal_dates'] = set(G['months'])
     if biweekly:
         opts['rebal_dates'] = set(G['biweeks'])
+    if daily_rb:
+        opts['rebal_dates'] = set(P['calendar'])
     if boost:
         opts.update(prefer=booster(P['gaps'], P['calendar']), prefer_mode='force', prefer_rank=boost_rank,
                     prefer_pool='all')
