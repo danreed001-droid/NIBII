@@ -1,0 +1,163 @@
+#!/usr/bin/env python3
+"""Call-option overlay on the live weekly rule: every 4 weeks a slice of the account
+buys a 4-week call on the #1-ranked holding, strike = price + the call's own price
+(stock 100, call 4 -> 104 strike), held to expiry. The rest runs the live plan.
+
+No historical option prices are available, so calls are priced with Black-Scholes
+on the stock's 63-day realized volatility x 1.15 (options usually price in more than
+realized), r = T-bill-ish 2%, plus a 5% bid/ask cost on the premium. Point-in-time
+S&P list, 0.15% slippage on the stock part. After tax: 37% on each calendar year's
+net gain (losses carried forward) for both the overlay and the plain plan, on the
+same 4-week grid. Writes data/options.json.
+"""
+import json
+import math
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import improve as I  # noqa: E402
+import robustness as R  # noqa: E402
+from mtl.sleeve import ASSETS  # noqa: E402
+
+OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'options.json')
+IV_MULT, RATE, SPREAD, DAYS = 1.15, 0.02, 0.05, 20
+
+
+def ncdf(x):
+    return 0.5 * (1 + math.erf(x / math.sqrt(2)))
+
+
+def bs_call(S, K, T, sig, r=RATE):
+    if sig <= 0 or T <= 0:
+        return max(0.0, S - K)
+    d1 = (math.log(S / K) + (r + sig * sig / 2) * T) / (sig * math.sqrt(T))
+    d2 = d1 - sig * math.sqrt(T)
+    return S * ncdf(d1) - K * math.exp(-r * T) * ncdf(d2)
+
+
+def strike_plus_premium(S, T, sig):
+    K = S * 1.05
+    for _ in range(60):
+        K = S + bs_call(S, K, T, sig)
+    return K
+
+
+def vol(px, cal, k, n=63):
+    pts = [px.get(cal[j]) for j in range(k - n, k + 1)]
+    if not all(pts):
+        return None
+    r = [math.log(pts[i + 1] / pts[i]) for i in range(n)]
+    m = sum(r) / n
+    return math.sqrt(sum((x - m) ** 2 for x in r) / (n - 1)) * math.sqrt(252)
+
+
+def after_tax(points, rate=0.37):
+    """points: [(date, value)] on the period grid; 37% on each year's net gain, carryforward."""
+    v, carry, yr, start_yr_val, out = points[0][1], 0.0, points[0][0][:4], points[0][1], [points[0]]
+    a = points[0][1]
+    for i in range(1, len(points)):
+        d, x = points[i]
+        g = x / points[i - 1][1]
+        a *= g
+        if d[:4] != yr:
+            net = a - start_yr_val - carry
+            if net > 0:
+                a -= rate * net
+                carry = 0.0
+            else:
+                carry = -net
+            start_yr_val = a
+            yr = d[:4]
+        out.append((d, a))
+    net = a - start_yr_val - carry
+    if net > 0:
+        a -= rate * net
+    out[-1] = (out[-1][0], a)
+    return out
+
+
+def cagr(points):
+    yrs = (int(points[-1][0][:4]) - int(points[0][0][:4])) + (int(points[-1][0][5:7]) - int(points[0][0][5:7])) / 12
+    return (points[-1][1] / points[0][1]) ** (1 / yrs) - 1
+
+
+def maxdd(points):
+    pk, dd = points[0][1], 0.0
+    for _, v in points:
+        pk = max(pk, v)
+        dd = min(dd, v / pk - 1)
+    return dd
+
+
+def main():
+    D = R.load_data()
+    P = R.prepare(D)
+    I.G['P'] = P
+    I.G['LEV'] = set()
+    R.G['P'] = P
+    cal = P['calendar']
+    I.G['months'] = I.month_ends(cal)
+    down = R.downtrend_fn(D['bars'])
+    px_all = dict(P['prices'])
+    px_all.update(P['sleeve_px'])
+    kw = I.VARIANTS['ldt2x'][0]
+    _, run = I.run_one(('live', kw, False, ()))
+    sc = I.schedule(run, cal, P['sleeve_f'], down, R.START)
+    pre = R.simulate(sc, px_all, cal, I.SLIP, taxes=False)
+    curve = dict((d, v) for d, v in pre['curve'])
+    idx = {d: i for i, d in enumerate(cal)}
+    # the #1 holding at each trade: the double-weighted one
+    trades = [(T, w) for T, w in run['weights'] if T >= R.START and w]
+    grid = trades[::4]
+    rows = []
+    for T, w in grid:
+        k = idx[T]
+        if k + DAYS >= len(cal):
+            break
+        top = max(w, key=lambda t: w[t])
+        if top in ASSETS:
+            continue
+        S, E = P['prices'][top].get(T), P['prices'][top].get(cal[k + DAYS])
+        if E is None:   # delisted inside the window: last known price
+            ks = [d for d in P['prices'][top] if d <= cal[k + DAYS]]
+            E = P['prices'][top][max(ks)] if ks else None
+        sig = vol(P['prices'][top], cal, k)
+        if not (S and E and sig) or T not in curve or cal[k + DAYS] not in curve:
+            continue
+        sig *= IV_MULT
+        Tm = DAYS / 252
+        K = strike_plus_premium(S, Tm, sig)
+        prem = bs_call(S, K, Tm, sig) * (1 + SPREAD)
+        pay = max(0.0, E - K)
+        rows.append(dict(d=T, end=cal[k + DAYS], t=top, S=round(S, 2), K=round(K, 2), prem=round(prem, 3),
+                         premPct=round(prem / S, 4), E=round(E, 2), mult=round(pay / prem, 3),
+                         strat=round(curve[cal[k + DAYS]] / curve[T], 5), iv=round(sig, 3)))
+    res = {}
+    for f in (0.0, 0.02, 0.05, 0.10, 0.20):
+        pts, v = [(rows[0]['d'], 1.0)], 1.0
+        for r_ in rows:
+            v *= (1 - f) * r_['strat'] + f * r_['mult']
+            pts.append((r_['end'], v))
+        at = after_tax(pts)
+        first = [p for p in pts if p[0] <= '2019-12-31']
+        second = [p for p in pts if p[0] >= '2019-12-01']
+        res[str(f)] = dict(pre=round(cagr(pts), 4), after=round(cagr(at), 4), dd=round(maxdd(pts), 4),
+                           first=round(cagr(first), 4), second=round(cagr(second), 4), final=round(v, 2))
+        R.log(f"slice {f}: {res[str(f)]}")
+    wins = [r_ for r_ in rows if r_['mult'] > 0]
+    summary = dict(n=len(rows), hit=round(len(wins) / len(rows), 3),
+                   avgMult=round(sum(r_['mult'] for r_ in rows) / len(rows), 3),
+                   medPremPct=sorted(r_['premPct'] for r_ in rows)[len(rows) // 2],
+                   medStrikePct=sorted(r_['K'] / r_['S'] - 1 for r_ in rows)[len(rows) // 2],
+                   best=sorted(rows, key=lambda r_: -r_['mult'])[:8],
+                   byYear={y: round(sum(r_['mult'] for r_ in rows if r_['d'][:4] == y) /
+                                    max(1, sum(1 for r_ in rows if r_['d'][:4] == y)), 3)
+                           for y in sorted({r_['d'][:4] for r_ in rows})})
+    R.log(f"options: {json.dumps({k: v for k, v in summary.items() if k != 'best'})}")
+    with open(OUT, 'w') as fh:
+        json.dump(dict(results=res, summary=summary, rows=rows), fh, separators=(',', ':'))
+
+
+if __name__ == '__main__':
+    main()

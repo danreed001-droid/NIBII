@@ -1,0 +1,38 @@
+name: Options overlay test
+
+# Runs scripts/robustness.py (lookahead test, point-in-time universe,
+# start-date / outlier sensitivity, slippage and tax ledger) and commits
+# data/options.json on this branch. Never touches main.
+on:
+  push:
+    branches: [robustness]
+    paths:
+      - scripts/options_test.py
+      - .github/workflows/options.yml
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Run the audit
+        run: |
+          set -o pipefail
+          python scripts/options_test.py 2>&1 | tee data/options.log
+      - name: Commit the results
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f data/options.log; if [ -f data/options.json ]; then git add data/options.json; fi; if [ -f data/options.json ]; then git add data/options.json; fi
+          git commit -m "Options overlay test results" || exit 0
+          git push
