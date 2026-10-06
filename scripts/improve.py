@@ -569,6 +569,24 @@ def main():
     except Exception as e:   # noqa: BLE001
         R.log(f"leveraged ETF fetch failed: {e}")
     G['LEV'] = set(LEV)
+    bil = D['assets'].get('BIL') or []
+    if bil and R.FROM < bil[0][0]:
+        try:
+            from momentum_scan import fetch as _f3
+            irx = {b[0]: b[4] for b in (_f3(['^IRX'], start=R.FROM).get('^IRX') or []) if b[4]}
+            calx = [b[0] for b in D['bench']['SPY']]
+            first = bil[0][0]
+            pre = [d_ for d_ in calx if d_ < first]
+            v_, last_y, out_ = bil[0][4], None, []
+            for d_ in reversed(pre):        # walk back from BIL's first close at the T-bill rate
+                y_ = irx.get(d_, last_y) or 0.0
+                last_y = y_
+                v_ = v_ / (1 + y_ / 100 / 252)
+                out_.append([d_, v_, v_, v_, v_])
+            D['assets']['BIL'] = list(reversed(out_)) + bil
+            R.log(f"synthetic BIL from {pre[0] if pre else None} ({len(pre)} sessions, ^IRX {len(irx)} days)")
+        except Exception as e:   # noqa: BLE001
+            R.log(f"synthetic BIL failed: {e}")
     if os.environ.get('WITH_VOLUME'):
         import yfinance as yf
         from itertools import accumulate
@@ -595,6 +613,9 @@ def main():
             R.log(f"  dollar volume {min(k_ + 100, len(tick))}/{len(tick)}")
         G['dvcum'] = dvcum
     P = R.prepare(D)
+    if R.START < '2009':
+        cov = R.coverage(D, P)
+        R.log("coverage: " + ", ".join(f"{c_['year']} {c_['priced']}/{c_['members']}" for c_ in cov['byYear'][:11]))
     G['P'] = P
     R.G['P'] = P
     cal = P['calendar']
@@ -674,7 +695,7 @@ def main():
     spy = [[b[0], b[4]] for b in D['bench']['SPY'] if b[0] >= R.START]
     qqq = [[b[0], b[4]] for b in D['bench']['QQQ'] if b[0] >= R.START]
     starts = [d for d in (next((x for x in cal if x >= f'{y}-{m}-01'), None)
-                          for y in range(2010, 2024) for m in ('01', '07')) if d and d >= R.START]
+                          for y in range(int(R.START[:4]), 2024) for m in ('01', '07')) if d and d >= R.START]
 
     jobs = []
     only = [x for x in os.environ.get('ONLY', '').split(',') if x]
@@ -698,7 +719,7 @@ def main():
         w3 = yr_windows(pre['curve'], spy, starts)
         ystats = {}
         c = pre['curve']
-        for y in range(2010, int(cal[-1][:4]) + 1):
+        for y in range(int(R.START[:4]), int(cal[-1][:4]) + 1):
             pts = [v for d, v in c if d[:4] == str(y)]
             prev = [v for d, v in c if d[:4] == str(y - 1)]
             if pts:
@@ -714,6 +735,9 @@ def main():
             taxPaid=round(tax['taxPaid'], 2), wash=round(tax['wash'], 2), stShare=R.r4(tax['stShare']),
             turnover=R.r4(pre['turnover']),
             first=R.r4(R.cagr_between(c, R.START, '2019-12-31')), second=R.r4(R.cagr_between(c, '2020-01-01', cal[-1])),
+            p0009=R.r4(R.cagr_between(c, R.START, '2009-12-31')) if R.START < '2009' else None,
+            p0009after=R.r4(R.cagr_between(tax['curve'], R.START, '2009-12-31')) if R.START < '2009' else None,
+            dd0009=R.r4(R.stats([p_ for p_ in c if p_[0] <= '2009-12-31'], 0.015).get('maxDD')) if R.START < '2009' else None,
             win3=list(w3), years=ystats,
             avgStock=R.r4(sum(sum(x for t, x in w.items() if t not in ASSETS) for _, w in sc) / len(sc)),
             lowWeeks=R.r4(sum(1 for _, w in sc if any(t in ASSETS and t != 'BIL' for t in w)) / len(sc)))
@@ -774,13 +798,15 @@ def main():
     for k, c, t in (('spy', spy, spy_t), ('qqq', qqq, qqq_t)):
         w3 = yr_windows(c, spy, starts)
         ystats = {}
-        for y in range(2010, int(cal[-1][:4]) + 1):
+        for y in range(int(R.START[:4]), int(cal[-1][:4]) + 1):
             pts = [v for d, v in c if d[:4] == str(y)]
             prev = [v for d, v in c if d[:4] == str(y - 1)]
             if pts:
                 ystats[y] = round((pts[-1] / (prev[-1] if prev else pts[0]) - 1), 4)
         bench[k] = dict(preTax=R.s4(R.stats(c, 0.015)), afterTax=R.r4((t['final'] / R.START_CASH) ** (1 / yrs) - 1),
                         final=round(t['final'], 2), first=R.r4(R.cagr_between(c, R.START, '2019-12-31')),
+                        p0009=R.r4(R.cagr_between(c, R.START, '2009-12-31')) if R.START < '2009' else None,
+                        dd0009=R.r4(R.stats([p_ for p_ in c if p_[0] <= '2009-12-31'], 0.015).get('maxDD')) if R.START < '2009' else None,
                         second=R.r4(R.cagr_between(c, '2020-01-01', cal[-1])), win3=list(w3), years=ystats)
     payload = dict(generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'), start=R.START, end=cal[-1],
                    slip=SLIP, results=res, concentration=extra, bench=bench,

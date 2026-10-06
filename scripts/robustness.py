@@ -84,8 +84,8 @@ def split_for(n_down):
         return LADDER[min(n_down, len(LADDER) - 1)]
     return 0.6 if n_down >= 2 else 1.0
 OUT = os.path.join(ROOT, 'data', f"robustness{'_' + RULE if RULE else ''}.json")
-CACHE = os.path.join(ROOT, 'data', '.robust.pkl')
-START, FROM = '2010-01-04', '2008-06-01'
+START, FROM = os.environ.get('START', '2010-01-04'), os.environ.get('FROM', '2008-06-01')
+CACHE = os.path.join(ROOT, 'data', f".robust{'' if FROM == '2008-06-01' else '_' + FROM}.pkl")
 LOOK, SKIP, TOP_N = 126, 21, 5
 SLIPS = (0.0005, 0.0015, 0.0030)
 BASE_SLIP = 0.0015
@@ -239,7 +239,7 @@ def coverage(D, P):
     """Per year: point-in-time members on the first session, and how many have usable prices."""
     iv, out = D['iv'], []
     cal = P['calendar']
-    for y in range(2010, int(cal[-1][:4]) + 1):
+    for y in range(int(START[:4]), int(cal[-1][:4]) + 1):
         d = next(x for x in cal if x >= f'{y}-01-01')
         mem = [t for t, ivs in iv.items() if is_member(ivs, d)]
         have = [t for t in mem if t in P['ok'] and P['prices'].get(t, {}).get(d)]
