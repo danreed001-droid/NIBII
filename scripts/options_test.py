@@ -109,52 +109,76 @@ def main():
     idx = {d: i for i, d in enumerate(cal)}
     # the #1 holding at each trade: the double-weighted one
     trades = [(T, w) for T, w in run['weights'] if T >= R.START and w]
-    grid = trades[::4]
-    rows = []
-    for T, w in grid:
+    tops = [(T, max(w, key=lambda t: w[t])) for T, w in trades]
+    days = [d for d in cal if d >= R.START]
+
+    def priced(T, top, ivm):
         k = idx[T]
-        if k + DAYS >= len(cal):
-            break
-        top = max(w, key=lambda t: w[t])
-        if top in ASSETS:
-            continue
+        if k + DAYS >= len(cal) or top in ASSETS:
+            return None
         S, E = P['prices'][top].get(T), P['prices'][top].get(cal[k + DAYS])
-        if E is None:   # delisted inside the window: last known price
+        if E is None:
             ks = [d for d in P['prices'][top] if d <= cal[k + DAYS]]
             E = P['prices'][top][max(ks)] if ks else None
         sig = vol(P['prices'][top], cal, k)
-        if not (S and E and sig) or T not in curve or cal[k + DAYS] not in curve:
-            continue
-        sig *= IV_MULT
+        if not (S and E and sig):
+            return None
+        sig *= ivm
         Tm = DAYS / 252
         K = strike_plus_premium(S, Tm, sig)
         prem = bs_call(S, K, Tm, sig) * (1 + SPREAD)
-        pay = max(0.0, E - K)
-        rows.append(dict(d=T, end=cal[k + DAYS], t=top, S=round(S, 2), K=round(K, 2), prem=round(prem, 3),
-                         premPct=round(prem / S, 4), E=round(E, 2), mult=round(pay / prem, 3),
-                         strat=round(curve[cal[k + DAYS]] / curve[T], 5), iv=round(sig, 3)))
-    res = {}
-    for f in (0.0, 0.02, 0.05, 0.10, 0.20):
-        pts, v = [(rows[0]['d'], 1.0)], 1.0
-        for r_ in rows:
-            v *= (1 - f) * r_['strat'] + f * r_['mult']
-            pts.append((r_['end'], v))
-        at = after_tax(pts)
-        first = [p for p in pts if p[0] <= '2019-12-31']
-        second = [p for p in pts if p[0] >= '2019-12-01']
-        res[str(f)] = dict(pre=round(cagr(pts), 4), after=round(cagr(at), 4), dd=round(maxdd(pts), 4),
-                           first=round(cagr(first), 4), second=round(cagr(second), 4), final=round(v, 2))
-        R.log(f"slice {f}: {res[str(f)]}")
-    wins = [r_ for r_ in rows if r_['mult'] > 0]
-    summary = dict(n=len(rows), hit=round(len(wins) / len(rows), 3),
-                   avgMult=round(sum(r_['mult'] for r_ in rows) / len(rows), 3),
-                   medPremPct=sorted(r_['premPct'] for r_ in rows)[len(rows) // 2],
-                   medStrikePct=sorted(r_['K'] / r_['S'] - 1 for r_ in rows)[len(rows) // 2],
-                   best=sorted(rows, key=lambda r_: -r_['mult'])[:8],
-                   byYear={y: round(sum(r_['mult'] for r_ in rows if r_['d'][:4] == y) /
-                                    max(1, sum(1 for r_ in rows if r_['d'][:4] == y)), 3)
-                           for y in sorted({r_['d'][:4] for r_ in rows})})
-    R.log(f"options: {json.dumps({k: v for k, v in summary.items() if k != 'best'})}")
+        return dict(d=T, end=cal[k + DAYS], t=top, S=round(S, 2), K=round(K, 2), premPct=round(prem / S, 4),
+                    E=round(E, 2), mult=max(0.0, E - K) / prem)
+
+    def overlay(events, f):
+        """Daily: the plan's value follows its curve; on each event f x total buys calls (taken
+        from the plan), paid back into the plan at expiry. Open calls are carried at cost."""
+        by_day = {}
+        for e in events:
+            by_day.setdefault(e['d'], []).append(e)
+        plan_v, open_, pts, prev = 1.0, [], [], None
+        for d in days:
+            if d not in curve:
+                continue
+            if prev is not None:
+                plan_v *= curve[d] / curve[prev]
+            for o in [o for o in open_ if o[0] == d]:
+                plan_v += o[1] * o[2]
+                open_.remove(o)
+            for e in by_day.get(d, []):
+                amt = f * (plan_v + sum(o[1] for o in open_))
+                plan_v -= amt
+                open_.append((e['end'], amt, e['mult']))
+            pts.append((d, plan_v + sum(o[1] for o in open_)))
+            prev = d
+        return pts
+
+    res, ev_stats = {}, {}
+    for mode in ('roll4', 'new1'):
+        for ivm in (1.15, 1.3, 1.5):
+            if mode == 'roll4':
+                src = tops[::4]
+            else:
+                src = [(T, t) for i_, (T, t) in enumerate(tops) if i_ == 0 or t != tops[i_ - 1][1]]
+            events = [e for e in (priced(T, t, ivm) for T, t in src) if e]
+            hits = [e for e in events if e['mult'] > 0]
+            ev_stats[f'{mode}_{ivm}'] = dict(n=len(events), hit=round(len(hits) / max(1, len(events)), 3),
+                                             avgMult=round(sum(e['mult'] for e in events) / max(1, len(events)), 3),
+                                             perYear=round(len(events) / 16.75, 1))
+            for f in (0.0, 0.02, 0.05):
+                if f == 0.0 and (mode, ivm) != ('roll4', 1.15):
+                    continue
+                pts = overlay(events, f)
+                at = after_tax(pts)
+                first = [p for p in pts if p[0] <= '2019-12-31']
+                second = [p for p in pts if p[0] >= '2019-12-31']
+                key = 'plan' if f == 0.0 else f'{mode}_{ivm}_{f}'
+                res[key] = dict(pre=round(cagr(pts), 4), after=round(cagr(at), 4), dd=round(maxdd(pts), 4),
+                                first=round(cagr(first), 4), second=round(cagr(second), 4), final=round(pts[-1][1], 2))
+                R.log(f"{key}: {res[key]}")
+    R.log(f"events: {json.dumps(ev_stats)}")
+    summary = ev_stats
+    rows = []
     with open(OUT, 'w') as fh:
         json.dump(dict(results=res, summary=summary, rows=rows), fh, separators=(',', ':'))
 
