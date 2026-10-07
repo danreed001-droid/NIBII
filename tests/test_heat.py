@@ -57,8 +57,9 @@ def test_daily_heat_ranks_each_session():
     prices = {'A': {'2026-01-05': 100, '2026-01-06': 101, '2026-01-07': 99},
               'B': {'2026-01-05': 50, '2026-01-06': 49, '2026-01-07': 51}}
     cal = ['2026-01-05', '2026-01-06', '2026-01-07']
-    h = daily_heat(prices, cal, ['A', 'B'], days=2, extra=['B', 'ZZZ'])
+    h = daily_heat(prices, cal, ['A', 'B'], days=2, extra=['B', 'ZZZ'], breadth=['A', 'B'])
     assert h['weeks'] == ['2026-01-06', '2026-01-07'] and h['unit'] == 'day'
     assert [c[:2] for c in h['cells']['A']] == [[0.01, 1], [-0.0198, 2]]
     assert [c[:2] for c in h['cells']['B']] == [[-0.02, 2], [0.0408, 1]]
     assert h['extra'] == ['B'] and h['partial'] is False
+    assert h['breadth'] == [0.5, 0.5] and h['breadthN'] == 2

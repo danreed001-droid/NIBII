@@ -582,9 +582,9 @@ def main():
         trades=[dict(d=d_, side=s, t=t, n=names.get(t, ('', ''))[0], px=r4(prices[t].get(d_)))
                 for d_, s, t in trades[-24:]][::-1],
         table=table,
-        heat=weekly_heat(prices, calendar, [t for t, _ in now[:15]]),   # top 15's weekly ranks, last 26 weeks
+        heat=weekly_heat(prices, calendar, [t for t, _ in now[:15]], breadth=[t for t in prices if t != 'SPY']),   # top 15's weekly ranks, last 26 weeks
         dheat=daily_heat(prices, calendar, [t for t, _ in now[:30]] + [t for t in HEAT_EXTRA if t in prices and t not in dict(now[:30])],
-                         extra=[t for t in HEAT_EXTRA if t not in dict(now[:30])]),   # top 30 + a few large caps, last 30 days
+                         extra=[t for t in HEAT_EXTRA if t not in dict(now[:30])], breadth=[t for t in prices if t != 'SPY']),   # top 30 + a few large caps, last 30 days
         curves={k: [[d_, round(v, 2)] for d_, v in c] for k, c in curves.items()},   # daily: the page filters by date range
         years=years,
         stats={k: dict(total=r4(s['total']), annual=r4(s['annual']), maxDD=r4(s['maxDD']), oneYear=r4(one_year[k]))
