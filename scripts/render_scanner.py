@@ -32,7 +32,7 @@ PAGE = r'''<!doctype html>
   --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
   --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   --pos: #3fbf5f; --neg: #e5605a; --grid: #2c2c2a;
-  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-plan: #3fb8a0; --s-boost: #a989f5;
+  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-plan: #3fb8a0; --s-boost: #a989f5; --s-mon: #f08c4a; --s-monb: #8fbf3a;
   color-scheme: dark;
 }
 :root[data-mtl-theme="light"] {
@@ -40,7 +40,7 @@ PAGE = r'''<!doctype html>
   --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
   --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
   --pos: #0a8f0a; --neg: #c43232; --grid: #e1e0d9;
-  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-plan: #13866f; --s-boost: #6d44d4;
+  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-plan: #13866f; --s-boost: #6d44d4; --s-mon: #c4561a; --s-monb: #5f8a12;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -170,6 +170,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 
 /* years */
 .years td, .years th { padding: 6px 6px; }
+.years.tight td, .years.tight th { padding: 6px 4px; } .years.tight .ybar i { display: none; } .years.tight .ybar { gap: 0; }
 .ybar { display: flex; align-items: center; gap: 6px; }
 .ybar i { display: block; height: 8px; border-radius: 3px; background: var(--c); min-width: 2px; }
 .ybar.neg i { background: var(--neg); opacity: 0.8; }
@@ -222,6 +223,8 @@ tbody tr:last-child td { border-bottom: 0; }
 .money-in span { color: var(--muted); }
 .money-in input { font: 600 0.95rem ui-monospace, monospace; width: 110px; border: 0; background: transparent; color: var(--ink); padding: 6px 4px; outline: none; }
 .money-in:focus-within { border-color: var(--accent); }
+.mlist { margin: 6px 0 0; font-size: 0.8rem; color: var(--ink-2); }
+.mlist b { font-family: ui-monospace, monospace; }
 .alloc { width: 100%; border-collapse: collapse; font-size: 0.86rem; table-layout: fixed; }
 .alloc td:nth-child(2) { width: 86px; } .alloc td:nth-child(3) { width: 72px; }
 .alloc td:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -242,9 +245,11 @@ tbody tr:last-child td { border-bottom: 0; }
 .abar i { position: absolute; top: 0; bottom: 0; left: 50%; background: var(--c); border-radius: 3px; }
 .assets .num { text-align: right; }
 .note { font-size: 0.78rem; color: var(--muted); margin: 8px 0 0; }
+.optcheck { margin-top: 12px; }
 /* date range */
 .range { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0 0 10px; font-size: 0.8rem; color: var(--ink-2); }
 .range label { display: inline-flex; align-items: center; gap: 6px; }
+.range select { font: inherit; font-size: 0.82rem; color: var(--ink); background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 8px; padding: 4px 8px; }
 .range input[type="date"] { font: inherit; font-size: 0.82rem; color: var(--ink); background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 8px; padding: 4px 8px; color-scheme: inherit; }
 /* your calls (human model) */
 .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
@@ -310,6 +315,7 @@ footer li { margin-bottom: 6px; }
 
   <p class="section-label">Current holdings <span class="hint" id="hold-hint"></span></p>
   <div class="holdings" id="holdings"></div>
+  <div class="card optcheck" id="optcheck" hidden></div>
   <div class="card swpanel" id="swpanel" hidden></div>
 
   <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
@@ -329,6 +335,11 @@ footer li { margin-bottom: 6px; }
       <ul class="assets" id="assets"></ul>
       <p class="note" id="sleeve-note"></p>
     </div>
+  </div>
+
+  <div id="monthly-wrap" hidden>
+  <p class="section-label">Monthly plan <span class="hint">tracked alongside the weekly plans · decided at the last close of each month, traded the next session</span></p>
+  <div class="plan" id="monthly"></div>
   </div>
 
   <p class="section-label">Your calls <span class="hint">the human model · you decide each week · saved in this browser</span></p>
@@ -375,8 +386,10 @@ footer li { margin-bottom: 6px; }
 
   <p class="section-label">Track record <span class="hint" id="range-hint">$100 in the rule vs buying and holding</span></p>
   <div class="range" id="range">
+    <label>Years <select id="ry-from" aria-label="From year"></select></label><label>to <select id="ry-to" aria-label="To year"></select></label>
+    <span class="seg" id="r-pre"><button type="button" data-r="ytd">YTD</button><button type="button" data-r="1y">1Y</button><button type="button" data-r="3y">3Y</button><button type="button" data-r="5y">5Y</button><button type="button" data-r="10y">10Y</button><button type="button" data-r="all">All</button></span>
+    <span class="seg" id="r-tax"><button type="button" data-t="0" aria-pressed="true">Before tax</button><button type="button" data-t="1" aria-pressed="false">After 37% tax</button></span>
     <label>From <input type="date" id="r-from"></label><label>To <input type="date" id="r-to"></label>
-    <span class="seg" id="r-pre"><button type="button" data-r="ytd">YTD</button><button type="button" data-r="1y">1Y</button><button type="button" data-r="3y">3Y</button><button type="button" data-r="all">All</button></span>
   </div>
   <div class="stats" id="stats"></div>
   <div class="two" style="margin-top:12px">
@@ -430,8 +443,8 @@ footer li { margin-bottom: 6px; }
 
   <footer><ul>
     <li><b>The rule.</b> Score = return from 6 months ago to 1 month ago. Each Friday close: a stock must beat SPY's score to qualify; buy the top 5 in equal weight; a holding stays while it ranks in the top 10, otherwise it is replaced by the best-ranked stock not held. Trades are placed the following Monday in the last 30 minutes before the close (the track record uses Monday's closing prices; trading at Monday's open did about 3% a year worse in testing). Mon–Thu the banner previews what Friday's signal would be if it were today.</li>
-    <li><b>Fair test.</b> S&amp;P 500 stocks count only from the day they joined the index. The 15 Nasdaq-only members have no published join dates, so the track record carries some hindsight from them; the S&amp;P-only version made about +1,219% over the same period (see Backtests). Stocks that left either index since 2020 are missing, which also flatters the record. Small caps are deliberately excluded: adding the Russell 2000 cut the result to about +509% with a −73% drawdown.</li>
-    <li><b>Risk.</b> Five stocks is concentrated: drawdowns near −38% happened, it trailed QQQ in 2020, 2023 and 2024, and 2026's gains came mostly from one theme (memory/storage). Prices from Yahoo Finance, split-adjusted closes (benchmarks include dividends). A mechanical rule's output, not investment advice.</li>
+    <li><b>Fair test.</b> S&amp;P 500 stocks count only from the day they joined the index. The 15 Nasdaq-only members have no published join dates, so the track record carries some hindsight from them; the S&amp;P-only version made about +1,219% from 2020 on (see Backtests). Stocks that left either index during the test period are missing, which also flatters the record. Small caps are deliberately excluded: adding the Russell 2000 cut the result to about +509% with a −73% drawdown.</li>
+    <li><b>Risk.</b> Five stocks is concentrated: drawdowns near −38% happened, it trailed QQQ in <span id="trail-yrs">some years</span>, and 2026's gains came mostly from one theme (memory/storage). Prices from Yahoo Finance, split-adjusted closes (benchmarks include dividends). A mechanical rule's output, not investment advice.</li>
     <li>Generated by <code>scripts/momentum_scan.py</code> + <code>scripts/render_scanner.py</code> in <a href="https://github.com/danreed001-droid/NIBII">danreed001-droid/NIBII</a> · <span id="gen"></span></li>
   </ul></footer>
 </div>
@@ -440,6 +453,7 @@ footer li { margin-bottom: 6px; }
 <script>
 (function () {
   var D = JSON.parse(document.getElementById('scan-data').textContent);
+  var SINCE = (D.rule && D.rule.start ? D.rule.start : '2020').slice(0, 4);
   var NS = 'http://www.w3.org/2000/svg';
   function $(id) { return document.getElementById(id); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -503,10 +517,29 @@ footer li { margin-bottom: 6px; }
 
   // holdings
   $('hold-hint').textContent = (D.signalDay ? 'after Monday’s trades · ' : '') + 'equal weight · 6-1m = return from 6 months to 1 month ago';
+  (function () {
+    var O = D.option;
+    if (!O) return;
+    var md = { month: 'short', day: 'numeric' };
+    var usd = function (x) { return '$' + (x >= 100 ? x.toFixed(0) : x.toFixed(2)); };
+    $('optcheck').innerHTML =
+      '<p class="chart-title">Option check · #1 ' + esc(O.t) + '</p>' +
+      '<p class="chart-sub">Optional add-on: a 4-week at-the-money call on the #1 stock (strike ≈ ' + usd(O.price) + ', expiring ' + fmtDate(O.expiry, md) + '), sized at about 2% of the account. ' +
+      'It only paid in testing when the call was cheap.</p>' +
+      '<div class="stats" style="margin-top:8px">' +
+      '<div class="stat"><span class="stat-label">Cheap: buy at or under</span><span class="stat-value pos">' + usd(O.cheap) + '</span><span class="stat-sub">' + pct(O.cheap / O.price, 1) + ' of the price</span></div>' +
+      '<div class="stat"><span class="stat-label">Skip if over</span><span class="stat-value neg">' + usd(O.skip) + '</span><span class="stat-sub">' + pct(O.skip / O.price, 1) + ' of the price</span></div>' +
+      '<div class="stat"><span class="stat-label">Usual 4-week move</span><span class="stat-value">' + pct(O.usual, 1) + '</span><span class="stat-sub">≈ ' + usd(O.usualUsd) + ' (last year)</span></div>' +
+      '<div class="stat"><span class="stat-label">Swing (HV, 3 months)</span><span class="stat-value">' + pct(O.hv, 0) + '</span><span class="stat-sub">fair call ≈ ' + usd(O.fair) + '</span></div></div>' +
+      '<p class="note" style="margin-top:8px">' + (O.earningsInside ? '<b class="neg">Earnings ' + fmtDate(O.earnings, md) + ' fall inside the 4 weeks — options are usually overpriced; skip this one.</b> ' :
+        (O.earnings ? 'Next earnings ' + fmtDate(O.earnings, md) + ' (after expiry). ' : 'Check the earnings date before buying. ')) +
+      'Compare your broker’s ask price for the call with the numbers above. Between them is borderline. A rough guide from a backtest with modelled option prices, not a recommendation.</p>';
+    $('optcheck').hidden = false;
+  })();
   $('holdings').innerHTML = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) {
     var tap = h.chart ? ' data-t="' + esc(h.t) + '" tabindex="0" role="button" aria-expanded="false" aria-controls="swpanel" aria-label="' + esc(h.t) + ': show swing chart"' : '';
     return '<article class="hold"' + tap + '><div class="hold-top"><span class="rank">#' + (h.rank || '–') + '</span><span>' + (h.new ? '<span class="tag buy">buy Mon</span> ' : '') + (h.ndx ? '<span class="tag ndx" title="Nasdaq-100 only">NDX</span>' : '') + '</span></div>' +
-      '<div><div class="tk">' + esc(h.t) + '</div><div class="nm" title="' + esc(h.n) + '">' + esc(h.n) + '</div></div>' +
+      '<div><div class="tk">' + esc(h.t) + (h.w ? ' <span class="small muted">' + Math.round(h.w * 100) + '%</span>' : '') + '</div><div class="nm" title="' + esc(h.n) + '">' + esc(h.n) + '</div></div>' +
       '<div><div class="big ' + tone(h.score) + '">' + pct(h.score, 0) + '</div><div class="small">6-1m · ' + pct(h.vsSpy, 0) + ' vs SPY</div></div>' +
       spark(h.spark, 200, 44) +
       '<div class="kv"><span>Held</span><b>' + (h.new ? 'new' : (h.weeks || 0) + ' wk') + '</b><span>Since buy</span><b class="' + tone(h.sinceRet) + '">' + pct(h.sinceRet) + '</b>' +
@@ -529,7 +562,7 @@ footer li { margin-bottom: 6px; }
       '<button type="button" class="x">Close</button></div><div class="swchart"></div>' +
       '<p class="swnote">A swing high is the highest high of 7 days (3 before, 3 after), so it is only known 3 days later; lows likewise. ' +
       '<b>HH/LH</b> = higher/lower than the previous swing high, <b>HL/LL</b> = vs the previous swing low. Down = the last two swings are both LH/LL; up = both HH/HL; otherwise mixed. ' +
-      (counts ? '<b>This holding is in a downtrend at the signal close and counts toward the auto mix (' + A.need + '+ moves it to ' + A.low + ').</b>' : 'The auto mix moves to ' + (A ? A.low : '60/40') + ' when ' + (A ? A.need : 2) + '+ holdings read down at Friday’s close.') + '</p>';
+      (counts ? '<b>This holding is in a downtrend at the signal close and counts toward the auto mix (each one down moves 20% to the sleeve: 1 → 80/20, 2 → 60/40, 3+ → 40/60).</b>' : 'The auto mix moves 20% to the sleeve for each holding that reads down at Friday’s close (1 → 80/20, 2 → 60/40, 3+ → 40/60).') + '</p>';
     panel.querySelector('.x').onclick = function () { closeSwing(panel.id); };
     var box = panel.querySelector('.swchart'), W = Math.max(300, box.clientWidth), PH = Math.round(Math.min(340, Math.max(220, W * 0.42))), SH = 26, H = PH + SH + 26;
     var m = { l: 52, r: 10, t: 22, b: 8 }, n = C.c.length, step = (W - m.l - m.r) / n;
@@ -810,7 +843,7 @@ footer li { margin-bottom: 6px; }
       rows += '<tr class="sum"><td>Total</td><td class="r">' + usd(acct) + '</td><td></td></tr>';
       $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
       var st = P.stats[mix], S0 = D.stats.strategy;
-      $('plan-stats').innerHTML = (st ? '<span>Since 2020 ' + (mix === 'auto' ? 'with auto' : mix === 'boost' ? 'with auto + news boost' : mix === 'guard' ? 'with auto + guard' : mix === 'steps' ? 'with steps' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>'
+      $('plan-stats').innerHTML = (st ? '<span>Since ' + SINCE + ' ' + (mix === 'auto' ? 'with auto' : mix === 'boost' ? 'with auto + news boost' : mix === 'guard' ? 'with auto + guard' : mix === 'steps' ? 'with steps' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>'
           : '<span>Your record is scored below, from your first call.</span>') +
         '<span class="muted">Top 5 alone: ' + pct(S0.annual, 0) + ' a year, worst drop ' + pct(S0.maxDD, 0) + '</span>';
       if (mix === 'mine') {
@@ -823,7 +856,7 @@ footer li { margin-bottom: 6px; }
           'News gaps in the last 4 weeks: ' + gl + '. ' +
           (B.boosted.length ? 'This week it holds <b>' + B.boosted.map(esc).join(', ') + '</b> instead of ' + B.replaced.map(esc).join(', ') + '. ' : 'This week it holds the same stocks as the plain top 5. ') +
           (D.signalDay ? 'Auto mix ' + B.split + (B.split !== B.prevSplit ? ' (was ' + B.prevSplit + ')' : '') + '. ' : '') +
-          'Since 2020: ' + pct(P.stats.boost.annual, 0) + ' a year vs ' + pct(P.stats.auto.annual, 0) + ' for Auto; tested 2000–2026 about +32% a year vs +25%, worst drop −62% vs −73%, and it caught the 2009 rebound (+35% vs −27%). ' +
+          'Since ' + SINCE + ': ' + pct(P.stats.boost.annual, 0) + ' a year vs ' + pct(P.stats.auto.annual, 0) + ' for Auto; tested 2000–2026 about +32% a year vs +25%, worst drop −62% vs −73%, and it caught the 2009 rebound (+35% vs −27%). ' +
           'Its list differed from the plain top 5 in ' + B.weeksDiff + ' of ' + A.weeks + ' weeks. Expect fewer real gains than the test: it only knows today’s index members.';
       } else if (A && mix === 'guard' && A.guard) {
         var G = A.guard;
@@ -831,23 +864,23 @@ footer li { margin-bottom: 6px; }
           '% of the stock part sits in SPY instead of the top 5. ' + (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + 'SPY ' + (G.spyNow != null ? G.spyNow.toFixed(2) : '–') + ' vs ' +
           (G.spyYearAgo != null ? G.spyYearAgo.toFixed(2) : '–') + ' a year ago → guard <b>' + (G.bear ? 'ON' : 'off') + '</b>' +
           (D.signalDay && G.bear !== G.prevBear ? ' (changed — trade it Monday)' : '') + '.' + (!D.signalDay && G.previewBear != null && G.previewBear !== G.bear ? ' If Friday were today the guard would turn ' + (G.previewBear ? 'ON' : 'off') + '.' : '') +
-          ' It costs a little in good years (since 2020: ' + pct(P.stats.guard.annual, 0) + ' a year vs ' + pct(P.stats.auto.annual, 0) + ' for Auto) and pays off in long bear markets: tested 2000–2026, about the same +25% a year with a worst drop near −63% instead of −73%, and 2009 about −5% instead of −27%. On ' + G.weeksBear + ' weeks since 2020.';
+          ' It costs a little in good years (since ' + SINCE + ': ' + pct(P.stats.guard.annual, 0) + ' a year vs ' + pct(P.stats.auto.annual, 0) + ' for Auto) and pays off in long bear markets: tested 2000–2026, about the same +25% a year with a worst drop near −63% instead of −73%, and 2009 about −5% instead of −27%. On ' + G.weeksBear + ' weeks since ' + SINCE + '.';
       } else if (A && mix === 'steps' && A.steps) {
         var dn2 = A.down.length, lst2 = dn2 ? ' (' + A.down.map(esc).join(', ') + ')' : '', S2 = A.steps;
-        $('auto-note').innerHTML = '<b>Steps:</b> 100% top 5 when no holding is in a daily lower-low downtrend at Friday’s close; 1 down → 80/20, 2 down → 60/40, 3 or more → 40/60. ' +
+        $('auto-note').innerHTML = '<b>Steps:</b> 100% top 5 when no holding is in a daily lower-low downtrend at Friday’s close; 1 down → 80/20, 2 down → 60/40, 3 or more → 40/60 (Auto and Boost use these same tiers). ' +
           (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + dn2 + ' of ' + A.checked.length + ' in a downtrend' + lst2 + ' → <b>' + S2.split + '</b>' +
           (D.signalDay && S2.split !== S2.prevSplit ? ' (was ' + S2.prevSplit + ' — change it Monday)' : '') + '.' +
           (!D.signalDay && S2.preview ? ' If Friday were today: ' + A.previewDown.length + ' in a downtrend → ' + S2.preview + '.' : '') +
-          ' Since 2020 it was below 100% in ' + S2.weeksLow + ' of ' + A.weeks + ' weeks.';
+          ' Since ' + SINCE + ' it was below 100% in ' + S2.weeksLow + ' of ' + A.weeks + ' weeks.';
       } else if (A && mix !== 'auto') {
         $('auto-note').innerHTML = 'Fixed mix: reset to ' + mix + ' every Monday whatever the charts say. Auto and Steps adjust it to how many holdings are in a downtrend.';
       } else if (A) {
         var dn = A.down.length, lst = dn ? ' (' + A.down.map(esc).join(', ') + ')' : '';
-        $('auto-note').innerHTML = '<b>Auto:</b> 100% top 5, moving to ' + A.low + ' for the week when ' + A.need + '+ holdings are in a daily lower-low downtrend at Friday’s close. ' +
+        $('auto-note').innerHTML = '<b>Auto:</b> 100% top 5; for each holding in a daily lower-low downtrend at Friday’s close, 20% moves to the sleeve for the week (1 → 80/20, 2 → 60/40, 3+ → 40/60). ' +
           (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + dn + ' of ' + A.checked.length + ' in a downtrend' + lst + ' → <b>' + A.split + '</b>' +
           (D.signalDay && A.split !== A.prevSplit ? ' (was ' + A.prevSplit + ' — change it Monday)' : '') + '.' +
           (!D.signalDay && A.preview ? ' If Friday were today: ' + A.previewDown.length + ' in a downtrend → ' + A.preview + '.' : '') +
-          ' Since 2020 it was at ' + A.low + ' in ' + A.weeksLow + ' of ' + A.weeks + ' weeks.';
+          ' Since ' + SINCE + ' it was below 100% in ' + A.weeksLow + ' of ' + A.weeks + ' weeks.';
       }
     }
     $('mix-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mix = b.getAttribute('data-v'); try { localStorage.setItem('nibii-plan-mix3', mix); } catch (x) {} draw(); };
@@ -1075,15 +1108,48 @@ footer li { margin-bottom: 6px; }
     var ss = SL.stats;
     $('sleeve-note').innerHTML = (D.signalDay && SL.held !== SL.prevHeld ? '<b>New pick: switch ' + esc(SL.prevHeld) + ' → ' + esc(SL.held) + ' on Monday.</b> '
         : !D.signalDay && SL.preview !== SL.held ? '<b>Preview: if Friday’s signal were today, switch ' + esc(SL.held) + ' → ' + esc(SL.preview) + '.</b> ' : '') +
-      'Sleeve alone since 2020: ' + pct(ss.annual, 0) + ' a year, worst drop ' + pct(ss.maxDD, 0) + '. 6-month returns, dividends included.';
+      'Sleeve alone since ' + SINCE + ': ' + pct(ss.annual, 0) + ' a year, worst drop ' + pct(ss.maxDD, 0) + '. 6-month returns, dividends included.';
   })();
 
-  // date range for the track record (defaults to everything since 2020)
+  // date range for the track record (defaults to everything since the start)
   var ALL0 = D.curves.strategy[0][0], ALL1 = D.curves.strategy[D.curves.strategy.length - 1][0];
   var R = { a: ALL0, b: ALL1 };
   function inR(c) { return c.filter(function (p) { return p[0] >= R.a && p[0] <= R.b; }); }
+  // after-tax view, measured from the start of the selected range: what you would keep if you cashed out
+  // that day. Strategies: 37% on each calendar year's net gain (losses carried forward), paid the next
+  // April 15, and 37% on this year's unpaid gain. SPY / QQQ: bought at the range start and held;
+  // 20% on dividends as paid, 20% on the gain if held over a year (37% if not).
+  var TAX = false, YIELD = { SPY: 0.016, QQQ: 0.007 };
+  function taxed(c, key) {
+    if (c.length < 2) return c;
+    var out = [[c[0][0], c[0][1]]];
+    if (YIELD[key] != null) {
+      var basis = c[0][1], t0 = Date.parse(c[0][0]);
+      for (var i = 1; i < c.length; i++) {
+        var yrs = (Date.parse(c[i][0]) - t0) / 31557600000;
+        var v = c[i][1] * Math.pow(1 - 0.20 * YIELD[key], yrs), rate = yrs > 1 ? 0.20 : 0.37;
+        out.push([c[i][0], v - rate * Math.max(0, v - basis)]);
+      }
+      return out;
+    }
+    var A = c[0][1], G = 0, carry = 0, owed = 0, pay = null, yr = c[0][0].slice(0, 4);
+    for (var j = 1; j < c.length; j++) {
+      var d = c[j][0], y = d.slice(0, 4);
+      if (y !== yr) {
+        var net = G - carry;
+        if (net > 0) { owed += 0.37 * net; carry = 0; } else carry = -net;
+        G = 0; yr = y; pay = y + '-04-15';
+      }
+      if (owed > 0 && pay && d >= pay) { A -= owed; owed = 0; pay = null; }
+      var g = A * (c[j][1] / c[j - 1][1] - 1);
+      A += g; G += g;
+      out.push([d, A - owed - 0.37 * Math.max(0, G - carry)]);
+    }
+    return out;
+  }
+  function view(key) { var c = inR(D.curves[key] || []); return TAX ? taxed(c, key) : c; }
   function rstat(key) {
-    var c = inR(D.curves[key] || []);
+    var c = view(key);
     if (c.length < 2) return null;
     var pk = c[0][1], dd = 0; c.forEach(function (p) { pk = Math.max(pk, p[1]); dd = Math.min(dd, p[1] / pk - 1); });
     var tot = c[c.length - 1][1] / c[0][1] - 1, yrs = (Date.parse(c[c.length - 1][0]) - Date.parse(c[0][0])) / 31557600000;
@@ -1098,33 +1164,82 @@ footer li { margin-bottom: 6px; }
       tile('Top 5', pct(t5.tot, 0), yr(t5), tone(t5.tot)) +
       tile('Boost / Auto', (bo ? pct(bo.tot, 0) : '–') + ' / ' + (au ? pct(au.tot, 0) : '–'), (bo ? yr(bo) : '') + ' · worst ' + (bo ? pct(bo.dd, 0) : '–') + ' / ' + (au ? pct(au.dd, 0) : '–'), tone(bo && bo.tot)) +
       tile('SPY / QQQ', pct(sp.tot, 0) + ' / ' + pct(qq.tot, 0), 'worst ' + pct(sp.dd, 0) + ' / ' + pct(qq.dd, 0)) +
-      tile('Top 5 worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since 2020' : 'in this range', 'neg');
-    $('range-hint').textContent = '$100 in the rule vs buying and holding · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b);
+      tile('Top 5 worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since ' + SINCE : 'in this range', 'neg');
+    $('range-hint').textContent = '$100 in the rule vs buying and holding · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b) +
+      (TAX ? ' · after tax: rule 37% on each year’s gains (paid each April), SPY/QQQ held, 20% long-term · value if cashed out that day' : ' · before tax');
   }
-  var rf = $('r-from'), rto = $('r-to');
+  var rf = $('r-from'), rto = $('r-to'), ryf = $('ry-from'), ryt = $('ry-to');
+  (function () {
+    var o = '';
+    for (var y = +ALL0.slice(0, 4); y <= +ALL1.slice(0, 4); y++) o += '<option value="' + y + '">' + y + '</option>';
+    ryf.innerHTML = ryt.innerHTML = o;
+    ryf.value = ALL0.slice(0, 4); ryt.value = ALL1.slice(0, 4);
+  })();
+  // a whole-year range: Jan 1 of the first year (the prior year's last close is the base) to Dec 31 of the last
+  // a range based on the last close of December belongs to the next year
+  function shownYear(d) { var y = +d.slice(0, 4); return String(d.slice(5) >= '12-24' && y < +ALL1.slice(0, 4) ? y + 1 : y); }
+  function yearStart(y) { var prev = D.curves.strategy.filter(function (p) { return p[0] < y + '-01-01'; }); return prev.length ? prev[prev.length - 1][0] : ALL0; }
+  ryf.onchange = function () { var a = +ryf.value, b = Math.max(a, +ryt.value); setRange(yearStart(a), b + '-12-31'); };
+  ryt.onchange = function () { var b = +ryt.value, a = Math.min(+ryf.value, b); setRange(yearStart(a), b + '-12-31'); };
   rf.min = rto.min = ALL0; rf.max = rto.max = ALL1; rf.value = ALL0; rto.value = ALL1;
   function setRange(a, b) {
     R.a = a < ALL0 ? ALL0 : a; R.b = b > ALL1 ? ALL1 : b;
     if (R.a > R.b) { var t = R.a; R.a = R.b; R.b = t; }
     rf.value = R.a; rto.value = R.b;
+    ryf.value = shownYear(R.a); ryt.value = R.b.slice(0, 4);
     document.querySelectorAll('#r-pre button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
     drawStats(); drawGrowth();
   }
   rf.onchange = function () { if (rf.value) setRange(rf.value, R.b); };
   rto.onchange = function () { if (rto.value) setRange(R.a, rto.value); };
+  $('r-tax').onclick = function (e) {
+    var bt = e.target.closest('button'); if (!bt) return;
+    TAX = bt.getAttribute('data-t') === '1';
+    document.querySelectorAll('#r-tax button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === bt)); });
+    drawStats(); drawGrowth();
+  };
   $('r-pre').onclick = function (e) {
     var bt = e.target.closest('button'); if (!bt) return;
     var k = bt.getAttribute('data-r'), end = new Date(ALL1 + 'T12:00:00Z'), a = ALL0;
-    if (k === 'ytd') a = ALL1.slice(0, 4) + '-01-01';
-    else if (k === '1y' || k === '3y') { var d0 = new Date(end); d0.setUTCFullYear(d0.getUTCFullYear() - (k === '1y' ? 1 : 3)); a = d0.toISOString().slice(0, 10); }
+    if (k === 'ytd') a = yearStart(+ALL1.slice(0, 4));
+    else if (k !== 'all') { var d0 = new Date(end); d0.setUTCFullYear(d0.getUTCFullYear() - parseInt(k, 10)); a = d0.toISOString().slice(0, 10); }
     setRange(a, ALL1);
     bt.setAttribute('aria-pressed', 'true');
   };
+
+  // monthly plans
+  (function () {
+    var M = D.monthly;
+    if (!M) return;
+    var md = { month: 'short', day: 'numeric' };
+    function card(b, title, color, note) {
+      var sp = (b.split || '100/0').split('/');
+      var rows = b.holdings.map(function (h) {
+        return '<tr><td><span class="sw" style="--c:' + color + '"></span><b>' + esc(h.t) + '</b> <span class="muted"><span class="nm2">' + esc(h.n) + '</span></span></td>' +
+          '<td class="r muted">' + (h.since ? fmtDate(h.since, md) : '') + '</td><td class="r ' + tone(h.sinceRet || 0) + '">' + (h.sinceRet == null ? '–' : pct(h.sinceRet, 1)) + '</td></tr>';
+      }).join('');
+      var tr = (b.trades || []).slice(0, 6).map(function (x) {
+        return (x.side === 'buy' ? 'bought ' : 'sold ') + '<b>' + esc(x.t) + '</b> ' + fmtDate(x.d, md);
+      }).join(' · ');
+      return '<div class="card"><p class="chart-title">' + title + '</p>' +
+        '<p class="chart-sub">Since ' + SINCE + ': <b class="pos">' + pct(b.stats.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(b.stats.maxDD, 0) + '</b> · this month ' + sp[0] + '% stocks' +
+        (b.sleeve ? ', ' + sp[1] + '% in ' + esc(b.sleeve) : '') + '</p>' +
+        '<table class="alloc"><tbody>' + (rows || '<tr><td class="muted">No holdings yet</td></tr>') + '</tbody></table>' +
+        '<p class="mlist">Held since · gain since bought' + (tr ? '<br>Recent: ' + tr : '') + '</p>' +
+        (note ? '<p class="note">' + note + '</p>' : '') + '</div>';
+    }
+    var next = 'Next decision at the ' + fmtDate(M.nextDecision, md) + ' close, traded ' + fmtDate(M.nextTrade, md) + '.';
+    var pv = (M.preview || []).length ? ' If the month ended today it would hold ' + M.preview.map(esc).join(', ') + '.' : '';
+    $('monthly').innerHTML = card(M.boost, 'Monthly boost', 'var(--s-monb)', next) + card(M.auto, 'Monthly auto', 'var(--s-mon)', next + pv);
+    $('monthly-wrap').hidden = false;
+  })();
 
   // growth chart
   var SER = [['strategy', 'Top 5 strongest', 'var(--s-strat)', 'main'], ['QQQ', 'QQQ', 'var(--s-qqq)', ''], ['SPY', 'SPY', 'var(--s-spy)', '']];
   if (D.curves.plan && D.plan) SER.splice(1, 0, ['plan', 'Plan (auto mix)', 'var(--s-plan)', 'main']);
   if (D.curves.boost && D.plan) SER.splice(1, 0, ['boost', 'Plan (boost)', 'var(--s-boost)', 'main']);
+  if (D.curves.monthlyBoost) SER.splice(SER.length - 2, 0, ['monthlyBoost', 'Monthly boost', 'var(--s-monb)', 'main']);
+  if (D.curves.monthly) SER.splice(SER.length - 2, 0, ['monthly', 'Monthly auto', 'var(--s-mon)', 'main']);
   var HIDE = {}; try { HIDE = JSON.parse(localStorage.getItem('nibii-hide-lines') || '{}') || {}; } catch (e) {}
   function drawLegend() {
     $('legend').innerHTML = SER.map(function (s) { return '<button type="button" class="lg" data-k="' + s[0] + '" aria-pressed="' + String(!HIDE[s[0]]) + '"><i class="key" style="--c:' + s[2] + '"></i>' + s[1] + '</button>'; }).join('') +
@@ -1146,7 +1261,7 @@ footer li { margin-bottom: 6px; }
   function drawGrowth() {
     document.querySelectorAll('#scale-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === scale)); });
     var box = $('growth'); box.innerHTML = '';
-    var series = SER.filter(function (s) { return !HIDE[s[0]]; }).map(function (s) { var c = inR(D.curves[s[0]]), b0 = c.length ? c[0][1] : 1; return { name: s[1], c: s[2], cls: s[3], pts: c.map(function (p) { return [day(p[0]), p[1] / b0 * 100]; }) }; });
+    var series = SER.filter(function (s) { return !HIDE[s[0]]; }).map(function (s) { var c = view(s[0]), b0 = c.length ? c[0][1] : 1; return { name: s[1], c: s[2], cls: s[3], pts: c.map(function (p) { return [day(p[0]), p[1] / b0 * 100]; }) }; });
     if (!series[0].pts.length) return;
     var W = Math.max(320, box.clientWidth), H = Math.round(Math.min(380, Math.max(240, W * 0.5))), m = { l: 56, r: 64, t: 10, b: 26 };
     var xs = [], ys = [];
@@ -1200,17 +1315,28 @@ footer li { margin-bottom: 6px; }
   drawStats(); drawGrowth();
   var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(drawGrowth, 150); });
 
+  (function () {
+    var yS = D.years && D.years.strategy, yQ = D.years && D.years.QQQ;
+    if (!yS || !yQ) return;
+    var lag = Object.keys(yS).sort().filter(function (y) { return yQ[y] != null && yS[y] < yQ[y]; });
+    var cur = new Date().getFullYear().toString();
+    lag = lag.filter(function (y) { return y !== cur; });
+    var txt = lag.length ? (lag.length > 1 ? lag.slice(0, -1).join(', ') + ' and ' + lag[lag.length - 1] : lag[0]) : 'no full year';
+    var t = document.getElementById('trail-yrs'); if (t) t.textContent = txt;
+  })();
   // years
   var ys = Object.keys(D.years.strategy).sort(), maxAbs = 0;
-  var YK = ['strategy', 'boost', 'plan', 'SPY', 'QQQ'].filter(function (k) { return D.years[k]; });
-  var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', plan: 'var(--s-plan)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)' };
-  var YH = { strategy: 'Top 5', boost: 'Boost', plan: 'Auto', SPY: 'SPY', QQQ: 'QQQ' };
+  var YK = (D.years.monthly ? ['boost', 'plan', 'monthlyBoost', 'monthly', 'SPY', 'QQQ'] : ['strategy', 'boost', 'plan', 'SPY', 'QQQ'])
+    .filter(function (k) { return D.years[k]; });
+  var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', plan: 'var(--s-plan)', monthlyBoost: 'var(--s-monb)', monthly: 'var(--s-mon)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)' };
+  var YH = { strategy: 'Top 5', boost: 'Boost', plan: 'Auto', monthlyBoost: 'M boost', monthly: 'M auto', SPY: 'SPY', QQQ: 'QQQ' };
   ys.forEach(function (y) { YK.forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
-  var barMax = YK.length > 4 ? 18 : YK.length > 3 ? 26 : 70;
+  var barMax = YK.length > 5 ? 3 : YK.length > 4 ? 18 : YK.length > 3 ? 26 : 70;
   function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * barMax); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }
+  $('years').className = 'years' + (YK.length > 5 ? ' tight' : '');
   $('years').innerHTML = '<thead><tr><th class="l">Year</th>' + YK.map(function (k) { return '<th class="l y-' + k + '">' + YH[k] + '</th>'; }).join('') + '</tr></thead><tbody>' +
     ys.map(function (y) { return '<tr><td class="l">' + y + '</td>' + YK.map(function (k) { return '<td class="l y-' + k + '">' + ybar(D.years[k][y] || 0, YC[k]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
-  $('ytd-note').textContent = ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ')' + (window.innerWidth <= 520 ? ' · Top 5 column on wider screens' : '');
+  $('ytd-note').textContent = ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ')' + (D.years.monthly ? ' · M = monthly' : window.innerWidth <= 520 ? ' · Top 5 column on wider screens' : '');
 
   // on deck
   $('deck').innerHTML = D.table.filter(function (r) { return r.rank > 5 && r.rank <= 20; }).map(function (r) {

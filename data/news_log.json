@@ -1977,5 +1977,365 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-04-1-opec-plus-holds-november-output-steady",
+    "data": {
+      "addedAt": "2026-10-04",
+      "category": "Energy",
+      "date": "2026-10-04",
+      "day": "Sun",
+      "direction": "Mixed",
+      "event": "OPEC+ agrees to hold November crude production targets steady for a second straight month rather than raise output, as most members already pump below quota amid the Strait of Hormuz standoff",
+      "impact": "High",
+      "numbers": "Core-8 joint quota ~31M bpd unchanged; 1.65M bpd of 2023 voluntary cuts already unwound; 2M bpd of 2022-vintage cuts held through year-end; next OPEC+ review meeting Nov 1",
+      "order": 1,
+      "reaction": "Brent settled near-flat at $102.25/bbl Friday, WTI fell 1.9% to $91.11/bbl (weekly: Brent ~-2%, WTI ~-1.4%); holding output steady rather than raising it keeps a supply-risk premium in place for Monday's open",
+      "region": "Global / OPEC+",
+      "source": "https://www.thenationalnews.com/business/energy/2026/10/04/opec-keeps-oil-output-targets-unchanged-for-november/",
+      "tickers": "USO, BNO, XLE, CL=F, BZ=F, XOM, CVX",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-04-2-yemen-offensive-aramco-claim-disputed",
+    "data": {
+      "addedAt": "2026-10-04",
+      "category": "Geopolitics",
+      "date": "2026-10-04",
+      "day": "Sun",
+      "direction": "Mixed",
+      "event": "Yemen's Saudi-backed government launches a major offensive on Iran-backed Houthis (257 strikes claimed, ~700 Houthi casualties claimed); Saudi-led coalition dismisses the Houthis' claimed missile/drone attack on an Aramco site near Riyadh as \"misleading\"",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "Markets closed for the weekend; escalating Yemen ground offensive, a disputed Aramco attack claim, and Houthi control of Bab al-Mandeb/Red Sea chokepoints keep a geopolitical risk premium on oil and tanker/shipping names into Monday's open, layered on the ongoing Hormuz standoff",
+      "region": "Saudi Arabia / Yemen / Middle East",
+      "source": "https://www.thenationalnews.com/news/gulf/2026/10/04/yemen-government-forces-strike-sanaa-and-saada-as-houthis-claim-aramco-attack/",
+      "tickers": "USO, BNO, XLE, 2222.SE, FRO, ZIM",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-05-1-euro-17m-low-french-spreads-yields-rise",
+    "data": {
+      "date": "2026-10-05",
+      "day": "Mon",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "addedAt": "2026-10-05",
+      "order": 1,
+      "category": "Rates",
+      "region": "Europe / US",
+      "event": "Euro hits a 17-month low as French political gridlock stokes budget-deficit fears; French-German bond spread widens to its highest since 2011; US 10Y yield edges higher",
+      "numbers": "10Y 5.31% (+0.03); French-German spread widest since 2011; euro at 17-month low",
+      "tickers": "TLT, 10Y, yield, Treasury, DXY, USD, dollar, SPY",
+      "reaction": "Rising yields and euro weakness (firmer dollar) weighed on equity futures into the open",
+      "direction": "Bearish",
+      "impact": "High",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-5-dow-sp-500-nasdaq-081220790.html"
+    }
+  },
+  {
+    "id": "2026-10-05-2-us-futures-slip-nasdaq-near-records",
+    "data": {
+      "date": "2026-10-05",
+      "day": "Mon",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "addedAt": "2026-10-05",
+      "order": 2,
+      "category": "Market",
+      "region": "US",
+      "event": "US stock futures edge lower as bond yields stay near 20-year highs; light data/earnings calendar, S&P Global and ISM PMIs due; Fed minutes later in week; Nasdaq still near record highs",
+      "numbers": "S&P fut 7,773 (-0.05%); Dow fut 51,458 (-0.04%); Nasdaq fut 31,015 (-0.15%); Russell fut 2,855.6 (+0.16%); gold ~$4,178 (+0.38%)",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell, GLD, gold",
+      "reaction": "Muted, slightly lower open indicated; small caps modestly firmer, gold bid",
+      "direction": "Neutral",
+      "impact": "Medium",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-5-dow-sp-500-nasdaq-081220790.html"
+    }
+  },
+  {
+    "id": "2026-10-05-3-oil-split-brent-102-hormuz-premium",
+    "data": {
+      "date": "2026-10-05",
+      "day": "Mon",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "addedAt": "2026-10-05",
+      "order": 3,
+      "category": "Energy",
+      "region": "Global / Middle East",
+      "event": "Oil mixed: Brent holds above $100 and Murban near $110 on Hormuz/Red Sea risk premium, tanker shortages and high freight, while US WTI edges lower",
+      "numbers": "Brent ~$101.3-102.3; Murban ~$110; WTI (Nov) $89.28 (-2.0%)",
+      "tickers": "USO, BNO, XLE, CL=F, BZ=F",
+      "reaction": "Seaborne crude carries a wider geopolitical premium than US crude; energy names supported",
+      "direction": "Mixed",
+      "impact": "Medium",
+      "source": "https://gulfnews.com/world/americas/oil-prices-split-as-brent-tops-102-murban-hits-110-per-barrel-on-oct-5-2026-1.500698305"
+    }
+  },
+  {
+    "id": "2026-10-05-4-payrolls-miss-10y-yield-fresh-high",
+    "data": {
+      "addedAt": "2026-10-05",
+      "category": "Macro",
+      "date": "2026-10-05",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "September payrolls rose just 29,000, far below expectations, as unemployment climbed to 4.2%; reduced odds of another Fed rate hike in October, while long-end Treasury yields extended to fresh multi-decade highs ahead of Wednesday's FOMC minutes",
+      "impact": "High",
+      "numbers": "Nonfarm payrolls +29K; unemployment 4.2%; 10Y yield 5.35% (+7bp)",
+      "order": 4,
+      "reaction": "Equities shrugged off bond-market caution as softer jobs data cooled Fed hike bets even as yields pushed higher on term-premium/supply concerns",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-05-2026",
+      "tickers": "SPY, TLT, ^TNX, DXY",
+      "time": "Market hours",
+      "vsExp": "Payrolls badly missed consensus (~+150K expected)"
+    }
+  },
+  {
+    "id": "2026-10-05-5-sp500-dow-nasdaq-close-higher",
+    "data": {
+      "addedAt": "2026-10-05",
+      "category": "Market",
+      "date": "2026-10-05",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "US stocks closed higher, led by tech, as investors looked past rising bond yields; Nasdaq notched a fresh high on strength in TSMC and SpaceX-linked names",
+      "impact": "High",
+      "numbers": "S&P 500 7,775.30 (+0.68%); Dow 51,302.25 (+0.24%); Nasdaq Composite 27,449.43 (+0.95%); 10Y Treasury yield 5.35% (+7bp)",
+      "order": 5,
+      "reaction": "Tech-led gains outweighed bond-market jitters; Dow lagged as rate-sensitive sectors underperformed",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-5-dow-sp-500-nasdaq-081220790.html",
+      "tickers": "SPY, DIA, QQQ, ^TNX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-05-6-houthi-aramco-strike-iran-hormuz-threat",
+    "data": {
+      "addedAt": "2026-10-05",
+      "category": "Geopolitics",
+      "date": "2026-10-05",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Houthis claimed missile/drone strikes on Saudi Aramco facilities in Riyadh and Khurais (Sat Oct 3); Iran's parliament speaker said the Strait of Hormuz stays closed until Washington meets seven conditions (Sun Oct 4); G7 weighing an emergency release of ~100 million barrels of crude/diesel",
+      "impact": "High",
+      "numbers": "Brent $102.30/bbl; WTI $90.62/bbl (-0.5%); Brent-WTI spread >$11 (vs normal $3-5); Murban ~$110/bbl",
+      "order": 6,
+      "reaction": "Seaborne Middle East crude (Brent/Murban) carries a wider war-risk premium than US crude even as Brent eased on rising regional exports and reported G7 release plans",
+      "region": "Middle East",
+      "source": "https://oilprice.com/Latest-Energy-News/World-News/Possible-Fire-Reported-at-Saudi-Refinery-as-Attack-Claims-Circulate.html",
+      "tickers": "USO, BNO, XLE, CL=F, BZ=F",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-05-7-tsmc-record-high-spacex-surge-terafab",
+    "data": {
+      "addedAt": "2026-10-05",
+      "category": "Deals",
+      "date": "2026-10-05",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "TSMC shares hit an intraday all-time high after Elon Musk confirmed early-stage talks for TSMC to join his 'Terafab' chip-fab project supplying Tesla, SpaceX and xAI; Intel (an existing Terafab partner) fell on the news. Separately, SpaceX (SPCX) jumped after Morgan Stanley's Adam Jonas reiterated Overweight with a $300 price target",
+      "impact": "Medium",
+      "numbers": "TSM +2.79% (record high); INTC approx -2%; SPCX +7.63% to $171.09 (MS $300 PT, ~89% implied upside)",
+      "order": 7,
+      "reaction": "AI/chip-supply optimism lifted semis and SpaceX; Jonas called SPCX shares 'cheap and getting cheaper' versus AI mega-cap peers",
+      "region": "US / Asia",
+      "source": "https://ca.finance.yahoo.com/news/tsmc-stock-hits-all-time-high-after-elon-musk-confirms-early-terafab-talks-162904771.html",
+      "tickers": "TSM, INTC, SPCX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-06-1-futures-up-as-yields-and-oil-ease",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Rates",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "US stock futures rise as Treasury yields retreat from multi-year highs and oil falls; 30-year yield eased from a 2002-high 5.702% touched the prior day, with a softer payrolls report last week reducing rate-hike expectations",
+      "impact": "High",
+      "numbers": "Dow E-minis +281 pts (+0.55%); S&P 500 E-minis +19.5 pts (+0.25%); Nasdaq 100 E-minis +102 pts (+0.33%); 10Y 5.276% (-0.70%); 30Y 5.626%",
+      "reaction": "Relief bid across equities and bonds ahead of Q3 earnings season (big banks report next week)",
+      "region": "US",
+      "source": "https://investing.com/news/economy-news/wall-st-futures-rise-as-yields-oil-dip-4933888",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "order": 1
+    }
+  },
+  {
+    "id": "2026-10-06-2-oil-slides-brent-below-99",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Energy",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "Oil falls on resilient Middle East crude exports and a G7 emergency stockpile release, easing supply and inflation concerns",
+      "impact": "Medium",
+      "numbers": "Brent $98.58 (down >1%); WTI -2.12%",
+      "reaction": "Lower crude is helping pull yields down and supporting risk appetite",
+      "region": "Global",
+      "source": "https://investing.com/news/economy-news/wall-st-futures-rise-as-yields-oil-dip-4933888",
+      "tickers": "USO, oil, crude",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "order": 2
+    }
+  },
+  {
+    "id": "2026-10-06-3-mckesson-cdr-near-option-care-buyout",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Deals",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "McKesson and Clayton Dubilier & Rice reported closing in on a deal to buy infusion services provider Option Care Health for nearly $5 billion",
+      "impact": "Low",
+      "numbers": "OPCH +21.4% pre-market; deal value approx $5B incl. debt",
+      "reaction": "Target jumps on takeover report; not yet confirmed by the companies",
+      "region": "US",
+      "source": "https://investing.com/news/economy-news/wall-st-futures-rise-as-yields-oil-dip-4933888",
+      "tickers": "OPCH, MCK",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "order": 3
+    }
+  },
+  {
+    "id": "2026-10-06-4-stocks-close-higher-tech-led-gains",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Market",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "U.S. stocks closed higher, with the S&P 500 and Nasdaq extending their 2026 record run as megacap tech led gains and Treasury yields eased from recent multi-decade highs",
+      "impact": "High",
+      "numbers": "S&P 500 7,840.02 (+0.85%); Dow 51,633.51 (+0.71%); Nasdaq 27,691.09 (+0.78%); 10Y yield ~5.26% (-0.05)",
+      "order": 4,
+      "reaction": "Broad risk-on close; Nvidia, Apple and Microsoft now exceed 21% of S&P 500 weight, a record concentration",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-october-6-dow-sp-500-nasdaq-080526166.html",
+      "tickers": "SPY, DIA, QQQ, NVDA, AAPL, MSFT, 10Y",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-06-5-skydance-paramount-wbd-merger-closes",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Deals",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Neutral",
+      "event": "Paramount Skydance and Warner Bros. Discovery officially closed their merger, forming a combined media company operating under the Skydance name",
+      "impact": "High",
+      "numbers": "~$110B combined transaction per original deal terms",
+      "order": 5,
+      "reaction": "Formal close removes merger-arbitrage overhang; new combined company name Skydance confirmed",
+      "region": "US",
+      "source": "https://finviz.com/news/397490/paramount-skydance-and-warner-bros-discovery-expect-merger-to-close-october-6",
+      "tickers": "PSKY, WBD",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-06-6-alphabet-constellation-nuclear-ppa",
+    "data": {
+      "addedAt": "2026-10-06",
+      "category": "Deals",
+      "date": "2026-10-06",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Alphabet signed a 20-year, $4.3 billion nuclear power purchase agreement with Constellation Energy to supply power for AI data centers",
+      "impact": "Medium",
+      "numbers": "CEG +13%; deal value $4.3B over 20 years",
+      "order": 6,
+      "reaction": "Constellation shares jumped as AI-driven power-demand deals continue to re-rate nuclear and utility names",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-october-6-dow-sp-500-nasdaq-080526166.html",
+      "tickers": "GOOGL, CEG",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-07-1-futures-fall-as-global-yields-surge-fed-minutes",
+    "data": {
+      "addedAt": "2026-10-07",
+      "category": "Rates",
+      "date": "2026-10-07",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "US stock futures fall from record highs as global bond yields rise; 30-year Treasury yield at 5.70% (highest since 2002) ahead of September FOMC minutes (meeting where rates were hiked)",
+      "impact": "High",
+      "numbers": "S&P 500 fut 7,841.25 (-0.42%); Dow fut 51,386 (-0.83%); Nasdaq 100 fut 31,261.5 (-0.70%); Russell 2000 fut 2,822.9 (-0.89%); 10Y 5.35% (+8 bp); 30Y 5.70%; VIX 15.77 (+5%)",
+      "order": 1,
+      "reaction": "Risk-off after record closes Tuesday; Oct hike odds priced ~20%; minutes due 2 PM ET",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-october-7-dow-sp-500-nasdaq-080241833.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-07-2-oil-back-above-101-hormuz-attacks-gulf-storm",
+    "data": {
+      "addedAt": "2026-10-07",
+      "category": "Energy",
+      "date": "2026-10-07",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Oil rebounds as attacks in the Strait of Hormuz continue (at least nine in October) and a tropical storm approaches the Gulf Coast with possible hurricane landfall Friday",
+      "impact": "High",
+      "numbers": "Brent >$101/bbl; WTI ~$90/bbl",
+      "order": 2,
+      "reaction": "Supports inflation/yield pressure; headwind for equities",
+      "region": "Middle East / US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-october-7-dow-sp-500-nasdaq-080241833.html",
+      "tickers": "SPY, S&P, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-07-3-gold-slides-as-yields-climb",
+    "data": {
+      "addedAt": "2026-10-07",
+      "category": "Market",
+      "date": "2026-10-07",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Gold falls sharply as Treasury yields jump; bitcoin also lower",
+      "impact": "Medium",
+      "numbers": "Gold 4,112.80 (-74.30, -1.77%); Bitcoin 83,441 (-3.31%)",
+      "order": 3,
+      "reaction": "Higher real-yield pressure on non-yielding assets",
+      "region": "Global",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-october-7-dow-sp-500-nasdaq-080241833.html",
+      "tickers": "GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]

@@ -145,3 +145,30 @@ def plan_curve_mix(parts, calendar, weights_at):
             held = {n: nav * w.get(n, 0.0) for n in names}
         prev = d
     return out
+
+
+def plan_curve_scheduled(main, f, calendar, decisions, split_at, look=126, assets=None):
+    """Top-5 / sleeve mix rebalanced only on the session after each decision date
+    (e.g. month-ends): the stock share split_at(decision) and the sleeve asset
+    (best 6-month return at the decision close) are both decided at that close
+    and traded at the next session's close. main: [[date, value]] of the stock
+    rule; f: filled sleeve prices (filled()). Returns [[date, value]] from 1.0."""
+    idx = {d: i for i, d in enumerate(calendar)}
+    trade = {calendar[idx[x] + 1]: x for x in decisions if x in idx and idx[x] + 1 < len(calendar)}
+    out, prev, a, b, held = [], None, 1.0, 0.0, None
+    for d, v in main:
+        if prev is not None:
+            a *= v / prev[1]
+            if held:
+                p0, p1 = f[held].get(prev[0]), f[held].get(d)
+                if p0 and p1:
+                    b *= p1 / p0
+        nav = a + b
+        out.append([d, nav])
+        if d in trade:
+            dec = trade[d]
+            s = split_at(dec)
+            held = best_of(f, calendar, idx[dec], look, assets) if s < 1 else None
+            a, b = nav * s, nav * (1 - s)
+        prev = (d, v)
+    return out

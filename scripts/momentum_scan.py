@@ -35,18 +35,25 @@ from datetime import date, datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
-from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, trades_from_picks  # noqa: E402
+from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
-from mtl.sleeve import ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix, six_month, sleeve_curve  # noqa: E402
+from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
+                        plan_curve_scheduled, six_month, sleeve_curve)
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'data', 'momentum_scan.json')
-START, LOOK, SKIP, TOP_N, TABLE = '2020-01-02', 126, 21, 5, 100
+START, LOOK, SKIP, TOP_N, TABLE = '2010-01-04', 126, 21, 5, 100
+# the rule ranks by the plain 6-1 month return in equal weight. (Oct 2026: a weekly rank sum with the
+# #1 holding at 2x was tried and reverted - it did worse on 2000-2009 data the rules were never tuned on.)
+WIN = None
+RANK = {}
+RK = {}
 GLITCH_BLOCK = 150
 PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
-AUTO_NEED, AUTO_LOW = 2, 0.6            # auto: 60/40 while 2+ holdings are in a daily downtrend, else 100%
+AUTO_NEED, AUTO_LOW = 2, 0.6            # monthly plans: 60/40 while 2+ holdings are in a daily downtrend, else 100%
+# weekly Auto and Boost use the STEPS tiers below (1 holding down -> 80/20, 2 -> 60/40, 3+ -> 40/60)
 STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+ -> STEPS_MIN
 STEPS_MIN = 0.4
 CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
@@ -55,7 +62,7 @@ HUMAN_FROM = '2024-01-01'               # daily series shipped for scoring the v
 STATE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
 
 
-def fetch(tickers, start='2015-01-01', chunk=100, adjusted=False):
+def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False):
     """{ticker: [(date, open, high, low, close)]} - closes are split-adjusted
     (adjusted=True: also dividend-adjusted, used for the benchmarks)."""
     import yfinance as yf
@@ -115,6 +122,51 @@ def r4(x):
     return None if x is None else round(x, 4)
 
 
+def next_earnings(t):
+    """Next earnings date (ISO) from Yahoo, or None if unknown."""
+    try:
+        import yfinance as yf
+        cal = yf.Ticker(t).calendar
+        ds = cal.get('Earnings Date') if isinstance(cal, dict) else None
+        ds = [d for d in (ds or []) if d]
+        return min(ds).isoformat() if ds else None
+    except Exception:   # noqa: BLE001
+        return None
+
+
+def option_check(held_rows, bars, as_of, calendar, signal_day):
+    """How to tell whether a 4-week at-the-money call on the #1 holding is cheap.
+    Fair price ~ half the stock's usual 4-week move (~ 0.113 x HV x price); from the
+    backtest the overlay paid when calls cost up to ~1.15x that and lost above ~1.35x."""
+    import math
+    if not held_rows:
+        return None
+    top = max(held_rows, key=lambda h: (h.get('w') or 0, -(h.get('rank') or 99)))
+    bs = bars.get(top['t']) or []
+    c = [b[4] for b in bs if b[4]]
+    if len(c) < 80:
+        return None
+    S = c[-1]
+    r = [math.log(c[i + 1] / c[i]) for i in range(len(c) - 64, len(c) - 1)]
+    m = sum(r) / len(r)
+    hv = math.sqrt(sum((x - m) ** 2 for x in r) / (len(r) - 1)) * math.sqrt(252)
+    span = c[-273:] if len(c) >= 273 else c
+    moves = [abs(span[i + 20] / span[i] - 1) for i in range(len(span) - 20)]
+    usual = sum(moves) / len(moves)
+    fair = 0.113 * hv * S
+    trade = date.fromisoformat(as_of)
+    if signal_day:
+        trade += timedelta(days=3)
+    exp = trade + timedelta(days=28)
+    while exp.weekday() != 4:
+        exp -= timedelta(days=1)
+    earn = next_earnings(top['t'])
+    return dict(t=top['t'], n=top.get('n'), price=r4(S), hv=r4(hv), usual=r4(usual), usualUsd=r4(usual * S),
+                fair=r4(fair), cheap=r4(min(0.13 * hv * S, 0.57 * usual * S)),
+                skip=r4(min(0.15 * hv * S, 0.70 * usual * S)),   # the stricter of the two reads expiry=exp.isoformat(), earnings=earn,
+                earningsInside=bool(earn and trade.isoformat() <= earn <= exp.isoformat()))
+
+
 def split_key(x):
     """0.8 -> '80/20'."""
     a = round(x * 100)
@@ -152,6 +204,20 @@ def growth(points):
     return [[d, round(100 * v / base, 3)] for d, v in points]
 
 
+def month_ends(calendar):
+    """Completed month-ends only: sessions whose next session is in another month."""
+    return [d for d, n in zip(calendar, calendar[1:]) if d[:7] != n[:7]]
+
+
+def last_business_day(d):
+    """The last weekday of d's month (holidays aside)."""
+    nxt = (d.replace(day=28) + timedelta(days=4)).replace(day=1)
+    x = nxt - timedelta(days=1)
+    while x.weekday() >= 5:
+        x -= timedelta(days=1)
+    return x
+
+
 def main():
     names = momentum_universe(refresh='--no-refresh' not in sys.argv)
     sp = load_sp500()
@@ -173,14 +239,20 @@ def main():
 
     # decided on each Friday close, traded at Monday's close (you can't trade after the bell)
     r = run_momentum(prices, calendar, START, look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible,
-                     exec_next='close')
+                     exec_next='close', **RK)
     K = len(calendar) - 1
     as_of = calendar[K]
-    now = ranking(prices, calendar, K, LOOK, SKIP, eligible)
+    rows_now = score_table(prices, calendar, K, LOOK, SKIP, WIN, 'rank', eligible)
+    now = [(t, sc) for t, sc, _ in rows_now]
     rank = {t: i + 1 for i, (t, _) in enumerate(now)}
-    prev1 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 5, LOOK, SKIP, eligible))}
-    prev4 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 20, LOOK, SKIP, eligible))}
+    prev1 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 5, LOOK, SKIP, eligible, **RANK))}
+    prev4 = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, K - 20, LOOK, SKIP, eligible, **RANK))}
     spy_score = (prices['SPY'][calendar[K - SKIP]] / prices['SPY'][calendar[K - LOOK]] - 1)
+    ret61 = {t: score_at(prices[t], calendar, K, LOOK, SKIP) for t, _ in now}   # shown as the 6-1m column
+    # the monthly plans' own ranking (plain 6-1 month score)
+    now_m = ranking(prices, calendar, K, LOOK, SKIP, eligible)
+    rank_m = {t: i + 1 for i, (t, _) in enumerate(now_m)}
+    qualifying_m = [t for t, s in now_m if s > spy_score]
 
     picks = r['picks']
     holdings = picks[-1][1] if picks else []
@@ -193,15 +265,15 @@ def main():
 
     # what the rule would hold if the rebalance happened at today's close
     keep = sorted((t for t in holdings if rank.get(t, 10 ** 9) <= 2 * TOP_N), key=lambda t: rank[t])[:TOP_N]
-    qualifying = [t for t, s in now if s > spy_score]
+    qualifying = [t for t, _, ok in rows_now if ok]
     preview = keep + [t for t in qualifying if t not in keep][:TOP_N - len(keep)]
 
     def row(t, detail=False):
         px, k = prices[t], K
         hi = max((px[d] for d in calendar[max(0, k - 251):k + 1] if d in px), default=None)
         out = dict(t=t, n=names.get(t, ('', ''))[0], sec=names.get(t, ('', ''))[1] or '',
-                   ndx=t not in sp, rank=rank.get(t), score=r4(dict(now).get(t)),
-                   vsSpy=r4(dict(now).get(t, 0) - spy_score) if t in rank else None,
+                   ndx=t not in sp, rank=rank.get(t), score=r4(ret61.get(t)),
+                   vsSpy=r4(ret61[t] - spy_score) if ret61.get(t) is not None else None,
                    r1m=r4(ret(px, calendar, k, 21)), r3m=r4(ret(px, calendar, k, 63)),
                    r12m=r4(ret(px, calendar, k, 252)), close=r4(px.get(calendar[k])),
                    d1w=(prev1[t] - rank[t]) if t in prev1 and t in rank else None,
@@ -224,8 +296,14 @@ def main():
     # on a Friday the cards show what to own after Monday's trades (new buys flagged)
     signal_day = date.fromisoformat(as_of).weekday() == 4
     held_rows = []
-    for t in (preview if signal_day else holdings):
+    shown = preview if signal_day else holdings
+    if signal_day or not r['weights']:   # Monday's weights: equal
+        wnow = {t: 1.0 / TOP_N for t in shown}
+    else:
+        wnow = r['weights'][-1][1]
+    for t in shown:
         h = row(t, detail='chart')
+        h['w'] = r4(wnow.get(t))
         if t not in holdings:
             h['new'] = True
             held_rows.append(h)
@@ -241,7 +319,7 @@ def main():
     # run with one more (flat) session appended, so the pending Monday trade fills.
     gaps = {t: news_gap_days(bs) for t, bs in bars.items() if bs}
     boost_kw = dict(look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible, exec_next='close',
-                    prefer_mode='force', prefer_rank=None, prefer_pool='all')
+                    prefer_mode='force', prefer_rank=None, prefer_pool='all', **RK)
     rb = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), **boost_kw)
     picks_b = rb['picks']
     hold_b = picks_b[-1][1] if picks_b else []
@@ -285,7 +363,7 @@ def main():
         return down_cache[(t, d_)]
 
     def auto_split(d_):
-        return AUTO_LOW if sum(in_downtrend(t, d_) for t in held_at(d_)) >= AUTO_NEED else 1.0
+        return STEPS.get(sum(in_downtrend(t, d_) for t in held_at(d_)), STEPS_MIN)
 
     pick_days_b = [p[0] for p in picks_b]
 
@@ -294,7 +372,7 @@ def main():
         return picks_b[i][1] if i >= 0 else []
 
     def auto_split_b(d_):
-        return AUTO_LOW if sum(in_downtrend(t, d_) for t in held_at_b(d_)) >= AUTO_NEED else 1.0
+        return STEPS.get(sum(in_downtrend(t, d_) for t in held_at_b(d_)), STEPS_MIN)
 
     def n_down(d_):
         return sum(in_downtrend(t, d_) for t in held_at(d_))
@@ -324,6 +402,73 @@ def main():
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
     curves['plan'] = growth(plans['auto'])
+
+    # monthly plans (tracked alongside the weekly ones): the same rule decided at the last
+    # close of each month and traded at the next session's close; the auto mix and the
+    # sleeve asset are decided and traded on the same schedule
+    months = month_ends(calendar)
+    mkw = dict(look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible, exec_next='close', rebal_dates=set(months))
+    rm = run_momentum(prices, calendar, START, **mkw)
+    rmb = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), prefer_mode='force',
+                       prefer_rank=None, prefer_pool='all', **mkw)
+
+    def monthly_plan(run):
+        pk = run['picks']
+        pdays_ = [p[0] for p in pk]
+
+        def held_m(d_):
+            i = bisect_right(pdays_, d_) - 1
+            return pk[i][1] if i >= 0 else []
+
+        def split_m(d_):
+            return AUTO_LOW if sum(in_downtrend(t, d_) for t in held_m(d_)) >= AUTO_NEED else 1.0
+        curve = plan_curve_scheduled([[d_, v] for d_, v, _ in run['curve']], f_sl, calendar, months, split_m)
+        return curve, held_m, split_m
+    f_sl = filled(sleeve_px, calendar)
+    m_auto, m_held, m_split = monthly_plan(rm)
+    m_boost, mb_held, mb_split = monthly_plan(rmb)
+    curves['monthly'] = growth(m_auto)
+    curves['monthlyBoost'] = growth(m_boost)
+    today_d = date.fromisoformat(as_of)
+    dec_d = last_business_day(today_d)          # holidays aside
+    if dec_d < today_d:
+        dec_d = last_business_day(dec_d + timedelta(days=7))
+    trd_d = dec_d + timedelta(days=1)
+    while trd_d.weekday() >= 5:
+        trd_d += timedelta(days=1)
+    last_dec = months[-1] if months else None
+
+    def monthly_block(run, held_fn, split_fn, curve):
+        pk = run['picks']
+        hold = pk[-1][1] if pk else []
+        tr = trades_from_picks(pk)
+        ent = {}
+        for d_, side_, t in tr:
+            if side_ == 'buy':
+                ent[t] = d_
+        rows = []
+        for t in hold:
+            buy_px = prices[t].get(ent.get(t)) if ent.get(t) else None
+            rows.append(dict(t=t, n=names.get(t, ('', ''))[0], sec=names.get(t, ('', ''))[1] or '',
+                             since=ent.get(t), close=r4(prices[t].get(as_of)),
+                             sinceRet=r4(prices[t][as_of] / buy_px - 1) if buy_px and prices[t].get(as_of) else None,
+                             spark=[r4(b[4]) for b in bars.get(t, [])[-130:]][::3]))
+        sp = split_fn(last_dec) if last_dec else 1.0
+        st = curve_stats([p[1] for p in curve])
+        return dict(holdings=rows, lastTrade=pk[-1][0] if pk else None, decided=last_dec,
+                    split=split_key(sp), sleeve=best_of(f_sl, calendar, calendar.index(last_dec)) if last_dec and sp < 1 else None,
+                    trades=[dict(d=d_, side=s_, t=t, n=names.get(t, ('', ''))[0], px=r4(prices[t].get(d_)))
+                            for d_, s_, t in tr[-16:]][::-1],
+                    stats=dict(total=r4(st['total']), annual=r4(st['annual']), maxDD=r4(st['maxDD'])),
+                    turnover=r4(run['turnover']))
+    # what the auto list would hold if the month ended at today's close
+    keep_m = sorted((t for t in (rm['picks'][-1][1] if rm['picks'] else []) if rank_m.get(t, 10 ** 9) <= 2 * TOP_N),
+                    key=lambda t: rank_m[t])[:TOP_N]
+    preview_m = keep_m + [t for t in qualifying_m if t not in keep_m][:TOP_N - len(keep_m)]
+    monthly = dict(nextDecision=dec_d.isoformat(), nextTrade=trd_d.isoformat(),
+                   auto=monthly_block(rm, m_held, m_split, m_auto),
+                   boost=monthly_block(rmb, mb_held, mb_split, m_boost),
+                   preview=preview_m)
     curves['steps'] = growth(plans['steps'])
     curves['guard'] = growth(plans['guard'])
     curves['boost'] = growth(plans['boost'])
@@ -346,7 +491,7 @@ def main():
         plan_stats[key] = dict(total=r4(st['total']), annual=r4(st['annual']), maxDD=r4(st['maxDD']))
     # this week's auto mix: decided at the signal Friday's close from the holdings going into it
     sig_d, prev_d = calendar[signal_k], calendar[prev_k]
-    auto = dict(need=AUTO_NEED, low=split_key(AUTO_LOW),
+    auto = dict(need=1, low=split_key(STEPS[1]), tiers=True,
                 split=split_key(auto_split(sig_d)), prevSplit=split_key(auto_split(prev_d)),
                 down=[t for t in held_at(sig_d) if in_downtrend(t, sig_d)],
                 checked=held_at(sig_d), decided=sig_d,
@@ -377,7 +522,7 @@ def main():
         top5=r4s(curve_stats([p[1] for p in strat_b])))
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
-        auto['preview'] = split_key(AUTO_LOW if len(auto['previewDown']) >= AUTO_NEED else 1.0)
+        auto['preview'] = split_key(STEPS.get(len(auto['previewDown']), STEPS_MIN))
         auto['steps']['preview'] = split_key(steps_split(as_of, len(auto['previewDown'])))
         auto['guard']['previewBear'] = bear(as_of)
 
@@ -408,7 +553,7 @@ def main():
 
         def ranks_at(f_):
             if f_ not in rank_cache:
-                rank_cache[f_] = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, kidx[f_], LOOK, SKIP, eligible))}
+                rank_cache[f_] = {t: i + 1 for i, (t, _) in enumerate(ranking(prices, calendar, kidx[f_], LOOK, SKIP, eligible, **RANK))}
             return rank_cache[f_]
         pick_at_b = {d_: h for d_, h in picks_b}
         wk = [tuple(w) for w in human_weeks]
@@ -442,6 +587,8 @@ def main():
         turnover=r4(r['turnover']),
         sleeve=sleeve,
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
+        monthly=monthly,
+        option=option_check(held_rows, bars, as_of, calendar, signal_day),
         plan=dict(splits=['boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='boost', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))

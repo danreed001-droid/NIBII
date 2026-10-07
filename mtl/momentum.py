@@ -94,7 +94,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  rsi_exit=None, rsi_period=14, buy_ok=None, weighting='equal', vol_target=None,
                  vol_window=63, max_corr=None, corr_window=63, risk_adj=False, exec_next=None,
                  exit_when=None, exit_daily=True, buy_when=None, lookback_at=None,
-                 prefer=None, prefer_rank=20, prefer_mode='fill', prefer_pool='qualified'):
+                 prefer=None, prefer_rank=20, prefer_mode='fill', prefer_pool='qualified',
+                 rebal_dates=None):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -120,8 +121,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     buy_ok: optional callable(date) -> bool; while False no new stock is
       bought - holdings that still qualify are kept, sold ones leave their
       slot in cash.
-    weighting: 'equal' (each holding 1/top_n) or 'inv_vol' (the same total, split
-      in proportion to 1 / each stock's `vol_window`-day volatility).
+    weighting: 'equal' (each holding 1/top_n), 'inv_vol' (the same total, split
+      in proportion to 1 / each stock's `vol_window`-day volatility) or 'top2x'
+      (the best-ranked holding at twice the weight of each other one).
     vol_target: e.g. 0.30 - at each rebalance, scale every position down so the
       basket's volatility over the last `vol_window` sessions would have been
       at most 30% a year (never above 100% invested); the rest sits in cash.
@@ -151,9 +153,13 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       prefer_mode='force' also lets them replace the lowest-ranked holding
       when no slot is open (at most one swap per preferred stock).
       prefer_rank=None: any rank. prefer_pool='all': flagged stocks qualify even
-      when they don't beat the benchmark (ranked by score among all stocks)."""
+      when they don't beat the benchmark (ranked by score among all stocks).
+    rebal_dates: optional set of decision dates replacing the default week-ends
+      (e.g. month-ends). The result's `weights` lists [trade date, {ticker: weight}]
+      for every trade (weights below 1 in total = the rest sits in cash)."""
     keep_rank = keep_rank or 2 * top_n
-    rebal = set(last_sessions_of_weeks(calendar))
+    rebal = set(rebal_dates) if rebal_dates is not None else set(last_sessions_of_weeks(calendar))
+    wlog = []
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
         rebal.add(next(d for d in calendar if d >= start))
     tickers = [t for t in prices if t != benchmark]
@@ -196,6 +202,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         sb = sum((y - mb) ** 2 for y in b) ** 0.5
         return sab / (sa * sb) if sa and sb else 0.0
 
+    rank_now = {}
+
     def weights(target, k):
         if not target:
             return {}
@@ -203,6 +211,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             inv = {t: 1 / vol(t, k) for t in target}
             tot = sum(inv.values())
             w = {t: inv[t] / tot * len(target) / top_n for t in target}
+        elif weighting == 'top2x':   # the best-ranked holding gets twice the others' weight
+            best = min(target, key=lambda t: rank_now.get(t, 10 ** 9))
+            w = {t: (2.0 if t == best else 1.0) / (top_n + 1) for t in target}
         else:
             w = {t: 1 / top_n for t in target}
         if vol_target:
@@ -257,6 +268,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         ranked qualifying stocks, honoring the industry cap and cooldowns."""
         lk, sk = lookback_at(k) if lookback_at else (look, skip)
         rows = score_table(prices, calendar, k, lk, sk, windows, blend, eligible, benchmark)
+        rank_now.clear()
+        rank_now.update({r[0]: i for i, r in enumerate(rows)})
         scored = [(sc, t) for t, sc, beats in rows
                   if beats and banned_until.get(t, -1) < k and t not in exclude
                   and not (rsi_exit and t not in shares and rsi_weak(t, k))]
@@ -335,6 +348,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     def trade(target, w, d, px_of):
         nonlocal shares, cash, value, traded
         fill = {t: px_of(t) for t in set(shares) | set(target)}
+        if any(not fill[t] for t in target):   # no price to trade at (e.g. delisted that day): that slot stays cash
+            target = [t for t in target if fill[t]]
+            w = {t: x for t, x in w.items() if t in target}
         value = cash + sum(n * fill[t] for t, n in shares.items())
         new_shares = {t: value * w[t] / fill[t] for t in target}
         moved = sum(abs(new_shares.get(t, 0.0) - shares.get(t, 0.0)) * fill[t]
@@ -354,6 +370,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         last_px.update({t: fill[t] for t in target})
         cash = value - sum(n * fill[t] for t, n in shares.items())
         picks.append([d, list(target)])
+        wlog.append([d, dict(w)])
 
     for k, d in enumerate(calendar):
         if pending is not None:   # yesterday's decision fills today
@@ -406,7 +423,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         curve.append([d, value, len(shares)])
     years = max(len(curve) / 252, 1e-9)
     avg_value = sum(p[1] for p in curve) / len(curve) if curve else 1.0
-    return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2, stops=stops)
+    return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2, stops=stops, weights=wlog)
 
 
 def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=21, top=100,
