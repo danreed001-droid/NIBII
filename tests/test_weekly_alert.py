@@ -41,3 +41,14 @@ def test_boost_list_changes_are_listed_when_they_differ():
     s['plan']['auto']['boost'].update(buy=['MU'], holdings=['AAA', 'BBB'])
     title, body = alert.build(s)
     assert 'boost' not in title
+
+
+def test_boost_leverage_flip_makes_an_alert_and_steady_leverage_does_not():
+    lever = dict(hi=1.25, lo=0.6, rate=0.06, days=200, up=False, prevUp=True, spyNow=480.0, spyAvg=500.0)
+    s = scan()
+    s['plan']['auto']['lever'] = dict(lever)
+    title, body = alert.build(s)
+    assert 'boost leverage 0.6x' in title
+    assert '1.25x → **0.6x**' in body and 'below its 200-day average 500.0' in body and 'hold **0.6x**' in body
+    s['plan']['auto']['lever'].update(up=True, prevUp=True)
+    assert alert.build(s) is None

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Friday alert: writes a GitHub issue title/body when Monday's trade has
-anything to do - stock swaps (also the News boost list's), a sleeve switch, or a change in the Auto,
-Boost, Guard or Steps mix (including the bear guard turning on or off).
+anything to do - stock swaps (also the News boost list's), a sleeve switch, a change in the Auto,
+Boost, Guard or Steps mix (including the bear guard turning on or off), or a change in Boost's
+optional trend-gated leverage (mtl/leverage.py).
 
 Reads data/momentum_scan.json (written by scripts/momentum_scan.py). Only on a
 signal day (Friday's close); on other days, or when nothing changes, it writes
@@ -22,6 +23,10 @@ PAGE = 'https://danreed001-droid.github.io/NIBII/scanner.html'
 def fmt(d):
     x = date.fromisoformat(d)
     return x.strftime('%a %b ') + str(x.day)
+
+
+def levx(x):
+    return f"{x:g}x"
 
 
 def pctw(w):
@@ -66,6 +71,13 @@ def build(scan, owner=None):
             tags.append('boost: ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
     if boost.get('split') and boost.get('prevSplit') and boost['split'] != boost['prevSplit']:
         items.append(f"**Boost mix:** {boost['prevSplit']} → **{boost['split']}**")
+    lever = auto.get('lever') or {}
+    if lever and lever.get('up') != lever.get('prevUp'):
+        was, now = (lever['lo'], lever['hi']) if lever.get('up') else (lever['hi'], lever['lo'])
+        items.append(f"**Boost leverage (optional, margin account):** {levx(was)} → **{levx(now)}** "
+                     f"(SPY {lever.get('spyNow')} {'above' if lever.get('up') else 'below'} its "
+                     f"{lever.get('days', 200)}-day average {lever.get('spyAvg')})")
+        tags.append(f"boost leverage {levx(now)}")
     if not items:
         return None
     hold = [h['t'] for h in sorted(scan.get('holdings') or [], key=lambda h: h.get('rank') or 99)]
@@ -85,6 +97,9 @@ def build(scan, owner=None):
     if steps.get('split'):
         s_s = int(steps['split'].split('/')[0]) / 100
         lines.append(f"| Steps | {pctw(s_s)} | {pctw(1 - s_s)} | 0% |")
+    if lever:
+        lines += ['', f"Boost with optional leverage: hold **{levx(lever['hi'] if lever.get('up') else lever['lo'])}** the Boost mix "
+                  f"({'borrowing the extra' if lever.get('up') and lever['hi'] > 1 else 'the rest in T-bills'})."]
     lines += ['', f"Exact dollars and shares for your account: {PAGE} (type your amount in the Account box).", '',
               (f"@{owner} " if owner else '') + "— sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
     title = f"Trade {fmt(scan['tradeDate'])}: " + '; '.join(tags)
