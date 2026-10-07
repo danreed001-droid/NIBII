@@ -798,6 +798,16 @@ footer li { margin-bottom: 6px; }
     var mix = P['default'], acct = 10000;
     try { mix = localStorage.getItem('nibii-plan-mix3') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
     if (P.splits.indexOf(mix) < 0) mix = P['default'];
+    function leverNote(L, ls, bs) {   // optional trend-gated leverage on Boost (mtl/leverage.py)
+      var x = function (v) { return v.toFixed(2).replace(/\.?0+$/, '') + 'x'; };
+      return '<br><b>Optional leverage (needs a margin account):</b> ' + x(L.hi) + ' Boost while SPY closes above its ' + L.days + '-day average on Friday, ' +
+        x(L.lo) + ' (the rest in T-bills) while below; borrowed money assumed at ' + Math.round(L.rate * 100) + '% a year. ' +
+        (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + 'SPY ' + (L.spyNow != null ? L.spyNow.toFixed(2) : '–') + ' vs its average ' + (L.spyAvg != null ? L.spyAvg.toFixed(2) : '–') +
+        ' → <b>' + x(L.up ? L.hi : L.lo) + '</b>' + (D.signalDay && L.up !== L.prevUp ? ' (changed — adjust it Monday)' : '') + '.' +
+        (!D.signalDay && L.previewUp != null && L.previewUp !== L.up ? ' If Friday were today it would be ' + x(L.previewUp ? L.hi : L.lo) + '.' : '') +
+        ' Since ' + SINCE + ': ' + pct(ls.annual, 0) + ' a year, worst drop ' + pct(ls.maxDD, 0) + ' (Boost alone ' + pct(bs.annual, 0) + ', ' + pct(bs.maxDD, 0) + '); uptrend in ' + L.weeksUp + ' of ' + A.weeks + ' weeks. ' +
+        'Tested 2000–2026: about +34% a year vs +32%, worst drop −61% vs −62%, worst year −28% vs −43%; the gain held for 8 of 9 trend signals tried. Leverage without the gate is not safe: a constant 2x fell 91% (2000–02, 2008).';
+    }
     $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m === 'boost' ? 'Boost' : m === 'guard' ? 'Guard' : m === 'steps' ? 'Steps' : m === 'mine' ? 'Mine' : m) + '</button>'; }).join('');
     function usd(v) { return '$' + (v < 100 ? v.toFixed(2) : Math.round(v).toLocaleString()); }
     var name = {}; SL.assets.forEach(function (a) { name[a.t] = a; });
@@ -857,7 +867,8 @@ footer li { margin-bottom: 6px; }
           (B.boosted.length ? 'This week it holds <b>' + B.boosted.map(esc).join(', ') + '</b> instead of ' + B.replaced.map(esc).join(', ') + '. ' : 'This week it holds the same stocks as the plain top 5. ') +
           (D.signalDay ? 'Auto mix ' + B.split + (B.split !== B.prevSplit ? ' (was ' + B.prevSplit + ')' : '') + '. ' : '') +
           'Since ' + SINCE + ': ' + pct(P.stats.boost.annual, 0) + ' a year vs ' + pct(P.stats.auto.annual, 0) + ' for Auto; tested 2000–2026 about +32% a year vs +25%, worst drop −62% vs −73%, and it caught the 2009 rebound (+35% vs −27%). ' +
-          'Its list differed from the plain top 5 in ' + B.weeksDiff + ' of ' + A.weeks + ' weeks. Expect fewer real gains than the test: it only knows today’s index members.';
+          'Its list differed from the plain top 5 in ' + B.weeksDiff + ' of ' + A.weeks + ' weeks. Expect fewer real gains than the test: it only knows today’s index members.' +
+          (A.lever && P.stats.lever ? leverNote(A.lever, P.stats.lever, P.stats.boost) : '');
       } else if (A && mix === 'guard' && A.guard) {
         var G = A.guard;
         $('auto-note').innerHTML = '<b>Auto + Guard:</b> the Auto mix, plus a bear-market guard: while SPY closes below its level a year earlier, ' + Math.round(G.share * 100) +

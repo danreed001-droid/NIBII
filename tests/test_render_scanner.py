@@ -70,3 +70,9 @@ def test_calls_are_submitted_as_a_github_issue():
 def test_page_offers_the_bear_guard_mix():
     page = render_scanner.render(SCAN)
     assert "m === 'guard' ? 'Guard'" in page and 'bear guard' in page and 'A.guard.weights' in page
+
+
+def test_boost_note_offers_trend_gated_leverage_and_tolerates_old_data():
+    page = render_scanner.render(SCAN)
+    assert 'function leverNote' in page
+    assert "A.lever && P.stats.lever ?" in page     # scans from before the leverage option still render

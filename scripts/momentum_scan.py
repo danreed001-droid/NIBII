@@ -35,6 +35,7 @@ from datetime import date, datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
+from mtl.leverage import HI as LEV_HI, LO as LEV_LO, RATE as LEV_RATE, SMA_DAYS, gated_curve, trend_up  # noqa: E402
 from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
@@ -401,6 +402,10 @@ def main():
              'guard': plan_curve_mix({'top5': strat, 'sleeve': sl_curve, 'spy': spy_curve}, calendar, guard_weights)}
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
+    # optional trend-gated leverage on Boost (mtl/leverage.py): LEV_HI x while SPY closed above its
+    # 200-day average at Friday's close, LEV_LO x (rest in T-bills) otherwise; shown in Boost's note
+    spy_up = trend_up(spy_px, calendar)
+    plans['lever'] = gated_curve(plans['boost'], filled({'BIL': sleeve_px['BIL']}, calendar)['BIL'], calendar, spy_up)
     curves['plan'] = growth(plans['auto'])
 
     # monthly plans (tracked alongside the weekly ones): the same rule decided at the last
@@ -507,6 +512,18 @@ def main():
                          spyNow=r4(spy_px[sig_d]), spyYearAgo=r4(spy_px[calendar[k_sig - 252]]) if k_sig >= 252 else None,
                          spyClose=r4(spy_px[as_of]),
                          weeksBear=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and bear(f_)))
+    spy_days = [d_ for d_ in calendar if d_ in spy_px]
+
+    def spy_avg(d_):
+        j = bisect_right(spy_days, d_)
+        w = [spy_px[x] for x in spy_days[max(0, j - SMA_DAYS):j]]
+        return sum(w) / len(w) if w else None
+    auto['lever'] = dict(hi=LEV_HI, lo=LEV_LO, rate=LEV_RATE, days=SMA_DAYS,
+                         up=spy_up[sig_d], prevUp=spy_up[prev_d],
+                         spyNow=r4(spy_px.get(sig_d)), spyAvg=r4(spy_avg(sig_d)),
+                         weeksUp=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and spy_up[f_]))
+    if not signal_day:
+        auto['lever']['previewUp'] = spy_up[as_of]
     news_now = recent_gaps(gaps, calendar, K)
     auto['boost'] = dict(
         gap=NEWS_GAP, window=NEWS_WINDOW,

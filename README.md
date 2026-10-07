@@ -310,6 +310,24 @@ log and a sortable top-100 table. `.github/workflows/scanner.yml` rebuilds it
 after every US close. The structure scanner remains available as the
 `scripts/mtf_scan.py` command-line tool.
 
+**Optional leverage on Boost.** The Boost note on the dashboard also shows a
+trend-gated leverage setting (`mtl/leverage.py`). It's 1.25x Boost while SPY
+closed above its 200-day average at Friday's close, and 0.6x (the rest in
+T-bills) while it closed below. Borrowed money is assumed at 6% a year, and
+the account is adjusted on Monday like the plan's own trades. Results,
+including survivorship bias:
+
+| Test | Boost alone | With gated leverage |
+|---|---|---|
+| 2000-2026 | +32% a year, worst drop -62%, worst year -43% | +34% a year, worst drop -61%, worst year -28% |
+| Live board, since 2010 | +36%, worst drop -36% | +38%, worst drop -33% |
+
+The gain held for 8 of 9 trend signals tried (SPY 100-250 day averages, QQQ
+200-day, SPY 10-month, SPY vs a year ago, VIX < 25). Constant leverage
+without the gate is not safe: 2x fell 91% over 2000-02 and 2008. The
+research scripts are in the `volume` repo: `backtest_boost_leverage_ideas.py`
+and `backtest_gated_robustness.py`.
+
 **Backtest.** `python scripts/backtest.py` replays both setups over the same
 universe, longs and shorts, under both trend rules (`mtl/backtest.py`): enter
 at the close of the trigger timeframe's CHoCH bar while every larger
