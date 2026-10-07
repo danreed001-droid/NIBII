@@ -188,10 +188,16 @@ table.heat th { font-size: 0.74rem; font-weight: 600; color: var(--ink-2); paddi
 table.heat th.wk, table.heat td.wk { text-align: left; color: var(--muted); font-weight: 500; font-size: 0.72rem; padding-right: 6px; position: sticky; left: 0; background: var(--surface); width: 52px; }
 table.heat th.held { color: var(--gold); }
 table.heat td.c { text-align: center; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 0.74rem; padding: 4px 2px; border-radius: 4px; cursor: default; min-width: 26px; }
-@media (max-width: 520px) { table.heat { border-spacing: 1px; padding: 4px; min-width: 600px; } table.heat th { font-size: 0.66rem; } table.heat td.c { font-size: 0.68rem; padding: 4px 0; } table.heat th.wk, table.heat td.wk { width: 48px; font-size: 0.66rem; padding-right: 3px; } table.heat tr.sum td { font-size: 0.64rem; } table.heat tr.sum td.wk { white-space: normal; line-height: 1.2; } }
+@media (max-width: 520px) { table.heat { border-spacing: 1px; padding: 4px; min-width: 680px; } table.heat th { font-size: 0.66rem; } table.heat td.c { font-size: 0.68rem; padding: 4px 0; } table.heat th.wk, table.heat td.wk { width: 48px; font-size: 0.66rem; padding-right: 3px; } table.heat tr.sum td { font-size: 0.64rem; } table.heat tr.sum td.wk { white-space: normal; line-height: 1.2; } table.heat th.ud, table.heat td.ud { width: 70px; padding-left: 4px; } }
 table.heat td.c:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
 table.heat tr.sum td { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 0.74rem; text-align: center; color: var(--ink-2); padding-top: 6px; border-top: 1px solid var(--hairline); }
 table.heat tr.sum td.wk { font-family: inherit; }
+table.heat th.ud, table.heat td.ud { width: 104px; padding-left: 8px; }
+.udrow { display: flex; align-items: center; gap: 6px; }
+.udbar { flex: 1; display: flex; height: 12px; border-radius: 3px; overflow: hidden; background: var(--surface-2); }
+.udbar span { display: block; height: 100%; }
+.udbar .u { background: var(--accent); } .udbar .d { background: var(--neg); }
+.udnum { font-size: 0.68rem; color: var(--ink-2); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; width: 2.6em; text-align: right; }
 .heatnote { font-size: 0.8rem; color: var(--muted); margin: 8px 2px 0; min-height: 1.3em; }
 .tablebox { position: relative; overflow-x: auto; border: 1px solid var(--hairline); border-radius: 12px; background: var(--surface); }
 table { border-collapse: collapse; width: 100%; font-size: 0.84rem; }
@@ -1388,13 +1394,24 @@ footer li { margin-bottom: 6px; }
       return t + ' · ' + when + ' · ' + (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(1) + '% · rank ' + c[1] + ' of 10' +
         (c[2] != null ? ' · ' + Math.abs(c[2]).toFixed(1) + '× its normal weekly move' : '');
     }
+    function udbar(up, dn, title) {
+      var tot = up + dn; if (!tot) return '<td class="ud"></td>';
+      var pu = up / tot * 100;
+      return '<td class="ud" title="' + title + '"><div class="udrow"><div class="udbar" role="img" aria-label="' + title + '"><span class="u" style="width:' + pu.toFixed(1) + '%"></span><span class="d" style="width:' + (100 - pu).toFixed(1) + '%"></span></div>' +
+        '<span class="udnum">' + Math.round(pu) + '%</span></div></td>';
+    }
+    function udcell(i) {
+      var up = 0, dn = 0;
+      H.tickers.forEach(function (t) { var c = H.cells[t][i]; if (c) { if (c[0] > 0) up++; else dn++; } });
+      return udbar(up, dn, up + ' of ' + (up + dn) + ' up, ' + dn + ' down in the week ending ' + fmtDate(H.weeks[i], { month: 'short', day: 'numeric' }));
+    }
     function draw() {
       document.querySelectorAll('.heatbar .seg button[data-v]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mode)); });
       document.querySelectorAll('.heatbar .seg button[data-c]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-c') === cmode)); });
       $('heat-scale').textContent = cmode === 'norm' ? '· full color = 2.5× the stock\'s normal week (its usual weekly swing over the past year)' : '· full color = a 12% week';
       var head = '<thead><tr><th class="wk">Week</th>' + H.tickers.map(function (t) {
         return '<th' + (held[t] ? ' class="held" title="' + esc(t) + ' is held now"' : ' title="' + esc(t) + ' is ranked #' + rankNow[t] + ' now"') + '>' + esc(t) + '</th>';
-      }).join('') + '</tr></thead>';
+      }).join('') + '<th class="ud" title="Share of the ' + H.tickers.length + ' stocks that were up (blue) or down (red) that week; the number is the % up">Up / down</th></tr></thead>';
       var body = '';
       for (var i = n - 1; i >= 0; i--) {
         body += '<tr><td class="wk">' + wk(H.weeks[i]) + (H.partial && i === n - 1 ? '*' : '') + '</td>' + H.tickers.map(function (t) {
@@ -1402,10 +1419,13 @@ footer li { margin-bottom: 6px; }
           if (!c) return '<td class="c" tabindex="0" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">·</td>';
           var txt = mode === 'rank' ? c[1] : (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(0);
           return '<td class="c" tabindex="0" style="' + shade(c) + '" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">' + txt + '</td>';
-        }).join('') + '</tr>';
+        }).join('') + udcell(i) + '</tr>';
       }
-      var foot = '<tr class="sum"><td class="wk">Rank sum</td>' + H.tickers.map(function (t) { return '<td>' + H.sums[t] + '</td>'; }).join('') + '</tr>' +
-        '<tr class="sum"><td class="wk">' + n + '-wk %</td>' + H.tickers.map(function (t) { var v = H.total[t]; return '<td class="' + tone(v) + '" title="' + esc(t) + ': ' + (v == null ? 'no price' : pct(v, 1)) + ' over ' + n + ' weeks">' + (v == null ? '–' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v * 100))) + '</td>'; }).join('') + '</tr>';
+      var foot = '<tr class="sum"><td class="wk">Rank sum</td>' + H.tickers.map(function (t) { return '<td>' + H.sums[t] + '</td>'; }).join('') + (function () {
+          var up = 0, dn = 0; H.tickers.forEach(function (t) { H.cells[t].forEach(function (c) { if (c) { if (c[0] > 0) up++; else dn++; } }); });
+          return udbar(up, dn, up + ' of ' + (up + dn) + ' stock-weeks up over ' + n + ' weeks');
+        })() + '</tr>' +
+        '<tr class="sum"><td class="wk">' + n + '-wk %</td>' + H.tickers.map(function (t) { var v = H.total[t]; return '<td class="' + tone(v) + '" title="' + esc(t) + ': ' + (v == null ? 'no price' : pct(v, 1)) + ' over ' + n + ' weeks">' + (v == null ? '–' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v * 100))) + '</td>'; }).join('') + '<td class="ud"></td></tr>';
       $('heat').innerHTML = head + '<tbody>' + body + foot + '</tbody>';
     }
     function show(e) { var c = e.target.closest('td.c'); if (c) $('heat-note').textContent = detail(c.getAttribute('data-t'), +c.getAttribute('data-i')); }
