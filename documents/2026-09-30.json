@@ -499,8 +499,8 @@
        null
       ]
      ],
-     "maturityClose": 7835.25,
-     "ret": 0.012372,
+     "maturityClose": 7845.5,
+     "ret": 0.013696,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2678,8 +2678,8 @@
        null
       ]
      ],
-     "maturityClose": 104.0,
-     "ret": -0.00165,
+     "maturityClose": 104.3125,
+     "ret": 0.00135,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5415,7 +5415,7 @@
       [
        "bear",
        "1H structure is choppy (LL 4178.20, LH 4192.30 late 30 September); weekly structure is a downtrend (LL 3955.40, LH 4755.00 most recent swings); GC=F closed 4191.8 below its 50-day 4363.12 and 200-day 4554.89 with RSI(14) 35.5",
-       true
+       false
       ],
       [
        "neu",
@@ -5435,7 +5435,7 @@
       [
        "bear",
        "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); gold's correlation to the 10-year is -0.417, though gold still rose on the day",
-       true
+       false
       ],
       [
        "bull",
@@ -5475,11 +5475,11 @@
       [
        "bear",
        "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
-       true
+       false
       ]
      ],
-     "maturityClose": 4115.7001953125,
-     "ret": -0.018154,
+     "maturityClose": 4137.10009765625,
+     "ret": -0.013049,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7560,8 +7560,8 @@
        null
       ]
      ],
-     "maturityClose": 102.447998046875,
-     "ret": 0.008863,
+     "maturityClose": 102.28299713134766,
+     "ret": 0.007238,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9829,8 +9829,8 @@
        false
       ]
      ],
-     "maturityClose": 2819.300048828125,
-     "ret": -0.000673,
+     "maturityClose": 2812.0,
+     "ret": -0.003261,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11844,7 +11844,7 @@
       [
        "bull",
        "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -11859,7 +11859,7 @@
       [
        "bull",
        "Micron beat fiscal Q4 (non-GAAP EPS $33.42 vs about $31.56 est.; revenue $54.23B) and guided Q1 revenue to $61.5B +/- $1.5B on AI memory demand, lifting semis (news log); Intel +3.7% in the regular session",
-       false
+       true
       ],
       [
        "neu",
@@ -11882,8 +11882,8 @@
        null
       ]
      ],
-     "maturityClose": 31235.75,
-     "ret": 0.013564,
+     "maturityClose": 31354.75,
+     "ret": 0.017425,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
