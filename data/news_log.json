@@ -2277,5 +2277,65 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-07-1-futures-fall-as-global-yields-surge-fed-minutes",
+    "data": {
+      "addedAt": "2026-10-07",
+      "category": "Rates",
+      "date": "2026-10-07",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "US stock futures fall from record highs as global bond yields rise; 30-year Treasury yield at 5.70% (highest since 2002) ahead of September FOMC minutes (meeting where rates were hiked)",
+      "impact": "High",
+      "numbers": "S&P 500 fut 7,841.25 (-0.42%); Dow fut 51,386 (-0.83%); Nasdaq 100 fut 31,261.5 (-0.70%); Russell 2000 fut 2,822.9 (-0.89%); 10Y 5.35% (+8 bp); 30Y 5.70%; VIX 15.77 (+5%)",
+      "order": 1,
+      "reaction": "Risk-off after record closes Tuesday; Oct hike odds priced ~20%; minutes due 2 PM ET",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-october-7-dow-sp-500-nasdaq-080241833.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-07-2-oil-back-above-101-hormuz-attacks-gulf-storm",
+    "data": {
+      "addedAt": "2026-10-07",
+      "category": "Energy",
+      "date": "2026-10-07",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Oil rebounds as attacks in the Strait of Hormuz continue (at least nine in October) and a tropical storm approaches the Gulf Coast with possible hurricane landfall Friday",
+      "impact": "High",
+      "numbers": "Brent >$101/bbl; WTI ~$90/bbl",
+      "order": 2,
+      "reaction": "Supports inflation/yield pressure; headwind for equities",
+      "region": "Middle East / US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-october-7-dow-sp-500-nasdaq-080241833.html",
+      "tickers": "SPY, S&P, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-07-3-gold-slides-as-yields-climb",
+    "data": {
+      "addedAt": "2026-10-07",
+      "category": "Market",
+      "date": "2026-10-07",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Gold falls sharply as Treasury yields jump; bitcoin also lower",
+      "impact": "Medium",
+      "numbers": "Gold 4,112.80 (-74.30, -1.77%); Bitcoin 83,441 (-3.31%)",
+      "order": 3,
+      "reaction": "Higher real-yield pressure on non-yielding assets",
+      "region": "Global",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-october-7-dow-sp-500-nasdaq-080241833.html",
+      "tickers": "GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
