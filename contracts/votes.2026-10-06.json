@@ -3,51 +3,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "1H structure is choppy (structure.hourly), so the one-day trend read is two-sided despite ES=F closing 7881.5 at its 52-week closing high"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No advance/decline or %-above-MA counts for 6 October were obtained, so breadth is neutral for one day"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VIX closed 15.01 on 6 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
+   ],
+   [
+    "bull",
+    "The 10-year yield eased to about 5.26% on 6 October from 5.35% (news log, Yahoo Finance 6 October), but the 30-year touched a 2002-high 5.702% the day before; equities have a -0.549 correlation to 10-year yield changes over 21 sessions"
+   ],
+   [
+    "bull",
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The latest AAII survey obtained (week to 23 September: 32.7% bullish, 19.2% neutral, 48.1% bearish) is 13 days old and names no extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or fund-flow figure for this window names an extreme, so positioning is neutral"
+   ],
+   [
+    "bull",
+    "Alphabet signed a 20-year $4.3B nuclear power deal with Constellation for AI data centers and megacap tech led the 6 October close (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Oil fell on a G7 emergency stockpile release (Brent $98.58) and yields eased, the dollar index dipped 0.18% on 6 October (news log; DX-Y.NYB)"
    ],
    [
     "neu",
@@ -57,51 +57,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "Weekly structure is choppy (structure.weekly), so no five-day trend edge is claimed"
+   ],
+   [
+    "bear",
+    "Nvidia, Apple and Microsoft now exceed 21% of S&P 500 weight, a record concentration (news log, Yahoo Finance 6 October), so index strength rests on few names"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VIX closed 15.01 on 6 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Yields are retreating but remain near multi-decade highs, and equities' -0.549 10-year correlation cuts both ways over five sessions"
+   ],
+   [
+    "bull",
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The latest AAII survey obtained (week to 23 September: 32.7% bullish, 19.2% neutral, 48.1% bearish) is 13 days old and names no extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or fund-flow figure for this window names an extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Q3 earnings season starts with the big banks next week (news log), but no results are known as of 6 October, so five days is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Brent is still near $99 with the Strait of Hormuz closure unresolved (news log, 5 October), so cross-asset conditions are mixed over five days"
    ],
    [
     "neu",
@@ -110,52 +110,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Weekly structure is choppy (structure.weekly), but ES=F closed 7881.5 above its 50-day 7700.5 and 200-day 7265.1 at its 52-week closing high, a mildly positive ten-day backdrop"
+   ],
+   [
+    "bear",
+    "Nvidia, Apple and Microsoft now exceed 21% of S&P 500 weight, a record concentration (news log, Yahoo Finance 6 October), so index strength rests on few names"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VIX closed 15.01 on 6 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
+   ],
+   [
+    "bear",
+    "The 10-year at about 5.26% and the 30-year at a 2002 high a day earlier are restrictive levels for equity valuations over ten sessions (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries); the FOMC minutes and further data could shift this, so ten days is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The latest AAII survey obtained (week to 23 September: 32.7% bullish, 19.2% neutral, 48.1% bearish) is 13 days old and names no extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or fund-flow figure for this window names an extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated earnings fact beyond the start of Q3 season next week is available, so ten days is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Brent is still near $99 with the Strait of Hormuz closure unresolved (news log, 5 October), so cross-asset conditions are mixed over ten days"
    ],
    [
     "neu",
@@ -167,51 +167,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "1H structure is choppy (structure.hourly), so no one-day trend edge is claimed for ZN=F at 104.297"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not a meaningful input for a single Treasury note future and no relevant dated figure was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No MOVE close for 6 October was obtained and no source names a record or percentile for rates volatility, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
+   ],
+   [
+    "bull",
+    "The 10-year yield eased to about 5.26% from 5.35% on 6 October (news log); ZN=F rose 0.06% to 104.297 and the note's own-yield correlation is -0.952"
+   ],
+   [
+    "bull",
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No sentiment reading for Treasuries dated to 6 October was obtained, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 10-year note futures COT report newer than 15 September was obtained, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst applies directly to a Treasury note, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Oil fell (Brent $98.58) on a G7 emergency stockpile release, easing inflation concerns that were pressuring yields (news log, 6 October)"
    ],
    [
     "neu",
@@ -221,51 +221,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "Weekly structure is choppy (structure.weekly), so no five-day trend edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not a meaningful input for a single Treasury note future and no relevant dated figure was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No MOVE close for 6 October was obtained and no source names a record or percentile for rates volatility, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Yields are off the highs but the 10-year is still near 5.3%, a multi-decade high, so five days is two-sided (news log)"
+   ],
+   [
+    "bull",
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No sentiment reading for Treasuries dated to 6 October was obtained, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 10-year note futures COT report newer than 15 September was obtained, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst applies directly to a Treasury note, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Oil is still near $99 with Hormuz closed while equities sit at records, so cross-asset signals conflict for bonds over five days (news log)"
    ],
    [
     "neu",
@@ -274,52 +274,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Weekly structure is choppy (structure.weekly), but ZN=F sits below its 50-day 107.22 and 200-day 110.06 and 0.09 above its 52-week closing low 104.20, a downtrend backdrop"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not a meaningful input for a single Treasury note future and no relevant dated figure was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No MOVE close for 6 October was obtained and no source names a record or percentile for rates volatility, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
+   ],
+   [
+    "bear",
+    "The 30-year touched a 2002-high 5.702% on 5 October and ZN=F RSI is 27.2 with price below both averages, so the ten-day drift in yields has been up (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries); the FOMC minutes and further data could shift this, so ten days is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No sentiment reading for Treasuries dated to 6 October was obtained, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 10-year note futures COT report newer than 15 September was obtained, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst applies directly to a Treasury note, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Oil is still near $99 with Hormuz closed while equities sit at records, so cross-asset signals conflict for bonds over ten days (news log)"
    ],
    [
     "neu",
@@ -330,52 +330,52 @@
  "gold": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "1H structure is an uptrend (structure.hourly), supporting a one-day bounce; GC=F rose 0.35% to 4179.70"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not a meaningful input for gold and no relevant dated figure was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "GVZ closed 22.97 on 6 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread print was obtained, so credit gives no clean read for gold"
+   ],
+   [
+    "bull",
+    "The 10-year yield eased to about 5.26% from 5.35% on 6 October (news log), a mild tailwind, though gold has no dominant 21-session driver (10-year corr -0.389, below 0.40)"
+   ],
+   [
+    "bull",
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold sentiment survey was obtained and none names an extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold positioning figure newer than the Saxo/CFTC report for the week to 22 September was obtained and it names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst applies directly to gold, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "The dollar index slipped 0.18% to 101.969 and oil and yields fell on 6 October (DX-Y.NYB; news log), all supportive for gold"
    ],
    [
     "bull",
@@ -384,52 +384,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Weekly structure is a downtrend (structure.weekly) and GC=F is below its 50-day 4370 and 200-day 4552 with RSI 36.7"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not a meaningful input for gold and no relevant dated figure was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "GVZ closed 22.97 on 6 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread print was obtained, so credit gives no clean read for gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Yields are off their highs but remain near multi-decade highs, and gold's 10-year correlation is only -0.389, so five days is two-sided (news log)"
+   ],
+   [
+    "bull",
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold sentiment survey was obtained and none names an extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold positioning figure newer than the Saxo/CFTC report for the week to 22 September was obtained and it names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst applies directly to gold, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "The dollar index remains near its 52-week closing high of 102.17 (RSI 69.4), offsetting the day's dollar dip over five days"
    ],
    [
     "bear",
@@ -438,52 +438,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Weekly structure is a downtrend (structure.weekly) and GC=F is below its 50-day 4370 and 200-day 4552 with RSI 36.7"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not a meaningful input for gold and no relevant dated figure was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "GVZ closed 22.97 on 6 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread print was obtained, so credit gives no clean read for gold"
+   ],
+   [
+    "bear",
+    "With the 10-year near 5.3% and the 30-year at a 2002 high a day earlier, real-yield competition for non-yielding gold persists over ten days (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries); the FOMC minutes and further data could shift this, so ten days is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold sentiment survey was obtained and none names an extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold positioning figure newer than the Saxo/CFTC report for the week to 22 September was obtained and it names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst applies directly to gold, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "The dollar index remains near its 52-week closing high of 102.17 (RSI 69.4), offsetting the day's dollar dip over ten days"
    ],
    [
     "bear",
@@ -495,51 +495,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "1H structure is choppy (structure.hourly), so no one-day trend edge is claimed for DX-Y.NYB at 101.969"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not a meaningful input for the dollar index and no relevant dated figure was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No FX implied-volatility print or percentile was obtainable for 6 October, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread print was obtained, so credit gives no clean read for the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year yield eased about 9bp to roughly 5.26% (news log), but the dollar's 10-year correlation over 21 sessions is only 0.132, so rates give no clean read"
+   ],
+   [
+    "bear",
+    "Lower October Fed-hike odds (about 16% from 64%) and +29K payrolls reduce the US rate advantage (news log, 2 and 6 October)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar sentiment survey was obtained and none names an extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar positioning report newer than StoneX/CFTC for the week to 22 September was obtained and it names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst applies directly to the dollar index, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "The dollar index fell 0.18% on a risk-on, lower-yield day (DX-Y.NYB; news log), so cross-asset conditions pull both ways for one day"
    ],
    [
     "neu",
@@ -549,51 +549,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "Weekly structure is choppy (structure.weekly), so no five-day trend edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not a meaningful input for the dollar index and no relevant dated figure was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No FX implied-volatility print or percentile was obtainable for 6 October, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread print was obtained, so credit gives no clean read for the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year yield eased about 9bp to roughly 5.26% (news log), but the dollar's 10-year correlation over 21 sessions is only 0.132, so rates give no clean read"
+   ],
+   [
+    "bear",
+    "Lower October Fed-hike odds (about 16% from 64%) and +29K payrolls reduce the US rate advantage (news log, 2 and 6 October)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar sentiment survey was obtained and none names an extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar positioning report newer than StoneX/CFTC for the week to 22 September was obtained and it names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst applies directly to the dollar index, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "The euro hit a 17-month low on French budget gridlock (news log, 5 October), a structural support for the index at 101.97 near its 52-week high"
    ],
    [
     "neu",
@@ -602,52 +602,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Weekly structure is choppy (structure.weekly), but DX-Y.NYB is above its 50-day 100.02 and 200-day 99.31 and within 0.20 of its 52-week closing high 102.17"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not a meaningful input for the dollar index and no relevant dated figure was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No FX implied-volatility print or percentile was obtainable for 6 October, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread print was obtained, so credit gives no clean read for the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year yield eased about 9bp to roughly 5.26% (news log), but the dollar's 10-year correlation over 21 sessions is only 0.132, so rates give no clean read"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Fed path is two-sided over ten days: soft payrolls cut hike odds but hikes are not ruled out and the FOMC minutes are pending (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar sentiment survey was obtained and none names an extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar positioning report newer than StoneX/CFTC for the week to 22 September was obtained and it names no extreme, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst applies directly to the dollar index, so this category is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The euro's weakness on French budget gridlock is dated 5 October and the dollar's own RSI is 69.4, so ten days is two-sided (news log)"
    ],
    [
     "neu",
@@ -659,51 +659,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "1H structure is choppy (structure.hourly), and RTY=F fell 0.81% to 2844.5, so no one-day trend edge is claimed"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No advance/decline or %-above-MA counts for small caps on 6 October were obtained, so breadth is neutral; RTY=F lagged ES=F (-0.81% vs +0.62%) but that is price, not breadth"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "RVX is not available newer than 23 September and no source names a percentile or record for small-cap volatility, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read for small caps"
+   ],
+   [
+    "bull",
+    "The 10-year eased to about 5.26% from 5.35% on 6 October (news log); small caps' dominant 21-session driver is the 10-year (corr -0.555), though RTY=F still fell"
+   ],
+   [
+    "bull",
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated small-cap sentiment reading was obtained and none names an extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No source-documented small-cap positioning figure dated to 6 October was found, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated small-cap earnings catalyst was found; Q3 season begins with the big banks next week (news log), so earnings are neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Oil fell about 2% (WTI -2.12%) on 6 October and small caps have an oil correlation of -0.424 over 21 sessions (news log), though RTY=F still dropped 0.81%"
    ],
    [
     "neu",
@@ -712,52 +712,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Weekly structure is an uptrend (structure.weekly), though RTY=F is below its 50-day 2948 and above its 200-day 2794"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No advance/decline or %-above-MA counts for small caps on 6 October were obtained, so breadth is neutral; RTY=F lagged ES=F (-0.81% vs +0.62%) but that is price, not breadth"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "RVX is not available newer than 23 September and no source names a percentile or record for small-cap volatility, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read for small caps"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Small caps' -0.555 10-year correlation cuts both ways while the yield sits near a multi-decade high, so five days is two-sided (news log)"
+   ],
+   [
+    "bull",
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated small-cap sentiment reading was obtained and none names an extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No source-documented small-cap positioning figure dated to 6 October was found, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated small-cap earnings catalyst was found; Q3 season begins with the big banks next week (news log), so earnings are neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Oil is still near $99 Brent with Hormuz unresolved, and small caps lagged large caps on 6 October, so five days is mixed (news log)"
    ],
    [
     "bull",
@@ -766,52 +766,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Weekly structure is an uptrend (structure.weekly), though RTY=F is below its 50-day 2948 and above its 200-day 2794"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No advance/decline or %-above-MA counts for small caps on 6 October were obtained, so breadth is neutral; RTY=F lagged ES=F (-0.81% vs +0.62%) but that is price, not breadth"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "RVX is not available newer than 23 September and no source names a percentile or record for small-cap volatility, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read for small caps"
+   ],
+   [
+    "bear",
+    "A 10-year near 5.3% and the 30-year at a 2002 high a day earlier weigh on rate-sensitive, floating-rate-exposed small caps over ten days (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries); the FOMC minutes and further data could shift this, so ten days is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated small-cap sentiment reading was obtained and none names an extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No source-documented small-cap positioning figure dated to 6 October was found, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated small-cap earnings catalyst was found; Q3 season begins with the big banks next week (news log), so earnings are neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Oil is still near $99 Brent with Hormuz unresolved, and small caps lagged large caps on 6 October, so ten days is mixed (news log)"
    ],
    [
     "bull",
@@ -822,52 +822,52 @@
  "qqq": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "1H structure is an uptrend (structure.hourly); NQ=F rose 0.38% to 31493.0, a 52-week closing high"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No advance/decline counts for 6 October were obtained, so breadth is neutral for one day"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VXN closed 21.15 and VIX 15.01 on 6 October and no source names a percentile or record for either, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
+   ],
+   [
+    "bull",
+    "The 10-year eased to about 5.26% from 5.35% on 6 October (news log); the Nasdaq-100's 21-session 10-year correlation is -0.545"
+   ],
+   [
+    "bull",
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The latest AAII survey obtained (week to 23 September: 48.1% bearish) is 13 days old and names no extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No source-documented megacap-tech positioning figure dated to 6 October was found, so positioning is neutral"
+   ],
+   [
+    "bull",
+    "Alphabet signed a 20-year $4.3B nuclear power purchase agreement with Constellation for AI data centers, and megacap tech led the 6 October close (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Oil fell about 2% on 6 October and the Nasdaq-100's strongest 21-session driver is oil (corr -0.564) (news log)"
    ],
    [
     "bull",
@@ -877,51 +877,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "Weekly structure is choppy (structure.weekly), so no five-day trend edge is claimed"
+   ],
+   [
+    "bear",
+    "Nvidia, Apple and Microsoft now exceed 21% of S&P 500 weight, a record concentration (news log, Yahoo Finance 6 October), leaving index gains reliant on few names"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VXN closed 21.15 and VIX 15.01 on 6 October and no source names a percentile or record for either, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Nasdaq-100's -0.545 10-year correlation cuts both ways while the yield sits near a multi-decade high, so five days is two-sided (news log)"
+   ],
+   [
+    "bull",
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The latest AAII survey obtained (week to 23 September: 48.1% bearish) is 13 days old and names no extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No source-documented megacap-tech positioning figure dated to 6 October was found, so positioning is neutral"
+   ],
+   [
+    "bull",
+    "The Alphabet-Constellation AI power deal (news log, 6 October) reinforces AI-capex demand into the start of Q3 earnings season next week"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Oil is still near $99 Brent with Hormuz unresolved, so the dominant oil driver stays a risk over five days (news log)"
    ],
    [
     "neu",
@@ -930,52 +930,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Weekly structure is choppy (structure.weekly), but NQ=F closed above its 50-day 29704 and 200-day 27668 at a 52-week closing high"
+   ],
+   [
+    "bear",
+    "Nvidia, Apple and Microsoft now exceed 21% of S&P 500 weight, a record concentration (news log, Yahoo Finance 6 October), leaving index gains reliant on few names"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VXN closed 21.15 and VIX 15.01 on 6 October and no source names a percentile or record for either, so volatility is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
+   ],
+   [
+    "bear",
+    "A 10-year near 5.3% and the 30-year at a 2002 high a day earlier weigh on long-duration growth valuations over ten days (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries); the FOMC minutes and further data could shift this, so ten days is two-sided"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The latest AAII survey obtained (week to 23 September: 48.1% bearish) is 13 days old and names no extreme, so sentiment is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No source-documented megacap-tech positioning figure dated to 6 October was found, so positioning is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated earnings result is known for the ten-day window; Q3 season begins next week (news log), so earnings are neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Oil is still near $99 Brent with Hormuz unresolved, so the dominant oil driver stays a risk over ten days (news log)"
    ],
    [
     "neu",
