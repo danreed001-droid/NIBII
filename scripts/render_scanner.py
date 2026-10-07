@@ -198,6 +198,21 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .filters input, .filters select { font: inherit; font-size: 0.85rem; background: var(--surface); color: var(--ink); border: 1px solid var(--hairline); border-radius: 8px; padding: 7px 10px; min-width: 0; }
 .filters input { flex: 1 1 200px; }
 .count { font-size: 0.78rem; color: var(--muted); margin-left: auto; }
+/* weekly rank heatmap */
+.heatbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; font-size: 0.8rem; color: var(--muted); }
+.heatbar .hkey { display: inline-flex; align-items: center; gap: 6px; }
+.heatbar .hkey i { display: inline-block; width: 64px; height: 10px; border-radius: 3px; background: linear-gradient(90deg, var(--neg), var(--surface-2) 50%, var(--accent)); }
+.heatbox { overflow-x: auto; border: 1px solid var(--hairline); border-radius: 12px; background: var(--surface); }
+table.heat { border-collapse: separate; border-spacing: 2px; width: 100%; min-width: 340px; padding: 6px; }
+table.heat th { font-size: 0.74rem; font-weight: 600; color: var(--ink-2); padding: 4px 2px; text-align: center; white-space: nowrap; }
+table.heat th.wk, table.heat td.wk { text-align: left; color: var(--muted); font-weight: 500; font-size: 0.72rem; padding-right: 6px; position: sticky; left: 0; background: var(--surface); width: 52px; }
+table.heat th.held { color: var(--gold); }
+table.heat td.c { text-align: center; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 0.74rem; padding: 4px 2px; border-radius: 4px; cursor: default; min-width: 26px; }
+@media (max-width: 520px) { table.heat { border-spacing: 1px; padding: 4px; table-layout: fixed; min-width: 0; } table.heat th { overflow: hidden; text-overflow: clip; } table.heat th { font-size: 0.62rem; letter-spacing: -0.02em; } table.heat td.c { font-size: 0.68rem; padding: 4px 0; } table.heat th.wk, table.heat td.wk { width: 44px; font-size: 0.66rem; padding-right: 3px; } table.heat tr.sum td { font-size: 0.54rem; letter-spacing: -0.04em; padding-inline: 0; } table.heat tr.sum td.wk { white-space: normal; line-height: 1.2; font-size: 0.6rem; } table.heat th { font-size: 0.56rem; } }
+table.heat td.c:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+table.heat tr.sum td { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 0.74rem; text-align: center; color: var(--ink-2); padding-top: 6px; border-top: 1px solid var(--hairline); }
+table.heat tr.sum td.wk { font-family: inherit; }
+.heatnote { font-size: 0.8rem; color: var(--muted); margin: 8px 2px 0; min-height: 1.3em; }
 .tablebox { position: relative; overflow-x: auto; border: 1px solid var(--hairline); border-radius: 12px; background: var(--surface); }
 table { border-collapse: collapse; width: 100%; font-size: 0.84rem; }
 th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--hairline); white-space: nowrap; }
@@ -416,6 +431,17 @@ footer li { margin-bottom: 6px; }
       <div class="card" style="padding:4px 14px"><ul class="timeline" id="trades"></ul></div>
     </div>
   </div>
+
+  <p class="section-label">Top 10, week by week <span class="hint" id="heat-hint"></span></p>
+  <div class="heatbar">
+    <span class="seg" role="group" aria-label="Show in each cell">
+      <button type="button" id="heat-rank" data-v="rank" aria-pressed="true">Weekly rank</button>
+      <button type="button" id="heat-pct" data-v="pct" aria-pressed="false">% change</button>
+    </span>
+    <span class="hkey"><span>down</span><i></i><span>up</span></span>
+  </div>
+  <div class="heatbox"><table class="heat" id="heat"></table></div>
+  <p class="heatnote" id="heat-note">Hover or tap a cell for details.</p>
 
   <p class="section-label">Top 100 ranking <span class="hint">trend = weekly / daily swing structure</span></p>
   <div class="filters">
@@ -1351,6 +1377,58 @@ footer li { margin-bottom: 6px; }
   $('trades').innerHTML = D.trades.slice(0, 12).map(function (x) {
     return '<li><span class="when">' + fmtDate(x.d, { month: 'short', day: 'numeric', year: '2-digit' }) + '</span><span class="tag ' + x.side + '">' + x.side + '</span><span><b>' + esc(x.t) + '</b> <span class="muted" style="font-size:0.76rem">' + esc(x.n) + '</span></span><span class="num muted">$' + (x.px != null ? x.px.toLocaleString(undefined, { maximumFractionDigits: 2 }) : '–') + '</span></li>';
   }).join('');
+
+  // weekly rank heatmap: the current top 10, ranked against each other every week
+  (function () {
+    var H = D.heat;
+    if (!H || !H.weeks || !H.weeks.length) { $('heat').closest('.heatbox').hidden = true; return; }
+    var mode = 'rank';
+    try { mode = localStorage.getItem('nibii-heat-mode') || 'rank'; } catch (e) {}
+    var n = H.weeks.length, cap = 0.12;
+    var rankNow = {}; D.table.forEach(function (r) { rankNow[r.t] = r.rank; });
+    $('heat-hint').textContent = 'each week (last close to last close, normally Friday to Friday) the current top 10 are ranked by % change: 1 = best · columns sorted by the sum of weekly ranks over ' + n + ' weeks, lowest (most consistent) on the left · newest week at the top · darker = bigger move';
+    function wk(d) { return fmtDate(d, { month: 'short', day: 'numeric' }); }
+    function shade(ch) {
+      var a = Math.min(1, Math.abs(ch) / cap), m = Math.round(12 + a * 73);
+      var c = ch >= 0 ? 'var(--accent)' : 'var(--neg)';
+      return 'background:color-mix(in srgb, ' + c + ' ' + m + '%, var(--surface-2));color:' + (m > 52 ? '#fff' : 'var(--ink)');
+    }
+    function detail(t, i) {
+      var c = H.cells[t][i];
+      var when = 'week ending ' + fmtDate(H.weeks[i], { month: 'short', day: 'numeric', year: 'numeric' }) + (H.partial && i === n - 1 ? ' (in progress)' : '');
+      if (!c) return t + ' · ' + when + ' · no price that week';
+      return t + ' · ' + when + ' · ' + (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(1) + '% · rank ' + c[1] + ' of 10';
+    }
+    function draw() {
+      document.querySelectorAll('.heatbar .seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mode)); });
+      var head = '<thead><tr><th class="wk">Week</th>' + H.tickers.map(function (t) {
+        return '<th' + (held[t] ? ' class="held" title="' + esc(t) + ' is held now"' : ' title="' + esc(t) + ' is ranked #' + rankNow[t] + ' now"') + '>' + esc(t) + '</th>';
+      }).join('') + '</tr></thead>';
+      var body = '';
+      for (var i = n - 1; i >= 0; i--) {
+        body += '<tr><td class="wk">' + wk(H.weeks[i]) + (H.partial && i === n - 1 ? '*' : '') + '</td>' + H.tickers.map(function (t) {
+          var c = H.cells[t][i];
+          if (!c) return '<td class="c" tabindex="0" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">·</td>';
+          var txt = mode === 'rank' ? c[1] : (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(0);
+          return '<td class="c" tabindex="0" style="' + shade(c[0]) + '" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">' + txt + '</td>';
+        }).join('') + '</tr>';
+      }
+      var foot = '<tr class="sum"><td class="wk">Rank sum</td>' + H.tickers.map(function (t) { return '<td>' + H.sums[t] + '</td>'; }).join('') + '</tr>' +
+        '<tr class="sum"><td class="wk">' + n + '-wk %</td>' + H.tickers.map(function (t) { var v = H.total[t]; return '<td class="' + tone(v) + '" title="' + esc(t) + ': ' + (v == null ? 'no price' : pct(v, 1)) + ' over ' + n + ' weeks">' + (v == null ? '–' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v * 100))) + '</td>'; }).join('') + '</tr>';
+      $('heat').innerHTML = head + '<tbody>' + body + foot + '</tbody>';
+    }
+    function show(e) { var c = e.target.closest('td.c'); if (c) $('heat-note').textContent = detail(c.getAttribute('data-t'), +c.getAttribute('data-i')); }
+    $('heat').addEventListener('mouseover', show);
+    $('heat').addEventListener('click', show);
+    $('heat').addEventListener('focusin', show);
+    document.querySelector('.heatbar .seg').addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-v]'); if (!b) return; mode = b.getAttribute('data-v');
+      try { localStorage.setItem('nibii-heat-mode', mode); } catch (x) {}
+      draw();
+    });
+    draw();
+    if (H.partial) $('heat-note').textContent = '* this week is still in progress. Hover or tap a cell for details.';
+  })();
 
   // table
   var T = { q: '', sec: '', sort: 'rank', dir: 1, all: false };

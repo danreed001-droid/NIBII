@@ -1,0 +1,37 @@
+from mtl.heat import weekly_heat
+
+# two full weeks (Mon-Fri) plus the Friday before: 2026-01-02 (Fri), 05-09, 12-16
+CAL = ['2026-01-02'] + [f'2026-01-{d:02d}' for d in range(5, 10)] + [f'2026-01-{d:02d}' for d in range(12, 17)]
+
+
+def px(fri0, fri1, fri2):
+    return {'2026-01-02': fri0, '2026-01-09': fri1, '2026-01-16': fri2}
+
+
+def test_ranks_each_week_and_orders_by_rank_sum():
+    prices = {'A': px(100, 110, 110), 'B': px(100, 105, 120), 'C': px(100, 90, 81)}
+    h = weekly_heat(prices, CAL, ['C', 'A', 'B'], weeks=2)
+    assert h['weeks'] == ['2026-01-09', '2026-01-16']
+    assert h['cells']['A'] == [[0.1, 1], [0.0, 2]]
+    assert h['cells']['B'] == [[0.05, 2], [0.1429, 1]]
+    assert h['cells']['C'] == [[-0.1, 3], [-0.1, 3]]
+    assert h['sums'] == {'A': 3, 'B': 3, 'C': 6}
+    assert h['tickers'] == ['A', 'B', 'C']          # tie keeps input order among A/B
+    assert h['total']['B'] == 0.2
+    assert h['partial'] is False
+
+
+def test_missing_week_gets_no_rank():
+    prices = {'A': px(100, 110, 121), 'B': {'2026-01-09': 50, '2026-01-16': 60}}
+    h = weekly_heat(prices, CAL, ['A', 'B'], weeks=2)
+    assert h['cells']['B'][0] is None
+    assert h['cells']['B'][1] == [0.2, 1]
+    assert h['tickers'] == ['B', 'A']               # average rank 1 vs 1.5
+    assert h['total']['B'] is None
+
+
+def test_partial_week_flag():
+    cal = CAL + ['2026-01-19', '2026-01-20']        # Mon/Tue of the next week
+    prices = {'A': dict(px(100, 110, 121), **{'2026-01-20': 125})}
+    h = weekly_heat(prices, cal, ['A'], weeks=2)
+    assert h['weeks'] == ['2026-01-16', '2026-01-20'] and h['partial'] is True
