@@ -36,7 +36,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
-from mtl.heat import weekly_heat  # noqa: E402
+from mtl.heat import daily_heat, weekly_heat  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -52,6 +52,7 @@ WIN = None
 RANK = {}
 RK = {}
 GLITCH_BLOCK = 150
+HEAT_EXTRA = ('AAPL', 'GOOGL', 'MSFT', 'NVDA', 'JNJ', 'UNH')   # always shown in the daily heatmap
 PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
 AUTO_NEED, AUTO_LOW = 2, 0.6            # monthly plans: 60/40 while 2+ holdings are in a daily downtrend, else 100%
 # weekly Auto and Boost use the STEPS tiers below (1 holding down -> 80/20, 2 -> 60/40, 3+ -> 40/60)
@@ -582,6 +583,8 @@ def main():
                 for d_, s, t in trades[-24:]][::-1],
         table=table,
         heat=weekly_heat(prices, calendar, [t for t, _ in now[:15]]),   # top 15's weekly ranks, last 26 weeks
+        dheat=daily_heat(prices, calendar, [t for t, _ in now[:30]] + [t for t in HEAT_EXTRA if t in prices and t not in dict(now[:30])],
+                         extra=[t for t in HEAT_EXTRA if t not in dict(now[:30])]),   # top 30 + a few large caps, last 30 days
         curves={k: [[d_, round(v, 2)] for d_, v in c] for k, c in curves.items()},   # daily: the page filters by date range
         years=years,
         stats={k: dict(total=r4(s['total']), annual=r4(s['annual']), maxDD=r4(s['maxDD']), oneYear=r4(one_year[k]))

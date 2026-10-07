@@ -1,4 +1,4 @@
-from mtl.heat import weekly_heat
+from mtl.heat import daily_heat, weekly_heat
 
 # two full weeks (Mon-Fri) plus the Friday before: 2026-01-02 (Fri), 05-09, 12-16
 CAL = ['2026-01-02'] + [f'2026-01-{d:02d}' for d in range(5, 10)] + [f'2026-01-{d:02d}' for d in range(12, 17)]
@@ -51,3 +51,14 @@ def test_z_is_change_over_normal_weekly_move():
     chg, rank, z = h['cells']['A'][-1]
     assert chg == 0.08 and rank == 1
     assert 3.5 < z < 4.5                              # about 4x a 2% normal move
+
+
+def test_daily_heat_ranks_each_session():
+    prices = {'A': {'2026-01-05': 100, '2026-01-06': 101, '2026-01-07': 99},
+              'B': {'2026-01-05': 50, '2026-01-06': 49, '2026-01-07': 51}}
+    cal = ['2026-01-05', '2026-01-06', '2026-01-07']
+    h = daily_heat(prices, cal, ['A', 'B'], days=2, extra=['B', 'ZZZ'])
+    assert h['weeks'] == ['2026-01-06', '2026-01-07'] and h['unit'] == 'day'
+    assert [c[:2] for c in h['cells']['A']] == [[0.01, 1], [-0.0198, 2]]
+    assert [c[:2] for c in h['cells']['B']] == [[-0.02, 2], [0.0408, 1]]
+    assert h['extra'] == ['B'] and h['partial'] is False

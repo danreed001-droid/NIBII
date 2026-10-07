@@ -207,6 +207,7 @@ table.heat { border-collapse: separate; border-spacing: 2px; width: 100%; min-wi
 table.heat th { font-size: 0.74rem; font-weight: 600; color: var(--ink-2); padding: 4px 2px; text-align: center; white-space: nowrap; }
 table.heat th.wk, table.heat td.wk { text-align: left; color: var(--muted); font-weight: 500; font-size: 0.72rem; padding-right: 6px; position: sticky; left: 0; background: var(--surface); width: 52px; }
 table.heat th.held { color: var(--gold); }
+table.heat th.extra { color: var(--muted); font-style: italic; }
 table.heat td.c { text-align: center; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 0.74rem; padding: 4px 2px; border-radius: 4px; cursor: default; min-width: 26px; }
 @media (max-width: 520px) { table.heat { border-spacing: 1px; padding: 4px; min-width: 680px; } table.heat th { font-size: 0.66rem; } table.heat td.c { font-size: 0.68rem; padding: 4px 0; } table.heat th.wk, table.heat td.wk { width: 48px; font-size: 0.66rem; padding-right: 3px; } table.heat tr.sum td { font-size: 0.64rem; } table.heat tr.sum td.wk { white-space: normal; line-height: 1.2; } table.heat th.ud, table.heat td.ud { width: 70px; padding-left: 4px; } }
 table.heat td.c:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
@@ -439,9 +440,9 @@ footer li { margin-bottom: 6px; }
   </div>
 
   <p class="section-label"><span id="heat-title">Top 15</span>, week by week <span class="hint" id="heat-hint"></span></p>
-  <div class="heatbar">
+  <div class="heatbar" id="heat-bar">
     <span class="seg" role="group" aria-label="Show in each cell">
-      <button type="button" id="heat-rank" data-v="rank" aria-pressed="true">Weekly rank</button>
+      <button type="button" id="heat-rank" data-v="rank" aria-pressed="true">Week rank</button>
       <button type="button" id="heat-pct" data-v="pct" aria-pressed="false">% change</button>
     </span>
     <span class="seg" role="group" aria-label="Color cells by">
@@ -452,6 +453,21 @@ footer li { margin-bottom: 6px; }
   </div>
   <div class="heatbox"><table class="heat" id="heat"></table></div>
   <p class="heatnote" id="heat-note">Hover or tap a cell for details. On a phone, swipe the table sideways.</p>
+
+  <p class="section-label"><span id="dheat-title">Top 30 + large caps</span>, day by day <span class="hint" id="dheat-hint"></span></p>
+  <div class="heatbar" id="dheat-bar">
+    <span class="seg" role="group" aria-label="Show in each cell">
+      <button type="button" id="dheat-rank" data-v="rank" aria-pressed="true">Day rank</button>
+      <button type="button" id="dheat-pct" data-v="pct" aria-pressed="false">% change</button>
+    </span>
+    <span class="seg" role="group" aria-label="Color cells by">
+      <button type="button" id="dheat-size" data-c="size" aria-pressed="true">Color: size of move</button>
+      <button type="button" id="dheat-norm" data-c="norm" aria-pressed="false">vs its normal day</button>
+    </span>
+    <span class="hkey"><span>down</span><i></i><span>up</span><span id="dheat-scale"></span></span>
+  </div>
+  <div class="heatbox"><table class="heat" id="dheat"></table></div>
+  <p class="heatnote" id="dheat-note">Hover or tap a cell for details. On a phone, swipe the table sideways.</p>
 
   <p class="section-label">Top 100 ranking <span class="hint">trend = weekly / daily swing structure</span></p>
   <div class="filters">
@@ -1388,18 +1404,20 @@ footer li { margin-bottom: 6px; }
     return '<li><span class="when">' + fmtDate(x.d, { month: 'short', day: 'numeric', year: '2-digit' }) + '</span><span class="tag ' + x.side + '">' + x.side + '</span><span><b>' + esc(x.t) + '</b> <span class="muted" style="font-size:0.76rem">' + esc(x.n) + '</span></span><span class="num muted">$' + (x.px != null ? x.px.toLocaleString(undefined, { maximumFractionDigits: 2 }) : '–') + '</span></li>';
   }).join('');
 
-  // weekly rank heatmap: the current top 15, ranked against each other every week
-  (function () {
-    var H = D.heat;
-    if (!H || !H.weeks || !H.weeks.length) { $('heat').closest('.heatbox').hidden = true; return; }
-    var mode = 'rank';
-    try { mode = localStorage.getItem('nibii-heat-mode') || 'rank'; } catch (e) {}
-    var n = H.weeks.length, cap = 0.12, zcap = 2.5, cmode = 'size';
-    try { cmode = localStorage.getItem('nibii-heat-color') || 'size'; } catch (e) {}
+  // rank heatmaps: the current top 15 week by week, and the top 30 (+ a few large caps) day by day
+  function heatmap(H, p) {
+    if (!H || !H.weeks || !H.weeks.length) { $(p).closest('.heatbox').hidden = true; return; }
+    var unit = H.unit || 'week', daily = unit === 'day', N = H.tickers.length, n = H.weeks.length;
+    var mode = 'rank', cmode = 'size', cap = daily ? 0.05 : 0.12, zcap = 2.5;
+    try { mode = localStorage.getItem('nibii-' + p + '-mode') || 'rank'; cmode = localStorage.getItem('nibii-' + p + '-color') || 'size'; } catch (e) {}
     var rankNow = {}; D.table.forEach(function (r) { rankNow[r.t] = r.rank; });
-    $('heat-title').textContent = 'Top ' + H.tickers.length;
-    $('heat-hint').textContent = 'each week (last close to last close, normally Friday to Friday) the current top ' + H.tickers.length + ' are ranked by % change: 1 = best · columns sorted by the sum of weekly ranks over ' + n + ' weeks, lowest (most consistent) on the left · newest week at the top · darker = bigger move, either in % or against the stock\'s own normal week';
-    function wk(d) { return fmtDate(d, { month: 'short', day: 'numeric' }); }
+    var extra = {}; (H.extra || []).forEach(function (t) { extra[t] = 1; });
+    var core = N - (H.extra || []).length;
+    $(p + '-title').textContent = daily ? 'Top ' + core + (H.extra && H.extra.length ? ' + ' + H.extra.length + ' large caps' : '') : 'Top ' + N;
+    $(p + '-hint').textContent = daily
+      ? 'each trading day the ' + N + ' stocks are ranked by % change: 1 = best · columns sorted by the sum of daily ranks over ' + n + ' days, lowest (most consistent) on the left · + = added by hand (' + (H.extra || []).join(', ') + ') · newest day at the top'
+      : 'each week (last close to last close, normally Friday to Friday) the current top ' + N + ' are ranked by % change: 1 = best · columns sorted by the sum of weekly ranks over ' + n + ' weeks, lowest (most consistent) on the left · newest week at the top · darker = bigger move, either in % or against the stock\'s own normal week';
+    function lab(d) { return fmtDate(d, { month: 'short', day: 'numeric' }); }
     function shade(cell) {
       var ch = cell[0], v = cmode === 'norm' ? cell[2] : ch;
       if (v == null) return 'background:var(--surface-2);color:var(--muted)';
@@ -1407,12 +1425,14 @@ footer li { margin-bottom: 6px; }
       var c = ch >= 0 ? 'var(--accent)' : 'var(--neg)';
       return 'background:color-mix(in srgb, ' + c + ' ' + m + '%, var(--surface-2));color:' + (m > 52 ? '#fff' : 'var(--ink)');
     }
+    function when(i) {
+      return (daily ? '' : 'week ending ') + fmtDate(H.weeks[i], { weekday: daily ? 'short' : undefined, month: 'short', day: 'numeric', year: 'numeric' }) + (H.partial && i === n - 1 ? ' (in progress)' : '');
+    }
     function detail(t, i) {
       var c = H.cells[t][i];
-      var when = 'week ending ' + fmtDate(H.weeks[i], { month: 'short', day: 'numeric', year: 'numeric' }) + (H.partial && i === n - 1 ? ' (in progress)' : '');
-      if (!c) return t + ' · ' + when + ' · no price that week';
-      return t + ' · ' + when + ' · ' + (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(1) + '% · rank ' + c[1] + ' of 10' +
-        (c[2] != null ? ' · ' + Math.abs(c[2]).toFixed(1) + '× its normal weekly move' : '');
+      if (!c) return t + ' · ' + when(i) + ' · no price';
+      return t + ' · ' + when(i) + ' · ' + (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(1) + '% · rank ' + c[1] + ' of ' + N +
+        (c[2] != null ? ' · ' + Math.abs(c[2]).toFixed(1) + '× its normal ' + (daily ? 'daily' : 'weekly') + ' move' : '');
     }
     function udbar(up, dn, title) {
       var tot = up + dn; if (!tot) return '<td class="ud"></td>';
@@ -1423,44 +1443,50 @@ footer li { margin-bottom: 6px; }
     function udcell(i) {
       var up = 0, dn = 0;
       H.tickers.forEach(function (t) { var c = H.cells[t][i]; if (c) { if (c[0] > 0) up++; else dn++; } });
-      return udbar(up, dn, up + ' of ' + (up + dn) + ' up, ' + dn + ' down in the week ending ' + fmtDate(H.weeks[i], { month: 'short', day: 'numeric' }));
+      return udbar(up, dn, up + ' of ' + (up + dn) + ' up, ' + dn + ' down · ' + when(i));
     }
     function draw() {
-      document.querySelectorAll('.heatbar .seg button[data-v]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mode)); });
-      document.querySelectorAll('.heatbar .seg button[data-c]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-c') === cmode)); });
-      $('heat-scale').textContent = cmode === 'norm' ? '· full color = 2.5× the stock\'s normal week (its usual weekly swing over the past year)' : '· full color = a 12% week';
-      var head = '<thead><tr><th class="wk">Week</th>' + H.tickers.map(function (t) {
-        return '<th' + (held[t] ? ' class="held" title="' + esc(t) + ' is held now"' : ' title="' + esc(t) + ' is ranked #' + rankNow[t] + ' now"') + '>' + esc(t) + '</th>';
-      }).join('') + '<th class="ud" title="Share of the ' + H.tickers.length + ' stocks that were up (blue) or down (red) that week; the number is the % up">Up / down</th></tr></thead>';
+      document.querySelectorAll('#' + p + '-bar .seg button[data-v]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mode)); });
+      document.querySelectorAll('#' + p + '-bar .seg button[data-c]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-c') === cmode)); });
+      $(p + '-scale').textContent = cmode === 'norm'
+        ? '· full color = 2.5× the stock\'s normal ' + unit + ' (its usual ' + (daily ? 'daily swing over the past 3 months' : 'weekly swing over the past year') + ')'
+        : '· full color = a ' + (cap * 100) + '% ' + unit;
+      var head = '<thead><tr><th class="wk">' + (daily ? 'Day' : 'Week') + '</th>' + H.tickers.map(function (t) {
+        var cls = held[t] ? 'held' : extra[t] ? 'extra' : '';
+        var tip = held[t] ? t + ' is held now' : rankNow[t] ? t + ' is ranked #' + rankNow[t] + ' now' : t + ' (added by hand)';
+        return '<th' + (cls ? ' class="' + cls + '"' : '') + ' title="' + esc(tip) + '">' + esc(t) + (extra[t] ? '+' : '') + '</th>';
+      }).join('') + '<th class="ud" title="Share of the ' + N + ' stocks that were up (blue) or down (red) that ' + unit + '; the number is the % up">Up / down</th></tr></thead>';
       var body = '';
       for (var i = n - 1; i >= 0; i--) {
-        body += '<tr><td class="wk">' + wk(H.weeks[i]) + (H.partial && i === n - 1 ? '*' : '') + '</td>' + H.tickers.map(function (t) {
+        body += '<tr><td class="wk">' + lab(H.weeks[i]) + (H.partial && i === n - 1 ? '*' : '') + '</td>' + H.tickers.map(function (t) {
           var c = H.cells[t][i];
           if (!c) return '<td class="c" tabindex="0" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">·</td>';
-          var txt = mode === 'rank' ? c[1] : (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(0);
+          var txt = mode === 'rank' ? c[1] : (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(daily ? 1 : 0);
           return '<td class="c" tabindex="0" style="' + shade(c) + '" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">' + txt + '</td>';
         }).join('') + udcell(i) + '</tr>';
       }
       var foot = '<tr class="sum"><td class="wk">Rank sum</td>' + H.tickers.map(function (t) { return '<td>' + H.sums[t] + '</td>'; }).join('') + (function () {
           var up = 0, dn = 0; H.tickers.forEach(function (t) { H.cells[t].forEach(function (c) { if (c) { if (c[0] > 0) up++; else dn++; } }); });
-          return udbar(up, dn, up + ' of ' + (up + dn) + ' stock-weeks up over ' + n + ' weeks');
+          return udbar(up, dn, up + ' of ' + (up + dn) + ' stock-' + unit + 's up over ' + n + ' ' + unit + 's');
         })() + '</tr>' +
-        '<tr class="sum"><td class="wk">' + n + '-wk %</td>' + H.tickers.map(function (t) { var v = H.total[t]; return '<td class="' + tone(v) + '" title="' + esc(t) + ': ' + (v == null ? 'no price' : pct(v, 1)) + ' over ' + n + ' weeks">' + (v == null ? '–' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v * 100))) + '</td>'; }).join('') + '<td class="ud"></td></tr>';
-      $('heat').innerHTML = head + '<tbody>' + body + foot + '</tbody>';
+        '<tr class="sum"><td class="wk">' + n + (daily ? '-day' : '-wk') + ' %</td>' + H.tickers.map(function (t) { var v = H.total[t]; return '<td class="' + tone(v) + '" title="' + esc(t) + ': ' + (v == null ? 'no price' : pct(v, 1)) + ' over ' + n + ' ' + unit + 's">' + (v == null ? '–' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v * 100))) + '</td>'; }).join('') + '<td class="ud"></td></tr>';
+      $(p).innerHTML = head + '<tbody>' + body + foot + '</tbody>';
     }
-    function show(e) { var c = e.target.closest('td.c'); if (c) $('heat-note').textContent = detail(c.getAttribute('data-t'), +c.getAttribute('data-i')); }
-    $('heat').addEventListener('mouseover', show);
-    $('heat').addEventListener('click', show);
-    $('heat').addEventListener('focusin', show);
-    document.querySelector('.heatbar').addEventListener('click', function (e) {
+    function show(e) { var c = e.target.closest('td.c'); if (c) $(p + '-note').textContent = detail(c.getAttribute('data-t'), +c.getAttribute('data-i')); }
+    $(p).addEventListener('mouseover', show);
+    $(p).addEventListener('click', show);
+    $(p).addEventListener('focusin', show);
+    $(p + '-bar').addEventListener('click', function (e) {
       var b = e.target.closest('button[data-v], button[data-c]'); if (!b) return;
-      if (b.hasAttribute('data-v')) { mode = b.getAttribute('data-v'); try { localStorage.setItem('nibii-heat-mode', mode); } catch (x) {} }
-      else { cmode = b.getAttribute('data-c'); try { localStorage.setItem('nibii-heat-color', cmode); } catch (x) {} }
+      if (b.hasAttribute('data-v')) { mode = b.getAttribute('data-v'); try { localStorage.setItem('nibii-' + p + '-mode', mode); } catch (x) {} }
+      else { cmode = b.getAttribute('data-c'); try { localStorage.setItem('nibii-' + p + '-color', cmode); } catch (x) {} }
       draw();
     });
     draw();
-    if (H.partial) $('heat-note').textContent = '* this week is still in progress. Hover or tap a cell for details.';
-  })();
+    if (H.partial) $(p + '-note').textContent = '* this ' + unit + ' is still in progress. Hover or tap a cell for details.';
+  }
+  heatmap(D.heat, 'heat');
+  heatmap(D.dheat, 'dheat');
 
   // table
   var T = { q: '', sec: '', sort: 'rank', dir: 1, all: false };
