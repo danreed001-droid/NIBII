@@ -251,6 +251,28 @@ call by itself outright, but at weight 3 it's the single most powerful
 category in the tally - materially different from every other category's
 weight of 1.
 
+### Mechanical votes for Breadth, Volatility regime and Credit (categories 2-4)
+
+Added after the first nine sessions showed ~71% of cells ending as
+`no-call`: Breadth, Volatility regime and Credit voted neutral on 72-86% of
+cells because the judgment pass usually had no dated, sourced figure to cite.
+`scripts/prepare_daily.py` now drafts these three itself via
+`mtl/mechvotes.py` (weight 1 each, like any non-structure category):
+
+- **Breadth** - RSP/SPY ratio vs its 50-day mean and 20-session change
+  (equities and iwm only; every other asset votes `neu`).
+- **Credit** - HYG/IEF ratio, same rule (equities, qqq, iwm only).
+- **Volatility regime** - the asset's own gauge (VIX / VXN / RVX) vs its
+  20-day mean and 5-session change, inverted (calm and falling = `bull`).
+
+The reasons start with `Mechanical:` and the judgment pass should keep these
+votes as drafted unless it has a dated, sourced reason to override one. A feed
+that fails to load degrades to a neutral "data unavailable" vote and never
+stops the draft. **These rules are not backtested** (the sandbox that wrote
+them cannot reach Yahoo); they are graded at settlement like every other vote,
+so judge them on the per-category hit rates the record accumulates, and drop
+or down-weight any that don't earn their place.
+
 **Live-verified 2026-09-25** alongside the yield/gold check: `interval="60m"`
 returned clean hourly bars for both an index ticker (`^GSPC`, 35 rows) and
 an ETF (`TLT`, 35 rows), so intraday coverage isn't the gap it might have

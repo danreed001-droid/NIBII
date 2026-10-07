@@ -29,9 +29,10 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.build import ASSET_ORDER
 from mtl.drivers import driver_regime, pct_changes, bp_changes
-from mtl.fetch import (TICKERS, SIGMA_TICKER, YIELDS, closes_through,
+from mtl.fetch import (TICKERS, SIGMA_TICKER, YIELDS, closes_through, fetch_closes,
                         gold_close_through, yield_through,
                         stretch_inputs_from_history, ohlc_through)
+from mtl import mechvotes
 from mtl.structure import CATEGORY_NAME as STRUCTURE_CATEGORY_NAME
 from mtl.structure import (HOURLY_SWING_N, STRUCTURE_LOOKBACK, WEEKLY_SWING_N,
                            structure_signal, vote_from_signal, weekly_from_daily)
@@ -123,11 +124,58 @@ def draft_inputs(s: str) -> dict:
     )
 
 
-def draft_votes(assets: dict) -> dict:
+def fetch_mech(s: str) -> dict:
+    """Mechanical votes for categories 2 (Breadth), 3 (Volatility regime) and
+    4 (Credit), per asset: {asset_key: {2: vote, 3: vote, 4: vote}}.
+
+    Never raises: a ticker that fails to load degrades that one vote to a
+    neutral "data unavailable" vote (see mtl/mechvotes.py), so a dead feed
+    cannot stop the daily draft. Everything is cut off at S (blindness rule).
+    """
+    def rows(ticker):
+        try:
+            return fetch_closes(ticker, period="2y"), None
+        except Exception as e:  # network / delisted / rate-limited
+            return [], f"{type(e).__name__}"
+
+    rsp, e1 = rows('RSP'); spy, e2 = rows('SPY')
+    hyg, e3 = rows('HYG'); ief, e4 = rows('IEF')
+    breadth = [c for _, c in mechvotes.ratio_series(rsp, spy, s)]
+    credit = [c for _, c in mechvotes.ratio_series(hyg, ief, s)]
+    breadth_err = e1 or e2 or (None if breadth else "no overlapping history")
+    credit_err = e3 or e4 or (None if credit else "no overlapping history")
+
+    out = {}
+    for key in ASSET_ORDER:
+        gauge = SIGMA_TICKER.get(key)
+        vol_rows, vol_err = rows(gauge) if gauge else ([], None)
+        vol = [c for d, c in vol_rows if d <= s]
+        if key in mechvotes.VOL_ASSETS and gauge and not vol:
+            v3 = mechvotes.unavailable(f"{gauge} volatility regime", vol_err or "no history")
+        else:
+            v3 = mechvotes.vol_vote(key, vol, gauge)
+        if key in mechvotes.BREADTH_ASSETS and breadth_err:
+            v2 = mechvotes.unavailable("RSP/SPY breadth", breadth_err)
+        else:
+            v2 = mechvotes.breadth_vote(key, breadth)
+        if key in mechvotes.CREDIT_ASSETS and credit_err:
+            v4 = mechvotes.unavailable("HYG/IEF credit", credit_err)
+        else:
+            v4 = mechvotes.credit_vote(key, credit)
+        out[key] = {2: v2, 3: v3, 4: v4}
+    return out
+
+
+def draft_votes(assets: dict, mech: dict = None) -> dict:
     """12 judgment votes stubbed TODO per horizon, plus the 13th (Market
     structure) filled in mechanically right here - never left as a TODO,
     since there's no judgment call to make: hourly structure for the 1D
-    horizon, weekly structure for 5D/10D, exactly as computed."""
+    horizon, weekly structure for 5D/10D, exactly as computed.
+
+    If `mech` is given (see fetch_mech), categories 2, 3 and 4 (Breadth,
+    Volatility regime, Credit) are filled in mechanically too, and their
+    names are set. The judgment pass should keep these votes as drafted
+    unless it has a dated, sourced reason to override one."""
     votes = {}
     for key in ASSET_ORDER:
         structure = assets[key]['structure']
@@ -136,6 +184,9 @@ def draft_votes(assets: dict) -> dict:
             sig, timeframe = ((structure['hourly'], '1H') if h == 1
                               else (structure['weekly'], 'Weekly'))
             judgment = [["neu", TODO] for _ in range(JUDGMENT_CATEGORY_COUNT)]
+            if mech:
+                for cat, vote in mech[key].items():
+                    judgment[cat - 1] = list(vote)
             by_h[str(h)] = judgment + [vote_from_signal(sig, timeframe)]
         votes[key] = by_h
     return votes
@@ -151,11 +202,14 @@ def main(s: str):
             raise SystemExit(f"{path} already exists - remove it first if you mean to redraft")
 
     inputs = draft_inputs(s)
+    for a in inputs['assets'].values():
+        for idx, name in mechvotes.CATEGORY_NAMES.items():
+            a['categories'][idx - 1] = name
     with open(inputs_path, "w") as f:
         json.dump(inputs, f, indent=1)
         f.write("\n")
     with open(votes_path, "w") as f:
-        json.dump(draft_votes(inputs['assets']), f, indent=1)
+        json.dump(draft_votes(inputs['assets'], fetch_mech(s)), f, indent=1)
         f.write("\n")
 
     print(f"drafted {inputs_path}")
