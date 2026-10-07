@@ -208,7 +208,7 @@ table.heat th { font-size: 0.74rem; font-weight: 600; color: var(--ink-2); paddi
 table.heat th.wk, table.heat td.wk { text-align: left; color: var(--muted); font-weight: 500; font-size: 0.72rem; padding-right: 6px; position: sticky; left: 0; background: var(--surface); width: 52px; }
 table.heat th.held { color: var(--gold); }
 table.heat td.c { text-align: center; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 0.74rem; padding: 4px 2px; border-radius: 4px; cursor: default; min-width: 26px; }
-@media (max-width: 520px) { table.heat { border-spacing: 1px; padding: 4px; table-layout: fixed; min-width: 0; } table.heat th { overflow: hidden; text-overflow: clip; } table.heat th { font-size: 0.62rem; letter-spacing: -0.02em; } table.heat td.c { font-size: 0.68rem; padding: 4px 0; } table.heat th.wk, table.heat td.wk { width: 44px; font-size: 0.66rem; padding-right: 3px; } table.heat tr.sum td { font-size: 0.54rem; letter-spacing: -0.04em; padding-inline: 0; } table.heat tr.sum td.wk { white-space: normal; line-height: 1.2; font-size: 0.6rem; } table.heat th { font-size: 0.56rem; } }
+@media (max-width: 520px) { table.heat { border-spacing: 1px; padding: 4px; min-width: 600px; } table.heat th { font-size: 0.66rem; } table.heat td.c { font-size: 0.68rem; padding: 4px 0; } table.heat th.wk, table.heat td.wk { width: 48px; font-size: 0.66rem; padding-right: 3px; } table.heat tr.sum td { font-size: 0.64rem; } table.heat tr.sum td.wk { white-space: normal; line-height: 1.2; } }
 table.heat td.c:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
 table.heat tr.sum td { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 0.74rem; text-align: center; color: var(--ink-2); padding-top: 6px; border-top: 1px solid var(--hairline); }
 table.heat tr.sum td.wk { font-family: inherit; }
@@ -432,16 +432,20 @@ footer li { margin-bottom: 6px; }
     </div>
   </div>
 
-  <p class="section-label">Top 10, week by week <span class="hint" id="heat-hint"></span></p>
+  <p class="section-label"><span id="heat-title">Top 15</span>, week by week <span class="hint" id="heat-hint"></span></p>
   <div class="heatbar">
     <span class="seg" role="group" aria-label="Show in each cell">
       <button type="button" id="heat-rank" data-v="rank" aria-pressed="true">Weekly rank</button>
       <button type="button" id="heat-pct" data-v="pct" aria-pressed="false">% change</button>
     </span>
-    <span class="hkey"><span>down</span><i></i><span>up</span></span>
+    <span class="seg" role="group" aria-label="Color cells by">
+      <button type="button" id="heat-size" data-c="size" aria-pressed="true">Color: size of move</button>
+      <button type="button" id="heat-norm" data-c="norm" aria-pressed="false">vs its normal week</button>
+    </span>
+    <span class="hkey"><span>down</span><i></i><span>up</span><span id="heat-scale"></span></span>
   </div>
   <div class="heatbox"><table class="heat" id="heat"></table></div>
-  <p class="heatnote" id="heat-note">Hover or tap a cell for details.</p>
+  <p class="heatnote" id="heat-note">Hover or tap a cell for details. On a phone, swipe the table sideways.</p>
 
   <p class="section-label">Top 100 ranking <span class="hint">trend = weekly / daily swing structure</span></p>
   <div class="filters">
@@ -1378,18 +1382,22 @@ footer li { margin-bottom: 6px; }
     return '<li><span class="when">' + fmtDate(x.d, { month: 'short', day: 'numeric', year: '2-digit' }) + '</span><span class="tag ' + x.side + '">' + x.side + '</span><span><b>' + esc(x.t) + '</b> <span class="muted" style="font-size:0.76rem">' + esc(x.n) + '</span></span><span class="num muted">$' + (x.px != null ? x.px.toLocaleString(undefined, { maximumFractionDigits: 2 }) : '–') + '</span></li>';
   }).join('');
 
-  // weekly rank heatmap: the current top 10, ranked against each other every week
+  // weekly rank heatmap: the current top 15, ranked against each other every week
   (function () {
     var H = D.heat;
     if (!H || !H.weeks || !H.weeks.length) { $('heat').closest('.heatbox').hidden = true; return; }
     var mode = 'rank';
     try { mode = localStorage.getItem('nibii-heat-mode') || 'rank'; } catch (e) {}
-    var n = H.weeks.length, cap = 0.12;
+    var n = H.weeks.length, cap = 0.12, zcap = 2.5, cmode = 'size';
+    try { cmode = localStorage.getItem('nibii-heat-color') || 'size'; } catch (e) {}
     var rankNow = {}; D.table.forEach(function (r) { rankNow[r.t] = r.rank; });
-    $('heat-hint').textContent = 'each week (last close to last close, normally Friday to Friday) the current top 10 are ranked by % change: 1 = best · columns sorted by the sum of weekly ranks over ' + n + ' weeks, lowest (most consistent) on the left · newest week at the top · darker = bigger move';
+    $('heat-title').textContent = 'Top ' + H.tickers.length;
+    $('heat-hint').textContent = 'each week (last close to last close, normally Friday to Friday) the current top ' + H.tickers.length + ' are ranked by % change: 1 = best · columns sorted by the sum of weekly ranks over ' + n + ' weeks, lowest (most consistent) on the left · newest week at the top · darker = bigger move, either in % or against the stock\'s own normal week';
     function wk(d) { return fmtDate(d, { month: 'short', day: 'numeric' }); }
-    function shade(ch) {
-      var a = Math.min(1, Math.abs(ch) / cap), m = Math.round(12 + a * 73);
+    function shade(cell) {
+      var ch = cell[0], v = cmode === 'norm' ? cell[2] : ch;
+      if (v == null) return 'background:var(--surface-2);color:var(--muted)';
+      var a = Math.min(1, Math.abs(v) / (cmode === 'norm' ? zcap : cap)), m = Math.round(12 + a * 73);
       var c = ch >= 0 ? 'var(--accent)' : 'var(--neg)';
       return 'background:color-mix(in srgb, ' + c + ' ' + m + '%, var(--surface-2));color:' + (m > 52 ? '#fff' : 'var(--ink)');
     }
@@ -1397,10 +1405,13 @@ footer li { margin-bottom: 6px; }
       var c = H.cells[t][i];
       var when = 'week ending ' + fmtDate(H.weeks[i], { month: 'short', day: 'numeric', year: 'numeric' }) + (H.partial && i === n - 1 ? ' (in progress)' : '');
       if (!c) return t + ' · ' + when + ' · no price that week';
-      return t + ' · ' + when + ' · ' + (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(1) + '% · rank ' + c[1] + ' of 10';
+      return t + ' · ' + when + ' · ' + (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(1) + '% · rank ' + c[1] + ' of 10' +
+        (c[2] != null ? ' · ' + Math.abs(c[2]).toFixed(1) + '× its normal weekly move' : '');
     }
     function draw() {
-      document.querySelectorAll('.heatbar .seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mode)); });
+      document.querySelectorAll('.heatbar .seg button[data-v]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mode)); });
+      document.querySelectorAll('.heatbar .seg button[data-c]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-c') === cmode)); });
+      $('heat-scale').textContent = cmode === 'norm' ? '· full color = 2.5× the stock\'s normal week (its usual weekly swing over the past year)' : '· full color = a 12% week';
       var head = '<thead><tr><th class="wk">Week</th>' + H.tickers.map(function (t) {
         return '<th' + (held[t] ? ' class="held" title="' + esc(t) + ' is held now"' : ' title="' + esc(t) + ' is ranked #' + rankNow[t] + ' now"') + '>' + esc(t) + '</th>';
       }).join('') + '</tr></thead>';
@@ -1410,7 +1421,7 @@ footer li { margin-bottom: 6px; }
           var c = H.cells[t][i];
           if (!c) return '<td class="c" tabindex="0" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">·</td>';
           var txt = mode === 'rank' ? c[1] : (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(0);
-          return '<td class="c" tabindex="0" style="' + shade(c[0]) + '" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">' + txt + '</td>';
+          return '<td class="c" tabindex="0" style="' + shade(c) + '" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">' + txt + '</td>';
         }).join('') + '</tr>';
       }
       var foot = '<tr class="sum"><td class="wk">Rank sum</td>' + H.tickers.map(function (t) { return '<td>' + H.sums[t] + '</td>'; }).join('') + '</tr>' +
@@ -1421,9 +1432,10 @@ footer li { margin-bottom: 6px; }
     $('heat').addEventListener('mouseover', show);
     $('heat').addEventListener('click', show);
     $('heat').addEventListener('focusin', show);
-    document.querySelector('.heatbar .seg').addEventListener('click', function (e) {
-      var b = e.target.closest('button[data-v]'); if (!b) return; mode = b.getAttribute('data-v');
-      try { localStorage.setItem('nibii-heat-mode', mode); } catch (x) {}
+    document.querySelector('.heatbar').addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-v], button[data-c]'); if (!b) return;
+      if (b.hasAttribute('data-v')) { mode = b.getAttribute('data-v'); try { localStorage.setItem('nibii-heat-mode', mode); } catch (x) {} }
+      else { cmode = b.getAttribute('data-c'); try { localStorage.setItem('nibii-heat-color', cmode); } catch (x) {} }
       draw();
     });
     draw();
