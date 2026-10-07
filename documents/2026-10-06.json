@@ -333,62 +333,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly), so the one-day trend read is two-sided despite ES=F closing 7881.5 at its 52-week closing high"
+       "1H structure is choppy (structure.hourly), so the one-day trend read is two-sided despite ES=F closing 7881.5 at its 52-week closing high",
+       null
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA counts for 6 October were obtained, so breadth is neutral for one day"
+       "No advance/decline or %-above-MA counts for 6 October were obtained, so breadth is neutral for one day",
+       null
       ],
       [
        "neu",
-       "VIX closed 15.01 on 6 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
+       "VIX closed 15.01 on 6 October and no source names a percentile or record for it, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
+       "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "bull",
-       "The 10-year yield eased to about 5.26% on 6 October from 5.35% (news log, Yahoo Finance 6 October), but the 30-year touched a 2002-high 5.702% the day before; equities have a -0.549 correlation to 10-year yield changes over 21 sessions"
+       "The 10-year yield eased to about 5.26% on 6 October from 5.35% (news log, Yahoo Finance 6 October), but the 30-year touched a 2002-high 5.702% the day before; equities have a -0.549 correlation to 10-year yield changes over 21 sessions",
+       false
       ],
       [
        "bull",
-       "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
+       "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)",
+       false
       ],
       [
        "neu",
-       "The latest AAII survey obtained (week to 23 September: 32.7% bullish, 19.2% neutral, 48.1% bearish) is 13 days old and names no extreme, so sentiment is neutral"
+       "The latest AAII survey obtained (week to 23 September: 32.7% bullish, 19.2% neutral, 48.1% bearish) is 13 days old and names no extreme, so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or fund-flow figure for this window names an extreme, so positioning is neutral"
+       "No dated positioning or fund-flow figure for this window names an extreme, so positioning is neutral",
+       null
       ],
       [
        "bull",
-       "Alphabet signed a 20-year $4.3B nuclear power deal with Constellation for AI data centers and megacap tech led the 6 October close (news log)"
+       "Alphabet signed a 20-year $4.3B nuclear power deal with Constellation for AI data centers and megacap tech led the 6 October close (news log)",
+       false
       ],
       [
        "neu",
-       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
+       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtained, so seasonality is neutral",
+       null
       ],
       [
        "bull",
-       "Oil fell on a G7 emergency stockpile release (Brent $98.58) and yields eased, the dollar index dipped 0.18% on 6 October (news log; DX-Y.NYB)"
+       "Oil fell on a G7 emergency stockpile release (Brent $98.58) and yields eased, the dollar index dipped 0.18% on 6 October (news log; DX-Y.NYB)",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7835.25,
+     "ret": -0.005868,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -2416,62 +2431,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly), so no one-day trend edge is claimed for ZN=F at 104.297"
+       "1H structure is choppy (structure.hourly), so no one-day trend edge is claimed for ZN=F at 104.297",
+       null
       ],
       [
        "neu",
-       "Breadth is not a meaningful input for a single Treasury note future and no relevant dated figure was obtained"
+       "Breadth is not a meaningful input for a single Treasury note future and no relevant dated figure was obtained",
+       null
       ],
       [
        "neu",
-       "No MOVE close for 6 October was obtained and no source names a record or percentile for rates volatility, so volatility is neutral"
+       "No MOVE close for 6 October was obtained and no source names a record or percentile for rates volatility, so volatility is neutral",
+       null
       ],
       [
        "neu",
-       "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
+       "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "bull",
-       "The 10-year yield eased to about 5.26% from 5.35% on 6 October (news log); ZN=F rose 0.06% to 104.297 and the note's own-yield correlation is -0.952"
+       "The 10-year yield eased to about 5.26% from 5.35% on 6 October (news log); ZN=F rose 0.06% to 104.297 and the note's own-yield correlation is -0.952",
+       false
       ],
       [
        "bull",
-       "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
+       "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)",
+       false
       ],
       [
        "neu",
-       "No sentiment reading for Treasuries dated to 6 October was obtained, so sentiment is neutral"
+       "No sentiment reading for Treasuries dated to 6 October was obtained, so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No 10-year note futures COT report newer than 15 September was obtained, so positioning is neutral"
+       "No 10-year note futures COT report newer than 15 September was obtained, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No earnings catalyst applies directly to a Treasury note, so this category is neutral"
+       "No earnings catalyst applies directly to a Treasury note, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
+       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtained, so seasonality is neutral",
+       null
       ],
       [
        "bull",
-       "Oil fell (Brent $98.58) on a G7 emergency stockpile release, easing inflation concerns that were pressuring yields (news log, 6 October)"
+       "Oil fell (Brent $98.58) on a G7 emergency stockpile release, easing inflation concerns that were pressuring yields (news log, 6 October)",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 104.0,
+     "ret": -0.002846,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -5133,62 +5163,77 @@
      "votes": [
       [
        "bull",
-       "1H structure is an uptrend (structure.hourly), supporting a one-day bounce; GC=F rose 0.35% to 4179.70"
+       "1H structure is an uptrend (structure.hourly), supporting a one-day bounce; GC=F rose 0.35% to 4179.70",
+       false
       ],
       [
        "neu",
-       "Breadth is not a meaningful input for gold and no relevant dated figure was obtained"
+       "Breadth is not a meaningful input for gold and no relevant dated figure was obtained",
+       null
       ],
       [
        "neu",
-       "GVZ closed 22.97 on 6 October and no source names a percentile or record for it, so no volatility-regime edge is claimed"
+       "GVZ closed 22.97 on 6 October and no source names a percentile or record for it, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread print was obtained, so credit gives no clean read for gold"
+       "No dated credit-spread print was obtained, so credit gives no clean read for gold",
+       null
       ],
       [
        "bull",
-       "The 10-year yield eased to about 5.26% from 5.35% on 6 October (news log), a mild tailwind, though gold has no dominant 21-session driver (10-year corr -0.389, below 0.40)"
+       "The 10-year yield eased to about 5.26% from 5.35% on 6 October (news log), a mild tailwind, though gold has no dominant 21-session driver (10-year corr -0.389, below 0.40)",
+       false
       ],
       [
        "bull",
-       "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
+       "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)",
+       false
       ],
       [
        "neu",
-       "No dated gold sentiment survey was obtained and none names an extreme, so sentiment is neutral"
+       "No dated gold sentiment survey was obtained and none names an extreme, so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated gold positioning figure newer than the Saxo/CFTC report for the week to 22 September was obtained and it names no extreme, so positioning is neutral"
+       "No dated gold positioning figure newer than the Saxo/CFTC report for the week to 22 September was obtained and it names no extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No earnings catalyst applies directly to gold, so this category is neutral"
+       "No earnings catalyst applies directly to gold, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
+       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtained, so seasonality is neutral",
+       null
       ],
       [
        "bull",
-       "The dollar index slipped 0.18% to 101.969 and oil and yields fell on 6 October (DX-Y.NYB; news log), all supportive for gold"
+       "The dollar index slipped 0.18% to 101.969 and oil and yields fell on 6 October (DX-Y.NYB; news log), all supportive for gold",
+       false
       ],
       [
        "bull",
-       "1H structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "1H structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 4115.7001953125,
+     "ret": -0.015312,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -7209,62 +7254,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly), so no one-day trend edge is claimed for DX-Y.NYB at 101.969"
+       "1H structure is choppy (structure.hourly), so no one-day trend edge is claimed for DX-Y.NYB at 101.969",
+       null
       ],
       [
        "neu",
-       "Breadth is not a meaningful input for the dollar index and no relevant dated figure was obtained"
+       "Breadth is not a meaningful input for the dollar index and no relevant dated figure was obtained",
+       null
       ],
       [
        "neu",
-       "No FX implied-volatility print or percentile was obtainable for 6 October, so volatility is neutral"
+       "No FX implied-volatility print or percentile was obtainable for 6 October, so volatility is neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread print was obtained, so credit gives no clean read for the dollar"
+       "No dated credit-spread print was obtained, so credit gives no clean read for the dollar",
+       null
       ],
       [
        "neu",
-       "The 10-year yield eased about 9bp to roughly 5.26% (news log), but the dollar's 10-year correlation over 21 sessions is only 0.132, so rates give no clean read"
+       "The 10-year yield eased about 9bp to roughly 5.26% (news log), but the dollar's 10-year correlation over 21 sessions is only 0.132, so rates give no clean read",
+       null
       ],
       [
        "bear",
-       "Lower October Fed-hike odds (about 16% from 64%) and +29K payrolls reduce the US rate advantage (news log, 2 and 6 October)"
+       "Lower October Fed-hike odds (about 16% from 64%) and +29K payrolls reduce the US rate advantage (news log, 2 and 6 October)",
+       false
       ],
       [
        "neu",
-       "No dated dollar sentiment survey was obtained and none names an extreme, so sentiment is neutral"
+       "No dated dollar sentiment survey was obtained and none names an extreme, so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated dollar positioning report newer than StoneX/CFTC for the week to 22 September was obtained and it names no extreme, so positioning is neutral"
+       "No dated dollar positioning report newer than StoneX/CFTC for the week to 22 September was obtained and it names no extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No earnings catalyst applies directly to the dollar index, so this category is neutral"
+       "No earnings catalyst applies directly to the dollar index, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
+       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtained, so seasonality is neutral",
+       null
       ],
       [
        "neu",
-       "The dollar index fell 0.18% on a risk-on, lower-yield day (DX-Y.NYB; news log), so cross-asset conditions pull both ways for one day"
+       "The dollar index fell 0.18% on a risk-on, lower-yield day (DX-Y.NYB; news log), so cross-asset conditions pull both ways for one day",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 102.447998046875,
+     "ret": 0.004697,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 5,
@@ -9404,62 +9464,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly), and RTY=F fell 0.81% to 2844.5, so no one-day trend edge is claimed"
+       "1H structure is choppy (structure.hourly), and RTY=F fell 0.81% to 2844.5, so no one-day trend edge is claimed",
+       null
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA counts for small caps on 6 October were obtained, so breadth is neutral; RTY=F lagged ES=F (-0.81% vs +0.62%) but that is price, not breadth"
+       "No advance/decline or %-above-MA counts for small caps on 6 October were obtained, so breadth is neutral; RTY=F lagged ES=F (-0.81% vs +0.62%) but that is price, not breadth",
+       null
       ],
       [
        "neu",
-       "RVX is not available newer than 23 September and no source names a percentile or record for small-cap volatility, so volatility is neutral"
+       "RVX is not available newer than 23 September and no source names a percentile or record for small-cap volatility, so volatility is neutral",
+       null
       ],
       [
        "neu",
-       "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read for small caps"
+       "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read for small caps",
+       null
       ],
       [
        "bull",
-       "The 10-year eased to about 5.26% from 5.35% on 6 October (news log); small caps' dominant 21-session driver is the 10-year (corr -0.555), though RTY=F still fell"
+       "The 10-year eased to about 5.26% from 5.35% on 6 October (news log); small caps' dominant 21-session driver is the 10-year (corr -0.555), though RTY=F still fell",
+       false
       ],
       [
        "bull",
-       "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
+       "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)",
+       false
       ],
       [
        "neu",
-       "No dated small-cap sentiment reading was obtained and none names an extreme, so sentiment is neutral"
+       "No dated small-cap sentiment reading was obtained and none names an extreme, so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No source-documented small-cap positioning figure dated to 6 October was found, so positioning is neutral"
+       "No source-documented small-cap positioning figure dated to 6 October was found, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No dated small-cap earnings catalyst was found; Q3 season begins with the big banks next week (news log), so earnings are neutral"
+       "No dated small-cap earnings catalyst was found; Q3 season begins with the big banks next week (news log), so earnings are neutral",
+       null
       ],
       [
        "neu",
-       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
+       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtained, so seasonality is neutral",
+       null
       ],
       [
        "bull",
-       "Oil fell about 2% (WTI -2.12%) on 6 October and small caps have an oil correlation of -0.424 over 21 sessions (news log), though RTY=F still dropped 0.81%"
+       "Oil fell about 2% (WTI -2.12%) on 6 October and small caps have an oil correlation of -0.424 over 21 sessions (news log), though RTY=F still dropped 0.81%",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2819.300048828125,
+     "ret": -0.008859,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -11380,62 +11455,77 @@
      "votes": [
       [
        "bull",
-       "1H structure is an uptrend (structure.hourly); NQ=F rose 0.38% to 31493.0, a 52-week closing high"
+       "1H structure is an uptrend (structure.hourly); NQ=F rose 0.38% to 31493.0, a 52-week closing high",
+       false
       ],
       [
        "neu",
-       "No advance/decline counts for 6 October were obtained, so breadth is neutral for one day"
+       "No advance/decline counts for 6 October were obtained, so breadth is neutral for one day",
+       null
       ],
       [
        "neu",
-       "VXN closed 21.15 and VIX 15.01 on 6 October and no source names a percentile or record for either, so volatility is neutral"
+       "VXN closed 21.15 and VIX 15.01 on 6 October and no source names a percentile or record for either, so volatility is neutral",
+       null
       ],
       [
        "neu",
-       "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read"
+       "No 6 October high-yield spread or credit-index print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "bull",
-       "The 10-year eased to about 5.26% from 5.35% on 6 October (news log); the Nasdaq-100's 21-session 10-year correlation is -0.545"
+       "The 10-year eased to about 5.26% from 5.35% on 6 October (news log); the Nasdaq-100's 21-session 10-year correlation is -0.545",
+       false
       ],
       [
        "bull",
-       "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)"
+       "September payrolls were +29K and October Fed-hike odds fell to about 16% from 64% a week earlier (news log, 2 and 6 October entries)",
+       false
       ],
       [
        "neu",
-       "The latest AAII survey obtained (week to 23 September: 48.1% bearish) is 13 days old and names no extreme, so sentiment is neutral"
+       "The latest AAII survey obtained (week to 23 September: 48.1% bearish) is 13 days old and names no extreme, so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No source-documented megacap-tech positioning figure dated to 6 October was found, so positioning is neutral"
+       "No source-documented megacap-tech positioning figure dated to 6 October was found, so positioning is neutral",
+       null
       ],
       [
        "bull",
-       "Alphabet signed a 20-year $4.3B nuclear power purchase agreement with Constellation for AI data centers, and megacap tech led the 6 October close (news log)"
+       "Alphabet signed a 20-year $4.3B nuclear power purchase agreement with Constellation for AI data centers, and megacap tech led the 6 October close (news log)",
+       false
       ],
       [
        "neu",
-       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained"
+       "FOMC minutes are due Wednesday 7 October (news log, 5 October entry), so the event risk is two-sided; no 6 October data release result was obtained",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtained, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtained, so seasonality is neutral",
+       null
       ],
       [
        "bull",
-       "Oil fell about 2% on 6 October and the Nasdaq-100's strongest 21-session driver is oil (corr -0.564) (news log)"
+       "Oil fell about 2% on 6 October and the Nasdaq-100's strongest 21-session driver is oil (corr -0.564) (news log)",
+       false
       ],
       [
        "bull",
-       "1H structure is uptrend - last labeled swings: HH/HL/HH/HL."
+       "1H structure is uptrend - last labeled swings: HH/HL/HH/HL.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 31235.75,
+     "ret": -0.008168,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 5,
