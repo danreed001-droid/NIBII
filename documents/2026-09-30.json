@@ -435,62 +435,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (HH 7782.00 at 10:00 ET on 30 September, LL 7705.50 at 16:00 ET); weekly structure is choppy (HL 7509.25 week of 14 September after HH 7838.50 week of 10 August); ES=F closed 7739.5 above its 50-day 7674.46 and 200-day 7245.12 with RSI(14) 53.0, so no clear trend call"
+       "1H structure is choppy (HH 7782.00 at 10:00 ET on 30 September, LL 7705.50 at 16:00 ET); weekly structure is choppy (HL 7509.25 week of 14 September after HH 7838.50 week of 10 August); ES=F closed 7739.5 above its 50-day 7674.46 and 200-day 7245.12 with RSI(14) 53.0, so no clear trend call",
+       null
       ],
       [
        "neu",
-       "Dow fell 0.86% on rotation out of cyclicals, financials and industrials while the Nasdaq Composite rose 0.24% and the S&P 500 cash index slipped 0.25% (news log); no breadth counts were obtained, so only the one-day tape is read as narrow"
+       "Dow fell 0.86% on rotation out of cyclicals, financials and industrials while the Nasdaq Composite rose 0.24% and the S&P 500 cash index slipped 0.25% (news log); no breadth counts were obtained, so only the one-day tape is read as narrow",
+       null
       ],
       [
        "neu",
-       "VIX closed 16.34 on 30 September and no source names a percentile or record for it, so no volatility-regime edge is claimed"
+       "VIX closed 16.34 on 30 September and no source names a percentile or record for it, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "High-yield OAS was 3.02% on 28 September (govspending.org, up from 2.80% on 24 September) but another source shows 2.73% for the month and no 30 September print was obtainable, so credit gives no clean read"
+       "High-yield OAS was 3.02% on 28 September (govspending.org, up from 2.80% on 24 September) but another source shows 2.73% for the month and no 30 September print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "bear",
-       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); equities' 21-session correlation to the 10-year is -0.632"
+       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); equities' 21-session correlation to the 10-year is -0.632",
+       false
       ],
       [
        "bull",
-       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log)"
+       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log)",
+       true
       ],
       [
        "neu",
-       "AAII's latest published survey (week ending 23 September: 32.7% bulls / 19.2% neutral / 48.1% bearish) is lopsided toward bears but carries no source-named extreme, so sentiment is neutral"
+       "AAII's latest published survey (week ending 23 September: 32.7% bulls / 19.2% neutral / 48.1% bearish) is lopsided toward bears but carries no source-named extreme, so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral"
+       "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "Micron (reported after the close) beat fiscal Q4 estimates (non-GAAP EPS $33.42 vs about $31.56) and guided Q1 revenue to $61.5B +/- $1.5B on AI memory demand; the print lifts semis but is one name, so only the next session is tilted bullish (news log)"
+       "Micron (reported after the close) beat fiscal Q4 estimates (non-GAAP EPS $33.42 vs about $31.56) and guided Q1 revenue to $61.5B +/- $1.5B on AI memory demand; the print lifts semis but is one name, so only the next session is tilted bullish (news log)",
+       null
       ],
       [
        "neu",
-       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided"
+       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "ES=F rose 0.10% while the 10-year yield set a multi-decade high, the Dow fell 0.86% and gold rose 0.29%; no dated oil level for 30 September was in the log, so cross-asset signals are mixed"
+       "ES=F rose 0.10% while the 10-year yield set a multi-decade high, the Dow fell 0.86% and gold rose 0.29%; no dated oil level for 30 September was in the log, so cross-asset signals are mixed",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7876.75,
+     "ret": 0.017734,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -2599,62 +2614,77 @@
      "votes": [
       [
        "bear",
-       "1H structure is choppy (LH 104.34, LL 104.125 late 30 September); weekly structure is choppy (LL 107.98 week of 27 July, LH 109.11 after); ZN=F closed 104.17 below its 50-day 107.54 and 200-day 110.22 with RSI(14) 19.2 - weekly lower-high sequence and a new 52-week closing low favor the bear side"
+       "1H structure is choppy (LH 104.34, LL 104.125 late 30 September); weekly structure is choppy (LL 107.98 week of 27 July, LH 109.11 after); ZN=F closed 104.17 below its 50-day 107.54 and 200-day 110.22 with RSI(14) 19.2 - weekly lower-high sequence and a new 52-week closing low favor the bear side",
+       false
       ],
       [
        "neu",
-       "Bond futures have no exchange breadth statistic; no dated breadth-type measure for Treasuries was obtainable"
+       "Bond futures have no exchange breadth statistic; no dated breadth-type measure for Treasuries was obtainable",
+       null
       ],
       [
        "neu",
-       "No dated MOVE index close for 30 September was obtainable (96.00 on 25 September in one source), so no volatility-regime edge is claimed"
+       "No dated MOVE index close for 30 September was obtainable (96.00 on 25 September in one source), so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "High-yield OAS was 3.02% on 28 September (govspending.org, up from 2.80% on 24 September) but another source shows 2.73% for the month and no 30 September print was obtainable, so credit gives no clean read"
+       "High-yield OAS was 3.02% on 28 September (govspending.org, up from 2.80% on 24 September) but another source shows 2.73% for the month and no 30 September print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "bear",
-       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log) and the 30-year is near its highest since 2002; ZN=F closed at a new 52-week low; bonds' correlation to the 10-year is -0.959"
+       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log) and the 30-year is near its highest since 2002; ZN=F closed at a new 52-week low; bonds' correlation to the 10-year is -0.959",
+       false
       ],
       [
        "bull",
-       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log)"
+       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log)",
+       false
       ],
       [
        "neu",
-       "No dated bond-market sentiment survey was obtainable for 30 September, so this category is neutral"
+       "No dated bond-market sentiment survey was obtainable for 30 September, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "No 10-year note futures COT report newer than 15 September was obtainable, so positioning is neutral"
+       "No 10-year note futures COT report newer than 15 September was obtainable, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to a Treasury note future; no dated corporate-supply figure for 30 September was obtainable"
+       "Earnings catalysts do not apply to a Treasury note future; no dated corporate-supply figure for 30 September was obtainable",
+       null
       ],
       [
        "neu",
-       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided; yields rising despite a cooler PCE shows the data did not bring a bid"
+       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided; yields rising despite a cooler PCE shows the data did not bring a bid",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "Equities (ES=F +0.10%) and gold (+0.29%) rose while the note fell; no dated oil level for 30 September was in the log and the 21-session oil correlation is only -0.235, so cross-asset is neutral"
+       "Equities (ES=F +0.10%) and gold (+0.29%) rose while the note fell; no dated oil level for 30 September was in the log and the 21-session oil correlation is only -0.235, so cross-asset is neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 104.359375,
+     "ret": 0.0018,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -5384,62 +5414,77 @@
      "votes": [
       [
        "bear",
-       "1H structure is choppy (LL 4178.20, LH 4192.30 late 30 September); weekly structure is a downtrend (LL 3955.40, LH 4755.00 most recent swings); GC=F closed 4191.8 below its 50-day 4363.12 and 200-day 4554.89 with RSI(14) 35.5"
+       "1H structure is choppy (LL 4178.20, LH 4192.30 late 30 September); weekly structure is a downtrend (LL 3955.40, LH 4755.00 most recent swings); GC=F closed 4191.8 below its 50-day 4363.12 and 200-day 4554.89 with RSI(14) 35.5",
+       false
       ],
       [
        "neu",
-       "Gold has no breadth statistic; no dated breadth-type measure was obtainable"
+       "Gold has no breadth statistic; no dated breadth-type measure was obtainable",
+       null
       ],
       [
        "neu",
-       "GVZ closed 23.74 on 30 September and no source names a percentile or record for it"
+       "GVZ closed 23.74 on 30 September and no source names a percentile or record for it",
+       null
       ],
       [
        "neu",
-       "High-yield OAS gives no clean read on gold; no dated 30 September credit print was obtainable"
+       "High-yield OAS gives no clean read on gold; no dated 30 September credit print was obtainable",
+       null
       ],
       [
        "bear",
-       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); gold's correlation to the 10-year is -0.417, though gold still rose on the day"
+       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); gold's correlation to the 10-year is -0.417, though gold still rose on the day",
+       false
       ],
       [
        "bull",
-       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log) - lower hike odds support non-yielding gold"
+       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log) - lower hike odds support non-yielding gold",
+       false
       ],
       [
        "neu",
-       "No dated gold sentiment survey for 30 September was obtainable"
+       "No dated gold sentiment survey for 30 September was obtainable",
+       null
       ],
       [
        "neu",
-       "Managed-money liquidation was reported by Saxo for the week to 22 September, but it is a flow without a named extreme and nothing newer was obtainable"
+       "Managed-money liquidation was reported by Saxo for the week to 22 September, but it is a flow without a named extreme and nothing newer was obtainable",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to gold"
+       "Earnings catalysts do not apply to gold",
+       null
       ],
       [
        "neu",
-       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided"
+       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "The dollar index rose 0.18% to 101.55 near its 52-week high and the 10-year hit its highest since 2007 on 30 September, headwinds for gold; gold's rise on the day argues against leaning on this beyond one session"
+       "The dollar index rose 0.18% to 101.55 near its 52-week high and the 10-year hit its highest since 2007 on 30 September, headwinds for gold; gold's rise on the day argues against leaning on this beyond one session",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4156.2001953125,
+     "ret": -0.008493,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -7451,62 +7496,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (LL 101.03, HH 101.53 on 30 September); weekly structure is choppy (HH 101.80, LH 101.64, HL 98.60); DX closed 101.55 above its 50-day 99.97 and 200-day 99.24 with RSI(14) 70.9"
+       "1H structure is choppy (LL 101.03, HH 101.53 on 30 September); weekly structure is choppy (HH 101.80, LH 101.64, HL 98.60); DX closed 101.55 above its 50-day 99.97 and 200-day 99.24 with RSI(14) 70.9",
+       null
       ],
       [
        "neu",
-       "The dollar has no breadth statistic; no dated breadth-type measure was obtainable"
+       "The dollar has no breadth statistic; no dated breadth-type measure was obtainable",
+       null
       ],
       [
        "neu",
-       "No fresh FX implied-volatility percentile was obtainable"
+       "No fresh FX implied-volatility percentile was obtainable",
+       null
       ],
       [
        "neu",
-       "Credit spreads give no clean read on the dollar; no dated 30 September print was obtainable"
+       "Credit spreads give no clean read on the dollar; no dated 30 September print was obtainable",
+       null
       ],
       [
        "bull",
-       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); the dollar's 21-session correlation to the 10-year is +0.424"
+       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); the dollar's 21-session correlation to the 10-year is +0.424",
+       true
       ],
       [
        "bear",
-       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log) - a less hawkish Fed is a dollar headwind, though the dollar rose on the day"
+       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log) - a less hawkish Fed is a dollar headwind, though the dollar rose on the day",
+       false
       ],
       [
        "neu",
-       "No dated dollar sentiment survey for 30 September was obtainable"
+       "No dated dollar sentiment survey for 30 September was obtainable",
+       null
       ],
       [
        "neu",
-       "StoneX/CFTC dollar-index net longs (week to 22 September) were reported rising, but the source names no extreme and nothing newer was obtainable"
+       "StoneX/CFTC dollar-index net longs (week to 22 September) were reported rising, but the source names no extreme and nothing newer was obtainable",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to the dollar"
+       "Earnings catalysts do not apply to the dollar",
+       null
       ],
       [
        "neu",
-       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided"
+       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "Dollar strength and the 10-year at a multi-decade high moved together on 30 September, a one-session positive rates link; gold held up regardless"
+       "Dollar strength and the 10-year at a multi-decade high moved together on 30 September, a one-session positive rates link; gold held up regardless",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 102.23799896240234,
+     "ret": 0.006795,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 10,
@@ -9705,62 +9765,77 @@
      "votes": [
       [
        "bull",
-       "1H structure is choppy (LL 2812.80 late on 30 September); weekly structure is an uptrend (HL 2793.70, HH 3068.40, HL 2902.30, HH 3079.90); RTY=F closed 2821.2 below its 50-day 2957.16 but above its 200-day 2788.08 with RSI(14) 31.9"
+       "1H structure is choppy (LL 2812.80 late on 30 September); weekly structure is an uptrend (HL 2793.70, HH 3068.40, HL 2902.30, HH 3079.90); RTY=F closed 2821.2 below its 50-day 2957.16 but above its 200-day 2788.08 with RSI(14) 31.9",
+       false
       ],
       [
        "neu",
-       "Cyclicals, financials and industrials lagged and the Dow fell 0.86% on 30 September (news log); no breadth counts were obtained"
+       "Cyclicals, financials and industrials lagged and the Dow fell 0.86% on 30 September (news log); no breadth counts were obtained",
+       null
       ],
       [
        "neu",
-       "RVX is stale (19.97 on 23 September) and carries no named percentile"
+       "RVX is stale (19.97 on 23 September) and carries no named percentile",
+       null
       ],
       [
        "neu",
-       "High-yield OAS was 3.02% on 28 September (govspending.org, up from 2.80% on 24 September) but another source shows 2.73% for the month and no 30 September print was obtainable, so credit gives no clean read"
+       "High-yield OAS was 3.02% on 28 September (govspending.org, up from 2.80% on 24 September) but another source shows 2.73% for the month and no 30 September print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "bear",
-       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); small caps' correlation to the 10-year is -0.724, the strongest of the six assets"
+       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); small caps' correlation to the 10-year is -0.724, the strongest of the six assets",
+       false
       ],
       [
        "bull",
-       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log) - lower hike odds help rate-sensitive small caps"
+       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log) - lower hike odds help rate-sensitive small caps",
+       false
       ],
       [
        "neu",
-       "AAII's latest published survey (week ending 23 September: 32.7% bulls / 19.2% neutral / 48.1% bearish) is lopsided toward bears but carries no source-named extreme, so sentiment is neutral"
+       "AAII's latest published survey (week ending 23 September: 32.7% bulls / 19.2% neutral / 48.1% bearish) is lopsided toward bears but carries no source-named extreme, so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral"
+       "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "The Micron beat is a large-cap AI story; no dated small-cap earnings catalyst for 30 September was identified"
+       "The Micron beat is a large-cap AI story; no dated small-cap earnings catalyst for 30 September was identified",
+       null
       ],
       [
        "neu",
-       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided"
+       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "Small caps fell 0.28% while the 10-year hit its highest since 2007; no dated oil level for 30 September was in the log, so the cross-asset read is neutral"
+       "Small caps fell 0.28% while the 10-year hit its highest since 2007; no dated oil level for 30 September was in the log, so the cross-asset read is neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2845.300048828125,
+     "ret": 0.008542,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -11743,62 +11818,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (HL 30636.50, HH 30906.00 on 30 September); weekly structure is choppy (LL 27201.50, LH 30343.00, HL 28763.75); NQ=F closed 30817.75 above its 50-day 29498.99 and 200-day 27545.85 with RSI(14) 63.3"
+       "1H structure is choppy (HL 30636.50, HH 30906.00 on 30 September); weekly structure is choppy (LL 27201.50, LH 30343.00, HL 28763.75); NQ=F closed 30817.75 above its 50-day 29498.99 and 200-day 27545.85 with RSI(14) 63.3",
+       null
       ],
       [
        "neu",
-       "Tech outperformed on 30 September - Nasdaq Composite +0.24% and Intel +3.7% - while the Dow fell 0.86% and cyclicals lagged (news log); no breadth counts were obtained"
+       "Tech outperformed on 30 September - Nasdaq Composite +0.24% and Intel +3.7% - while the Dow fell 0.86% and cyclicals lagged (news log); no breadth counts were obtained",
+       null
       ],
       [
        "neu",
-       "VXN closed 22.46 and VIX 16.34; no source names a percentile or record for either"
+       "VXN closed 22.46 and VIX 16.34; no source names a percentile or record for either",
+       null
       ],
       [
        "neu",
-       "High-yield OAS was 3.02% on 28 September (govspending.org, up from 2.80% on 24 September) but another source shows 2.73% for the month and no 30 September print was obtainable, so credit gives no clean read"
+       "High-yield OAS was 3.02% on 28 September (govspending.org, up from 2.80% on 24 September) but another source shows 2.73% for the month and no 30 September print was obtainable, so credit gives no clean read",
+       null
       ],
       [
        "bear",
-       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); the Nasdaq-100 proxy's correlations are -0.627 to the 10-year and -0.596 to oil"
+       "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); the Nasdaq-100 proxy's correlations are -0.627 to the 10-year and -0.596 to oil",
+       false
       ],
       [
        "bull",
-       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log)"
+       "NY Fed's Williams said there is 'no need for urgency' to raise rates and October hike odds fell to roughly 50% from over 70%, while August PCE came in at 3.4% y/y vs 3.7% expected (core 3.3%, in line) - dated 30 September (news log)",
+       true
       ],
       [
        "neu",
-       "AAII's latest published survey (week ending 23 September: 32.7% bulls / 19.2% neutral / 48.1% bearish) is lopsided toward bears but carries no source-named extreme, so sentiment is neutral"
+       "AAII's latest published survey (week ending 23 September: 32.7% bulls / 19.2% neutral / 48.1% bearish) is lopsided toward bears but carries no source-named extreme, so sentiment is neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral"
+       "No dated positioning report newer than the week to 22 September was obtainable and none names an extreme, so positioning is neutral",
+       null
       ],
       [
        "bull",
-       "Micron beat fiscal Q4 (non-GAAP EPS $33.42 vs about $31.56 est.; revenue $54.23B) and guided Q1 revenue to $61.5B +/- $1.5B on AI memory demand, lifting semis (news log); Intel +3.7% in the regular session"
+       "Micron beat fiscal Q4 (non-GAAP EPS $33.42 vs about $31.56 est.; revenue $54.23B) and guided Q1 revenue to $61.5B +/- $1.5B on AI memory demand, lifting semis (news log); Intel +3.7% in the regular session",
+       true
       ],
       [
        "neu",
-       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided"
+       "PCE came in below forecast (3.4% vs 3.7%), core PCE matched (3.3%) and ADP was +90K vs +75K expected, but yields still closed at multi-decade highs; ISM manufacturing (1 October) and the jobs report (2 October) are pending, so the calendar read is two-sided",
+       null
       ],
       [
        "neu",
-       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral"
+       "No dated, sourced seasonal statistic for this asset over this window was obtainable, so this category is neutral",
+       null
       ],
       [
        "neu",
-       "NQ=F rose 0.67% against a multi-decade-high 10-year yield and a falling Dow; no dated oil level for 30 September was in the log, so the cross-asset read is mixed"
+       "NQ=F rose 0.67% against a multi-decade-high 10-year yield and a falling Dow; no dated oil level for 30 September was in the log, so the cross-asset read is mixed",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 31444.5,
+     "ret": 0.020337,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 10,
