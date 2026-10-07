@@ -11,7 +11,7 @@ from datetime import date
 from .momentum import last_sessions_of_weeks
 
 
-def _heat(prices, all_ends, periods, tickers, norm_n, min_norm):
+def _heat(prices, all_ends, periods, tickers, norm_n, min_norm, breadth=None):
     ends = all_ends[-(periods + 1):]
     if len(ends) < 2:
         return dict(weeks=[], partial=False, tickers=list(tickers), cells={}, sums={}, total={})
@@ -43,6 +43,18 @@ def _heat(prices, all_ends, periods, tickers, norm_n, min_norm):
                 continue
             sd = normal(t, first + w)
             cells[t].append([round(ch[t], 4), rank[t], round(ch[t] / sd, 2) if sd else None])
+    # breadth: the share of a wider list (e.g. every stock the dashboard tracks) up each period
+    wide = None
+    if breadth:
+        wide = []
+        for a, b in zip(ends, ends[1:]):
+            up = tot = 0
+            for t in breadth:
+                pa, pb = prices.get(t, {}).get(a), prices.get(t, {}).get(b)
+                if pa and pb:
+                    tot += 1
+                    up += pb > pa
+            wide.append(round(up / tot, 4) if tot else None)
     sums = {t: sum(c[1] for c in cells[t] if c) for t in tickers}
     n = {t: sum(1 for c in cells[t] if c) for t in tickers}
     # average rank keeps a stock with missing periods comparable; ties keep the input order
@@ -51,10 +63,11 @@ def _heat(prices, all_ends, periods, tickers, norm_n, min_norm):
     for t in tickers:
         pa, pb = prices.get(t, {}).get(ends[0]), prices.get(t, {}).get(ends[-1])
         total[t] = round(pb / pa - 1, 4) if pa and pb else None
-    return dict(weeks=ends[1:], partial=False, tickers=order, cells=cells, sums=sums, total=total)
+    return dict(weeks=ends[1:], partial=False, tickers=order, cells=cells, sums=sums, total=total,
+                breadth=wide, breadthN=len(breadth) if breadth else 0)
 
 
-def weekly_heat(prices, calendar, tickers, weeks=26, norm_weeks=52):
+def weekly_heat(prices, calendar, tickers, weeks=26, norm_weeks=52, breadth=None):
     """prices: {ticker: {date: close}}; calendar: sorted session dates.
 
     Returns dict(weeks=[week-end dates, oldest first], partial=bool (the last
@@ -67,7 +80,7 @@ def weekly_heat(prices, calendar, tickers, weeks=26, norm_weeks=52):
     that week (None with fewer than 8 earlier weeks of prices).
     """
     all_ends = last_sessions_of_weeks(calendar)
-    out = _heat(prices, all_ends, weeks, tickers, norm_weeks, 8)
+    out = _heat(prices, all_ends, weeks, tickers, norm_weeks, 8, breadth)
     if out['weeks']:
         last = out['weeks'][-1]
         out['partial'] = date.fromisoformat(last).weekday() < 4 and last == calendar[-1]
@@ -75,12 +88,13 @@ def weekly_heat(prices, calendar, tickers, weeks=26, norm_weeks=52):
     return out
 
 
-def daily_heat(prices, calendar, tickers, days=30, norm_days=63, extra=()):
+def daily_heat(prices, calendar, tickers, days=30, norm_days=63, extra=(), breadth=None):
     """The same, one trading day at a time over the last `days` sessions; z uses
     the standard deviation of the stock's daily changes over the `norm_days`
     sessions before that day (None with fewer than 20). `extra` names tickers
-    added by hand (flagged for the page)."""
-    out = _heat(prices, list(calendar), days, tickers, norm_days, 20)
+    added by hand (flagged for the page). `breadth`: a wider list of tickers whose
+    share up each period is returned as `breadth` (for both functions)."""
+    out = _heat(prices, list(calendar), days, tickers, norm_days, 20, breadth)
     out['unit'] = 'day'
     out['extra'] = [t for t in extra if t in tickers]
     return out

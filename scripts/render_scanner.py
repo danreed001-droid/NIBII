@@ -219,6 +219,11 @@ table.heat th.ud, table.heat td.ud { width: 104px; padding-left: 8px; }
 .udbar span { display: block; height: 100%; }
 .udbar .u { background: var(--accent); } .udbar .d { background: var(--neg); }
 .udnum { font-size: 0.68rem; color: var(--ink-2); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; width: 2.6em; text-align: right; }
+.udtrend { margin-top: 8px; border: 1px solid var(--hairline); border-radius: 12px; background: var(--surface); padding: 8px 10px 4px; }
+.udtrend svg { display: block; width: 100%; height: auto; }
+.udtrend .t { font-size: 11px; fill: var(--muted); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+.udtrend .cap { font-size: 0.74rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
+.udtrend .cap i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
 .heatnote { font-size: 0.8rem; color: var(--muted); margin: 8px 2px 0; min-height: 1.3em; }
 .tablebox { position: relative; overflow-x: auto; border: 1px solid var(--hairline); border-radius: 12px; background: var(--surface); }
 table { border-collapse: collapse; width: 100%; font-size: 0.84rem; }
@@ -452,6 +457,7 @@ footer li { margin-bottom: 6px; }
     <span class="hkey"><span>down</span><i></i><span>up</span><span id="heat-scale"></span></span>
   </div>
   <div class="heatbox"><table class="heat" id="heat"></table></div>
+  <div class="udtrend" id="heat-trend" aria-label="Share of stocks up over time"></div>
   <p class="heatnote" id="heat-note">Hover or tap a cell for details. On a phone, swipe the table sideways.</p>
 
   <p class="section-label"><span id="dheat-title">Top 30 + large caps</span>, day by day <span class="hint" id="dheat-hint"></span></p>
@@ -467,6 +473,7 @@ footer li { margin-bottom: 6px; }
     <span class="hkey"><span>down</span><i></i><span>up</span><span id="dheat-scale"></span></span>
   </div>
   <div class="heatbox"><table class="heat" id="dheat"></table></div>
+  <div class="udtrend" id="dheat-trend" aria-label="Share of stocks up over time"></div>
   <p class="heatnote" id="dheat-note">Hover or tap a cell for details. On a phone, swipe the table sideways.</p>
 
   <p class="section-label">Top 100 ranking <span class="hint">trend = weekly / daily swing structure</span></p>
@@ -1471,7 +1478,86 @@ footer li { margin-bottom: 6px; }
         })() + '</tr>' +
         '<tr class="sum"><td class="wk">' + n + (daily ? '-day' : '-wk') + ' %</td>' + H.tickers.map(function (t) { var v = H.total[t]; return '<td class="' + tone(v) + '" title="' + esc(t) + ': ' + (v == null ? 'no price' : pct(v, 1)) + ' over ' + n + ' ' + unit + 's">' + (v == null ? '–' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v * 100))) + '</td>'; }).join('') + '<td class="ud"></td></tr>';
       $(p).innerHTML = head + '<tbody>' + body + foot + '</tbody>';
+      trend();
     }
+    function share(i) {
+      var up = 0, tot = 0;
+      H.tickers.forEach(function (t) { var c = H.cells[t][i]; if (c) { tot++; if (c[0] > 0) up++; } });
+      return tot ? up / tot : null;
+    }
+    var tmode = 'run';
+    try { tmode = localStorage.getItem('nibii-' + p + '-trend') || 'run'; } catch (e) {}
+    function trend() {
+      var box = $(p + '-trend'); if (!box) return;
+      var W = Math.max(300, Math.round(box.clientWidth - 20)), Hh = W < 520 ? 140 : 170, L = 40, R = 8, T = 10, B = 22;
+      var sh = H.weeks.map(function (_, i) { return share(i); });
+      var wide = H.breadth || [];
+      function run(a) { var c = 0, out = [0]; a.forEach(function (v) { c += v == null ? 0 : (2 * v - 1) * 100; out.push(c); }); return out; }
+      var run1 = run(sh), run2 = wide.length ? run(wide) : null;
+      // the running lines have one more point (the start, 0) than there are periods
+      var m = tmode === 'run' ? n + 1 : n;
+      var x = function (i) { return L + (m > 1 ? i / (m - 1) : 0.5) * (W - L - R); };
+      var lo, hi;
+      if (tmode === 'run') {
+        var all = run1.concat(run2 || []);
+        lo = Math.min.apply(null, all.concat([0])); hi = Math.max.apply(null, all.concat([0]));
+        var pad = Math.max(10, (hi - lo) * 0.08); lo -= pad; hi += pad;
+      } else { lo = 0; hi = 1; }
+      var y = function (v) { return T + (hi - v) / (hi - lo) * (Hh - T - B); };
+      function path(a) { return a.map(function (v, i) { return v == null ? '' : (i && a[i - 1] != null ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(''); }
+      var g = '';
+      var ticks = tmode === 'run' ? (function () {
+        var span = hi - lo, st = [25, 50, 100, 200, 250, 500, 1000].find(function (q) { return span / q <= 5; }) || 2000, out = [];
+        for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) out.push(v); return out;
+      })() : [0, 0.5, 1];
+      ticks.forEach(function (v) {
+        var mid = tmode === 'run' ? v === 0 : v === 0.5;
+        g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) + '" stroke="var(--' + (mid ? 'muted' : 'grid') + ')" ' + (mid ? 'stroke-dasharray="4 3"' : '') + '/>' +
+          '<text class="t" x="' + (L - 6) + '" y="' + (y(v) + 4).toFixed(1) + '" text-anchor="end">' + (tmode === 'run' ? (v > 0 ? '+' : '') + v : Math.round(v * 100) + '%') + '</text>';
+      });
+      var dates = tmode === 'run' ? [null].concat(H.weeks) : H.weeks;
+      var step = Math.max(1, Math.ceil(m / Math.max(3, Math.floor(W / 90)))), xl = '';
+      for (var i = m - 1; i >= 1; i -= step) xl += '<text class="t" x="' + x(i).toFixed(1) + '" y="' + (Hh - 6) + '" text-anchor="' + (i === m - 1 ? 'end' : 'middle') + '">' + lab(dates[i]) + '</text>';
+      var areas = '', lines;
+      if (tmode === 'run') {
+        areas = '<path d="' + path(run1) + 'L' + x(m - 1).toFixed(1) + ' ' + y(0).toFixed(1) + 'L' + x(0).toFixed(1) + ' ' + y(0).toFixed(1) + 'Z" fill="var(--accent)" fill-opacity="0.14"/>';
+        lines = (run2 ? '<path d="' + path(run2) + '" fill="none" stroke="var(--gold)" stroke-width="2"/>' : '') + '<path d="' + path(run1) + '" fill="none" stroke="var(--accent)" stroke-width="2.4"/>';
+      } else {
+        var top = path(sh);
+        areas = '<path d="' + top + 'L' + x(n - 1).toFixed(1) + ' ' + y(1) + 'L' + x(0).toFixed(1) + ' ' + y(1) + 'Z" fill="var(--neg)" fill-opacity="0.16"/>' +
+          '<path d="' + top + 'L' + x(n - 1).toFixed(1) + ' ' + y(0) + 'L' + x(0).toFixed(1) + ' ' + y(0) + 'Z" fill="var(--accent)" fill-opacity="0.2"/>';
+        lines = (wide.length ? '<path d="' + path(wide) + '" fill="none" stroke="var(--gold)" stroke-width="2"/>' : '') + '<path d="' + top + '" fill="none" stroke="var(--accent)" stroke-width="2.4"/>';
+      }
+      var hit = '', w = (W - L - R) / Math.max(1, m - 1);
+      for (var j = 0; j < m; j++) hit += '<rect x="' + (x(j) - w / 2).toFixed(1) + '" y="' + T + '" width="' + w.toFixed(1) + '" height="' + (Hh - T - B) + '" fill="transparent" data-i="' + j + '"/>';
+      var gridName = daily ? 'these ' + N : 'the top ' + N;
+      box.innerHTML = '<div class="cap"><span class="seg" role="group" aria-label="Chart">' +
+        '<button type="button" data-tm="run" aria-pressed="' + (tmode === 'run') + '">Running total</button><button type="button" data-tm="share" aria-pressed="' + (tmode === 'share') + '">Share up each ' + unit + '</button></span>' +
+        '<span><i style="background:var(--accent)"></i>' + gridName + '</span>' + (wide.length ? '<span><i style="background:var(--gold)"></i>all ' + H.breadthN + ' stocks tracked</span>' : '') +
+        '<span id="' + p + '-tv">' + (tmode === 'run' ? 'adds % up minus % down each ' + unit + ': rising = more stocks going up than down' : '') + '</span></div>' +
+        '<svg viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="' + (tmode === 'run' ? 'Running total of % up minus % down' : 'Share of stocks up') + ' each ' + unit + ', last ' + n + ' ' + unit + 's">' +
+        areas + g + lines + xl + hit + '</svg>';
+      box.querySelector('.seg').addEventListener('click', function (e) {
+        var bt = e.target.closest('button[data-tm]'); if (!bt) return; tmode = bt.getAttribute('data-tm');
+        try { localStorage.setItem('nibii-' + p + '-trend', tmode); } catch (x2) {}
+        trend();
+      });
+      function tip(e) {
+        var r = e.target.closest('rect[data-i]'); if (!r) return; var i = +r.getAttribute('data-i');
+        var txt;
+        if (tmode === 'run') {
+          if (i === 0) txt = 'start of the window: 0';
+          else txt = lab(dates[i]) + ': ' + gridName + ' ' + (run1[i] > 0 ? '+' : '') + Math.round(run1[i]) + ' (' + Math.round(sh[i - 1] * 100) + '% up that ' + unit + ')' +
+            (run2 ? ' · all stocks ' + (run2[i] > 0 ? '+' : '') + Math.round(run2[i]) + ' (' + Math.round(wide[i - 1] * 100) + '% up)' : '');
+        } else {
+          txt = lab(dates[i]) + ': ' + gridName + ' ' + Math.round(sh[i] * 100) + '% up' + (wide.length ? ' · all stocks ' + Math.round(wide[i] * 100) + '% up' : '');
+        }
+        $(p + '-tv').textContent = txt;
+      }
+      var svg = box.querySelector('svg');
+      svg.addEventListener('mouseover', tip); svg.addEventListener('click', tip);
+    }
+    var rz; window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(trend, 150); });
     function show(e) { var c = e.target.closest('td.c'); if (c) $(p + '-note').textContent = detail(c.getAttribute('data-t'), +c.getAttribute('data-i')); }
     $(p).addEventListener('mouseover', show);
     $(p).addEventListener('click', show);
