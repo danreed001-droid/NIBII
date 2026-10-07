@@ -2337,5 +2337,45 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-07-4-stocks-close-lower-as-yields-hit-2002-highs",
+    "data": {
+      "addedAt": "2026-10-07",
+      "category": "Market",
+      "date": "2026-10-07",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "S&P 500, Dow and Nasdaq close lower as 10-year Treasury yield touches 5.36% intraday, highest since April 2002",
+      "impact": "High",
+      "numbers": "S&P 500 7,801.77 (-17.16, -0.22%); Dow 51,179.87 (-341.41, -0.66%); Nasdaq 27,538.69 (-61.20, -0.22%); 10Y close ~5.28% (intraday high 5.36%); 30Y ~5.66%",
+      "order": 4,
+      "reaction": "Stocks pared part of early losses into the close; mega-cap tech (Nvidia, Apple, Microsoft) continued to anchor index levels amid rising yields",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-october-7-dow-sp-500-nasdaq-080241833.html",
+      "tickers": "SPY, S&P, DIA, Dow, QQQ, Nasdaq, TLT, 10Y, yield, Treasury",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-07-5-fomc-september-minutes-show-hawkish-tilt",
+    "data": {
+      "addedAt": "2026-10-07",
+      "category": "Fed",
+      "date": "2026-10-07",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "September FOMC minutes released: most participants said a further rate increase 'would likely be appropriate by year end'; Chair Warsh described the September hike as removing a 'dose of accommodation'",
+      "impact": "High",
+      "numbers": "September hike took fed funds target to 3.75%-4.00%; markets price roughly 17-20% odds of an October hike",
+      "order": 5,
+      "reaction": "Minutes revealed a broader internal debate than the unanimous September vote suggested, adding to bond-market pressure that pushed yields to 2002 highs",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-october-7-dow-sp-500-nasdaq-080241833.html",
+      "tickers": "n/a",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
