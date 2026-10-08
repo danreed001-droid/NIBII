@@ -775,8 +775,8 @@
        null
       ]
      ],
-     "maturityClose": 7784.3798828125,
-     "ret": 0.010416,
+     "maturityClose": 7757.75,
+     "ret": 0.00696,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -2949,8 +2949,8 @@
        null
       ]
      ],
-     "maturityClose": 77.52989959716797,
-     "ret": -0.023799,
+     "maturityClose": 77.875,
+     "ret": -0.019454,
      "correct": false,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -5739,8 +5739,8 @@
        true
       ]
      ],
-     "maturityClose": 4123.811792,
-     "ret": -0.037855,
+     "maturityClose": 4141.064024,
+     "ret": -0.03383,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -7806,8 +7806,8 @@
        null
       ]
      ],
-     "maturityClose": 102.3270034790039,
-     "ret": 0.012237,
+     "maturityClose": 102.11599731445312,
+     "ret": 0.010149,
      "correct": false,
      "shadowCorrect": true,
      "preReversionCorrect": false,
@@ -10007,7 +10007,7 @@
       [
        "bear",
        "IWM at 281.66 is 4.4% below a falling 50-day of 294.56.",
-       true
+       false
       ],
       [
        "neu",
@@ -10017,7 +10017,7 @@
       [
        "bear",
        "RVX at 19.97 sits above the VIX of 15.67 and rose 6.3% on 23 September, with no percentile extreme to argue mean reversion.",
-       true
+       false
       ],
       [
        "bull",
@@ -10027,7 +10027,7 @@
       [
        "bear",
        "The 3s, 10s and 30s refunding on 6 to 8 October falls inside the window, and IWM -0.749 correlation to the 10-year is the strongest of the six assets.",
-       true
+       false
       ],
       [
        "neu",
@@ -10042,7 +10042,7 @@
       [
        "bear",
        "The buyback blackout runs into late October, so the window has no corporate bid.",
-       true
+       false
       ],
       [
        "neu",
@@ -10062,7 +10062,7 @@
       [
        "bear",
        "WTI at 93.66 with Brent above 104 keeps the oil channel negative, IWM correlation to oil being -0.476.",
-       true
+       false
       ],
       [
        "bull",
@@ -10070,11 +10070,11 @@
        false
       ]
      ],
-     "maturityClose": 276.0,
-     "ret": -0.020095,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 277.2799987792969,
+     "ret": -0.015551,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against IWM",
      "provisional": true
     }
@@ -12139,8 +12139,8 @@
        null
       ]
      ],
-     "maturityClose": 754.1500244140625,
-     "ret": 0.017609,
+     "maturityClose": 746.0800170898438,
+     "ret": 0.00672,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,

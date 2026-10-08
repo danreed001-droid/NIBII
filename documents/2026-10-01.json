@@ -474,7 +474,7 @@
       [
        "bull",
        "Micron's blowout results and guidance (revenue about 4x y/y) lifted chips and the S&P 500 closed +0.29% (news log); Broadcom slipped 1.1% on its $42B Anthropic financing, so the catalyst is one-sided only for the near term",
-       true
+       false
       ],
       [
        "neu",
@@ -497,8 +497,8 @@
        null
       ]
      ],
-     "maturityClose": 7826.75,
-     "ret": 0.012745,
+     "maturityClose": 7803.25,
+     "ret": 0.009705,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2679,8 +2679,8 @@
        null
       ]
      ],
-     "maturityClose": 104.375,
-     "ret": -0.001345,
+     "maturityClose": 104.75,
+     "ret": 0.002242,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5442,8 +5442,8 @@
        false
       ]
      ],
-     "maturityClose": 4135.2998046875,
-     "ret": -0.009651,
+     "maturityClose": 4152.60009765625,
+     "ret": -0.005508,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7519,8 +7519,8 @@
        null
       ]
      ],
-     "maturityClose": 102.3270034790039,
-     "ret": 0.002106,
+     "maturityClose": 102.11599731445312,
+     "ret": 3.9e-05,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9707,7 +9707,7 @@
       [
        "bear",
        "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); small caps' 21-session correlation to the 10-year is -0.742, the strongest rate sensitivity on the board",
-       true
+       false
       ],
       [
        "neu",
@@ -9750,8 +9750,8 @@
        false
       ]
      ],
-     "maturityClose": 2788.5,
-     "ret": -0.014386,
+     "maturityClose": 2803.5,
+     "ret": -0.009084,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11798,8 +11798,8 @@
        null
       ]
      ],
-     "maturityClose": 31198.0,
-     "ret": 0.01224,
+     "maturityClose": 30905.0,
+     "ret": 0.002734,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
