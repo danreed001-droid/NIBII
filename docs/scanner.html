@@ -12,7 +12,7 @@
   --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
   --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   --pos: #3fbf5f; --neg: #e5605a; --grid: #2c2c2a;
-  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-plan: #3fb8a0; --s-boost: #a989f5; --s-b100: #e0a3ff; --s-mon: #f08c4a; --s-monb: #8fbf3a;
+  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-plan: #3fb8a0; --s-boost: #a989f5; --s-b100: #4fd1e8; --s-mon: #f08c4a; --s-monb: #8fbf3a;
   color-scheme: dark;
 }
 :root[data-mtl-theme="light"] {
@@ -20,7 +20,7 @@
   --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
   --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
   --pos: #0a8f0a; --neg: #c43232; --grid: #e1e0d9;
-  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-plan: #13866f; --s-boost: #6d44d4; --s-b100: #b042c9; --s-mon: #c4561a; --s-monb: #5f8a12;
+  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-plan: #13866f; --s-boost: #6d44d4; --s-b100: #0a8aa3; --s-mon: #c4561a; --s-monb: #5f8a12;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -108,7 +108,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .up { color: var(--pos); } .down { color: var(--neg); } .chop { color: var(--muted); }
 
 /* stat tiles */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hairline); border: 1px solid var(--hairline);
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1px; background: var(--hairline); border: 1px solid var(--hairline);
   border-radius: 12px; overflow: hidden; }
 @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
 .stat { background: var(--surface); padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; }
@@ -286,7 +286,7 @@ tbody tr:last-child td { border-bottom: 0; }
 #call-status { font-size: 0.8rem; color: var(--ink-2); }
 #sync-token { flex: 1 1 180px; min-width: 0; font: 0.84rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 6px 8px; }
 .sync code { font-size: 0.74rem; }
-.rec-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0 10px; }
+.rec-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; margin: 8px 0 10px; }
 .rec-tile { background: var(--surface-2); border-radius: 10px; padding: 8px 10px; }
 .rec-tile .k { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); display: flex; align-items: center; gap: 6px; }
 .rec-tile .k i { width: 12px; height: 3px; border-radius: 2px; background: var(--c); display: inline-block; }
@@ -299,7 +299,7 @@ tbody tr:last-child td { border-bottom: 0; }
 .wk td { padding: 6px 4px; border-bottom: 1px solid var(--hairline); text-align: left; }
 .wk td.r, .wk th.r { text-align: right; font-family: ui-monospace, monospace; }
 .wk .note-i { color: var(--muted); font-size: 0.74rem; display: block; }
-@media (max-width: 520px) { .years .y-strategy { display: none; } .wk .hide-xs { display: none; } .rec-tiles { gap: 6px; grid-template-columns: repeat(2, 1fr); } .rec-tile .v { font-size: 1rem; } }
+@media (max-width: 520px) { .years .y-strategy { display: none; } .wk .hide-xs { display: none; } .rec-tiles { gap: 6px; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); } .rec-tile .v { font-size: 1rem; } }
 footer { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--hairline); color: var(--muted); font-size: 0.8rem; }
 footer li { margin-bottom: 6px; }
 </style>
@@ -1082,6 +1082,7 @@ footer li { margin-bottom: 6px; }
       var au = simulate(function (f) { var w = WK[f]; return w ? [w[2], 1 - w[2], 0] : null; }, start);
       var stp = simulate(function (f) { var w = WK[f]; return w ? [w[3], 1 - w[3], 0] : null; }, start);
       var bst = simulate(function (f) { var w = WK[f]; return w && w[4] != null ? [0, 1 - w[4], 0, w[4]] : null; }, start);
+      var b100 = simulate(function (f) { var w = WK[f]; return w && w[4] != null ? [0, 0, 0, 1] : null; }, start);
       // optional From/To filter inside the record
       $('rec-range').hidden = false;
       var ra = RR.a && RR.a > start ? RR.a : start, rb = RR.b && RR.b < lastDay ? RR.b : lastDay;
@@ -1089,11 +1090,11 @@ footer li { margin-bottom: 6px; }
       $('rr-from').min = $('rr-to').min = start; $('rr-from').max = $('rr-to').max = lastDay;
       $('rr-from').value = ra; $('rr-to').value = rb;
       function cut(c) { return c.filter(function (p) { return p[0] >= ra && p[0] <= rb; }); }
-      me = cut(me); au = cut(au); stp = cut(stp); bst = cut(bst); if (baseC) baseC = cut(baseC);
+      me = cut(me); au = cut(au); stp = cut(stp); bst = cut(bst); b100 = cut(b100); if (baseC) baseC = cut(baseC);
       if (me.length < 2) { box.innerHTML = '<p class="swnote">Pick a range with at least two trading days between ' + fmtDate(start, md) + ' and ' + fmtDate(lastDay, md) + '.</p>'; return; }
       function tot(c) { return c[c.length - 1][1] / c[0][1] - 1; }
       function dd(c) { var pk = c[0][1], m = 0; c.forEach(function (p) { pk = Math.max(pk, p[1]); m = Math.min(m, p[1] / pk - 1); }); return m; }
-      var SER2 = [['You', me, 'var(--gold)'], ['Boost', bst, 'var(--s-boost)'], ['Auto', au, 'var(--s-plan)'], ['Steps', stp, 'var(--ink-2)']];
+      var SER2 = [['You', me, 'var(--gold)'], ['Boost', bst, 'var(--s-boost)'], ['Boost 100%', b100, 'var(--s-b100)'], ['Auto', au, 'var(--s-plan)'], ['Steps', stp, 'var(--ink-2)']];
       var pickNote = scored && hasPicks && baseC && baseC.length > 1
         ? '<p class="swnote" style="margin:4px 0 0">Your swaps & drops: <b class="' + tone(tot(me) - tot(baseC)) + '">' + pct(tot(me) - tot(baseC)) + '</b> vs the same mixes with the model’s own five stocks.</p>'
         : hasPicks && !scored ? '<p class="swnote" style="margin:4px 0 0">Swaps and drops are scored on real prices by the next daily update (after 5:20pm ET) once your calls are synced to the repo — until then “You” uses the model’s stocks.</p>' : '';
@@ -1202,12 +1203,13 @@ footer li { margin-bottom: 6px; }
   }
   function tile(label, value, sub, cls) { return '<div class="stat"><span class="stat-label">' + label + '</span><span class="stat-value ' + (cls || '') + '">' + value + '</span><span class="stat-sub">' + sub + '</span></div>'; }
   function drawStats() {
-    var t5 = rstat('strategy'), au = rstat('plan'), st = rstat('steps'), sp = rstat('SPY'), qq = rstat('QQQ'), bo = rstat('boost');
+    var t5 = rstat('strategy'), au = rstat('plan'), st = rstat('steps'), sp = rstat('SPY'), qq = rstat('QQQ'), bo = rstat('boost'), b1 = rstat('boost100');
     if (!t5) { $('stats').innerHTML = tile('Range', '–', 'pick at least two trading days', ''); return; }
     function yr(x) { return x && x.ann != null ? pct(x.ann, 0) + ' a year' : 'under a year'; }
     $('stats').innerHTML =
       tile('Top 5', pct(t5.tot, 0), yr(t5), tone(t5.tot)) +
       tile('Boost / Auto', (bo ? pct(bo.tot, 0) : '–') + ' / ' + (au ? pct(au.tot, 0) : '–'), (bo ? yr(bo) : '') + ' · worst ' + (bo ? pct(bo.dd, 0) : '–') + ' / ' + (au ? pct(au.dd, 0) : '–'), tone(bo && bo.tot)) +
+      (b1 ? tile('Boost 100%', pct(b1.tot, 0), yr(b1) + ' · worst ' + pct(b1.dd, 0), tone(b1.tot)) : '') +
       tile('SPY / QQQ', pct(sp.tot, 0) + ' / ' + pct(qq.tot, 0), 'worst ' + pct(sp.dd, 0) + ' / ' + pct(qq.dd, 0)) +
       tile('Top 5 worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since ' + SINCE : 'in this range', 'neg');
     $('range-hint').textContent = '$100 in the rule vs buying and holding · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b) +
