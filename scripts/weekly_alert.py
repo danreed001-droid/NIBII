@@ -84,7 +84,7 @@ def build(scan, owner=None):
     cush = auto.get('cushion') or {}
     if cush.get('split') and cush.get('prevSplit') and cush['split'] != cush['prevSplit']:
         to_sleeve = cush['split'] != '100/0'
-        items.append(f"**Boost + cushion:** {cush['prevSplit']} → **{cush['split']}** (SPY {pctw(cush.get('spy6m') or 0)} over 6 months; "
+        items.append(f"**Boost + cushion:** {cush['prevSplit']} → **{cush['split']}** (SPY {pctw(cush.get('spyGap') or 0)} vs its {cush.get('ma', 150)}-day average; "
                      + ("move 25% of the stocks into the sleeve" if to_sleeve else "move the sleeve part back into the Boost list") + ")")
         tags.append(f"cushion {cush['split']}")
     if not items:

@@ -60,7 +60,7 @@ STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+
 STEPS_MIN = 0.4
 BLOWOFF = 2.0                          # blow-off exit for Boost 100% / Boost + cushion (mtl.momentum.blowoff_exit)
 BLOWOFF_MA = 150                       # ... only while SPY closes below its 150-session average
-CUSHION, CUSHION_LOOK = 0.75, 126    # Boost + cushion: 25% in the sleeve while SPY's 6-month return is negative
+CUSHION, CUSHION_MA = 0.75, 150      # Boost + cushion: 25% in the sleeve while SPY closes below its 150-session average
 CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
 GUARD_SHARE = 0.5                       # bear guard: this much of the stock part goes to SPY while SPY < a year ago
 HUMAN_FROM = '2024-01-01'               # daily series shipped for scoring the viewer's own weekly calls
@@ -408,12 +408,14 @@ def main():
         k = kidx[d_]
         return k >= 252 and spy_px[calendar[k]] < spy_px[calendar[k - 252]]
 
-    def spy6m(d_):
+    def spy_gap(d_):    # SPY vs its CUSHION_MA-session average (negative = below)
         k = kidx[d_]
-        return spy_px[calendar[k]] / spy_px[calendar[k - CUSHION_LOOK]] - 1 if k >= CUSHION_LOOK else None
+        if k < CUSHION_MA - 1:
+            return None
+        return spy_px[calendar[k]] / (sum(spy_px[calendar[j]] for j in range(k - CUSHION_MA + 1, k + 1)) / CUSHION_MA) - 1
 
     def cushion_split(d_):
-        r_ = spy6m(d_)
+        r_ = spy_gap(d_)
         return CUSHION if r_ is not None and r_ < 0 else 1.0
 
     def guard_weights(d_):
@@ -592,7 +594,7 @@ def main():
             date=nd_.isoformat(), sell=[t for t in hold_bx if t not in pend_bx], buy=[t for t in pend_bx if t not in hold_bx],
             blown=[t for t in hold_bx if t not in pend_bx and blow_now(t, K)])
     auto['cushion'] = dict(share=CUSHION, split=split_key(cushion_split(sig_d)), prevSplit=split_key(cushion_split(prev_d)),
-                           spy6m=r4(spy6m(sig_d)), previewSplit=split_key(cushion_split(as_of)), previewSpy6m=r4(spy6m(as_of)),
+                           ma=CUSHION_MA, spyGap=r4(spy_gap(sig_d)), previewSplit=split_key(cushion_split(as_of)), previewSpyGap=r4(spy_gap(as_of)),
                            weeksLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and cushion_split(f_) < 1),
                            weeks=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START))
     if not signal_day:   # mid-week preview with today's charts

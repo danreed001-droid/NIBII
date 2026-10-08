@@ -929,11 +929,11 @@ footer li { margin-bottom: 6px; }
           : '<b>Mine:</b> no call yet, so this shows Auto. Make one under Your calls.';
       } else if (A && mix === 'cushion' && A.cushion) {
         var CU = A.cushion;
-        $('auto-note').innerHTML = '<b>Boost + cushion:</b> the Boost stock list, fully in stocks while SPY is up over the last 6 months; while SPY’s 6-month return is negative, ' + Math.round((1 - CU.share) * 100) + '% sits in the sleeve (' + esc(SL.held) + ') and ' + Math.round(CU.share * 100) + '% in the stocks. ' +
-          (D.signalDay ? 'This Friday: SPY ' : 'Last Friday: SPY ') + pct(CU.spy6m) + ' over 6 months → <b>' + CU.split + '</b>' + (D.signalDay && CU.split !== CU.prevSplit ? ' (was ' + CU.prevSplit + ' — trade it Monday)' : '') + '.' +
-          (!D.signalDay && CU.previewSplit !== CU.split ? ' If Friday were today it would be ' + CU.previewSplit + ' (SPY ' + pct(CU.previewSpy6m) + ').' : '') +
+        $('auto-note').innerHTML = '<b>Boost + cushion:</b> the Boost stock list, fully in stocks while SPY is above its ' + CU.ma + '-day average; while it closes below, ' + Math.round((1 - CU.share) * 100) + '% sits in the sleeve (' + esc(SL.held) + ') and ' + Math.round(CU.share * 100) + '% in the stocks. ' +
+          (D.signalDay ? 'This Friday: SPY ' : 'Last Friday: SPY ') + pct(CU.spyGap) + ' vs its ' + CU.ma + '-day average → <b>' + CU.split + '</b>' + (D.signalDay && CU.split !== CU.prevSplit ? ' (was ' + CU.prevSplit + ' — trade it Monday)' : '') + '.' +
+          (!D.signalDay && CU.previewSplit !== CU.split ? ' If Friday were today it would be ' + CU.previewSplit + ' (SPY ' + pct(CU.previewSpyGap) + ' vs its average).' : '') +
           ' The cushion was on in ' + CU.weeksLow + ' of ' + CU.weeks + ' weeks since ' + SINCE + '. Since ' + SINCE + ': ' + pct(P.stats.cushion.annual, 0) + ' a year, worst drop ' + pct(P.stats.cushion.maxDD, 0) + '. ' +
-          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $6.84M after tax with a worst drop of −51%, vs $8.53M and −60% for Boost 100% and $1.86M and −55% for Boost.' + bxNote(A);
+          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $6.66M after tax with a worst drop of −48%, vs $8.53M and −60% for Boost 100% and $1.86M and −55% for Boost.' + bxNote(A);
       } else if (A && mix === 'boost100' && A.boost) {
         $('auto-note').innerHTML = '<b>Boost 100%:</b> the Boost stock list (top 5 + news gaps) with the blow-off exit, always fully in the stocks: no Auto steps into the sleeve when holdings turn down. ' +
           'Since ' + SINCE + ': ' + pct(P.stats.boost100.annual, 0) + ' a year, worst drop ' + pct(P.stats.boost100.maxDD, 0) + ', vs ' + pct(P.stats.boost.annual, 0) + ' and ' + pct(P.stats.boost.maxDD, 0) + ' for Boost. ' +
