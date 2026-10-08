@@ -2377,5 +2377,45 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-08-1-iran-hormuz-tanker-attacks-lift-brent-above-101",
+    "data": {
+      "addedAt": "2026-10-08",
+      "category": "Geopolitics",
+      "date": "2026-10-08",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Iran steps up attacks on tankers in the Strait of Hormuz; Brent jumps in early Thursday trading",
+      "impact": "High",
+      "numbers": "Brent +1.4% to ~$101.94 in early Asia trade (Wednesday close $100.20); US futures slid from record as 30Y yield hit highest since 2002",
+      "order": 1,
+      "reaction": "Oil bid and risk-off tone: US equity futures lower, long-end yields elevated",
+      "region": "Global / Middle East",
+      "source": "https://zerohedge.com/markets/futures-slide-record-oil-jumps-hormuz-tanker-attacks-30y-yield-hits-2002-high",
+      "tickers": "SPY, S&P, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-08-2-asia-stocks-fall-on-fed-minutes-and-yields",
+    "data": {
+      "addedAt": "2026-10-08",
+      "category": "Market",
+      "date": "2026-10-08",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Asian stocks track Wall Street lower as soaring Treasury yields and hawkish Fed minutes (more tightening signaled) weigh",
+      "impact": "Medium",
+      "numbers": "Nikkei 225 -0.98% to 69,352.25; Kospi -0.36% to 6,779.37; ASX 200 -0.56% to 8,678.70 (early trading); MSCI Asia Pacific down as much as 0.9%",
+      "order": 2,
+      "reaction": "Chip names (SK Hynix, TSMC) and Alibaba led losses; tone points to a soft US open",
+      "region": "Asia",
+      "source": "https://kaohooninternational.com/markets/592298",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
