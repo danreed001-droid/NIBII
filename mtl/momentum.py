@@ -545,13 +545,20 @@ def trades_from_picks(picks):
     return out
 
 
-def blowoff_exit(prices, calendar, mult=2.0, recent=21, look=126):
+def blowoff_exit(prices, calendar, mult=2.0, recent=21, look=126, market=None, within=None):
     """hold_exit for run_momentum: True when a stock's gain over the last `recent`
     sessions is more than `mult` times its gain over the `look - recent` sessions
     before that (both gains positive) - a blow-off month that tends to be given
-    back. Tested 2000-2026 (point-in-time S&P 500): mult 1-2 all helped, 2 best."""
+    back. Tested 2000-2026 (point-in-time S&P 500): mult 1-2 all helped, 2 best.
+
+    With `market` (a ticker, e.g. 'SPY') and `within` (sessions), the exit only
+    counts after a bad market: while the market's `look`-session return is
+    negative or was negative within the last `within` sessions. Blow-offs paid
+    in rebounds after a fall (2003, 2009, 2025) and cost in steady uptrends."""
+    armed = market_armed(prices, calendar, market, look, within) if market else None
+
     def check(t, k, entry_k=None):
-        if k < look:
+        if k < look or (armed is not None and not armed[k]):
             return False
         px = prices.get(t, {})
         a, b, c = px.get(calendar[k - look]), px.get(calendar[k - recent]), px.get(calendar[k])
@@ -560,3 +567,19 @@ def blowoff_exit(prices, calendar, mult=2.0, recent=21, look=126):
         r1, r5 = c / b - 1, b / a - 1
         return r1 > 0 and r5 > 0 and r1 > mult * r5
     return check
+
+
+def market_armed(prices, calendar, market, look=126, within=126):
+    """[bool per session]: the market's `look`-session return was negative at
+    some session in the last `within` sessions (that one included). Gaps carry
+    the last close."""
+    px, last, arr = prices.get(market, {}), None, []
+    for d in calendar:
+        last = px.get(d) or last
+        arr.append(last)
+    out, bad_k = [], None
+    for k, v in enumerate(arr):
+        if k >= look and v and arr[k - look] and v < arr[k - look]:
+            bad_k = k
+        out.append(bad_k is not None and k - bad_k <= within)
+    return out
