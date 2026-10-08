@@ -497,8 +497,8 @@
        null
       ]
      ],
-     "maturityClose": 7828.25,
-     "ret": 0.01294,
+     "maturityClose": 7826.75,
+     "ret": 0.012745,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2679,8 +2679,8 @@
        null
       ]
      ],
-     "maturityClose": 104.3125,
-     "ret": -0.001943,
+     "maturityClose": 104.375,
+     "ret": -0.001345,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5442,8 +5442,8 @@
        false
       ]
      ],
-     "maturityClose": 4146.39990234375,
-     "ret": -0.006993,
+     "maturityClose": 4135.2998046875,
+     "ret": -0.009651,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7519,8 +7519,8 @@
        null
       ]
      ],
-     "maturityClose": 102.3280029296875,
-     "ret": 0.002115,
+     "maturityClose": 102.3270034790039,
+     "ret": 0.002106,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9707,7 +9707,7 @@
       [
        "bear",
        "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); small caps' 21-session correlation to the 10-year is -0.742, the strongest rate sensitivity on the board",
-       false
+       true
       ],
       [
        "neu",
@@ -9750,8 +9750,8 @@
        false
       ]
      ],
-     "maturityClose": 2796.800048828125,
-     "ret": -0.011452,
+     "maturityClose": 2788.5,
+     "ret": -0.014386,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11798,8 +11798,8 @@
        null
       ]
      ],
-     "maturityClose": 31237.0,
-     "ret": 0.013506,
+     "maturityClose": 31198.0,
+     "ret": 0.01224,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

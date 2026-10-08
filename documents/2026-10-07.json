@@ -379,8 +379,8 @@
        null
       ]
      ],
-     "maturityClose": 7828.25,
-     "ret": -0.003374,
+     "maturityClose": 7826.75,
+     "ret": -0.003565,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2463,8 +2463,8 @@
        null
       ]
      ],
-     "maturityClose": 104.3125,
-     "ret": -0.000748,
+     "maturityClose": 104.375,
+     "ret": -0.00015,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5170,8 +5170,8 @@
        null
       ]
      ],
-     "maturityClose": 4146.39990234375,
-     "ret": -0.002622,
+     "maturityClose": 4135.2998046875,
+     "ret": -0.005292,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7250,8 +7250,8 @@
        null
       ]
      ],
-     "maturityClose": 102.3280029296875,
-     "ret": 0.000968,
+     "maturityClose": 102.3270034790039,
+     "ret": 0.000959,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9388,7 +9388,7 @@
       [
        "bear",
        "1H structure is a downtrend (structure.hourly: LL 2804.2 then LH 2820.4), consistent with RTY=F falling 1.20% on the day",
-       false
+       true
       ],
       [
        "neu",
@@ -9408,12 +9408,12 @@
       [
        "bear",
        "The 10-year yield closed near 5.28% (intraday 5.36%, highest since April 2002) and the 30-year near 5.66% (news log, 7 October close entry); rate-sensitive small caps correlate -0.518 with 10-year yield changes over 21 sessions",
-       false
+       true
       ],
       [
        "bear",
        "September FOMC minutes (7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets price roughly 17-20% odds of an October hike (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -9433,7 +9433,7 @@
       [
        "bear",
        "Hawkish 7 October FOMC minutes; Russell 2000 futures were -0.89% pre-market and closed -1.20% (news log; RTY=F)",
-       false
+       true
       ],
       [
        "neu",
@@ -9443,19 +9443,19 @@
       [
        "bear",
        "Brent was above $101 and WTI about $90 on 7 October on continued Strait of Hormuz attacks (news log, pre-market entry); oil correlation to small caps is -0.385 and the dollar index rose 0.25%",
-       false
+       true
       ],
       [
        "bear",
        "1H structure is downtrend - last labeled swings: LL/LH/LL/LH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 2796.800048828125,
-     "ret": -0.004839,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 2788.5,
+     "ret": -0.007792,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against RTY=F",
      "provisional": true
     },
@@ -11383,12 +11383,12 @@
       [
        "bear",
        "The 10-year yield closed near 5.28% (intraday 5.36%, highest since April 2002) and the 30-year near 5.66% (news log, 7 October close entry); Nasdaq-100 correlates -0.536 with 10-year yield changes over 21 sessions",
-       false
+       true
       ],
       [
        "bear",
        "September FOMC minutes (7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets price roughly 17-20% odds of an October hike (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -11408,7 +11408,7 @@
       [
        "bear",
        "Hawkish 7 October FOMC minutes; Nasdaq 100 futures were -0.70% pre-market but the Nasdaq Composite pared to -0.22% at the close (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -11418,7 +11418,7 @@
       [
        "bear",
        "Brent was above $101 and WTI about $90 on 7 October on continued Strait of Hormuz attacks (news log, pre-market entry); oil is the dominant driver (corr -0.566 over 21 sessions) and the dollar index rose 0.25%",
-       false
+       true
       ],
       [
        "neu",
@@ -11426,8 +11426,8 @@
        null
       ]
      ],
-     "maturityClose": 31237.0,
-     "ret": -0.006409,
+     "maturityClose": 31198.0,
+     "ret": -0.00765,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
