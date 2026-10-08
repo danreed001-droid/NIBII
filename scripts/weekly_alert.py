@@ -62,8 +62,16 @@ def build(scan, owner=None):
     if boost.get('sell') or boost.get('buy'):
         bs, bb = boost.get('sell') or [], boost.get('buy') or []
         if (bs, bb) != (sells, buys):
-            items.append('**If you follow Boost, Boost 100% or Boost + cushion (news boost list):** ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
+            items.append('**If you follow Boost (news boost list):** ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
             tags.append('boost: ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
+    bx = auto.get('boostx') or {}
+    if bx.get('sell') or bx.get('buy'):
+        xs, xb = bx.get('sell') or [], bx.get('buy') or []
+        if (xs, xb) != (sells, buys):
+            blown = set(bx.get('blown') or [])
+            items.append('**If you follow Boost 100% or Boost + cushion (boost list + blow-off exit):** '
+                         + ', '.join([f"sell {t}" + (" (blow-off exit)" if t in blown else "") for t in xs] + [f"buy {t}" for t in xb]))
+            tags.append('boost 100%: ' + ', '.join([f"sell {t}" for t in xs] + [f"buy {t}" for t in xb]))
     if boost.get('split') and boost.get('prevSplit') and boost['split'] != boost['prevSplit']:
         items.append(f"**Boost mix:** {boost['prevSplit']} → **{boost['split']}** (Boost 100% stays fully in the stocks: nothing to change)")
     cush = auto.get('cushion') or {}
@@ -81,6 +89,7 @@ def build(scan, owner=None):
              '### What to do Monday', *[f"- {x}" for x in items], '',
              '### After the trades', f"- **Top 5:** {', '.join(hold)} (equal amounts)",
              *([f"- **Boost list:** {', '.join(boost['holdings'])}"] if boost.get('holdings') and set(boost['holdings']) != set(hold) else []),
+             *([f"- **Boost 100% / cushion list:** {', '.join(bx['holdings'])}"] if bx.get('holdings') and set(bx['holdings']) != set(boost.get('holdings') or hold) else []),
              f"- **Sleeve pick:** {sl.get('held')}" + (f" ({sl.get('n')})" if sl.get('n') else ''), '',
              '| Mix | Top 5 | Sleeve | SPY |', '|---|---|---|---|',
              f"| Auto | {pctw(a_s)} | {pctw(1 - a_s)} | 0% |",

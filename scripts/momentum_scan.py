@@ -35,7 +35,7 @@ from datetime import date, datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
-from mtl.momentum import last_sessions_of_weeks, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
+from mtl.momentum import blowoff_exit, last_sessions_of_weeks, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.heat import daily_heat, weekly_heat  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
@@ -58,6 +58,7 @@ AUTO_NEED, AUTO_LOW = 2, 0.6            # monthly plans: 60/40 while 2+ holdings
 # weekly Auto and Boost use the STEPS tiers below (1 holding down -> 80/20, 2 -> 60/40, 3+ -> 40/60)
 STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+ -> STEPS_MIN
 STEPS_MIN = 0.4
+BLOWOFF = 2.0                          # blow-off exit for Boost 100% / Boost + cushion (mtl.momentum.blowoff_exit)
 CUSHION, CUSHION_LOOK = 0.75, 126    # Boost + cushion: 25% in the sleeve while SPY's 6-month return is negative
 CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
 GUARD_SHARE = 0.5                       # bear guard: this much of the stock part goes to SPY while SPY < a year ago
@@ -323,27 +324,37 @@ def main():
     gaps = {t: news_gap_days(bs) for t, bs in bars.items() if bs}
     boost_kw = dict(look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible, exec_next='close',
                     prefer_mode='force', prefer_rank=None, prefer_pool='all', **RK)
-    rb = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), **boost_kw)
-    picks_b = rb['picks']
-    hold_b = picks_b[-1][1] if picks_b else []
-    after_b = hold_b
-    if signal_day:
-        nd = (today_d := date.fromisoformat(as_of)) + timedelta(days=3 if today_d.weekday() == 4 else 1)
-        nd = nd.isoformat()
-        added_px = [t for t in prices if prices[t].get(as_of)]
-        for t in added_px:
-            prices[t][nd] = prices[t][as_of]
-        cal_x = calendar + [nd]
-        try:
-            rx = run_momentum(prices, cal_x, START, prefer=booster(gaps, cal_x), **boost_kw)
-            if rx['picks'] and rx['picks'][-1][0] == nd:
-                after_b = rx['picks'][-1][1]
-        finally:
+    def boost_run(extra=None):
+        """The Boost run (and, on a Friday, its post-trade holdings from a run with one more
+        flat session appended). extra(cal) -> more run_momentum kwargs for that calendar."""
+        rr = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), **boost_kw, **(extra(calendar) if extra else {}))
+        held = rr['picks'][-1][1] if rr['picks'] else []
+        after = held
+        if signal_day:
+            nd = (today_d := date.fromisoformat(as_of)) + timedelta(days=3 if today_d.weekday() == 4 else 1)
+            nd = nd.isoformat()
+            added_px = [t for t in prices if prices[t].get(as_of)]
             for t in added_px:
-                prices[t].pop(nd, None)
+                prices[t][nd] = prices[t][as_of]
+            cal_x = calendar + [nd]
+            try:
+                rx = run_momentum(prices, cal_x, START, prefer=booster(gaps, cal_x), **boost_kw, **(extra(cal_x) if extra else {}))
+                if rx['picks'] and rx['picks'][-1][0] == nd:
+                    after = rx['picks'][-1][1]
+            finally:
+                for t in added_px:
+                    prices[t].pop(nd, None)
+        return rr, held, after
+    rb, hold_b, after_b = boost_run()
+    picks_b = rb['picks']
+    # Boost 100% and Boost + cushion: the Boost list with the blow-off exit (a holding whose last
+    # month's gain is more than BLOWOFF times the 5 months before it is sold and barred for 4 weeks)
+    rbx, hold_bx, after_bx = boost_run(lambda cal_: dict(hold_exit=blowoff_exit(prices, cal_, BLOWOFF)))
+    picks_bx = rbx['picks']
 
     strat = [[d, v] for d, v, _ in r['curve']]
     strat_b = [[d, v] for d, v, _ in rb['curve']]
+    strat_bx = [[d, v] for d, v, _ in rbx['curve']]
     spy = [[d, c] for d, c in ((b[0], b[4]) for b in bench['SPY']) if d >= START]
     qqq = [[d, c] for d, c in ((b[0], b[4]) for b in bench['QQQ']) if d >= START]
     curves = {'strategy': growth(strat), 'SPY': growth(spy), 'QQQ': growth(qqq)}
@@ -408,8 +419,8 @@ def main():
     spy_curve = [[d_, spy_px[d_]] for d_ in calendar if d_ >= START and d_ in spy_px]
     plans = {'auto': plan_curve_dynamic(strat, sl_curve, calendar, auto_split),
              'boost': plan_curve_dynamic(strat_b, sl_curve, calendar, auto_split_b),
-             'boost100': plan_curve_dynamic(strat_b, sl_curve, calendar, lambda d_: 1.0),   # Boost list, always 100% stocks
-             'cushion': plan_curve_dynamic(strat_b, sl_curve, calendar, cushion_split),
+             'boost100': plan_curve_dynamic(strat_bx, sl_curve, calendar, lambda d_: 1.0),   # Boost list + blow-off exit, always 100% stocks
+             'cushion': plan_curve_dynamic(strat_bx, sl_curve, calendar, cushion_split),
              'steps': plan_curve_dynamic(strat, sl_curve, calendar, steps_split),
              'guard': plan_curve_mix({'top5': strat, 'sleeve': sl_curve, 'spy': spy_curve}, calendar, guard_weights)}
     for x in PLAN_SPLITS:
@@ -535,6 +546,31 @@ def main():
         rows=[row(t, detail='chart') for t in after_b],
         weeksDiff=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and set(held_at(f_)) != set(held_at_b(f_))),
         top5=r4s(curve_stats([p[1] for p in strat_b])))
+    pick_days_bx = [p[0] for p in picks_bx]
+
+    def held_at_bx(d_):
+        i = bisect_right(pick_days_bx, d_) - 1
+        return picks_bx[i][1] if i >= 0 else []
+    blow_now = blowoff_exit(prices, calendar, BLOWOFF)
+
+    def blow_ratio(t):     # last month's gain / the 5 months before it (None unless both are gains)
+        px_ = prices.get(t, {})
+        a_, b_, c_ = px_.get(calendar[K - 126]), px_.get(calendar[K - 21]), px_.get(calendar[K])
+        if not (a_ and b_ and c_) or b_ <= a_ or c_ <= b_:
+            return None
+        return r4((c_ / b_ - 1) / (b_ / a_ - 1))
+    sold_bx = [t for t in hold_bx if t not in after_bx]
+    auto['boostx'] = dict(
+        mult=BLOWOFF,
+        holdings=after_bx, prev=hold_bx, sell=sold_bx, buy=[t for t in after_bx if t not in hold_bx],
+        blown=[t for t in sold_bx if blow_now(t, K)],
+        boosted=[t for t in after_bx if t not in (preview if signal_day else holdings)],
+        replaced=[t for t in (preview if signal_day else holdings) if t not in after_bx],
+        gaps=[dict(t=t, d=d_, n=names.get(t, ('', ''))[0], held=t in after_bx) for t, d_ in sorted(news_now.items(), key=lambda x: x[1], reverse=True)],
+        rows=[row(t, detail='chart') for t in after_bx],
+        ratio={t: blow_ratio(t) for t in after_bx},
+        weeksDiff=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and set(held_at_bx(f_)) != set(held_at_b(f_))),
+        stops=rbx.get('stops', 0))
     auto['cushion'] = dict(share=CUSHION, split=split_key(cushion_split(sig_d)), prevSplit=split_key(cushion_split(prev_d)),
                            spy6m=r4(spy6m(sig_d)), previewSplit=split_key(cushion_split(as_of)), previewSpy6m=r4(spy6m(as_of)),
                            weeksLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and cushion_split(f_) < 1),
@@ -550,7 +586,8 @@ def main():
     # signal Friday -> trade day with the Auto and Steps stock shares
     sl_val, bil = dict(sl_curve), f['BIL']
     strat_b_val = dict((d_, v) for d_, v in strat_b)
-    human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_]), round(strat_b_val.get(d_, v), 6)] for d_, v in strat
+    strat_bx_val = dict((d_, v) for d_, v in strat_bx)
+    human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_]), round(strat_b_val.get(d_, v), 6), round(strat_bx_val.get(d_, v), 6)] for d_, v in strat
                   if d_ >= HUMAN_FROM and d_ in sl_val and bil.get(d_)]
     nxt = {calendar[i]: calendar[i + 1] for i in range(len(calendar) - 1)}
     coming_trade = (today + timedelta(days=(4 - today.weekday()) % 7 + 3)).isoformat()
@@ -577,7 +614,8 @@ def main():
         pick_at_b = {d_: h for d_, h in picks_b}
         wk = [tuple(w) for w in human_weeks]
         args = (my_calls, calendar, wk, lambda d_: pick_at.get(d_, []), ranks_at, prices, sl_val, bil)
-        kw = dict(boost_picks_at=lambda d_: pick_at_b.get(d_, []))
+        pick_at_bx = {d_: h for d_, h in picks_bx}
+        kw = dict(boost_picks_at=lambda d_: pick_at_b.get(d_, []), boostx_picks_at=lambda d_: pick_at_bx.get(d_, []))
         scored, base = score_calls(*args, **kw), score_calls(*args, apply_picks=False, **kw)
         if scored:
             mine = dict(sig=signature(my_calls), curve=scored['curve'], base=base['curve'], weeks=scored['weeks'][-60:])

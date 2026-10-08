@@ -93,7 +93,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  sector_of=None, top_sectors=None, sector_grace=1, sector_min=3,
                  rsi_exit=None, rsi_period=14, buy_ok=None, weighting='equal', vol_target=None,
                  vol_window=63, max_corr=None, corr_window=63, risk_adj=False, exec_next=None,
-                 exit_when=None, exit_daily=True, buy_when=None, lookback_at=None,
+                 exit_when=None, exit_daily=True, buy_when=None, lookback_at=None, hold_exit=None,
                  prefer=None, prefer_rank=20, prefer_mode='fill', prefer_pool='qualified',
                  rebal_dates=None):
     """prices: {ticker: {date: close}} (must include `benchmark`);
@@ -144,6 +144,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     buy_when: optional callable(ticker, k) -> bool; a stock not held is only
       bought when it is True (e.g. "its daily chart is in an uptrend") - the
       next-best ranked stock that passes is taken instead.
+    hold_exit: optional callable(ticker, k, entry_k) -> bool, checked every session
+      for each holding (entry_k = the session it was bought); True sells it at
+      the next trade and bars it for `cooldown` sessions (e.g. blowoff_exit).
     lookback_at: optional callable(k) -> (look, skip) to change the strength
       window by regime (e.g. 3 months while the market's 12-month return is
       negative); defaults to (look, skip).
@@ -344,6 +347,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         return target
 
     pending = None
+    entry_k, cur_k = {}, [0]
 
     def trade(target, w, d, px_of):
         nonlocal shares, cash, value, traded
@@ -360,6 +364,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         for t in target:
             if t not in shares:
                 peak[t] = fill[t]
+                entry_k[t] = cur_k[0]
         for t in list(peak):
             if t not in target:
                 peak.pop(t)
@@ -373,6 +378,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         wlog.append([d, dict(w)])
 
     for k, d in enumerate(calendar):
+        cur_k[0] = k
         if pending is not None:   # yesterday's decision fills today
             target, w = pending
             pending = None
@@ -402,6 +408,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                     stopped.append(t)
         if rsi_exit and shares:
             stopped += [t for t in shares if t not in stopped and rsi_weak(t, k)]
+        if hold_exit and shares:
+            stopped += [t for t in shares if t not in stopped and hold_exit(t, k, entry_k.get(t, k))]
         if exit_when and shares and (exit_daily or d in rebal):
             stopped += [t for t in shares if t not in stopped and exit_when(t, k)]
         for t in stopped:
@@ -535,3 +543,20 @@ def trades_from_picks(picks):
                 out.append((d, 'buy', t))
         prev = held
     return out
+
+
+def blowoff_exit(prices, calendar, mult=2.0, recent=21, look=126):
+    """hold_exit for run_momentum: True when a stock's gain over the last `recent`
+    sessions is more than `mult` times its gain over the `look - recent` sessions
+    before that (both gains positive) - a blow-off month that tends to be given
+    back. Tested 2000-2026 (point-in-time S&P 500): mult 1-2 all helped, 2 best."""
+    def check(t, k, entry_k=None):
+        if k < look:
+            return False
+        px = prices.get(t, {})
+        a, b, c = px.get(calendar[k - look]), px.get(calendar[k - recent]), px.get(calendar[k])
+        if not (a and b and c):
+            return False
+        r1, r5 = c / b - 1, b / a - 1
+        return r1 > 0 and r5 > 0 and r1 > mult * r5
+    return check

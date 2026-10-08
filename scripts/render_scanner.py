@@ -548,15 +548,16 @@ footer li { margin-bottom: 6px; }
   if (D.signalDay) {
     var PA = D.plan && D.plan.auto, pm = (D.plan && D.plan['default']) || 'auto';
     try { pm = localStorage.getItem('nibii-plan-mix4') || pm; } catch (e) {}
-    var BO = PA && PA.boost;
+    var BO = PA && PA.boost, BXb = PA && (PA.boostx || PA.boost);
     var PM = PA && (pm === 'steps' ? PA.steps : pm === 'boost' ? BO : pm === 'auto' || pm === 'guard' ? PA : null);
     var mixTag = PM && PM.split !== PM.prevSplit ? '<span class="tag ' + (PM.split === '100/0' ? 'buy' : 'sell') + '">' + (pm === 'steps' ? 'steps' : 'auto') + ' mix → ' + PM.split + '</span>' : '';
     if (pm === 'boost100') mixTag = '';
     var CUb = PA && PA.cushion;
     if (pm === 'cushion') mixTag = CUb && CUb.split !== CUb.prevSplit ? '<span class="tag ' + (CUb.split === '100/0' ? 'buy' : 'sell') + '">cushion → ' + CUb.split + '</span>' : '';
-    if ((pm === 'boost' || pm === 'boost100' || pm === 'cushion') && BO) {   // the boosted rule trades its own list
-      tags = BO.sell.map(function (t) { return '<span class="tag sell">sell ' + esc(t) + '</span>'; }).join('') +
-        BO.buy.map(function (t) { return '<span class="tag buy">buy ' + esc(t) + (BO.boosted.indexOf(t) >= 0 ? ' (news boost)' : '') + '</span>'; }).join('');
+    if ((pm === 'boost' || pm === 'boost100' || pm === 'cushion') && BO) {   // the boosted rules trade their own lists
+      var BL = pm === 'boost' ? BO : BXb;
+      tags = BL.sell.map(function (t) { return '<span class="tag sell">sell ' + esc(t) + ((BL.blown || []).indexOf(t) >= 0 ? ' (blow-off exit)' : '') + '</span>'; }).join('') +
+        BL.buy.map(function (t) { return '<span class="tag buy">buy ' + esc(t) + (BL.boosted.indexOf(t) >= 0 ? ' (news boost)' : '') + '</span>'; }).join('');
     }
     var GD = PA && PA.guard;
     if (pm === 'guard' && GD && GD.bear !== GD.prevBear) mixTag += '<span class="tag ' + (GD.bear ? 'sell' : 'buy') + '">bear guard ' + (GD.bear ? 'ON → ' + Math.round(GD.share * 100) + '% of stocks into SPY' : 'OFF → back to the top 5') + '</span>';
@@ -735,8 +736,9 @@ footer li { margin-bottom: 6px; }
     D.table.forEach(function (r) { TBL[r.t] = r; });
     D.holdings.forEach(function (h) { if (!TBL[h.t]) TBL[h.t] = h; });
     var BOOSTL = (A_ = D.plan && D.plan.auto && D.plan.auto.boost) ? A_.holdings : MODEL;
+    var BOOSTXL = (A_ = D.plan && D.plan.auto && (D.plan.auto.boostx || D.plan.auto.boost)) ? A_.holdings : MODEL;
     if (A_) A_.rows.forEach(function (r) { if (!TBL[r.t]) TBL[r.t] = r; });
-    function modelFor(m) { return m === 'boost' || m === 'boost100' || m === 'cushion' ? BOOSTL : MODEL; }
+    function modelFor(m) { return m === 'boost' ? BOOSTL : m === 'boost100' || m === 'cushion' ? BOOSTXL : MODEL; }
     function candsFor(m) { var ml = modelFor(m); return D.table.filter(function (r) { return r.rank && r.rank <= 10 && ml.indexOf(r.t) < 0; }); }
     var CANDS = candsFor('auto');
     function slotsFor(model, c) {   // mirrors mtl/human.slots_for for this week's ranks
@@ -841,8 +843,8 @@ footer li { margin-bottom: 6px; }
       if (!c) return null;
       var w = WK[fri];
       if (c.m === 'auto') { var s1 = w ? w[2] : A ? share(A.split) : 1; return [s1, 1 - s1, 0]; }
-      if (c.m === 'boost100') return [0, 0, 0, 1];
-      if (c.m === 'cushion') { var s5 = w && w[5] != null ? w[5] : A && A.cushion ? share(A.cushion.split) : 1; return [0, 1 - s5, 0, s5]; }
+      if (c.m === 'boost100') return [0, 0, 0, 0, 1];
+      if (c.m === 'cushion') { var s5 = w && w[5] != null ? w[5] : A && A.cushion ? share(A.cushion.split) : 1; return [0, 1 - s5, 0, 0, s5]; }
       if (c.m === 'boost') { var s3 = w && w[4] != null ? w[4] : A && A.boost ? share(A.boost.split) : 1; return [0, 1 - s3, 0, s3]; }
       if (c.m === 'steps') { var s2 = w ? w[3] : A && A.steps ? share(A.steps.split) : 1; return [s2, 1 - s2, 0]; }
       if (c.m === 'cash') return [0, 0, 1];
@@ -856,7 +858,7 @@ footer li { margin-bottom: 6px; }
       (c.drops || []).forEach(function (d2) { x.push('drop ' + d2); });
       return b + (c.m !== 'cash' && x.length ? ' · ' + x.join(', ') : '');
     }
-    function mixTxt(m) { return Math.round((m[0] + (m[3] || 0)) * 100) + '/' + Math.round(m[1] * 100) + (m[2] ? '/' + Math.round(m[2] * 100) : ''); }
+    function mixTxt(m) { return Math.round((m[0] + (m[3] || 0) + (m[4] || 0)) * 100) + '/' + Math.round(m[1] * 100) + (m[2] ? '/' + Math.round(m[2] * 100) : ''); }
     var inForce = A ? A.decided : D.asOf;   // the signal Friday whose trades are (or will be) held now
 
     var mix = P['default'], acct = 10000;
@@ -877,7 +879,7 @@ footer li { margin-bottom: 6px; }
       else if (mix === 'steps' && A) m = [share(A.steps.split), 1 - share(A.steps.split), 0];
       else m = [share(mix), 1 - share(mix), 0];
       var mineBoost = mix === 'mine' && mine && (mine.m === 'boost' || mine.m === 'boost100' || mine.m === 'cushion');
-      if (mineBoost) m = [m[3], m[1], m[2]];
+      if (mineBoost) m = [(m[3] || 0) + (m[4] || 0), m[1], m[2]];
       var spyAmt = acct * (m[3] || 0);
       var stocks = acct * m[0], sleeve = acct * m[1], cash = acct * m[2], per = stocks / D.rule.topN;
       $('plan-hint').textContent = (mix === 'auto' ? 'auto mix this week: ' : mix === 'boost' ? 'auto + news boost this week: ' : mix === 'boost100' ? 'news boost, always fully in stocks: ' : mix === 'cushion' ? 'boost + cushion this week: ' : mix === 'guard' ? 'auto + guard this week: ' : mix === 'steps' ? 'steps mix this week: ' : mix === 'mine' ? 'your call: ' : '') +
@@ -885,7 +887,8 @@ footer li { margin-bottom: 6px; }
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
       var sp = name[SL.held] || {};
       function sh(v, px) { if (!px) return ''; var n = v / px; return '≈' + n.toFixed(n < 10 ? 2 : 0) + ' sh'; }
-      var BS = (mix === 'boost' || mix === 'boost100' || mix === 'cushion' || mineBoost) && A && A.boost ? A.boost : null;
+      var useX = mix === 'boost100' || mix === 'cushion' || (mineBoost && (mine.m === 'boost100' || mine.m === 'cushion'));
+      var BS = (mix === 'boost' || mix === 'boost100' || mix === 'cushion' || mineBoost) && A && A.boost ? (useX && A.boostx ? A.boostx : A.boost) : null;
       if (BS) {   // the boosted list: model holdings it keeps first, boosted names in the slots they took
         BS.rows.forEach(function (r) { if (!TBL[r.t]) TBL[r.t] = r; });
         var keepB = hs.filter(function (h) { return BS.holdings.indexOf(h.t) >= 0; }), inB = BS.holdings.filter(function (t) { return !hs.some(function (h) { return h.t === t; }); });
@@ -921,12 +924,12 @@ footer li { margin-bottom: 6px; }
           (D.signalDay ? 'This Friday: SPY ' : 'Last Friday: SPY ') + pct(CU.spy6m) + ' over 6 months → <b>' + CU.split + '</b>' + (D.signalDay && CU.split !== CU.prevSplit ? ' (was ' + CU.prevSplit + ' — trade it Monday)' : '') + '.' +
           (!D.signalDay && CU.previewSplit !== CU.split ? ' If Friday were today it would be ' + CU.previewSplit + ' (SPY ' + pct(CU.previewSpy6m) + ').' : '') +
           ' The cushion was on in ' + CU.weeksLow + ' of ' + CU.weeks + ' weeks since ' + SINCE + '. Since ' + SINCE + ': ' + pct(P.stats.cushion.annual, 0) + ' a year, worst drop ' + pct(P.stats.cushion.maxDD, 0) + '. ' +
-          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $3.76M after tax with a worst drop of −53%, vs $4.55M and −66% for Boost 100% and $1.86M and −55% for Boost.';
+          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $5.58M after tax with a worst drop of −51%, vs $7.01M and −59% for Boost 100% and $1.86M and −55% for Boost.' + '<br><span class="muted">Blow-off exit: a holding is sold when its last month’s gain is more than ' + (A.boostx ? A.boostx.mult : 2) + '× its gain over the 5 months before (it tends to give that back), and the slot goes to the next-ranked stock; it can come back after 4 weeks. Each holding now (last month ÷ prior 5 months, sells at ' + (A.boostx ? A.boostx.mult : 2) + '): ' + (A.boostx ? A.boostx.holdings.map(function (t) { var r = A.boostx.ratio[t]; return esc(t) + ' ' + (r == null ? '–' : r.toFixed(2)); }).join(' · ') : '') + (A.boostx && A.boostx.blown.length ? ' · this week it sells <b>' + A.boostx.blown.map(esc).join(', ') + '</b> on the exit' : '') + '.</span>';
       } else if (A && mix === 'boost100' && A.boost) {
-        $('auto-note').innerHTML = '<b>Boost 100%:</b> the same stock list as Boost (top 5 + news gaps), but always fully in the stocks: no Auto steps into the sleeve when holdings turn down. ' +
+        $('auto-note').innerHTML = '<b>Boost 100%:</b> the Boost stock list (top 5 + news gaps) with the blow-off exit, always fully in the stocks: no Auto steps into the sleeve when holdings turn down. ' +
           'Since ' + SINCE + ': ' + pct(P.stats.boost100.annual, 0) + ' a year, worst drop ' + pct(P.stats.boost100.maxDD, 0) + ', vs ' + pct(P.stats.boost.annual, 0) + ' and ' + pct(P.stats.boost.maxDD, 0) + ' for Boost. ' +
-          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $4.55M after tax vs $1.86M for Boost, and it led in every decade; ' +
-          'the cost is deeper drops: about −66% at the worst after tax vs −55%. Only follow it if you would hold through a drop like that.';
+          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $7.01M after tax vs $1.86M for Boost (and $4.55M for the same plan without the exit); ' +
+          'the cost is deeper drops: about −59% at the worst after tax vs −55%. Only follow it if you would hold through a drop like that.' + '<br><span class="muted">Blow-off exit: a holding is sold when its last month’s gain is more than ' + (A.boostx ? A.boostx.mult : 2) + '× its gain over the 5 months before (it tends to give that back), and the slot goes to the next-ranked stock; it can come back after 4 weeks. Each holding now (last month ÷ prior 5 months, sells at ' + (A.boostx ? A.boostx.mult : 2) + '): ' + (A.boostx ? A.boostx.holdings.map(function (t) { var r = A.boostx.ratio[t]; return esc(t) + ' ' + (r == null ? '–' : r.toFixed(2)); }).join(' · ') : '') + (A.boostx && A.boostx.blown.length ? ' · this week it sells <b>' + A.boostx.blown.map(esc).join(', ') + '</b> on the exit' : '') + '.</span>';
       } else if (A && mix === 'boost' && A.boost) {
         var B = A.boost, gl = B.gaps.length ? B.gaps.map(function (g) { return '<b>' + esc(g.t) + '</b> ' + fmtDate(g.d, md) + (g.held ? ' (held)' : ''); }).join(', ') : 'none';
         $('auto-note').innerHTML = '<b>Auto + News boost:</b> the same top 5, but any stock that gapped up ' + Math.round(B.gap * 100) + '%+ on news (opened and closed ' + Math.round(B.gap * 100) +
@@ -978,7 +981,7 @@ footer li { margin-bottom: 6px; }
       var pv = A && (kind === 'auto' ? A.preview : kind === 'boost' ? A.boost && A.boost.split : kind === 'cushion' ? A.cushion && A.cushion.previewSplit : A.steps && A.steps.preview);
       return 'set Friday' + (pv ? ' (now ' + pv + ')' : '');
     }
-    var OPTS = [['boost100', 'Follow Boost 100%', 'Boost list, always 100% stocks'], ['cushion', 'Follow Boost + cushion', autoNow('cushion')], ['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
+    var OPTS = [['boost100', 'Follow Boost 100%', 'Boost list + blow-off exit, always 100% stocks'], ['cushion', 'Follow Boost + cushion', autoNow('cushion')], ['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
                 ['cash', 'No trade', 'sit in cash this week'], ['custom', 'Custom', 'your own stocks / sleeve / cash']];
     $('choices').innerHTML = OPTS.map(function (o) { return '<button type="button" class="choice" role="radio" aria-checked="false" data-m="' + o[0] + '"><b>' + o[1] + '</b><span>' + o[2] + '</span></button>'; }).join('');
     function cuSync() {
@@ -1083,12 +1086,12 @@ footer li { margin-bottom: 6px; }
     // ---- your record: your calls vs following Auto / Steps from your first call
     function simulate(mixAt, startTrade) {
       var tradeFri = {}; HU.weeks.forEach(function (w) { tradeFri[w[1]] = w[0]; });
-      var out = [], a = 0, b = 0, c = 0, bb = 0, prev = null;
+      var out = [], a = 0, b = 0, c = 0, bb = 0, bx = 0, prev = null;
       HU.days.forEach(function (x) {
         if (x[0] < startTrade) return;
-        if (prev) { a *= x[1] / prev[1]; b *= x[2] / prev[2]; c *= x[3] / prev[3]; bb *= (x[4] || x[1]) / (prev[4] || prev[1]); }
-        var nav = prev ? a + b + c + bb : 1;
-        if (x[0] in tradeFri) { var mm = mixAt(tradeFri[x[0]]) || [1, 0, 0]; a = nav * mm[0]; b = nav * mm[1]; c = nav * mm[2]; bb = nav * (mm[3] || 0); }
+        if (prev) { a *= x[1] / prev[1]; b *= x[2] / prev[2]; c *= x[3] / prev[3]; bb *= (x[4] || x[1]) / (prev[4] || prev[1]); bx *= (x[5] || x[4] || x[1]) / (prev[5] || prev[4] || prev[1]); }
+        var nav = prev ? a + b + c + bb + bx : 1;
+        if (x[0] in tradeFri) { var mm = mixAt(tradeFri[x[0]]) || [1, 0, 0]; a = nav * mm[0]; b = nav * mm[1]; c = nav * mm[2]; bb = nav * (mm[3] || 0); bx = nav * (mm[4] || 0); }
         out.push([x[0], nav]); prev = x;
       });
       return out;
@@ -1115,8 +1118,8 @@ footer li { margin-bottom: 6px; }
       var au = simulate(function (f) { var w = WK[f]; return w ? [w[2], 1 - w[2], 0] : null; }, start);
       var stp = simulate(function (f) { var w = WK[f]; return w ? [w[3], 1 - w[3], 0] : null; }, start);
       var bst = simulate(function (f) { var w = WK[f]; return w && w[4] != null ? [0, 1 - w[4], 0, w[4]] : null; }, start);
-      var b100 = simulate(function (f) { var w = WK[f]; return w && w[4] != null ? [0, 0, 0, 1] : null; }, start);
-      var cu = simulate(function (f) { var w = WK[f]; return w && w[5] != null ? [0, 1 - w[5], 0, w[5]] : null; }, start);
+      var b100 = simulate(function (f) { var w = WK[f]; return w && w[4] != null ? [0, 0, 0, 0, 1] : null; }, start);
+      var cu = simulate(function (f) { var w = WK[f]; return w && w[5] != null ? [0, 1 - w[5], 0, 0, w[5]] : null; }, start);
       // optional From/To filter inside the record
       $('rec-range').hidden = false;
       var ra = RR.a && RR.a > start ? RR.a : start, rb = RR.b && RR.b < lastDay ? RR.b : lastDay;
