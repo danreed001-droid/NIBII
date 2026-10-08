@@ -58,6 +58,7 @@ AUTO_NEED, AUTO_LOW = 2, 0.6            # monthly plans: 60/40 while 2+ holdings
 # weekly Auto and Boost use the STEPS tiers below (1 holding down -> 80/20, 2 -> 60/40, 3+ -> 40/60)
 STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+ -> STEPS_MIN
 STEPS_MIN = 0.4
+CUSHION, CUSHION_LOOK = 0.75, 126    # Boost + cushion: 25% in the sleeve while SPY's 6-month return is negative
 CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
 GUARD_SHARE = 0.5                       # bear guard: this much of the stock part goes to SPY while SPY < a year ago
 HUMAN_FROM = '2024-01-01'               # daily series shipped for scoring the viewer's own weekly calls
@@ -391,6 +392,14 @@ def main():
         k = kidx[d_]
         return k >= 252 and spy_px[calendar[k]] < spy_px[calendar[k - 252]]
 
+    def spy6m(d_):
+        k = kidx[d_]
+        return spy_px[calendar[k]] / spy_px[calendar[k - CUSHION_LOOK]] - 1 if k >= CUSHION_LOOK else None
+
+    def cushion_split(d_):
+        r_ = spy6m(d_)
+        return CUSHION if r_ is not None and r_ < 0 else 1.0
+
     def guard_weights(d_):
         s_ = auto_split(d_)
         g = GUARD_SHARE if bear(d_) else 0.0
@@ -400,6 +409,7 @@ def main():
     plans = {'auto': plan_curve_dynamic(strat, sl_curve, calendar, auto_split),
              'boost': plan_curve_dynamic(strat_b, sl_curve, calendar, auto_split_b),
              'boost100': plan_curve_dynamic(strat_b, sl_curve, calendar, lambda d_: 1.0),   # Boost list, always 100% stocks
+             'cushion': plan_curve_dynamic(strat_b, sl_curve, calendar, cushion_split),
              'steps': plan_curve_dynamic(strat, sl_curve, calendar, steps_split),
              'guard': plan_curve_mix({'top5': strat, 'sleeve': sl_curve, 'spy': spy_curve}, calendar, guard_weights)}
     for x in PLAN_SPLITS:
@@ -476,6 +486,7 @@ def main():
     curves['guard'] = growth(plans['guard'])
     curves['boost'] = growth(plans['boost'])
     curves['boost100'] = growth(plans['boost100'])
+    curves['cushion'] = growth(plans['cushion'])
     f = filled(sleeve_px, calendar)
     today = date.fromisoformat(as_of)
     week_ends = [k for k in range(K) if date.fromisoformat(calendar[k]).isocalendar()[:2]
@@ -524,6 +535,10 @@ def main():
         rows=[row(t, detail='chart') for t in after_b],
         weeksDiff=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and set(held_at(f_)) != set(held_at_b(f_))),
         top5=r4s(curve_stats([p[1] for p in strat_b])))
+    auto['cushion'] = dict(share=CUSHION, split=split_key(cushion_split(sig_d)), prevSplit=split_key(cushion_split(prev_d)),
+                           spy6m=r4(spy6m(sig_d)), previewSplit=split_key(cushion_split(as_of)), previewSpy6m=r4(spy6m(as_of)),
+                           weeksLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and cushion_split(f_) < 1),
+                           weeks=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START))
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(STEPS.get(len(auto['previewDown']), STEPS_MIN))
@@ -539,7 +554,7 @@ def main():
                   if d_ >= HUMAN_FROM and d_ in sl_val and bil.get(d_)]
     nxt = {calendar[i]: calendar[i + 1] for i in range(len(calendar) - 1)}
     coming_trade = (today + timedelta(days=(4 - today.weekday()) % 7 + 3)).isoformat()
-    human_weeks = [[f_, nxt.get(f_, coming_trade), auto_split(f_), steps_split(f_), auto_split_b(f_)]
+    human_weeks = [[f_, nxt.get(f_, coming_trade), auto_split(f_), steps_split(f_), auto_split_b(f_), cushion_split(f_)]
                    for f_ in [calendar[k] for k in week_ends] + ([as_of] if signal_day else [])
                    if f_ >= HUMAN_FROM]
 
@@ -596,7 +611,7 @@ def main():
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
         monthly=monthly,
         option=option_check(held_rows, bars, as_of, calendar, signal_day),
-        plan=dict(splits=['boost100', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='boost100', stats=plan_stats, auto=auto))
+        plan=dict(splits=['boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='boost100', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)
