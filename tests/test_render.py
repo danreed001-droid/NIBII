@@ -285,3 +285,15 @@ def test_calls_panel_says_when_the_next_board_is_due():
     # Tuesday 11 AM with no board: late
     html = calls_fresh_html(doc, datetime(2026, 9, 29, 11, 0, tzinfo=et))
     assert 'not published yet' in html and 'data-state="stale"' in html
+
+
+def test_no_calls_are_left_out_of_the_log_strip_and_cards():
+    doc = copy.deepcopy(PUB)
+    for a in doc['assets']:
+        a['horizons'][0]['call'] = 'no-call'  # every asset abstains on 1D
+    log = call_log_section({doc['date']: doc})
+    assert log.count('<tr>') == 13  # 1 header row + 6 assets x 2 remaining horizons
+    assert 'no-call' not in log
+    strip = ticker_strip(doc)
+    assert strip.count('class="tape-badge"') == 12
+    assert 'no-call' not in render(doc, {doc['date']: doc}).split('<section class="asset">', 1)[1]

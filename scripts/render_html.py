@@ -458,9 +458,15 @@ def hourly_chart_html(a, live, compact=False):
       </figure>"""
 
 
+def is_call(h):
+    """False for a no-call abstention: there's nothing to grade, so it's
+    left out of the cards, the price strip and the call log."""
+    return h['call'] != 'no-call'
+
+
 def asset_card(a, catalysts, stamp=None, live=None, since=None, board_date=None):
     st = a['stretch']
-    horizons_html = "".join(horizon_block(a, h, stamp, live) for h in a['horizons'])
+    horizons_html = "".join(horizon_block(a, h, stamp, live) for h in a['horizons'] if is_call(h))
     drivers_html = "".join(f'<li>{E(d)}</li>' for d in st.get('drivers', []))
     drivers_block = (f'<ul class="drivers">{drivers_html}</ul>{note_stamp(stamp)}'
                      if drivers_html else '')
@@ -513,7 +519,7 @@ def ticker_strip(doc, live=None):
         by_h = {h['h']: h for h in a['horizons']}
         h1 = by_h[1]
         role, hexval, arrow = CALL_STATUS.get(h1['call'], ('flat', '#898781', '▬'))
-        horizons_html = "".join(tape_horizon_badge(by_h[h]) for h in (1, 5, 10))
+        horizons_html = "".join(tape_horizon_badge(by_h[h]) for h in (1, 5, 10) if is_call(by_h[h]))
         items.append(f'''
       <div class="tape-item" style="--dot:{hexval}">
         <div class="tape-head">
@@ -1240,7 +1246,8 @@ def call_log_section(all_docs: dict) -> str:
         doc = all_docs[date]
         for a in doc['assets']:
             for h in sorted(a['horizons'], key=lambda h: h['h']):
-                rows.append(log_row(date, a, h))
+                if is_call(h):
+                    rows.append(log_row(date, a, h))
 
     caption = f"showing the {len(shown_dates)} most recent session(s) ({len(rows)} calls)"
     if len(dates) > len(shown_dates):
