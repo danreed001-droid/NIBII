@@ -81,6 +81,76 @@ def realized_vol(closes, k, window=63, bump=0.10, floor=0.20):
     return max(floor, sd + bump)
 
 
+SLEEVE_OTM, SLEEVE_IV, SLEEVE_DAYS, SLEEVE_SPREAD = 1.20, 0.80, 182, 0.04
+
+
+def third_friday(y, m):
+    d = date(y, m, 15)
+    return d.replace(day=15 + (4 - d.weekday()) % 7)
+
+
+def sleeve_call(closes, today, rate=0.04):
+    """The call-sleeve trade for one stock at best-case pricing: a ~6-month call 20%
+    out of the money, worth buying only while its implied volatility is at most 0.8 x
+    the stock's 63-day realized volatility (the price the backtest's best case assumed)
+    and the bid/ask is at most 4% of the mid price. `closes` = recent daily closes,
+    oldest first. Returns dict(price, rv, maxIv, strike, expiry, maxPrice) or None."""
+    if len(closes) < 64 or not closes[-1]:
+        return None
+    s = closes[-1]
+    rv = realized_vol(closes, len(closes) - 1, bump=0.0, floor=0.0)
+    t0 = date.fromisoformat(today)
+    target = t0.toordinal() + SLEEVE_DAYS
+    cands = [third_friday(t0.year + (t0.month - 1 + n) // 12, (t0.month - 1 + n) % 12 + 1) for n in range(4, 10)]
+    exp = min(cands, key=lambda d: abs(d.toordinal() - target))
+    step = 1 if s < 50 else 5 if s < 200 else 10
+    k = round(s * SLEEVE_OTM / step) * step
+    iv = max(0.20, rv * SLEEVE_IV)
+    px = bs_call(s, k, (exp.toordinal() - t0.toordinal()) / 365.0, iv, rate)
+    return dict(price=round(s, 2), rv=round(rv, 4), maxIv=round(iv, 4), strike=k, expiry=exp.isoformat(),
+                maxPrice=round(px, 2))
+
+
+def implied_vol(price, s, k, t, rate=0.04):
+    """Black-Scholes implied volatility of a call price (bisection); None if out of range."""
+    if price <= max(0.0, s - k * math.exp(-rate * t)) or t <= 0:
+        return None
+    lo, hi = 0.01, 5.0
+    for _ in range(80):
+        mid = (lo + hi) / 2
+        if bs_call(s, k, t, mid, rate) > price:
+            hi = mid
+        else:
+            lo = mid
+    return (lo + hi) / 2
+
+
+def quote_check(ticker, call, today):
+    """Live best-case check for a sleeve call from the option chain (yfinance): the
+    listed expiry and strike nearest the target, bid/ask, mid, implied vol of the mid,
+    and ok = True/False (None when there is no two-sided quote, e.g. outside market hours)."""
+    try:
+        import yfinance as yf
+        tk = yf.Ticker(ticker)
+        exps = list(tk.options or [])
+        if not exps:
+            return None
+        exp = min(exps, key=lambda e: abs(date.fromisoformat(e).toordinal() - date.fromisoformat(call['expiry']).toordinal()))
+        ch = tk.option_chain(exp).calls
+        row = ch.iloc[(ch['strike'] - call['strike']).abs().argsort()[:1]]
+        k, bid, ask = float(row['strike'].iloc[0]), float(row['bid'].iloc[0] or 0), float(row['ask'].iloc[0] or 0)
+    except Exception:   # noqa: BLE001 - quotes are best effort
+        return None
+    out = dict(expiry=exp, strike=k, bid=round(bid, 2), ask=round(ask, 2), mid=None, iv=None, spread=None, ok=None)
+    if bid > 0 and ask >= bid:
+        mid = (bid + ask) / 2
+        t = (date.fromisoformat(exp).toordinal() - date.fromisoformat(today).toordinal()) / 365.0
+        iv = implied_vol(mid, call['price'], k, t)
+        out.update(mid=round(mid, 2), spread=round((ask - bid) / mid, 4), iv=round(iv, 4) if iv else None)
+        out['ok'] = bool(iv and iv <= call['maxIv'] and (ask - bid) / mid <= SLEEVE_SPREAD)
+    return out
+
+
 def _years(d0, d1):
     return (date.fromisoformat(d1) - date.fromisoformat(d0)).days / 365.0
 

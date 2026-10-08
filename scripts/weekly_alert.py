@@ -72,6 +72,9 @@ def build(scan, owner=None):
             items.append('**If you follow Boost 100% or Boost + cushion (boost list + blow-off exit):** '
                          + ', '.join([f"sell {t}" + (" (blow-off exit)" if t in blown else "") for t in xs] + [f"buy {t}" for t in xb]))
             tags.append('boost 100%: ' + ', '.join([f"sell {t}" for t in xs] + [f"buy {t}" for t in xb]))
+        cl = call_line(bx, xb, xs)
+        if cl:
+            items.append(cl)
     if bx and 'armedAt' in bx and bx.get('armedAt') != bx.get('prevArmed'):
         on = bx['armedAt']
         items.append(f"**Blow-off exit {'ON' if on else 'OFF'}** (Boost 100% and Boost + cushion): "
@@ -117,6 +120,27 @@ def build(scan, owner=None):
     return title[:240], '\n'.join(lines) + '\n'
 
 
+def call_line(bx, buys, sells):
+    """The call sleeve: on each new stock, a best-case-priced 6-month call 20% out of the money; sell it with the stock."""
+    calls, parts = bx.get('calls') or {}, []
+    bud = round((bx.get('callBudget') or 0.10) * 100)
+    for t in buys:
+        c = calls.get(t)
+        if not c:
+            continue
+        q = c.get('quote') or {}
+        live = (' - live check: best case' if q.get('ok') else ' - live check: NOT best case, skip unless it improves'
+                if q.get('ok') is False else '')
+        parts.append(f"buy {t} ${c['strike']:g} call exp {fmt(c['expiry'])} {c['expiry'][:4]} - pay at most ${c['maxPrice']:.2f} "
+                     f"(${c['maxPrice'] * 100:,.0f}/contract), only if IV <= {round(c['maxIv'] * 100)}% and bid/ask <= "
+                     f"{round((bx.get('callSpread') or 0.04) * 100)}% of mid; otherwise skip{live}")
+    parts += [f"sell your {t} call" for t in sells]
+    if not parts:
+        return None
+    return (f"**Call sleeve (20% OTM, best-case pricing only, ~{bud}% of the account split across the calls held):** "
+            + '; '.join(parts))
+
+
 def midweek(scan, owner=None):
     """A blow-off exit sale decided at a weekday close other than Friday's: it fills at the next close."""
     bx = ((scan.get('plan') or {}).get('auto') or {}).get('boostx') or {}
@@ -129,6 +153,7 @@ def midweek(scan, owner=None):
              f"The blow-off exit fired at today's close ({fmt(scan['asOf'])}): the sold stock's last month's gain is more than "
              f"{bx.get('mult', 2):g}x its gain over the 5 months before. The exit is on because SPY is below its "
              f"{bx.get('ma', 150)}-day average. Swap the same dollar amount; the rest of the account stays as it is.",
+             *(['', call_line(bx, mw.get('buy') or [], mw.get('sell') or [])] if call_line(bx, mw.get('buy') or [], mw.get('sell') or []) else []),
              '', "Auto, Boost and Steps: nothing to do.", '',
              f"Details: {PAGE}", '',
              (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
