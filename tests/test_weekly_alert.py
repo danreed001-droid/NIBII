@@ -81,3 +81,13 @@ def test_midweek_blowoff_sale_sends_its_own_alert():
     assert 'fired at today\'s close (Tue Oct 6)' in body and '@someone' in body
     s['plan']['auto']['boostx']['midweek'] = None
     assert alert.build(s, None) is None
+
+
+def test_call_sleeve_line_lists_best_case_limits():
+    s = scan()
+    s['plan']['auto']['boostx'] = dict(holdings=['AAA', 'CCC'], prev=['AAA', 'BBB'], sell=['BBB'], buy=['CCC'], blown=[],
+                                       callSpread=0.04, calls={'CCC': dict(price=100.0, rv=0.6, maxIv=0.48, strike=120,
+                                                                         expiry='2027-04-16', maxPrice=8.25)})
+    title, body = alert.build(s, None)
+    assert 'Call sleeve (20% OTM, best-case pricing only, ~10% of the account' in body and 'buy CCC $120 call exp Fri Apr 16 2027' in body
+    assert 'pay at most $8.25 ($825/contract), only if IV <= 48% and bid/ask <= 4% of mid' in body and 'sell your BBB call' in body

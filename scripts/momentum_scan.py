@@ -37,6 +37,7 @@ from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import blowoff_exit, last_sessions_of_weeks, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.heat import daily_heat, weekly_heat  # noqa: E402
+from mtl.options_sim import SLEEVE_SPREAD, quote_check, sleeve_call  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -583,6 +584,16 @@ def main():
         weeksDiff=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and set(held_at_bx(f_)) != set(held_at_b(f_))),
         stops=rbx.get('stops', 0),
         armedAt=armed_bx[kidx[sig_d]], prevArmed=armed_bx[kidx[prev_d]])
+
+    def call_for(t):   # optional call sleeve: the 20% OTM 6-month call at best-case pricing
+        cl = [prices[t].get(calendar[k_]) for k_ in range(max(0, K - 80), K + 1)]
+        c = sleeve_call([c for c in cl if c], as_of)
+        if c and '--no-quotes' not in sys.argv:
+            c['quote'] = quote_check(t, c, as_of)
+        return c
+    auto['boostx']['calls'] = {t: call_for(t) for t in after_bx}
+    auto['boostx']['callSpread'] = SLEEVE_SPREAD
+    auto['boostx']['callBudget'], auto['boostx']['callSleeve'] = 0.10, 0.20
     # a blow-off sale decided at today's close on a weekday other than Friday fills at the next
     # session's close: flag it so the alert can go out the same evening
     pend_bx = rbx.get('pending')
@@ -593,6 +604,8 @@ def main():
         auto['boostx']['midweek'] = dict(
             date=nd_.isoformat(), sell=[t for t in hold_bx if t not in pend_bx], buy=[t for t in pend_bx if t not in hold_bx],
             blown=[t for t in hold_bx if t not in pend_bx and blow_now(t, K)])
+        for t in auto['boostx']['midweek']['buy']:
+            auto['boostx']['calls'][t] = call_for(t)
     auto['cushion'] = dict(share=CUSHION, split=split_key(cushion_split(sig_d)), prevSplit=split_key(cushion_split(prev_d)),
                            ma=CUSHION_MA, spyGap=r4(spy_gap(sig_d)), previewSplit=split_key(cushion_split(as_of)), previewSpyGap=r4(spy_gap(as_of)),
                            weeksLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and cushion_split(f_) < 1),

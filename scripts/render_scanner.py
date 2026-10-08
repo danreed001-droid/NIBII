@@ -522,7 +522,24 @@ footer li { margin-bottom: 6px; }
     return '<br><span class="muted">Blow-off exit: a holding is sold when its last month’s gain is more than ' + m + '× its gain over the 5 months before (it tends to give that back), and the slot goes to the next-ranked stock; it can come back after 4 weeks. ' +
       'It is switched on only in a weak market: while SPY closes below its ' + X.ma + '-day average (on in ' + X.armedWeeks + (A.cushion ? ' of ' + A.cushion.weeks : '') + ' weeks since ' + SINCE + '). In weak markets and rebounds, blow-offs fade; in steady uptrends selling them cost money. ' + on +
       ' Each holding now (last month ÷ prior 5 months, sells at ' + m + (X.armed ? '' : ' when on') + '): ' + X.holdings.map(function (t) { var r = X.ratio[t]; return esc(t) + ' ' + (r == null ? '–' : r.toFixed(2)); }).join(' · ') +
-      (X.blown.length ? ' · this week it sells <b>' + X.blown.map(esc).join(', ') + '</b> on the exit' : '') + '.</span>';
+      (X.blown.length ? ' · this week it sells <b>' + X.blown.map(esc).join(', ') + '</b> on the exit' : '') + '.</span>' + callNote(X);
+  }
+  function callNote(X) {   // optional call sleeve: best-case pricing only, ~10% of the account split across the calls held
+    var C = X.calls || {}, ts = X.holdings.filter(function (t) { return C[t]; });
+    if (!ts.length) return '';
+    var mo = function (d) { return fmtDate(d, { month: 'short', day: 'numeric', year: 'numeric' }); };
+    var bud = Math.round((X.callBudget || 0.1) * 100), sl = Math.round((X.callSleeve || 0.2) * 100);
+    function q(c) {
+      var Q = c.quote;
+      if (!Q) return ' · live quote: none';
+      if (Q.ok == null) return ' · live quote: no bid/ask right now (check at the open)';
+      return ' · live: bid ' + Q.bid.toFixed(2) + ' / ask ' + Q.ask.toFixed(2) + ', IV ' + Math.round(Q.iv * 100) + '%, spread ' + Math.round(Q.spread * 100) + '% → ' + (Q.ok ? '<b>best case: yes</b>' : '<b>not best case: skip</b>');
+    }
+    return '<br><span class="muted"><b>Call sleeve</b> (' + sl + '% of the account; the cash part in T-bills): when a stock enters, buy a ~6-month call 20% above its price, sell it when the plan sells the stock. ' +
+      '<b>Only at best-case pricing</b>: implied volatility at or below the max IV shown and bid/ask no wider than ' + Math.round((X.callSpread || 0.04) * 100) + '% of the mid; limit order at the mid, otherwise skip. ' +
+      'Size: about ' + bud + '% of the account split across the calls you hold (1 call ' + bud + '%, 2 calls ' + bud / 2 + '% each, 5 calls ' + bud / 5 + '% each). ' +
+      ts.map(function (t) { var c = C[t]; return '<b>' + esc(t) + '</b> $' + c.strike + ' call, ' + mo(c.expiry) + ': max $' + c.maxPrice.toFixed(2) + ' ($' + Math.round(c.maxPrice * 100).toLocaleString() + ' a contract), max IV ' + Math.round(c.maxIv * 100) + '%' + q(c); }).join(' · ') +
+      '. The max price is modeled from the stock’s own volatility; the live check uses the option chain at the last update.</span>';
   }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function pct(x, dp) { if (x == null) return '–'; var v = x * 100, d = dp == null ? (Math.abs(v) >= 100 ? 0 : 1) : dp; return (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(d) + '%'; }

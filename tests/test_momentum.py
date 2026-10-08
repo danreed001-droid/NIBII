@@ -377,3 +377,13 @@ def test_market_armed_below_moving_average():
     assert blowoff_exit({'X': spike, 'M': m}, cal, market='M', ma=50)('X', 299) is True
     flat_up = {d: 100.0 + i for i, d in enumerate(cal)}
     assert blowoff_exit({'X': spike, 'M': flat_up}, cal, market='M', ma=50)('X', 299) is False
+
+
+def test_sleeve_call_best_case_limits():
+    import math
+    from mtl.options_sim import sleeve_call
+    cl = [100 * math.exp(0.002 * i + 0.02 * math.sin(i)) for i in range(100)]
+    c = sleeve_call(cl, '2026-10-08')
+    assert c['expiry'] == '2027-04-16' and c['strike'] == round(cl[-1] * 1.2 / 5) * 5
+    assert abs(c['maxIv'] - max(0.20, c['rv'] * 0.8)) < 1e-3 and 0 < c['maxPrice'] < cl[-1] * 0.2
+    assert sleeve_call(cl[:30], '2026-10-08') is None
