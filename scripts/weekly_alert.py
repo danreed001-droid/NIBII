@@ -62,10 +62,16 @@ def build(scan, owner=None):
     if boost.get('sell') or boost.get('buy'):
         bs, bb = boost.get('sell') or [], boost.get('buy') or []
         if (bs, bb) != (sells, buys):
-            items.append('**If you follow Boost or Boost 100% (news boost list):** ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
+            items.append('**If you follow Boost, Boost 100% or Boost + cushion (news boost list):** ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
             tags.append('boost: ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
     if boost.get('split') and boost.get('prevSplit') and boost['split'] != boost['prevSplit']:
         items.append(f"**Boost mix:** {boost['prevSplit']} → **{boost['split']}** (Boost 100% stays fully in the stocks: nothing to change)")
+    cush = auto.get('cushion') or {}
+    if cush.get('split') and cush.get('prevSplit') and cush['split'] != cush['prevSplit']:
+        to_sleeve = cush['split'] != '100/0'
+        items.append(f"**Boost + cushion:** {cush['prevSplit']} → **{cush['split']}** (SPY {pctw(cush.get('spy6m') or 0)} over 6 months; "
+                     + ("move 25% of the stocks into the sleeve" if to_sleeve else "move the sleeve part back into the Boost list") + ")")
+        tags.append(f"cushion {cush['split']}")
     if not items:
         return None
     hold = [h['t'] for h in sorted(scan.get('holdings') or [], key=lambda h: h.get('rank') or 99)]
@@ -83,6 +89,9 @@ def build(scan, owner=None):
         b_s = int(boost['split'].split('/')[0]) / 100
         lines.append(f"| Boost | {pctw(b_s)} | {pctw(1 - b_s)} | 0% |")
         lines.append("| Boost 100% | 100% | 0% | 0% |")
+    if cush.get('split'):
+        c_s = int(cush['split'].split('/')[0]) / 100
+        lines.append(f"| Boost + cushion | {pctw(c_s)} | {pctw(1 - c_s)} | 0% |")
     if steps.get('split'):
         s_s = int(steps['split'].split('/')[0]) / 100
         lines.append(f"| Steps | {pctw(s_s)} | {pctw(1 - s_s)} | 0% |")

@@ -75,3 +75,16 @@ def test_boost100_call_holds_the_boost_list_fully_in_stocks():
     r = score({'2024-01-05': {'m': 'boost100'}}, cal, weeks, lambda d: ['A'], lambda f: {}, closes, flat, flat,
               slots_n=1, boost_picks_at=lambda d: ['B'])
     assert r['weeks'][0][2] == ['B'] and abs(r['curve'][-1][1] - 1.2) < 1e-9
+
+
+def test_cushion_call_uses_the_boost_list_and_the_cushion_share():
+    from mtl.human import mix_of, score
+    assert mix_of({'m': 'cushion'}, 0.6, 0.6, 0.4, 0.75) == (0.75, 0.25, 0.0)
+    assert mix_of({'m': 'cushion'}, 0.6, 0.6, 0.4) == (1.0, 0.0, 0.0)
+    cal = ['2024-01-05', '2024-01-08', '2024-01-09']
+    closes = {'A': {d: 10.0 for d in cal}, 'B': {'2024-01-05': 10.0, '2024-01-08': 10.0, '2024-01-09': 12.0}}
+    flat = {d: 1.0 for d in cal}
+    weeks = [('2024-01-05', '2024-01-08', 1.0, 1.0, 1.0, 0.75)]
+    r = score({'2024-01-05': {'m': 'cushion'}}, cal, weeks, lambda d: ['A'], lambda f: {}, closes, flat, flat,
+              slots_n=1, boost_picks_at=lambda d: ['B'])
+    assert r['weeks'][0][2] == ['B'] and abs(r['curve'][-1][1] - (0.75 * 1.2 + 0.25)) < 1e-9
