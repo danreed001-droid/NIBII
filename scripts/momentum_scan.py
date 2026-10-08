@@ -230,7 +230,7 @@ def main():
     tickers = sorted(names)
     print(f"Fetching daily history for {len(tickers)} stocks + SPY/QQQ...", file=sys.stderr)
     bars = fetch(tickers)
-    bench = fetch(['SPY', 'QQQ'], adjusted=True)
+    bench = fetch(['SPY', 'QQQ', 'SPMO'], adjusted=True)   # SPMO: S&P 500 Momentum ETF, from Oct 2015
     sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in fetch(ASSETS, adjusted=True).items()}
     prices = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items() if bs}
     prices['SPY'] = {b[0]: b[4] for b in bench['SPY']}
@@ -360,6 +360,9 @@ def main():
     spy = [[d, c] for d, c in ((b[0], b[4]) for b in bench['SPY']) if d >= START]
     qqq = [[d, c] for d, c in ((b[0], b[4]) for b in bench['QQQ']) if d >= START]
     curves = {'strategy': growth(strat), 'SPY': growth(spy), 'QQQ': growth(qqq)}
+    spmo = [[b[0], b[4]] for b in bench.get('SPMO') or [] if b[0] >= START]
+    if spmo:
+        curves['SPMO'] = growth(spmo)   # starts later than the rest: the page lines it up with SPY on its first day
 
     # the plan: top 5 + best-of sleeve at each split, no leverage
     sl_curve, sl_picks = sleeve_curve(sleeve_px, calendar, START)
@@ -639,6 +642,9 @@ def main():
             mine = dict(sig=signature(my_calls), curve=scored['curve'], base=base['curve'], weeks=scored['weeks'][-60:])
 
     years = {k: yearly(v) for k, v in curves.items()}
+    for k, v in curves.items():   # a curve that starts mid-year (SPMO, Oct 2015): no return for that part year
+        if v and v[0][0][5:] > '01-15':
+            years[k].pop(v[0][0][:4], None)
     stats = {k: curve_stats([p[1] for p in v]) for k, v in curves.items()}
     one_year = {k: (v[-1][1] / next(p[1] for p in v if p[0] >= calendar[max(0, K - 252)]) - 1) for k, v in curves.items()}
 
