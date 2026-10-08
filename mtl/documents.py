@@ -11,7 +11,7 @@ was added.
 import glob
 import os
 
-NON_DOCUMENT_FILES = {"live.json"}
+NON_DOCUMENT_FILES = {"live.json", "growth_rank.json"}  # growth_rank.json: scripts/fetch_growth_rank.py
 
 
 def iter_document_paths(documents_dir):

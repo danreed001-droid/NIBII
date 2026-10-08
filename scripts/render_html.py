@@ -14,10 +14,11 @@ import math
 import os
 import re
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from mtl import growth_rank
 from mtl.documents import iter_document_paths
 from mtl.record import aggregate
 from mtl.calendar_nyse import is_trading_day, most_recent_completed_session, next_trading_day
@@ -954,6 +955,7 @@ table.log tbody tr:hover {{ background: color-mix(in srgb, var(--accent) 6%, tra
 <p class="section-label">The board</p>
 {assets}
 
+{growth}
 <p class="section-label">Track record</p>
 {record}
 
@@ -1364,8 +1366,160 @@ SUBMIT_NEWS_URL = "https://github.com/danreed001-droid/NIBII/issues/new?template
 REFRESH_URL = "https://github.com/danreed001-droid/NIBII/actions/workflows/daily-fetch.yml"
 
 
+# --- Growth ranking grid (data: documents/growth_rank.json, written by
+# scripts/fetch_growth_rank.py; logic in mtl/growth_rank.py) ---------------
+
+GROWTH_UP, GROWTH_DOWN = '#0ca30c', '#d03b3b'  # the page's bull/bear colours
+
+GROWTH_CSS = """
+<style>
+.gr {
+  background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px;
+  padding: 18px 18px 14px; margin-bottom: 28px;
+}
+.gr-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 6px; font-size: 0.8rem; color: var(--ink-2); }
+.gr-controls-label { min-width: 62px; }
+.gr-btn { border: 1px solid var(--hairline); background: transparent; color: var(--ink-2); border-radius: 999px;
+  padding: 5px 12px; font: inherit; font-size: 0.8rem; cursor: pointer; }
+.gr-btn:hover { border-color: var(--muted); color: var(--ink); }
+.gr-btn[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.gr-note, .gr-sub { margin: 4px 0 10px; font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+.gr-sub { color: var(--ink-2); }
+.gr[data-mode="range"] .gr-note[data-for="sigma"], .gr[data-mode="sigma"] .gr-note[data-for="range"] { display: none; }
+.gr[data-view="weekly"] .gr-view[data-view="daily"], .gr[data-view="daily"] .gr-view[data-view="weekly"] { display: none; }
+.gr[data-mode="range"] .gr-z { display: none; }
+.gr-scroll { overflow-x: auto; }
+table.gr-table { width: 100%; min-width: 560px; border-collapse: separate; border-spacing: 3px; table-layout: fixed;
+  font-size: 0.75rem; font-variant-numeric: tabular-nums; }
+table.gr-table col.gr-label-col { width: 112px; }
+table.gr-table th { font-weight: 600; color: var(--muted); font-size: 0.68rem; text-align: center; padding: 4px 2px; }
+table.gr-table th.gr-label { text-align: left; white-space: nowrap; color: var(--ink-2); padding-right: 8px; }
+table.gr-table th.gr-label em { font-weight: 400; color: var(--muted); }
+.gr-name { display: block; color: var(--ink); }
+.gr-tk { display: block; font-weight: 400; font-size: 0.62rem; }
+table.gr-table td { text-align: center; padding: 5px 2px; border-radius: 6px; line-height: 1.2; }
+table.gr-table tbody td:not(.gr-na) { background: var(--gr-bg-range); color: var(--gr-fg-range); }
+.gr[data-mode="sigma"] table.gr-table tbody td:not(.gr-na) { background: var(--gr-bg-sigma); color: var(--gr-fg-sigma); }
+.gr-rank { display: block; font-size: 0.95rem; font-weight: 700; }
+.gr-detail { display: block; font-size: 0.62rem; opacity: 0.85; }
+td.gr-na { color: var(--muted); }
+table.gr-table tfoot td { color: var(--ink); font-weight: 600; }
+table.gr-table tr.gr-sum td { font-size: 0.92rem; border-top: 1px solid var(--hairline); }
+td.gr-up { color: #0ca30c; } td.gr-down { color: #d03b3b; }
+</style>
+"""
+
+GROWTH_JS = """
+<script>
+(function () {
+  var gr = document.getElementById('growthRank');
+  if (!gr) return;
+  // Two independent toggles: weekly/daily (data-view) and shading (data-mode).
+  function toggle(selector, attr, key, values) {
+    var buttons = gr.querySelectorAll(selector);
+    function set(value) {
+      gr.setAttribute('data-' + attr, value);
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].setAttribute('aria-pressed', String(buttons[i].getAttribute('data-' + attr) === value));
+      }
+      try { localStorage.setItem(key, value); } catch (e) {}
+    }
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function () { set(this.getAttribute('data-' + attr)); });
+    }
+    var saved = null;
+    try { saved = localStorage.getItem(key); } catch (e) {}
+    if (values.indexOf(saved) >= 0) set(saved);
+  }
+  toggle('.gr-view-btn', 'view', 'mtl-gr-view', ['weekly', 'daily']);
+  toggle('.gr-mode-btn', 'mode', 'mtl-gr-mode', ['range', 'sigma']);
+})();
+</script>
+"""
+
+
+def _growth_shade(pct, frac, mode):
+    """CSS custom properties for one shading mode: hue = direction (the
+    page's bull green / bear red), strength = frac in [0, 1]."""
+    strength = 15 + 70 * max(0.0, min(frac, 1.0))
+    colour = GROWTH_UP if pct >= 0 else GROWTH_DOWN
+    text = '#ffffff' if strength > 55 else 'var(--ink)'
+    return (f'--gr-bg-{mode}: color-mix(in srgb, {colour} {strength:.0f}%, var(--surface)); '
+            f'--gr-fg-{mode}: {text};')
+
+
+def _growth_table(grid, view):
+    weekly = view == 'weekly'
+    unit, units, adj = ('week', 'weeks', 'weekly') if weekly else ('day', 'days', 'daily')
+    if not grid:
+        return f'<div class="gr-view" data-view="{view}"><p class="gr-sub">{adj.capitalize()} data unavailable this run.</p></div>'
+    assets = grid['assets']
+    head = ''.join(f'<th><span class="gr-name">{E(name)}</span><span class="gr-tk">{E(t)}</span></th>'
+                   for t, name in assets)
+    max_abs = {t: max((abs(r['cells'][t]['pct']) for r in grid['rows'] if t in r['cells']), default=0)
+               for t, _ in assets}
+    body = []
+    for row in grid['rows']:
+        d = date.fromisoformat(row['period'])
+        label = f"{d:%b} {d.day}, {d.year}" if weekly else f"{d:%a %b} {d.day}"
+        if row['partial']:
+            label += ' <em>(to date)</em>' if weekly else ' <em>(live)</em>'
+        when = f"week ending {d:%b} {d.day}" if weekly else f"{d:%a %b} {d.day}"
+        tds = []
+        for t, name in assets:
+            c = row['cells'].get(t)
+            if not c:
+                tds.append('<td class="gr-na">–</td>')
+                continue
+            z = c.get('z')
+            normal = f" vs. normal ±{c['sigma']:.2f}% ({abs(z):.1f}× normal)" if z is not None else ''
+            tip = f"{name}, {when}: {c['pct']:+.2f}%{normal} — rank {c['rank']} of {row['n']}"
+            style = (_growth_shade(c['pct'], abs(c['pct']) / max_abs[t] if max_abs[t] else 0, 'range')
+                     + _growth_shade(c['pct'], abs(z) / growth_rank.SIGMA_CAP if z is not None else 0, 'sigma'))
+            z_html = f'<span class="gr-z"> · {abs(z):.1f}σ</span>' if z is not None else ''
+            tds.append(f'<td style="{style}" title="{E(tip)}"><span class="gr-rank">{c["rank"]}</span>'
+                       f'<span class="gr-detail">{c["pct"]:+.1f}%{z_html}</span></td>')
+        body.append(f'<tr><th class="gr-label">{label}</th>{"".join(tds)}</tr>')
+    sums = ''.join(f'<td>{grid["rankSum"][t]}</td>' for t, _ in assets)
+    growth = ''.join(
+        f'<td class="{"gr-up" if g >= 0 else "gr-down"}">{g:+.1f}%</td>' if g is not None else '<td class="gr-na">–</td>'
+        for g in (grid['growth'].get(t) for t, _ in assets))
+    n = len(grid['rows'])
+    start = date.fromisoformat(grid['start'])
+    period_desc = 'Friday close to Friday close' if weekly else 'close to close, trading days every asset traded'
+    return f"""<div class="gr-view" data-view="{view}">
+  <p class="gr-sub">Each {unit} ({period_desc}), the assets are ranked by their % change: <strong>1</strong> = best gain that {unit}. The <strong>sum of {adj} ranks</strong> over the last {n} {units} (since {start:%b} {start.day}, {start.year}) is at the bottom — lowest sum = best. Green = up, red = down. Hover a cell for details.</p>
+  <div class="gr-scroll"><table class="gr-table">
+    <colgroup><col class="gr-label-col">{'<col>' * len(assets)}</colgroup>
+    <thead><tr><th class="gr-label">{'Week ending' if weekly else 'Day'}</th>{head}</tr></thead>
+    <tbody>{''.join(body)}</tbody>
+    <tfoot><tr class="gr-sum"><th class="gr-label">Sum of ranks</th>{sums}</tr>
+      <tr><th class="gr-label">{n}-{unit} growth</th>{growth}</tr></tfoot>
+  </table></div>
+</div>"""
+
+
+def growth_rank_section(data):
+    """The Growth ranking card, or '' when there's no documents/growth_rank.json yet."""
+    if not data or not (data.get('weekly') or data.get('daily')):
+        return ''
+    return f"""<p class="section-label">Growth ranking</p>
+{GROWTH_CSS}<div class="gr" id="growthRank" data-view="weekly" data-mode="range">
+  <div class="gr-controls" role="group" aria-label="View"><span class="gr-controls-label">View:</span>
+    <button type="button" class="gr-btn gr-view-btn" data-view="weekly" aria-pressed="true">Weekly · {growth_rank.WEEKS} weeks</button>
+    <button type="button" class="gr-btn gr-view-btn" data-view="daily" aria-pressed="false">Daily · {growth_rank.DAYS} days</button></div>
+  <div class="gr-controls" role="group" aria-label="Shading"><span class="gr-controls-label">Shade by:</span>
+    <button type="button" class="gr-btn gr-mode-btn" data-mode="range" aria-pressed="true">Own range</button>
+    <button type="button" class="gr-btn gr-mode-btn" data-mode="sigma" aria-pressed="false">vs. normal move (σ)</button></div>
+  <p class="gr-note" data-for="range">Darker = a bigger move <em>for that asset</em> — each column's largest move in the window is darkest.</p>
+  <p class="gr-note" data-for="sigma">Darker = further off that asset's <em>normal</em> move (σ = std dev of its prior {growth_rank.BASELINE_WEEKS} weekly / {growth_rank.BASELINE_DAYS} daily changes) — pale = a normal move, darkest = {growth_rank.SIGMA_CAP:g}σ or more.</p>
+{_growth_table(data.get('weekly'), 'weekly')}
+{_growth_table(data.get('daily'), 'daily')}
+</div>{GROWTH_JS}"""
+
+
 def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dict = None,
-           news_log: list = None) -> str:
+           news_log: list = None, growth: dict = None) -> str:
     board_news = doc.get('context', {}).get('newsLog', [])
     later = news_after(news_log, doc['date'])
     stamp = board_stamp(doc)
@@ -1380,7 +1534,7 @@ def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dic
         date=doc['date'], tape=ticker_strip(doc, live), stats=stat_tiles(doc),
         assets=assets_html, record=track_record_section(docs), log=call_log_section(docs),
         freshness=freshness_html(doc, live, rebuilt), submit_url=SUBMIT_NEWS_URL,
-        refresh_url=REFRESH_URL,
+        refresh_url=REFRESH_URL, growth=growth_rank_section(growth),
     )
 
 
@@ -1390,6 +1544,13 @@ def load_all_documents(documents_dir):
         doc = json.load(open(path))
         docs[doc['date']] = doc
     return docs
+
+
+def load_growth_rank(documents_dir):
+    path = os.path.join(documents_dir, "growth_rank.json")
+    if not os.path.exists(path):
+        return None
+    return json.load(open(path))
 
 
 def load_live(documents_dir):
@@ -1421,7 +1582,8 @@ def main(s: str):
     live = load_live(documents_dir)
     news_path = os.path.join(root, "data", "news_log.json")
     news_log = json.load(open(news_path)) if os.path.exists(news_path) else None
-    page = render(doc, all_docs, live=live, news_log=news_log)
+    page = render(doc, all_docs, live=live, news_log=news_log,
+                  growth=load_growth_rank(documents_dir))
 
     out_path = os.path.join(documents_dir, "latest.html")
     with open(out_path, "w") as f:

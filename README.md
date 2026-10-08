@@ -71,6 +71,7 @@ assert verify_document(doc) == []
 | `fetch.py` | yfinance (+ FRED for the 2-year) layer. Computes RSI and moving averages **locally** from the close series |
 | `structure.py` | swing highs/lows and HH/HL/LH/LL trend labeling - see "Market structure" below |
 | `build.py` | inputs + votes -> document |
+| `growth_rank.py` | the page's **Growth ranking** grid (display only, never touches a call): Nasdaq, S&P 500, Dollar, Crude, Gold and the 10-Year ranked by % change each week (last 26) or day (last 30 trading days), 1 = best gain, with each asset's sum of ranks; Weekly/Daily and shading (own range / vs. normal move, σ) toggles. `scripts/fetch_growth_rank.py` writes `documents/growth_rank.json` on every daily-fetch run; `render_html.py` draws it. Same grid as the moneyflow-update page |
 
 ## The daily cycle
 

@@ -132,6 +132,10 @@ jobs:
       - name: Fetch a live price snapshot for the ticker strip
         run: python scripts/fetch_live.py
 
+      - name: Fetch the growth ranking grid's weekly/daily data
+        # Display overlay only; a Yahoo hiccup must never block the re-render.
+        run: python scripts/fetch_growth_rank.py || echo "growth ranking fetch failed - keeping the previous file"
+
       - name: Re-render the latest published report with fresh live prices
         run: |
           LATEST=$(python scripts/latest_document_date.py)
