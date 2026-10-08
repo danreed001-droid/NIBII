@@ -47,7 +47,7 @@ def test_boost_list_changes_are_listed_when_they_differ():
 def test_cushion_switch_is_an_action():
     from scripts.weekly_alert import build
     s = scan()
-    s['plan']['auto']['cushion'] = dict(share=0.75, split='75/25', prevSplit='100/0', spy6m=-0.031)
+    s['plan']['auto']['cushion'] = dict(share=0.75, split='75/25', prevSplit='100/0', ma=150, spyGap=-0.031)
     title, body = build(s, None)
     assert 'cushion 75/25' in title and 'Boost + cushion:** 100/0 → **75/25**' in body
     assert 'move 25% of the stocks into the sleeve' in body and '| Boost + cushion | 75% | 25% | 0% |' in body
