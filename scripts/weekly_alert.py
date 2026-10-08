@@ -29,9 +29,9 @@ def pctw(w):
 
 
 def build(scan, owner=None):
-    """(title, body) or None when there's nothing to do Monday."""
+    """(title, body) or None when there's nothing to do Monday (or, midweek, no blow-off sale)."""
     if not scan.get('signalDay'):
-        return None
+        return midweek(scan, owner)
     ch = scan.get('changes') or {}
     sells, buys = ch.get('sell') or [], ch.get('buy') or []
     sl = scan.get('sleeve') or {}
@@ -72,6 +72,13 @@ def build(scan, owner=None):
             items.append('**If you follow Boost 100% or Boost + cushion (boost list + blow-off exit):** '
                          + ', '.join([f"sell {t}" + (" (blow-off exit)" if t in blown else "") for t in xs] + [f"buy {t}" for t in xb]))
             tags.append('boost 100%: ' + ', '.join([f"sell {t}" for t in xs] + [f"buy {t}" for t in xb]))
+    if bx and 'armedAt' in bx and bx.get('armedAt') != bx.get('prevArmed'):
+        on = bx['armedAt']
+        items.append(f"**Blow-off exit {'ON' if on else 'OFF'}** (Boost 100% and Boost + cushion): "
+                     + ("SPY's 6-month return turned negative, so from now on a holding whose last month's gain is more than "
+                        f"{bx.get('mult', 2):g}x its prior 5 months' is sold - an alert goes out the evening it happens"
+                        if on else f"SPY's 6-month return has not been negative for {bx.get('within', 126)} trading days, so holdings are kept through blow-offs again"))
+        tags.append(f"blow-off exit {'on' if on else 'off'}")
     if boost.get('split') and boost.get('prevSplit') and boost['split'] != boost['prevSplit']:
         items.append(f"**Boost mix:** {boost['prevSplit']} → **{boost['split']}** (Boost 100% stays fully in the stocks: nothing to change)")
     cush = auto.get('cushion') or {}
@@ -107,6 +114,25 @@ def build(scan, owner=None):
     lines += ['', f"Exact dollars and shares for your account: {PAGE} (type your amount in the Account box).", '',
               (f"@{owner} " if owner else '') + "— sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
     title = f"Trade {fmt(scan['tradeDate'])}: " + '; '.join(tags)
+    return title[:240], '\n'.join(lines) + '\n'
+
+
+def midweek(scan, owner=None):
+    """A blow-off exit sale decided at a weekday close other than Friday's: it fills at the next close."""
+    bx = ((scan.get('plan') or {}).get('auto') or {}).get('boostx') or {}
+    mw = bx.get('midweek')
+    if not mw or not (mw.get('sell') or mw.get('buy')):
+        return None
+    blown = set(mw.get('blown') or [])
+    acts = [f"sell {t}" + (" (blow-off exit)" if t in blown else "") for t in mw.get('sell') or []] + [f"buy {t}" for t in mw.get('buy') or []]
+    lines = [f"**Trade at the close on {fmt(mw['date'])} - only if you follow Boost 100% or Boost + cushion:** " + ', '.join(acts), '',
+             f"The blow-off exit fired at today's close ({fmt(scan['asOf'])}): the sold stock's last month's gain is more than "
+             f"{bx.get('mult', 2):g}x its gain over the 5 months before. The exit is on because SPY's 6-month return has been negative "
+             f"in the last {bx.get('within', 126)} trading days. Swap the same dollar amount; the rest of the account stays as it is.",
+             '', "Auto, Boost and Steps: nothing to do.", '',
+             f"Details: {PAGE}", '',
+             (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
+    title = f"Trade {fmt(mw['date'])}: Boost 100% / cushion blow-off exit: " + ', '.join(acts)
     return title[:240], '\n'.join(lines) + '\n'
 
 

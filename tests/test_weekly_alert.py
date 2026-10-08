@@ -59,3 +59,25 @@ def test_blowoff_list_trades_are_listed():
     title, body = alert.build(s, None)
     assert 'If you follow Boost 100% or Boost + cushion' in body and 'sell BBB (blow-off exit)' in body and 'buy CCC' in body
     assert 'boost 100%: sell BBB, buy CCC' in title and 'Boost 100% / cushion list:** AAA, CCC' in body
+
+
+def test_blowoff_exit_switching_on_or_off_is_announced():
+    s = scan()
+    s['plan']['auto']['boostx'] = dict(mult=2.0, within=126, armedAt=True, prevArmed=False, sell=[], buy=[])
+    title, body = alert.build(s, None)
+    assert 'blow-off exit on' in title and '**Blow-off exit ON**' in body
+    s['plan']['auto']['boostx'].update(armedAt=False, prevArmed=True)
+    title, body = alert.build(s, None)
+    assert 'blow-off exit off' in title and 'kept through blow-offs again' in body
+    s['plan']['auto']['boostx'].update(armedAt=True, prevArmed=True)
+    assert alert.build(s, None) is None
+
+
+def test_midweek_blowoff_sale_sends_its_own_alert():
+    s = scan(signalDay=False, asOf='2026-10-06')
+    s['plan']['auto']['boostx'] = dict(mult=2.0, within=126, midweek=dict(date='2026-10-07', sell=['BBB'], buy=['CCC'], blown=['BBB']))
+    title, body = alert.build(s, 'someone')
+    assert title == 'Trade Wed Oct 7: Boost 100% / cushion blow-off exit: sell BBB (blow-off exit), buy CCC'
+    assert 'fired at today\'s close (Tue Oct 6)' in body and '@someone' in body
+    s['plan']['auto']['boostx']['midweek'] = None
+    assert alert.build(s, None) is None
