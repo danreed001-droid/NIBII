@@ -351,3 +351,14 @@ def test_hold_exit_sells_and_records_entry():
     r = run_momentum(prices, cal, cal[10], look=5, skip=0, top_n=1, keep_rank=2, hold_exit=ex)
     assert any(t == 'A' for t, k, e in seen)
     assert r['stops'] >= 1
+
+
+def test_pending_shows_a_stop_decided_on_the_last_session():
+    from mtl.momentum import run_momentum
+    cal = [f'2024-01-{d:02d}' for d in range(1, 31)]
+    prices = {'SPY': {d: 100.0 for d in cal}, 'A': {d: 100 + i for i, d in enumerate(cal)}, 'B': {d: 50 + i * 0.5 for i, d in enumerate(cal)}}
+    r = run_momentum(prices, cal, cal[10], look=5, skip=0, top_n=1, keep_rank=2, exec_next='close',
+                     hold_exit=lambda t, k, e: t == 'A' and k == len(cal) - 1)
+    assert r['picks'][-1][1] == ['A'] and r['pending'] == ['B']
+    r2 = run_momentum(prices, cal, cal[10], look=5, skip=0, top_n=1, keep_rank=2, exec_next='close')
+    assert r2['pending'] in (None, r2['picks'][-1][1])             # nothing to change

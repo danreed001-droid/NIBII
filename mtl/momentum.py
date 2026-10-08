@@ -431,7 +431,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         curve.append([d, value, len(shares)])
     years = max(len(curve) / 252, 1e-9)
     avg_value = sum(p[1] for p in curve) / len(curve) if curve else 1.0
-    return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2, stops=stops, weights=wlog)
+    return dict(curve=curve, picks=picks, turnover=traded / avg_value / years / 2, stops=stops, weights=wlog,
+                pending=list(pending[0]) if pending is not None else None)   # decided on the last session, fills the next
 
 
 def run_rank_climbers(prices, calendar, start, benchmark='SPY', look=126, skip=21, top=100,

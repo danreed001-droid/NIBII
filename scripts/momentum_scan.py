@@ -577,7 +577,18 @@ def main():
         rows=[row(t, detail='chart') for t in after_bx],
         ratio={t: blow_ratio(t) for t in after_bx},
         weeksDiff=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and set(held_at_bx(f_)) != set(held_at_b(f_))),
-        stops=rbx.get('stops', 0))
+        stops=rbx.get('stops', 0),
+        armedAt=armed_bx[kidx[sig_d]], prevArmed=armed_bx[kidx[prev_d]])
+    # a blow-off sale decided at today's close on a weekday other than Friday fills at the next
+    # session's close: flag it so the alert can go out the same evening
+    pend_bx = rbx.get('pending')
+    if not signal_day and pend_bx is not None and set(pend_bx) != set(hold_bx):
+        nd_ = date.fromisoformat(as_of) + timedelta(days=1)
+        while nd_.weekday() > 4:
+            nd_ += timedelta(days=1)
+        auto['boostx']['midweek'] = dict(
+            date=nd_.isoformat(), sell=[t for t in hold_bx if t not in pend_bx], buy=[t for t in pend_bx if t not in hold_bx],
+            blown=[t for t in hold_bx if t not in pend_bx and blow_now(t, K)])
     auto['cushion'] = dict(share=CUSHION, split=split_key(cushion_split(sig_d)), prevSplit=split_key(cushion_split(prev_d)),
                            spy6m=r4(spy6m(sig_d)), previewSplit=split_key(cushion_split(as_of)), previewSpy6m=r4(spy6m(as_of)),
                            weeksLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and cushion_split(f_) < 1),
