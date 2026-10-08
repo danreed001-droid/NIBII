@@ -531,7 +531,8 @@ footer li { margin-bottom: 6px; }
     var BO = PA && PA.boost;
     var PM = PA && (pm === 'steps' ? PA.steps : pm === 'boost' ? BO : pm === 'auto' || pm === 'guard' ? PA : null);
     var mixTag = PM && PM.split !== PM.prevSplit ? '<span class="tag ' + (PM.split === '100/0' ? 'buy' : 'sell') + '">' + (pm === 'steps' ? 'steps' : 'auto') + ' mix → ' + PM.split + '</span>' : '';
-    if (pm === 'boost' && BO) {   // the boosted rule trades its own list
+    if (pm === 'boost100') mixTag = '';
+    if ((pm === 'boost' || pm === 'boost100') && BO) {   // the boosted rule trades its own list
       tags = BO.sell.map(function (t) { return '<span class="tag sell">sell ' + esc(t) + '</span>'; }).join('') +
         BO.buy.map(function (t) { return '<span class="tag buy">buy ' + esc(t) + (BO.boosted.indexOf(t) >= 0 ? ' (news boost)' : '') + '</span>'; }).join('');
     }
@@ -695,7 +696,7 @@ footer li { margin-bottom: 6px; }
     // token) and are cached in localStorage; a removed call is kept as {m:'del'} so removals sync too
     var CK = 'nibii-calls-v1', TK = 'nibii-gh-token', calls = {}, act = {};
     var GH = { owner: 'danreed001-droid', repo: 'NIBII', path: 'docs/my_calls.json', branch: 'main' };
-    var MODES = ['auto', 'boost', 'steps', 'cash', 'custom', 'del'];
+    var MODES = ['auto', 'boost', 'boost100', 'steps', 'cash', 'custom', 'del'];
     function clean(c) {
       if (!c || MODES.indexOf(c.m) < 0) return null;
       var cc = { m: c.m, note: String(c.note || '').slice(0, 300), at: String(c.at || '') };
@@ -713,7 +714,7 @@ footer li { margin-bottom: 6px; }
     D.holdings.forEach(function (h) { if (!TBL[h.t]) TBL[h.t] = h; });
     var BOOSTL = (A_ = D.plan && D.plan.auto && D.plan.auto.boost) ? A_.holdings : MODEL;
     if (A_) A_.rows.forEach(function (r) { if (!TBL[r.t]) TBL[r.t] = r; });
-    function modelFor(m) { return m === 'boost' ? BOOSTL : MODEL; }
+    function modelFor(m) { return m === 'boost' || m === 'boost100' ? BOOSTL : MODEL; }
     function candsFor(m) { var ml = modelFor(m); return D.table.filter(function (r) { return r.rank && r.rank <= 10 && ml.indexOf(r.t) < 0; }); }
     var CANDS = candsFor('auto');
     function slotsFor(model, c) {   // mirrors mtl/human.slots_for for this week's ranks
@@ -818,6 +819,7 @@ footer li { margin-bottom: 6px; }
       if (!c) return null;
       var w = WK[fri];
       if (c.m === 'auto') { var s1 = w ? w[2] : A ? share(A.split) : 1; return [s1, 1 - s1, 0]; }
+      if (c.m === 'boost100') return [0, 0, 0, 1];
       if (c.m === 'boost') { var s3 = w && w[4] != null ? w[4] : A && A.boost ? share(A.boost.split) : 1; return [0, 1 - s3, 0, s3]; }
       if (c.m === 'steps') { var s2 = w ? w[3] : A && A.steps ? share(A.steps.split) : 1; return [s2, 1 - s2, 0]; }
       if (c.m === 'cash') return [0, 0, 1];
@@ -825,7 +827,7 @@ footer li { margin-bottom: 6px; }
     }
     function callLabel(c) {
       if (!c) return '—';
-      var b = c.m === 'auto' ? 'Follow Auto' : c.m === 'boost' ? 'Follow Boost' : c.m === 'steps' ? 'Follow Steps' : c.m === 'cash' ? 'No trade (cash)' : 'Custom';
+      var b = c.m === 'auto' ? 'Follow Auto' : c.m === 'boost' ? 'Follow Boost' : c.m === 'boost100' ? 'Follow Boost 100%' : c.m === 'steps' ? 'Follow Steps' : c.m === 'cash' ? 'No trade (cash)' : 'Custom';
       var x = [];
       (c.swaps || []).forEach(function (s2) { x.push(s2[0] + '→' + s2[1]); });
       (c.drops || []).forEach(function (d2) { x.push('drop ' + d2); });
@@ -850,7 +852,7 @@ footer li { margin-bottom: 6px; }
       else if (mix === 'boost100') m = [1, 0, 0];
       else if (mix === 'steps' && A) m = [share(A.steps.split), 1 - share(A.steps.split), 0];
       else m = [share(mix), 1 - share(mix), 0];
-      var mineBoost = mix === 'mine' && mine && mine.m === 'boost';
+      var mineBoost = mix === 'mine' && mine && (mine.m === 'boost' || mine.m === 'boost100');
       if (mineBoost) m = [m[3], m[1], m[2]];
       var spyAmt = acct * (m[3] || 0);
       var stocks = acct * m[0], sleeve = acct * m[1], cash = acct * m[2], per = stocks / D.rule.topN;
@@ -945,7 +947,7 @@ footer li { margin-bottom: 6px; }
       var pv = A && (kind === 'auto' ? A.preview : kind === 'boost' ? A.boost && A.boost.split : A.steps && A.steps.preview);
       return 'set Friday' + (pv ? ' (now ' + pv + ')' : '');
     }
-    var OPTS = [['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
+    var OPTS = [['boost', 'Follow Boost', autoNow('boost')], ['boost100', 'Follow Boost 100%', 'Boost list, always 100% stocks'], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
                 ['cash', 'No trade', 'sit in cash this week'], ['custom', 'Custom', 'your own stocks / sleeve / cash']];
     $('choices').innerHTML = OPTS.map(function (o) { return '<button type="button" class="choice" role="radio" aria-checked="false" data-m="' + o[0] + '"><b>' + o[1] + '</b><span>' + o[2] + '</span></button>'; }).join('');
     function cuSync() {
@@ -972,7 +974,7 @@ footer li { margin-bottom: 6px; }
         return '<option value="keep"' + (cur === 'keep' ? ' selected' : '') + '>Keep</option><option value="drop"' + (cur === 'drop' ? ' selected' : '') + '>Drop → cash</option>' +
           CANDS.map(function (r) { var v = 'swap:' + r.t; return '<option value="' + v + '"' + (cur === v ? ' selected' : '') + '>Swap → #' + r.rank + ' ' + esc(r.t) + ' (' + pct(r.score, 0) + ')</option>'; }).join('');
       };
-      box.innerHTML = '<p class="ph">' + (pick === 'boost' ? 'Boost list' : 'Stocks') + ' · keep, drop (slot goes to cash), or swap in a top-10 stock not held</p>' + ml.map(function (t) { return TBL[t] || { t: t }; }).sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) {
+      box.innerHTML = '<p class="ph">' + (pick === 'boost' || pick === 'boost100' ? 'Boost list' : 'Stocks') + ' · keep, drop (slot goes to cash), or swap in a top-10 stock not held</p>' + ml.map(function (t) { return TBL[t] || { t: t }; }).sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) {
         return '<div class="pk" data-t="' + esc(h.t) + '"><span><b>' + esc(h.t) + '</b> <span class="muted">#' + (h.rank || '–') + ' · ' + pct(h.score, 0) + '</span></span>' +
           '<select aria-label="' + esc(h.t) + ': keep, drop or swap">' + opts(h.t) + '</select></div>';
       }).join('') + (CANDS.length ? '' : '<p class="swnote">No stocks ranked 6–10 outside the five this week.</p>');

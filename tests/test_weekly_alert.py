@@ -37,6 +37,7 @@ def test_boost_list_changes_are_listed_when_they_differ():
                                       holdings=['AAA', 'BBB', 'NBIS'])
     title, body = alert.build(s)
     assert 'boost: sell MRVL, buy NBIS' in title and 'Boost list:** AAA, BBB, NBIS' in body and '| Boost | 100% |' in body
+    assert 'Boost or Boost 100%' in body and '| Boost 100% | 100% | 0% | 0% |' in body
     # same trades as the plain model -> no separate boost line
     s['plan']['auto']['boost'].update(buy=['MU'], holdings=['AAA', 'BBB'])
     title, body = alert.build(s)
