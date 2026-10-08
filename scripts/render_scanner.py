@@ -547,7 +547,7 @@ footer li { margin-bottom: 6px; }
     ch.buy.map(function (t) { return '<span class="tag buy">buy ' + esc(t) + '</span>'; }).join('');
   if (D.signalDay) {
     var PA = D.plan && D.plan.auto, pm = (D.plan && D.plan['default']) || 'auto';
-    try { pm = localStorage.getItem('nibii-plan-mix3') || pm; } catch (e) {}
+    try { pm = localStorage.getItem('nibii-plan-mix4') || pm; } catch (e) {}
     var BO = PA && PA.boost;
     var PM = PA && (pm === 'steps' ? PA.steps : pm === 'boost' ? BO : pm === 'auto' || pm === 'guard' ? PA : null);
     var mixTag = PM && PM.split !== PM.prevSplit ? '<span class="tag ' + (PM.split === '100/0' ? 'buy' : 'sell') + '">' + (pm === 'steps' ? 'steps' : 'auto') + ' mix → ' + PM.split + '</span>' : '';
@@ -857,7 +857,7 @@ footer li { margin-bottom: 6px; }
     var inForce = A ? A.decided : D.asOf;   // the signal Friday whose trades are (or will be) held now
 
     var mix = P['default'], acct = 10000;
-    try { mix = localStorage.getItem('nibii-plan-mix3') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
+    try { mix = localStorage.getItem('nibii-plan-mix4') || mix; acct = +(localStorage.getItem('nibii-plan-acct') || acct) || 10000; } catch (e) {}
     if (P.splits.indexOf(mix) < 0) mix = P['default'];
     $('mix-seg').innerHTML = P.splits.map(function (m) { return '<button type="button" data-v="' + m + '">' + (m === 'auto' ? 'Auto' : m === 'boost' ? 'Boost' : m === 'boost100' ? 'Boost 100%' : m === 'guard' ? 'Guard' : m === 'steps' ? 'Steps' : m === 'mine' ? 'Mine' : m) + '</button>'; }).join('');
     function usd(v) { return '$' + (v < 100 ? v.toFixed(2) : Math.round(v).toLocaleString()); }
@@ -950,7 +950,7 @@ footer li { margin-bottom: 6px; }
           ' Since ' + SINCE + ' it was below 100% in ' + A.weeksLow + ' of ' + A.weeks + ' weeks.';
       }
     }
-    $('mix-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mix = b.getAttribute('data-v'); try { localStorage.setItem('nibii-plan-mix3', mix); } catch (x) {} draw(); };
+    $('mix-seg').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mix = b.getAttribute('data-v'); try { localStorage.setItem('nibii-plan-mix4', mix); } catch (x) {} draw(); };
     var inp = $('acct');
     inp.value = Math.round(acct).toLocaleString();
     inp.oninput = function () { var v = +inp.value.replace(/[^0-9.]/g, ''); if (v > 0) { acct = v; try { localStorage.setItem('nibii-plan-acct', String(v)); } catch (x) {} draw(); } };
@@ -967,7 +967,7 @@ footer li { margin-bottom: 6px; }
       var pv = A && (kind === 'auto' ? A.preview : kind === 'boost' ? A.boost && A.boost.split : A.steps && A.steps.preview);
       return 'set Friday' + (pv ? ' (now ' + pv + ')' : '');
     }
-    var OPTS = [['boost', 'Follow Boost', autoNow('boost')], ['boost100', 'Follow Boost 100%', 'Boost list, always 100% stocks'], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
+    var OPTS = [['boost100', 'Follow Boost 100%', 'Boost list, always 100% stocks'], ['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
                 ['cash', 'No trade', 'sit in cash this week'], ['custom', 'Custom', 'your own stocks / sleeve / cash']];
     $('choices').innerHTML = OPTS.map(function (o) { return '<button type="button" class="choice" role="radio" aria-checked="false" data-m="' + o[0] + '"><b>' + o[1] + '</b><span>' + o[2] + '</span></button>'; }).join('');
     function cuSync() {
@@ -1013,7 +1013,7 @@ footer li { margin-bottom: 6px; }
       var own = act[FRI], carried = callFor(FRI);
       var c = own || carried;
       curCall = c;
-      choose(c ? c.m : 'boost');
+      choose(c ? c.m : 'boost100');
       drawPicks(c);
       if (c && c.m === 'custom') { $('cu-s').value = c.s; $('cu-v').value = c.v; }
       cuSync();
