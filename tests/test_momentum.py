@@ -387,3 +387,15 @@ def test_sleeve_call_best_case_limits():
     assert c['expiry'] == '2027-04-16' and c['strike'] == round(cl[-1] * 1.2 / 5) * 5
     assert abs(c['maxIv'] - max(0.20, c['rv'] * 0.8)) < 1e-3 and 0 < c['maxPrice'] < cl[-1] * 0.2
     assert sleeve_call(cl[:30], '2026-10-08') is None
+
+
+def test_call_sleeve_curve_tracks_plan_and_calls():
+    from mtl.options_sim import call_sleeve_curve
+    cal = [f'2024-{m:02d}-{d:02d}' for m in range(1, 13) for d in (1, 8, 15, 22)]
+    up = {d: 100 * 1.01 ** i for i, d in enumerate(cal)}
+    prices = {'A': up}
+    plan = [[d, 100 * 1.005 ** i] for i, d in enumerate(cal)]
+    no_calls = call_sleeve_curve(plan, [[cal[0], []]], prices, cal)
+    assert abs(no_calls[-1][1] / no_calls[0][1] - (0.8 * plan[-1][1] / plan[0][1] + 0.2)) < 0.05   # sleeve idle in cash
+    with_calls = call_sleeve_curve(plan, [[cal[0], []], [cal[2], ['A']], [cal[30], []]], prices, cal)
+    assert with_calls[-1][1] > no_calls[-1][1]          # a call on a rising stock adds value

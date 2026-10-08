@@ -151,6 +151,89 @@ def quote_check(ticker, call, today):
     return out
 
 
+def call_sleeve_curve(stock_curve, picks, prices, calendar, weight=0.20, budget=0.10, ivm=SLEEVE_IV,
+                      spread=0.02, otm=SLEEVE_OTM, days=SLEEVE_DAYS, exit_before=21, rate=0.04):
+    """Account value of the stock plan plus the call sleeve, daily.
+
+    stock_curve: [[date, value]] of the stock plan; picks: [[date, [tickers]]] its
+    holdings (each change = the day the trade fills). (1 - weight) follows the stock
+    plan; `weight` is the sleeve: when a stock enters, a call `otm` above its price
+    expiring ~`days` out is bought with budget / (calls held + 1) of the account (paid
+    from sleeve cash), and sold when the stock leaves (or `exit_before` days before
+    expiry). Every January the split is reset. Calls are Black-Scholes priced at
+    best case: implied vol = ivm x 63-day realized vol (floor 20%), `spread` paid
+    each way; idle cash earns nothing. No historical option prices are used."""
+    idx = {d: i for i, d in enumerate(calendar)}
+    ser = {}
+
+    def series(t):
+        if t not in ser:
+            last, s = None, []
+            for d in calendar:
+                last = prices.get(t, {}).get(d) or last
+                s.append(last)
+            ser[t] = s
+        return ser[t]
+    vc = {}
+
+    def vol(t, i):
+        if (t, i) not in vc:
+            s = series(t)
+            r = [math.log(s[j] / s[j - 1]) for j in range(max(1, i - 62), i + 1) if s[j] and s[j - 1]]
+            if len(r) < 20:
+                vc[(t, i)] = 0.20
+            else:
+                m = sum(r) / len(r)
+                vc[(t, i)] = max(0.20, math.sqrt(sum((x - m) ** 2 for x in r) / (len(r) - 1)) * math.sqrt(252) * ivm)
+        return vc[(t, i)]
+
+    def price(p, i):
+        s = series(p['t'])[i]
+        return bs_call(s, p['k'], max(0.0, _years(calendar[i], p['exp'])), vol(p['t'], i), rate) if s else 0.0
+
+    entries, exits, prev = {}, {}, []
+    for d, held in picks:
+        for t in held:
+            if t not in prev:
+                entries.setdefault(d, []).append(t)
+        for t in prev:
+            if t not in held:
+                exits.setdefault(d, []).append(t)
+        prev = held
+    values = dict((d, v) for d, v in stock_curve)
+    days_ = [d for d, _ in stock_curve if d in idx]
+    stock, cash = values[days_[0]] * (1 - weight), values[days_[0]] * weight
+    openp, out, year, prev_d = [], [], days_[0][:4], days_[0]
+    for d in days_:
+        i = idx[d]
+        stock *= values[d] / values[prev_d]
+        prev_d = d
+        for p in list(openp):
+            if p['t'] in exits.get(d, []) or _years(d, p['exp']) * 365 <= exit_before:
+                cash += p['n'] * price(p, i) * (1 - spread)
+                openp.remove(p)
+        optv = sum(p['n'] * price(p, i) * (1 - spread) for p in openp)
+        total = stock + cash + optv
+        if d[:4] != year:
+            year = d[:4]
+            cash = max(0.0, total * weight - optv)
+            stock = total - optv - cash
+        for t in entries.get(d, []):
+            s0 = series(t)[i]
+            spend = min(cash, total * budget / (len(openp) + 1))
+            if not s0 or spend <= 0:
+                continue
+            p = dict(t=t, k=s0 * otm, exp=date.fromordinal(date.fromisoformat(d).toordinal() + days).isoformat())
+            cost = price(p, i) * (1 + spread)
+            if cost <= 0:
+                continue
+            p['n'] = spend / cost
+            cash -= spend
+            openp.append(p)
+        out.append([d, stock + cash + sum(p['n'] * price(p, i) * (1 - spread) for p in openp)])
+    return out
+
+
 def _years(d0, d1):
     return (date.fromisoformat(d1) - date.fromisoformat(d0)).days / 365.0
 
