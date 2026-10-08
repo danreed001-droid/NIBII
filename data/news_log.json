@@ -2417,5 +2417,65 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-08-3-ai-chip-selloff-openai-revenue-miss",
+    "data": {
+      "addedAt": "2026-10-08",
+      "category": "Market",
+      "date": "2026-10-08",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Chip and AI stocks sell off after FT reports OpenAI's annualized revenue run-rate is ~$20B below prior estimates; Nasdaq leads US indexes lower",
+      "impact": "High",
+      "numbers": "Nasdaq 27,193.34 (-345.35, -1.25%); Philadelphia Semiconductor Index fell as much as 4% intraday; Arm, Intel, Marvell each -6%+; Nvidia, Micron also lower",
+      "order": 3,
+      "reaction": "Broad tech-led selloff; renewed doubts about AI capex/revenue sustainability",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html",
+      "tickers": "QQQ, Nasdaq, NVDA, MU, INTC, ARM, MRVL, SOXX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-08-4-us-stocks-close-mixed-tech-weighs",
+    "data": {
+      "addedAt": "2026-10-08",
+      "category": "Market",
+      "date": "2026-10-08",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "US stocks close mixed: Dow ekes out a gain while S&P 500 and Nasdaq slip as the chip/AI selloff offsets strength elsewhere; 10-year Treasury yield eases slightly but holds near multidecade highs",
+      "impact": "High",
+      "numbers": "S&P 500 7,765.36 (-36.41, -0.47%); Dow 51,231.64 (+51.77, +0.10%); Nasdaq 27,193.34 (-345.35, -1.25%); 10Y yield ~5.23% (30Y ~5.67%)",
+      "order": 4,
+      "reaction": "Risk-off in tech/semis, defensive Dow components outperform; Bitcoin -2% to ~$81K with ~$974M in crypto liquidations; oil firm (WTI ~$91, Brent >$103) on Iran/Hormuz tensions",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html",
+      "tickers": "SPY, DIA, QQQ, TLT, 10Y",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-08-5-pepsico-beats-q3-cuts-outlook",
+    "data": {
+      "addedAt": "2026-10-08",
+      "category": "Earnings",
+      "date": "2026-10-08",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "PepsiCo (PEP) tops Q3 revenue and EPS estimates but lowers full-year core EPS growth outlook",
+      "impact": "Medium",
+      "numbers": "Q3 revenue $25.27B; adjusted EPS $2.34",
+      "order": 5,
+      "reaction": "Guidance cut to 2.5%-3% core EPS growth offset the beat",
+      "region": "US",
+      "source": "https://www.sec.gov/Archives/edgar/data/0000077476/000007747626000050/q320268-kxexhibit991.htm",
+      "tickers": "PEP",
+      "time": "Pre-market",
+      "vsExp": "Beat on both revenue and adjusted EPS"
+    }
   }
 ]
