@@ -474,7 +474,7 @@
       [
        "bull",
        "Micron's blowout results and guidance (revenue about 4x y/y) lifted chips and the S&P 500 closed +0.29% (news log); Broadcom slipped 1.1% on its $42B Anthropic financing, so the catalyst is one-sided only for the near term",
-       true
+       false
       ],
       [
        "neu",
@@ -497,8 +497,8 @@
        null
       ]
      ],
-     "maturityClose": 7817.5,
-     "ret": 0.011549,
+     "maturityClose": 7811.25,
+     "ret": 0.01074,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2679,8 +2679,8 @@
        null
       ]
      ],
-     "maturityClose": 104.140625,
-     "ret": -0.003588,
+     "maturityClose": 104.75,
+     "ret": 0.002242,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5442,8 +5442,8 @@
        false
       ]
      ],
-     "maturityClose": 4142.89990234375,
-     "ret": -0.007831,
+     "maturityClose": 4155.10009765625,
+     "ret": -0.004909,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7519,8 +7519,8 @@
        null
       ]
      ],
-     "maturityClose": 102.36299896240234,
-     "ret": 0.002458,
+     "maturityClose": 102.0999984741211,
+     "ret": -0.000118,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9750,8 +9750,8 @@
        false
       ]
      ],
-     "maturityClose": 2789.60009765625,
-     "ret": -0.013997,
+     "maturityClose": 2808.89990234375,
+     "ret": -0.007175,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11798,8 +11798,8 @@
        null
       ]
      ],
-     "maturityClose": 31175.75,
-     "ret": 0.011518,
+     "maturityClose": 30927.25,
+     "ret": 0.003455,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

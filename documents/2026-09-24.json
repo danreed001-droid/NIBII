@@ -711,62 +711,77 @@
      "votes": [
       [
        "bull",
-       "SPX at 7704.13 sits 7.0% above its 200-day average of 7198.56 and above its 20-day and 50-day as well."
+       "SPX at 7704.13 sits 7.0% above its 200-day average of 7198.56 and above its 20-day and 50-day as well.",
+       false
       ],
       [
        "bull",
-       "At 25.44% of members above their 50-day, breadth is in the 5th percentile of readings since 2010, a washout that over two weeks has historically preceded lows rather than further decline."
+       "At 25.44% of members above their 50-day, breadth is in the 5th percentile of readings since 2010, a washout that over two weeks has historically preceded lows rather than further decline.",
+       false
       ],
       [
        "bull",
-       "The VIX3M/VIX ratio of 1.176 keeps the volatility term structure in contango across the whole window."
+       "The VIX3M/VIX ratio of 1.176 keeps the volatility term structure in contango across the whole window.",
+       false
       ],
       [
        "bull",
-       "High-yield OAS of 273bp is near the year tights and has not widened despite a 19-year high in the 10-year yield."
+       "High-yield OAS of 273bp is near the year tights and has not widened despite a 19-year high in the 10-year yield.",
+       false
       ],
       [
        "bear",
-       "The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, after the 23 September 5-year note tailed 3.1bp, the second-biggest tail on record."
+       "The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, after the 23 September 5-year note tailed 3.1bp, the second-biggest tail on record.",
+       false
       ],
       [
        "bear",
-       "December hike odds are about 90% with the dot plot at 4.1% for both 2026 and 2027."
+       "December hike odds are about 90% with the dot plot at 4.1% for both 2026 and 2027.",
+       false
       ],
       [
        "bull",
-       "AAII bulls were 32.7% against 48.1% bears, with bearishness above its long-run average for a 33rd straight week."
+       "AAII bulls were 32.7% against 48.1% bears, with bearishness above its long-run average for a 33rd straight week.",
+       false
       ],
       [
        "bear",
-       "The buyback blackout runs into late October, so the entire ten-day window has no corporate bid."
+       "The buyback blackout runs into late October, so the entire ten-day window has no corporate bid.",
+       false
       ],
       [
        "neu",
-       "Micron on 30 September and Nike and Accenture on 1 October are the only index names inside the window; the Q3 season proper starts after it."
+       "Micron on 30 September and Nike and Accenture on 1 October are the only index names inside the window; the Q3 season proper starts after it.",
+       null
       ],
       [
        "neu",
-       "The September employment report lands 2 October inside the window and is the single largest two-way event on the calendar."
+       "The September employment report lands 2 October inside the window and is the single largest two-way event on the calendar.",
+       null
       ],
       [
        "bull",
-       "The first eight sessions of October are a documented positive-seasonality window following the late-September trough."
+       "The first eight sessions of October are a documented positive-seasonality window following the late-September trough.",
+       false
       ],
       [
        "bear",
-       "WTI at 93.66 with Brent above 104 keeps the oil channel negative, SPX correlation to oil being -0.532 over the window."
+       "WTI at 93.66 with Brent above 104 keeps the oil channel negative, SPX correlation to oil being -0.532 over the window.",
+       false
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 7765.3701171875,
+     "ret": 0.007949,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against ^GSPC",
+     "provisional": true
     }
    ],
    "structure": {
@@ -2870,62 +2885,77 @@
      "votes": [
       [
        "bear",
-       "TLT closed at a record-low 79.42, below both its 50-day of 82.44 and its 200-day of 85.76."
+       "TLT closed at a record-low 79.42, below both its 50-day of 82.44 and its 200-day of 85.76.",
+       true
       ],
       [
        "neu",
-       "2s10s at 18.3bp is bear-flattening, so the long end is rising less than the front end, mildly supportive of duration, yet 30-year yields still set a 22-year high."
+       "2s10s at 18.3bp is bear-flattening, so the long end is rising less than the front end, mildly supportive of duration, yet 30-year yields still set a 22-year high.",
+       null
       ],
       [
        "bull",
-       "TLT 30-day implied volatility at the 97.4th percentile with IV rank 92.4, and MOVE above all 59 prior sessions, is a documented panic extreme that historically marks capitulation rather than mid-move."
+       "TLT 30-day implied volatility at the 97.4th percentile with IV rank 92.4, and MOVE above all 59 prior sessions, is a documented panic extreme that historically marks capitulation rather than mid-move.",
+       false
       ],
       [
        "bear",
-       "High-yield OAS of 273bp near the year tights means credit is pricing no recession that would bid Treasuries."
+       "High-yield OAS of 273bp near the year tights means credit is pricing no recession that would bid Treasuries.",
+       true
       ],
       [
        "bear",
-       "WTI at 93.66 is up 13.7% since 25 August with Brent above 104, keeping headline inflation pressure on long yields."
+       "WTI at 93.66 is up 13.7% since 25 August with Brent above 104, keeping headline inflation pressure on long yields.",
+       true
       ],
       [
        "bear",
-       "December hike odds of about 90% and dots at 4.1% through 2027 leave the policy path pointing higher with no FOMC inside the window."
+       "December hike odds of about 90% and dots at 4.1% through 2027 leave the policy path pointing higher with no FOMC inside the window.",
+       true
       ],
       [
        "bear",
-       "Asset managers record 2,634,980 net long in ten-year futures on 15 September is the crowd a contrarian fades."
+       "Asset managers record 2,634,980 net long in ten-year futures on 15 September is the crowd a contrarian fades.",
+       true
       ],
       [
        "bull",
-       "A 30-year yield at 5.41% to 5.48%, the highest since 2004, plus quarter-end index extension on 30 September, is the level that has drawn real-money duration buyers."
+       "A 30-year yield at 5.41% to 5.48%, the highest since 2004, plus quarter-end index extension on 30 September, is the level that has drawn real-money duration buyers.",
+       false
       ],
       [
        "bear",
-       "The 3s, 10s and 30s refunding is announced 1 October and auctioned 6 to 8 October, straddling the maturity, after the second-biggest 5-year tail on record."
+       "The 3s, 10s and 30s refunding is announced 1 October and auctioned 6 to 8 October, straddling the maturity, after the second-biggest 5-year tail on record.",
+       true
       ],
       [
        "neu",
-       "The September employment report on 2 October is the single largest two-way event inside the window."
+       "The September employment report on 2 October is the single largest two-way event inside the window.",
+       null
       ],
       [
        "bull",
-       "October is seasonally the strongest autumn month for Treasuries on the historical record."
+       "October is seasonally the strongest autumn month for Treasuries on the historical record.",
+       false
       ],
       [
        "bear",
-       "DXY at 101.09, within 0.70% of a 52-week high and +0.629 correlated to the 2-year, marks a hawkish impulse still intact."
+       "DXY at 101.09, within 0.70% of a 52-week high and +0.629 correlated to the 2-year, marks a hawkish impulse still intact.",
+       true
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 77.87000274658203,
+     "ret": -0.019516,
+     "correct": false,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against TLT",
+     "provisional": true
     }
    ],
    "structure": {
@@ -5709,8 +5739,8 @@
        true
       ]
      ],
-     "maturityClose": 4131.390776,
-     "ret": -0.036087,
+     "maturityClose": 4143.557079,
+     "ret": -0.033248,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -7776,8 +7806,8 @@
        null
       ]
      ],
-     "maturityClose": 102.36299896240234,
-     "ret": 0.012593,
+     "maturityClose": 102.0999984741211,
+     "ret": 0.009991,
      "correct": false,
      "shadowCorrect": true,
      "preReversionCorrect": false,
@@ -9976,62 +10006,77 @@
      "votes": [
       [
        "bear",
-       "IWM at 281.66 is 4.4% below a falling 50-day of 294.56."
+       "IWM at 281.66 is 4.4% below a falling 50-day of 294.56.",
+       false
       ],
       [
        "neu",
-       "The Russell 2000 is still up 15.35% year to date against the S&P 500 13.53%, so the relative trend has compressed but not inverted."
+       "The Russell 2000 is still up 15.35% year to date against the S&P 500 13.53%, so the relative trend has compressed but not inverted.",
+       null
       ],
       [
        "bear",
-       "RVX at 19.97 sits above the VIX of 15.67 and rose 6.3% on 23 September, with no percentile extreme to argue mean reversion."
+       "RVX at 19.97 sits above the VIX of 15.67 and rose 6.3% on 23 September, with no percentile extreme to argue mean reversion.",
+       false
       ],
       [
        "bull",
-       "High-yield OAS of 273bp near the year tights means credit is not validating a small-cap recession."
+       "High-yield OAS of 273bp near the year tights means credit is not validating a small-cap recession.",
+       false
       ],
       [
        "bear",
-       "The 3s, 10s and 30s refunding on 6 to 8 October falls inside the window, and IWM -0.749 correlation to the 10-year is the strongest of the six assets."
+       "The 3s, 10s and 30s refunding on 6 to 8 October falls inside the window, and IWM -0.749 correlation to the 10-year is the strongest of the six assets.",
+       false
       ],
       [
        "neu",
-       "December hike odds are already about 90% and the 28 October FOMC is outside the window, so little further repricing is available."
+       "December hike odds are already about 90% and the 28 October FOMC is outside the window, so little further repricing is available.",
+       null
       ],
       [
        "bull",
-       "RSI(14) of 34.41 with 25.44% of S&P 500 members above their 50-day, a 5th-percentile washout, is the crowd a contrarian fades."
+       "RSI(14) of 34.41 with 25.44% of S&P 500 members above their 50-day, a 5th-percentile washout, is the crowd a contrarian fades.",
+       false
       ],
       [
        "bear",
-       "The buyback blackout runs into late October, so the window has no corporate bid."
+       "The buyback blackout runs into late October, so the window has no corporate bid.",
+       false
       ],
       [
        "neu",
-       "No small-cap index catalyst falls inside the window."
+       "No small-cap index catalyst falls inside the window.",
+       null
       ],
       [
        "neu",
-       "The September employment report on 2 October is the window largest two-way event."
+       "The September employment report on 2 October is the window largest two-way event.",
+       null
       ],
       [
        "bull",
-       "The first eight sessions of October are a documented positive small-cap seasonality window."
+       "The first eight sessions of October are a documented positive small-cap seasonality window.",
+       false
       ],
       [
        "bear",
-       "WTI at 93.66 with Brent above 104 keeps the oil channel negative, IWM correlation to oil being -0.476."
+       "WTI at 93.66 with Brent above 104 keeps the oil channel negative, IWM correlation to oil being -0.476.",
+       false
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 277.6300048828125,
+     "ret": -0.014308,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against IWM",
+     "provisional": true
     }
    ],
    "structure": {
@@ -12030,62 +12075,77 @@
      "votes": [
       [
        "bull",
-       "QQQ at 741.10 sits above all its major averages, with the 50-day of 711.42 some 7.1% above the 200-day of 664.41."
+       "QQQ at 741.10 sits above all its major averages, with the 50-day of 711.42 some 7.1% above the 200-day of 664.41.",
+       false
       ],
       [
        "bear",
-       "Top-ten weight of 46.91% with equal weight lagging cap weight by 6.3 points year to date is a concentration that has historically been fragile over multi-week windows."
+       "Top-ten weight of 46.91% with equal weight lagging cap weight by 6.3 points year to date is a concentration that has historically been fragile over multi-week windows.",
+       false
       ],
       [
        "neu",
-       "VXN at 21.24 against a VIX of 15.67 is elevated but carries no documented percentile extreme."
+       "VXN at 21.24 against a VIX of 15.67 is elevated but carries no documented percentile extreme.",
+       null
       ],
       [
        "bull",
-       "High-yield OAS of 273bp near the year tights shows credit pricing no stress in AI capex financing."
+       "High-yield OAS of 273bp near the year tights shows credit pricing no stress in AI capex financing.",
+       false
       ],
       [
        "bear",
-       "The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, after the second-biggest 5-year auction tail on record."
+       "The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, after the second-biggest 5-year auction tail on record.",
+       false
       ],
       [
        "neu",
-       "December hike odds are already about 90% and no FOMC falls inside the window, so little further hawkish repricing is available."
+       "December hike odds are already about 90% and no FOMC falls inside the window, so little further hawkish repricing is available.",
+       null
       ],
       [
        "bull",
-       "AAII bears of 48.1% and 25.44% of S&P 500 members above their 50-day, a 5th-percentile washout, is a bearish crowd a contrarian fades."
+       "AAII bears of 48.1% and 25.44% of S&P 500 members above their 50-day, a 5th-percentile washout, is a bearish crowd a contrarian fades.",
+       false
       ],
       [
        "bear",
-       "The buyback blackout runs into late October, so the window has no corporate bid."
+       "The buyback blackout runs into late October, so the window has no corporate bid.",
+       false
       ],
       [
        "bear",
-       "Micron on 30 September and Accenture on 1 October fall inside the window while the Oracle force majeure keeps AI capex financing in question throughout it."
+       "Micron on 30 September and Accenture on 1 October fall inside the window while the Oracle force majeure keeps AI capex financing in question throughout it.",
+       false
       ],
       [
        "neu",
-       "The September employment report on 2 October is the window largest two-way event."
+       "The September employment report on 2 October is the window largest two-way event.",
+       null
       ],
       [
        "bull",
-       "The first eight sessions of October are a documented positive-seasonality window."
+       "The first eight sessions of October are a documented positive-seasonality window.",
+       false
       ],
       [
        "bear",
-       "WTI at 93.66 with Brent above 104 keeps the oil channel negative, QQQ correlation to oil being -0.591."
+       "WTI at 93.66 with Brent above 104 keeps the oil channel negative, QQQ correlation to oil being -0.591.",
+       false
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 747.5800170898438,
+     "ret": 0.008744,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded against QQQ",
+     "provisional": true
     }
    ],
    "structure": {
