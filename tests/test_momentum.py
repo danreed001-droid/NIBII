@@ -399,3 +399,16 @@ def test_call_sleeve_curve_tracks_plan_and_calls():
     assert abs(no_calls[-1][1] / no_calls[0][1] - (0.8 * plan[-1][1] / plan[0][1] + 0.2)) < 0.05   # sleeve idle in cash
     with_calls = call_sleeve_curve(plan, [[cal[0], []], [cal[2], ['A']], [cal[30], []]], prices, cal)
     assert with_calls[-1][1] > no_calls[-1][1]          # a call on a rising stock adds value
+
+
+def test_cushion_log_lists_mix_changes_newest_first():
+    import importlib.util, os
+    spec = importlib.util.spec_from_file_location(
+        'momentum_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'momentum_scan.py'))
+    ms = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ms)
+    weeks = ['w1', 'w2', 'w3', 'w4', 'w5']
+    on = {'w3', 'w4'}
+    log = ms.cushion_log(weeks, weeks, 'w1', lambda d: 0.75 if d in on else 1.0,
+                         lambda d: -0.02 if d in on else 0.01, lambda d: -0.01)
+    assert log == [['w5', '100/0', 0.01, -0.01], ['w3', '75/25', -0.02, -0.01]]

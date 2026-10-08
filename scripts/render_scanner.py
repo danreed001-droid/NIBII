@@ -32,7 +32,7 @@ PAGE = r'''<!doctype html>
   --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
   --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   --pos: #3fbf5f; --neg: #e5605a; --grid: #2c2c2a;
-  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-spmo: #9aa86a; --s-calls: #e0a43a; --s-plan: #3fb8a0; --s-boost: #a989f5; --s-b100: #4fd1e8; --s-cush: #e6a14a; --s-mon: #f08c4a; --s-monb: #8fbf3a;
+  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-spmo: #9aa86a; --s-calls: #e0a43a; --s-ccalls: #d98ad0; --s-plan: #3fb8a0; --s-boost: #a989f5; --s-b100: #4fd1e8; --s-cush: #e6a14a; --s-mon: #f08c4a; --s-monb: #8fbf3a;
   color-scheme: dark;
 }
 :root[data-mtl-theme="light"] {
@@ -40,7 +40,7 @@ PAGE = r'''<!doctype html>
   --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
   --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
   --pos: #0a8f0a; --neg: #c43232; --grid: #e1e0d9;
-  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-spmo: #6b7a33; --s-calls: #b7791f; --s-plan: #13866f; --s-boost: #6d44d4; --s-b100: #0a8aa3; --s-cush: #b4600b; --s-mon: #c4561a; --s-monb: #5f8a12;
+  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-spmo: #6b7a33; --s-calls: #b7791f; --s-ccalls: #a1459a; --s-plan: #13866f; --s-boost: #6d44d4; --s-b100: #0a8aa3; --s-cush: #b4600b; --s-mon: #c4561a; --s-monb: #5f8a12;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -515,6 +515,12 @@ footer li { margin-bottom: 6px; }
   var SINCE = (D.rule && D.rule.start ? D.rule.start : '2020').slice(0, 4);
   var NS = 'http://www.w3.org/2000/svg';
   function $(id) { return document.getElementById(id); }
+  function cushionLog(CU) {   // the cushion's recent on/off weeks
+    if (!CU.log || !CU.log.length) return '';
+    return '<br><b>Cushion log</b> (newest first): ' + CU.log.map(function (r) {
+      return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' → <b>' + (r[1] === '100/0' ? 'off' : 'on (' + r[1] + ')') + '</b> <span class="muted">(SPY ' + (r[2] == null ? '–' : pct(r[2])) + ', credit ' + (r[3] == null ? '–' : pct(r[3])) + ')</span>';
+    }).join(' · ') + '. ';
+  }
   function bxNote(A) {   // the blow-off exit line under Boost 100% / Boost + cushion
     var X = A && A.boostx, m = X ? X.mult : 2;
     if (!X) return '';
@@ -946,11 +952,14 @@ footer li { margin-bottom: 6px; }
           : '<b>Mine:</b> no call yet, so this shows Auto. Make one under Your calls.';
       } else if (A && mix === 'cushion' && A.cushion) {
         var CU = A.cushion;
-        $('auto-note').innerHTML = '<b>Boost + cushion:</b> the Boost stock list, fully in stocks while SPY is above its ' + CU.ma + '-day average; while it closes below, ' + Math.round((1 - CU.share) * 100) + '% sits in the sleeve (' + esc(SL.held) + ') and ' + Math.round(CU.share * 100) + '% in the stocks. ' +
-          (D.signalDay ? 'This Friday: SPY ' : 'Last Friday: SPY ') + pct(CU.spyGap) + ' vs its ' + CU.ma + '-day average → <b>' + CU.split + '</b>' + (D.signalDay && CU.split !== CU.prevSplit ? ' (was ' + CU.prevSplit + ' — trade it Monday)' : '') + '.' +
-          (!D.signalDay && CU.previewSplit !== CU.split ? ' If Friday were today it would be ' + CU.previewSplit + ' (SPY ' + pct(CU.previewSpyGap) + ' vs its average).' : '') +
-          ' The cushion was on in ' + CU.weeksLow + ' of ' + CU.weeks + ' weeks since ' + SINCE + '. Since ' + SINCE + ': ' + pct(P.stats.cushion.annual, 0) + ' a year, worst drop ' + pct(P.stats.cushion.maxDD, 0) + '. ' +
-          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $6.66M after tax with a worst drop of −48%, vs $8.53M and −60% for Boost 100% and $1.86M and −55% for Boost.' + bxNote(A);
+        var crOk = CU.credit == null || CU.credit < 0, crTxt = function (v) { return v == null ? 'no data' : pct(v); };
+        $('auto-note').innerHTML = '<b>Boost + cushion:</b> the Boost stock list, fully in stocks unless two things agree at the Friday close: SPY is below its ' + CU.ma + '-day average <i>and</i> junk bonds (HYG) have lagged quality bonds (LQD) over the last ' + CU.creditLook + ' sessions. Then ' + Math.round((1 - CU.share) * 100) + '% sits in the sleeve (' + esc(SL.held) + ') and ' + Math.round(CU.share * 100) + '% in the stocks. ' +
+          (D.signalDay ? 'This Friday: SPY ' : 'Last Friday: SPY ') + pct(CU.spyGap) + ' vs its ' + CU.ma + '-day average, junk vs quality bonds ' + crTxt(CU.credit) + ' → <b>' + CU.split + '</b>' + (D.signalDay && CU.split !== CU.prevSplit ? ' (was ' + CU.prevSplit + ' — trade it Monday)' : '') + '.' +
+          (CU.spyGap != null && CU.spyGap < 0 && !crOk ? ' SPY is below its average but credit is calm, so the cushion stays off (a likely false alarm).' : '') +
+          (!D.signalDay && CU.previewSplit !== CU.split ? ' If Friday were today it would be ' + CU.previewSplit + ' (SPY ' + pct(CU.previewSpyGap) + ' vs its average, junk vs quality ' + crTxt(CU.previewCredit) + ').' : '') +
+          ' The cushion was on in ' + CU.weeksLow + ' of ' + CU.weeks + ' weeks since ' + SINCE + (CU.weeksSpyLow != null ? ' (SPY alone was below its average in ' + CU.weeksSpyLow + ')' : '') + '. Since ' + SINCE + ': ' + pct(P.stats.cushion.annual, 0) + ' a year, worst drop ' + pct(P.stats.cushion.maxDD, 0) + '. ' +
+          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $7.15M after tax (worst drop −51% before tax), vs $8.53M and −60% for Boost 100% and $6.66M for the old SPY-only cushion; from 2020 it beat both (53.7% a year vs 52.8% and 49.4%, worst drop −34% vs −39%). There is no HYG data before 2007, so before then it is the SPY-only rule.' +
+          cushionLog(CU) + bxNote(A);
       } else if (A && mix === 'boost100' && A.boost) {
         $('auto-note').innerHTML = '<b>Boost 100%:</b> the Boost stock list (top 5 + news gaps) with the blow-off exit, always fully in the stocks: no Auto steps into the sleeve when holdings turn down. ' +
           'Since ' + SINCE + ': ' + pct(P.stats.boost100.annual, 0) + ' a year, worst drop ' + pct(P.stats.boost100.maxDD, 0) + ', vs ' + pct(P.stats.boost.annual, 0) + ' and ' + pct(P.stats.boost.maxDD, 0) + ' for Boost. ' +
@@ -1266,7 +1275,7 @@ footer li { margin-bottom: 6px; }
   }
   function tile(label, value, sub, cls) { return '<div class="stat"><span class="stat-label">' + label + '</span><span class="stat-value ' + (cls || '') + '">' + value + '</span><span class="stat-sub">' + sub + '</span></div>'; }
   function drawStats() {
-    var t5 = rstat('strategy'), au = rstat('plan'), st = rstat('steps'), sp = rstat('SPY'), qq = rstat('QQQ'), sm = rstat('SPMO'), bo = rstat('boost'), b1 = rstat('boost100'), cs = rstat('cushion'), ca = rstat('calls');
+    var t5 = rstat('strategy'), au = rstat('plan'), st = rstat('steps'), sp = rstat('SPY'), qq = rstat('QQQ'), sm = rstat('SPMO'), bo = rstat('boost'), b1 = rstat('boost100'), cs = rstat('cushion'), ca = rstat('calls'), cc = rstat('cushionCalls');
     if (!t5) { $('stats').innerHTML = tile('Range', '–', 'pick at least two trading days', ''); return; }
     function yr(x) { return x && x.ann != null ? pct(x.ann, 0) + ' a year' : 'under a year'; }
     $('stats').innerHTML =
@@ -1275,6 +1284,7 @@ footer li { margin-bottom: 6px; }
       (b1 ? tile('Boost 100%', pct(b1.tot, 0), yr(b1) + ' · worst ' + pct(b1.dd, 0), tone(b1.tot)) : '') +
       (cs ? tile('Boost + cushion', pct(cs.tot, 0), yr(cs) + ' · worst ' + pct(cs.dd, 0), tone(cs.tot)) : '') +
       (ca ? tile('Boost 100% + calls', pct(ca.tot, 0), yr(ca) + ' · worst ' + pct(ca.dd, 0), tone(ca.tot)) : '') +
+      (cc ? tile('Boost + cushion + calls', pct(cc.tot, 0), yr(cc) + ' · worst ' + pct(cc.dd, 0), tone(cc.tot)) : '') +
       tile('SPY / QQQ', pct(sp.tot, 0) + ' / ' + pct(qq.tot, 0), 'worst ' + pct(sp.dd, 0) + ' / ' + pct(qq.dd, 0)) +
       (sm ? tile('SPMO (momentum ETF)', pct(sm.tot, 0), yr(sm) + ' · worst ' + pct(sm.dd, 0) + (view('SPMO')[0][0] > inR(D.curves.strategy)[0][0] ? ' · since ' + fmtDate(view('SPMO')[0][0], { month: 'short', year: 'numeric' }) : ''), tone(sm.tot)) : '') +
       tile('Top 5 worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since ' + SINCE : 'in this range', 'neg');
@@ -1355,6 +1365,7 @@ footer li { margin-bottom: 6px; }
   if (D.curves.boost100 && D.plan) SER.splice(2, 0, ['boost100', 'Boost 100%', 'var(--s-b100)', 'main']);
   if (D.curves.cushion && D.plan) SER.splice(3, 0, ['cushion', 'Boost + cushion', 'var(--s-cush)', 'main']);
   if (D.curves.calls && D.plan) SER.splice(3, 0, ['calls', 'Boost 100% + calls', 'var(--s-calls)', 'main']);
+  if (D.curves.cushionCalls && D.plan) SER.splice(5, 0, ['cushionCalls', 'Boost + cushion + calls', 'var(--s-ccalls)', 'main']);
   if (D.curves.monthlyBoost) SER.splice(SER.length - 2, 0, ['monthlyBoost', 'Monthly boost', 'var(--s-monb)', 'main']);
   if (D.curves.monthly) SER.splice(SER.length - 2, 0, ['monthly', 'Monthly auto', 'var(--s-mon)', 'main']);
   var HIDE = {}; try { HIDE = JSON.parse(localStorage.getItem('nibii-hide-lines') || '{}') || {}; } catch (e) {}
@@ -1446,10 +1457,10 @@ footer li { margin-bottom: 6px; }
   })();
   // years
   var ys = Object.keys(D.years.strategy).sort(), maxAbs = 0;
-  var YK = (D.years.monthly ? ['calls', 'boost100', 'cushion', 'boost', 'plan', 'SPY', 'QQQ', 'SPMO'] : ['strategy', 'calls', 'boost100', 'cushion', 'boost', 'plan', 'SPY', 'QQQ', 'SPMO'])
+  var YK = (D.years.monthly ? ['calls', 'boost100', 'cushionCalls', 'cushion', 'boost', 'plan', 'SPY', 'QQQ', 'SPMO'] : ['strategy', 'calls', 'boost100', 'cushionCalls', 'cushion', 'boost', 'plan', 'SPY', 'QQQ', 'SPMO'])
     .filter(function (k) { return D.years[k]; });
-  var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', boost100: 'var(--s-b100)', cushion: 'var(--s-cush)', plan: 'var(--s-plan)', monthlyBoost: 'var(--s-monb)', monthly: 'var(--s-mon)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)', SPMO: 'var(--s-spmo)', calls: 'var(--s-calls)' };
-  var YH = { strategy: 'Top 5', boost: 'Boost', boost100: 'Boost 100%', cushion: 'Cushion', plan: 'Auto', monthlyBoost: 'M boost', monthly: 'M auto', SPY: 'SPY', QQQ: 'QQQ', SPMO: 'SPMO', calls: 'B100 + calls' };
+  var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', boost100: 'var(--s-b100)', cushion: 'var(--s-cush)', plan: 'var(--s-plan)', monthlyBoost: 'var(--s-monb)', monthly: 'var(--s-mon)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)', SPMO: 'var(--s-spmo)', calls: 'var(--s-calls)', cushionCalls: 'var(--s-ccalls)' };
+  var YH = { strategy: 'Top 5', boost: 'Boost', boost100: 'Boost 100%', cushion: 'Cushion', plan: 'Auto', monthlyBoost: 'M boost', monthly: 'M auto', SPY: 'SPY', QQQ: 'QQQ', SPMO: 'SPMO', calls: 'B100 + calls', cushionCalls: 'Cush + calls' };
   ys.forEach(function (y) { YK.forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
   var barMax = YK.length > 5 ? 3 : YK.length > 4 ? 18 : YK.length > 3 ? 26 : 70;
   function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * barMax); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }

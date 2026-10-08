@@ -103,3 +103,14 @@ def test_friday_table_has_calls_column_and_call_sleeve_table():
     assert '| Mix | Top 5 | Sleeve | SPY | Calls |' in body and '| Auto | 100% | 0% | 0% | 0% |' in body
     assert '| Boost 100% + calls | 80% | 0% | 0% | 20% (about 10% in calls, rest T-bills) |' in body
     assert '| AAA | $120 | Fri Apr 16 2027 | $8.25 | $825 | 48% | check at the open |' in body
+
+
+def test_cushion_check_line_shows_both_signals():
+    from scripts.weekly_alert import build, cushion_check
+    s = scan()
+    s['plan']['auto']['cushion'] = dict(share=0.75, split='75/25', prevSplit='100/0', ma=150, spyGap=-0.031, credit=-0.012, creditLook=21)
+    title, body = build(s, None)
+    assert 'junk vs quality bonds -1.2% over 21 sessions' in body and 'both say weak' in body
+    assert '**Cushion check:** SPY -3.1% vs its 150-day average' in body and '→ **on** (both weak)' in body
+    calm = cushion_check(dict(split='100/0', ma=150, spyGap=-0.02, credit=0.004, creditLook=21))
+    assert '→ **off**' in calm and 'credit calm' in calm
