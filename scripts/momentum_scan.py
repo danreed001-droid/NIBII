@@ -38,6 +38,7 @@ from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import blowoff_exit, last_sessions_of_weeks, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.heat import daily_heat, weekly_heat  # noqa: E402
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
+from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -62,6 +63,7 @@ STEPS_MIN = 0.4
 BLOWOFF = 2.0                          # blow-off exit for Boost 100% / Boost + cushion (mtl.momentum.blowoff_exit)
 BLOWOFF_MA = 150                       # ... only while SPY closes below its 150-session average
 CUSHION, CUSHION_MA = 0.75, 150      # Boost + cushion: 25% in the sleeve while SPY closes below its 150-session average
+REVISIONS_LOG = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'revisions_log.json')
 CREDIT_LOOK = 21                       # ... and junk bonds (HYG) lagged quality bonds (LQD) over the last 21 sessions
 CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
 GUARD_SHARE = 0.5                       # bear guard: this much of the stock part goes to SPY while SPY < a year ago
@@ -697,6 +699,17 @@ def main():
     stats = {k: curve_stats([p[1] for p in v]) for k, v in curves.items()}
     one_year = {k: (v[-1][1] / next(p[1] for p in v if p[0] >= calendar[max(0, K - 252)]) - 1) for k, v in curves.items()}
 
+    # analyst estimate revisions for the top of the list and every plan's holdings (information only)
+    if '--no-revisions' not in sys.argv:
+        bx_hold = (auto.get('boostx') or {}).get('holdings') or []
+        rev_t = list(dict.fromkeys([r_['t'] for r_ in table[:25]] + [h_['t'] for h_ in held_rows] + list(bx_hold)))
+        print(f"Fetching estimate revisions for {len(rev_t)} stocks...", file=sys.stderr)
+        revs = fetch_revisions(rev_t)
+        for r_ in table + held_rows:
+            if r_['t'] in revs:
+                r_['rev'] = revs[r_['t']]
+        if signal_day and revs:
+            log_revisions(REVISIONS_LOG, as_of, revs, {t: rank.get(t) for t in revs})
     signal_date = today + timedelta(days=(4 - today.weekday()) % 7)   # today if Friday, else the coming Friday
     trade_date = signal_date + timedelta(days=3)
     payload = dict(

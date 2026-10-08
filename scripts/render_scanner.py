@@ -494,6 +494,7 @@ footer li { margin-bottom: 6px; }
       <th><button type="button" data-sort="d1w">Δ 1w</button></th>
       <th class="hide-sm"><button type="button" data-sort="d4w">Δ 4w</button></th>
       <th class="hide-sm"><button type="button" data-sort="offHigh">Off high</button></th>
+      <th><button type="button" data-sort="revEps" title="Change in analysts' estimate of this year's earnings over the last 90 days, and how many raised / cut estimates in the last 30 days (information only - the rule does not use it)">Estimates</button></th>
       <th>Trend</th>
     </tr></thead>
     <tbody id="rows"></tbody>
@@ -631,6 +632,12 @@ footer li { margin-bottom: 6px; }
       'Compare your broker’s ask price for the call with the numbers above. Between them is borderline. A rough guide from a backtest with modelled option prices, not a recommendation.</p>';
     $('optcheck').hidden = false;
   })();
+  function revCell(v) {   // analyst estimate revisions: 90-day change in this year's EPS estimate, raised / cut in 30 days
+    if (!v) return '<span class="muted">–</span>';
+    var a = v.eps90 != null ? '<span class="' + tone(v.eps90) + '">' + pct(v.eps90, Math.abs(v.eps90) < 0.1 ? 1 : 0) + '</span>' : '–';
+    var b = v.up30 != null ? '<span class="small muted"> ↑' + v.up30 + ' ↓' + v.down30 + '</span>' : '';
+    return '<span style="white-space:nowrap">' + a + b + '</span>';
+  }
   $('holdings').innerHTML = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) {
     var tap = h.chart ? ' data-t="' + esc(h.t) + '" tabindex="0" role="button" aria-expanded="false" aria-controls="swpanel" aria-label="' + esc(h.t) + ': show swing chart"' : '';
     return '<article class="hold"' + tap + '><div class="hold-top"><span class="rank">#' + (h.rank || '–') + '</span><span>' + (h.new ? '<span class="tag buy">buy Mon</span> ' : '') + (h.ndx ? '<span class="tag ndx" title="Nasdaq-100 only">NDX</span>' : '') + '</span></div>' +
@@ -638,7 +645,8 @@ footer li { margin-bottom: 6px; }
       '<div><div class="big ' + tone(h.score) + '">' + pct(h.score, 0) + '</div><div class="small">6-1m · ' + pct(h.vsSpy, 0) + ' vs SPY</div></div>' +
       spark(h.spark, 200, 44) +
       '<div class="kv"><span>Held</span><b>' + (h.new ? 'new' : (h.weeks || 0) + ' wk') + '</b><span>Since buy</span><b class="' + tone(h.sinceRet) + '">' + pct(h.sinceRet) + '</b>' +
-      '<span>1 month</span><b class="' + tone(h.r1m) + '">' + pct(h.r1m) + '</b><span>Off high</span><b>' + pct(h.offHigh) + '</b></div>' +
+      '<span>1 month</span><b class="' + tone(h.r1m) + '">' + pct(h.r1m) + '</b><span>Off high</span><b>' + pct(h.offHigh) + '</b>' +
+      '<span title="Analysts’ estimate of this year’s earnings: change over 90 days · raised / cut in the last 30 days">Estimates</span><b>' + revCell(h.rev) + '</b></div>' +
       '<div style="display:flex;justify-content:space-between;align-items:center"><span class="small">' + esc(h.sec) + '</span>' + trend(h.trend) + '</div>' +
       (h.chart ? '<div class="chart-hint">Swing chart ›</div>' : '') + '</article>';
   }).join('');
@@ -1648,6 +1656,7 @@ footer li { margin-bottom: 6px; }
 
   // table
   var T = { q: '', sec: '', sort: 'rank', dir: 1, all: false };
+  D.table.forEach(function (r) { r.revEps = r.rev && r.rev.eps90 != null ? r.rev.eps90 : null; });
   var secs = {}; D.table.forEach(function (r) { if (r.sec) secs[r.sec] = 1; });
   Object.keys(secs).sort().forEach(function (s) { var o = document.createElement('option'); o.value = s; o.textContent = s; $('sector').appendChild(o); });
   function renderTable() {
@@ -1661,8 +1670,8 @@ footer li { margin-bottom: 6px; }
       return '<tr' + (held[r.t] ? ' class="held"' : '') + '><td class="num">' + r.rank + '</td><td class="l"><b>' + esc(r.t) + '</b>' + (r.ndx ? ' <span class="tag ndx">NDX</span>' : '') + '<span class="sub">' + esc(r.n) + '</span></td>' +
         '<td class="l hide-sm">' + esc(r.sec) + '</td><td class="num ' + tone(r.score) + '">' + pct(r.score, 0) + '</td><td class="num">' + pct(r.vsSpy, 0) + '</td>' +
         '<td class="num hide-sm ' + tone(r.r1m) + '">' + pct(r.r1m) + '</td><td class="num hide-sm ' + tone(r.r12m) + '">' + pct(r.r12m, 0) + '</td>' +
-        '<td class="num">' + delta(r.d1w) + '</td><td class="num hide-sm">' + delta(r.d4w) + '</td><td class="num hide-sm">' + pct(r.offHigh) + '</td><td>' + trend(r.trend) + '</td></tr>';
-    }).join('') || '<tr><td colspan="11" class="l muted">No stocks match.</td></tr>';
+        '<td class="num">' + delta(r.d1w) + '</td><td class="num hide-sm">' + delta(r.d4w) + '</td><td class="num hide-sm">' + pct(r.offHigh) + '</td><td class="num">' + revCell(r.rev) + '</td><td>' + trend(r.trend) + '</td></tr>';
+    }).join('') || '<tr><td colspan="12" class="l muted">No stocks match.</td></tr>';
     document.querySelectorAll('th button[data-sort]').forEach(function (b) { if (b.getAttribute('data-sort') === T.sort) b.setAttribute('data-dir', T.dir > 0 ? '↑' : '↓'); else b.removeAttribute('data-dir'); });
   }
   $('q').oninput = function (e) { T.q = e.target.value; renderTable(); };
