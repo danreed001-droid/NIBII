@@ -101,23 +101,42 @@ def build(scan, owner=None):
              *([f"- **Boost list:** {', '.join(boost['holdings'])}"] if boost.get('holdings') and set(boost['holdings']) != set(hold) else []),
              *([f"- **Boost 100% / cushion list:** {', '.join(bx['holdings'])}"] if bx.get('holdings') and set(bx['holdings']) != set(boost.get('holdings') or hold) else []),
              f"- **Sleeve pick:** {sl.get('held')}" + (f" ({sl.get('n')})" if sl.get('n') else ''), '',
-             '| Mix | Top 5 | Sleeve | SPY |', '|---|---|---|---|',
-             f"| Auto | {pctw(a_s)} | {pctw(1 - a_s)} | 0% |",
-             f"| Guard | {pctw(gw[0])} | {pctw(gw[1])} | {pctw(gw[2])} |"]
+             '| Mix | Top 5 | Sleeve | SPY | Calls |', '|---|---|---|---|---|',
+             f"| Auto | {pctw(a_s)} | {pctw(1 - a_s)} | 0% | 0% |",
+             f"| Guard | {pctw(gw[0])} | {pctw(gw[1])} | {pctw(gw[2])} | 0% |"]
     if boost.get('split'):
         b_s = int(boost['split'].split('/')[0]) / 100
-        lines.append(f"| Boost | {pctw(b_s)} | {pctw(1 - b_s)} | 0% |")
-        lines.append("| Boost 100% | 100% | 0% | 0% |")
+        lines.append(f"| Boost | {pctw(b_s)} | {pctw(1 - b_s)} | 0% | 0% |")
+        lines.append("| Boost 100% | 100% | 0% | 0% | 0% |")
+        if bx.get('calls'):
+            lines.append(f"| Boost 100% + calls | {pctw(1 - (bx.get('callSleeve') or 0.2))} | 0% | 0% | {pctw(bx.get('callSleeve') or 0.2)} (about {pctw(bx.get('callBudget') or 0.1)} in calls, rest T-bills) |")
     if cush.get('split'):
         c_s = int(cush['split'].split('/')[0]) / 100
-        lines.append(f"| Boost + cushion | {pctw(c_s)} | {pctw(1 - c_s)} | 0% |")
+        lines.append(f"| Boost + cushion | {pctw(c_s)} | {pctw(1 - c_s)} | 0% | 0% |")
     if steps.get('split'):
         s_s = int(steps['split'].split('/')[0]) / 100
-        lines.append(f"| Steps | {pctw(s_s)} | {pctw(1 - s_s)} | 0% |")
+        lines.append(f"| Steps | {pctw(s_s)} | {pctw(1 - s_s)} | 0% | 0% |")
+    lines += calls_table(bx)
     lines += ['', f"Exact dollars and shares for your account: {PAGE} (type your amount in the Account box).", '',
               (f"@{owner} " if owner else '') + "— sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
     title = f"Trade {fmt(scan['tradeDate'])}: " + '; '.join(tags)
     return title[:240], '\n'.join(lines) + '\n'
+
+
+def calls_table(bx):
+    """The call sleeve's calls for the Boost 100% list after the trades, with the best-case limits."""
+    calls = bx.get('calls') or {}
+    rows = [t for t in (bx.get('holdings') or []) if calls.get(t)]
+    if not rows:
+        return []
+    out = ['', f"### Call sleeve - best-case pricing only (bid/ask <= {round((bx.get('callSpread') or 0.04) * 100)}% of mid)",
+           '| Stock | Call | Expiry | Pay at most | Per contract | Max IV | Live check |', '|---|---|---|---|---|---|---|']
+    for t in rows:
+        c, q = calls[t], calls[t].get('quote') or {}
+        live = 'best case' if q.get('ok') else 'skip' if q.get('ok') is False else 'check at the open'
+        out.append(f"| {t} | ${c['strike']:g} | {fmt(c['expiry'])} {c['expiry'][:4]} | ${c['maxPrice']:.2f} | "
+                   f"${c['maxPrice'] * 100:,.0f} | {round(c['maxIv'] * 100)}% | {live} |")
+    return out
 
 
 def call_line(bx, buys, sells):

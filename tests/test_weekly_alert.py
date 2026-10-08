@@ -91,3 +91,15 @@ def test_call_sleeve_line_lists_best_case_limits():
     title, body = alert.build(s, None)
     assert 'Call sleeve (20% OTM, best-case pricing only, ~10% of the account' in body and 'buy CCC $120 call exp Fri Apr 16 2027' in body
     assert 'pay at most $8.25 ($825/contract), only if IV <= 48% and bid/ask <= 4% of mid' in body and 'sell your BBB call' in body
+
+
+def test_friday_table_has_calls_column_and_call_sleeve_table():
+    s = scan(changes={'sell': ['MRVL'], 'buy': ['MU']})
+    s['plan']['auto']['boost'] = dict(split='100/0', prevSplit='100/0', holdings=['AAA'])
+    s['plan']['auto']['boostx'] = dict(holdings=['AAA'], callSleeve=0.2, callBudget=0.1, callSpread=0.04,
+                                       calls={'AAA': dict(price=100.0, rv=0.6, maxIv=0.48, strike=120, expiry='2027-04-16',
+                                                          maxPrice=8.25, quote=dict(ok=None))})
+    title, body = alert.build(s, None)
+    assert '| Mix | Top 5 | Sleeve | SPY | Calls |' in body and '| Auto | 100% | 0% | 0% | 0% |' in body
+    assert '| Boost 100% + calls | 80% | 0% | 0% | 20% (about 10% in calls, rest T-bills) |' in body
+    assert '| AAA | $120 | Fri Apr 16 2027 | $8.25 | $825 | 48% | check at the open |' in body
