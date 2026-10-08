@@ -399,6 +399,7 @@ def main():
     spy_curve = [[d_, spy_px[d_]] for d_ in calendar if d_ >= START and d_ in spy_px]
     plans = {'auto': plan_curve_dynamic(strat, sl_curve, calendar, auto_split),
              'boost': plan_curve_dynamic(strat_b, sl_curve, calendar, auto_split_b),
+             'boost100': plan_curve_dynamic(strat_b, sl_curve, calendar, lambda d_: 1.0),   # Boost list, always 100% stocks
              'steps': plan_curve_dynamic(strat, sl_curve, calendar, steps_split),
              'guard': plan_curve_mix({'top5': strat, 'sleeve': sl_curve, 'spy': spy_curve}, calendar, guard_weights)}
     for x in PLAN_SPLITS:
@@ -474,6 +475,7 @@ def main():
     curves['steps'] = growth(plans['steps'])
     curves['guard'] = growth(plans['guard'])
     curves['boost'] = growth(plans['boost'])
+    curves['boost100'] = growth(plans['boost100'])
     f = filled(sleeve_px, calendar)
     today = date.fromisoformat(as_of)
     week_ends = [k for k in range(K) if date.fromisoformat(calendar[k]).isocalendar()[:2]
@@ -594,7 +596,7 @@ def main():
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
         monthly=monthly,
         option=option_check(held_rows, bars, as_of, calendar, signal_day),
-        plan=dict(splits=['boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='boost', stats=plan_stats, auto=auto))
+        plan=dict(splits=['boost', 'boost100', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='boost', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)
