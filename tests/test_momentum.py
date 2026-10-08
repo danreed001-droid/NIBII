@@ -306,3 +306,31 @@ def test_prefer_jumps_the_queue_and_force_replaces_the_weakest_holding():
                          prefer_mode='force')
     assert all(h == ['A'] for _, h in fill['picks'])
     assert force['picks'][-1][1] == ['C']
+
+
+def test_blowoff_exit_sells_after_a_blowoff_month():
+    from mtl.momentum import blowoff_exit
+    cal = [f'd{i:03d}' for i in range(130)]
+    steady = {d: 100 * (1.001 ** i) for i, d in enumerate(cal)}                 # +~11% over 105 sessions, +~2% last month
+    spike = dict(steady)
+    for i in range(109, 130):
+        spike[cal[i]] = steady[cal[109]] * (1.012 ** (i - 109))                 # ~+28% in the last 21 sessions
+    ex = blowoff_exit({'S': steady, 'X': spike}, cal)
+    assert ex('S', 129) is False
+    assert ex('X', 129) is True
+    assert ex('X', 50) is False                                                  # not enough history
+
+
+def test_hold_exit_sells_and_records_entry():
+    from mtl.momentum import run_momentum
+    cal = [f'2024-01-{d:02d}' for d in range(1, 31)]
+    up = {d: 100 + i for i, d in enumerate(cal)}
+    prices = {'SPY': {d: 100.0 for d in cal}, 'A': up, 'B': {d: 50 + i * 0.5 for i, d in enumerate(cal)}}
+    seen = []
+
+    def ex(t, k, e):
+        seen.append((t, k, e))
+        return t == 'A' and k - e >= 3
+    r = run_momentum(prices, cal, cal[10], look=5, skip=0, top_n=1, keep_rank=2, hold_exit=ex)
+    assert any(t == 'A' for t, k, e in seen)
+    assert r['stops'] >= 1

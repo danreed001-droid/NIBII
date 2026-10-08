@@ -37,7 +37,7 @@ def test_boost_list_changes_are_listed_when_they_differ():
                                       holdings=['AAA', 'BBB', 'NBIS'])
     title, body = alert.build(s)
     assert 'boost: sell MRVL, buy NBIS' in title and 'Boost list:** AAA, BBB, NBIS' in body and '| Boost | 100% |' in body
-    assert 'Boost, Boost 100% or Boost + cushion' in body and '| Boost 100% | 100% | 0% | 0% |' in body
+    assert 'If you follow Boost (news boost list)' in body and '| Boost 100% | 100% | 0% | 0% |' in body
     # same trades as the plain model -> no separate boost line
     s['plan']['auto']['boost'].update(buy=['MU'], holdings=['AAA', 'BBB'])
     title, body = alert.build(s)
@@ -51,3 +51,11 @@ def test_cushion_switch_is_an_action():
     title, body = build(s, None)
     assert 'cushion 75/25' in title and 'Boost + cushion:** 100/0 → **75/25**' in body
     assert 'move 25% of the stocks into the sleeve' in body and '| Boost + cushion | 75% | 25% | 0% |' in body
+
+
+def test_blowoff_list_trades_are_listed():
+    s = scan()
+    s['plan']['auto']['boostx'] = dict(holdings=['AAA', 'CCC'], prev=['AAA', 'BBB'], sell=['BBB'], buy=['CCC'], blown=['BBB'])
+    title, body = alert.build(s, None)
+    assert 'If you follow Boost 100% or Boost + cushion' in body and 'sell BBB (blow-off exit)' in body and 'buy CCC' in body
+    assert 'boost 100%: sell BBB, buy CCC' in title and 'Boost 100% / cushion list:** AAA, CCC' in body

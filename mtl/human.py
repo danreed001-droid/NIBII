@@ -76,10 +76,11 @@ def slots_for(model, call, ranks):
 
 
 def score(calls, calendar, weeks, picks_at, ranks_at, closes, sleeve, cash, slots_n=5, apply_picks=True,
-          boost_picks_at=None):
+          boost_picks_at=None, boostx_picks_at=None):
     """weeks: [(signal_friday, trade_day, auto_share, steps_share[, boost_share[, cushion_share]])], oldest first;
     picks_at(trade_day) -> the model's holdings traded that day (boost_picks_at: the
-    News-boost list's, used for 'boost', 'boost100' and 'cushion' calls); ranks_at(friday)
+    News-boost list's, used for 'boost' calls; boostx_picks_at: that list with the blow-off
+    exit, used for 'boost100' and 'cushion' calls - boost_picks_at when not given); ranks_at(friday)
     -> {ticker: rank}; closes {ticker: {date: close}}; sleeve / cash {date: value}.
     apply_picks=False ignores swaps and drops (same mixes, the model's own stocks).
     Returns dict(curve=[[date, nav]], weeks=[[friday, trade_day, slots, [s, v, c]]]) or None."""
@@ -115,7 +116,10 @@ def score(calls, calendar, weeks, picks_at, ranks_at, closes, sleeve, cash, slot
             c_sh = trade[d][5] if len(trade[d]) > 5 else None
             call = call_for(calls, f)
             s, v, c = mix_of(call, a_sh, s_sh, b_sh, c_sh)
-            model = list((boost_picks_at if call['m'] in ('boost', 'boost100', 'cushion') and boost_picks_at else picks_at)(d))
+            if call['m'] in ('boost100', 'cushion') and (boostx_picks_at or boost_picks_at):
+                model = list((boostx_picks_at or boost_picks_at)(d))
+            else:
+                model = list((boost_picks_at if call['m'] == 'boost' and boost_picks_at else picks_at)(d))
             slots = slots_for(model, call if apply_picks else None, ranks_at(f)) if model else []
             per = nav * s / slots_n
             sh = {}
