@@ -35,7 +35,7 @@ from datetime import date, datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
-from mtl.momentum import blowoff_exit, last_sessions_of_weeks, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
+from mtl.momentum import blowoff_exit, last_sessions_of_weeks, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.heat import daily_heat, weekly_heat  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
@@ -59,6 +59,7 @@ AUTO_NEED, AUTO_LOW = 2, 0.6            # monthly plans: 60/40 while 2+ holdings
 STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+ -> STEPS_MIN
 STEPS_MIN = 0.4
 BLOWOFF = 2.0                          # blow-off exit for Boost 100% / Boost + cushion (mtl.momentum.blowoff_exit)
+BLOWOFF_WITHIN = 126                   # ... only while SPY's 6-month return is negative or was in the last 126 sessions
 CUSHION, CUSHION_LOOK = 0.75, 126    # Boost + cushion: 25% in the sleeve while SPY's 6-month return is negative
 CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
 GUARD_SHARE = 0.5                       # bear guard: this much of the stock part goes to SPY while SPY < a year ago
@@ -348,8 +349,9 @@ def main():
     rb, hold_b, after_b = boost_run()
     picks_b = rb['picks']
     # Boost 100% and Boost + cushion: the Boost list with the blow-off exit (a holding whose last
-    # month's gain is more than BLOWOFF times the 5 months before it is sold and barred for 4 weeks)
-    rbx, hold_bx, after_bx = boost_run(lambda cal_: dict(hold_exit=blowoff_exit(prices, cal_, BLOWOFF)))
+    # month's gain is more than BLOWOFF times the 5 months before it is sold and barred for 4 weeks),
+    # switched on only after a bad market (SPY's 6-month return negative within BLOWOFF_WITHIN sessions)
+    rbx, hold_bx, after_bx = boost_run(lambda cal_: dict(hold_exit=blowoff_exit(prices, cal_, BLOWOFF, market='SPY', within=BLOWOFF_WITHIN)))
     picks_bx = rbx['picks']
 
     strat = [[d, v] for d, v, _ in r['curve']]
@@ -551,7 +553,9 @@ def main():
     def held_at_bx(d_):
         i = bisect_right(pick_days_bx, d_) - 1
         return picks_bx[i][1] if i >= 0 else []
-    blow_now = blowoff_exit(prices, calendar, BLOWOFF)
+    blow_now = blowoff_exit(prices, calendar, BLOWOFF, market='SPY', within=BLOWOFF_WITHIN)
+    armed_bx = market_armed(prices, calendar, 'SPY', 126, BLOWOFF_WITHIN)
+    last_bad = max((k_ for k_ in range(126, K + 1) if spy_px.get(calendar[k_], 0) < spy_px.get(calendar[k_ - 126], 0)), default=None)
 
     def blow_ratio(t):     # last month's gain / the 5 months before it (None unless both are gains)
         px_ = prices.get(t, {})
@@ -561,7 +565,10 @@ def main():
         return r4((c_ / b_ - 1) / (b_ / a_ - 1))
     sold_bx = [t for t in hold_bx if t not in after_bx]
     auto['boostx'] = dict(
-        mult=BLOWOFF,
+        mult=BLOWOFF, within=BLOWOFF_WITHIN, armed=armed_bx[K],
+        lastBad=calendar[last_bad] if last_bad is not None else None,
+        offIn=(last_bad + BLOWOFF_WITHIN - K) if armed_bx[K] and last_bad is not None else 0,
+        armedWeeks=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and armed_bx[kidx[f_]]),
         holdings=after_bx, prev=hold_bx, sell=sold_bx, buy=[t for t in after_bx if t not in hold_bx],
         blown=[t for t in sold_bx if blow_now(t, K)],
         boosted=[t for t in after_bx if t not in (preview if signal_day else holdings)],

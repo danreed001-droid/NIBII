@@ -321,6 +321,23 @@ def test_blowoff_exit_sells_after_a_blowoff_month():
     assert ex('X', 50) is False                                                  # not enough history
 
 
+def test_blowoff_exit_only_after_a_bad_market_when_gated():
+    from mtl.momentum import blowoff_exit, market_armed
+    cal = [f'd{i:03d}' for i in range(300)]
+    steady = {d: 100 * (1.001 ** i) for i, d in enumerate(cal)}
+    spike = dict(steady)
+    for i in range(279, 300):
+        spike[cal[i]] = steady[cal[279]] * (1.012 ** (i - 279))
+    fell = {d: 100.0 - (10 if 130 <= i < 140 else 0) for i, d in enumerate(cal)}    # market 6-month return < 0 on 130-139
+    flat = {d: 100.0 for d in cal}
+    armed = market_armed({'M': fell}, cal, 'M', 126, 126)
+    assert armed[129] is False and armed[130] is True and armed[265] is True and armed[266] is False
+    assert blowoff_exit({'X': spike, 'M': fell}, cal, market='M', within=126)('X', 299) is False   # last fall 160 sessions ago
+    assert blowoff_exit({'X': spike, 'M': fell}, cal, market='M', within=200)('X', 299) is True
+    assert blowoff_exit({'X': spike, 'M': flat}, cal, market='M', within=126)('X', 299) is False
+    assert blowoff_exit({'X': spike, 'M': flat}, cal)('X', 299) is True                            # ungated
+
+
 def test_hold_exit_sells_and_records_entry():
     from mtl.momentum import run_momentum
     cal = [f'2024-01-{d:02d}' for d in range(1, 31)]
