@@ -5645,62 +5645,77 @@
      "votes": [
       [
        "bear",
-       "Gold at 4286.06 sits 5.8% below its 200-day of 4549.87 and 23.3% below the January record."
+       "Gold at 4286.06 sits 5.8% below its 200-day of 4549.87 and 23.3% below the January record.",
+       true
       ],
       [
        "bear",
-       "The gold/silver ratio at 67.0 after silver 1.50% fall shows the complex without a leader."
+       "The gold/silver ratio at 67.0 after silver 1.50% fall shows the complex without a leader.",
+       true
       ],
       [
        "neu",
-       "GVZ at 22.77 carries no documented percentile or named extreme."
+       "GVZ at 22.77 carries no documented percentile or named extreme.",
+       null
       ],
       [
        "bear",
-       "The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, keeping upward pressure on long real yields."
+       "The 3s, 10s and 30s refunding is auctioned 6 to 8 October inside the window, keeping upward pressure on long real yields.",
+       true
       ],
       [
        "bull",
-       "DXY is overbought at RSI(14) near 71 and 0.70% below a 52-week high with a stretch score of +3, and its mean reversion would relieve gold given the -0.576 gold-dollar correlation."
+       "DXY is overbought at RSI(14) near 71 and 0.70% below a 52-week high with a stretch score of +3, and its mean reversion would relieve gold given the -0.576 gold-dollar correlation.",
+       false
       ],
       [
        "neu",
-       "December hike odds are already about 90% and the 28 October FOMC falls outside the window, so little further hawkish repricing is available."
+       "December hike odds are already about 90% and the 28 October FOMC falls outside the window, so little further hawkish repricing is available.",
+       null
       ],
       [
        "bull",
-       "Managed money net long of 133,116 contracts on 15 September leaves the speculative book light enough to rebuild over two weeks."
+       "Managed money net long of 133,116 contracts on 15 September leaves the speculative book light enough to rebuild over two weeks.",
+       false
       ],
       [
        "neu",
-       "No dated central-bank purchase figure is available for this window."
+       "No dated central-bank purchase figure is available for this window.",
+       null
       ],
       [
        "neu",
-       "No dated physical or retail demand reading is obtainable."
+       "No dated physical or retail demand reading is obtainable.",
+       null
       ],
       [
        "neu",
-       "The September employment report on 2 October is the window largest two-way event for hike odds."
+       "The September employment report on 2 October is the window largest two-way event for hike odds.",
+       null
       ],
       [
        "bull",
-       "October is seasonally one of gold firmer months on Indian festival and Chinese holiday demand."
+       "October is seasonally one of gold firmer months on Indian festival and Chinese holiday demand.",
+       false
       ],
       [
        "bear",
-       "WTI is up 13.7% since 25 August yet gold correlation to oil is only -0.296 while its 2-year correlation is -0.594, so crude is transmitting hike odds rather than an inflation-hedge bid."
+       "WTI is up 13.7% since 25 August yet gold correlation to oil is only -0.296 while its 2-year correlation is -0.594, so crude is transmitting hike odds rather than an inflation-hedge bid.",
+       true
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 4136.476705,
+     "ret": -0.0349,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
+     "settlementNote": "graded on GC=F's return from 2026-09-24 to 2026-10-08 (no source for this document's own instrument); maturityClose is that return applied to the document's close",
+     "provisional": true
     }
    ],
    "structure": {
@@ -7697,62 +7712,77 @@
      "votes": [
       [
        "bull",
-       "DXY holds above its 50-day of 99.94 and 200-day of 99.18, with both averages rising."
+       "DXY holds above its 50-day of 99.94 and 200-day of 99.18, with both averages rising.",
+       true
       ],
       [
        "neu",
-       "No dated 24 September cross rates are obtainable, so breadth against the majors cannot be assessed."
+       "No dated 24 September cross rates are obtainable, so breadth against the majors cannot be assessed.",
+       null
       ],
       [
        "neu",
-       "The only implied-volatility reading is EUR/USD 1-month at 4.72 dated 21 September."
+       "The only implied-volatility reading is EUR/USD 1-month at 4.72 dated 21 September.",
+       null
       ],
       [
        "bear",
-       "High-yield OAS of 273bp near the year tights with the tariff truce extended to January keeps risk appetite dollar-negative."
+       "High-yield OAS of 273bp near the year tights with the tariff truce extended to January keeps risk appetite dollar-negative.",
+       false
       ],
       [
        "bull",
-       "The 3s, 10s and 30s refunding on 6 to 8 October keeps US long yields elevated against a 2.5% ECB deposit rate."
+       "The 3s, 10s and 30s refunding on 6 to 8 October keeps US long yields elevated against a 2.5% ECB deposit rate.",
+       true
       ],
       [
        "bull",
-       "December hike odds of about 90% and dots at 4.1% through 2027 against the ECB, BoE and BoJ on hold."
+       "December hike odds of about 90% and dots at 4.1% through 2027 against the ECB, BoE and BoJ on hold.",
+       true
       ],
       [
        "bull",
-       "Speculative dollar longs of 5.9bn dollars, the lightest in 15 months, leave room for the book to rebuild."
+       "Speculative dollar longs of 5.9bn dollars, the lightest in 15 months, leave room for the book to rebuild.",
+       true
       ],
       [
        "neu",
-       "Quarter-end funding demand passes on 30 September and unwinds afterwards, so the flow is two-sided across the full ten days."
+       "Quarter-end funding demand passes on 30 September and unwinds afterwards, so the flow is two-sided across the full ten days.",
+       null
       ],
       [
        "bear",
-       "The US-China truce extension and the Xi visit reduce the dollar safe-haven premium."
+       "The US-China truce extension and the Xi visit reduce the dollar safe-haven premium.",
+       false
       ],
       [
        "neu",
-       "The September employment report on 2 October is the window largest two-way event for the front end."
+       "The September employment report on 2 October is the window largest two-way event for the front end.",
+       null
       ],
       [
        "neu",
-       "Early October carries no consistent dollar seasonality once the quarter-end bid has passed."
+       "Early October carries no consistent dollar seasonality once the quarter-end bid has passed.",
+       null
       ],
       [
        "bull",
-       "Gold 5.8% below its 200-day and TLT at a record low, with the -0.576 gold-dollar correlation intact, still point the same way."
+       "Gold 5.8% below its 200-day and TLT at a record low, with the -0.576 gold-dollar correlation intact, still point the same way.",
+       true
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 102.35299682617188,
+     "ret": 0.012494,
+     "correct": false,
+     "shadowCorrect": true,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     }
    ],
    "structure": {
