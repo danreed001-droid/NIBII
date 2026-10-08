@@ -518,10 +518,9 @@ footer li { margin-bottom: 6px; }
   function bxNote(A) {   // the blow-off exit line under Boost 100% / Boost + cushion
     var X = A && A.boostx, m = X ? X.mult : 2;
     if (!X) return '';
-    var on = X.armed ? 'It is <b>on</b> now: SPY’s 6-month return was last negative on ' + esc(X.lastBad) + ', so it stays on for about ' + X.offIn + ' more trading days unless SPY dips again.'
-      : 'It is <b>off</b> now: SPY’s 6-month return has not been negative in the last ' + X.within + ' trading days' + (X.lastBad ? ' (last on ' + esc(X.lastBad) + ')' : '') + ', so holdings are kept through blow-offs.';
+    var on = (X.armed ? 'It is <b>on</b> now: SPY ' : 'It is <b>off</b> now: SPY ') + X.spy.toFixed(2) + ' vs its ' + X.ma + '-day average ' + X.spyMa.toFixed(2) + (X.since ? ' (' + (X.armed ? 'below' : 'above') + ' since ' + esc(X.since) + ')' : '') + (X.armed ? '.' : ', so holdings are kept through blow-offs.');
     return '<br><span class="muted">Blow-off exit: a holding is sold when its last month’s gain is more than ' + m + '× its gain over the 5 months before (it tends to give that back), and the slot goes to the next-ranked stock; it can come back after 4 weeks. ' +
-      'It is switched on only after a bad market: while SPY’s 6-month return is negative or was in the last ' + X.within + ' trading days (on in ' + X.armedWeeks + (A.cushion ? ' of ' + A.cushion.weeks : '') + ' weeks since ' + SINCE + '). Rebounds after a fall are where blow-offs fade; in steady uptrends selling them cost money. ' + on +
+      'It is switched on only in a weak market: while SPY closes below its ' + X.ma + '-day average (on in ' + X.armedWeeks + (A.cushion ? ' of ' + A.cushion.weeks : '') + ' weeks since ' + SINCE + '). In weak markets and rebounds, blow-offs fade; in steady uptrends selling them cost money. ' + on +
       ' Each holding now (last month ÷ prior 5 months, sells at ' + m + (X.armed ? '' : ' when on') + '): ' + X.holdings.map(function (t) { var r = X.ratio[t]; return esc(t) + ' ' + (r == null ? '–' : r.toFixed(2)); }).join(' · ') +
       (X.blown.length ? ' · this week it sells <b>' + X.blown.map(esc).join(', ') + '</b> on the exit' : '') + '.</span>';
   }
@@ -934,11 +933,11 @@ footer li { margin-bottom: 6px; }
           (D.signalDay ? 'This Friday: SPY ' : 'Last Friday: SPY ') + pct(CU.spy6m) + ' over 6 months → <b>' + CU.split + '</b>' + (D.signalDay && CU.split !== CU.prevSplit ? ' (was ' + CU.prevSplit + ' — trade it Monday)' : '') + '.' +
           (!D.signalDay && CU.previewSplit !== CU.split ? ' If Friday were today it would be ' + CU.previewSplit + ' (SPY ' + pct(CU.previewSpy6m) + ').' : '') +
           ' The cushion was on in ' + CU.weeksLow + ' of ' + CU.weeks + ' weeks since ' + SINCE + '. Since ' + SINCE + ': ' + pct(P.stats.cushion.annual, 0) + ' a year, worst drop ' + pct(P.stats.cushion.maxDD, 0) + '. ' +
-          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $6.22M after tax with a worst drop of −52%, vs $7.79M and −60% for Boost 100% and $1.86M and −55% for Boost.' + bxNote(A);
+          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $6.84M after tax with a worst drop of −51%, vs $8.53M and −60% for Boost 100% and $1.86M and −55% for Boost.' + bxNote(A);
       } else if (A && mix === 'boost100' && A.boost) {
         $('auto-note').innerHTML = '<b>Boost 100%:</b> the Boost stock list (top 5 + news gaps) with the blow-off exit, always fully in the stocks: no Auto steps into the sleeve when holdings turn down. ' +
           'Since ' + SINCE + ': ' + pct(P.stats.boost100.annual, 0) + ' a year, worst drop ' + pct(P.stats.boost100.maxDD, 0) + ', vs ' + pct(P.stats.boost.annual, 0) + ' and ' + pct(P.stats.boost.maxDD, 0) + ' for Boost. ' +
-          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $7.79M after tax vs $1.86M for Boost (and $4.55M for the same plan without the exit, $7.01M with the exit always on); ' +
+          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $8.53M after tax vs $1.86M for Boost (and $4.55M for the same plan without the exit, $7.01M with the exit always on); ' +
           'the cost is deeper drops: about −60% at the worst after tax vs −55%. Only follow it if you would hold through a drop like that.' + bxNote(A);
       } else if (A && mix === 'boost' && A.boost) {
         var B = A.boost, gl = B.gaps.length ? B.gaps.map(function (g) { return '<b>' + esc(g.t) + '</b> ' + fmtDate(g.d, md) + (g.held ? ' (held)' : ''); }).join(', ') : 'none';
@@ -991,7 +990,7 @@ footer li { margin-bottom: 6px; }
       var pv = A && (kind === 'auto' ? A.preview : kind === 'boost' ? A.boost && A.boost.split : kind === 'cushion' ? A.cushion && A.cushion.previewSplit : A.steps && A.steps.preview);
       return 'set Friday' + (pv ? ' (now ' + pv + ')' : '');
     }
-    var OPTS = [['boost100', 'Follow Boost 100%', 'Boost list + blow-off exit after falls, always 100% stocks'], ['cushion', 'Follow Boost + cushion', autoNow('cushion')], ['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
+    var OPTS = [['boost100', 'Follow Boost 100%', 'Boost list + blow-off exit in weak markets, always 100% stocks'], ['cushion', 'Follow Boost + cushion', autoNow('cushion')], ['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
                 ['cash', 'No trade', 'sit in cash this week'], ['custom', 'Custom', 'your own stocks / sleeve / cash']];
     $('choices').innerHTML = OPTS.map(function (o) { return '<button type="button" class="choice" role="radio" aria-checked="false" data-m="' + o[0] + '"><b>' + o[1] + '</b><span>' + o[2] + '</span></button>'; }).join('');
     function cuSync() {
