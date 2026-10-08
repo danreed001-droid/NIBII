@@ -37,7 +37,7 @@ from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import blowoff_exit, last_sessions_of_weeks, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.heat import daily_heat, weekly_heat  # noqa: E402
-from mtl.options_sim import SLEEVE_SPREAD, quote_check, sleeve_call  # noqa: E402
+from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -506,6 +506,8 @@ def main():
     curves['boost'] = growth(plans['boost'])
     curves['boost100'] = growth(plans['boost100'])
     curves['cushion'] = growth(plans['cushion'])
+    # Boost 100% + call sleeve: 80% the plan, 20% best-case-priced 6-month calls on its new picks (mtl.options_sim)
+    curves['calls'] = growth(call_sleeve_curve(plans['boost100'], picks_bx, prices, calendar))
     f = filled(sleeve_px, calendar)
     today = date.fromisoformat(as_of)
     week_ends = [k for k in range(K) if date.fromisoformat(calendar[k]).isocalendar()[:2]

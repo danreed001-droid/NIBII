@@ -32,7 +32,7 @@ PAGE = r'''<!doctype html>
   --muted: #8b8a85; --hairline: #2c2c2a; --accent: #3987e5; --gold: #d9b46a;
   --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   --pos: #3fbf5f; --neg: #e5605a; --grid: #2c2c2a;
-  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-spmo: #9aa86a; --s-plan: #3fb8a0; --s-boost: #a989f5; --s-b100: #4fd1e8; --s-cush: #e6a14a; --s-mon: #f08c4a; --s-monb: #8fbf3a;
+  --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-spmo: #9aa86a; --s-calls: #e0a43a; --s-plan: #3fb8a0; --s-boost: #a989f5; --s-b100: #4fd1e8; --s-cush: #e6a14a; --s-mon: #f08c4a; --s-monb: #8fbf3a;
   color-scheme: dark;
 }
 :root[data-mtl-theme="light"] {
@@ -40,7 +40,7 @@ PAGE = r'''<!doctype html>
   --muted: #898781; --hairline: #e1e0d9; --accent: #2a78d6; --gold: #93701f;
   --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
   --pos: #0a8f0a; --neg: #c43232; --grid: #e1e0d9;
-  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-spmo: #6b7a33; --s-plan: #13866f; --s-boost: #6d44d4; --s-b100: #0a8aa3; --s-cush: #b4600b; --s-mon: #c4561a; --s-monb: #5f8a12;
+  --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-spmo: #6b7a33; --s-calls: #b7791f; --s-plan: #13866f; --s-boost: #6d44d4; --s-b100: #0a8aa3; --s-cush: #b4600b; --s-mon: #c4561a; --s-monb: #5f8a12;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -1266,7 +1266,7 @@ footer li { margin-bottom: 6px; }
   }
   function tile(label, value, sub, cls) { return '<div class="stat"><span class="stat-label">' + label + '</span><span class="stat-value ' + (cls || '') + '">' + value + '</span><span class="stat-sub">' + sub + '</span></div>'; }
   function drawStats() {
-    var t5 = rstat('strategy'), au = rstat('plan'), st = rstat('steps'), sp = rstat('SPY'), qq = rstat('QQQ'), sm = rstat('SPMO'), bo = rstat('boost'), b1 = rstat('boost100'), cs = rstat('cushion');
+    var t5 = rstat('strategy'), au = rstat('plan'), st = rstat('steps'), sp = rstat('SPY'), qq = rstat('QQQ'), sm = rstat('SPMO'), bo = rstat('boost'), b1 = rstat('boost100'), cs = rstat('cushion'), ca = rstat('calls');
     if (!t5) { $('stats').innerHTML = tile('Range', '–', 'pick at least two trading days', ''); return; }
     function yr(x) { return x && x.ann != null ? pct(x.ann, 0) + ' a year' : 'under a year'; }
     $('stats').innerHTML =
@@ -1274,6 +1274,7 @@ footer li { margin-bottom: 6px; }
       tile('Boost / Auto', (bo ? pct(bo.tot, 0) : '–') + ' / ' + (au ? pct(au.tot, 0) : '–'), (bo ? yr(bo) : '') + ' · worst ' + (bo ? pct(bo.dd, 0) : '–') + ' / ' + (au ? pct(au.dd, 0) : '–'), tone(bo && bo.tot)) +
       (b1 ? tile('Boost 100%', pct(b1.tot, 0), yr(b1) + ' · worst ' + pct(b1.dd, 0), tone(b1.tot)) : '') +
       (cs ? tile('Boost + cushion', pct(cs.tot, 0), yr(cs) + ' · worst ' + pct(cs.dd, 0), tone(cs.tot)) : '') +
+      (ca ? tile('Boost 100% + calls', pct(ca.tot, 0), yr(ca) + ' · worst ' + pct(ca.dd, 0), tone(ca.tot)) : '') +
       tile('SPY / QQQ', pct(sp.tot, 0) + ' / ' + pct(qq.tot, 0), 'worst ' + pct(sp.dd, 0) + ' / ' + pct(qq.dd, 0)) +
       (sm ? tile('SPMO (momentum ETF)', pct(sm.tot, 0), yr(sm) + ' · worst ' + pct(sm.dd, 0) + (view('SPMO')[0][0] > inR(D.curves.strategy)[0][0] ? ' · since ' + fmtDate(view('SPMO')[0][0], { month: 'short', year: 'numeric' }) : ''), tone(sm.tot)) : '') +
       tile('Top 5 worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since ' + SINCE : 'in this range', 'neg');
@@ -1353,6 +1354,7 @@ footer li { margin-bottom: 6px; }
   if (D.curves.boost && D.plan) SER.splice(1, 0, ['boost', 'Plan (boost)', 'var(--s-boost)', 'main']);
   if (D.curves.boost100 && D.plan) SER.splice(2, 0, ['boost100', 'Boost 100%', 'var(--s-b100)', 'main']);
   if (D.curves.cushion && D.plan) SER.splice(3, 0, ['cushion', 'Boost + cushion', 'var(--s-cush)', 'main']);
+  if (D.curves.calls && D.plan) SER.splice(3, 0, ['calls', 'Boost 100% + calls', 'var(--s-calls)', 'main']);
   if (D.curves.monthlyBoost) SER.splice(SER.length - 2, 0, ['monthlyBoost', 'Monthly boost', 'var(--s-monb)', 'main']);
   if (D.curves.monthly) SER.splice(SER.length - 2, 0, ['monthly', 'Monthly auto', 'var(--s-mon)', 'main']);
   var HIDE = {}; try { HIDE = JSON.parse(localStorage.getItem('nibii-hide-lines') || '{}') || {}; } catch (e) {}
@@ -1444,10 +1446,10 @@ footer li { margin-bottom: 6px; }
   })();
   // years
   var ys = Object.keys(D.years.strategy).sort(), maxAbs = 0;
-  var YK = (D.years.monthly ? ['boost100', 'cushion', 'boost', 'plan', 'SPY', 'QQQ', 'SPMO'] : ['strategy', 'boost100', 'cushion', 'boost', 'plan', 'SPY', 'QQQ', 'SPMO'])
+  var YK = (D.years.monthly ? ['calls', 'boost100', 'cushion', 'boost', 'plan', 'SPY', 'QQQ', 'SPMO'] : ['strategy', 'calls', 'boost100', 'cushion', 'boost', 'plan', 'SPY', 'QQQ', 'SPMO'])
     .filter(function (k) { return D.years[k]; });
-  var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', boost100: 'var(--s-b100)', cushion: 'var(--s-cush)', plan: 'var(--s-plan)', monthlyBoost: 'var(--s-monb)', monthly: 'var(--s-mon)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)', SPMO: 'var(--s-spmo)' };
-  var YH = { strategy: 'Top 5', boost: 'Boost', boost100: 'Boost 100%', cushion: 'Cushion', plan: 'Auto', monthlyBoost: 'M boost', monthly: 'M auto', SPY: 'SPY', QQQ: 'QQQ', SPMO: 'SPMO' };
+  var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', boost100: 'var(--s-b100)', cushion: 'var(--s-cush)', plan: 'var(--s-plan)', monthlyBoost: 'var(--s-monb)', monthly: 'var(--s-mon)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)', SPMO: 'var(--s-spmo)', calls: 'var(--s-calls)' };
+  var YH = { strategy: 'Top 5', boost: 'Boost', boost100: 'Boost 100%', cushion: 'Cushion', plan: 'Auto', monthlyBoost: 'M boost', monthly: 'M auto', SPY: 'SPY', QQQ: 'QQQ', SPMO: 'SPMO', calls: 'B100 + calls' };
   ys.forEach(function (y) { YK.forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
   var barMax = YK.length > 5 ? 3 : YK.length > 4 ? 18 : YK.length > 3 ? 26 : 70;
   function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * barMax); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }
