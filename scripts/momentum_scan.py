@@ -62,10 +62,26 @@ STEPS_MIN = 0.4
 BLOWOFF = 2.0                          # blow-off exit for Boost 100% / Boost + cushion (mtl.momentum.blowoff_exit)
 BLOWOFF_MA = 150                       # ... only while SPY closes below its 150-session average
 CUSHION, CUSHION_MA = 0.75, 150      # Boost + cushion: 25% in the sleeve while SPY closes below its 150-session average
+CREDIT_LOOK = 21                       # ... and junk bonds (HYG) lagged quality bonds (LQD) over the last 21 sessions
 CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
 GUARD_SHARE = 0.5                       # bear guard: this much of the stock part goes to SPY while SPY < a year ago
 HUMAN_FROM = '2024-01-01'               # daily series shipped for scoring the viewer's own weekly calls
 STATE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
+
+
+def cushion_log(calendar, week_ends, start, split, spy_gap, credit_gap, n=12):
+    """The last n week-end signals where Boost + cushion changed its mix, newest first:
+    [date, split, SPY vs its average, HYG vs LQD over the credit window]."""
+    out, prev = [], None
+    for f_ in week_ends:
+        if f_ < start:
+            continue
+        s_ = split(f_)
+        if prev is not None and s_ != prev:
+            g_, c_ = spy_gap(f_), credit_gap(f_)
+            out.append([f_, split_key(s_), None if g_ is None else round(g_, 4), None if c_ is None else round(c_, 4)])
+        prev = s_
+    return out[::-1][:n]
 
 
 def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False):
@@ -231,7 +247,7 @@ def main():
     tickers = sorted(names)
     print(f"Fetching daily history for {len(tickers)} stocks + SPY/QQQ...", file=sys.stderr)
     bars = fetch(tickers)
-    bench = fetch(['SPY', 'QQQ', 'SPMO'], adjusted=True)   # SPMO: S&P 500 Momentum ETF, from Oct 2015
+    bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD'], adjusted=True)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check
     sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in fetch(ASSETS, adjusted=True).items()}
     prices = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items() if bs}
     prices['SPY'] = {b[0]: b[4] for b in bench['SPY']}
@@ -415,9 +431,22 @@ def main():
             return None
         return spy_px[calendar[k]] / (sum(spy_px[calendar[j]] for j in range(k - CUSHION_MA + 1, k + 1)) / CUSHION_MA) - 1
 
+    hyg_px = {b[0]: b[4] for b in bench.get('HYG') or []}
+    lqd_px = {b[0]: b[4] for b in bench.get('LQD') or []}
+
+    def credit_gap(d_):  # HYG vs LQD over the last CREDIT_LOOK sessions (negative = junk bonds lagging)
+        k = kidx[d_]
+        if k < CREDIT_LOOK:
+            return None
+        a_, b_ = calendar[k - CREDIT_LOOK], d_
+        if not all((hyg_px.get(a_), hyg_px.get(b_), lqd_px.get(a_), lqd_px.get(b_))):
+            return None
+        return (hyg_px[b_] / lqd_px[b_]) / (hyg_px[a_] / lqd_px[a_]) - 1
+
     def cushion_split(d_):
-        r_ = spy_gap(d_)
-        return CUSHION if r_ is not None and r_ < 0 else 1.0
+        # on only when both agree: SPY below its average AND junk bonds lagging (no credit data: SPY alone)
+        r_, c_ = spy_gap(d_), credit_gap(d_)
+        return CUSHION if r_ is not None and r_ < 0 and (c_ is None or c_ < 0) else 1.0
 
     def guard_weights(d_):
         s_ = auto_split(d_)
@@ -508,6 +537,7 @@ def main():
     curves['cushion'] = growth(plans['cushion'])
     # Boost 100% + call sleeve: 80% the plan, 20% best-case-priced 6-month calls on its new picks (mtl.options_sim)
     curves['calls'] = growth(call_sleeve_curve(plans['boost100'], picks_bx, prices, calendar))
+    curves['cushionCalls'] = growth(call_sleeve_curve(plans['cushion'], picks_bx, prices, calendar))
     f = filled(sleeve_px, calendar)
     today = date.fromisoformat(as_of)
     week_ends = [k for k in range(K) if date.fromisoformat(calendar[k]).isocalendar()[:2]
@@ -611,7 +641,10 @@ def main():
     auto['cushion'] = dict(share=CUSHION, split=split_key(cushion_split(sig_d)), prevSplit=split_key(cushion_split(prev_d)),
                            ma=CUSHION_MA, spyGap=r4(spy_gap(sig_d)), previewSplit=split_key(cushion_split(as_of)), previewSpyGap=r4(spy_gap(as_of)),
                            weeksLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and cushion_split(f_) < 1),
-                           weeks=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START))
+                           weeks=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START),
+                           creditLook=CREDIT_LOOK, credit=r4(credit_gap(sig_d)), previewCredit=r4(credit_gap(as_of)),
+                           weeksSpyLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and (spy_gap(f_) or 0) < 0),
+                           log=cushion_log(calendar, last_sessions_of_weeks(calendar), START, cushion_split, spy_gap, credit_gap))
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(STEPS.get(len(auto['previewDown']), STEPS_MIN))

@@ -28,6 +28,10 @@ def pctw(w):
     return f"{round(w * 100)}%"
 
 
+def pct1(w):
+    return f"{w * 100:+.1f}%"
+
+
 def build(scan, owner=None):
     """(title, body) or None when there's nothing to do Monday (or, midweek, no blow-off sale)."""
     if not scan.get('signalDay'):
@@ -87,8 +91,10 @@ def build(scan, owner=None):
     cush = auto.get('cushion') or {}
     if cush.get('split') and cush.get('prevSplit') and cush['split'] != cush['prevSplit']:
         to_sleeve = cush['split'] != '100/0'
-        items.append(f"**Boost + cushion:** {cush['prevSplit']} → **{cush['split']}** (SPY {pctw(cush.get('spyGap') or 0)} vs its {cush.get('ma', 150)}-day average; "
-                     + ("move 25% of the stocks into the sleeve" if to_sleeve else "move the sleeve part back into the Boost list") + ")")
+        cr = cush.get('credit')
+        items.append(f"**Boost + cushion:** {cush['prevSplit']} → **{cush['split']}** (SPY {pct1(cush.get('spyGap') or 0)} vs its {cush.get('ma', 150)}-day average"
+                     + (f", junk vs quality bonds {pct1(cr)} over {cush.get('creditLook', 21)} sessions" if cr is not None else '') + '; '
+                     + ("both say weak: move 25% of the stocks into the sleeve" if to_sleeve else "move the sleeve part back into the Boost list") + ")")
         tags.append(f"cushion {cush['split']}")
     if not items:
         return None
@@ -100,7 +106,8 @@ def build(scan, owner=None):
              '### After the trades', f"- **Top 5:** {', '.join(hold)} (equal amounts)",
              *([f"- **Boost list:** {', '.join(boost['holdings'])}"] if boost.get('holdings') and set(boost['holdings']) != set(hold) else []),
              *([f"- **Boost 100% / cushion list:** {', '.join(bx['holdings'])}"] if bx.get('holdings') and set(bx['holdings']) != set(boost.get('holdings') or hold) else []),
-             f"- **Sleeve pick:** {sl.get('held')}" + (f" ({sl.get('n')})" if sl.get('n') else ''), '',
+             f"- **Sleeve pick:** {sl.get('held')}" + (f" ({sl.get('n')})" if sl.get('n') else ''),
+             *([cushion_check(cush)] if cush.get('split') else []), '',
              '| Mix | Top 5 | Sleeve | SPY | Calls |', '|---|---|---|---|---|',
              f"| Auto | {pctw(a_s)} | {pctw(1 - a_s)} | 0% | 0% |",
              f"| Guard | {pctw(gw[0])} | {pctw(gw[1])} | {pctw(gw[2])} | 0% |"]
@@ -113,6 +120,9 @@ def build(scan, owner=None):
     if cush.get('split'):
         c_s = int(cush['split'].split('/')[0]) / 100
         lines.append(f"| Boost + cushion | {pctw(c_s)} | {pctw(1 - c_s)} | 0% | 0% |")
+        if bx.get('calls'):
+            cs_ = 1 - (bx.get('callSleeve') or 0.2)
+            lines.append(f"| Boost + cushion + calls | {pctw(c_s * cs_)} | {pctw((1 - c_s) * cs_)} | 0% | {pctw(bx.get('callSleeve') or 0.2)} (about {pctw(bx.get('callBudget') or 0.1)} in calls, rest T-bills) |")
     if steps.get('split'):
         s_s = int(steps['split'].split('/')[0]) / 100
         lines.append(f"| Steps | {pctw(s_s)} | {pctw(1 - s_s)} | 0% | 0% |")
@@ -137,6 +147,17 @@ def calls_table(bx):
         out.append(f"| {t} | ${c['strike']:g} | {fmt(c['expiry'])} {c['expiry'][:4]} | ${c['maxPrice']:.2f} | "
                    f"${c['maxPrice'] * 100:,.0f} | {round(c['maxIv'] * 100)}% | {live} |")
     return out
+
+
+def cushion_check(cush):
+    """One line with both cushion checks: SPY vs its average and junk vs quality bonds."""
+    g, cr = cush.get('spyGap'), cush.get('credit')
+    weak, stress = g is not None and g < 0, cr is None or cr < 0
+    why = ('both weak' if weak and stress else 'SPY weak but credit calm - likely a false alarm, no cushion' if weak
+           else 'SPY above its average')
+    return (f"- **Cushion check:** SPY {pct1(g or 0)} vs its {cush.get('ma', 150)}-day average, junk vs quality bonds "
+            + (f"{pct1(cr)} over {cush.get('creditLook', 21)} sessions" if cr is not None else 'no data')
+            + f" → **{'on' if cush.get('split') != '100/0' else 'off'}** ({why})")
 
 
 def call_line(bx, buys, sells):
