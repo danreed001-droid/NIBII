@@ -5709,8 +5709,8 @@
        true
       ]
      ],
-     "maturityClose": 4132.487818,
-     "ret": -0.035831,
+     "maturityClose": 4131.390776,
+     "ret": -0.036087,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -7776,8 +7776,8 @@
        null
       ]
      ],
-     "maturityClose": 102.38200378417969,
-     "ret": 0.012781,
+     "maturityClose": 102.36299896240234,
+     "ret": 0.012593,
      "correct": false,
      "shadowCorrect": true,
      "preReversionCorrect": false,
