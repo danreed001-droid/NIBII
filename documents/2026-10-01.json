@@ -474,7 +474,7 @@
       [
        "bull",
        "Micron's blowout results and guidance (revenue about 4x y/y) lifted chips and the S&P 500 closed +0.29% (news log); Broadcom slipped 1.1% on its $42B Anthropic financing, so the catalyst is one-sided only for the near term",
-       false
+       true
       ],
       [
        "neu",
@@ -497,13 +497,12 @@
        null
       ]
      ],
-     "maturityClose": 7811.25,
-     "ret": 0.01074,
+     "maturityClose": 7822.5,
+     "ret": 0.012196,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 10,
@@ -2679,13 +2678,12 @@
        null
       ]
      ],
-     "maturityClose": 104.75,
-     "ret": 0.002242,
+     "maturityClose": 104.71875,
+     "ret": 0.001943,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 10,
@@ -5442,13 +5440,12 @@
        false
       ]
      ],
-     "maturityClose": 4155.10009765625,
-     "ret": -0.004909,
+     "maturityClose": 4158.2998046875,
+     "ret": -0.004143,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 10,
@@ -7519,13 +7516,12 @@
        null
       ]
      ],
-     "maturityClose": 102.0999984741211,
-     "ret": -0.000118,
+     "maturityClose": 102.10399627685547,
+     "ret": -7.8e-05,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 10,
@@ -9750,13 +9746,12 @@
        false
       ]
      ],
-     "maturityClose": 2808.89990234375,
-     "ret": -0.007175,
+     "maturityClose": 2811.89990234375,
+     "ret": -0.006115,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 10,
@@ -11798,13 +11793,12 @@
        null
       ]
      ],
-     "maturityClose": 30927.25,
-     "ret": 0.003455,
+     "maturityClose": 31021.25,
+     "ret": 0.006505,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 10,

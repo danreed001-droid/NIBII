@@ -1,7 +1,7 @@
 {
  "date": "2026-09-24",
  "basisDate": "2026-09-24",
- "scored": false,
+ "scored": true,
  "generatedAt": "2026-09-25T00:30:00Z",
  "generationLag": "generated at about 20:30 ET on 2026-09-24, the evening of S itself, rather than at 10:30am ET on the session after S; the scheduled 10:30am slot fired against a clock on which S had already closed, so no session after S had opened and no post-S price, headline, overnight future or foreign-market move was available to contaminate the document",
  "schema": "multi-asset-v4",
@@ -775,13 +775,12 @@
        null
       ]
      ],
-     "maturityClose": 7765.3701171875,
-     "ret": 0.007949,
+     "maturityClose": 7765.35986328125,
+     "ret": 0.007948,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded against ^GSPC",
-     "provisional": true
+     "settlementNote": "graded against ^GSPC"
     }
    ],
    "structure": {
@@ -2954,8 +2953,7 @@
      "correct": false,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded against TLT",
-     "provisional": true
+     "settlementNote": "graded against TLT"
     }
    ],
    "structure": {
@@ -5739,13 +5737,12 @@
        true
       ]
      ],
-     "maturityClose": 4143.557079,
-     "ret": -0.033248,
+     "maturityClose": 4146.747897,
+     "ret": -0.032504,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded on GC=F's return from 2026-09-24 to 2026-10-08 (no source for this document's own instrument); maturityClose is that return applied to the document's close",
-     "provisional": true
+     "settlementNote": "graded on GC=F's return from 2026-09-24 to 2026-10-08 (no source for this document's own instrument); maturityClose is that return applied to the document's close"
     }
    ],
    "structure": {
@@ -7806,13 +7803,12 @@
        null
       ]
      ],
-     "maturityClose": 102.0999984741211,
-     "ret": 0.009991,
+     "maturityClose": 102.10399627685547,
+     "ret": 0.010031,
      "correct": false,
      "shadowCorrect": true,
      "preReversionCorrect": false,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     }
    ],
    "structure": {
@@ -10070,13 +10066,12 @@
        false
       ]
      ],
-     "maturityClose": 277.6300048828125,
-     "ret": -0.014308,
+     "maturityClose": 277.57000732421875,
+     "ret": -0.014521,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded against IWM",
-     "provisional": true
+     "settlementNote": "graded against IWM"
     }
    ],
    "structure": {
@@ -12144,8 +12139,7 @@
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded against QQQ",
-     "provisional": true
+     "settlementNote": "graded against QQQ"
     }
    ],
    "structure": {
