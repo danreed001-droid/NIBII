@@ -362,3 +362,18 @@ def test_pending_shows_a_stop_decided_on_the_last_session():
     assert r['picks'][-1][1] == ['A'] and r['pending'] == ['B']
     r2 = run_momentum(prices, cal, cal[10], look=5, skip=0, top_n=1, keep_rank=2, exec_next='close')
     assert r2['pending'] in (None, r2['picks'][-1][1])             # nothing to change
+
+
+def test_market_armed_below_moving_average():
+    from mtl.momentum import blowoff_exit, market_armed
+    cal = [f'd{i:03d}' for i in range(300)]
+    m = {d: 100.0 + (i if i < 200 else 400 - i) for i, d in enumerate(cal)}   # up to 299 at 199, then down
+    on = market_armed({'M': m}, cal, 'M', ma=50)
+    assert on[49] is False and on[150] is False                                  # under 50 sessions / rising
+    assert on[260] is True                                                       # falling well below its average
+    spike = {d: 100 * (1.001 ** i) for i, d in enumerate(cal)}
+    for i in range(279, 300):
+        spike[cal[i]] = spike[cal[279]] * (1.012 ** (i - 279))
+    assert blowoff_exit({'X': spike, 'M': m}, cal, market='M', ma=50)('X', 299) is True
+    flat_up = {d: 100.0 + i for i, d in enumerate(cal)}
+    assert blowoff_exit({'X': spike, 'M': flat_up}, cal, market='M', ma=50)('X', 299) is False

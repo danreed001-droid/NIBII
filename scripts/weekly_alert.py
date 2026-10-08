@@ -75,9 +75,9 @@ def build(scan, owner=None):
     if bx and 'armedAt' in bx and bx.get('armedAt') != bx.get('prevArmed'):
         on = bx['armedAt']
         items.append(f"**Blow-off exit {'ON' if on else 'OFF'}** (Boost 100% and Boost + cushion): "
-                     + ("SPY's 6-month return turned negative, so from now on a holding whose last month's gain is more than "
+                     + (f"SPY closed below its {bx.get('ma', 150)}-day average, so from now on a holding whose last month's gain is more than "
                         f"{bx.get('mult', 2):g}x its prior 5 months' is sold - an alert goes out the evening it happens"
-                        if on else f"SPY's 6-month return has not been negative for {bx.get('within', 126)} trading days, so holdings are kept through blow-offs again"))
+                        if on else f"SPY is back above its {bx.get('ma', 150)}-day average, so holdings are kept through blow-offs again"))
         tags.append(f"blow-off exit {'on' if on else 'off'}")
     if boost.get('split') and boost.get('prevSplit') and boost['split'] != boost['prevSplit']:
         items.append(f"**Boost mix:** {boost['prevSplit']} → **{boost['split']}** (Boost 100% stays fully in the stocks: nothing to change)")
@@ -127,8 +127,8 @@ def midweek(scan, owner=None):
     acts = [f"sell {t}" + (" (blow-off exit)" if t in blown else "") for t in mw.get('sell') or []] + [f"buy {t}" for t in mw.get('buy') or []]
     lines = [f"**Trade at the close on {fmt(mw['date'])} - only if you follow Boost 100% or Boost + cushion:** " + ', '.join(acts), '',
              f"The blow-off exit fired at today's close ({fmt(scan['asOf'])}): the sold stock's last month's gain is more than "
-             f"{bx.get('mult', 2):g}x its gain over the 5 months before. The exit is on because SPY's 6-month return has been negative "
-             f"in the last {bx.get('within', 126)} trading days. Swap the same dollar amount; the rest of the account stays as it is.",
+             f"{bx.get('mult', 2):g}x its gain over the 5 months before. The exit is on because SPY is below its "
+             f"{bx.get('ma', 150)}-day average. Swap the same dollar amount; the rest of the account stays as it is.",
              '', "Auto, Boost and Steps: nothing to do.", '',
              f"Details: {PAGE}", '',
              (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
