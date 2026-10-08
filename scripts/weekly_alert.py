@@ -62,10 +62,10 @@ def build(scan, owner=None):
     if boost.get('sell') or boost.get('buy'):
         bs, bb = boost.get('sell') or [], boost.get('buy') or []
         if (bs, bb) != (sells, buys):
-            items.append('**If you follow Boost (news boost list):** ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
+            items.append('**If you follow Boost or Boost 100% (news boost list):** ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
             tags.append('boost: ' + ', '.join([f"sell {t}" for t in bs] + [f"buy {t}" for t in bb]))
     if boost.get('split') and boost.get('prevSplit') and boost['split'] != boost['prevSplit']:
-        items.append(f"**Boost mix:** {boost['prevSplit']} → **{boost['split']}**")
+        items.append(f"**Boost mix:** {boost['prevSplit']} → **{boost['split']}** (Boost 100% stays fully in the stocks: nothing to change)")
     if not items:
         return None
     hold = [h['t'] for h in sorted(scan.get('holdings') or [], key=lambda h: h.get('rank') or 99)]
@@ -82,6 +82,7 @@ def build(scan, owner=None):
     if boost.get('split'):
         b_s = int(boost['split'].split('/')[0]) / 100
         lines.append(f"| Boost | {pctw(b_s)} | {pctw(1 - b_s)} | 0% |")
+        lines.append("| Boost 100% | 100% | 0% | 0% |")
     if steps.get('split'):
         s_s = int(steps['split'].split('/')[0]) / 100
         lines.append(f"| Steps | {pctw(s_s)} | {pctw(1 - s_s)} | 0% |")
