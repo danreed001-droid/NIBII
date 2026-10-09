@@ -438,7 +438,7 @@
       [
        "bull",
        "September payrolls were +29K vs roughly 84-90K expected, unemployment 4.2% (news log), cutting October Fed-hike odds to about 16% from 64% a week earlier (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -468,7 +468,7 @@
       [
        "bull",
        "WTI fell 1.57% to $91.41 at the close (investingLive wrap; the news log shows -4.22% pre-market); equities' oil correlation is -0.473, so lower crude helps. ES=F rose 0.62%",
-       false
+       true
       ],
       [
        "neu",
@@ -476,8 +476,8 @@
        null
       ]
      ],
-     "maturityClose": 7851.0,
-     "ret": 0.00958,
+     "maturityClose": 7862.0,
+     "ret": 0.010995,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2630,8 +2630,8 @@
        null
       ]
      ],
-     "maturityClose": 104.53125,
-     "ret": 0.001497,
+     "maturityClose": 104.5625,
+     "ret": 0.001796,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5372,8 +5372,8 @@
        false
       ]
      ],
-     "maturityClose": 4214.7998046875,
-     "ret": 0.010235,
+     "maturityClose": 4220.2001953125,
+     "ret": 0.011529,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7463,8 +7463,8 @@
        null
       ]
      ],
-     "maturityClose": 102.31199645996094,
-     "ret": 0.003807,
+     "maturityClose": 102.25399780273438,
+     "ret": 0.003238,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9694,8 +9694,8 @@
        false
       ]
      ],
-     "maturityClose": 2819.699951171875,
-     "ret": -0.011256,
+     "maturityClose": 2826.300048828125,
+     "ret": -0.008942,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11720,8 +11720,8 @@
        null
       ]
      ],
-     "maturityClose": 31083.25,
-     "ret": 0.001103,
+     "maturityClose": 31106.5,
+     "ret": 0.001852,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
