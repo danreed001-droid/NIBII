@@ -107,7 +107,8 @@ def build(scan, owner=None):
              *([f"- **Boost list:** {', '.join(boost['holdings'])}"] if boost.get('holdings') and set(boost['holdings']) != set(hold) else []),
              *([f"- **Boost 100% / cushion list:** {', '.join(bx['holdings'])}"] if bx.get('holdings') and set(bx['holdings']) != set(boost.get('holdings') or hold) else []),
              f"- **Sleeve pick:** {sl.get('held')}" + (f" ({sl.get('n')})" if sl.get('n') else ''),
-             *([cushion_check(cush)] if cush.get('split') else []), '',
+             *([cushion_check(cush)] if cush.get('split') else []),
+             *([rotation_check(auto['rotation'])] if auto.get('rotation') else []), '',
              '| Mix | Top 5 | Sleeve | SPY | Calls |', '|---|---|---|---|---|',
              f"| Auto | {pctw(a_s)} | {pctw(1 - a_s)} | 0% | 0% |",
              f"| Guard | {pctw(gw[0])} | {pctw(gw[1])} | {pctw(gw[2])} | 0% |"]
@@ -158,6 +159,17 @@ def cushion_check(cush):
     return (f"- **Cushion check:** SPY {pct1(g or 0)} vs its {cush.get('ma', 150)}-day average, junk vs quality bonds "
             + (f"{pct1(cr)} over {cush.get('creditLook', 21)} sessions" if cr is not None else 'no data')
             + f" → **{'on' if cush.get('split') != '100/0' else 'off'}** ({why})")
+
+
+def rotation_check(rot):
+    """Information only: the bond / gold rotation on top of Boost + cushion (never a trade in this alert)."""
+    spy, wait = rot.get('spy') or {}, rot.get('wait', 15)
+    parts = [f"{t} {(rot.get('streak') or {}).get(t, 0)}/{wait} ({'uptrend' if a.get('up') else 'no uptrend'})"
+             for t, a in (rot.get('assets') or {}).items()]
+    now = (f"would be in **{rot['held']}** since {fmt(rot['since'])}" if rot.get('held') and rot.get('since')
+           else f"would be in **{rot['held']}**" if rot.get('held') else 'off')
+    return (f"- **Rotation check (info only, not a trade):** SPY {'in a daily downtrend' if spy.get('down') else 'not in a daily downtrend'}; "
+            + 'sessions steeper than SPY: ' + ', '.join(parts) + f" → {now}")
 
 
 def call_line(bx, buys, sells):

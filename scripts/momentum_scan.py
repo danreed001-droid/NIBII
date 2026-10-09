@@ -38,6 +38,7 @@ from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import blowoff_exit, last_sessions_of_weeks, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.heat import daily_heat, weekly_heat  # noqa: E402
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
+from mtl.rotation import ASSETS as ROT_ASSETS, WAIT as ROT_WAIT, rotation_curve, rotation_signal  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
@@ -84,6 +85,26 @@ def cushion_log(calendar, week_ends, start, split, spy_gap, credit_gap, n=12):
             out.append([f_, split_key(s_), None if g_ is None else round(g_, 4), None if c_ is None else round(c_, 4)])
         prev = s_
     return out[::-1][:n]
+
+
+def rotation_status(rot, calendar, start, n=12):
+    """The rotation's read at the last close: what it holds, each asset's setup streak and
+    trend, SPY's trend, and its recent switches (newest first)."""
+    d = calendar[-1]
+    reads = {t: (rd.get(d) or {}) for t, rd in rot['reads'].items()}
+
+    def read(t):
+        r_ = reads.get(t) or {}
+        return dict(up=r_.get('up'), down=r_.get('down'), slope=r4(r_.get('slope_hi' if t == 'SPY' else 'slope_lo')),
+                    swingLow=r4(r_.get('swing_low')))
+    held = rot['held'].get(d)
+    open_ = rot['switches'][-1] if rot['switches'] and rot['switches'][-1][2] is None else None
+    return dict(wait=ROT_WAIT, held=held, since=open_[0] if open_ else None, decided=d,
+                streak=rot['streak'].get(d) or {}, spy=read('SPY'),
+                assets={t: read(t) for t in rot['reads'] if t != 'SPY'},
+                days=sum(1 for d_ in calendar if d_ >= start and rot['held'].get(d_)),
+                switches=sum(1 for s_ in rot['switches'] if s_[0] >= start),
+                log=[s_ for s_ in rot['switches'] if (s_[2] or d) >= start][::-1][:n])
 
 
 def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False):
@@ -250,7 +271,8 @@ def main():
     print(f"Fetching daily history for {len(tickers)} stocks + SPY/QQQ...", file=sys.stderr)
     bars = fetch(tickers)
     bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD'], adjusted=True)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check
-    sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in fetch(ASSETS, adjusted=True).items()}
+    sleeve_bars = fetch(ASSETS, adjusted=True)
+    sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in sleeve_bars.items()}
     prices = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items() if bs}
     prices['SPY'] = {b[0]: b[4] for b in bench['SPY']}
     calendar = [b[0] for b in bench['SPY']]
@@ -537,6 +559,11 @@ def main():
     curves['boost'] = growth(plans['boost'])
     curves['boost100'] = growth(plans['boost100'])
     curves['cushion'] = growth(plans['cushion'])
+    # Boost + cushion + rotation (information only): all in TLT or GLD while its daily uptrend has
+    # out-steepened SPY's daily downtrend for 15 sessions in a row, back on its lower low (mtl.rotation)
+    rot = rotation_signal(bench['SPY'], {t: sleeve_bars[t] for t in ROT_ASSETS if sleeve_bars.get(t)}, calendar)
+    plans['rotation'] = rotation_curve(plans['cushion'], sleeve_px, calendar, rot['held'])
+    curves['rotation'] = growth(plans['rotation'])
     # Boost 100% + call sleeve: 80% the plan, 20% best-case-priced 6-month calls on its new picks (mtl.options_sim)
     curves['calls'] = growth(call_sleeve_curve(plans['boost100'], picks_bx, prices, calendar))
     curves['cushionCalls'] = growth(call_sleeve_curve(plans['cushion'], picks_bx, prices, calendar))
@@ -647,6 +674,7 @@ def main():
                            creditLook=CREDIT_LOOK, credit=r4(credit_gap(sig_d)), previewCredit=r4(credit_gap(as_of)),
                            weeksSpyLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and (spy_gap(f_) or 0) < 0),
                            log=cushion_log(calendar, last_sessions_of_weeks(calendar), START, cushion_split, spy_gap, credit_gap))
+    auto['rotation'] = rotation_status(rot, calendar, START)
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(STEPS.get(len(auto['previewDown']), STEPS_MIN))

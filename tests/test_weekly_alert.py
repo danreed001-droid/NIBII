@@ -114,3 +114,15 @@ def test_cushion_check_line_shows_both_signals():
     assert '**Cushion check:** SPY -3.1% vs its 150-day average' in body and '→ **on** (both weak)' in body
     calm = cushion_check(dict(split='100/0', ma=150, spyGap=-0.02, credit=0.004, creditLook=21))
     assert '→ **off**' in calm and 'credit calm' in calm
+
+
+def test_rotation_check_is_listed_but_never_an_action():
+    s = scan()
+    s['plan']['auto']['rotation'] = dict(wait=15, held='GLD', since='2026-09-21', streak={'TLT': 0, 'GLD': 16},
+                                         spy={'down': True}, assets={'TLT': {'up': False}, 'GLD': {'up': True}})
+    assert alert.build(s) is None                  # info only: a quiet week stays quiet
+    s['changes'] = {'sell': ['AAA'], 'buy': ['CCC']}
+    title, body = alert.build(s)
+    assert 'rotation' not in title.lower()
+    assert ('**Rotation check (info only, not a trade):** SPY in a daily downtrend; sessions steeper than SPY: '
+            'TLT 0/15 (no uptrend), GLD 16/15 (uptrend) → would be in **GLD** since Mon Sep 21') in body
