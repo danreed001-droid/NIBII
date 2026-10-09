@@ -53,3 +53,20 @@ def test_section_renders_both_views_and_is_empty_without_data():
 
 def test_growth_rank_json_is_not_a_ledger_document():
     assert 'growth_rank.json' in NON_DOCUMENT_FILES
+
+
+def test_history_file_is_aligned_to_one_weekday_calendar():
+    rows = {'NQ=F': [('2026-01-02', 100.0), ('2026-01-03', 99.0), ('2026-01-05', 101.234567)],
+            'GC=F': [('2026-01-05', 2000.0)]}
+    h = growth_rank.history(rows)
+    assert h['days'] == ['2026-01-02', '2026-01-05']          # Saturday dropped
+    assert h['closes']['NQ=F'] == [100.0, 101.235] and h['closes']['GC=F'] == [None, 2000.0]
+    assert [a[0] for a in h['assets']] == ['NQ=F', 'GC=F']
+
+
+def test_section_has_the_end_date_picker():
+    from scripts.render_html import growth_rank_section
+    grids = growth_rank.build({'NQ=F': [(f'2026-0{m}-{d:02d}', 100.0 + m + d) for m in range(1, 8) for d in range(1, 28)]},
+                              date(2026, 7, 31))
+    html = growth_rank_section(dict(fetchedAt='2026-07-31T21:00:00Z', **grids))
+    assert 'class="gr-date"' in html and 'max="2026-07-31"' in html and 'growth_history.json' in html

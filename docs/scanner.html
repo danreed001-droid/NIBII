@@ -475,6 +475,9 @@ footer li { margin-bottom: 6px; }
 .gr[data-view="weekly"] .gr-view[data-view="daily"], .gr[data-view="daily"] .gr-view[data-view="weekly"] { display: none; }
 .gr[data-mode="range"] .gr-z { display: none; }
 .gr-scroll { overflow-x: auto; }
+.gr-date { border: 1px solid var(--hairline); background: transparent; color: var(--ink); border-radius: 999px;
+  padding: 4px 10px; font: inherit; font-size: 0.8rem; color-scheme: light dark; }
+.gr-status { color: var(--muted); }
 table.gr-table { width: 100%; min-width: 560px; border-collapse: separate; border-spacing: 3px; table-layout: fixed;
   font-size: 0.75rem; font-variant-numeric: tabular-nums; }
 table.gr-table col.gr-label-col { width: 112px; }
@@ -493,13 +496,17 @@ table.gr-table tfoot td { color: var(--ink); font-weight: 600; }
 table.gr-table tr.gr-sum td { font-size: 0.92rem; border-top: 1px solid var(--hairline); }
 td.gr-up { color: #0ca30c; } td.gr-down { color: #d03b3b; }
 </style>
-<div class="gr" id="growthRank" data-view="weekly" data-mode="range">
+<div class="gr" id="growthRank" data-view="weekly" data-mode="range" data-cfg="{&quot;src&quot;:&quot;growth_history.json&quot;,&quot;v&quot;:&quot;2026-10-09T22:08:47Z&quot;,&quot;weeks&quot;:26,&quot;days&quot;:30,&quot;baseW&quot;:52,&quot;baseD&quot;:60,&quot;minBase&quot;:20,&quot;cap&quot;:2.5,&quot;up&quot;:&quot;#0ca30c&quot;,&quot;down&quot;:&quot;#d03b3b&quot;}">
   <div class="gr-controls" role="group" aria-label="View"><span class="gr-controls-label">View:</span>
     <button type="button" class="gr-btn gr-view-btn" data-view="weekly" aria-pressed="true">Weekly · 26 weeks</button>
     <button type="button" class="gr-btn gr-view-btn" data-view="daily" aria-pressed="false">Daily · 30 days</button></div>
   <div class="gr-controls" role="group" aria-label="Shading"><span class="gr-controls-label">Shade by:</span>
     <button type="button" class="gr-btn gr-mode-btn" data-mode="range" aria-pressed="true">Own range</button>
     <button type="button" class="gr-btn gr-mode-btn" data-mode="sigma" aria-pressed="false">vs. normal move (σ)</button></div>
+  <div class="gr-controls" role="group" aria-label="End date"><span class="gr-controls-label">Ending on:</span>
+    <input type="date" class="gr-date" aria-label="End date" max="2026-10-09">
+    <button type="button" class="gr-btn gr-latest" aria-pressed="true">Latest</button>
+    <span class="gr-status" aria-live="polite"></span></div>
   <p class="gr-note" data-for="range">Darker = a bigger move <em>for that asset</em> — each column's largest move in the window is darkest.</p>
   <p class="gr-note" data-for="sigma">Darker = further off that asset's <em>normal</em> move (σ = std dev of its prior 52 weekly / 60 daily changes) — pale = a normal move, darkest = 2.5σ or more.</p>
 <div class="gr-view" data-view="weekly">
@@ -546,6 +553,117 @@ td.gr-up { color: #0ca30c; } td.gr-down { color: #d03b3b; }
   }
   toggle('.gr-view-btn', 'view', 'mtl-gr-view', ['weekly', 'daily']);
   toggle('.gr-mode-btn', 'mode', 'mtl-gr-mode', ['range', 'sigma']);
+
+  // "Ending on" date picker: rebuild both grids from docs/growth_history.json with the same
+  // rules as mtl/growth_rank.py (rank_grid / build), loaded only when a date is picked.
+  var C = JSON.parse(gr.getAttribute('data-cfg') || '{}');
+  var input = gr.querySelector('.gr-date'), latest = gr.querySelector('.gr-latest'), status = gr.querySelector('.gr-status');
+  if (!input) return;
+  var views = {}, original = {}, H = null, loading = null;
+  gr.querySelectorAll('.gr-view').forEach(function (v) { views[v.getAttribute('data-view')] = v; original[v.getAttribute('data-view')] = v.innerHTML; });
+  function load() {
+    if (H) return Promise.resolve(H);
+    if (!loading) loading = fetch(C.src + '?v=' + (C.v || '')).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (j) { H = j; if (j.days && j.days.length) { input.min = j.days[31] || j.days[0]; } return j; });
+    return loading;
+  }
+  function iso(d) { return d.toISOString().slice(0, 10); }
+  function addDays(s, n) { var d = new Date(s + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return iso(d); }
+  function friday(s) { var d = new Date(s + 'T12:00:00Z'), wd = (d.getUTCDay() + 6) % 7; return addDays(s, 4 - wd); }
+  function rankGrid(by, periods, partialAfter, baseline, assets) {
+    if (periods.length < 2) return null;
+    var start = periods[0], shown = periods.slice(1), tickers = assets.map(function (a) { return a[0]; }).filter(function (t) { return by[t]; });
+    function pct(t, p, c) { var m = by[t]; return (p in m && c in m && m[p]) ? (m[c] - m[p]) / m[p] * 100 : null; }
+    var rows = shown.map(function (cur, i) {
+      var prev = periods[i], cells = {};
+      tickers.forEach(function (t) { var p = pct(t, prev, cur); if (p !== null) cells[t] = { pct: p }; });
+      Object.keys(cells).sort(function (a, b) { return cells[b].pct - cells[a].pct; }).forEach(function (t, k) { cells[t].rank = k + 1; });
+      return { period: cur, partial: cur > partialAfter, n: Object.keys(cells).length, cells: cells };
+    });
+    tickers.forEach(function (t) {
+      var keys = Object.keys(by[t]).sort(), hist = [];
+      for (var i = 1; i < keys.length; i++) { var c = pct(t, keys[i - 1], keys[i]); if (c !== null) hist.push([keys[i], c]); }
+      rows.forEach(function (row) {
+        var cell = row.cells[t]; if (!cell) return;
+        var prior = [];
+        for (var i = 0; i < hist.length && hist[i][0] < row.period; i++) prior.push(hist[i][1]);
+        prior = prior.slice(-baseline);
+        if (prior.length < C.minBase) return;
+        var mean = prior.reduce(function (a, b) { return a + b; }, 0) / prior.length;
+        var sd = Math.sqrt(prior.reduce(function (a, b) { return a + (b - mean) * (b - mean); }, 0) / (prior.length - 1));
+        if (sd > 0) { cell.sigma = sd; cell.z = cell.pct / sd; }
+      });
+    });
+    var rankSum = {}, growth = {};
+    tickers.forEach(function (t) {
+      rankSum[t] = rows.reduce(function (a, r) { return a + (r.cells[t] ? r.cells[t].rank : tickers.length); }, 0);
+      growth[t] = pct(t, start, shown[shown.length - 1]);
+    });
+    rows.reverse();
+    return { assets: assets.filter(function (a) { return by[a[0]]; }), start: start, rows: rows, rankSum: rankSum, growth: growth };
+  }
+  function build(end) {
+    var days = H.days, by = {}, weekly = {}, n = 0;
+    while (n < days.length && days[n] <= end) n++;
+    H.assets.forEach(function (a) {
+      var cl = H.closes[a[0]], m = {}, w = {};
+      for (var i = 0; i < n; i++) if (cl[i]) { m[days[i]] = cl[i]; w[friday(days[i])] = cl[i]; }
+      if (Object.keys(m).length) { by[a[0]] = m; weekly[a[0]] = w; }
+    });
+    var allWeeks = {}; Object.keys(weekly).forEach(function (t) { Object.keys(weekly[t]).forEach(function (k) { allWeeks[k] = 1; }); });
+    var weeks = Object.keys(allWeeks).sort(), common = [];
+    for (var i = 0; i < n; i++) { var ok = true; for (var t in by) if (!(days[i] in by[t])) { ok = false; break; } if (ok) common.push(days[i]); }
+    return { weekly: rankGrid(weekly, weeks.slice(-(C.weeks + 1)), end, C.baseW, H.assets),
+             daily: rankGrid(by, common.slice(-(C.days + 1)), '9999-12-31', C.baseD, H.assets) };
+  }
+  function shade(p, frac, mode) {
+    var st = 15 + 70 * Math.max(0, Math.min(frac, 1)), col = p >= 0 ? C.up : C.down;
+    return '--gr-bg-' + mode + ': color-mix(in srgb, ' + col + ' ' + st.toFixed(0) + '%, var(--surface)); --gr-fg-' + mode + ': ' + (st > 55 ? '#ffffff' : 'var(--ink)') + ';';
+  }
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  function fmt(s, long) { var d = new Date(s + 'T12:00:00Z'); return long ? MON[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear() : WD[d.getUTCDay()] + ' ' + MON[d.getUTCMonth()] + ' ' + d.getUTCDate(); }
+  function table(g, view) {
+    var weekly = view === 'weekly', unit = weekly ? 'week' : 'day', units = weekly ? 'weeks' : 'days', adj = weekly ? 'weekly' : 'daily';
+    if (!g) return '<p class="gr-sub">Not enough data before this date.</p>';
+    var maxAbs = {};
+    g.assets.forEach(function (a) { maxAbs[a[0]] = g.rows.reduce(function (m, r) { return r.cells[a[0]] ? Math.max(m, Math.abs(r.cells[a[0]].pct)) : m; }, 0); });
+    var head = g.assets.map(function (a) { return '<th><span class="gr-name">' + a[1] + '</span><span class="gr-tk">' + a[0] + '</span></th>'; }).join('');
+    var body = g.rows.map(function (row) {
+      var label = weekly ? fmt(row.period, true) : fmt(row.period, false);
+      if (row.partial) label += weekly ? ' <em>(to date)</em>' : ' <em>(live)</em>';
+      var when = weekly ? 'week ending ' + fmt(row.period, true) : fmt(row.period, false);
+      return '<tr><th class="gr-label">' + label + '</th>' + g.assets.map(function (a) {
+        var c = row.cells[a[0]];
+        if (!c) return '<td class="gr-na">–</td>';
+        var z = c.z, normal = z != null ? ' vs. normal ±' + c.sigma.toFixed(2) + '% (' + Math.abs(z).toFixed(1) + '× normal)' : '';
+        var tip = a[1] + ', ' + when + ': ' + (c.pct >= 0 ? '+' : '') + c.pct.toFixed(2) + '%' + normal + ' — rank ' + c.rank + ' of ' + row.n;
+        var style = shade(c.pct, maxAbs[a[0]] ? Math.abs(c.pct) / maxAbs[a[0]] : 0, 'range') + shade(c.pct, z != null ? Math.abs(z) / C.cap : 0, 'sigma');
+        return '<td style="' + style + '" title="' + tip + '"><span class="gr-rank">' + c.rank + '</span><span class="gr-detail">' + (c.pct >= 0 ? '+' : '') + c.pct.toFixed(1) + '%' +
+          (z != null ? '<span class="gr-z"> · ' + Math.abs(z).toFixed(1) + 'σ</span>' : '') + '</span></td>';
+      }).join('') + '</tr>';
+    }).join('');
+    var sums = g.assets.map(function (a) { return '<td>' + g.rankSum[a[0]] + '</td>'; }).join('');
+    var grow = g.assets.map(function (a) { var v = g.growth[a[0]]; return v == null ? '<td class="gr-na">–</td>' : '<td class="' + (v >= 0 ? 'gr-up' : 'gr-down') + '">' + (v >= 0 ? '+' : '') + v.toFixed(1) + '%</td>'; }).join('');
+    var n = g.rows.length;
+    return '<p class="gr-sub">Each ' + unit + ' (' + (weekly ? 'Friday close to Friday close' : 'close to close, trading days every asset traded') + '), the assets are ranked by their % change: <strong>1</strong> = best gain that ' + unit +
+      '. The <strong>sum of ' + adj + ' ranks</strong> over the ' + n + ' ' + units + ' (since ' + fmt(g.start, true) + ') is at the bottom — lowest sum = best. Green = up, red = down. Hover a cell for details.</p>' +
+      '<div class="gr-scroll"><table class="gr-table"><colgroup><col class="gr-label-col">' + g.assets.map(function () { return '<col>'; }).join('') + '</colgroup>' +
+      '<thead><tr><th class="gr-label">' + (weekly ? 'Week ending' : 'Day') + '</th>' + head + '</tr></thead><tbody>' + body + '</tbody>' +
+      '<tfoot><tr class="gr-sum"><th class="gr-label">Sum of ranks</th>' + sums + '</tr><tr><th class="gr-label">' + n + '-' + unit + ' growth</th>' + grow + '</tr></tfoot></table></div>';
+  }
+  function show(end) {
+    if (!end) { Object.keys(views).forEach(function (k) { views[k].innerHTML = original[k]; }); latest.setAttribute('aria-pressed', 'true'); status.textContent = ''; return; }
+    status.textContent = 'loading…';
+    load().then(function () {
+      var g = build(end);
+      views.weekly.innerHTML = table(g.weekly, 'weekly');
+      views.daily.innerHTML = table(g.daily, 'daily');
+      latest.setAttribute('aria-pressed', 'false');
+      status.textContent = 'showing the ' + C.weeks + ' weeks / ' + C.days + ' trading days ending ' + fmt(end, true);
+    }).catch(function () { status.textContent = 'history file unavailable'; });
+  }
+  input.addEventListener('change', function () { show(input.value); });
+  latest.addEventListener('click', function () { input.value = ''; show(''); });
 })();
 </script>
 
