@@ -527,6 +527,13 @@ footer li { margin-bottom: 6px; }
   function rotTag(RT) {   // the switch decided at the last close
     return '<span class="tag sell">sell ' + esc(rotName(RT.held)) + '</span><span class="tag buy">buy ' + esc(rotName(RT.mode)) + ' (rotation)</span>';
   }
+  function warnNote(RT) {   // information only: SPY falling below its average while bonds or gold rise
+    if (!RT) return '';
+    var lg = (RT.warnLog || []).map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + (r[1] !== r[0] ? '–' + fmtDate(r[1], { month: 'short', day: 'numeric' }) : '') + ' (' + esc(r[2]) + ')'; }).join(' · ');
+    return '<br><span class="' + (RT.warn ? 'neg' : 'muted') + '"><b>Downtrend warning ' + (RT.warn ? 'ON' : 'off') + '</b></span><span class="muted"> (information only, not traded): SPY’s daily chart in a downtrend (lower highs, lower lows), SPY below its ' + RT.ma + '-day average, and TLT or GLD rising' +
+      (RT.warn ? ' — now: <b>' + esc(RT.warn) + '</b> is rising most steeply. The rule itself waits for its 15-session confirmation before switching; stepping aside earlier is your call.' : '.') +
+      ' Tested as an automatic switch (straight into the rising asset) it fixed late 2018 (−3% instead of −15%) but cost about 2 points a year over 2000–2026, because most of these warnings were short dips. On ' + RT.warnDays + ' sessions since ' + SINCE + (lg ? '. Recent: ' + lg : '') + '.</span>';
+  }
   function rotNote(RT, P) {   // the Boost + rotation explainer with today's readings
     var arw = function (l) { return l && l[0] ? (l[0] === 'up' ? 'up ▲' : l[0] === 'down' ? 'down ▼' : 'choppy') : '–'; };
     var gr = function (l) { return l && l[1] != null ? ' (gradient ' + l[1].toFixed(2) + ')' : ''; };
@@ -617,6 +624,7 @@ footer li { margin-bottom: 6px; }
     var RTb = PA && PA.rotation;
     if (pm === 'rotation' && RTb && RTb.mode !== 'boost') tags = '<span class="muted">Boost + rotation is out of stocks (' + esc(RTb.mode) + '): the stock list changes don’t apply.</span>';
     if (pm === 'rotation' && RTb && RTb.trade) mixTag = rotTag(RTb);
+    if (RTb && RTb.warn) mixTag += '<span class="tag sell">downtrend warning: SPY below its 150-day, ' + esc(RTb.warn) + ' rising (info only)</span>';
     var GD = PA && PA.guard;
     if (pm === 'guard' && GD && GD.bear !== GD.prevBear) mixTag += '<span class="tag ' + (GD.bear ? 'sell' : 'buy') + '">bear guard ' + (GD.bear ? 'ON → ' + Math.round(GD.share * 100) + '% of stocks into SPY' : 'OFF → back to the top 5') + '</span>';
     var sw = SLb && SLb.held !== SLb.prevHeld ? '<span class="tag sell">sell ' + esc(SLb.prevHeld) + '</span><span class="tag buy">buy ' + esc(SLb.held) + ' (sleeve)</span>' : '';
@@ -625,7 +633,7 @@ footer li { margin-bottom: 6px; }
   } else {
     var RTm = D.plan && D.plan.auto && D.plan.auto.rotation, pm2 = (D.plan && D.plan['default']) || 'auto';
     try { pm2 = localStorage.getItem('nibii-plan-mix5') || pm2; } catch (e) {}
-    $('banner').innerHTML = (pm2 === 'rotation' && RTm && RTm.trade ? '<b>Boost + rotation — trade at the close ' + fmtDate(RTm.trade, wd) + ':</b>' + rotTag(RTm) + '<br>' : '') + (tags ? '<b>Preview — if Friday’s signal were ' + fmtDate(D.asOf, wd) + '’s close:</b>' + tags
+    $('banner').innerHTML = (RTm && RTm.warn ? '<span class="tag sell">downtrend warning: SPY below its 150-day in a daily downtrend, ' + esc(RTm.warn) + ' rising (info only)</span>' : '') + (pm2 === 'rotation' && RTm && RTm.trade ? '<b>Boost + rotation — trade at the close ' + fmtDate(RTm.trade, wd) + ':</b>' + rotTag(RTm) + '<br>' : '') + (tags ? '<b>Preview — if Friday’s signal were ' + fmtDate(D.asOf, wd) + '’s close:</b>' + tags
         : '<b>No changes so far</b><span class="muted">At ' + fmtDate(D.asOf, wd) + '’s close all five holdings still rank in the top ' + D.rule.keepRank + '.</span>') +
       '<span class="muted">Signal Fri ' + fmtDate(D.signalDate, md) + ' → trade Mon ' + fmtDate(D.tradeDate, md) + ' before the close.</span>';
   }
@@ -988,7 +996,7 @@ footer li { margin-bottom: 6px; }
         $('auto-note').innerHTML = mine ? '<b>Mine:</b> your call in force — ' + callLabel(mine) + ' → <b>' + mixTxt(m) + '</b>' + (mine.note ? ' · “' + esc(mine.note) + '”' : '') + '. Change it under Your calls.'
           : '<b>Mine:</b> no call yet, so this shows Auto. Make one under Your calls.';
       } else if (A && mix === 'rotation' && RT) {
-        $('auto-note').innerHTML = rotNote(RT, P) + bxNote(A);
+        $('auto-note').innerHTML = rotNote(RT, P) + warnNote(RT) + bxNote(A);
       } else if (A && mix === 'cushion' && A.cushion) {
         var CU = A.cushion;
         var crOk = CU.credit == null || CU.credit < 0, crTxt = function (v) { return v == null ? 'no data' : pct(v); };

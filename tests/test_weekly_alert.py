@@ -143,3 +143,16 @@ def test_rotation_back_to_stocks_on_friday_and_out_of_stocks_note():
     s = scan()
     s['plan']['auto']['rotation'] = rot(mode='GLD', held='GLD')
     assert alert.build(s) is None     # holding GLD, nothing else to do: no alert
+
+
+def test_downtrend_warning_is_info_only():
+    s = scan(signalDay=False, asOf='2026-10-07')
+    s['plan']['auto']['rotation'] = rot(warn='TLT', prevWarn=None, ma=150, confirm=15)
+    title, body = alert.build(s)
+    assert title.startswith('Warning Wed Oct 7') and 'TLT is rising most steeply' in body and 'not a signal' in body
+    s['plan']['auto']['rotation'] = rot(warn='TLT', prevWarn='TLT')
+    assert alert.build(s) is None          # already on yesterday: no repeat
+    s = scan()
+    s['plan']['auto']['rotation'] = rot(warn='GLD', prevWarn=None)
+    title, body = alert.build(s)
+    assert 'downtrend warning (GLD)' in title

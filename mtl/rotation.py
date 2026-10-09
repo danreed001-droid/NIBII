@@ -191,6 +191,46 @@ def rotation_modes(bars, calendar, start, confirm=CONFIRM, slow=SLOW, ma=MA, ass
     return modes, why, R, dict(rot=mode, streak=streak, cand=cand_prev, out=on)
 
 
+def warnings(R, bars, calendar, start, ma=MA, assets=ROT_ASSETS):
+    """Information only, not traded: the days SPY's daily structure is a downtrend while it
+    closes below its `ma`-day average and TLT or GLD is in a rising daily structure.
+    Returns {date: steepest rising asset} for those days from `start`. Tested as an automatic
+    switch (straight into that asset, no wait) it fixed late-2018 but cost about 2 points a
+    year over 2000-2026, so it is shown as a warning for the viewer to judge."""
+    spy = {b[0]: b[4] for b in bars['SPY']}
+    closes = [spy.get(d) for d in calendar]
+    out = {}
+    for k, d in enumerate(calendar):
+        if d < start or k < ma - 1:
+            continue
+        w = [x for x in closes[k - ma + 1:k + 1] if x]
+        if len(w) < ma or closes[k] is None or closes[k] >= sum(w) / ma:
+            continue
+        if R.leg('SPY', d)[0] != 'downtrend':
+            continue
+        a = R.steepest(d, assets)
+        if a:
+            out[d] = a
+    return out
+
+
+def warning_log(warn, calendar, n=8):
+    """The last n warning stretches, newest first: [first day, last day, asset on the first day]."""
+    out, cur = [], None
+    for d in calendar:
+        if d in warn:
+            if cur is None:
+                cur = [d, d, warn[d]]
+            else:
+                cur[1] = d
+        elif cur is not None:
+            out.append(cur)
+            cur = None
+    if cur is not None:
+        out.append(cur)
+    return out[::-1][:n]
+
+
 def rotation_curve(boost_curve, asset_px, calendar, modes, cost=SWITCH_COST):
     """[[date, value]] from 1.0: the Boost curve while the mode is 'boost', else the asset
     (asset_px: {asset: {date: close}}, filled). The mode decided at a close is traded at
