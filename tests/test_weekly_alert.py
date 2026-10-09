@@ -156,3 +156,12 @@ def test_downtrend_warning_is_info_only():
     s['plan']['auto']['rotation'] = rot(warn='GLD', prevWarn=None)
     title, body = alert.build(s)
     assert 'downtrend warning (GLD)' in title
+
+
+def test_rsi_warning_alert_on_its_first_day():
+    s = scan(signalDay=False, asOf='2026-10-07')
+    s['plan']['auto']['rotation'] = rot(rsiWarn=dict(on=True, prevOn=False, date='2026-10-06', line=44.0, rsi=38.5, gap=-0.01))
+    title, body = alert.build(s)
+    assert title == 'Warning Wed Oct 7: SPY RSI broke its support line' and 'line 44.0' in body and '-1.0%' in body
+    s['plan']['auto']['rotation']['rsiWarn']['prevOn'] = True
+    assert alert.build(s) is None
