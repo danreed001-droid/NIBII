@@ -48,8 +48,9 @@ def test_z_is_change_over_normal_weekly_move():
         v *= 1.02 if i % 2 == 0 else 0.98              # alternating +2% / -2% weeks
     p[cal[-1]] = p[cal[-2]] * 1.08                    # last week: +8%
     h = weekly_heat({'A': p}, cal, ['A'], weeks=2)
-    chg, rank, z = h['cells']['A'][-1]
+    chg, rank, z, close = h['cells']['A'][-1]
     assert chg == 0.08 and rank == 1
+    assert abs(close - p[cal[-1]]) / p[cal[-1]] < 1e-5   # the period's close, for the price view
     assert 3.5 < z < 4.5                              # about 4x a 2% normal move
 
 

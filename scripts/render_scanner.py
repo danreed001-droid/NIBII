@@ -210,6 +210,7 @@ table.heat th.held { color: var(--gold); }
 table.heat th.extra { color: var(--muted); font-style: italic; }
 table.heat td.c { text-align: center; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 0.74rem; padding: 4px 2px; border-radius: 4px; cursor: default; min-width: 26px; }
 @media (max-width: 520px) { table.heat { border-spacing: 1px; padding: 4px; min-width: 680px; } table.heat th { font-size: 0.66rem; } table.heat td.c { font-size: 0.68rem; padding: 4px 0; } table.heat th.wk, table.heat td.wk { width: 48px; font-size: 0.66rem; padding-right: 3px; } table.heat tr.sum td { font-size: 0.64rem; } table.heat tr.sum td.wk { white-space: normal; line-height: 1.2; } table.heat th.ud, table.heat td.ud { width: 70px; padding-left: 4px; } }
+table.heat td.c.px { font-size: 0.62rem; letter-spacing: -0.02em; }
 table.heat td.c:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
 table.heat tr.sum td { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 0.74rem; text-align: center; color: var(--ink-2); padding-top: 6px; border-top: 1px solid var(--hairline); }
 table.heat tr.sum td.wk { font-family: inherit; }
@@ -449,10 +450,12 @@ footer li { margin-bottom: 6px; }
     <span class="seg" role="group" aria-label="Show in each cell">
       <button type="button" id="heat-rank" data-v="rank" aria-pressed="true">Week rank</button>
       <button type="button" id="heat-pct" data-v="pct" aria-pressed="false">% change</button>
+      <button type="button" id="heat-price" data-v="price" aria-pressed="false">Price</button>
     </span>
     <span class="seg" role="group" aria-label="Color cells by">
       <button type="button" id="heat-size" data-c="size" aria-pressed="true">Color: size of move</button>
       <button type="button" id="heat-norm" data-c="norm" aria-pressed="false">vs its normal week</button>
+      <button type="button" id="heat-pricec" data-c="price" aria-pressed="false">Price level</button>
     </span>
     <span class="hkey"><span>down</span><i></i><span>up</span><span id="heat-scale"></span></span>
   </div>
@@ -465,10 +468,12 @@ footer li { margin-bottom: 6px; }
     <span class="seg" role="group" aria-label="Show in each cell">
       <button type="button" id="dheat-rank" data-v="rank" aria-pressed="true">Day rank</button>
       <button type="button" id="dheat-pct" data-v="pct" aria-pressed="false">% change</button>
+      <button type="button" id="dheat-price" data-v="price" aria-pressed="false">Price</button>
     </span>
     <span class="seg" role="group" aria-label="Color cells by">
       <button type="button" id="dheat-size" data-c="size" aria-pressed="true">Color: size of move</button>
       <button type="button" id="dheat-norm" data-c="norm" aria-pressed="false">vs its normal day</button>
+      <button type="button" id="dheat-pricec" data-c="price" aria-pressed="false">Price level</button>
     </span>
     <span class="hkey"><span>down</span><i></i><span>up</span><span id="dheat-scale"></span></span>
   </div>
@@ -1555,7 +1560,18 @@ __GROWTH__
       ? 'each trading day the ' + N + ' stocks are ranked by % change: 1 = best · columns sorted by the sum of daily ranks over ' + n + ' days, lowest (most consistent) on the left · + = added by hand (' + (H.extra || []).join(', ') + ') · newest day at the top'
       : 'each week (last close to last close, normally Friday to Friday) the current top ' + N + ' are ranked by % change: 1 = best · columns sorted by the sum of weekly ranks over ' + n + ' weeks, lowest (most consistent) on the left · newest week at the top · darker = bigger move, either in % or against the stock\'s own normal week';
     function lab(d) { return fmtDate(d, { month: 'short', day: 'numeric' }); }
-    function shade(cell) {
+    // each stock's lowest / highest close in the window, for the price-level colors
+    var pxlo = {}, pxhi = {};
+    H.tickers.forEach(function (t) { H.cells[t].forEach(function (c) { if (c && c[3] != null) { pxlo[t] = Math.min(pxlo[t] == null ? Infinity : pxlo[t], c[3]); pxhi[t] = Math.max(pxhi[t] == null ? -Infinity : pxhi[t], c[3]); } }); });
+    function pxpos(t, c) { return c && c[3] != null && pxhi[t] > pxlo[t] ? (c[3] - pxlo[t]) / (pxhi[t] - pxlo[t]) : null; }
+    function money(x) { return x == null ? '–' : x >= 1000 ? Math.round(x).toLocaleString() : x >= 100 ? x.toFixed(1) : x.toFixed(2); }
+    function shade(cell, t) {
+      if (cmode === 'price') {
+        var q = pxpos(t, cell);
+        if (q == null) return 'background:var(--surface-2);color:var(--muted)';
+        var mm = Math.round(12 + Math.abs(q - 0.5) * 2 * 73);
+        return 'background:color-mix(in srgb, ' + (q >= 0.5 ? 'var(--accent)' : 'var(--neg)') + ' ' + mm + '%, var(--surface-2));color:' + (mm > 52 ? '#fff' : 'var(--ink)');
+      }
       var ch = cell[0], v = cmode === 'norm' ? cell[2] : ch;
       if (v == null) return 'background:var(--surface-2);color:var(--muted)';
       var a = Math.min(1, Math.abs(v) / (cmode === 'norm' ? zcap : cap)), m = Math.round(12 + a * 73);
@@ -1568,7 +1584,7 @@ __GROWTH__
     function detail(t, i) {
       var c = H.cells[t][i];
       if (!c) return t + ' · ' + when(i) + ' · no price';
-      return t + ' · ' + when(i) + ' · ' + (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(1) + '% · rank ' + c[1] + ' of ' + N +
+      return t + ' · ' + when(i) + (c[3] != null ? ' · close $' + money(c[3]) + (pxpos(t, c) != null ? ' (' + Math.round(pxpos(t, c) * 100) + '% of its ' + n + '-' + unit + ' low–high range)' : '') : '') + ' · ' + (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(1) + '% · rank ' + c[1] + ' of ' + N +
         (c[2] != null ? ' · ' + Math.abs(c[2]).toFixed(1) + '× its normal ' + (daily ? 'daily' : 'weekly') + ' move' : '');
     }
     function udbar(up, dn, title) {
@@ -1585,7 +1601,9 @@ __GROWTH__
     function draw() {
       document.querySelectorAll('#' + p + '-bar .seg button[data-v]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mode)); });
       document.querySelectorAll('#' + p + '-bar .seg button[data-c]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-c') === cmode)); });
-      $(p + '-scale').textContent = cmode === 'norm'
+      $(p + '-scale').textContent = cmode === 'price'
+        ? '· red = the stock\'s lowest close in the window, full color = its highest'
+        : cmode === 'norm'
         ? '· full color = 2.5× the stock\'s normal ' + unit + ' (its usual ' + (daily ? 'daily swing over the past 3 months' : 'weekly swing over the past year') + ')'
         : '· full color = a ' + (cap * 100) + '% ' + unit;
       var head = '<thead><tr><th class="wk">' + (daily ? 'Day' : 'Week') + '</th>' + H.tickers.map(function (t) {
@@ -1598,8 +1616,8 @@ __GROWTH__
         body += '<tr><td class="wk">' + lab(H.weeks[i]) + (H.partial && i === n - 1 ? '*' : '') + '</td>' + H.tickers.map(function (t) {
           var c = H.cells[t][i];
           if (!c) return '<td class="c" tabindex="0" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">·</td>';
-          var txt = mode === 'rank' ? c[1] : (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(daily ? 1 : 0);
-          return '<td class="c" tabindex="0" style="' + shade(c) + '" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">' + txt + '</td>';
+          var txt = mode === 'rank' ? c[1] : mode === 'price' ? money(c[3]) : (c[0] >= 0 ? '+' : '') + (c[0] * 100).toFixed(daily ? 1 : 0);
+          return '<td class="c' + (mode === 'price' ? ' px' : '') + '" tabindex="0" style="' + shade(c, t) + '" data-t="' + esc(t) + '" data-i="' + i + '" title="' + esc(detail(t, i)) + '">' + txt + '</td>';
         }).join('') + udcell(i) + '</tr>';
       }
       var foot = '<tr class="sum"><td class="wk">Rank sum</td>' + H.tickers.map(function (t) { return '<td>' + H.sums[t] + '</td>'; }).join('') + (function () {
@@ -1694,7 +1712,12 @@ __GROWTH__
     $(p).addEventListener('focusin', show);
     $(p + '-bar').addEventListener('click', function (e) {
       var b = e.target.closest('button[data-v], button[data-c]'); if (!b) return;
-      if (b.hasAttribute('data-v')) { mode = b.getAttribute('data-v'); try { localStorage.setItem('nibii-' + p + '-mode', mode); } catch (x) {} }
+      if (b.hasAttribute('data-v')) {
+        mode = b.getAttribute('data-v');
+        if (mode === 'price') cmode = 'price';                 // price view: color by price level
+        else if (cmode === 'price') cmode = 'size';
+        try { localStorage.setItem('nibii-' + p + '-mode', mode); localStorage.setItem('nibii-' + p + '-color', cmode); } catch (x) {}
+      }
       else { cmode = b.getAttribute('data-c'); try { localStorage.setItem('nibii-' + p + '-color', cmode); } catch (x) {} }
       draw();
     });
