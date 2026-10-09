@@ -2497,5 +2497,85 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-09-2-sp-500-dow-nasdaq-close-higher-10y-near-24-yr-high",
+    "data": {
+      "addedAt": "2026-10-09",
+      "category": "Market",
+      "date": "2026-10-09",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "S&P 500, Dow, Nasdaq all close higher to cap a volatile week; 10-year yield holds near a 24-year high",
+      "impact": "High",
+      "numbers": "S&P 500 7,811.51 (+46.15, +0.59%); Dow 51,655.01 (+423.37, +0.83%); Nasdaq 27,366.17 (+172.83, +0.64%); Russell 2000 +0.5%; 10Y yield ~5.25%; VIX 14.84 (-3.7%)",
+      "order": 2,
+      "reaction": "Dip-buying continued from Thursday's AI-led tech selloff; S&P 500 came within striking distance of an all-time high; the bull market is on track to mark 4 years on Oct. 12 (+119% so far)",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-09-2026",
+      "tickers": "SPY, DIA, QQQ, IWM, 10Y, VIX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-09-3-spacex-8b-spectrum-deal-sinks-telecom-stocks",
+    "data": {
+      "addedAt": "2026-10-09",
+      "category": "Deals",
+      "date": "2026-10-09",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "SpaceX agrees to buy low-band wireless spectrum from Grain Management for ~$8B, seen as a credible threat to wireless carriers",
+      "impact": "High",
+      "numbers": "Deal size ~$8B; T-Mobile -12%, AT&T and Verizon each ~-11% at session lows; Crown Castle rose",
+      "order": 3,
+      "reaction": "Investors priced in direct-to-cell competition risk for incumbent carriers; SpaceX (SPCX) rose ~1.6%, now ~8% above its $150 IPO price",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-09-2026",
+      "tickers": "TMUS, T, VZ, CCI, SPCX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-09-4-iran-hormuz-tensions-trump-delays-action-to-midterms",
+    "data": {
+      "addedAt": "2026-10-09",
+      "category": "Geopolitics",
+      "date": "2026-10-09",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Trump says US won't attack Iran before Nov. 3 midterms; Iran's Revolutionary Guard reportedly strikes an LPG carrier near the Strait of Hormuz, and a Houthi attack kills 3 at Riyadh's airport",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 4,
+      "reaction": "Traders stayed skeptical the standoff is cooling; Brent held above $100 despite an early pullback from Thursday's ~4% jump; Trump separately said Russia will supply 300k+ tons of diesel immediately, with more in November",
+      "region": "Middle East/US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-9-dow-sp-500-nasdaq-080148117.html",
+      "tickers": "USO, BNO, XLE",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-09-5-umich-sentiment-falls-to-46-3-below-forecast",
+    "data": {
+      "addedAt": "2026-10-09",
+      "category": "Macro",
+      "date": "2026-10-09",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "University of Michigan preliminary October consumer sentiment falls to 46.3, the lowest since May and below the 47.6 forecast",
+      "impact": "Medium",
+      "numbers": "46.3 vs 48.1 in September vs ~47.6 expected",
+      "order": 5,
+      "reaction": "Director Joanne Hsu cited mounting frustration over cost-of-living pressure from tariffs and the Iran war; sentiment weakness was overshadowed by the broader equity rally",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-09-2026",
+      "tickers": "n/a",
+      "time": "Market hours",
+      "vsExp": "Below expectations (miss)"
+    }
   }
 ]
