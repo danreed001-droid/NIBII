@@ -114,3 +114,32 @@ def test_cushion_check_line_shows_both_signals():
     assert '**Cushion check:** SPY -3.1% vs its 150-day average' in body and '→ **on** (both weak)' in body
     calm = cushion_check(dict(split='100/0', ma=150, spyGap=-0.02, credit=0.004, creditLook=21))
     assert '→ **off**' in calm and 'credit calm' in calm
+
+
+def rot(**kw):
+    base = dict(mode='boost', held='boost', trade=None, log=[])
+    base.update(kw)
+    return base
+
+
+def test_rotation_switch_midweek_sends_its_own_alert():
+    s = scan(signalDay=False, asOf='2026-10-07')
+    s['plan']['auto']['rotation'] = rot(mode='GLD', held='boost', trade='2026-10-08', log=[['2026-10-07', 'boost', 'GLD', 'rotate']])
+    title, body = alert.build(s, 'someone')
+    assert title.startswith('Trade Thu Oct 8: Boost + rotation → GLD')
+    assert 'buy **GLD**' in body and 'steepest gradient' in body and '@someone' in body
+
+
+def test_rotation_back_to_stocks_on_friday_and_out_of_stocks_note():
+    s = scan()
+    s['plan']['auto']['rotation'] = rot(mode='boost', held='TLT', trade='2026-10-05', log=[['2026-10-02', 'TLT', 'boost', 'above']])
+    title, body = alert.build(s)
+    assert 'rotation → stocks' in title and 'sell TLT' in body and '150-day average' in body
+    assert '| Boost + rotation | 100% |' in body
+    s = scan(changes={'sell': ['MRVL'], 'buy': ['MU']})
+    s['plan']['auto']['rotation'] = rot(mode='GLD', held='GLD')
+    title, body = alert.build(s)
+    assert "out of stocks (GLD): the stock changes below don't apply" in body and '100% in GLD' in body
+    s = scan()
+    s['plan']['auto']['rotation'] = rot(mode='GLD', held='GLD')
+    assert alert.build(s) is None     # holding GLD, nothing else to do: no alert

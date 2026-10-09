@@ -18,7 +18,9 @@ leverage. 'Auto' (the default) holds 100% in the top 5 and moves to 60/40 for
 the week when 2 or more holdings are in a daily lower-low downtrend at Friday's
 close (the swing read shown on each card). 'Steps' scales with the count instead:
 1 holding down -> 80/20, 2 -> 60/40, 3+ -> 40/60. Fixed 100/0, 80/20 and 60/40 mixes
-are offered too. Signals come from each Friday's close; trades (stocks,
+are offered too. The default plan is Boost + rotation (mtl/rotation.py): the Boost 100%
+list, moved into TLT / GLD (or T-bills) when SPY's swing structure turns down, decided at
+any close and traded at the next. Signals come from each Friday's close; trades (stocks,
 sleeve switch, reset to the split) are made on Monday before the close, and the
 track record is computed that way.
 
@@ -39,6 +41,7 @@ from mtl.momentum import blowoff_exit, last_sessions_of_weeks, market_armed, ran
 from mtl.heat import daily_heat, weekly_heat  # noqa: E402
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
+from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, rotation_curve, rotation_modes, switch_log  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -242,6 +245,44 @@ def last_business_day(d):
     return x
 
 
+def next_session(d_):
+    """The next weekday after d_ (holidays aside)."""
+    x = date.fromisoformat(d_) + timedelta(days=1)
+    while x.weekday() > 4:
+        x += timedelta(days=1)
+    return x.isoformat()
+
+
+def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
+    """What Boost + rotation holds, what changes at the next close, and the readings behind it."""
+    as_of = calendar[K]
+    mode, held = modes.get(as_of, 'boost'), modes.get(calendar[K - 1], 'boost')
+
+    def leg(t, tf='d'):
+        st, g = read.leg(t, as_of, tf)
+        return [STATE.get(st, st), None if g is None else round(g, 4)]
+    lab = read.labels('SPY', as_of, 'w')
+    his = [x for x in lab if x['type'] == 'high']
+    los = [x for x in lab if x['type'] == 'low']
+    lh = None
+    if his:
+        k_h = calendar.index(his[-1]['ts'][:10]) if his[-1]['ts'][:10] in calendar else None
+        g_h = spy_gap(calendar[k_h]) if k_h is not None else None
+        c_h = {b_[0]: b_[4] for b_ in read.bars['SPY']}.get(his[-1]['ts'][:10])
+        lh = dict(d=his[-1]['ts'][:10], px=r4(his[-1]['price']), label=his[-1]['label'],
+                  ma=r4(c_h / (1 + g_h)) if g_h is not None and c_h else None)
+    days = [d_ for d_ in calendar if d_ in modes]
+    return dict(mode=mode, held=held, trade=next_session(as_of) if mode != held else None,
+                confirm=ROT_CONFIRM, slow=ROT_SLOW, ma=ROT_MA, assets=list(ROT_ASSETS),
+                spy=dict(daily=leg('SPY'), weekly=leg('SPY', 'w'), gap=r4(spy_gap(as_of)), lastHigh=lh,
+                         lows=[[x['ts'][:10], r4(x['price']), x['label']] for x in los[-2:]]),
+                legs={t: leg(t) for t in ROT_ASSETS}, px={t: r4((px.get(t) or {}).get(as_of)) for t in ROT_ASSETS + ('BIL',)},
+                rot=state['rot'], streak=state['streak'], cand=state['cand'], out=state['out'],
+                daysOut=sum(1 for d_ in days if modes[d_] != 'boost'), days=len(days),
+                switches=sum(1 for a_, b_ in zip(days, days[1:]) if modes[a_] != modes[b_]),
+                log=switch_log(modes, why))
+
+
 def main():
     names = momentum_universe(refresh='--no-refresh' not in sys.argv)
     sp = load_sp500()
@@ -250,7 +291,8 @@ def main():
     print(f"Fetching daily history for {len(tickers)} stocks + SPY/QQQ...", file=sys.stderr)
     bars = fetch(tickers)
     bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD'], adjusted=True)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check
-    sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in fetch(ASSETS, adjusted=True).items()}
+    asset_bars = fetch(ASSETS, adjusted=True)   # OHLC: Boost + rotation reads TLT's and GLD's swing structure
+    sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in asset_bars.items()}
     prices = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items() if bs}
     prices['SPY'] = {b[0]: b[4] for b in bench['SPY']}
     calendar = [b[0] for b in bench['SPY']]
@@ -462,6 +504,11 @@ def main():
              'cushion': plan_curve_dynamic(strat_bx, sl_curve, calendar, cushion_split),
              'steps': plan_curve_dynamic(strat, sl_curve, calendar, steps_split),
              'guard': plan_curve_mix({'top5': strat, 'sleeve': sl_curve, 'spy': spy_curve}, calendar, guard_weights)}
+    # Boost + rotation (the default): the Boost 100% list, out of stocks into TLT / GLD when the
+    # swing structure says so (mtl/rotation.py); decided at any close, traded at the next close
+    rot_bars = {'SPY': bench['SPY'], **{t: asset_bars[t] for t in ROT_ASSETS if asset_bars.get(t)}}
+    rot_modes, rot_why, rot_read, rot_state = rotation_modes(rot_bars, calendar, START)
+    plans['rotation'] = rotation_curve(strat_bx, filled(sleeve_px, calendar), calendar, rot_modes)
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
     curves['plan'] = growth(plans['auto'])
@@ -537,6 +584,7 @@ def main():
     curves['boost'] = growth(plans['boost'])
     curves['boost100'] = growth(plans['boost100'])
     curves['cushion'] = growth(plans['cushion'])
+    curves['rotation'] = growth(plans['rotation'])
     # Boost 100% + call sleeve: 80% the plan, 20% best-case-priced 6-month calls on its new picks (mtl.options_sim)
     curves['calls'] = growth(call_sleeve_curve(plans['boost100'], picks_bx, prices, calendar))
     curves['cushionCalls'] = growth(call_sleeve_curve(plans['cushion'], picks_bx, prices, calendar))
@@ -647,6 +695,7 @@ def main():
                            creditLook=CREDIT_LOOK, credit=r4(credit_gap(sig_d)), previewCredit=r4(credit_gap(as_of)),
                            weeksSpyLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and (spy_gap(f_) or 0) < 0),
                            log=cushion_log(calendar, last_sessions_of_weeks(calendar), START, cushion_split, spy_gap, credit_gap))
+    auto['rotation'] = rotation_block(rot_modes, rot_why, rot_read, rot_state, calendar, K, spy_gap, sleeve_px)
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(STEPS.get(len(auto['previewDown']), STEPS_MIN))
@@ -735,7 +784,7 @@ def main():
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
         monthly=monthly,
         option=option_check(held_rows, bars, as_of, calendar, signal_day),
-        plan=dict(splits=['boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='boost100', stats=plan_stats, auto=auto))
+        plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)
