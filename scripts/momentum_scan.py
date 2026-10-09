@@ -41,6 +41,7 @@ from mtl.momentum import blowoff_exit, last_sessions_of_weeks, market_armed, ran
 from mtl.heat import daily_heat, weekly_heat  # noqa: E402
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
+from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
 from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, rotation_curve, rotation_modes, switch_log, warning_log, warnings  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
@@ -273,7 +274,15 @@ def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
                   ma=r4(c_h / (1 + g_h)) if g_h is not None and c_h else None)
     days = [d_ for d_ in calendar if d_ in modes]
     warn = warnings(read, read.bars, calendar, days[0] if days else as_of)
-    return dict(warn=warn.get(as_of), prevWarn=warn.get(calendar[K - 1]), warnDays=len(warn), warnLog=warning_log(warn, calendar),
+    spy_c = {b_[0]: b_[4] for b_ in read.bars['SPY']}
+    closes = [spy_c.get(d_) for d_ in calendar]
+    for i_ in range(1, len(closes)):
+        closes[i_] = closes[i_] or closes[i_ - 1]
+    brk = support_breaks(rsi14(closes))
+    rw, rw_prev = rsi_warning(closes, calendar, K, brk=brk), rsi_warning(closes, calendar, K - 1, brk=brk)
+    rw['prevOn'] = rw_prev['on']
+    rw['log'] = [[calendar[i_], brk[i_][0], r4(spy_gap(calendar[i_]))] for i_ in sorted(brk)[-8:]][::-1]
+    return dict(rsiWarn=rw,warn=warn.get(as_of), prevWarn=warn.get(calendar[K - 1]), warnDays=len(warn), warnLog=warning_log(warn, calendar),
                 mode=mode, held=held, trade=next_session(as_of) if mode != held else None,
                 confirm=ROT_CONFIRM, slow=ROT_SLOW, ma=ROT_MA, assets=list(ROT_ASSETS),
                 spy=dict(daily=leg('SPY'), weekly=leg('SPY', 'w'), gap=r4(spy_gap(as_of)), lastHigh=lh,
