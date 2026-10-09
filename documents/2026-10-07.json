@@ -336,12 +336,12 @@
       [
        "bear",
        "The 10-year yield closed near 5.28% (intraday 5.36%, highest since April 2002) and the 30-year near 5.66% (news log, 7 October close entry); equities have a -0.543 correlation to 10-year yield changes over 21 sessions",
-       true
+       false
       ],
       [
        "bear",
        "September FOMC minutes (7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets price roughly 17-20% odds of an October hike (news log)",
-       true
+       false
       ],
       [
        "neu",
@@ -361,7 +361,7 @@
       [
        "bear",
        "The 7 October FOMC minutes were hawkish and S&P 500 closed -0.22% with yields at 2002 highs (news log); the event risk resolved to the downside",
-       true
+       false
       ],
       [
        "neu",
@@ -371,7 +371,7 @@
       [
        "bear",
        "Brent was above $101 and WTI about $90 on 7 October on continued Strait of Hormuz attacks (news log, pre-market entry); the dollar index rose 0.25% to 102.23 (DX-Y.NYB) and oil correlation to equities is -0.494 over 21 sessions",
-       true
+       false
       ],
       [
        "neu",
@@ -379,13 +379,12 @@
        null
       ]
      ],
-     "maturityClose": 7811.25,
-     "ret": -0.005538,
+     "maturityClose": 7822.5,
+     "ret": -0.004106,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2463,13 +2462,12 @@
        null
       ]
      ],
-     "maturityClose": 104.75,
-     "ret": 0.003443,
+     "maturityClose": 104.71875,
+     "ret": 0.003143,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5170,13 +5168,12 @@
        null
       ]
      ],
-     "maturityClose": 4155.10009765625,
-     "ret": -0.000529,
+     "maturityClose": 4158.2998046875,
+     "ret": 0.000241,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7250,13 +7247,12 @@
        null
       ]
      ],
-     "maturityClose": 102.0999984741211,
-     "ret": -0.001262,
+     "maturityClose": 102.10399627685547,
+     "ret": -0.001223,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9451,13 +9447,12 @@
        false
       ]
      ],
-     "maturityClose": 2808.89990234375,
-     "ret": -0.000534,
+     "maturityClose": 2811.89990234375,
+     "ret": 0.000534,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11426,13 +11421,12 @@
        null
       ]
      ],
-     "maturityClose": 30927.25,
-     "ret": -0.016262,
+     "maturityClose": 31021.25,
+     "ret": -0.013272,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,

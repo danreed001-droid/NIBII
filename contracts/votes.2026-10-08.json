@@ -1,0 +1,986 @@
+{
+ "equities": {
+  "1": [
+   [
+    "neu",
+    "1H structure is choppy (structure.hourly: latest swings LH 7850 then LL 7783); S&P 500 (ES=F) -0.29% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "VIX closed 15.41 on 8 October, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield eased to about 5.23% on 8 October from about 5.28%, still near multidecade highs (highest since April 2002 at 5.36% intraday on 7 October), with the 30-year about 5.67% (news log, 8 October close entry); equities correlate -0.483 with 10-year yield changes over 21 sessions"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "bear",
+    "Chip and AI stocks sold off after an FT report that OpenAI's annualized revenue run-rate is about $20B below prior estimates: Philadelphia Semiconductor Index fell as much as 4% intraday, Arm/Intel/Marvell each fell 6%+, Nasdaq -1.25% (news log, 8 October); S&P 500 closed -0.47% (cash) as the semiconductor selloff offset the Dow"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log); oil correlation to equities is -0.468 over 21 sessions"
+   ],
+   [
+    "neu",
+    "1H structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "5": [
+   [
+    "neu",
+    "Weekly structure is choppy (structure.weekly: latest swings HH 7838 then HL 7509); S&P 500 (ES=F) -0.29% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "VIX closed 15.41 on 8 October, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield eased to about 5.23% on 8 October from about 5.28%, still near multidecade highs (highest since April 2002 at 5.36% intraday on 7 October), with the 30-year about 5.67% (news log, 8 October close entry); equities correlate -0.483 with 10-year yield changes over 21 sessions"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "The 8 October chip selloff is one datapoint and PepsiCo's beat-but-guidance-cut (Q3 EPS $2.34, core EPS growth outlook cut to 2.5%-3%) was two-sided, so the longer-horizon earnings read is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log); oil correlation to equities is -0.468 over 21 sessions"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "10": [
+   [
+    "neu",
+    "Weekly structure is choppy (structure.weekly: latest swings HH 7838 then HL 7509); S&P 500 (ES=F) -0.29% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "VIX closed 15.41 on 8 October, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield eased to about 5.23% on 8 October from about 5.28%, still near multidecade highs (highest since April 2002 at 5.36% intraday on 7 October), with the 30-year about 5.67% (news log, 8 October close entry); equities correlate -0.483 with 10-year yield changes over 21 sessions"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "The 8 October chip selloff is one datapoint and PepsiCo's beat-but-guidance-cut (Q3 EPS $2.34, core EPS growth outlook cut to 2.5%-3%) was two-sided, so the longer-horizon earnings read is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log); oil correlation to equities is -0.468 over 21 sessions"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ]
+ },
+ "bonds": {
+  "1": [
+   [
+    "neu",
+    "1H structure is choppy (structure.hourly: latest swings HL 104.00 then HH 104.78); 10-year note (ZN=F) +0.37% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "No MOVE close was obtainable and the TLT implied-volatility input is stale, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "neu",
+    "The 10-year yield eased about 5bp to about 5.23% and ZN=F rose 0.37% on 8 October (news log), so the one-day rates read is two-sided"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log), an inflation-and-yield headwind for note prices"
+   ],
+   [
+    "neu",
+    "1H structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "5": [
+   [
+    "neu",
+    "Weekly structure is choppy (structure.weekly: latest swings LL 107.98 then LH 109.11); 10-year note (ZN=F) +0.37% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "No MOVE close was obtainable and the TLT implied-volatility input is stale, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield is still about 5.23% and the 30-year about 5.67%, near 2002 highs (news log, 8 October); ZN=F is below its 50-day (107.06) and 200-day (109.98) averages and near its 52-week closing low of 104.20"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log), an inflation-and-yield headwind for note prices"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "10": [
+   [
+    "neu",
+    "Weekly structure is choppy (structure.weekly: latest swings LL 107.98 then LH 109.11); 10-year note (ZN=F) +0.37% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "No MOVE close was obtainable and the TLT implied-volatility input is stale, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield is still about 5.23% and the 30-year about 5.67%, near 2002 highs (news log, 8 October); ZN=F is below its 50-day (107.06) and 200-day (109.98) averages and near its 52-week closing low of 104.20"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log), an inflation-and-yield headwind for note prices"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ]
+ },
+ "gold": {
+  "1": [
+   [
+    "neu",
+    "1H structure is choppy (structure.hourly: latest swings LL 4129 then HH 4171); gold (GC=F) +0.99% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "^GVZ closed 22.68 on 8 October, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "neu",
+    "The 10-year yield eased to about 5.23% and GC=F rose 0.99% on 8 October (news log; GC=F), so the one-day rates read is two-sided"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "neu",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log) (an inflation support) but yields remain near 2002 highs (a headwind) while the dollar fell 0.24%, so the cross-asset read is two-sided"
+   ],
+   [
+    "neu",
+    "1H structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "5": [
+   [
+    "bear",
+    "Weekly structure is a downtrend (structure.weekly: latest swings LL 3955 then LH 4755); gold (GC=F) +0.99% on 8 October"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "^GVZ closed 22.68 on 8 October, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield stays near 5.23%, close to its highest since 2002, and 30-year near 5.67% (news log, 8 October), a real-yield headwind for non-yielding gold"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "neu",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log) (an inflation support) but yields remain near 2002 highs (a headwind) while the dollar fell 0.24%, so the cross-asset read is two-sided"
+   ],
+   [
+    "bear",
+    "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+   ]
+  ],
+  "10": [
+   [
+    "bear",
+    "Weekly structure is a downtrend (structure.weekly: latest swings LL 3955 then LH 4755); gold (GC=F) +0.99% on 8 October"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "^GVZ closed 22.68 on 8 October, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield stays near 5.23%, close to its highest since 2002, and 30-year near 5.67% (news log, 8 October), a real-yield headwind for non-yielding gold"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "neu",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log) (an inflation support) but yields remain near 2002 highs (a headwind) while the dollar fell 0.24%, so the cross-asset read is two-sided"
+   ],
+   [
+    "bear",
+    "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+   ]
+  ]
+ },
+ "dollar": {
+  "1": [
+   [
+    "neu",
+    "1H structure is choppy (structure.hourly: latest swings HH 102.5 then LL 102); dollar index (DX-Y.NYB) -0.24% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "No current FX implied-volatility percentile was obtainable, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "neu",
+    "US yields eased on 8 October (10-year about 5.23%) and DX-Y.NYB fell 0.24% (news log), so the one-day rates read is two-sided"
+   ],
+   [
+    "bull",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log); higher US policy rates support the dollar"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "neu",
+    "Brent rose above $103 and equities fell (risk-off) but yields eased and DX-Y.NYB fell 0.24% on 8 October, so the cross-asset read is two-sided"
+   ],
+   [
+    "neu",
+    "1H structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "5": [
+   [
+    "neu",
+    "Weekly structure is choppy (structure.weekly: latest swings HL 98.56 then HL 98.6); dollar index (DX-Y.NYB) -0.24% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "No current FX implied-volatility percentile was obtainable, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bull",
+    "US yields remain near 2002 highs (10-year about 5.23%, 30-year about 5.67%, news log 8 October), which supports the dollar"
+   ],
+   [
+    "bull",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log); higher US policy rates support the dollar"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "neu",
+    "Brent rose above $103 and equities fell (risk-off) but yields eased and DX-Y.NYB fell 0.24% on 8 October, so the cross-asset read is two-sided"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "10": [
+   [
+    "neu",
+    "Weekly structure is choppy (structure.weekly: latest swings HL 98.56 then HL 98.6); dollar index (DX-Y.NYB) -0.24% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "No current FX implied-volatility percentile was obtainable, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bull",
+    "US yields remain near 2002 highs (10-year about 5.23%, 30-year about 5.67%, news log 8 October), which supports the dollar"
+   ],
+   [
+    "bull",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log); higher US policy rates support the dollar"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "neu",
+    "Brent rose above $103 and equities fell (risk-off) but yields eased and DX-Y.NYB fell 0.24% on 8 October, so the cross-asset read is two-sided"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ]
+ },
+ "iwm": {
+  "1": [
+   [
+    "neu",
+    "1H structure is choppy (structure.hourly: latest swings LL 2779 then HL 2779); Russell 2000 (RTY=F) +0.26% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "RVX is stale (23 September) and VIX closed 15.41, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield eased to about 5.23% on 8 October from about 5.28%, still near multidecade highs (highest since April 2002 at 5.36% intraday on 7 October), with the 30-year about 5.67% (news log, 8 October close entry); small caps correlate -0.549 with 10-year yield changes over 21 sessions"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log); oil correlation to small caps is -0.25"
+   ],
+   [
+    "neu",
+    "1H structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "5": [
+   [
+    "bull",
+    "Weekly structure is a uptrend (structure.weekly: latest swings HL 2902 then HH 3080); Russell 2000 (RTY=F) +0.26% on 8 October"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "RVX is stale (23 September) and VIX closed 15.41, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield eased to about 5.23% on 8 October from about 5.28%, still near multidecade highs (highest since April 2002 at 5.36% intraday on 7 October), with the 30-year about 5.67% (news log, 8 October close entry); small caps correlate -0.549 with 10-year yield changes over 21 sessions"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log); oil correlation to small caps is -0.25"
+   ],
+   [
+    "bull",
+    "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+   ]
+  ],
+  "10": [
+   [
+    "bull",
+    "Weekly structure is a uptrend (structure.weekly: latest swings HL 2902 then HH 3080); Russell 2000 (RTY=F) +0.26% on 8 October"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "RVX is stale (23 September) and VIX closed 15.41, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield eased to about 5.23% on 8 October from about 5.28%, still near multidecade highs (highest since April 2002 at 5.36% intraday on 7 October), with the 30-year about 5.67% (news log, 8 October close entry); small caps correlate -0.549 with 10-year yield changes over 21 sessions"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "neu",
+    "No earnings catalyst bears directly on this market on 8 October (news log: PepsiCo beat on Q3 revenue and EPS but cut its outlook, two-sided), so earnings is neutral"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log); oil correlation to small caps is -0.25"
+   ],
+   [
+    "bull",
+    "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+   ]
+  ]
+ },
+ "qqq": {
+  "1": [
+   [
+    "bear",
+    "1H structure is a downtrend (structure.hourly: latest swings LL 3.079e+04 then LH 3.107e+04); Nasdaq-100 (NQ=F) -1.22% on 8 October"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "VXN closed 21.98 and VIX 15.41 on 8 October, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield eased to about 5.23% on 8 October from about 5.28%, still near multidecade highs (highest since April 2002 at 5.36% intraday on 7 October), with the 30-year about 5.67% (news log, 8 October close entry); Nasdaq-100 correlates -0.412 with 10-year yield changes over 21 sessions"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "bear",
+    "Chip and AI stocks sold off after an FT report that OpenAI's annualized revenue run-rate is about $20B below prior estimates: Philadelphia Semiconductor Index fell as much as 4% intraday, Arm/Intel/Marvell each fell 6%+, Nasdaq -1.25% (news log, 8 October); renewed doubts about AI capex and revenue sustainability weigh on the index"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log); oil is the dominant driver (corr -0.574 over 21 sessions)"
+   ],
+   [
+    "bear",
+    "1H structure is downtrend - last labeled swings: LL/LH/LL/LH."
+   ]
+  ],
+  "5": [
+   [
+    "neu",
+    "Weekly structure is choppy (structure.weekly: latest swings LH 3.034e+04 then HL 2.876e+04); Nasdaq-100 (NQ=F) -1.22% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "VXN closed 21.98 and VIX 15.41 on 8 October, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield eased to about 5.23% on 8 October from about 5.28%, still near multidecade highs (highest since April 2002 at 5.36% intraday on 7 October), with the 30-year about 5.67% (news log, 8 October close entry); Nasdaq-100 correlates -0.412 with 10-year yield changes over 21 sessions"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "bear",
+    "Chip and AI stocks sold off after an FT report that OpenAI's annualized revenue run-rate is about $20B below prior estimates: Philadelphia Semiconductor Index fell as much as 4% intraday, Arm/Intel/Marvell each fell 6%+, Nasdaq -1.25% (news log, 8 October); renewed doubts about AI capex and revenue sustainability weigh on the index"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log); oil is the dominant driver (corr -0.574 over 21 sessions)"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "10": [
+   [
+    "neu",
+    "Weekly structure is choppy (structure.weekly: latest swings LH 3.034e+04 then HL 2.876e+04); Nasdaq-100 (NQ=F) -1.22% on 8 October, so the read is two-sided"
+   ],
+   [
+    "neu",
+    "No advance/decline or %-above-MA counts for 8 October were obtained; the news log only has the Dow +0.10% against Nasdaq -1.25%, which is not a breadth count, so breadth is neutral"
+   ],
+   [
+    "neu",
+    "VXN closed 21.98 and VIX 15.41 on 8 October, and no source names a percentile or record, so no volatility-regime edge is claimed"
+   ],
+   [
+    "neu",
+    "No 8 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+   ],
+   [
+    "bear",
+    "The 10-year yield eased to about 5.23% on 8 October from about 5.28%, still near multidecade highs (highest since April 2002 at 5.36% intraday on 7 October), with the 30-year about 5.67% (news log, 8 October close entry); Nasdaq-100 correlates -0.412 with 10-year yield changes over 21 sessions"
+   ],
+   [
+    "bear",
+    "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)"
+   ],
+   [
+    "neu",
+    "The newest obtainable AAII survey (week to 23 September) names no extreme and no 8 October sentiment extreme was sourced, so no contrarian edge is claimed"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 8 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+   ],
+   [
+    "bear",
+    "Chip and AI stocks sold off after an FT report that OpenAI's annualized revenue run-rate is about $20B below prior estimates: Philadelphia Semiconductor Index fell as much as 4% intraday, Arm/Intel/Marvell each fell 6%+, Nasdaq -1.25% (news log, 8 October); renewed doubts about AI capex and revenue sustainability weigh on the index"
+   ],
+   [
+    "neu",
+    "No scheduled 8 October data release is in the news log; the 7 October FOMC minutes are scored under Fed path, so the macro calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+   ],
+   [
+    "bear",
+    "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log); oil is the dominant driver (corr -0.574 over 21 sessions)"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ]
+ }
+}
