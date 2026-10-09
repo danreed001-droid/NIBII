@@ -2477,5 +2477,25 @@
       "time": "Pre-market",
       "vsExp": "Beat on both revenue and adjusted EPS"
     }
+  },
+  {
+    "id": "2026-10-09-1-futures-rise-tech-rebounds-oil-eases",
+    "data": {
+      "addedAt": "2026-10-09",
+      "category": "Market",
+      "date": "2026-10-09",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "US stock futures rise as tech rebounds from Thursday's AI-led selloff and oil eases",
+      "impact": "Medium",
+      "numbers": "S&P 500 futures ~+0.3-0.4%; Nasdaq-100 futures ~+0.8%; Dow futures ~+0.2%; Brent ~$102 (from >$103); 10Y yield ~5.25%",
+      "order": 1,
+      "reaction": "Dip-buying in tech after Nasdaq 100 fell ~1.4% Thursday (worst day in 7 weeks); lower oil supports risk, but high yields and inflation expectations (Michigan 1-yr 3.9% in Sept) cap upside; prelim UMich sentiment due 10:00 AM ET (consensus ~47.6 vs 48.1)",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-9-dow-sp-500-nasdaq-080148117.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, 10Y, yield",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
