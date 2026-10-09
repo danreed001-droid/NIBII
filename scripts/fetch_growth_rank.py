@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Fetch two years of daily closes for the growth ranking grid's six markets
-(see mtl/growth_rank.py) and write the weekly + daily grids to
-documents/growth_rank.json, which scripts/render_html.py draws.
+"""Fetch daily closes since 2000 for the growth ranking grid's six markets
+(see mtl/growth_rank.py), write the weekly + daily grids to
+documents/growth_rank.json, which scripts/render_html.py draws, and the full
+history to docs/growth_history.json for the page's "ending on" date picker.
 
 A display overlay only, like fetch_live.py: it never touches a published
 documents/<date>.json or influences a call. A failed fetch keeps the
@@ -24,7 +25,7 @@ def main():
     rows = {}
     for ticker, _name in growth_rank.GRID_ASSETS:
         try:
-            rows[ticker] = fetch_closes(ticker, period="2y")
+            rows[ticker] = fetch_closes(ticker, start=growth_rank.HISTORY_FROM, period=None)
         except Exception as e:  # noqa: BLE001 - display overlay, never fatal
             print(f"{ticker}: fetch failed: {e}")
     now = datetime.now(timezone.utc)
@@ -39,6 +40,13 @@ def main():
         json.dump(out, f, indent=1)
         f.write("\n")
     print(f"wrote {out_path}")
+    # the full daily history, loaded by the page only when the viewer picks an end date
+    hist = growth_rank.history({t: r for t, r in rows.items() if r})
+    if hist:
+        hist_path = os.path.join(root, "docs", "growth_history.json")
+        with open(hist_path, "w") as f:
+            json.dump(dict(fetchedAt=out["fetchedAt"], **hist), f, separators=(",", ":"))
+        print(f"wrote {hist_path} ({len(hist['days'])} days)")
 
 
 if __name__ == "__main__":

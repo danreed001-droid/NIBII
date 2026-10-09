@@ -122,3 +122,24 @@ def build(daily_rows_by_ticker, today):
         "weekly": rank_grid(weekly, all_weeks[-(WEEKS + 1):], today, BASELINE_WEEKS),
         "daily": rank_grid(daily, common_days[-(DAYS + 1):], today - timedelta(days=1), BASELINE_DAYS),
     }
+
+
+HISTORY_FROM = "2000-01-01"   # the date picker's history file starts here
+
+
+def history(daily_rows_by_ticker):
+    """Compact daily history for the page's date picker (docs/growth_history.json):
+    {"days": [weekday ISO dates], "assets": [[ticker, name]], "closes": {ticker: [close or None]}}
+    aligned to "days"; the page rebuilds the weekly / daily grids ending on any date with the
+    same rules as rank_grid()."""
+    daily = {t: weekdays_only(rows) for t, rows in daily_rows_by_ticker.items()}
+    daily = {t: c for t, c in daily.items() if c}
+    if not daily:
+        return None
+    days = sorted({d for c in daily.values() for d in c})
+    tickers = [t for t, _ in GRID_ASSETS if t in daily]
+    return {
+        "days": [d.isoformat() for d in days],
+        "assets": [[t, name] for t, name in GRID_ASSETS if t in daily],
+        "closes": {t: [float(f"{daily[t][d]:.6g}") if d in daily[t] else None for d in days] for t in tickers},
+    }
