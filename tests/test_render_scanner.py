@@ -70,3 +70,11 @@ def test_calls_are_submitted_as_a_github_issue():
 def test_page_offers_the_bear_guard_mix():
     page = render_scanner.render(SCAN)
     assert "m === 'guard' ? 'Guard'" in page and 'bear guard' in page and 'A.guard.weights' in page
+
+
+def test_cross_asset_growth_grid_from_the_main_page():
+    page = render_scanner.render(SCAN)
+    assert '__GROWTH__' not in page
+    if os.path.exists(render_scanner.GROWTH_PATH):
+        assert 'id="growthRank"' in page and 'Cross-asset growth ranking' in page
+    assert '__GROWTH__' not in render_scanner.render(SCAN, growth='')
