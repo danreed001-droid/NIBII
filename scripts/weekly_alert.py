@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Friday alert: writes a GitHub issue title/body when Monday's trade has
 anything to do - stock swaps (also the News boost list's), a sleeve switch, or a change in the Auto,
-Boost, Guard or Steps mix (including the bear guard turning on or off).
+Boost, Guard or Steps mix (including the bear guard turning on or off). Midweek, an alert goes
+out when Boost + rotation (the default plan) switches or the blow-off exit sells a stock: both
+trade at the next session's close.
 
 Reads data/momentum_scan.json (written by scripts/momentum_scan.py). Only on a
 signal day (Friday's close); on other days, or when nothing changes, it writes
@@ -32,8 +34,37 @@ def pct1(w):
     return f"{w * 100:+.1f}%"
 
 
+ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and lows with the steepest gradient (led for the confirmation period)',
+           'rotate-end': "{frm}'s daily uptrend broke", 'exit': "SPY's weekly downtrend: last lower high below the 150-day average, SPY below it, lower lows falling slowly",
+           'switch': 'still out of stocks; {to} is now the steepest rising asset', 'above': 'SPY closed back above its 150-day average',
+           'steeper': "SPY's daily higher lows are steeper than TLT's and GLD's"}
+
+
+def rot_name(m):
+    return 'the Boost 100% stock list' if m == 'boost' else m
+
+
+def rotation_line(rt, as_of):
+    """The Boost + rotation switch decided at the last close (None when it holds)."""
+    if not rt or not rt.get('trade'):
+        return None
+    frm, to = rt.get('held'), rt.get('mode')
+    log = rt.get('log') or []
+    why = log[0][3] if log and log[0][0] == as_of else None
+    reason = ROT_WHY.get(why, '').format(frm=frm, to=to)
+    return (f"**Boost + rotation (the default plan):** sell {rot_name(frm)}, buy **{rot_name(to)}** with the whole account"
+            + (f" ({reason})" if reason else ''))
+
+
+def rotation_now(rt):
+    if not rt:
+        return None
+    m = rt.get('mode')
+    return ("- **Boost + rotation:** " + ("in the Boost 100% stock list" if m == 'boost' else f"out of stocks, 100% in {m}"))
+
+
 def build(scan, owner=None):
-    """(title, body) or None when there's nothing to do Monday (or, midweek, no blow-off sale)."""
+    """(title, body) or None when there's nothing to do Monday (or, midweek, no rotation switch or blow-off sale)."""
     if not scan.get('signalDay'):
         return midweek(scan, owner)
     ch = scan.get('changes') or {}
@@ -43,6 +74,13 @@ def build(scan, owner=None):
     steps = auto.get('steps') or {}
     guard = auto.get('guard') or {}
     items, tags = [], []
+    rt = auto.get('rotation') or {}
+    rl = rotation_line(rt, scan['asOf'])
+    if rl:
+        items.append(rl)
+        tags.append(f"rotation → {rot_name(rt['mode']) if rt['mode'] != 'boost' else 'stocks'}")
+    if rt.get('mode') and rt['mode'] != 'boost':
+        items.append(f"Boost + rotation is out of stocks ({rt['mode']}): the stock changes below don't apply to it")
     if sells or buys:
         items.append('**Stocks:** ' + ', '.join([f"sell {t}" for t in sells] + [f"buy {t}" for t in buys]))
         tags.append(', '.join([f"sell {t}" for t in sells] + [f"buy {t}" for t in buys]))
@@ -96,7 +134,7 @@ def build(scan, owner=None):
                      + (f", junk vs quality bonds {pct1(cr)} over {cush.get('creditLook', 21)} sessions" if cr is not None else '') + '; '
                      + ("both say weak: move 25% of the stocks into the sleeve" if to_sleeve else "move the sleeve part back into the Boost list") + ")")
         tags.append(f"cushion {cush['split']}")
-    if not items:
+    if not items or items == [f"Boost + rotation is out of stocks ({rt.get('mode')}): the stock changes below don't apply to it"]:
         return None
     hold = [h['t'] for h in sorted(scan.get('holdings') or [], key=lambda h: h.get('rank') or 99)]
     gw = guard.get('weights') or [1, 0, 0]
@@ -106,11 +144,14 @@ def build(scan, owner=None):
              '### After the trades', f"- **Top 5:** {', '.join(hold)} (equal amounts)",
              *([f"- **Boost list:** {', '.join(boost['holdings'])}"] if boost.get('holdings') and set(boost['holdings']) != set(hold) else []),
              *([f"- **Boost 100% / cushion list:** {', '.join(bx['holdings'])}"] if bx.get('holdings') and set(bx['holdings']) != set(boost.get('holdings') or hold) else []),
+             *([rotation_now(rt)] if rt else []),
              f"- **Sleeve pick:** {sl.get('held')}" + (f" ({sl.get('n')})" if sl.get('n') else ''),
              *([cushion_check(cush)] if cush.get('split') else []), '',
              '| Mix | Top 5 | Sleeve | SPY | Calls |', '|---|---|---|---|---|',
              f"| Auto | {pctw(a_s)} | {pctw(1 - a_s)} | 0% | 0% |",
              f"| Guard | {pctw(gw[0])} | {pctw(gw[1])} | {pctw(gw[2])} | 0% |"]
+    if rt.get('mode'):
+        lines.append("| Boost + rotation | 100% | 0% | 0% | 0% |" if rt['mode'] == 'boost' else f"| Boost + rotation | 0% (100% {rt['mode']}) | 0% | 0% | 0% |")
     if boost.get('split'):
         b_s = int(boost['split'].split('/')[0]) / 100
         lines.append(f"| Boost | {pctw(b_s)} | {pctw(1 - b_s)} | 0% | 0% |")
@@ -182,19 +223,35 @@ def call_line(bx, buys, sells):
 
 
 def midweek(scan, owner=None):
-    """A blow-off exit sale decided at a weekday close other than Friday's: it fills at the next close."""
-    bx = ((scan.get('plan') or {}).get('auto') or {}).get('boostx') or {}
+    """A Boost + rotation switch or a blow-off exit sale decided at a weekday close other than
+    Friday's: it fills at the next close."""
+    auto = (scan.get('plan') or {}).get('auto') or {}
+    bx = auto.get('boostx') or {}
+    rt = auto.get('rotation') or {}
     mw = bx.get('midweek')
+    rl = rotation_line(rt, scan['asOf'])
+    if rl:
+        lines = [f"**Trade at the close on {fmt(rt['trade'])}:** {rl}.", '',
+                 "Decided at today's close; the rest of the plans (Auto, Boost, Steps, Boost 100%, cushion) have nothing to do"
+                 + (" except the blow-off sale below." if mw and (mw.get('sell') or mw.get('buy')) else "."), '',
+                 rotation_now(rt)]
+        if mw and (mw.get('sell') or mw.get('buy')):
+            lines += ['', f"**Boost 100% / cushion blow-off exit, same close:** "
+                      + ', '.join([f"sell {t}" for t in mw.get('sell') or []] + [f"buy {t}" for t in mw.get('buy') or []])]
+        lines += ['', f"Details: {PAGE}", '',
+                  (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
+        title = f"Trade {fmt(rt['trade'])}: Boost + rotation → {rot_name(rt['mode']) if rt['mode'] != 'boost' else 'back into stocks'}"
+        return title[:240], '\n'.join(lines) + '\n'
     if not mw or not (mw.get('sell') or mw.get('buy')):
         return None
     blown = set(mw.get('blown') or [])
     acts = [f"sell {t}" + (" (blow-off exit)" if t in blown else "") for t in mw.get('sell') or []] + [f"buy {t}" for t in mw.get('buy') or []]
-    lines = [f"**Trade at the close on {fmt(mw['date'])} - only if you follow Boost 100% or Boost + cushion:** " + ', '.join(acts), '',
+    lines = [f"**Trade at the close on {fmt(mw['date'])}:** Boost 100%, Boost + cushion, and Boost + rotation while it holds stocks: " + ', '.join(acts), '',
              f"The blow-off exit fired at today's close ({fmt(scan['asOf'])}): the sold stock's last month's gain is more than "
              f"{bx.get('mult', 2):g}x its gain over the 5 months before. The exit is on because SPY is below its "
              f"{bx.get('ma', 150)}-day average. Swap the same dollar amount; the rest of the account stays as it is.",
              *(['', call_line(bx, mw.get('buy') or [], mw.get('sell') or [])] if call_line(bx, mw.get('buy') or [], mw.get('sell') or []) else []),
-             '', "Auto, Boost and Steps: nothing to do.", '',
+             '', "Auto, Boost and Steps: nothing to do." + (f" Boost + rotation is out of stocks ({rt['mode']}): nothing to do." if rt.get('mode') and rt['mode'] != 'boost' else " Boost + rotation (in the Boost list): make the same swap."), '',
              f"Details: {PAGE}", '',
              (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
     title = f"Trade {fmt(mw['date'])}: Boost 100% / cushion blow-off exit: " + ', '.join(acts)

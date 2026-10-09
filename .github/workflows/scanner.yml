@@ -10,7 +10,9 @@ name: Top 5 Strongest
 # On Fridays, when Monday's trade has anything to do (stock swaps, a sleeve
 # switch, an Auto / Guard / Steps mix change), it opens a "Trade Mon ..." issue
 # that @mentions the repo owner so GitHub emails / pushes it
-# (scripts/weekly_alert.py), and closes the previous week's alert.
+# (scripts/weekly_alert.py), and closes the previous week's alert. On other
+# weekdays it alerts when Boost + rotation (the default plan) switches or the
+# blow-off exit sells: those trade at the next session's close.
 
 on:
   schedule:
