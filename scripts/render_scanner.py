@@ -476,6 +476,7 @@ footer li { margin-bottom: 6px; }
   <div class="udtrend" id="dheat-trend" aria-label="Share of stocks up over time"></div>
   <p class="heatnote" id="dheat-note">Hover or tap a cell for details. On a phone, swipe the table sideways.</p>
 
+__GROWTH__
   <p class="section-label">Top 100 ranking <span class="hint">trend = weekly / daily swing structure</span></p>
   <div class="filters">
     <input id="q" type="search" placeholder="Search ticker or company" aria-label="Search ticker or company">
@@ -1745,9 +1746,32 @@ footer li { margin-bottom: 6px; }
 '''
 
 
-def render(scan):
+GROWTH_PATH = os.path.join(ROOT, 'documents', 'growth_rank.json')
+
+
+def growth_html():
+    """The cross-asset growth ranking grid from the main page (documents/growth_rank.json,
+    refreshed by the daily data fetch), or '' when the file is missing."""
+    try:
+        with open(GROWTH_PATH) as f:
+            data = json.load(f)
+    except (OSError, ValueError):
+        return ''
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from render_html import growth_rank_section
+    sec = growth_rank_section(data)
+    when = (data.get('fetchedAt') or '')[:10]
+    fix = ('<style>#growthRank table.gr-table th { text-transform: none; letter-spacing: 0; white-space: normal; overflow-wrap: anywhere; }'
+           ' #growthRank table.gr-table th.gr-label { white-space: nowrap; }</style>')
+    return fix + sec.replace('<p class="section-label">Growth ranking</p>',
+                       '<p class="section-label">Cross-asset growth ranking <span class="hint">Nasdaq, S&amp;P, dollar, oil, gold, 10-year notes'
+                       + (f' · fetched {when}' if when else '') + '</span></p>', 1) if sec else ''
+
+
+def render(scan, growth=None):
     # Escape "</" so a company name can never close the <script> block early.
-    return PAGE.replace('__DATA__', json.dumps(scan, separators=(',', ':')).replace('</', '<\\/'))
+    page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth)
+    return page.replace('__DATA__', json.dumps(scan, separators=(',', ':')).replace('</', '<\\/'))
 
 
 def main():
