@@ -69,7 +69,7 @@ def rank_grid(closes_by_ticker, periods, partial_after, baseline):
 
     rows = []
     for prev, cur in zip(periods, shown):
-        cells = {t: {"pct": p} for t in tickers if (p := pct(t, prev, cur)) is not None}
+        cells = {t: {"pct": p, "close": closes_by_ticker[t][cur]} for t in tickers if (p := pct(t, prev, cur)) is not None}
         for rank, t in enumerate(sorted(cells, key=lambda t: -cells[t]["pct"]), start=1):
             cells[t]["rank"] = rank
         rows.append({"period": cur, "partial": cur > partial_after, "n": len(cells), "cells": cells})

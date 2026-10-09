@@ -1392,9 +1392,14 @@ GROWTH_CSS = """
 .gr-btn[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
 .gr-note, .gr-sub { margin: 4px 0 10px; font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
 .gr-sub { color: var(--ink-2); }
-.gr[data-mode="range"] .gr-note[data-for="sigma"], .gr[data-mode="sigma"] .gr-note[data-for="range"] { display: none; }
+.gr[data-mode="range"] .gr-note[data-for="sigma"], .gr[data-mode="sigma"] .gr-note[data-for="range"], .gr[data-mode="price"] .gr-note[data-for="sigma"] { display: none; }
 .gr[data-view="weekly"] .gr-view[data-view="daily"], .gr[data-view="daily"] .gr-view[data-view="weekly"] { display: none; }
-.gr[data-mode="range"] .gr-z { display: none; }
+.gr[data-mode="range"] .gr-z, .gr[data-mode="price"] .gr-z { display: none; }
+.gr[data-mode="price"] table.gr-table tbody td:not(.gr-na) { background: var(--gr-bg-price); color: var(--gr-fg-price); }
+.gr .gr-px { display: none; }
+.gr[data-show="price"] .gr-px { display: block; font-size: 0.82rem; font-weight: 700; }
+.gr[data-show="price"] .gr-rank { display: none; }
+.gr[data-mode="range"] .gr-note[data-for="price"], .gr[data-mode="sigma"] .gr-note[data-for="price"], .gr[data-mode="price"] .gr-note[data-for="range"] { display: none; }
 .gr-scroll { overflow-x: auto; }
 .gr-date { border: 1px solid var(--hairline); background: transparent; color: var(--ink); border-radius: 999px;
   padding: 4px 10px; font: inherit; font-size: 0.8rem; color-scheme: light dark; }
@@ -1442,7 +1447,14 @@ GROWTH_JS = """
     if (values.indexOf(saved) >= 0) set(saved);
   }
   toggle('.gr-view-btn', 'view', 'mtl-gr-view', ['weekly', 'daily']);
-  toggle('.gr-mode-btn', 'mode', 'mtl-gr-mode', ['range', 'sigma']);
+  toggle('.gr-mode-btn', 'mode', 'mtl-gr-mode', ['range', 'sigma', 'price']);
+  toggle('.gr-show-btn', 'show', 'mtl-gr-show', ['rank', 'price']);
+  gr.querySelectorAll('.gr-show-btn').forEach(function (b) {   // showing prices colors by price level; back to ranks restores move size
+    b.addEventListener('click', function () {
+      var m = b.getAttribute('data-show') === 'price' ? 'price' : 'range', mb = gr.querySelector('.gr-mode-btn[data-mode="' + m + '"]');
+      if (mb && (m === 'price' || gr.getAttribute('data-mode') === 'price')) mb.click();
+    });
+  });
 
   // "Ending on" date picker: rebuild both grids from docs/growth_history.json with the same
   // rules as mtl/growth_rank.py (rank_grid / build), loaded only when a date is picked.
@@ -1466,7 +1478,7 @@ GROWTH_JS = """
     function pct(t, p, c) { var m = by[t]; return (p in m && c in m && m[p]) ? (m[c] - m[p]) / m[p] * 100 : null; }
     var rows = shown.map(function (cur, i) {
       var prev = periods[i], cells = {};
-      tickers.forEach(function (t) { var p = pct(t, prev, cur); if (p !== null) cells[t] = { pct: p }; });
+      tickers.forEach(function (t) { var p = pct(t, prev, cur); if (p !== null) cells[t] = { pct: p, close: by[t][cur] }; });
       Object.keys(cells).sort(function (a, b) { return cells[b].pct - cells[a].pct; }).forEach(function (t, k) { cells[t].rank = k + 1; });
       return { period: cur, partial: cur > partialAfter, n: Object.keys(cells).length, cells: cells };
     });
@@ -1515,8 +1527,12 @@ GROWTH_JS = """
   function table(g, view) {
     var weekly = view === 'weekly', unit = weekly ? 'week' : 'day', units = weekly ? 'weeks' : 'days', adj = weekly ? 'weekly' : 'daily';
     if (!g) return '<p class="gr-sub">Not enough data before this date.</p>';
-    var maxAbs = {};
-    g.assets.forEach(function (a) { maxAbs[a[0]] = g.rows.reduce(function (m, r) { return r.cells[a[0]] ? Math.max(m, Math.abs(r.cells[a[0]].pct)) : m; }, 0); });
+    var maxAbs = {}, lo = {}, hi = {};
+    g.assets.forEach(function (a) {
+      maxAbs[a[0]] = g.rows.reduce(function (m, r) { return r.cells[a[0]] ? Math.max(m, Math.abs(r.cells[a[0]].pct)) : m; }, 0);
+      g.rows.forEach(function (r) { var c = r.cells[a[0]]; if (c && c.close != null) { lo[a[0]] = Math.min(lo[a[0]] == null ? Infinity : lo[a[0]], c.close); hi[a[0]] = Math.max(hi[a[0]] == null ? -Infinity : hi[a[0]], c.close); } });
+    });
+    function px(x) { return x == null ? '–' : x >= 1000 ? Math.round(x).toLocaleString('en-US') : x >= 100 ? x.toFixed(1) : x >= 10 ? x.toFixed(2) : x.toFixed(3); }
     var head = g.assets.map(function (a) { return '<th><span class="gr-name">' + a[1] + '</span><span class="gr-tk">' + a[0] + '</span></th>'; }).join('');
     var body = g.rows.map(function (row) {
       var label = weekly ? fmt(row.period, true) : fmt(row.period, false);
@@ -1527,8 +1543,10 @@ GROWTH_JS = """
         if (!c) return '<td class="gr-na">–</td>';
         var z = c.z, normal = z != null ? ' vs. normal ±' + c.sigma.toFixed(2) + '% (' + Math.abs(z).toFixed(1) + '× normal)' : '';
         var tip = a[1] + ', ' + when + ': ' + (c.pct >= 0 ? '+' : '') + c.pct.toFixed(2) + '%' + normal + ' — rank ' + c.rank + ' of ' + row.n;
-        var style = shade(c.pct, maxAbs[a[0]] ? Math.abs(c.pct) / maxAbs[a[0]] : 0, 'range') + shade(c.pct, z != null ? Math.abs(z) / C.cap : 0, 'sigma');
-        return '<td style="' + style + '" title="' + tip + '"><span class="gr-rank">' + c.rank + '</span><span class="gr-detail">' + (c.pct >= 0 ? '+' : '') + c.pct.toFixed(1) + '%' +
+        var q = c.close != null && hi[a[0]] > lo[a[0]] ? (c.close - lo[a[0]]) / (hi[a[0]] - lo[a[0]]) : 0.5;
+        if (c.close != null) tip += ' — close ' + px(c.close) + ' (' + Math.round(q * 100) + '% of its low–high range here)';
+        var style = shade(c.pct, maxAbs[a[0]] ? Math.abs(c.pct) / maxAbs[a[0]] : 0, 'range') + shade(c.pct, z != null ? Math.abs(z) / C.cap : 0, 'sigma') + shade(q - 0.5, Math.abs(q - 0.5) * 2, 'price');
+        return '<td style="' + style + '" title="' + tip + '"><span class="gr-rank">' + c.rank + '</span><span class="gr-px">' + px(c.close) + '</span><span class="gr-detail">' + (c.pct >= 0 ? '+' : '') + c.pct.toFixed(1) + '%' +
           (z != null ? '<span class="gr-z"> · ' + Math.abs(z).toFixed(1) + 'σ</span>' : '') + '</span></td>';
       }).join('') + '</tr>';
     }).join('');
@@ -1569,6 +1587,12 @@ def _growth_shade(pct, frac, mode):
             f'--gr-fg-{mode}: {text};')
 
 
+def _price(x):
+    if x is None:
+        return '–'
+    return f"{x:,.0f}" if x >= 1000 else f"{x:.1f}" if x >= 100 else f"{x:.2f}" if x >= 10 else f"{x:.3f}"
+
+
 def _growth_table(grid, view):
     weekly = view == 'weekly'
     unit, units, adj = ('week', 'weeks', 'weekly') if weekly else ('day', 'days', 'daily')
@@ -1579,6 +1603,10 @@ def _growth_table(grid, view):
                    for t, name in assets)
     max_abs = {t: max((abs(r['cells'][t]['pct']) for r in grid['rows'] if t in r['cells']), default=0)
                for t, _ in assets}
+    closes = {t: [r['cells'][t]['close'] for r in grid['rows'] if t in r['cells'] and r['cells'][t].get('close') is not None]
+              for t, _ in assets}
+    lo = {t: min(v) if v else None for t, v in closes.items()}
+    hi = {t: max(v) if v else None for t, v in closes.items()}
     body = []
     for row in grid['rows']:
         d = date.fromisoformat(row['period'])
@@ -1595,10 +1623,15 @@ def _growth_table(grid, view):
             z = c.get('z')
             normal = f" vs. normal ±{c['sigma']:.2f}% ({abs(z):.1f}× normal)" if z is not None else ''
             tip = f"{name}, {when}: {c['pct']:+.2f}%{normal} — rank {c['rank']} of {row['n']}"
+            px = c.get('close')
+            q = (px - lo[t]) / (hi[t] - lo[t]) if px is not None and hi[t] is not None and hi[t] > lo[t] else 0.5
+            if px is not None:
+                tip += f" — close {_price(px)} ({q * 100:.0f}% of its low–high range here)"
             style = (_growth_shade(c['pct'], abs(c['pct']) / max_abs[t] if max_abs[t] else 0, 'range')
-                     + _growth_shade(c['pct'], abs(z) / growth_rank.SIGMA_CAP if z is not None else 0, 'sigma'))
+                     + _growth_shade(c['pct'], abs(z) / growth_rank.SIGMA_CAP if z is not None else 0, 'sigma')
+                     + _growth_shade(q - 0.5, abs(q - 0.5) * 2, 'price'))
             z_html = f'<span class="gr-z"> · {abs(z):.1f}σ</span>' if z is not None else ''
-            tds.append(f'<td style="{style}" title="{E(tip)}"><span class="gr-rank">{c["rank"]}</span>'
+            tds.append(f'<td style="{style}" title="{E(tip)}"><span class="gr-rank">{c["rank"]}</span><span class="gr-px">{_price(px)}</span>'
                        f'<span class="gr-detail">{c["pct"]:+.1f}%{z_html}</span></td>')
         body.append(f'<tr><th class="gr-label">{label}</th>{"".join(tds)}</tr>')
     sums = ''.join(f'<td>{grid["rankSum"][t]}</td>' for t, _ in assets)
@@ -1629,18 +1662,23 @@ def growth_rank_section(data):
                           baseW=growth_rank.BASELINE_WEEKS, baseD=growth_rank.BASELINE_DAYS, minBase=growth_rank.MIN_BASELINE,
                           cap=growth_rank.SIGMA_CAP, up=GROWTH_UP, down=GROWTH_DOWN), separators=(',', ':'))
     return f"""<p class="section-label">Growth ranking</p>
-{GROWTH_CSS}<div class="gr" id="growthRank" data-view="weekly" data-mode="range" data-cfg="{E(cfg)}">
+{GROWTH_CSS}<div class="gr" id="growthRank" data-view="weekly" data-mode="range" data-show="rank" data-cfg="{E(cfg)}">
   <div class="gr-controls" role="group" aria-label="View"><span class="gr-controls-label">View:</span>
     <button type="button" class="gr-btn gr-view-btn" data-view="weekly" aria-pressed="true">Weekly · {growth_rank.WEEKS} weeks</button>
     <button type="button" class="gr-btn gr-view-btn" data-view="daily" aria-pressed="false">Daily · {growth_rank.DAYS} days</button></div>
   <div class="gr-controls" role="group" aria-label="Shading"><span class="gr-controls-label">Shade by:</span>
     <button type="button" class="gr-btn gr-mode-btn" data-mode="range" aria-pressed="true">Own range</button>
-    <button type="button" class="gr-btn gr-mode-btn" data-mode="sigma" aria-pressed="false">vs. normal move (σ)</button></div>
+    <button type="button" class="gr-btn gr-mode-btn" data-mode="sigma" aria-pressed="false">vs. normal move (σ)</button>
+    <button type="button" class="gr-btn gr-mode-btn" data-mode="price" aria-pressed="false">Price level</button></div>
+  <div class="gr-controls" role="group" aria-label="Show"><span class="gr-controls-label">Show:</span>
+    <button type="button" class="gr-btn gr-show-btn" data-show="rank" aria-pressed="true">Rank</button>
+    <button type="button" class="gr-btn gr-show-btn" data-show="price" aria-pressed="false">Price</button></div>
   <div class="gr-controls" role="group" aria-label="End date"><span class="gr-controls-label">Ending on:</span>
     <input type="date" class="gr-date" aria-label="End date" max="{end}">
     <button type="button" class="gr-btn gr-latest" aria-pressed="true">Latest</button>
     <span class="gr-status" aria-live="polite"></span></div>
   <p class="gr-note" data-for="range">Darker = a bigger move <em>for that asset</em> — each column's largest move in the window is darkest.</p>
+  <p class="gr-note" data-for="price">Price level: each asset's own closes in the window — red = its lowest close, full green = its highest, pale = the middle of its range.</p>
   <p class="gr-note" data-for="sigma">Darker = further off that asset's <em>normal</em> move (σ = std dev of its prior {growth_rank.BASELINE_WEEKS} weekly / {growth_rank.BASELINE_DAYS} daily changes) — pale = a normal move, darkest = {growth_rank.SIGMA_CAP:g}σ or more.</p>
 {_growth_table(data.get('weekly'), 'weekly')}
 {_growth_table(data.get('daily'), 'daily')}

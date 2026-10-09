@@ -42,7 +42,8 @@ def _heat(prices, all_ends, periods, tickers, norm_n, min_norm, breadth=None):
                 cells[t].append(None)
                 continue
             sd = normal(t, first + w)
-            cells[t].append([round(ch[t], 4), rank[t], round(ch[t] / sd, 2) if sd else None])
+            cells[t].append([round(ch[t], 4), rank[t], round(ch[t] / sd, 2) if sd else None,
+                             float(f"{prices[t][b]:.6g}")])
     # breadth: the share of a wider list (e.g. every stock the dashboard tracks) up each period
     wide = None
     if breadth:
@@ -72,7 +73,7 @@ def weekly_heat(prices, calendar, tickers, weeks=26, norm_weeks=52, breadth=None
 
     Returns dict(weeks=[week-end dates, oldest first], partial=bool (the last
     week is still in progress), tickers=[...sorted by rank sum],
-    cells={ticker: [[change, rank, z] or None per week]}, sums={ticker: rank sum},
+    cells={ticker: [[change, rank, z, close] or None per week]}, sums={ticker: rank sum},
     total={ticker: change over the whole period}, unit='week').
 
     z = the week's change divided by the stock's normal weekly move: the
