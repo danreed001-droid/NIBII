@@ -58,3 +58,15 @@ def test_curve_trades_the_day_after_the_decision_and_charges_the_switch():
     # day 1: Boost's gain, then the switch at day 1's close; day 2 on: TLT
     assert abs(c[1][1] - 1.1 * 0.99) < 1e-12
     assert abs(c[3][1] - 1.1 * 0.99 * 4) < 1e-12
+
+
+def test_warning_needs_spy_down_below_its_average_and_a_rising_asset():
+    from mtl.rotation import warning_log, warnings
+    cal = days(400)
+    spy = zigzag(cal, 0.002)[:200] + zigzag(cal[200:], -0.003, base=zigzag(cal, 0.002)[199][4])
+    bars = {'SPY': spy, 'TLT': zigzag(cal, 0.002, period=10), 'GLD': zigzag(cal, -0.001, period=14)}
+    R = Reader(bars)
+    w = warnings(R, bars, cal, cal[1])
+    assert w and set(w.values()) == {'TLT'} and min(w) > cal[200]
+    log = warning_log(w, cal)
+    assert log[-1][0] == min(w) and log[0][1] == max(w)

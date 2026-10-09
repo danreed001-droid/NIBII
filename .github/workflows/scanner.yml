@@ -81,7 +81,10 @@ jobs:
             echo "already sent: $title"
             exit 0
           fi
-          for n in $(gh issue list --repo "$GITHUB_REPOSITORY" --state open --author "app/github-actions" --search "Trade in:title" --json number,title --jq '.[] | select(.title | startswith("Trade ")) | .number'); do
-            gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "Superseded by this week's alert."
-          done
+          # a trade alert supersedes the open ones; a downtrend warning (info only) leaves them open
+          case "$title" in Trade*)
+            for n in $(gh issue list --repo "$GITHUB_REPOSITORY" --state open --author "app/github-actions" --search "Trade in:title" --json number,title --jq '.[] | select(.title | startswith("Trade ")) | .number'); do
+              gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "Superseded by this week's alert."
+            done;;
+          esac
           gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$RUNNER_TEMP/alert_body.md"
