@@ -24,6 +24,8 @@ Two parts, both read from swing structure (mtl.structure: 3-bar swings on daily 
 Tested 2000-2026 (stocks in the S&P 500 at the time, 0.15% slippage, 37%/20% tax;
 TLT / GLD spliced onto a Treasury fund / gold futures before they existed): 31.0% a year
 before tax (20.2% after), worst drop -46%, vs 27.4% (18.1%) and -60% for Boost 100%.
+With the surge exit added to the Boost 100% list (mtl.momentum.surge_exit, the dashboard
+default from Oct 10, 2026): 32.8% (21.3%), worst drop -44%, vs 28.7% (18.8%) and -59%.
 The thresholds were picked on that same history.
 
 Pure and network-free: bars are {ticker: [(date, open, high, low, close), ...]} oldest

@@ -412,3 +412,20 @@ def test_cushion_log_lists_mix_changes_newest_first():
     log = ms.cushion_log(weeks, weeks, 'w1', lambda d: 0.75 if d in on else 1.0,
                          lambda d: -0.02 if d in on else 0.01, lambda d: -0.01)
     assert log == [['w5', '100/0', 0.01, -0.01], ['w3', '75/25', -0.02, -0.01]]
+
+
+def test_surge_exit_sells_a_week_after_a_big_up_day_on_heavy_volume():
+    from mtl.momentum import surge_exit
+    cal = [f'd{i:03d}' for i in range(80)]
+    px = {'A': {d: 100.0 for d in cal}, 'B': {d: 100.0 for d in cal}}
+    vol = {'A': {d: 1000 for d in cal}, 'B': {d: 1000 for d in cal}}
+    for d in cal[60:]:
+        px['A'][d] = 106.0                     # A: +6% on day 60 ...
+    vol['A'][cal[60]] = 4500                   # ... on 4.5x its 50-day average volume
+    for d in cal[62:]:
+        px['B'][d] = 110.0                     # B: +10% on day 62, but only 3x volume
+    vol['B'][cal[62]] = 3000
+    ex = surge_exit(px, vol, cal, up=0.05, vol_k=4.0, delay=5)
+    assert ex.events('A') == {60} and ex.events('B') == set()
+    assert ex('A', 65, 10) and not ex('A', 64, 10) and not ex('A', 66, 10)   # sold exactly 5 sessions later
+    assert not ex('A', 65, 61)                                                # bought after the surge: kept

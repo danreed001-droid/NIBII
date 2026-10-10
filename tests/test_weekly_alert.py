@@ -165,3 +165,20 @@ def test_rsi_warning_alert_on_its_first_day():
     assert title == 'Warning Wed Oct 7: SPY RSI broke its support line' and 'line 44.0' in body and '-1.0%' in body
     s['plan']['auto']['rotation']['rsiWarn']['prevOn'] = True
     assert alert.build(s) is None
+
+
+def test_midweek_surge_sale_names_the_surge_exit():
+    s = scan(signalDay=False, asOf='2026-10-06')
+    s['plan']['auto']['boostx'] = dict(mult=2.0, ma=150, surge=dict(up=0.05, vol=4.0, delay=5),
+                                       midweek=dict(date='2026-10-07', sell=['BBB'], buy=['CCC'], blown=[], surged=['BBB']))
+    title, body = alert.build(s, None)
+    assert title == 'Trade Wed Oct 7: Boost 100% / cushion surge exit: sell BBB (surge exit), buy CCC'
+    assert 'The surge exit fired' in body and '4x its 50-day average volume 5 trading days ago' in body and 'blow-off exit fired' not in body
+
+
+def test_scheduled_surge_sale_is_a_heads_up():
+    s = scan()
+    s['plan']['auto']['boostx'] = dict(sell=[], buy=[], surge=dict(up=0.05, vol=4.0, delay=5, pending=[
+        dict(t='DELL', d='2026-10-05', up=0.08, x=4.6, sell='2026-10-12')]))
+    title, body = alert.build(s, None)
+    assert '**Surge exit scheduled**' in body and 'DELL closed +8% on 4.6x its normal volume on Mon Oct 5' in body and 'Mon Oct 12' in body

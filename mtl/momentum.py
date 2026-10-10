@@ -571,6 +571,45 @@ def blowoff_exit(prices, calendar, mult=2.0, recent=21, look=126, market=None, w
     return check
 
 
+def surge_exit(prices, volumes, calendar, up=0.05, vol_k=4.0, delay=5, avg_n=50, min_n=40):
+    """hold_exit for run_momentum: sell a holding `delay` sessions after a surge day - a
+    close at least `up` above the day before on volume at least `vol_k` times its average
+    over the previous `avg_n` sessions (at least `min_n` of them with volume) - when the
+    surge came while it was held. The slot goes to the next-best stock as usual.
+
+    Tested 2000-2026 on the Boost + rotation plan (point-in-time S&P 500): 5%+ on 4x
+    volume, sold 1 week later, added about 1.8 points a year before tax (32.8% vs 31.0%;
+    2000-2024 alone 28.0% vs 26.9%) with a slightly smaller worst drop. Selling the same
+    day sold too early in 2020; waiting 2-3 weeks gave most of the gain back; 2x-3x
+    volume fired too often. `check.events(t)` = the surge session indexes of `t`."""
+    cache = {}
+
+    def events(t):
+        if t not in cache:
+            px, vol, out = prices.get(t, {}), volumes.get(t, {}), set()
+            vs = [vol.get(d) for d in calendar]
+            for k in range(avg_n, len(calendar)):
+                v = vs[k]
+                if not v:
+                    continue
+                w = [x for x in vs[k - avg_n:k] if x]
+                if len(w) < min_n or v < vol_k * sum(w) / len(w):
+                    continue
+                c, p = px.get(calendar[k]), px.get(calendar[k - 1])
+                if c and p and c / p - 1 >= up:
+                    out.add(k)
+            cache[t] = out
+        return cache[t]
+
+    def check(t, k, entry_k=None):
+        j = k - delay
+        if j < avg_n or (entry_k is not None and j < entry_k):
+            return False
+        return j in events(t)
+    check.events = events
+    return check
+
+
 def market_armed(prices, calendar, market, look=126, within=126, ma=None):
     """[bool per session]. With `ma`: the market closes below its `ma`-session
     simple average that session. Else: the market's `look`-session return was
