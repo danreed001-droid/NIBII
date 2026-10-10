@@ -26,7 +26,17 @@ TLT / GLD spliced onto a Treasury fund / gold futures before they existed): 31.0
 before tax (20.2% after), worst drop -46%, vs 27.4% (18.1%) and -60% for Boost 100%.
 With the surge exit added to the Boost 100% list (mtl.momentum.surge_exit, the dashboard
 default from Oct 10, 2026): 32.8% (21.3%), worst drop -44%, vs 28.7% (18.8%) and -59%.
-The thresholds were picked on that same history.
+With the whipsaw half-switch on top (the default from Oct 10, 2026; see whipsaw() below):
+33.4% (21.7%), worst drop -41%; from 2010 28.8% vs 28.5%, from 2020 55.8% vs 55.9% with
+the worst drop -31% vs -39%. The thresholds were picked on that same history.
+
+3. Whipsaw half-switch. Checked at each week's last close: of the stocks the Boost 100%
+   list sold in the last WHIP_LOOK sessions (at least WHIP_MIN sales), if WHIP_LOSS or more
+   were sold below their buy price, momentum is whipsawing. Until the next weekly check
+   finds otherwise, while the plan would hold the Boost list, half stays in the Boost list
+   and half goes into whichever of TLT, GLD and SPY is up most over the last WHIP_PCT
+   sessions, skipping any whose weekly structure is a downtrend (T-bills if none is up).
+   It was on about 5% of the time (late 2008, late 2011, late 2015, late 2018, 2022).
 
 Pure and network-free: bars are {ticker: [(date, open, high, low, close), ...]} oldest
 first (dividend-adjusted), calendar is the trading days.
@@ -43,6 +53,11 @@ SLOW = 0.12           # downtrend exit only when SPY's weekly lower lows fall sl
 MA = 150              # SPY's average for the downtrend exit and the way back
 VOL_LOOK = 63         # sessions of daily returns for the volatility scaling
 SWITCH_COST = 0.001   # one full switch (sell everything, buy the other), like run_momentum's 0.05% a side
+WHIP_LOOK = 126       # sessions of Boost-list sales the whipsaw check looks back over
+WHIP_MIN = 6          # sales needed in that window before it can switch on
+WHIP_LOSS = 0.65      # share of those sales below their buy price that switches it on
+WHIP_PCT = 63         # sessions of % change used to pick the half-switch asset
+WHIP_ASSETS = ('TLT', 'GLD', 'SPY')
 
 
 def weekly(daily):
@@ -233,26 +248,108 @@ def warning_log(warn, calendar, n=8):
     return out[::-1][:n]
 
 
-def rotation_curve(boost_curve, asset_px, calendar, modes, cost=SWITCH_COST):
+def sales(picks, prices):
+    """Every sale of a picks schedule [(date, [tickers])]: [(date, ticker, buy close, sell close)],
+    both closes on the schedule dates the name came in and went out."""
+    out, held = [], {}
+    for d, names in picks:
+        now = set(names)
+        for t in [t for t in held if t not in now]:
+            out.append((d, t, held.pop(t), (prices.get(t) or {}).get(d)))
+        for t in names:
+            if t not in held:
+                held[t] = (prices.get(t) or {}).get(d)
+    return out
+
+
+def whipsaw(picks, prices, calendar, start, look=WHIP_LOOK, need=WHIP_MIN, loss=WHIP_LOSS):
+    """{date: on} for every session from `start`: decided at each week's last close from the
+    Boost list's sales in the last `look` sessions (on when at least `need` sales and a
+    `loss` share or more of them below their buy close), carried until the next week's check."""
+    kidx = {d: i for i, d in enumerate(calendar)}
+    by_k = {}
+    for d, t, a, b in sales(picks, prices):
+        if d in kidx:
+            by_k.setdefault(kidx[d], []).append(bool(a and b and b < a))
+    out, on = {}, False
+    for k, d in enumerate(calendar):
+        last = k + 1 == len(calendar) or date.fromisoformat(calendar[k + 1]).isocalendar()[:2] != date.fromisoformat(d).isocalendar()[:2]
+        if last and k >= look:
+            ex = [x for i in range(k - look + 1, k + 1) for x in by_k.get(i, ())]
+            on = len(ex) >= need and sum(ex) / len(ex) >= loss
+        if d >= start:
+            out[d] = on
+    return out
+
+
+def whip_pick(R, closes, calendar, k, assets=WHIP_ASSETS, look=WHIP_PCT):
+    """(asset, {asset: % change}): the asset up most over `look` sessions to calendar[k],
+    skipping any in a weekly downtrend; 'BIL' when none is up. closes: {asset: {date: close}}."""
+    d = calendar[k]
+    chg, best, bv = {}, 'BIL', 0.0
+    for t in assets:
+        a, b = (closes.get(t) or {}).get(calendar[k - look]) if k >= look else None, (closes.get(t) or {}).get(d)
+        chg[t] = b / a - 1 if a and b else None
+        if R.leg(t, d, 'w')[0] == 'downtrend' or chg[t] is None:
+            continue
+        if chg[t] > bv:
+            best, bv = t, chg[t]
+    return best, chg
+
+
+def whip_halves(modes, whip, R, closes, calendar, assets=WHIP_ASSETS, look=WHIP_PCT):
+    """{date: asset} for the days the plan is in the Boost list and the whipsaw check is on:
+    half the account goes into that asset (see whip_pick)."""
+    kidx = {d: i for i, d in enumerate(calendar)}
+    return {d: whip_pick(R, closes, calendar, kidx[d], assets, look)[0]
+            for d, m in modes.items() if m == 'boost' and whip.get(d)}
+
+
+def whip_log(whip, half, calendar, n=8):
+    """The last n whipsaw stretches, newest first: [first day, last day, asset on the first day]."""
+    out, cur = [], None
+    for d in calendar:
+        if whip.get(d):
+            if cur is None:
+                cur = [d, d, half.get(d)]
+            else:
+                cur[1] = d
+        elif cur is not None:
+            out.append(cur)
+            cur = None
+    if cur is not None:
+        out.append(cur)
+    return out[::-1][:n]
+
+
+def rotation_curve(boost_curve, asset_px, calendar, modes, cost=SWITCH_COST, half=None):
     """[[date, value]] from 1.0: the Boost curve while the mode is 'boost', else the asset
     (asset_px: {asset: {date: close}}, filled). The mode decided at a close is traded at
-    the next session's close; a switch costs `cost` of the account."""
+    the next session's close; a switch costs `cost` of the account. half: {date: asset}
+    for the days half the account sits in that asset instead (the whipsaw half-switch),
+    kept at 50/50 each session; moving the half costs half of `cost`."""
     bv = dict(boost_curve)
     idx = {d: i for i, d in enumerate(calendar)}
-    out, val, held, prev = [], 1.0, 'boost', None
+    half = half or {}
+
+    def ret(h, a, b):
+        if h == 'boost':
+            return bv[b] / bv[a]
+        p0, p1 = asset_px[h].get(a), asset_px[h].get(b)
+        return p1 / p0 if p0 and p1 else 1.0
+    out, val, held, hh, prev = [], 1.0, 'boost', None, None
     for d, _ in boost_curve:
         if prev is not None:
-            if held == 'boost':
-                val *= bv[d] / bv[prev]
-            else:
-                p0, p1 = asset_px[held].get(prev), asset_px[held].get(d)
-                if p0 and p1:
-                    val *= p1 / p0
+            val *= ret(held, prev, d) if hh is None else 0.5 * ret('boost', prev, d) + 0.5 * ret(hh, prev, d)
         k = idx[d]
-        nxt = modes.get(calendar[k - 1], 'boost') if k > 0 else 'boost'   # decided yesterday, traded at today's close
+        y = calendar[k - 1] if k > 0 else None   # decided yesterday, traded at today's close
+        nxt = modes.get(y, 'boost') if y else 'boost'
+        nh = half.get(y) if y and nxt == 'boost' else None
         if nxt != held:
             val *= 1 - cost
-            held = nxt
+        elif nh != hh:
+            val *= 1 - cost / 2
+        held, hh = nxt, nh
         out.append([d, val])
         prev = d
     return out

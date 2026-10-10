@@ -584,10 +584,34 @@ __GROWTH__
       return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' → <b>' + (r[1] === '100/0' ? 'off' : 'on (' + r[1] + ')') + '</b> <span class="muted">(SPY ' + (r[2] == null ? '–' : pct(r[2])) + ', credit ' + (r[3] == null ? '–' : pct(r[3])) + ')</span>';
     }).join(' · ') + '. ';
   }
-  var ROTN = { TLT: 'Long Treasuries (20y+)', GLD: 'Gold', BIL: 'T-bills (cash)', boost: 'the Boost 100% stock list' };
+  var ROTN = { TLT: 'Long Treasuries (20y+)', GLD: 'Gold', SPY: 'S&amp;P 500 ETF', BIL: 'T-bills (cash)', boost: 'the Boost 100% stock list' };
   function rotName(m) { return m === 'boost' ? 'the Boost list' : m; }
   function rotTag(RT) {   // the switch decided at the last close
+    if (!RT.trade) return whipTag(RT);
     return '<span class="tag sell">sell ' + esc(rotName(RT.held)) + '</span><span class="tag buy">buy ' + esc(rotName(RT.mode)) + ' (rotation)</span>';
+  }
+  function whipTag(RT) {   // the whipsaw half-switch decided at the last close
+    var W = RT && RT.whip;
+    if (!W || !W.trade) return '';
+    if (!W.held) return '<span class="tag sell">sell half the Boost list</span><span class="tag buy">buy ' + esc(W.half) + ' with that half (whipsaw)</span>';
+    if (!W.half) return '<span class="tag sell">sell ' + esc(W.held) + '</span><span class="tag buy">back to 100% the Boost list (whipsaw off)</span>';
+    return '<span class="tag sell">sell ' + esc(W.held) + '</span><span class="tag buy">buy ' + esc(W.half) + ' (whipsaw half)</span>';
+  }
+  function whipNote(RT) {   // the whipsaw half-switch: rule, reading now, recent sales, log
+    var W = RT && RT.whip;
+    if (!W) return '';
+    var nm = { TLT: 'Treasuries', GLD: 'gold', SPY: 'SPY', BIL: 'T-bills' };
+    var chg = W.assets.map(function (t) { return esc(t) + ' ' + (W.chg[t] == null ? '–' : pct(W.chg[t])) + (W.weekly[t] === 'down' ? ' <span class="muted">(weekly downtrend, skipped)</span>' : ''); }).join(' · ');
+    var lg = (W.log || []).map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + (r[1] !== r[0] ? '–' + fmtDate(r[1], { month: 'short', day: 'numeric', year: 'numeric' }) : '') + (r[2] ? ' (' + esc(r[2]) + ')' : ''); }).join(' · ');
+    var sl = (W.sales || []).slice(0, 8).map(function (r) { return esc(r[1]) + ' <span class="' + (r[4] < 0 ? 'neg' : 'pos') + '">' + (r[4] == null ? '–' : pct(r[4])) + '</span>'; }).join(' · ');
+    var now = W.on ? (RT.mode === 'boost' ? 'half the Boost list, half <b>' + esc(W.half) + '</b> (' + esc(nm[W.half] || W.half) + ')' : 'on, but the plan is out of stocks, so it has nothing to split') : '100% the Boost list';
+    return '<br><b>3. Whipsaw half-switch ' + (W.on ? '<span class="neg">ON</span>' : 'off') + ':</b> at each Friday close, of the stocks the Boost list sold in the last ' + W.look + ' sessions (6 months; at least ' + W.need + ' sales), if ' + Math.round(W.loss * 100) + '% or more were sold below their buy price, momentum is whipsawing: until a later Friday finds otherwise, half stays in the Boost list and half goes into whichever of ' + W.assets.join(', ') + ' is up most over the last ' + W.pctLook + ' sessions (3 months), skipping any in a weekly downtrend (T-bills if none is up). ' +
+      '<b>Now:</b> ' + now + (W.trade ? ' — <b>trade at the close on ' + fmtDate(W.trade, { weekday: 'short', month: 'short', day: 'numeric' }) + '</b>' : '') + '. ' +
+      'Boost-list sales in the last ' + W.look + ' sessions: ' + W.n + ', ' + W.lost + ' at a loss' + (W.share != null ? ' (' + Math.round(W.share * 100) + '%; ' + Math.round(W.loss * 100) + '% switches it on)' : '') + (W.previewOn !== W.on ? ' — if Friday were today it would turn <b>' + (W.previewOn ? 'on' : 'off') + '</b>' : '') + '. ' +
+      '3-month change: ' + chg + (W.pick ? ' → the half would go into <b>' + esc(W.pick) + '</b>' : '') + '. ' +
+      (sl ? 'Recent sales: ' + sl + '. ' : '') +
+      'On ' + W.daysOn + ' of ' + W.days + ' sessions since ' + SINCE + (lg ? '. Recent stretches: ' + lg : '') + '. ' +
+      '<span class="muted">In the 2000–2026 audit it was on about 5% of the time (late 2008, late 2011, late 2015, late 2018, 2022) and took the plan from 32.8% to 33.4% a year before tax (21.3% to 21.7% after), worst drop −44% to −41%; from 2010 28.5% to 28.8%; from 2020 55.9% to 55.8%, worst drop −39% to −31%. About 100 chop filters were tried before this one, so treat the small gain as luck and the smaller drops as the point.</span>';
   }
   function warnNote(RT) {   // information only: SPY falling below its average while bonds or gold rise
     if (!RT) return '';
@@ -617,8 +641,8 @@ __GROWTH__
       RT.assets.map(function (t) { return t + ' daily ' + arw(RT.legs[t]) + gr(RT.legs[t]); }).join(' · ') + '.' +
       (RT.cand && RT.mode === 'boost' && RT.streak ? ' ' + esc(RT.cand) + ' has led for ' + RT.streak + ' of the ' + RT.confirm + ' sessions needed.' : '') +
       ' Out of stocks on ' + RT.daysOut + ' of ' + RT.days + ' sessions since ' + SINCE + ', ' + RT.switches + ' switches. Since ' + SINCE + ': ' + pct(P.stats.rotation.annual, 0) + ' a year, worst drop ' + pct(P.stats.rotation.maxDD, 0) + ' vs ' + pct(P.stats.boost100.annual, 0) + ' and ' + pct(P.stats.boost100.maxDD, 0) + ' for Boost 100%. ' +
-      'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $17.4M after tax vs $9.95M for Boost 100%: 32.8% a year before tax (21.3% after) vs 28.7% (18.8%), worst drop −44% vs −59%; from 2010 28.5% vs 24.9%, from 2020 55.9% vs 53.3% (all with the surge exit below; before it, Boost + rotation made 31.0% a year, $13.6M). The thresholds were picked on that same history, so expect less.' +
-      (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '');
+      'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $18.7M after tax vs $9.95M for Boost 100%: 33.4% a year before tax (21.7% after) vs 28.7% (18.8%), worst drop −41% vs −59%; from 2010 28.8% vs 24.9%, from 2020 55.8% vs 53.3% (all with the surge exit below and the whipsaw half-switch; without the half-switch 32.8% and $17.4M, before the surge exit 31.0% and $13.6M). The thresholds were picked on that same history, so expect less.' +
+      (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '') + whipNote(RT);
   }
   function bxNote(A) {   // the blow-off exit line under Boost 100% / Boost + cushion
     var X = A && A.boostx, m = X ? X.mult : 2;
@@ -705,7 +729,7 @@ __GROWTH__
     }
     var RTb = PA && PA.rotation;
     if (pm === 'rotation' && RTb && RTb.mode !== 'boost') tags = '<span class="muted">Boost + rotation is out of stocks (' + esc(RTb.mode) + '): the stock list changes don’t apply.</span>';
-    if (pm === 'rotation' && RTb && RTb.trade) mixTag = rotTag(RTb);
+    if (pm === 'rotation' && RTb && (RTb.trade || (RTb.whip && RTb.whip.trade))) mixTag = rotTag(RTb);
     if (RTb && RTb.rsiWarn && RTb.rsiWarn.on) mixTag += '<span class="tag sell">RSI support-line break (info only)</span>';
     if ((pm === 'boost100' || pm === 'cushion' || pm === 'rotation') && BXb && BXb.surge && !(pm === 'rotation' && RTb && RTb.mode !== 'boost'))
       (BXb.surge.pending || []).forEach(function (e) { mixTag += '<span class="tag sell">' + esc(e.t) + ' sells ' + fmtDate(e.sell, { weekday: 'short', month: 'short', day: 'numeric' }) + ' (surge exit)</span>'; });
@@ -718,7 +742,7 @@ __GROWTH__
   } else {
     var RTm = D.plan && D.plan.auto && D.plan.auto.rotation, pm2 = (D.plan && D.plan['default']) || 'auto';
     try { pm2 = localStorage.getItem('nibii-plan-mix5') || pm2; } catch (e) {}
-    $('banner').innerHTML = (RTm && RTm.rsiWarn && RTm.rsiWarn.on ? '<span class="tag sell">RSI support-line break, SPY near or below its 150-day (info only)</span>' : '') + (RTm && RTm.warn ? '<span class="tag sell">downtrend warning: SPY below its 150-day in a daily downtrend, ' + esc(RTm.warn) + ' rising (info only)</span>' : '') + (pm2 === 'rotation' && RTm && RTm.trade ? '<b>Boost + rotation — trade at the close ' + fmtDate(RTm.trade, wd) + ':</b>' + rotTag(RTm) + '<br>' : '') + (tags ? '<b>Preview — if Friday’s signal were ' + fmtDate(D.asOf, wd) + '’s close:</b>' + tags
+    $('banner').innerHTML = (RTm && RTm.rsiWarn && RTm.rsiWarn.on ? '<span class="tag sell">RSI support-line break, SPY near or below its 150-day (info only)</span>' : '') + (RTm && RTm.warn ? '<span class="tag sell">downtrend warning: SPY below its 150-day in a daily downtrend, ' + esc(RTm.warn) + ' rising (info only)</span>' : '') + (pm2 === 'rotation' && RTm && (RTm.trade || (RTm.whip && RTm.whip.trade)) ? '<b>Boost + rotation — trade at the close ' + fmtDate(RTm.trade || RTm.whip.trade, wd) + ':</b>' + rotTag(RTm) + '<br>' : '') + (tags ? '<b>Preview — if Friday’s signal were ' + fmtDate(D.asOf, wd) + '’s close:</b>' + tags
         : '<b>No changes so far</b><span class="muted">At ' + fmtDate(D.asOf, wd) + '’s close all five holdings still rank in the top ' + D.rule.keepRank + '.</span>') +
       '<span class="muted">Signal Fri ' + fmtDate(D.signalDate, md) + ' → trade Mon ' + fmtDate(D.tradeDate, md) + ' before the close.</span>';
   }
@@ -1030,12 +1054,13 @@ __GROWTH__
     function draw() {
       document.querySelectorAll('#mix-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mix)); });
       var m, mine = null, RT = A && A.rotation, RA = mix === 'rotation' && RT && RT.mode !== 'boost' ? RT.mode : null;
+      var WH = mix === 'rotation' && !RA && RT && RT.whip && RT.whip.half ? RT.whip.half : null;   // whipsaw half-switch asset
       if (mix === 'mine') { mine = callFor(inForce); m = mixOf(mine, inForce) || [A ? share(A.split) : 1, A ? 1 - share(A.split) : 0, 0]; }
       else if (mix === 'auto' && A) m = [share(A.split), 1 - share(A.split), 0];
       else if (mix === 'guard' && A && A.guard) m = [A.guard.weights[0], A.guard.weights[1], 0, A.guard.weights[2]];
       else if (mix === 'boost' && A && A.boost) m = [share(A.boost.split), 1 - share(A.boost.split), 0];
       else if (mix === 'boost100') m = [1, 0, 0];
-      else if (mix === 'rotation') m = RA ? [0, 0, 0] : [1, 0, 0];
+      else if (mix === 'rotation') m = RA ? [0, 0, 0] : WH ? [0.5, 0, 0] : [1, 0, 0];
       else if (mix === 'cushion' && A && A.cushion) m = [share(A.cushion.split), 1 - share(A.cushion.split), 0];
       else if (mix === 'steps' && A) m = [share(A.steps.split), 1 - share(A.steps.split), 0];
       else m = [share(mix), 1 - share(mix), 0];
@@ -1043,7 +1068,7 @@ __GROWTH__
       if (mineBoost) m = [(m[3] || 0) + (m[4] || 0), m[1], m[2]];
       var spyAmt = acct * (m[3] || 0);
       var stocks = acct * m[0], sleeve = acct * m[1], cash = acct * m[2], per = stocks / D.rule.topN;
-      $('plan-hint').textContent = mix === 'rotation' ? (RA ? 'boost + rotation: out of stocks, 100% ' + RA + ' · decided at any close, traded at the next close' : 'boost + rotation: the Boost 100% list, 100% stocks · decided at any close, traded at the next close') : (mix === 'auto' ? 'auto mix this week: ' : mix === 'boost' ? 'auto + news boost this week: ' : mix === 'boost100' ? 'news boost, always fully in stocks: ' : mix === 'cushion' ? 'boost + cushion this week: ' : mix === 'guard' ? 'auto + guard this week: ' : mix === 'steps' ? 'steps mix this week: ' : mix === 'mine' ? 'your call: ' : '') +
+      $('plan-hint').textContent = mix === 'rotation' ? (RA ? 'boost + rotation: out of stocks, 100% ' + RA + ' · decided at any close, traded at the next close' : WH ? 'boost + rotation: whipsaw half-switch on, 50% the Boost list, 50% ' + WH + ' · decided at any close, traded at the next close' : 'boost + rotation: the Boost 100% list, 100% stocks · decided at any close, traded at the next close') : (mix === 'auto' ? 'auto mix this week: ' : mix === 'boost' ? 'auto + news boost this week: ' : mix === 'boost100' ? 'news boost, always fully in stocks: ' : mix === 'cushion' ? 'boost + cushion this week: ' : mix === 'guard' ? 'auto + guard this week: ' : mix === 'steps' ? 'steps mix this week: ' : mix === 'mine' ? 'your call: ' : '') +
         Math.round(m[0] * 100) + '% top 5 · ' + Math.round(m[1] * 100) + '% sleeve' + (m[3] ? ' · ' + Math.round(m[3] * 100) + '% SPY' : '') + (m[2] ? ' · ' + Math.round(m[2] * 100) + '% cash' : '') + ' · no leverage · trade & reset Mondays';
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
       var sp = name[SL.held] || {};
@@ -1070,6 +1095,7 @@ __GROWTH__
         : '<tr class="borrow"><td>Sleeve (' + esc(SL.held) + ') — not held this week</td><td class="r">$0</td><td></td></tr>';
       if (spyAmt > 0) rows += '<tr><td><span class="sw" style="--c:var(--s-spy)"></span><b>SPY</b> <span class="muted nm2">bear guard</span></td><td class="r">' + usd(spyAmt) + '</td><td class="r muted">' + sh(spyAmt, A.guard.spyClose) + '</td></tr>';
       if (cash > 0) rows += '<tr><td><span class="sw" style="--c:var(--muted)"></span><b>Cash</b> <span class="muted nm2">T-bills or money market</span></td><td class="r">' + usd(cash) + '</td><td></td></tr>';
+      if (WH) rows += '<tr><td><span class="sw" style="--c:var(--s-rot)"></span><b>' + esc(WH) + '</b> <span class="muted nm2">' + esc(ROTN[WH] || WH) + ' · whipsaw half-switch</span></td><td class="r">' + usd(acct * 0.5) + '</td><td class="r muted">' + sh(acct * 0.5, WH === 'SPY' ? (A.guard && A.guard.spyClose) : RT.px[WH]) + '</td></tr>';
       if (RA) rows = '<tr><td><span class="sw" style="--c:var(--s-rot)"></span><b>' + esc(RA) + '</b> <span class="muted nm2">' + esc(ROTN[RA] || '') + ' · Boost + rotation is out of stocks</span></td><td class="r">' + usd(acct) + '</td><td class="r muted">' + sh(acct, RT.px[RA]) + '</td></tr>';
       rows += '<tr class="sum"><td>Total</td><td class="r">' + usd(acct) + '</td><td></td></tr>';
       $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
