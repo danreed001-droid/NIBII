@@ -182,3 +182,27 @@ def test_scheduled_surge_sale_is_a_heads_up():
         dict(t='DELL', d='2026-10-05', up=0.08, x=4.6, sell='2026-10-12')]))
     title, body = alert.build(s, None)
     assert '**Surge exit scheduled**' in body and 'DELL closed +8% on 4.6x its normal volume on Mon Oct 5' in body and 'Mon Oct 12' in body
+
+
+def whip(**kw):
+    w = dict(on=True, half='GLD', held=None, trade='2026-10-05', look=126, loss=0.65, n=9, lost=7, share=0.78,
+             chg={'TLT': -0.02, 'GLD': 0.06, 'SPY': 0.01})
+    w.update(kw)
+    return w
+
+
+def test_whipsaw_half_switch_on_friday():
+    s = scan()
+    s['plan']['auto']['rotation'] = rot(whip=whip())
+    title, body = alert.build(s)
+    assert 'whipsaw half → GLD' in title
+    assert 'sell half the Boost list, buy **GLD**' in body and '7 of the Boost list' in body
+    assert '50% the Boost 100% stock list, 50% GLD' in body and '| Boost + rotation | 50% (+50% GLD, whipsaw half) |' in body
+
+
+def test_whipsaw_half_moving_midweek_sends_its_own_alert():
+    s = scan(signalDay=False)
+    s['plan']['auto']['rotation'] = rot(whip=whip(held='GLD', half='SPY'))
+    title, body = alert.build(s)
+    assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw half → SPY'
+    assert 'sell GLD, buy **SPY** with that half' in body

@@ -89,3 +89,9 @@ def test_weekly_grid_has_the_overlay_chart():
 def test_page_has_the_3d_price_volume_chart():
     page = render_scanner.render(SCAN, growth='')
     assert 'id="pv"' in page and 'plotly.js-dist-min@2.35.2' in page and 'D.pv3d' in page
+
+
+def test_rotation_explains_the_whipsaw_half_switch():
+    page = render_scanner.render(SCAN)
+    assert 'function whipNote(RT)' in page and 'Whipsaw half-switch' in page
+    assert 'whipsaw half-switch' in page and 'whipTag(RT)' in page

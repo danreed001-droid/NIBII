@@ -2,8 +2,8 @@
 """Friday alert: writes a GitHub issue title/body when Monday's trade has
 anything to do - stock swaps (also the News boost list's), a sleeve switch, or a change in the Auto,
 Boost, Guard or Steps mix (including the bear guard turning on or off). Midweek, an alert goes
-out when Boost + rotation (the default plan) switches or the blow-off exit sells a stock: both
-trade at the next session's close.
+out when Boost + rotation (the default plan) switches, its whipsaw half-switch moves, or the
+blow-off exit sells a stock: all trade at the next session's close.
 
 Reads data/momentum_scan.json (written by scripts/momentum_scan.py). Only on a
 signal day (Friday's close); on other days, or when nothing changes, it writes
@@ -77,11 +77,35 @@ def rsi_line(rt):
             "about 2 points a year less than Boost + rotation over 2000-2026.")
 
 
+def whip_line(rt):
+    """The whipsaw half-switch move decided at the last close (None when it holds)."""
+    w = (rt or {}).get('whip') or {}
+    if not w.get('trade'):
+        return None
+    why = (f"{w.get('lost')} of the Boost list's last {w.get('n')} sales ({w.get('look', 126)} sessions) were losers, "
+           f"{pctw(w.get('share') or 0)} against the {pctw(w.get('loss', 0.65))} that switches it on")
+    chg = ', '.join(f"{t} {pct1(v)}" for t, v in (w.get('chg') or {}).items() if v is not None)
+    if not w.get('held'):
+        return (f"**Boost + rotation, whipsaw half-switch ON:** sell half the Boost list, buy **{w['half']}** with that half ({why}; "
+                f"3-month change {chg}, weekly downtrends skipped)")
+    if not w.get('half'):
+        return (f"**Boost + rotation, whipsaw half-switch OFF:** sell {w['held']}, put that half back into the Boost list "
+                f"(losing sales now {pctw(w.get('share') or 0)} of {w.get('n')})")
+    return (f"**Boost + rotation, whipsaw half:** sell {w['held']}, buy **{w['half']}** with that half "
+            f"(it is now up most over 3 months: {chg}, weekly downtrends skipped)")
+
+
+def whip_tag(rt):
+    w = (rt or {}).get('whip') or {}
+    return (f"whipsaw half → {w['half']}" if w.get('half') else "whipsaw half off") if w.get('trade') else None
+
+
 def rotation_now(rt):
     if not rt:
         return None
-    m = rt.get('mode')
-    return ("- **Boost + rotation:** " + ("in the Boost 100% stock list" if m == 'boost' else f"out of stocks, 100% in {m}"))
+    m, h = rt.get('mode'), ((rt.get('whip') or {}).get('half'))
+    return ("- **Boost + rotation:** " + (f"50% the Boost 100% stock list, 50% {h} (whipsaw half-switch)" if m == 'boost' and h
+                                          else "in the Boost 100% stock list" if m == 'boost' else f"out of stocks, 100% in {m}"))
 
 
 def build(scan, owner=None):
@@ -100,6 +124,10 @@ def build(scan, owner=None):
     if rl:
         items.append(rl)
         tags.append(f"rotation → {rot_name(rt['mode']) if rt['mode'] != 'boost' else 'stocks'}")
+    wh = whip_line(rt) if not rl else None
+    if wh:
+        items.append(wh)
+        tags.append(whip_tag(rt))
     if rt.get('mode') and rt['mode'] != 'boost':
         items.append(f"Boost + rotation is out of stocks ({rt['mode']}): the stock changes below don't apply to it")
     wl = warn_line(rt)
@@ -185,7 +213,15 @@ def build(scan, owner=None):
              f"| Auto | {pctw(a_s)} | {pctw(1 - a_s)} | 0% | 0% |",
              f"| Guard | {pctw(gw[0])} | {pctw(gw[1])} | {pctw(gw[2])} | 0% |"]
     if rt.get('mode'):
-        lines.append("| Boost + rotation | 100% | 0% | 0% | 0% |" if rt['mode'] == 'boost' else f"| Boost + rotation | 0% (100% {rt['mode']}) | 0% | 0% | 0% |")
+        wh_ = (rt.get('whip') or {}).get('half')
+        if rt['mode'] != 'boost':
+            lines.append(f"| Boost + rotation | 0% (100% {rt['mode']}) | 0% | 0% | 0% |")
+        elif wh_ == 'SPY':
+            lines.append("| Boost + rotation | 50% | 0% | 50% | 0% |")
+        elif wh_:
+            lines.append(f"| Boost + rotation | 50% (+50% {wh_}, whipsaw half) | 0% | 0% | 0% |")
+        else:
+            lines.append("| Boost + rotation | 100% | 0% | 0% | 0% |")
     if boost.get('split'):
         b_s = int(boost['split'].split('/')[0]) / 100
         lines.append(f"| Boost | {pctw(b_s)} | {pctw(1 - b_s)} | 0% | 0% |")
@@ -288,6 +324,13 @@ def midweek(scan, owner=None):
                   (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
         title = f"Trade {fmt(rt['trade'])}: Boost + rotation → {rot_name(rt['mode']) if rt['mode'] != 'boost' else 'back into stocks'}"
         return title[:240], '\n'.join(lines) + '\n'
+    wh = whip_line(rt)
+    if wh and not (mw and (mw.get('sell') or mw.get('buy'))):
+        w = rt['whip']
+        lines = [f"**Trade at the close on {fmt(w['trade'])}:** {wh}.", '',
+                 "Decided at today's close; the other plans have nothing to do.", '', rotation_now(rt), '', f"Details: {PAGE}", '',
+                 (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
+        return f"Trade {fmt(w['trade'])}: Boost + rotation {whip_tag(rt)}"[:240], '\n'.join(lines) + '\n'
     if not mw or not (mw.get('sell') or mw.get('buy')):
         wl = warn_line(rt) if not rt.get('prevWarn') else None
         rl_ = rsi_line(rt) if not ((rt.get('rsiWarn') or {}).get('prevOn')) else None
@@ -313,7 +356,9 @@ def midweek(scan, owner=None):
     lines = [f"**Trade at the close on {fmt(mw['date'])}:** Boost 100%, Boost + cushion, and Boost + rotation while it holds stocks: " + ', '.join(acts), '',
              ' '.join(why) + " Swap the same dollar amount; the rest of the account stays as it is.",
              *(['', call_line(bx, mw.get('buy') or [], mw.get('sell') or [])] if call_line(bx, mw.get('buy') or [], mw.get('sell') or []) else []),
-             '', "Auto, Boost and Steps: nothing to do." + (f" Boost + rotation is out of stocks ({rt['mode']}): nothing to do." if rt.get('mode') and rt['mode'] != 'boost' else " Boost + rotation (in the Boost list): make the same swap."), '',
+             *(['', whip_line(rt)] if whip_line(rt) else []),
+             '', "Auto, Boost and Steps: nothing to do." + (f" Boost + rotation is out of stocks ({rt['mode']}): nothing to do." if rt.get('mode') and rt['mode'] != 'boost'
+                                                           else " Boost + rotation (in the Boost list): make the same swap" + (f" with its half in the stocks ({rt['whip']['half']} is the other half)." if (rt.get('whip') or {}).get('half') else ".")), '',
              f"Details: {PAGE}", '',
              (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
     title = f"Trade {fmt(mw['date'])}: Boost 100% / cushion {'surge' if surged and not blown else 'blow-off'} exit: " + ', '.join(acts)

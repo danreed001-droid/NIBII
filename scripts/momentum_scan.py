@@ -19,8 +19,9 @@ the week when 2 or more holdings are in a daily lower-low downtrend at Friday's
 close (the swing read shown on each card). 'Steps' scales with the count instead:
 1 holding down -> 80/20, 2 -> 60/40, 3+ -> 40/60. Fixed 100/0, 80/20 and 60/40 mixes
 are offered too. The default plan is Boost + rotation (mtl/rotation.py): the Boost 100%
-list, moved into TLT / GLD (or T-bills) when SPY's swing structure turns down, decided at
-any close and traded at the next. Signals come from each Friday's close; trades (stocks,
+list, moved into TLT / GLD (or T-bills) when SPY's swing structure turns down, and half of it
+moved into whichever of TLT / GLD / SPY is up most over 3 months while most of the list's recent
+sales were losers (the whipsaw half-switch), decided at any close and traded at the next. Signals come from each Friday's close; trades (stocks,
 sleeve switch, reset to the split) are made on Monday before the close, and the
 track record is computed that way.
 
@@ -42,7 +43,7 @@ from mtl.heat import daily_closes, daily_heat, price_volume, weekly_heat  # noqa
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
-from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, rotation_curve, rotation_modes, switch_log, warning_log, warnings  # noqa: E402
+from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -258,6 +259,26 @@ def next_session(d_):
     while x.weekday() > 4:
         x += timedelta(days=1)
     return x.isoformat()
+
+
+def whip_block(modes, on, half, read, px, calendar, K, picks, prices):
+    """The whipsaw half-switch now: on/off from the last weekly check, today's reading, the asset
+    the half goes into, the Boost list's recent sales behind it, and its log."""
+    as_of, y = calendar[K], calendar[K - 1]
+    first = K - WHIP_LOOK + 1
+    rec = [[d_, t, r4(a_), r4(b_), r4(b_ / a_ - 1) if a_ and b_ else None] for d_, t, a_, b_ in sales(picks, prices)
+           if d_ >= calendar[max(0, first)] and d_ <= as_of]
+    lost = sum(1 for r_ in rec if r_[4] is not None and r_[4] < 0)
+    pick, chg = whip_pick(read, px, calendar, K)
+    days = [d_ for d_ in calendar if d_ in on]
+    weekly = {t: STATE.get(read.leg(t, as_of, 'w')[0], read.leg(t, as_of, 'w')[0]) for t in WHIP_ASSETS}
+    return dict(on=on.get(as_of, False), prevOn=on.get(y, False), half=half.get(as_of), held=half.get(y),
+                trade=next_session(as_of) if half.get(as_of) != half.get(y) and modes.get(as_of, 'boost') == 'boost' else None,
+                look=WHIP_LOOK, need=WHIP_MIN, loss=WHIP_LOSS, pctLook=WHIP_PCT, assets=list(WHIP_ASSETS),
+                sales=rec[::-1][:12], n=len(rec), lost=lost, share=r4(lost / len(rec)) if rec else None,
+                previewOn=len(rec) >= WHIP_MIN and lost / len(rec) >= WHIP_LOSS,
+                pick=pick, chg={t: r4(v) for t, v in chg.items()}, weekly=weekly,
+                daysOn=sum(1 for d_ in days if on[d_]), days=len(days), log=whip_log(on, half, calendar))
 
 
 def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
@@ -530,7 +551,12 @@ def main():
     # swing structure says so (mtl/rotation.py); decided at any close, traded at the next close
     rot_bars = {'SPY': bench['SPY'], **{t: asset_bars[t] for t in ROT_ASSETS if asset_bars.get(t)}}
     rot_modes, rot_why, rot_read, rot_state = rotation_modes(rot_bars, calendar, START)
-    plans['rotation'] = rotation_curve(strat_bx, filled(sleeve_px, calendar), calendar, rot_modes)
+    # ... plus the whipsaw half-switch: when most of the Boost list's recent sales were losers, half
+    # goes into whichever of TLT / GLD / SPY is up most over 3 months (skipping weekly downtrends)
+    whip_px = {**filled(sleeve_px, calendar), 'SPY': prices['SPY']}
+    whip_on = whipsaw(picks_bx, prices, calendar, START)
+    whip_half = whip_halves(rot_modes, whip_on, rot_read, whip_px, calendar)
+    plans['rotation'] = rotation_curve(strat_bx, whip_px, calendar, rot_modes, half=whip_half)
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
     curves['plan'] = growth(plans['auto'])
@@ -748,6 +774,7 @@ def main():
                            weeksSpyLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and (spy_gap(f_) or 0) < 0),
                            log=cushion_log(calendar, last_sessions_of_weeks(calendar), START, cushion_split, spy_gap, credit_gap))
     auto['rotation'] = rotation_block(rot_modes, rot_why, rot_read, rot_state, calendar, K, spy_gap, sleeve_px)
+    auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_bx, prices)
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(STEPS.get(len(auto['previewDown']), STEPS_MIN))
