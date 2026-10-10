@@ -70,3 +70,25 @@ def test_section_has_the_end_date_picker():
                               date(2026, 7, 31))
     html = growth_rank_section(dict(fetchedAt='2026-07-31T21:00:00Z', **grids))
     assert 'class="gr-date"' in html and 'max="2026-07-31"' in html and 'growth_history.json' in html
+
+
+def test_overlay_keeps_the_last_sessions_plus_a_base_day():
+    rows = {t: _rows(date(2025, 1, 6), 300, 0.001) for t, _ in growth_rank.GRID_ASSETS}
+    rows['CL=F'] = rows['CL=F'][:100]                      # oil stops early: still drawn, padded with None
+    h = growth_rank.history(rows)
+    ov = growth_rank.overlay(h)
+    assert len(ov['days']) == growth_rank.OVERLAY_DAYS + 1 and ov['days'][-1] == h['days'][-1]
+    assert all(len(c) == len(ov['days']) for c in ov['closes'].values())
+    assert 'CL=F' not in ov['closes']                       # nothing in the window -> left out
+    assert [a[0] for a in ov['assets']] == [t for t, _ in growth_rank.GRID_ASSETS if t != 'CL=F']
+    end = h['days'][200]
+    assert growth_rank.overlay(h, end=end)['days'][-1] == end   # same slice the page makes for a picked date
+    assert growth_rank.overlay(h, end='2000-01-01') is None and growth_rank.overlay(None) is None
+
+
+def test_section_draws_the_overlay_chart_only_with_overlay_data():
+    rows = {t: _rows(date(2025, 1, 6), 400, 0.001 * i) for i, (t, _) in enumerate(growth_rank.GRID_ASSETS)}
+    grids = growth_rank.build(rows, date(2026, 12, 31))
+    assert 'class="gr-ov"' not in growth_rank_section(grids)
+    html = growth_rank_section(dict(grids, overlay=growth_rank.overlay(growth_rank.history(rows))))
+    assert 'class="gr-ov"' in html and 'data-ov="' in html and 'gr-ov-mode' in html and "'gr-end'" in html
