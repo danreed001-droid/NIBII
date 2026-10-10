@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Fetch daily closes since 2000 for the growth ranking grid's six markets
 (see mtl/growth_rank.py), write the weekly + daily grids to
-documents/growth_rank.json, which scripts/render_html.py draws, and the full
+documents/growth_rank.json (with the last ~6 months of closes for the overlay
+chart), which scripts/render_html.py draws, and the full
 history to docs/growth_history.json for the page's "ending on" date picker.
 
 A display overlay only, like fetch_live.py: it never touches a published
@@ -34,6 +35,10 @@ def main():
         print("no data came back - keeping the previous growth_rank.json")
         return
     out = dict(fetchedAt=now.strftime('%Y-%m-%dT%H:%M:%SZ'), **grids)
+    hist = growth_rank.history({t: r for t, r in rows.items() if r})
+    ov = growth_rank.overlay(hist)
+    if ov:
+        out["overlay"] = ov   # the six-line chart above the grids (last ~6 months, daily)
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     out_path = os.path.join(root, "documents", "growth_rank.json")
     with open(out_path, "w") as f:
@@ -41,7 +46,6 @@ def main():
         f.write("\n")
     print(f"wrote {out_path}")
     # the full daily history, loaded by the page only when the viewer picks an end date
-    hist = growth_rank.history({t: r for t, r in rows.items() if r})
     if hist:
         hist_path = os.path.join(root, "docs", "growth_history.json")
         with open(hist_path, "w") as f:

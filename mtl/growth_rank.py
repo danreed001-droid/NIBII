@@ -30,6 +30,7 @@ BASELINE_WEEKS = 52   # prior weekly changes that define an asset's normal weekl
 BASELINE_DAYS = 60    # prior daily changes that define an asset's normal daily move
 MIN_BASELINE = 20     # need at least this many prior changes for a sigma
 SIGMA_CAP = 2.5       # moves this many normal moves or more get the darkest sigma shade
+OVERLAY_DAYS = 126    # sessions in the six-line overlay chart (about 6 months)
 
 
 def weekdays_only(rows):
@@ -143,3 +144,17 @@ def history(daily_rows_by_ticker):
         "assets": [[t, name] for t, name in GRID_ASSETS if t in daily],
         "closes": {t: [float(f"{daily[t][d]:.6g}") if d in daily[t] else None for d in days] for t in tickers},
     }
+
+
+def overlay(hist, end=None, days=OVERLAY_DAYS):
+    """The last `days` sessions (plus the base session before them) of history() for the
+    page's six-line overlay chart, ending on `end` (ISO date, default the last day):
+    {"days": [ISO dates], "assets": [[ticker, name]], "closes": {ticker: [close or None]}}."""
+    if not hist or not hist.get("days"):
+        return None
+    n = len(hist["days"]) if end is None else sum(1 for d in hist["days"] if d <= end)
+    lo = max(0, n - days - 1)
+    if n - lo < 2:
+        return None
+    closes = {t: c[lo:n] for t, c in hist["closes"].items() if any(x is not None for x in c[lo:n])}
+    return {"days": hist["days"][lo:n], "assets": [a for a in hist["assets"] if a[0] in closes], "closes": closes}

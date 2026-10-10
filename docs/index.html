@@ -339,7 +339,7 @@ table.log tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, tran
     </div>
     <p class="subtitle">6 markets × 3 horizons (1D / 5D / 10D) — 18 calls from a thirteen-category vote model, with a stretch/mean-reversion overlay.</p>
     <p class="scanner-link"><a href="scanner.html">◆ Top 5 Strongest <span>S&amp;P 500 + Nasdaq-100 momentum picks</span> →</a></p>
-    <div class="fresh"><div class="fresh-item " data-ts="2026-10-09T13:24:19Z" data-state="aging" data-fixed-state="1"><span class="fresh-dot"></span><span class="fresh-label">Calls written</span><span class="fresh-value" title="2026-10-09T13:24:19Z">Fri Oct 9, 9:24 AM ET · <span class="fresh-age"></span></span><span class="fresh-note">Calls for session Thu Oct 8 - the Fri Oct 9 board is written Mon ~9:45 AM ET</span></div><div class="fresh-item live-note" data-ts="2026-10-10T00:43:02Z" data-fresh-h="1" data-stale-h="4"><span class="fresh-dot"></span><span class="fresh-label">Live prices</span><span class="fresh-value" title="2026-10-10T00:43:02Z">Fri Oct 9, 8:43 PM ET · <span class="fresh-age"></span></span><span class="fresh-note">Overlay only - never the basis a call was made against</span></div><div class="fresh-item " data-ts="2026-10-10T00:43:04Z" data-fresh-h="4" data-stale-h="24"><span class="fresh-dot"></span><span class="fresh-label">Page rebuilt</span><span class="fresh-value" title="2026-10-10T00:43:04Z">Fri Oct 9, 8:43 PM ET · <span class="fresh-age"></span></span><span class="fresh-note">Grades and the track record are recomputed on every rebuild</span></div></div>
+    <div class="fresh"><div class="fresh-item " data-ts="2026-10-09T13:24:19Z" data-state="aging" data-fixed-state="1"><span class="fresh-dot"></span><span class="fresh-label">Calls written</span><span class="fresh-value" title="2026-10-09T13:24:19Z">Fri Oct 9, 9:24 AM ET · <span class="fresh-age"></span></span><span class="fresh-note">Calls for session Thu Oct 8 - the Fri Oct 9 board is written Mon ~9:45 AM ET</span></div><div class="fresh-item live-note" data-ts="2026-10-10T00:43:02Z" data-fresh-h="1" data-stale-h="4"><span class="fresh-dot"></span><span class="fresh-label">Live prices</span><span class="fresh-value" title="2026-10-10T00:43:02Z">Fri Oct 9, 8:43 PM ET · <span class="fresh-age"></span></span><span class="fresh-note">Overlay only - never the basis a call was made against</span></div><div class="fresh-item " data-ts="2026-10-10T10:50:09Z" data-fresh-h="4" data-stale-h="24"><span class="fresh-dot"></span><span class="fresh-label">Page rebuilt</span><span class="fresh-value" title="2026-10-10T10:50:09Z">Sat Oct 10, 6:50 AM ET · <span class="fresh-age"></span></span><span class="fresh-note">Grades and the track record are recomputed on every rebuild</span></div></div>
     <p class="submit-news"><a href="https://github.com/danreed001-droid/NIBII/issues/new?template=news-event.yml" target="_blank" rel="noopener">＋ Submit a news event</a>
       <span>adds it to the news log the research reads; the page updates in about a minute</span></p>
     <div class="tape">
@@ -763,6 +763,30 @@ td.gr-na { color: var(--muted); }
 table.gr-table tfoot td { color: var(--ink); font-weight: 600; }
 table.gr-table tr.gr-sum td { font-size: 0.92rem; border-top: 1px solid var(--hairline); }
 td.gr-up { color: #0ca30c; } td.gr-down { color: #d03b3b; }
+/* six-line overlay chart: categorical slots 1-6 (dark default, light under the page's own toggle) */
+.gr-ov { --ov-1: #3987e5; --ov-2: #d95926; --ov-3: #199e70; --ov-4: #c98500; --ov-5: #d55181; --ov-6: #008300;
+  margin: 10px 0 18px; position: relative; }
+:root[data-mtl-theme="light"] .gr-ov { --ov-1: #2a78d6; --ov-2: #eb6834; --ov-3: #1baf7a; --ov-4: #eda100; --ov-5: #e87ba4; --ov-6: #008300; }
+.gr-ov-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 12px; margin-bottom: 4px; }
+.gr-ov-title { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+.gr-ov-title span { font-weight: 400; color: var(--muted); font-size: 0.78rem; }
+.gr-ov-legend { display: flex; flex-wrap: wrap; gap: 4px 6px; margin: 4px 0 6px; padding: 0; list-style: none; }
+.gr-ov-legend button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--hairline); background: transparent;
+  color: var(--ink-2); border-radius: 999px; padding: 3px 10px; font: inherit; font-size: 0.75rem; cursor: pointer; font-variant-numeric: tabular-nums; }
+.gr-ov-legend button[aria-pressed="false"] { opacity: 0.45; text-decoration: line-through; }
+.gr-ov-legend i { display: inline-block; width: 14px; height: 2px; border-radius: 2px; }
+.gr-ov-legend b { color: var(--ink); font-weight: 600; }
+.gr-ov-plot { width: 100%; height: 260px; touch-action: pan-y; }
+.gr-ov-plot svg { display: block; overflow: visible; }
+.gr-ov-plot text { font-size: 10.5px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.gr-ov-plot text.gr-ov-end { fill: var(--ink-2); font-size: 10.5px; }
+.gr-ov-tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px;
+  padding: 6px 9px; font-size: 0.74rem; color: var(--ink-2); box-shadow: 0 4px 14px rgba(0,0,0,.25); white-space: nowrap; display: none; z-index: 2; }
+.gr-ov-tip .d { color: var(--muted); margin-bottom: 3px; }
+.gr-ov-tip .r { display: flex; align-items: center; gap: 6px; }
+.gr-ov-tip .r i { width: 12px; height: 2px; border-radius: 2px; display: inline-block; }
+.gr-ov-tip .r b { color: var(--ink); min-width: 52px; text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .gr-ov-plot { height: 220px; } }
 </style>
 <div class="gr" id="growthRank" data-view="weekly" data-mode="range" data-show="rank" data-cfg="{&quot;src&quot;:&quot;growth_history.json&quot;,&quot;v&quot;:&quot;2026-10-10T00:43:04Z&quot;,&quot;weeks&quot;:26,&quot;days&quot;:30,&quot;baseW&quot;:52,&quot;baseD&quot;:60,&quot;minBase&quot;:20,&quot;cap&quot;:2.5,&quot;up&quot;:&quot;#0ca30c&quot;,&quot;down&quot;:&quot;#d03b3b&quot;}">
   <div class="gr-controls" role="group" aria-label="View"><span class="gr-controls-label">View:</span>
@@ -779,6 +803,15 @@ td.gr-up { color: #0ca30c; } td.gr-down { color: #d03b3b; }
     <input type="date" class="gr-date" aria-label="End date" max="2026-10-10">
     <button type="button" class="gr-btn gr-latest" aria-pressed="true">Latest</button>
     <span class="gr-status" aria-live="polite"></span></div>
+  <div class="gr-ov" data-days="126" data-ov="{&quot;days&quot;:[&quot;2026-04-10&quot;,&quot;2026-04-13&quot;,&quot;2026-04-14&quot;,&quot;2026-04-15&quot;,&quot;2026-04-16&quot;,&quot;2026-04-17&quot;,&quot;2026-04-20&quot;,&quot;2026-04-21&quot;,&quot;2026-04-22&quot;,&quot;2026-04-23&quot;,&quot;2026-04-24&quot;,&quot;2026-04-27&quot;,&quot;2026-04-28&quot;,&quot;2026-04-29&quot;,&quot;2026-04-30&quot;,&quot;2026-05-01&quot;,&quot;2026-05-04&quot;,&quot;2026-05-05&quot;,&quot;2026-05-06&quot;,&quot;2026-05-07&quot;,&quot;2026-05-08&quot;,&quot;2026-05-11&quot;,&quot;2026-05-12&quot;,&quot;2026-05-13&quot;,&quot;2026-05-14&quot;,&quot;2026-05-15&quot;,&quot;2026-05-18&quot;,&quot;2026-05-19&quot;,&quot;2026-05-20&quot;,&quot;2026-05-21&quot;,&quot;2026-05-22&quot;,&quot;2026-05-26&quot;,&quot;2026-05-27&quot;,&quot;2026-05-28&quot;,&quot;2026-05-29&quot;,&quot;2026-06-01&quot;,&quot;2026-06-02&quot;,&quot;2026-06-03&quot;,&quot;2026-06-04&quot;,&quot;2026-06-05&quot;,&quot;2026-06-08&quot;,&quot;2026-06-09&quot;,&quot;2026-06-10&quot;,&quot;2026-06-11&quot;,&quot;2026-06-12&quot;,&quot;2026-06-15&quot;,&quot;2026-06-16&quot;,&quot;2026-06-17&quot;,&quot;2026-06-18&quot;,&quot;2026-06-22&quot;,&quot;2026-06-23&quot;,&quot;2026-06-24&quot;,&quot;2026-06-25&quot;,&quot;2026-06-26&quot;,&quot;2026-06-29&quot;,&quot;2026-06-30&quot;,&quot;2026-07-01&quot;,&quot;2026-07-02&quot;,&quot;2026-07-06&quot;,&quot;2026-07-07&quot;,&quot;2026-07-08&quot;,&quot;2026-07-09&quot;,&quot;2026-07-10&quot;,&quot;2026-07-13&quot;,&quot;2026-07-14&quot;,&quot;2026-07-15&quot;,&quot;2026-07-16&quot;,&quot;2026-07-17&quot;,&quot;2026-07-20&quot;,&quot;2026-07-21&quot;,&quot;2026-07-22&quot;,&quot;2026-07-23&quot;,&quot;2026-07-24&quot;,&quot;2026-07-27&quot;,&quot;2026-07-28&quot;,&quot;2026-07-29&quot;,&quot;2026-07-30&quot;,&quot;2026-07-31&quot;,&quot;2026-08-03&quot;,&quot;2026-08-04&quot;,&quot;2026-08-05&quot;,&quot;2026-08-06&quot;,&quot;2026-08-07&quot;,&quot;2026-08-10&quot;,&quot;2026-08-11&quot;,&quot;2026-08-12&quot;,&quot;2026-08-13&quot;,&quot;2026-08-14&quot;,&quot;2026-08-17&quot;,&quot;2026-08-18&quot;,&quot;2026-08-19&quot;,&quot;2026-08-20&quot;,&quot;2026-08-21&quot;,&quot;2026-08-24&quot;,&quot;2026-08-25&quot;,&quot;2026-08-26&quot;,&quot;2026-08-27&quot;,&quot;2026-08-28&quot;,&quot;2026-08-31&quot;,&quot;2026-09-01&quot;,&quot;2026-09-02&quot;,&quot;2026-09-03&quot;,&quot;2026-09-04&quot;,&quot;2026-09-08&quot;,&quot;2026-09-09&quot;,&quot;2026-09-10&quot;,&quot;2026-09-11&quot;,&quot;2026-09-14&quot;,&quot;2026-09-15&quot;,&quot;2026-09-16&quot;,&quot;2026-09-17&quot;,&quot;2026-09-18&quot;,&quot;2026-09-21&quot;,&quot;2026-09-22&quot;,&quot;2026-09-23&quot;,&quot;2026-09-24&quot;,&quot;2026-09-25&quot;,&quot;2026-09-28&quot;,&quot;2026-09-29&quot;,&quot;2026-09-30&quot;,&quot;2026-10-01&quot;,&quot;2026-10-02&quot;,&quot;2026-10-05&quot;,&quot;2026-10-06&quot;,&quot;2026-10-07&quot;,&quot;2026-10-08&quot;,&quot;2026-10-09&quot;],&quot;assets&quot;:[[&quot;NQ=F&quot;,&quot;Nasdaq 100 futures&quot;],[&quot;ES=F&quot;,&quot;S&amp;P 500 futures&quot;],[&quot;DX-Y.NYB&quot;,&quot;US Dollar Index&quot;],[&quot;CL=F&quot;,&quot;Crude Oil futures&quot;],[&quot;GC=F&quot;,&quot;Gold futures&quot;],[&quot;ZN=F&quot;,&quot;10-Year T-Note futures&quot;]],&quot;closes&quot;:{&quot;NQ=F&quot;:[25281.2,25543.5,25996.8,26365.5,26487.2,26825.5,26748.8,26634.8,27083.0,26934.0,27435.0,27440.5,27168.8,27325.2,27596.0,27835.8,27776.0,28136.0,28716.8,28682.2,29332.5,29424.0,29170.0,29479.2,29687.8,29231.8,29096.0,28924.2,29390.5,29447.2,29558.8,30073.5,30047.2,30307.0,30405.2,30566.2,30712.8,30633.2,30488.2,29026.5,29454.8,29117.0,28554.0,29464.8,29662.0,30559.2,29995.0,29687.5,30263.3,30653.5,29666.0,29514.2,29724.8,29368.2,30052.8,30523.5,30094.2,29556.0,29941.0,29391.5,29468.5,29937.0,30032.2,29475.8,29790.2,29693.2,29225.8,28773.2,28778.8,29316.0,29181.2,28620.8,28282.2,28190.0,27922.0,27342.0,28237.8,28404.2,28891.8,29863.5,29615.0,29488.2,29834.8,29737.0,29626.0,29853.2,30188.5,30141.8,30096.0,29586.0,29512.8,29300.5,29387.8,29105.8,29276.8,29289.5,29695.8,29491.8,29513.0,29125.5,29186.2,29524.8,29565.2,29538.8,29448.8,29135.2,29387.0,29152.2,28955.0,28963.5,29446.8,29613.7,30784.8,31028.5,30764.8,30766.8,30889.2,30566.2,30613.2,30698.8,30760.5,31061.8,31317.8,31483.2,31402.2,30969.5,31123.2],&quot;ES=F&quot;:[6855.25,6922.75,7004.75,7060.5,7077.0,7161.5,7148.0,7100.0,7171.25,7143.5,7194.75,7206.0,7171.0,7168.0,7243.75,7258.0,7230.25,7287.25,7389.5,7363.0,7419.0,7436.75,7426.5,7469.5,7525.5,7432.25,7425.75,7378.0,7451.75,7466.0,7491.0,7537.0,7540.0,7581.75,7595.75,7613.25,7623.75,7571.75,7601.0,7400.5,7416.0,7392.75,7278.5,7396.0,7435.0,7561.25,7518.5,7424.5,7508.43,7541.25,7437.5,7428.25,7423.25,7401.75,7500.25,7548.25,7543.5,7528.25,7591.5,7551.25,7528.75,7588.75,7620.25,7563.0,7591.25,7614.75,7577.75,7497.75,7484.25,7545.75,7540.25,7445.0,7447.5,7448.25,7465.25,7351.25,7472.5,7519.25,7628.25,7765.5,7749.5,7734.75,7779.75,7776.75,7747.5,7770.5,7822.5,7805.0,7768.75,7714.0,7729.0,7662.5,7691.25,7669.75,7692.0,7690.0,7742.5,7722.0,7699.0,7642.75,7676.5,7754.75,7722.0,7680.5,7643.75,7598.5,7659.5,7625.0,7589.25,7556.5,7640.0,7657.35,7833.5,7831.75,7772.5,7767.0,7803.75,7746.75,7732.0,7715.5,7724.0,7777.25,7826.25,7874.0,7852.75,7816.25,7866.0],&quot;DX-Y.NYB&quot;:[98.65,98.37,98.12,98.06,98.22,98.1,98.05,98.41,98.59,98.8,98.51,98.48,98.62,98.92,98.08,98.21,98.47,98.48,98.02,98.25,97.84,97.94,98.29,98.48,98.88,99.27,98.97,99.3,99.11,99.19,99.32,99.17,99.21,99.02,98.91,99.2,99.22,99.53,99.41,100.07,100.05,99.91,99.95,99.86,99.75,99.63,99.54,100.09,100.85,101.02,101.41,101.61,101.43,101.36,101.11,101.19,101.39,100.86,100.85,101.14,101.05,100.94,100.97,101.28,100.94,100.5,100.73,100.75,100.99,101.18,101.14,101.43,101.47,101.51,101.38,100.8,100.01,99.8,99.96,99.89,99.69,99.97,99.6,99.81,99.82,100.01,99.96,99.67,99.64,99.65,98.83,98.9,98.8,99.0,98.92,99.17,99.16,99.7,99.43,99.67,99.56,99.0,99.16,98.84,98.77,99.09,99.12,99.46,99.65,100.31,100.22,100.22,100.43,100.6,101.1,101.29,100.97,101.2,101.37,101.45,102.1,101.93,102.17,101.83,102.24,102.14,102.231],&quot;CL=F&quot;:[96.57,99.08,91.28,91.29,94.69,83.85,89.61,92.13,92.96,95.85,94.4,96.37,99.93,106.88,105.07,101.94,106.42,102.27,95.08,94.81,95.42,98.07,102.18,101.02,101.17,105.42,108.66,107.77,98.26,96.35,96.6,93.89,88.68,88.9,87.36,92.16,93.76,96.02,93.04,90.54,91.3,88.2,90.03,87.71,84.88,80.75,76.05,76.79,76.6,74.82,73.21,70.34,71.92,69.23,70.75,69.5,68.58,68.69,68.55,70.44,73.52,72.08,71.41,78.14,79.34,79.6,78.95,82.49,83.23,84.91,86.83,92.19,89.31,82.61,79.26,84.46,83.59,84.67,80.34,75.77,75.22,77.29,78.18,82.13,83.2,83.27,81.25,82.4,84.5,84.94,85.83,87.83,87.06,85.01,82.36,82.23,83.53,83.4,85.76,90.22,91.01,91.3,91.48,93.03,96.05,102.48,100.05,101.39,105.83,102.43,101.91,100.3,95.78,94.59,92.16,94.61,92.41,92.6,89.38,90.42,92.87,91.11,89.43,89.44,88.28,91.49,91.66],&quot;GC=F&quot;:[4787.4,4767.4,4850.1,4823.6,4808.3,4879.6,4828.8,4719.6,4753.0,4724.0,4740.9,4693.7,4608.4,4561.5,4629.6,4644.5,4533.3,4568.5,4694.3,4710.9,4730.7,4728.7,4686.7,4706.7,4685.3,4561.9,4558.0,4511.2,4535.3,4542.5,4523.2,4502.3,4448.4,4499.3,4593.0,4506.3,4519.9,4466.9,4505.0,4365.3,4363.4,4286.4,4133.3,4114.0,4238.8,4351.6,4354.4,4381.4,4245.9,4202.7,4149.4,4008.8,4047.6,4096.3,4038.9,4038.5,4082.4,4125.7,4167.5,4157.4,4082.4,4140.8,4113.7,4005.7,4069.7,4051.8,3992.1,4018.8,4015.9,4076.4,4151.9,4050.2,4070.8,4077.0,4038.7,4036.3,4100.1,4107.0,4090.5,4152.6,4305.2,4299.6,4399.7,4419.7,4441.1,4467.5,4420.4,4437.3,4473.7,4420.6,4545.3,4571.4,4680.6,4697.8,4694.5,4653.3,4664.0,4529.9,4481.5,4396.4,4414.6,4539.9,4476.6,4439.0,4460.7,4407.3,4408.9,4351.9,4332.8,4387.5,4399.7,4424.9,4383.9,4376.4,4318.4,4298.0,4321.2,4168.4,4179.7,4186.7,4202.3,4162.3,4156.8,4187.1,4140.7,4157.0,4220.3],&quot;ZN=F&quot;:[111.094,111.234,111.531,111.359,111.219,111.719,111.656,111.297,111.281,111.047,111.219,111.031,110.859,110.359,110.594,110.641,110.172,110.344,110.797,110.516,110.75,110.406,110.031,110.0,110.109,109.172,109.016,108.703,109.406,109.234,109.25,109.828,109.906,110.047,110.078,109.859,109.953,109.719,109.844,109.344,109.297,109.484,109.406,109.938,109.781,109.906,110.188,109.812,109.922,109.234,109.375,110.0,110.094,110.266,110.188,109.891,109.578,109.578,109.641,109.328,109.0,109.266,109.031,108.703,108.922,109.297,109.141,109.266,108.859,108.641,108.422,108.094,108.328,108.578,108.812,108.781,108.547,108.0,108.422,108.844,108.891,108.5,108.641,108.375,108.484,108.547,108.922,108.578,108.453,108.562,108.781,108.5,108.266,108.453,108.859,108.656,108.578,108.109,107.906,107.625,107.672,107.922,107.734,107.578,107.344,106.641,106.359,106.422,106.188,106.047,106.406,106.078,106.328,106.0,105.031,104.859,104.859,104.484,104.422,104.203,104.656,104.359,104.219,104.5,104.484,104.719,104.609]}}">
+    <div class="gr-ov-head"><p class="gr-ov-title">All six on one chart<span></span></p>
+      <div class="gr-controls" role="group" aria-label="Chart scale" style="margin:0">
+        <button type="button" class="gr-btn gr-ov-mode" data-ov="pct" aria-pressed="true">% change</button>
+        <button type="button" class="gr-btn gr-ov-mode" data-ov="shape" aria-pressed="false">Shape only</button></div></div>
+    <ul class="gr-ov-legend" aria-label="Lines (click to hide or show)"></ul>
+    <div class="gr-ov-plot"></div>
+    <div class="gr-ov-tip" role="status"></div>
+  </div>
   <p class="gr-note" data-for="range">Darker = a bigger move <em>for that asset</em> — each column's largest move in the window is darkest.</p>
   <p class="gr-note" data-for="price">Price level: each asset's own closes in the window — red = its lowest close, full green = its highest, pale = the middle of its range.</p>
   <p class="gr-note" data-for="sigma">Darker = further off that asset's <em>normal</em> move (σ = std dev of its prior 52 weekly / 60 daily changes) — pale = a normal move, darkest = 2.5σ or more.</p>
@@ -938,18 +971,154 @@ td.gr-up { color: #0ca30c; } td.gr-down { color: #d03b3b; }
       '<tfoot><tr class="gr-sum"><th class="gr-label">Sum of ranks</th>' + sums + '</tr><tr><th class="gr-label">' + n + '-' + unit + ' growth</th>' + grow + '</tr></tfoot></table></div>';
   }
   function show(end) {
-    if (!end) { Object.keys(views).forEach(function (k) { views[k].innerHTML = original[k]; }); latest.setAttribute('aria-pressed', 'true'); status.textContent = ''; return; }
+    if (!end) { Object.keys(views).forEach(function (k) { views[k].innerHTML = original[k]; }); latest.setAttribute('aria-pressed', 'true'); status.textContent = ''; gr.dispatchEvent(new CustomEvent('gr-end', { detail: {} })); return; }
     status.textContent = 'loading…';
     load().then(function () {
       var g = build(end);
       views.weekly.innerHTML = table(g.weekly, 'weekly');
       views.daily.innerHTML = table(g.daily, 'daily');
+      gr.dispatchEvent(new CustomEvent('gr-end', { detail: { end: end, hist: H } }));
       latest.setAttribute('aria-pressed', 'false');
       status.textContent = 'showing the ' + C.weeks + ' weeks / ' + C.days + ' trading days ending ' + fmt(end, true);
     }).catch(function () { status.textContent = 'history file unavailable'; });
   }
   input.addEventListener('change', function () { show(input.value); });
   latest.addEventListener('click', function () { input.value = ''; show(''); });
+})();
+</script>
+
+<script>
+(function () {
+  // Six-line overlay: each market's daily closes over ~6 months on one chart, as % change
+  // since the first day (or each scaled to its own low-high range), so the shapes can be compared.
+  var gr = document.getElementById('growthRank'), box = gr && gr.querySelector('.gr-ov');
+  if (!box) return;
+  var NS = 'http://www.w3.org/2000/svg', plot = box.querySelector('.gr-ov-plot'), legend = box.querySelector('.gr-ov-legend');
+  var tip = box.querySelector('.gr-ov-tip'), sub = box.querySelector('.gr-ov-title span'), btns = box.querySelectorAll('.gr-ov-mode');
+  var SHORT = { 'NQ=F': 'Nasdaq', 'ES=F': 'S&P 500', 'DX-Y.NYB': 'Dollar', 'CL=F': 'Oil', 'GC=F': 'Gold', 'ZN=F': '10Y note' };
+  var DAYS = +box.getAttribute('data-days') || 126, base = JSON.parse(box.getAttribute('data-ov') || 'null'), cur = base;
+  var mode = 'pct', hidden = {};
+  try { var m = localStorage.getItem('mtl-gr-ov'); if (m === 'pct' || m === 'shape') mode = m; } catch (e) {}
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function fmt(s) { var d = new Date(s + 'T12:00:00Z'); return MON[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear(); }
+  function el(tag, attrs) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function sign(v) { return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
+  function slice(hist, end) {   // same rule as mtl/growth_rank.overlay()
+    var n = 0; while (n < hist.days.length && hist.days[n] <= end) n++;
+    var lo = Math.max(0, n - DAYS - 1), closes = {}, assets = [];
+    hist.assets.forEach(function (a) { var c = hist.closes[a[0]].slice(lo, n); if (c.some(function (x) { return x != null; })) { closes[a[0]] = c; assets.push(a); } });
+    return n - lo < 2 ? null : { days: hist.days.slice(lo, n), assets: assets, closes: closes };
+  }
+  function series(ov) {   // filled-forward closes -> % change since the first close, and position in own range
+    return ov.assets.map(function (a, k) {
+      var c = ov.closes[a[0]], last = null, f = c.map(function (x) { if (x != null) last = x; return last; });
+      var first = null; for (var i = 0; i < f.length; i++) if (f[i] != null) { first = f[i]; break; }
+      var lo = Infinity, hi = -Infinity; f.forEach(function (x) { if (x != null) { lo = Math.min(lo, x); hi = Math.max(hi, x); } });
+      return { t: a[0], name: a[1], short: SHORT[a[0]] || a[1], color: 'var(--ov-' + (k + 1) + ')', close: f,
+        pct: f.map(function (x) { return x == null ? null : (x / first - 1) * 100; }),
+        shape: f.map(function (x) { return x == null ? null : hi > lo ? (x - lo) / (hi - lo) * 100 : 50; }) };
+    });
+  }
+  function draw() {
+    plot.textContent = ''; legend.textContent = ''; tip.style.display = 'none';
+    if (!cur) { var p = document.createElement('p'); p.className = 'gr-sub'; p.textContent = 'Not enough data before this date.'; plot.appendChild(p); return; }
+    var S = series(cur), days = cur.days, W = Math.max(280, plot.clientWidth), H = plot.clientHeight || 260;
+    var narrow = W < 560, withVal = mode === 'pct' && !narrow;   // end labels carry the % only when there's room (the legend always has it)
+    var L = mode === 'pct' ? 40 : 8, R = withVal ? 106 : 66, T = 8, B = 22, iw = W - L - R, ih = H - T - B;
+    sub.textContent = mode === 'pct' ? ' · % change since ' + fmt(days[0]) + ', daily to ' + fmt(days[days.length - 1])
+                                     : ' · each line scaled to its own low (bottom) and high (top), ' + fmt(days[0]) + ' to ' + fmt(days[days.length - 1]);
+    var vis = S.filter(function (s) { return !hidden[s.t]; }), lo = Infinity, hi = -Infinity;
+    vis.forEach(function (s) { s[mode].forEach(function (v) { if (v != null) { lo = Math.min(lo, v); hi = Math.max(hi, v); } }); });
+    if (mode === 'pct') { lo = Math.min(lo, 0); hi = Math.max(hi, 0); }
+    if (!isFinite(lo)) { lo = 0; hi = 1; }
+    if (hi - lo < 1e-9) { hi = lo + 1; }
+    var pad = (hi - lo) * 0.06; lo -= pad; hi += pad;
+    function x(i) { return L + (days.length < 2 ? 0 : i / (days.length - 1) * iw); }
+    function y(v) { return T + (hi - v) / (hi - lo) * ih; }
+    var svg = el('svg', { width: W, height: H, viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Six markets on one chart over the last ' + days.length + ' trading days' });
+    // recessive grid: % ticks, a firmer zero line; month labels along the bottom
+    if (mode === 'pct') {
+      var span = hi - lo, step = [1, 2, 2.5, 5, 10, 20, 25, 50, 100].find(function (s) { return span / s <= 6; }) || 100;
+      for (var v = Math.ceil(lo / step) * step; v <= hi; v += step) {
+        svg.appendChild(el('line', { x1: L, x2: L + iw, y1: y(v), y2: y(v), stroke: 'var(--hairline)', 'stroke-width': Math.abs(v) < 1e-9 ? 1.4 : 1, 'stroke-dasharray': Math.abs(v) < 1e-9 ? '' : '2 3' }));
+        var tx = el('text', { x: L - 6, y: y(v) + 3.5, 'text-anchor': 'end' }); tx.textContent = (v > 0 ? '+' : '') + (+v.toFixed(1)) + '%'; svg.appendChild(tx);
+      }
+    } else {
+      [0, 50, 100].forEach(function (v) { svg.appendChild(el('line', { x1: L, x2: L + iw, y1: y(v), y2: y(v), stroke: 'var(--hairline)', 'stroke-dasharray': '2 3' })); });
+    }
+    svg.appendChild(el('line', { x1: L, x2: L + iw, y1: T + ih, y2: T + ih, stroke: 'var(--hairline)' }));
+    var lastM = null, lastX = -99;
+    days.forEach(function (d, i) {
+      var m = d.slice(0, 7);
+      if (m !== lastM) { lastM = m; if (i > 0 && x(i) - lastX > 34) { var t = el('text', { x: x(i), y: T + ih + 15, 'text-anchor': 'middle' }); t.textContent = MON[+d.slice(5, 7) - 1]; svg.appendChild(t); lastX = x(i); } }
+    });
+    // the lines, then end labels nudged apart so none overlap
+    var ends = [];
+    vis.forEach(function (s) {
+      var dpath = '', pen = false;
+      s[mode].forEach(function (v, i) { if (v == null) { pen = false; return; } dpath += (pen ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); pen = true; });
+      svg.appendChild(el('path', { d: dpath, fill: 'none', stroke: s.color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+      var lv = s[mode][s[mode].length - 1];
+      if (lv != null) ends.push({ s: s, y: y(lv), v: lv });
+    });
+    ends.sort(function (a, b) { return a.y - b.y; });
+    for (var i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 12) ends[i].y = ends[i - 1].y + 12;
+    var over = ends.length ? ends[ends.length - 1].y - (T + ih) : 0;
+    if (over > 0) ends.forEach(function (e) { e.y -= over; });
+    ends.forEach(function (e) {
+      svg.appendChild(el('line', { x1: L + iw + 3, x2: L + iw + 11, y1: e.y, y2: e.y, stroke: e.s.color, 'stroke-width': 2, 'stroke-linecap': 'round' }));
+      var t = el('text', { x: L + iw + 14, y: e.y + 3.5, class: 'gr-ov-end' });
+      t.textContent = e.s.short + (withVal ? ' ' + sign(e.v) : ''); svg.appendChild(t);
+    });
+    // hover: a crosshair snapped to the nearest day, a dot on every line, one tooltip listing all six
+    var hair = el('line', { y1: T, y2: T + ih, stroke: 'var(--muted)', 'stroke-width': 1, visibility: 'hidden' }); svg.appendChild(hair);
+    var dots = vis.map(function (s) { var c = el('circle', { r: 4, fill: s.color, stroke: 'var(--surface)', 'stroke-width': 2, visibility: 'hidden' }); svg.appendChild(c); return c; });
+    var hit = el('rect', { x: L, y: T, width: iw, height: ih, fill: 'transparent' }); svg.appendChild(hit);
+    function move(ev) {
+      var r = svg.getBoundingClientRect(), i = Math.round((ev.clientX - r.left - L) / iw * (days.length - 1));
+      i = Math.max(0, Math.min(days.length - 1, i));
+      hair.setAttribute('x1', x(i)); hair.setAttribute('x2', x(i)); hair.setAttribute('visibility', 'visible');
+      tip.textContent = ''; var hd = document.createElement('div'); hd.className = 'd'; hd.textContent = fmt(days[i]); tip.appendChild(hd);
+      vis.map(function (s, k) { return { s: s, k: k, v: s.pct[i], c: s.close[i] }; }).sort(function (a, b) { return (b.v == null ? -1e9 : b.v) - (a.v == null ? -1e9 : a.v); })
+        .forEach(function (o) {
+          var v = o.s[mode][i]; if (v == null) { dots[o.k].setAttribute('visibility', 'hidden'); return; }
+          dots[o.k].setAttribute('cx', x(i)); dots[o.k].setAttribute('cy', y(v)); dots[o.k].setAttribute('visibility', 'visible');
+          var row = document.createElement('div'); row.className = 'r';
+          var key = document.createElement('i'); key.style.background = o.s.color; row.appendChild(key);
+          var b = document.createElement('b'); b.textContent = sign(o.v); row.appendChild(b);
+          var nm = document.createElement('span'); nm.textContent = o.s.short + '  ' + (+o.c.toPrecision(6)).toLocaleString('en-US'); row.appendChild(nm);
+          tip.appendChild(row);
+        });
+      tip.style.display = 'block';
+      var bx = box.getBoundingClientRect(), px = r.left - bx.left + x(i), w = tip.offsetWidth, left = px + 12;
+      if (left + w > bx.width) left = px - w - 12;   // flip to the left of the crosshair near the right edge
+      tip.style.left = Math.max(0, left) + 'px';
+      tip.style.top = (r.top - bx.top + T + 4) + 'px';
+    }
+    function leave() { hair.setAttribute('visibility', 'hidden'); dots.forEach(function (d) { d.setAttribute('visibility', 'hidden'); }); tip.style.display = 'none'; }
+    hit.addEventListener('pointermove', move); hit.addEventListener('pointerdown', move); hit.addEventListener('pointerleave', leave);
+    plot.appendChild(svg);
+    // legend (always shown): click to hide or show a line; final % change since the first day
+    S.forEach(function (s) {
+      var li = document.createElement('li'), b = document.createElement('button'); b.type = 'button';
+      b.setAttribute('aria-pressed', String(!hidden[s.t])); b.title = s.name + ' (' + s.t + ') - click to ' + (hidden[s.t] ? 'show' : 'hide');
+      var k = document.createElement('i'); k.style.background = s.color; b.appendChild(k);
+      b.appendChild(document.createTextNode(s.short + ' '));
+      var lv = s.pct[s.pct.length - 1], val = document.createElement('b'); val.textContent = lv == null ? '–' : sign(lv); b.appendChild(val);
+      b.addEventListener('click', function () { hidden[s.t] = !hidden[s.t]; draw(); });
+      li.appendChild(b); legend.appendChild(li);
+    });
+  }
+  function setMode(m) {
+    mode = m;
+    for (var i = 0; i < btns.length; i++) btns[i].setAttribute('aria-pressed', String(btns[i].getAttribute('data-ov') === m));
+    try { localStorage.setItem('mtl-gr-ov', m); } catch (e) {}
+    draw();
+  }
+  for (var i = 0; i < btns.length; i++) btns[i].addEventListener('click', function () { setMode(this.getAttribute('data-ov')); });
+  gr.addEventListener('gr-end', function (e) { cur = e.detail && e.detail.hist ? slice(e.detail.hist, e.detail.end) : base; draw(); });
+  var rw = null; window.addEventListener('resize', function () { clearTimeout(rw); rw = setTimeout(draw, 120); });
+  setMode(mode);
 })();
 </script>
 
