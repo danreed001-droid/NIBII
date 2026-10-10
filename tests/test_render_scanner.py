@@ -84,3 +84,8 @@ def test_weekly_grid_has_the_overlay_chart():
     page = render_scanner.render(SCAN, growth='')
     assert 'id="heat-ov"' in page and 'window.mtlOverlay' in page and "mtlOverlay(box, { title: 'Top '" in page
     assert '__OVLIB__' not in page
+
+
+def test_page_has_the_3d_price_volume_chart():
+    page = render_scanner.render(SCAN, growth='')
+    assert 'id="pv"' in page and 'plotly.js-dist-min@2.35.2' in page and 'D.pv3d' in page

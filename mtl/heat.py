@@ -108,3 +108,20 @@ def daily_closes(prices, calendar, tickers, days=126):
     cal = calendar[-(days + 1):]
     return dict(days=list(cal), closes={t: [round(prices[t][d], 4) if prices.get(t, {}).get(d) is not None else None for d in cal]
                                          for t in tickers})
+
+
+def price_volume(prices, volumes, calendar, picks, others, names=None, held=(), days=126):
+    """Daily close + share volume for the scanner's 3D price-volume chart: the top picks
+    (in rank order) and a few reference tickers, over the last `days` sessions (plus the
+    base day). {"days": [dates], "tickers": [{"t", "n", "rank" (1-based or None), "held",
+    "close": [..], "vol": [..]}]}; a ticker with no prices in the window is left out."""
+    cal = calendar[-(days + 1):]
+    names, held, out = names or {}, set(held), []
+    for rank, t in [(i + 1, t) for i, t in enumerate(picks)] + [(None, t) for t in others if t not in picks]:
+        px, vol = prices.get(t, {}), volumes.get(t, {})
+        close = [round(px[d], 4) if px.get(d) is not None else None for d in cal]
+        if all(c is None for c in close):
+            continue
+        out.append(dict(t=t, n=names.get(t, t), rank=rank, held=t in held, close=close,
+                        vol=[int(vol[d]) if vol.get(d) is not None else None for d in cal]))
+    return dict(days=list(cal), tickers=out)

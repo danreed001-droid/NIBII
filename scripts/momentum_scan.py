@@ -38,7 +38,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import blowoff_exit, last_sessions_of_weeks, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
-from mtl.heat import daily_closes, daily_heat, weekly_heat  # noqa: E402
+from mtl.heat import daily_closes, daily_heat, price_volume, weekly_heat  # noqa: E402
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
@@ -59,6 +59,8 @@ RANK = {}
 RK = {}
 GLITCH_BLOCK = 150
 HEAT_EXTRA = ('AAPL', 'GOOGL', 'MSFT', 'NVDA', 'JNJ', 'UNH')   # always shown in the daily heatmap
+PV3D_OTHERS = ['AAPL', 'NVDA', 'MSFT', 'SPY', 'QQQ']   # reference tickers beside the top 10 in the 3D price-volume chart
+PV3D_NAMES = {'SPY': 'S&P 500 ETF', 'QQQ': 'Nasdaq-100 ETF'}
 PLAN_SPLITS = (1.0, 0.8, 0.6)          # fixed mixes offered next to 'auto'
 AUTO_NEED, AUTO_LOW = 2, 0.6            # monthly plans: 60/40 while 2+ holdings are in a daily downtrend, else 100%
 # weekly Auto and Boost use the STEPS tiers below (1 holding down -> 80/20, 2 -> 60/40, 3+ -> 40/60)
@@ -90,9 +92,10 @@ def cushion_log(calendar, week_ends, start, split, spy_gap, credit_gap, n=12):
     return out[::-1][:n]
 
 
-def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False):
+def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False, volumes=None):
     """{ticker: [(date, open, high, low, close)]} - closes are split-adjusted
-    (adjusted=True: also dividend-adjusted, used for the benchmarks)."""
+    (adjusted=True: also dividend-adjusted, used for the benchmarks). Pass a dict as
+    `volumes` to also collect {ticker: {date: shares traded}}."""
     import yfinance as yf
     out = {}
     for k in range(0, len(tickers), chunk):
@@ -107,6 +110,8 @@ def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False):
                 continue
             out[t] = [(ts.date().isoformat(), float(o), float(h), float(l), float(c))
                       for ts, o, h, l, c in zip(d.index, d['Open'], d['High'], d['Low'], d['Close'])]
+            if volumes is not None and 'Volume' in d:
+                volumes[t] = {ts.date().isoformat(): int(v) for ts, v in zip(d.index, d['Volume']) if v == v}
     return out
 
 
@@ -300,8 +305,9 @@ def main():
     added = load_added()
     tickers = sorted(names)
     print(f"Fetching daily history for {len(tickers)} stocks + SPY/QQQ...", file=sys.stderr)
-    bars = fetch(tickers)
-    bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD'], adjusted=True)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check
+    volumes = {}   # share volume, for the 3D price-volume chart
+    bars = fetch(tickers, volumes=volumes)
+    bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD'], adjusted=True, volumes=volumes)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check
     asset_bars = fetch(ASSETS, adjusted=True)   # OHLC: Boost + rotation reads TLT's and GLD's swing structure
     sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in asset_bars.items()}
     prices = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items() if bs}
@@ -785,6 +791,9 @@ def main():
         table=table,
         heat=dict(weekly_heat(prices, calendar, [t for t, _ in now[:15]], breadth=[t for t in prices if t != 'SPY']),   # top 15's weekly ranks, last 26 weeks
                   daily=daily_closes(prices, calendar, [t for t, _ in now[:15]])),   # their daily closes, ~6 months, for the overlay chart
+        pv3d=price_volume({**prices, 'QQQ': {b[0]: b[4] for b in bench.get('QQQ', [])}}, volumes, calendar,
+                          [t for t, _ in now[:10]], PV3D_OTHERS, {t: names.get(t, ('', ''))[0] or t for t in names} | PV3D_NAMES,
+                          held=[h['t'] for h in held_rows]),   # top 10 + reference tickers: daily close and volume, ~6 months
         dheat=daily_heat(prices, calendar, [t for t, _ in now[:30]] + [t for t in HEAT_EXTRA if t in prices and t not in dict(now[:30])],
                          extra=[t for t in HEAT_EXTRA if t not in dict(now[:30])], breadth=[t for t in prices if t != 'SPY']),   # top 30 + a few large caps, last 30 days
         curves={k: [[d_, round(v, 2)] for d_, v in c] for k, c in curves.items()},   # daily: the page filters by date range

@@ -73,3 +73,16 @@ def test_daily_closes_for_the_overlay_chart():
     assert out['days'] == cal[-4:]                                   # 3 sessions + the base day
     assert out['closes']['A'] == [11.0, 12.0, 13.0, 14.0] and out['closes']['B'] == [None, None, None, 5.0]
     assert out['closes']['C'] == [None] * 4
+
+
+def test_price_volume_for_the_3d_chart():
+    from mtl.heat import price_volume
+    cal = [f'2026-01-{d:02d}' for d in range(5, 10)]
+    px = {'A': {d: 10.0 + i for i, d in enumerate(cal)}, 'B': {cal[-1]: 5.0}, 'SPY': {d: 500.0 for d in cal}}
+    vol = {'A': {d: 1000 * (i + 1) for i, d in enumerate(cal)}, 'SPY': {cal[-1]: 7}}
+    out = price_volume(px, vol, cal, ['A', 'B', 'Z'], ['SPY', 'A'], {'A': 'Alpha'}, held=['B'], days=3)
+    assert out['days'] == cal[-4:]
+    assert [(x['t'], x['rank'], x['held']) for x in out['tickers']] == [('A', 1, False), ('B', 2, True), ('SPY', None, False)]  # Z: no prices
+    a = out['tickers'][0]
+    assert a['n'] == 'Alpha' and a['close'] == [11.0, 12.0, 13.0, 14.0] and a['vol'] == [2000, 3000, 4000, 5000]
+    assert out['tickers'][1]['vol'] == [None] * 4 and out['tickers'][2]['vol'] == [None, None, None, 7]
