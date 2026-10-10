@@ -153,6 +153,8 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .seg { display: inline-flex; border: 1px solid var(--hairline); border-radius: 999px; padding: 2px; background: var(--surface-2); }
 .seg button { font: inherit; font-size: 0.76rem; border: 0; background: transparent; color: var(--ink-2); padding: 3px 10px; border-radius: 999px; cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); font-weight: 600; }
+.wc-btn { font: inherit; font-size: 13px; padding: 4px 10px; margin: 2px 2px; border-radius: 6px; border: 1px solid var(--hairline); background: var(--surface); color: inherit; cursor: pointer; }
+.wc-btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); font-weight: 600; }
 .chart { position: relative; }
 .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
 .grid line { stroke: var(--grid); stroke-width: 1; }
@@ -618,8 +620,39 @@ __GROWTH__
     var lg = (RT.warnLog || []).map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + (r[1] !== r[0] ? '–' + fmtDate(r[1], { month: 'short', day: 'numeric' }) : '') + ' (' + esc(r[2]) + ')'; }).join(' · ');
     return '<br><span class="' + (RT.warn ? 'neg' : 'muted') + '"><b>Downtrend warning ' + (RT.warn ? 'ON' : 'off') + '</b></span><span class="muted"> (information only, not traded): SPY’s daily chart in a downtrend (lower highs, lower lows), SPY below its ' + RT.ma + '-day average, and TLT or GLD rising' +
       (RT.warn ? ' — now: <b>' + esc(RT.warn) + '</b> is rising most steeply. The rule itself waits for its 15-session confirmation before switching; stepping aside earlier is your call.' : '.') +
-      ' Tested as an automatic switch (straight into the rising asset) it fixed late 2018 (−3% instead of −15%) but cost about 2 points a year over 2000–2026, because most of these warnings were short dips. On ' + RT.warnDays + ' sessions since ' + SINCE + (lg ? '. Recent: ' + lg : '') + '.</span>' + rsiNote(RT.rsiWarn);
+      ' Tested as an automatic switch (straight into the rising asset) it fixed late 2018 (−3% instead of −15%) but cost about 2 points a year over 2000–2026, because most of these warnings were short dips. On ' + RT.warnDays + ' sessions since ' + SINCE + (lg ? '. Recent: ' + lg : '') + '.</span>' + warnCallNote(RT) + rsiNote(RT.rsiWarn);
   }
+  var WC_KEY = 'nibii-warncalls';
+  function wcLoad() { try { return JSON.parse(localStorage.getItem(WC_KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function wcSave(o) { try { localStorage.setItem(WC_KEY, JSON.stringify(o)); } catch (e) {} }
+  function warnCallNote(RT) {   // your own out / stay call on a warning day, scored 3 months later
+    var WC = RT && RT.warnCalls, rec = (WC && WC.calls) || [], local = wcLoad(), day = D.asOf, mine = local[day] || null;
+    var inRepo = {}; rec.forEach(function (r) { inRepo[r.d] = r.c; });
+    var h = '<br><span id="warn-call"><b>Your call on the warning</b> <span class="muted">(recorded, not traded; scored 3 months later against half bonds, half gold):</span> ';
+    if (RT.warn) {
+      var cur = (mine && mine.c) || inRepo[day];
+      h += '<button type="button" class="wc-btn" data-wcall="out" aria-pressed="' + (cur === 'out') + '">Out: half bonds, half gold</button> ' +
+           '<button type="button" class="wc-btn" data-wcall="stay" aria-pressed="' + (cur === 'stay') + '">Stay in stocks</button> ';
+      var todo = {}; Object.keys(local).forEach(function (k) { if (inRepo[k] !== local[k].c) todo[k] = local[k]; });
+      if (Object.keys(todo).length) {
+        var body = 'Downtrend-warning call from the Top 5 dashboard. Leave the block below as-is: the Calls intake workflow records it in docs/my_calls.json and closes this issue.\n\n```json\n' + JSON.stringify({ warn: todo }) + '\n```\n';
+        h += '<a class="wc-sub" target="_blank" rel="noopener" href="https://github.com/danreed001-droid/NIBII/issues/new?title=' + encodeURIComponent('calls warn ' + day) + '&body=' + encodeURIComponent(body) + '">Save it to the repo</a> <span class="muted">(opens a GitHub issue; press Submit)</span>';
+      } else if (inRepo[day]) h += '<span class="muted">Recorded: <b>' + esc(inRepo[day]) + '</b>.</span>';
+    } else h += '<span class="muted">The buttons appear on days the warning is on.</span>';
+    if (WC && WC.n) h += ' <span class="muted">Your record: ' + WC.right + ' of ' + WC.n + ' scored calls right; $1 → ' + pct(WC.me, 0) + ' on your calls vs ' + pct(WC.stay, 0) + ' always staying and ' + pct(WC.out, 0) + ' always out.</span>';
+    if (rec.length) h += ' <span class="muted">Calls: ' + rec.slice(0, 8).map(function (r) {
+      return fmtDate(r.d, { month: 'short', day: 'numeric', year: 'numeric' }) + ' <b>' + esc(r.c) + '</b> ' + (r.done ? '(' + (r.right ? '✓' : '✗') + ' SPY ' + pct(r.spy) + ', bonds + gold ' + pct(r.duo) + ')'
+        : '(scored ' + fmtDate(r.due, { month: 'short', day: 'numeric' }) + '; so far SPY ' + pct(r.spy) + ', bonds + gold ' + pct(r.duo) + ')');
+    }).join(' · ') + '.</span>';
+    return h + '</span>';
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-wcall]');
+    if (!b) return;
+    var o = wcLoad(); o[D.asOf] = { c: b.getAttribute('data-wcall'), note: '', at: new Date().toISOString() }; wcSave(o);
+    var el = document.getElementById('warn-call'), RT = D.plan && D.plan.auto && D.plan.auto.rotation;
+    if (el && RT) el.outerHTML = warnCallNote(RT);
+  });
   function rsiNote(W) {   // RSI(14) support-line break (information only)
     if (!W) return '';
     var lg = (W.log || []).map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' <span class="muted">(SPY ' + (r[2] == null ? '–' : pct(r[2])) + ' vs 150-day)</span>'; }).join(' · ');
@@ -957,7 +990,7 @@ __GROWTH__
         .then(function (r) {
           if (r.status === 404) return { sha: null, calls: {} };
           if (!r.ok) throw new Error(r.status === 401 || r.status === 403 ? 'token' : 'http ' + r.status);
-          return r.json().then(function (j) { var d = {}; try { d = JSON.parse(b64d(j.content)); } catch (x) {} return { sha: j.sha, calls: (d && d.calls) || {} }; });
+          return r.json().then(function (j) { var d = {}; try { d = JSON.parse(b64d(j.content)); } catch (x) {} return { sha: j.sha, calls: (d && d.calls) || {}, warn: (d && d.warn) || null }; });
         });
     }
     var syncNote = '', remote = null;   // remote: the repo copy, once loaded
@@ -1002,7 +1035,7 @@ __GROWTH__
       return ghGet().then(function (g) {
         merge(g.calls); saveCalls();
         var body = { message: 'My calls: ' + what, branch: GH.branch,
-                     content: b64e(JSON.stringify({ app: 'nibii-calls', v: 1, calls: calls }, null, 1) + '\n') };
+                     content: b64e(JSON.stringify(g.warn ? { app: 'nibii-calls', v: 1, calls: calls, warn: g.warn } : { app: 'nibii-calls', v: 1, calls: calls }, null, 1) + '\n') };   // keeps the warning calls
         if (g.sha) body.sha = g.sha;
         return fetch(API, { method: 'PUT', headers: { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       }).then(function (r) {

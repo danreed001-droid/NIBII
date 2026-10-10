@@ -429,3 +429,26 @@ def test_surge_exit_sells_a_week_after_a_big_up_day_on_heavy_volume():
     assert ex.events('A') == {60} and ex.events('B') == set()
     assert ex('A', 65, 10) and not ex('A', 64, 10) and not ex('A', 66, 10)   # sold exactly 5 sessions later
     assert not ex('A', 65, 61)                                                # bought after the surge: kept
+
+
+def test_warning_calls_are_scored_after_three_months():
+    import importlib.util, os
+    spec = importlib.util.spec_from_file_location(
+        'momentum_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'momentum_scan.py'))
+    ms = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ms)
+    from datetime import date, timedelta
+    cal, d = [], date(2026, 1, 5)
+    while len(cal) < 100:
+        if d.weekday() < 5:
+            cal.append(d.isoformat())
+        d += timedelta(days=1)
+    spy = {x: 100.0 - i * 0.1 for i, x in enumerate(cal)}          # SPY drifts down
+    px = {'TLT': {x: 100.0 + i * 0.1 for i, x in enumerate(cal)}, 'GLD': {x: 100.0 for x in cal}}
+    out = ms.warn_calls_block({cal[2]: {'c': 'out'}, cal[5]: {'c': 'stay'}, cal[60]: {'c': 'out'}, 'junk': 1},
+                              cal, len(cal) - 1, spy, px, hold=63)
+    done = [x for x in out['calls'] if x['done']]
+    assert out['n'] == 2 and out['right'] == 1 and len(done) == 2
+    assert [x['right'] for x in done] == [False, True]                # newest first: the stay was wrong, the out right
+    pend = [x for x in out['calls'] if not x['done']][0]
+    assert pend['d'] == cal[60] and pend['right'] is None and pend['due'] > cal[-1]
