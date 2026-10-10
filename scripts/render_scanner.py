@@ -445,6 +445,7 @@ footer li { margin-bottom: 6px; }
     </div>
   </div>
 
+__OVLIB__
   <p class="section-label"><span id="heat-title">Top 15</span>, week by week <span class="hint" id="heat-hint"></span></p>
   <div class="heatbar" id="heat-bar">
     <span class="seg" role="group" aria-label="Show in each cell">
@@ -459,6 +460,7 @@ footer li { margin-bottom: 6px; }
     </span>
     <span class="hkey"><span>down</span><i></i><span>up</span><span id="heat-scale"></span></span>
   </div>
+  <div id="heat-ov"></div>
   <div class="heatbox"><table class="heat" id="heat"></table></div>
   <div class="udtrend" id="heat-trend" aria-label="Share of stocks up over time"></div>
   <p class="heatnote" id="heat-note">Hover or tap a cell for details. On a phone, swipe the table sideways.</p>
@@ -1727,6 +1729,24 @@ __GROWTH__
   heatmap(D.heat, 'heat');
   heatmap(D.dheat, 'dheat');
 
+  // the weekly grid's top 15 as lines on one chart: daily closes (~6 months), or the grid's weekly closes
+  // when the scan predates the daily ones; the stocks held now get a colour, the rest stay grey
+  (function () {
+    var HT = D.heat, box = $('heat-ov');
+    if (!box || !window.mtlOverlay || !HT || !HT.tickers || !HT.tickers.length) { if (box) box.hidden = true; return; }
+    var nm = {}; D.table.forEach(function (r) { nm[r.t] = r.n; });
+    var assets = HT.tickers.map(function (t) { return [t, nm[t] || t]; }), HD = HT.daily, data;
+    if (HD && HD.days && HD.days.length > 1) data = { days: HD.days, assets: assets, closes: HD.closes };
+    else {
+      var cl = {}; HT.tickers.forEach(function (t) { cl[t] = HT.cells[t].map(function (c) { return c && c[3] != null ? c[3] : null; }); });
+      data = { days: HT.weeks, assets: assets, closes: cl };
+    }
+    var hl = D.holdings.map(function (h) { return h.t; }).filter(function (t) { return HT.tickers.indexOf(t) >= 0; });
+    mtlOverlay(box, { title: 'Top ' + HT.tickers.length + ' on one chart', key: 'nibii-heat-ov', step: HD ? 'daily' : 'weekly', highlight: hl,
+      note: (hl.length ? 'Coloured = held now (' + hl.join(', ') + '); grey = the rest of the top ' + HT.tickers.length + '. ' : '') +
+            'Hover a name in the legend to bring its line forward; click it to hide the line.' }).set(data);
+  })();
+
   // table
   var T = { q: '', sec: '', sort: 'rank', dir: 1, all: false };
   D.table.forEach(function (r) { r.revEps = r.rev && r.rev.eps90 != null ? r.rev.eps90 : null; });
@@ -1791,9 +1811,16 @@ def growth_html():
                        + (f' · fetched {when}' if when else '') + '</span></p>', 1) if sec else ''
 
 
+def overlay_lib():
+    """The shared overlay line chart (CSS + mtlOverlay script) from render_html."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from render_html import OVERLAY_CSS, OVERLAY_JS
+    return OVERLAY_CSS + OVERLAY_JS
+
+
 def render(scan, growth=None):
     # Escape "</" so a company name can never close the <script> block early.
-    page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth)
+    page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth).replace('__OVLIB__', overlay_lib(), 1)
     return page.replace('__DATA__', json.dumps(scan, separators=(',', ':')).replace('</', '<\\/'))
 
 

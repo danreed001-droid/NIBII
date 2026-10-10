@@ -1421,30 +1421,6 @@ td.gr-na { color: var(--muted); }
 table.gr-table tfoot td { color: var(--ink); font-weight: 600; }
 table.gr-table tr.gr-sum td { font-size: 0.92rem; border-top: 1px solid var(--hairline); }
 td.gr-up { color: #0ca30c; } td.gr-down { color: #d03b3b; }
-/* six-line overlay chart: categorical slots 1-6 (dark default, light under the page's own toggle) */
-.gr-ov { --ov-1: #3987e5; --ov-2: #d95926; --ov-3: #199e70; --ov-4: #c98500; --ov-5: #d55181; --ov-6: #008300;
-  margin: 10px 0 18px; position: relative; }
-:root[data-mtl-theme="light"] .gr-ov { --ov-1: #2a78d6; --ov-2: #eb6834; --ov-3: #1baf7a; --ov-4: #eda100; --ov-5: #e87ba4; --ov-6: #008300; }
-.gr-ov-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 12px; margin-bottom: 4px; }
-.gr-ov-title { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
-.gr-ov-title span { font-weight: 400; color: var(--muted); font-size: 0.78rem; }
-.gr-ov-legend { display: flex; flex-wrap: wrap; gap: 4px 6px; margin: 4px 0 6px; padding: 0; list-style: none; }
-.gr-ov-legend button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--hairline); background: transparent;
-  color: var(--ink-2); border-radius: 999px; padding: 3px 10px; font: inherit; font-size: 0.75rem; cursor: pointer; font-variant-numeric: tabular-nums; }
-.gr-ov-legend button[aria-pressed="false"] { opacity: 0.45; text-decoration: line-through; }
-.gr-ov-legend i { display: inline-block; width: 14px; height: 2px; border-radius: 2px; }
-.gr-ov-legend b { color: var(--ink); font-weight: 600; }
-.gr-ov-plot { width: 100%; height: 260px; touch-action: pan-y; }
-.gr-ov-plot svg { display: block; overflow: visible; }
-.gr-ov-plot text { font-size: 10.5px; fill: var(--muted); font-variant-numeric: tabular-nums; }
-.gr-ov-plot text.gr-ov-end { fill: var(--ink-2); font-size: 10.5px; }
-.gr-ov-tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px;
-  padding: 6px 9px; font-size: 0.74rem; color: var(--ink-2); box-shadow: 0 4px 14px rgba(0,0,0,.25); white-space: nowrap; display: none; z-index: 2; }
-.gr-ov-tip .d { color: var(--muted); margin-bottom: 3px; }
-.gr-ov-tip .r { display: flex; align-items: center; gap: 6px; }
-.gr-ov-tip .r i { width: 12px; height: 2px; border-radius: 2px; display: inline-block; }
-.gr-ov-tip .r b { color: var(--ink); min-width: 52px; text-align: right; font-variant-numeric: tabular-nums; }
-@media (max-width: 560px) { .gr-ov-plot { height: 220px; } }
 </style>
 """
 
@@ -1602,61 +1578,104 @@ GROWTH_JS = """
 """
 
 
-GROWTH_OV_JS = """
+OVERLAY_CSS = """
+<style>
+/* overlay line chart (shared by the cross-asset grid and the scanner's weekly grid):
+   categorical slots 1-8, dark default, light under the page's own toggle; --ov-n = an un-highlighted line */
+.ov { --ov-1: #3987e5; --ov-2: #d95926; --ov-3: #199e70; --ov-4: #c98500; --ov-5: #d55181; --ov-6: #008300; --ov-7: #9085e9; --ov-8: #e66767; --ov-n: #6d6c68;
+  margin: 10px 0 18px; position: relative; }
+:root[data-mtl-theme="light"] .ov { --ov-1: #2a78d6; --ov-2: #eb6834; --ov-3: #1baf7a; --ov-4: #eda100; --ov-5: #e87ba4; --ov-6: #008300; --ov-7: #6250d6; --ov-8: #e34948; --ov-n: #b9b7b0; }
+.ov-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 12px; margin-bottom: 4px; }
+.ov-title { margin: 0; font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+.ov-title span { font-weight: 400; color: var(--muted); font-size: 0.78rem; }
+.ov-modes { display: flex; gap: 6px; }
+.ov-btn { border: 1px solid var(--hairline); background: transparent; color: var(--ink-2); border-radius: 999px;
+  padding: 4px 11px; font: inherit; font-size: 0.78rem; cursor: pointer; }
+.ov-btn:hover { border-color: var(--muted); color: var(--ink); }
+.ov-btn[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.ov-legend { display: flex; flex-wrap: wrap; gap: 4px 6px; margin: 4px 0 6px; padding: 0; list-style: none; }
+.ov-legend button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--hairline); background: transparent;
+  color: var(--ink-2); border-radius: 999px; padding: 3px 10px; font: inherit; font-size: 0.75rem; cursor: pointer; font-variant-numeric: tabular-nums; }
+.ov-legend button[aria-pressed="false"] { opacity: 0.45; text-decoration: line-through; }
+.ov-legend i { display: inline-block; width: 14px; height: 2px; border-radius: 2px; }
+.ov-legend b { color: var(--ink); font-weight: 600; }
+.ov-plot { width: 100%; height: 260px; touch-action: pan-y; }
+.ov-plot svg { display: block; overflow: visible; }
+.ov-plot text { font-size: 10.5px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.ov-plot text.ov-end { fill: var(--ink-2); }
+.ov-note { margin: 2px 0 0; font-size: 0.75rem; color: var(--muted); }
+.ov-tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px;
+  padding: 6px 9px; font-size: 0.74rem; color: var(--ink-2); box-shadow: 0 4px 14px rgba(0,0,0,.25); white-space: nowrap; display: none; z-index: 3; }
+.ov-tip .d { color: var(--muted); margin-bottom: 3px; }
+.ov-tip .r { display: flex; align-items: center; gap: 6px; }
+.ov-tip .r i { width: 12px; height: 2px; border-radius: 2px; display: inline-block; }
+.ov-tip .r b { color: var(--ink); min-width: 52px; text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .ov-plot { height: 220px; } }
+</style>
+"""
+
+OVERLAY_JS = """
 <script>
-(function () {
-  // Six-line overlay: each market's daily closes over ~6 months on one chart, as % change
-  // since the first day (or each scaled to its own low-high range), so the shapes can be compared.
-  var gr = document.getElementById('growthRank'), box = gr && gr.querySelector('.gr-ov');
-  if (!box) return;
-  var NS = 'http://www.w3.org/2000/svg', plot = box.querySelector('.gr-ov-plot'), legend = box.querySelector('.gr-ov-legend');
-  var tip = box.querySelector('.gr-ov-tip'), sub = box.querySelector('.gr-ov-title span'), btns = box.querySelectorAll('.gr-ov-mode');
-  var SHORT = { 'NQ=F': 'Nasdaq', 'ES=F': 'S&P 500', 'DX-Y.NYB': 'Dollar', 'CL=F': 'Oil', 'GC=F': 'Gold', 'ZN=F': '10Y note' };
-  var DAYS = +box.getAttribute('data-days') || 126, base = JSON.parse(box.getAttribute('data-ov') || 'null'), cur = base;
-  var mode = 'pct', hidden = {};
-  try { var m = localStorage.getItem('mtl-gr-ov'); if (m === 'pct' || m === 'shape') mode = m; } catch (e) {}
-  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+// mtlOverlay(box, opts): many price lines on one chart - % change since the first day, or each line
+// scaled to its own low-high range ("Shape only") - with a legend (click hides a line), end labels and
+// a crosshair tooltip listing every line. data: {days: [ISO], assets: [[ticker, name]], closes: {ticker: [close or null]}}.
+// opts: title, short {ticker: label}, highlight [tickers] (only these get a colour and an end label; the rest are thin grey),
+// key (localStorage key for the scale), note. Returns {set(data)}.
+window.mtlOverlay = window.mtlOverlay || function (box, opts) {
+  opts = opts || {};
+  var NS = 'http://www.w3.org/2000/svg', MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function h(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  box.classList.add('ov'); box.textContent = '';
+  var head = h('div', 'ov-head'), title = h('p', 'ov-title', opts.title || 'All on one chart'), sub = h('span');
+  title.appendChild(sub); head.appendChild(title);
+  var modes = h('div', 'ov-modes'); modes.setAttribute('role', 'group'); modes.setAttribute('aria-label', 'Chart scale');
+  var btns = [['pct', '% change'], ['shape', 'Shape only']].map(function (m) {
+    var b = h('button', 'ov-btn', m[1]); b.type = 'button'; b.setAttribute('data-ov', m[0]); modes.appendChild(b); return b; });
+  head.appendChild(modes); box.appendChild(head);
+  var legend = h('ul', 'ov-legend'); legend.setAttribute('aria-label', 'Lines (click to hide or show)'); box.appendChild(legend);
+  var plot = h('div', 'ov-plot'); box.appendChild(plot);
+  if (opts.note) box.appendChild(h('p', 'ov-note', opts.note));
+  var tip = h('div', 'ov-tip'); tip.setAttribute('role', 'status'); box.appendChild(tip);
+  var cur = null, mode = 'pct', hidden = {}, focus = null, hi = {};
+  (opts.highlight || []).forEach(function (t) { hi[t] = 1; });
+  try { var m0 = localStorage.getItem(opts.key || 'mtl-ov'); if (m0 === 'pct' || m0 === 'shape') mode = m0; } catch (e) {}
   function fmt(s) { var d = new Date(s + 'T12:00:00Z'); return MON[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear(); }
   function el(tag, attrs) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
   function sign(v) { return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
-  function slice(hist, end) {   // same rule as mtl/growth_rank.overlay()
-    var n = 0; while (n < hist.days.length && hist.days[n] <= end) n++;
-    var lo = Math.max(0, n - DAYS - 1), closes = {}, assets = [];
-    hist.assets.forEach(function (a) { var c = hist.closes[a[0]].slice(lo, n); if (c.some(function (x) { return x != null; })) { closes[a[0]] = c; assets.push(a); } });
-    return n - lo < 2 ? null : { days: hist.days.slice(lo, n), assets: assets, closes: closes };
-  }
   function series(ov) {   // filled-forward closes -> % change since the first close, and position in own range
-    return ov.assets.map(function (a, k) {
-      var c = ov.closes[a[0]], last = null, f = c.map(function (x) { if (x != null) last = x; return last; });
+    var slot = 0, useHi = opts.highlight && opts.highlight.length;
+    return ov.assets.map(function (a) {
+      var c = ov.closes[a[0]] || [], last = null, f = c.map(function (x) { if (x != null) last = x; return last; });
       var first = null; for (var i = 0; i < f.length; i++) if (f[i] != null) { first = f[i]; break; }
-      var lo = Infinity, hi = -Infinity; f.forEach(function (x) { if (x != null) { lo = Math.min(lo, x); hi = Math.max(hi, x); } });
-      return { t: a[0], name: a[1], short: SHORT[a[0]] || a[1], color: 'var(--ov-' + (k + 1) + ')', close: f,
-        pct: f.map(function (x) { return x == null ? null : (x / first - 1) * 100; }),
-        shape: f.map(function (x) { return x == null ? null : hi > lo ? (x - lo) / (hi - lo) * 100 : 50; }) };
+      var lo = Infinity, hi2 = -Infinity; f.forEach(function (x) { if (x != null) { lo = Math.min(lo, x); hi2 = Math.max(hi2, x); } });
+      var main = !useHi || hi[a[0]], color = main && slot < 8 ? 'var(--ov-' + (++slot) + ')' : 'var(--ov-n)';
+      return { t: a[0], name: a[1], short: (opts.short && opts.short[a[0]]) || a[0], color: color, main: !!main, close: f,
+        pct: f.map(function (x) { return x == null || !first ? null : (x / first - 1) * 100; }),
+        shape: f.map(function (x) { return x == null ? null : hi2 > lo ? (x - lo) / (hi2 - lo) * 100 : 50; }) };
     });
   }
   function draw() {
     plot.textContent = ''; legend.textContent = ''; tip.style.display = 'none';
-    if (!cur) { var p = document.createElement('p'); p.className = 'gr-sub'; p.textContent = 'Not enough data before this date.'; plot.appendChild(p); return; }
+    if (!cur || !cur.days || cur.days.length < 2) { plot.appendChild(h('p', 'ov-note', 'Not enough data for this window.')); sub.textContent = ''; return; }
     var S = series(cur), days = cur.days, W = Math.max(280, plot.clientWidth), H = plot.clientHeight || 260;
     var narrow = W < 560, withVal = mode === 'pct' && !narrow;   // end labels carry the % only when there's room (the legend always has it)
     var L = mode === 'pct' ? 40 : 8, R = withVal ? 106 : 66, T = 8, B = 22, iw = W - L - R, ih = H - T - B;
-    sub.textContent = mode === 'pct' ? ' · % change since ' + fmt(days[0]) + ', daily to ' + fmt(days[days.length - 1])
-                                     : ' · each line scaled to its own low (bottom) and high (top), ' + fmt(days[0]) + ' to ' + fmt(days[days.length - 1]);
-    var vis = S.filter(function (s) { return !hidden[s.t]; }), lo = Infinity, hi = -Infinity;
-    vis.forEach(function (s) { s[mode].forEach(function (v) { if (v != null) { lo = Math.min(lo, v); hi = Math.max(hi, v); } }); });
-    if (mode === 'pct') { lo = Math.min(lo, 0); hi = Math.max(hi, 0); }
-    if (!isFinite(lo)) { lo = 0; hi = 1; }
-    if (hi - lo < 1e-9) { hi = lo + 1; }
-    var pad = (hi - lo) * 0.06; lo -= pad; hi += pad;
-    function x(i) { return L + (days.length < 2 ? 0 : i / (days.length - 1) * iw); }
-    function y(v) { return T + (hi - v) / (hi - lo) * ih; }
-    var svg = el('svg', { width: W, height: H, viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Six markets on one chart over the last ' + days.length + ' trading days' });
-    // recessive grid: % ticks, a firmer zero line; month labels along the bottom
-    if (mode === 'pct') {
-      var span = hi - lo, step = [1, 2, 2.5, 5, 10, 20, 25, 50, 100].find(function (s) { return span / s <= 6; }) || 100;
-      for (var v = Math.ceil(lo / step) * step; v <= hi; v += step) {
-        svg.appendChild(el('line', { x1: L, x2: L + iw, y1: y(v), y2: y(v), stroke: 'var(--hairline)', 'stroke-width': Math.abs(v) < 1e-9 ? 1.4 : 1, 'stroke-dasharray': Math.abs(v) < 1e-9 ? '' : '2 3' }));
+    sub.textContent = (mode === 'pct' ? ' · % change since ' : ' · each line scaled to its own low (bottom) and high (top), ') + fmt(days[0]) + (mode === 'pct' ? ', ' + (opts.step || 'daily') + ' to ' : ' to ') + fmt(days[days.length - 1]);
+    var vis = S.filter(function (s) { return !hidden[s.t]; }), lo = Infinity, hiV = -Infinity;
+    vis.forEach(function (s) { s[mode].forEach(function (v) { if (v != null) { lo = Math.min(lo, v); hiV = Math.max(hiV, v); } }); });
+    if (mode === 'pct') { lo = Math.min(lo, 0); hiV = Math.max(hiV, 0); }
+    if (!isFinite(lo)) { lo = 0; hiV = 1; }
+    if (hiV - lo < 1e-9) hiV = lo + 1;
+    var pad = (hiV - lo) * 0.06; lo -= pad; hiV += pad;
+    function x(i) { return L + i / (days.length - 1) * iw; }
+    function y(v) { return T + (hiV - v) / (hiV - lo) * ih; }
+    var svg = el('svg', { width: W, height: H, viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': (opts.title || 'Lines') + ', ' + days.length + ' points' });
+    if (mode === 'pct') {   // recessive grid: % ticks, a firmer zero line
+      var span = hiV - lo, steps = [1, 2, 2.5, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000], step = 1000;
+      for (var k = 0; k < steps.length; k++) if (span / steps[k] <= 6) { step = steps[k]; break; }
+      for (var v = Math.ceil(lo / step) * step; v <= hiV; v += step) {
+        var zero = Math.abs(v) < 1e-9;
+        svg.appendChild(el('line', { x1: L, x2: L + iw, y1: y(v), y2: y(v), stroke: 'var(--hairline)', 'stroke-width': zero ? 1.4 : 1, 'stroke-dasharray': zero ? '' : '2 3' }));
         var tx = el('text', { x: L - 6, y: y(v) + 3.5, 'text-anchor': 'end' }); tx.textContent = (v > 0 ? '+' : '') + (+v.toFixed(1)) + '%'; svg.appendChild(tx);
       }
     } else {
@@ -1668,94 +1687,104 @@ GROWTH_OV_JS = """
       var m = d.slice(0, 7);
       if (m !== lastM) { lastM = m; if (i > 0 && x(i) - lastX > 34) { var t = el('text', { x: x(i), y: T + ih + 15, 'text-anchor': 'middle' }); t.textContent = MON[+d.slice(5, 7) - 1]; svg.appendChild(t); lastX = x(i); } }
     });
-    // the lines, then end labels nudged apart so none overlap
-    var ends = [];
-    vis.forEach(function (s) {
-      var dpath = '', pen = false;
+    // grey lines first, coloured on top, the focused one last; end labels for coloured (or focused) lines, nudged apart
+    var order = vis.slice().sort(function (a, b) { return (a.main - b.main) || ((a.t === focus) - (b.t === focus)); }), ends = [];
+    order.forEach(function (s) {
+      var dpath = '', pen = false, f = s.t === focus;
       s[mode].forEach(function (v, i) { if (v == null) { pen = false; return; } dpath += (pen ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); pen = true; });
-      svg.appendChild(el('path', { d: dpath, fill: 'none', stroke: s.color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+      svg.appendChild(el('path', { d: dpath, fill: 'none', stroke: f && !s.main ? 'var(--ink-2)' : s.color, 'stroke-width': f ? 3 : s.main ? 2 : 1.25,
+        'stroke-opacity': s.main || f ? 1 : 0.7, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
       var lv = s[mode][s[mode].length - 1];
-      if (lv != null) ends.push({ s: s, y: y(lv), v: lv });
+      if (lv != null && (s.main || f)) ends.push({ s: s, y: y(lv), v: lv });
     });
     ends.sort(function (a, b) { return a.y - b.y; });
     for (var i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 12) ends[i].y = ends[i - 1].y + 12;
     var over = ends.length ? ends[ends.length - 1].y - (T + ih) : 0;
     if (over > 0) ends.forEach(function (e) { e.y -= over; });
     ends.forEach(function (e) {
-      svg.appendChild(el('line', { x1: L + iw + 3, x2: L + iw + 11, y1: e.y, y2: e.y, stroke: e.s.color, 'stroke-width': 2, 'stroke-linecap': 'round' }));
-      var t = el('text', { x: L + iw + 14, y: e.y + 3.5, class: 'gr-ov-end' });
-      t.textContent = e.s.short + (withVal ? ' ' + sign(e.v) : ''); svg.appendChild(t);
+      svg.appendChild(el('line', { x1: L + iw + 3, x2: L + iw + 11, y1: e.y, y2: e.y, stroke: e.s.main ? e.s.color : 'var(--ink-2)', 'stroke-width': 2, 'stroke-linecap': 'round' }));
+      var t = el('text', { x: L + iw + 14, y: e.y + 3.5, class: 'ov-end' }); t.textContent = e.s.short + (withVal ? ' ' + sign(e.v) : ''); svg.appendChild(t);
     });
-    // hover: a crosshair snapped to the nearest day, a dot on every line, one tooltip listing all six
+    // hover: a crosshair snapped to the nearest point, a dot on every line, one tooltip listing them all (best first)
     var hair = el('line', { y1: T, y2: T + ih, stroke: 'var(--muted)', 'stroke-width': 1, visibility: 'hidden' }); svg.appendChild(hair);
-    var dots = vis.map(function (s) { var c = el('circle', { r: 4, fill: s.color, stroke: 'var(--surface)', 'stroke-width': 2, visibility: 'hidden' }); svg.appendChild(c); return c; });
+    var dots = vis.map(function (s) { var c = el('circle', { r: s.main ? 4 : 3, fill: s.color, stroke: 'var(--surface)', 'stroke-width': 2, visibility: 'hidden' }); svg.appendChild(c); return c; });
     var hit = el('rect', { x: L, y: T, width: iw, height: ih, fill: 'transparent' }); svg.appendChild(hit);
     function move(ev) {
       var r = svg.getBoundingClientRect(), i = Math.round((ev.clientX - r.left - L) / iw * (days.length - 1));
       i = Math.max(0, Math.min(days.length - 1, i));
       hair.setAttribute('x1', x(i)); hair.setAttribute('x2', x(i)); hair.setAttribute('visibility', 'visible');
-      tip.textContent = ''; var hd = document.createElement('div'); hd.className = 'd'; hd.textContent = fmt(days[i]); tip.appendChild(hd);
+      tip.textContent = ''; tip.appendChild(h('div', 'd', fmt(days[i])));
+      var cap = narrow && vis.length > 8 ? 8 : 99, shown = 0, more = 0;   // on a phone, a long list would cover the chart
       vis.map(function (s, k) { return { s: s, k: k, v: s.pct[i], c: s.close[i] }; }).sort(function (a, b) { return (b.v == null ? -1e9 : b.v) - (a.v == null ? -1e9 : a.v); })
         .forEach(function (o) {
           var v = o.s[mode][i]; if (v == null) { dots[o.k].setAttribute('visibility', 'hidden'); return; }
           dots[o.k].setAttribute('cx', x(i)); dots[o.k].setAttribute('cy', y(v)); dots[o.k].setAttribute('visibility', 'visible');
-          var row = document.createElement('div'); row.className = 'r';
-          var key = document.createElement('i'); key.style.background = o.s.color; row.appendChild(key);
-          var b = document.createElement('b'); b.textContent = sign(o.v); row.appendChild(b);
-          var nm = document.createElement('span'); nm.textContent = o.s.short + '  ' + (+o.c.toPrecision(6)).toLocaleString('en-US'); row.appendChild(nm);
-          tip.appendChild(row);
+          if (shown++ >= cap) { more++; return; }
+          var row = h('div', 'r'), key = h('i'); key.style.background = o.s.color; row.appendChild(key);
+          row.appendChild(h('b', '', o.v == null ? '–' : sign(o.v)));
+          row.appendChild(h('span', '', o.s.short + '  ' + (+o.c.toPrecision(6)).toLocaleString('en-US'))); tip.appendChild(row);
         });
+      if (more) tip.appendChild(h('div', 'd', '+ ' + more + ' more (lower)'));
       tip.style.display = 'block';
       var bx = box.getBoundingClientRect(), px = r.left - bx.left + x(i), w = tip.offsetWidth, left = px + 12;
       if (left + w > bx.width) left = px - w - 12;   // flip to the left of the crosshair near the right edge
-      tip.style.left = Math.max(0, left) + 'px';
-      tip.style.top = (r.top - bx.top + T + 4) + 'px';
+      tip.style.left = Math.max(0, left) + 'px'; tip.style.top = (r.top - bx.top + T + 4) + 'px';
     }
     function leave() { hair.setAttribute('visibility', 'hidden'); dots.forEach(function (d) { d.setAttribute('visibility', 'hidden'); }); tip.style.display = 'none'; }
     hit.addEventListener('pointermove', move); hit.addEventListener('pointerdown', move); hit.addEventListener('pointerleave', leave);
     plot.appendChild(svg);
-    // legend (always shown): click to hide or show a line; final % change since the first day
+    // legend: click hides or shows a line; hover or focus brings it to the front; value = % change over the window
     S.forEach(function (s) {
-      var li = document.createElement('li'), b = document.createElement('button'); b.type = 'button';
+      var li = h('li'), b = h('button'); b.type = 'button';
       b.setAttribute('aria-pressed', String(!hidden[s.t])); b.title = s.name + ' (' + s.t + ') - click to ' + (hidden[s.t] ? 'show' : 'hide');
-      var k = document.createElement('i'); k.style.background = s.color; b.appendChild(k);
-      b.appendChild(document.createTextNode(s.short + ' '));
-      var lv = s.pct[s.pct.length - 1], val = document.createElement('b'); val.textContent = lv == null ? '–' : sign(lv); b.appendChild(val);
+      var k = h('i'); k.style.background = s.color; b.appendChild(k); b.appendChild(document.createTextNode(s.short + ' '));
+      var lv = s.pct[s.pct.length - 1]; b.appendChild(h('b', '', lv == null ? '–' : sign(lv)));
       b.addEventListener('click', function () { hidden[s.t] = !hidden[s.t]; draw(); });
+      b.addEventListener('pointerenter', function () { if (focus !== s.t && !hidden[s.t]) { focus = s.t; draw(); } });
+      b.addEventListener('pointerleave', function () { if (focus === s.t) { focus = null; draw(); } });
       li.appendChild(b); legend.appendChild(li);
     });
   }
   function setMode(m) {
-    mode = m;
-    for (var i = 0; i < btns.length; i++) btns[i].setAttribute('aria-pressed', String(btns[i].getAttribute('data-ov') === m));
-    try { localStorage.setItem('mtl-gr-ov', m); } catch (e) {}
+    mode = m; btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-ov') === m)); });
+    try { localStorage.setItem(opts.key || 'mtl-ov', m); } catch (e) {}
     draw();
   }
-  for (var i = 0; i < btns.length; i++) btns[i].addEventListener('click', function () { setMode(this.getAttribute('data-ov')); });
-  gr.addEventListener('gr-end', function (e) { cur = e.detail && e.detail.hist ? slice(e.detail.hist, e.detail.end) : base; draw(); });
+  btns.forEach(function (b) { b.addEventListener('click', function () { setMode(b.getAttribute('data-ov')); }); });
   var rw = null; window.addEventListener('resize', function () { clearTimeout(rw); rw = setTimeout(draw, 120); });
-  setMode(mode);
+  return { set: function (data) { cur = data; setMode(mode); } };
+};
+</script>
+"""
+
+GROWTH_OV_JS = """
+<script>
+(function () {
+  // the cross-asset grid's overlay: six markets, last ~6 months daily; follows the grid's "Ending on" picker
+  var gr = document.getElementById('growthRank'), box = gr && gr.querySelector('.gr-ov');
+  if (!box || !window.mtlOverlay) return;
+  var DAYS = +box.getAttribute('data-days') || 126, base = JSON.parse(box.getAttribute('data-ov') || 'null');
+  var chart = mtlOverlay(box, { title: 'All six on one chart', key: 'mtl-gr-ov',
+    short: { 'NQ=F': 'Nasdaq', 'ES=F': 'S&P 500', 'DX-Y.NYB': 'Dollar', 'CL=F': 'Oil', 'GC=F': 'Gold', 'ZN=F': '10Y note' } });
+  function slice(hist, end) {   // same rule as mtl/growth_rank.overlay()
+    var n = 0; while (n < hist.days.length && hist.days[n] <= end) n++;
+    var lo = Math.max(0, n - DAYS - 1), closes = {}, assets = [];
+    hist.assets.forEach(function (a) { var c = hist.closes[a[0]].slice(lo, n); if (c.some(function (x) { return x != null; })) { closes[a[0]] = c; assets.push(a); } });
+    return n - lo < 2 ? null : { days: hist.days.slice(lo, n), assets: assets, closes: closes };
+  }
+  gr.addEventListener('gr-end', function (e) { chart.set(e.detail && e.detail.hist ? slice(e.detail.hist, e.detail.end) : base); });
+  chart.set(base);
 })();
 </script>
 """
 
 
 def _growth_overlay(data):
-    """The six-line overlay chart's container, or '' when growth_rank.json has no "overlay" yet."""
+    """The overlay chart's container, or '' when growth_rank.json has no "overlay" yet."""
     ov = data.get('overlay')
     if not ov or not ov.get('days'):
         return ''
-    payload = json.dumps(ov, separators=(',', ':'))
-    return f"""  <div class="gr-ov" data-days="{growth_rank.OVERLAY_DAYS}" data-ov="{E(payload)}">
-    <div class="gr-ov-head"><p class="gr-ov-title">All six on one chart<span></span></p>
-      <div class="gr-controls" role="group" aria-label="Chart scale" style="margin:0">
-        <button type="button" class="gr-btn gr-ov-mode" data-ov="pct" aria-pressed="true">% change</button>
-        <button type="button" class="gr-btn gr-ov-mode" data-ov="shape" aria-pressed="false">Shape only</button></div></div>
-    <ul class="gr-ov-legend" aria-label="Lines (click to hide or show)"></ul>
-    <div class="gr-ov-plot"></div>
-    <div class="gr-ov-tip" role="status"></div>
-  </div>
-"""
+    return f'  <div class="gr-ov" data-days="{growth_rank.OVERLAY_DAYS}" data-ov="{E(json.dumps(ov, separators=(",", ":")))}"></div>\n'
 
 
 def _growth_shade(pct, frac, mode):
@@ -1863,7 +1892,7 @@ def growth_rank_section(data):
   <p class="gr-note" data-for="sigma">Darker = further off that asset's <em>normal</em> move (σ = std dev of its prior {growth_rank.BASELINE_WEEKS} weekly / {growth_rank.BASELINE_DAYS} daily changes) — pale = a normal move, darkest = {growth_rank.SIGMA_CAP:g}σ or more.</p>
 {_growth_table(data.get('weekly'), 'weekly')}
 {_growth_table(data.get('daily'), 'daily')}
-</div>{GROWTH_JS}{GROWTH_OV_JS if data.get('overlay') else ''}"""
+</div>{GROWTH_JS}{OVERLAY_CSS + OVERLAY_JS + GROWTH_OV_JS if data.get('overlay') else ''}"""
 
 
 def render(doc: dict, all_docs: dict = None, generated_at: str = None, live: dict = None,

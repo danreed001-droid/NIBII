@@ -91,4 +91,4 @@ def test_section_draws_the_overlay_chart_only_with_overlay_data():
     grids = growth_rank.build(rows, date(2026, 12, 31))
     assert 'class="gr-ov"' not in growth_rank_section(grids)
     html = growth_rank_section(dict(grids, overlay=growth_rank.overlay(growth_rank.history(rows))))
-    assert 'class="gr-ov"' in html and 'data-ov="' in html and 'gr-ov-mode' in html and "'gr-end'" in html
+    assert 'class="gr-ov"' in html and 'data-ov="' in html and 'mtlOverlay' in html and "'gr-end'" in html

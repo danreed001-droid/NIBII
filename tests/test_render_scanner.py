@@ -78,3 +78,9 @@ def test_cross_asset_growth_grid_from_the_main_page():
     if os.path.exists(render_scanner.GROWTH_PATH):
         assert 'id="growthRank"' in page and 'Cross-asset growth ranking' in page
     assert '__GROWTH__' not in render_scanner.render(SCAN, growth='')
+
+
+def test_weekly_grid_has_the_overlay_chart():
+    page = render_scanner.render(SCAN, growth='')
+    assert 'id="heat-ov"' in page and 'window.mtlOverlay' in page and "mtlOverlay(box, { title: 'Top '" in page
+    assert '__OVLIB__' not in page
