@@ -95,3 +95,9 @@ def test_rotation_explains_the_whipsaw_half_switch():
     page = render_scanner.render(SCAN)
     assert 'function whipNote(RT)' in page and 'Whipsaw half-switch' in page
     assert 'whipsaw half-switch' in page and 'whipTag(RT)' in page
+
+
+def test_warning_shows_breadth_and_scores_calls_against_the_plan():
+    page = render_scanner.render(SCAN)
+    assert 'function breadthNote(RT)' in page and 'breadthNote(RT) + warnCallNote(RT)' in page
+    assert 'always staying in the plan' in page

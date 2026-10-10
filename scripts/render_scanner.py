@@ -620,7 +620,7 @@ __GROWTH__
     var lg = (RT.warnLog || []).map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + (r[1] !== r[0] ? '–' + fmtDate(r[1], { month: 'short', day: 'numeric' }) : '') + ' (' + esc(r[2]) + ')'; }).join(' · ');
     return '<br><span class="' + (RT.warn ? 'neg' : 'muted') + '"><b>Downtrend warning ' + (RT.warn ? 'ON' : 'off') + '</b></span><span class="muted"> (information only, not traded): SPY’s daily chart in a downtrend (lower highs, lower lows), SPY below its ' + RT.ma + '-day average, and TLT or GLD rising' +
       (RT.warn ? ' — now: <b>' + esc(RT.warn) + '</b> is rising most steeply. The rule itself waits for its 15-session confirmation before switching; stepping aside earlier is your call.' : '.') +
-      ' Tested as an automatic switch (straight into the rising asset) it fixed late 2018 (−3% instead of −15%) but cost about 2 points a year over 2000–2026, because most of these warnings were short dips. On ' + RT.warnDays + ' sessions since ' + SINCE + (lg ? '. Recent: ' + lg : '') + '.</span>' + warnCallNote(RT) + rsiNote(RT.rsiWarn);
+      ' Tested as an automatic switch (straight into the rising asset) it fixed late 2018 (−3% instead of −15%) but cost about 2 points a year over 2000–2026, because most of these warnings were short dips. On ' + RT.warnDays + ' sessions since ' + SINCE + (lg ? '. Recent: ' + lg : '') + '.</span>' + breadthNote(RT) + warnCallNote(RT) + rsiNote(RT.rsiWarn);
   }
   var WC_KEY = 'nibii-warncalls';
   function wcLoad() { try { return JSON.parse(localStorage.getItem(WC_KEY) || '{}') || {}; } catch (e) { return {}; } }
@@ -628,7 +628,7 @@ __GROWTH__
   function warnCallNote(RT) {   // your own out / stay call on a warning day, scored 3 months later
     var WC = RT && RT.warnCalls, rec = (WC && WC.calls) || [], local = wcLoad(), day = D.asOf, mine = local[day] || null;
     var inRepo = {}; rec.forEach(function (r) { inRepo[r.d] = r.c; });
-    var h = '<br><span id="warn-call"><b>Your call on the warning</b> <span class="muted">(recorded, not traded; scored 3 months later against half bonds, half gold):</span> ';
+    var h = '<br><span id="warn-call"><b>Your call on the warning</b> <span class="muted">(recorded, not traded; scored 3 months later: “stay” earns what the plan made, “out” what half bonds, half gold made):</span> ';
     if (RT.warn) {
       var cur = (mine && mine.c) || inRepo[day];
       h += '<button type="button" class="wc-btn" data-wcall="out" aria-pressed="' + (cur === 'out') + '">Out: half bonds, half gold</button> ' +
@@ -639,12 +639,20 @@ __GROWTH__
         h += '<a class="wc-sub" target="_blank" rel="noopener" href="https://github.com/danreed001-droid/NIBII/issues/new?title=' + encodeURIComponent('calls warn ' + day) + '&body=' + encodeURIComponent(body) + '">Save it to the repo</a> <span class="muted">(opens a GitHub issue; press Submit)</span>';
       } else if (inRepo[day]) h += '<span class="muted">Recorded: <b>' + esc(inRepo[day]) + '</b>.</span>';
     } else h += '<span class="muted">The buttons appear on days the warning is on.</span>';
-    if (WC && WC.n) h += ' <span class="muted">Your record: ' + WC.right + ' of ' + WC.n + ' scored calls right; $1 → ' + pct(WC.me, 0) + ' on your calls vs ' + pct(WC.stay, 0) + ' always staying and ' + pct(WC.out, 0) + ' always out.</span>';
+    if (WC && WC.n) h += ' <span class="muted">Your record: ' + WC.right + ' of ' + WC.n + ' scored calls right; $1 → ' + pct(WC.me, 0) + ' on your calls vs ' + pct(WC.stay, 0) + ' always staying in the plan and ' + pct(WC.out, 0) + ' always out.</span>';
     if (rec.length) h += ' <span class="muted">Calls: ' + rec.slice(0, 8).map(function (r) {
-      return fmtDate(r.d, { month: 'short', day: 'numeric', year: 'numeric' }) + ' <b>' + esc(r.c) + '</b> ' + (r.done ? '(' + (r.right ? '✓' : '✗') + ' SPY ' + pct(r.spy) + ', bonds + gold ' + pct(r.duo) + ')'
-        : '(scored ' + fmtDate(r.due, { month: 'short', day: 'numeric' }) + '; so far SPY ' + pct(r.spy) + ', bonds + gold ' + pct(r.duo) + ')');
+      return fmtDate(r.d, { month: 'short', day: 'numeric', year: 'numeric' }) + ' <b>' + esc(r.c) + '</b> ' + (r.done ? '(' + (r.right ? '✓' : '✗') + ' plan ' + pct(r.plan != null ? r.plan : r.spy) + ', bonds + gold ' + pct(r.duo) + ', SPY ' + pct(r.spy) + ')'
+        : '(scored ' + fmtDate(r.due, { month: 'short', day: 'numeric' }) + '; so far plan ' + pct(r.plan != null ? r.plan : r.spy) + ', bonds + gold ' + pct(r.duo) + ')');
     }).join(' · ') + '.</span>';
     return h + '</span>';
+  }
+  function breadthNote(RT) {   // how broad the selloff is: a clue for your call, not a rule
+    var B = RT && RT.breadth;
+    if (!B || B.down == null) return '';
+    var broad = B.down >= B.broad, cut = Math.round(-B.cut * 100), sh = Math.round(B.broad * 100);
+    return '<br><span class="' + (RT.warn && broad ? 'neg' : 'muted') + '"><b>Breadth: ' + Math.round(B.down * 100) + '% of stocks</b> (of ' + B.n + ') are down ' + cut + '% or more over the last month' +
+      (B.prev != null ? ' (' + Math.round(B.prev * 100) + '% yesterday)' : '') + ' — ' + (broad ? '<b>a broad selloff</b>' : 'a narrow one') + ' by the ' + sh + '% line.</span>' +
+      '<span class="muted"> A clue for your call, not a rule: at the 32 warnings since 2001, broad selloffs favoured going out (bonds + gold beat the plan in 10 of 15) and narrow ones favoured staying (the plan won 13 of 17); March 2020 was the broadest and still rebounded hard. As an automatic rule it cost 1–7 points a year, so it stays information only.</span>';
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-wcall]');

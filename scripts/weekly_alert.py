@@ -64,7 +64,9 @@ def warn_line(rt):
             f"{rt.get('ma', 150)}-day average, while {rt['warn']} is rising most steeply. Boost + rotation keeps the stocks until its "
             f"{rt.get('confirm', 15)}-session confirmation; stepping into {rt['warn']} earlier is your call (as an automatic rule it fixed "
             f"late 2018 but cost about 2 points a year over 2000-2026). Record your out / stay call with the buttons under the warning "
-            f"on the dashboard; it is scored 3 months later against half bonds, half gold.")
+            f"on the dashboard; it is scored 3 months later (stay = what the plan made, out = half bonds, half gold)."
+            + (f" Breadth: {(rt.get('breadth') or {}).get('down', 0) * 100:.0f}% of stocks are down 10%+ over the last month"
+               f" ({'a broad selloff' if (rt.get('breadth') or {}).get('down', 0) >= 0.2 else 'a narrow one'})." if (rt.get('breadth') or {}).get('down') is not None else ''))
 
 
 def rsi_line(rt):
