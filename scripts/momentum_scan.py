@@ -21,7 +21,8 @@ close (the swing read shown on each card). 'Steps' scales with the count instead
 are offered too. The default plan is Boost + rotation (mtl/rotation.py): the Boost 100%
 list, moved into TLT / GLD (or T-bills) when SPY's swing structure turns down, and half of it
 moved into whichever of TLT / GLD / SPY is up most over 3 months while most of the list's recent
-sales were losers (the whipsaw half-switch), decided at any close and traded at the next. Signals come from each Friday's close; trades (stocks,
+sales were losers (the whipsaw half-switch; it stands aside while the 10-year yield and gold
+are both up over 3 months), decided at any close and traded at the next. Signals come from each Friday's close; trades (stocks,
 sleeve switch, reset to the split) are made on Monday before the close, and the
 track record is computed that way.
 
@@ -43,7 +44,7 @@ from mtl.heat import daily_closes, daily_heat, price_volume, weekly_heat  # noqa
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
-from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw  # noqa: E402
+from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -339,6 +340,20 @@ def whip_block(modes, on, half, read, px, calendar, K, picks, prices):
                 daysOn=sum(1 for d_ in days if on[d_]), days=len(days), log=whip_log(on, half, calendar))
 
 
+def regime_block(regime, rate, gold, calendar, K, look=REGIME_LOOK):
+    """The rate/gold regime now: the 10-year yield and gold today and `look` sessions ago, whether
+    both are up (reflation: the whipsaw half-switch stands aside), and the days it held."""
+    def at(px, k):
+        v = None
+        for d_ in calendar[:k + 1]:
+            v = px.get(d_, v)
+        return v
+    r1, r0, g1, g0 = at(rate, K), at(rate, K - look), at(gold, K), at(gold, K - look)
+    days = [d_ for d_ in calendar if d_ >= START and regime.get(d_) is not None]
+    return dict(on=regime.get(calendar[K]), look=look, rate=r4(r1), rate0=r4(r0), gold=r4(g1), gold0=r4(g0),
+                goldChg=r4(g1 / g0 - 1) if g1 and g0 else None, daysOn=sum(1 for d_ in days if regime[d_]), days=len(days))
+
+
 def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
     """What Boost + rotation holds, what changes at the next close, and the readings behind it."""
     as_of = calendar[K]
@@ -389,6 +404,11 @@ def main():
     bars = fetch(tickers, volumes=volumes)
     bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD'], adjusted=True, volumes=volumes)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check
     asset_bars = fetch(ASSETS, adjusted=True)   # OHLC: Boost + rotation reads TLT's and GLD's swing structure
+    try:   # the 10-year Treasury yield, for the rate/gold regime that can stand the half-switch aside
+        rate_px = {b[0]: b[4] for b in (fetch(['^TNX']).get('^TNX') or []) if b[4]}
+    except Exception as e:
+        print(f"  10-year yield fetch failed: {e}", file=sys.stderr)
+        rate_px = {}
     sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in asset_bars.items()}
     prices = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items() if bs}
     prices['SPY'] = {b[0]: b[4] for b in bench['SPY']}
@@ -613,7 +633,9 @@ def main():
     # goes into whichever of TLT / GLD / SPY is up most over 3 months (skipping weekly downtrends)
     whip_px = {**filled(sleeve_px, calendar), 'SPY': prices['SPY']}
     whip_on = whipsaw(picks_bx, prices, calendar, START)
-    whip_half = whip_halves(rot_modes, whip_on, rot_read, whip_px, calendar)
+    # ... except while the 10-year yield and gold are both up over 3 months (reflation): then it stays in the Boost list
+    regime = reflation(rate_px, whip_px.get('GLD') or {}, calendar)
+    whip_half = whip_halves(rot_modes, whip_on, rot_read, whip_px, calendar, skip=regime)
     plans['rotation'] = rotation_curve(strat_bx, whip_px, calendar, rot_modes, half=whip_half)
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
@@ -844,6 +866,7 @@ def main():
     auto['rotation']['breadth'] = dict(down=r4(br_now), prev=r4(br_prev), n=br_n, cut=BROAD_DOWN, broad=BROAD_SHARE,
                                        hist=[[calendar[k_], r4(breadth(prices, calendar, k_)[0])] for k_ in range(K - 20, K + 1)])
     auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_bx, prices)
+    auto['rotation']['whip']['regime'] = regime_block(regime, rate_px, whip_px.get('GLD') or {}, calendar, K)
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(STEPS.get(len(auto['previewDown']), STEPS_MIN))

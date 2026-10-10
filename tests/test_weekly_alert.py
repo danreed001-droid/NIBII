@@ -206,3 +206,11 @@ def test_whipsaw_half_moving_midweek_sends_its_own_alert():
     title, body = alert.build(s)
     assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw half → SPY'
     assert 'sell GLD, buy **SPY** with that half' in body
+
+
+def test_whipsaw_half_stands_aside_when_rates_and_gold_rise():
+    s = scan(signalDay=False)
+    s['plan']['auto']['rotation'] = rot(whip=whip(held='GLD', half=None, regime=dict(on=True)))
+    title, body = alert.build(s)
+    assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw half off'
+    assert 'stands aside' in body and 'sell GLD, put that half back into the Boost list' in body

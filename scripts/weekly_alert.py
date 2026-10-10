@@ -88,6 +88,9 @@ def whip_line(rt):
     why = (f"{w.get('lost')} of the Boost list's last {w.get('n')} sales ({w.get('look', 126)} sessions) were losers, "
            f"{pctw(w.get('share') or 0)} against the {pctw(w.get('loss', 0.65))} that switches it on")
     chg = ', '.join(f"{t} {pct1(v)}" for t, v in (w.get('chg') or {}).items() if v is not None)
+    if not w.get('half') and w.get('on') and (w.get('regime') or {}).get('on'):
+        return (f"**Boost + rotation, whipsaw half-switch stands aside:** sell {w['held']}, put that half back into the Boost list "
+                f"(the 10-year yield and gold are both up over 3 months, so the plan stays fully in stocks)")
     if not w.get('held'):
         return (f"**Boost + rotation, whipsaw half-switch ON:** sell half the Boost list, buy **{w['half']}** with that half ({why}; "
                 f"3-month change {chg}, weekly downtrends skipped)")
