@@ -608,7 +608,7 @@ __GROWTH__
     var gr = function (l) { return l && l[1] != null ? ' (gradient ' + l[1].toFixed(2) + ')' : ''; };
     var S = RT.spy, LH = S.lastHigh, why = { rotate: 'rotation', 'rotate-end': 'its uptrend broke', exit: 'downtrend exit', 'switch': 'best asset changed', above: 'SPY back above its average', steeper: 'SPY’s higher lows steeper' };
     var now = RT.mode === 'boost' ? 'in the <b>Boost 100% stock list</b>' : 'out of stocks, in <b>' + esc(RT.mode) + '</b> (' + esc(ROTN[RT.mode] || '') + ')';
-    return '<b>Boost + rotation (the default):</b> the Boost 100% stock list, moved out of stocks when the charts say so; decided at any close and traded at the next close. ' +
+    return '<b>Boost + rotation (the default):</b> the Boost 100% stock list (with its blow-off and surge exits), moved out of stocks when the charts say so; decided at any close and traded at the next close. ' +
       '<b>1. Rotation:</b> while SPY’s daily chart makes lower highs and lower lows, if TLT or GLD makes higher highs and higher lows with a steeper gradient (the line through its last two higher lows, scaled by its volatility), switch into the steepest after it has led for ' + RT.confirm + ' sessions; back to stocks the day its uptrend breaks. ' +
       '<b>2. Downtrend exit:</b> out of stocks when SPY’s weekly chart is in a downtrend whose last lower high sat below the ' + RT.ma + '-day average, SPY is below the average too, and the line through its last two weekly lower lows falls slowly (a grinding bear market, not a crash); then hold whichever of TLT / GLD is rising most steeply (T-bills if neither). Back into stocks when SPY closes above its ' + RT.ma + '-day average, or SPY’s daily higher lows are steeper than TLT’s and GLD’s. ' +
       '<br><b>Now:</b> ' + now + (RT.trade ? ' — <b>switch at the close on ' + fmtDate(RT.trade, { weekday: 'short', month: 'short', day: 'numeric' }) + '</b> (from ' + esc(rotName(RT.held)) + ')' : '') + '. ' +
@@ -617,7 +617,7 @@ __GROWTH__
       RT.assets.map(function (t) { return t + ' daily ' + arw(RT.legs[t]) + gr(RT.legs[t]); }).join(' · ') + '.' +
       (RT.cand && RT.mode === 'boost' && RT.streak ? ' ' + esc(RT.cand) + ' has led for ' + RT.streak + ' of the ' + RT.confirm + ' sessions needed.' : '') +
       ' Out of stocks on ' + RT.daysOut + ' of ' + RT.days + ' sessions since ' + SINCE + ', ' + RT.switches + ' switches. Since ' + SINCE + ': ' + pct(P.stats.rotation.annual, 0) + ' a year, worst drop ' + pct(P.stats.rotation.maxDD, 0) + ' vs ' + pct(P.stats.boost100.annual, 0) + ' and ' + pct(P.stats.boost100.maxDD, 0) + ' for Boost 100%. ' +
-      'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $13.6M after tax vs $8.53M for Boost 100%: 31.0% a year before tax (20.2% after) vs 27.4% (18.1%), worst drop −46% vs −60%; from 2010 26.4% vs 22.6%, from 2020 55.5% vs 52.8%. The thresholds were picked on that same history, so expect less.' +
+      'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $17.4M after tax vs $9.95M for Boost 100%: 32.8% a year before tax (21.3% after) vs 28.7% (18.8%), worst drop −44% vs −59%; from 2010 28.5% vs 24.9%, from 2020 55.9% vs 53.3% (all with the surge exit below; before it, Boost + rotation made 31.0% a year, $13.6M). The thresholds were picked on that same history, so expect less.' +
       (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '');
   }
   function bxNote(A) {   // the blow-off exit line under Boost 100% / Boost + cushion
@@ -627,7 +627,20 @@ __GROWTH__
     return '<br><span class="muted">Blow-off exit: a holding is sold when its last month’s gain is more than ' + m + '× its gain over the 5 months before (it tends to give that back), and the slot goes to the next-ranked stock; it can come back after 4 weeks. ' +
       'It is switched on only in a weak market: while SPY closes below its ' + X.ma + '-day average (on in ' + X.armedWeeks + (A.cushion ? ' of ' + A.cushion.weeks : '') + ' weeks since ' + SINCE + '). In weak markets and rebounds, blow-offs fade; in steady uptrends selling them cost money. ' + on +
       ' Each holding now (last month ÷ prior 5 months, sells at ' + m + (X.armed ? '' : ' when on') + '): ' + X.holdings.map(function (t) { var r = X.ratio[t]; return esc(t) + ' ' + (r == null ? '–' : r.toFixed(2)); }).join(' · ') +
-      (X.blown.length ? ' · this week it sells <b>' + X.blown.map(esc).join(', ') + '</b> on the exit' : '') + '.</span>' + callNote(X);
+      (X.blown.length ? ' · this week it sells <b>' + X.blown.map(esc).join(', ') + '</b> on the exit' : '') + '.</span>' + surgeNote(X) + callNote(X);
+  }
+  function surgeNote(X) {   // the surge exit: a 5%+ up day on 4x+ volume -> sold a week later
+    var G = X && X.surge;
+    if (!G) return '';
+    var md = { month: 'short', day: 'numeric' }, wd = { weekday: 'short', month: 'short', day: 'numeric' };
+    function ev(e) { return esc(e.t) + ' ' + fmtDate(e.d, md) + ' (' + pct(e.up, 0) + ' on ' + e.x.toFixed(1) + '× volume)'; }
+    var pend = (G.pending || []).map(function (e) { return '<b>' + ev(e) + ' → sells at the close on ' + fmtDate(e.sell, wd) + '</b>'; });
+    return '<br><span class="muted">Surge exit (always on): a holding that closes ' + Math.round(G.up * 100) + '%+ up on at least ' + G.vol + '× its 50-day average volume is sold ' + G.delay +
+      ' trading days (a week) later, and the slot goes to the next-ranked stock. In the 2000–2026 audit it added about 1.8 points a year before tax (32.8% vs 31.0%; 2000–2024 alone 28.0% vs 26.9%); ' +
+      'selling the same day sold too early (2020), waiting 2–3 weeks gave the gain back. ' +
+      (pend.length ? 'Scheduled: ' + pend.join(' · ') + '. ' : 'Nothing scheduled now. ') +
+      (X.surged && X.surged.length ? 'Sold on it at this close: <b>' + X.surged.map(esc).join(', ') + '</b>. ' : '') +
+      (G.log && G.log.length ? 'Recent surges while held: ' + G.log.slice(0, 6).map(ev).join(' · ') + '.' : '') + '</span>';
   }
   function callNote(X) {   // optional call sleeve: best-case pricing only, ~10% of the account split across the calls held
     var C = X.calls || {}, ts = X.holdings.filter(function (t) { return C[t]; });
@@ -687,13 +700,15 @@ __GROWTH__
     if (pm === 'cushion') mixTag = CUb && CUb.split !== CUb.prevSplit ? '<span class="tag ' + (CUb.split === '100/0' ? 'buy' : 'sell') + '">cushion → ' + CUb.split + '</span>' : '';
     if ((pm === 'boost' || pm === 'boost100' || pm === 'cushion' || pm === 'rotation') && BO) {   // the boosted rules trade their own lists
       var BL = pm === 'boost' ? BO : BXb;
-      tags = BL.sell.map(function (t) { return '<span class="tag sell">sell ' + esc(t) + ((BL.blown || []).indexOf(t) >= 0 ? ' (blow-off exit)' : '') + '</span>'; }).join('') +
+      tags = BL.sell.map(function (t) { return '<span class="tag sell">sell ' + esc(t) + ((BL.blown || []).indexOf(t) >= 0 ? ' (blow-off exit)' : (BL.surged || []).indexOf(t) >= 0 ? ' (surge exit)' : '') + '</span>'; }).join('') +
         BL.buy.map(function (t) { return '<span class="tag buy">buy ' + esc(t) + (BL.boosted.indexOf(t) >= 0 ? ' (news boost)' : '') + '</span>'; }).join('');
     }
     var RTb = PA && PA.rotation;
     if (pm === 'rotation' && RTb && RTb.mode !== 'boost') tags = '<span class="muted">Boost + rotation is out of stocks (' + esc(RTb.mode) + '): the stock list changes don’t apply.</span>';
     if (pm === 'rotation' && RTb && RTb.trade) mixTag = rotTag(RTb);
     if (RTb && RTb.rsiWarn && RTb.rsiWarn.on) mixTag += '<span class="tag sell">RSI support-line break (info only)</span>';
+    if ((pm === 'boost100' || pm === 'cushion' || pm === 'rotation') && BXb && BXb.surge && !(pm === 'rotation' && RTb && RTb.mode !== 'boost'))
+      (BXb.surge.pending || []).forEach(function (e) { mixTag += '<span class="tag sell">' + esc(e.t) + ' sells ' + fmtDate(e.sell, { weekday: 'short', month: 'short', day: 'numeric' }) + ' (surge exit)</span>'; });
     if (RTb && RTb.warn) mixTag += '<span class="tag sell">downtrend warning: SPY below its 150-day, ' + esc(RTb.warn) + ' rising (info only)</span>';
     var GD = PA && PA.guard;
     if (pm === 'guard' && GD && GD.bear !== GD.prevBear) mixTag += '<span class="tag ' + (GD.bear ? 'sell' : 'buy') + '">bear guard ' + (GD.bear ? 'ON → ' + Math.round(GD.share * 100) + '% of stocks into SPY' : 'OFF → back to the top 5') + '</span>';
@@ -1075,13 +1090,13 @@ __GROWTH__
           (CU.spyGap != null && CU.spyGap < 0 && !crOk ? ' SPY is below its average but credit is calm, so the cushion stays off (a likely false alarm).' : '') +
           (!D.signalDay && CU.previewSplit !== CU.split ? ' If Friday were today it would be ' + CU.previewSplit + ' (SPY ' + pct(CU.previewSpyGap) + ' vs its average, junk vs quality ' + crTxt(CU.previewCredit) + ').' : '') +
           ' The cushion was on in ' + CU.weeksLow + ' of ' + CU.weeks + ' weeks since ' + SINCE + (CU.weeksSpyLow != null ? ' (SPY alone was below its average in ' + CU.weeksSpyLow + ')' : '') + '. Since ' + SINCE + ': ' + pct(P.stats.cushion.annual, 0) + ' a year, worst drop ' + pct(P.stats.cushion.maxDD, 0) + '. ' +
-          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $7.15M after tax (worst drop −51% before tax), vs $8.53M and −60% for Boost 100% and $6.66M for the old SPY-only cushion; from 2020 it beat both (53.7% a year vs 52.8% and 49.4%, worst drop −34% vs −39%). There is no HYG data before 2007, so before then it is the SPY-only rule.' +
+          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $8.37M after tax (worst drop −51% before tax), vs $9.95M and −59% for Boost 100% (both with the surge exit; $7.15M and $8.53M before it) and $6.66M for the old SPY-only cushion; from 2020 it made 54.2% a year vs 53.3% for Boost 100%, worst drop −34% vs −39%. There is no HYG data before 2007, so before then it is the SPY-only rule.' +
           cushionLog(CU) + bxNote(A);
       } else if (A && mix === 'boost100' && A.boost) {
-        $('auto-note').innerHTML = '<b>Boost 100%:</b> the Boost stock list (top 5 + news gaps) with the blow-off exit, always fully in the stocks: no Auto steps into the sleeve when holdings turn down. ' +
+        $('auto-note').innerHTML = '<b>Boost 100%:</b> the Boost stock list (top 5 + news gaps) with the blow-off and surge exits, always fully in the stocks: no Auto steps into the sleeve when holdings turn down. ' +
           'Since ' + SINCE + ': ' + pct(P.stats.boost100.annual, 0) + ' a year, worst drop ' + pct(P.stats.boost100.maxDD, 0) + ', vs ' + pct(P.stats.boost.annual, 0) + ' and ' + pct(P.stats.boost.maxDD, 0) + ' for Boost. ' +
-          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $8.53M after tax vs $1.86M for Boost (and $4.55M for the same plan without the exit, $7.01M with the exit always on); ' +
-          'the cost is deeper drops: about −60% at the worst after tax vs −55%. Only follow it if you would hold through a drop like that.' + bxNote(A);
+          'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $9.95M after tax vs $1.86M for Boost (with the blow-off and surge exits; $8.53M before the surge exit, $4.55M with neither); ' +
+          'the cost is deeper drops: about −57% at the worst after tax vs −55%. Only follow it if you would hold through a drop like that.' + bxNote(A);
       } else if (A && mix === 'boost' && A.boost) {
         var B = A.boost, gl = B.gaps.length ? B.gaps.map(function (g) { return '<b>' + esc(g.t) + '</b> ' + fmtDate(g.d, md) + (g.held ? ' (held)' : ''); }).join(', ') : 'none';
         $('auto-note').innerHTML = '<b>Auto + News boost:</b> the same top 5, but any stock that gapped up ' + Math.round(B.gap * 100) + '%+ on news (opened and closed ' + Math.round(B.gap * 100) +
@@ -1133,7 +1148,7 @@ __GROWTH__
       var pv = A && (kind === 'auto' ? A.preview : kind === 'boost' ? A.boost && A.boost.split : kind === 'cushion' ? A.cushion && A.cushion.previewSplit : A.steps && A.steps.preview);
       return 'set Friday' + (pv ? ' (now ' + pv + ')' : '');
     }
-    var OPTS = [['boost100', 'Follow Boost 100%', 'Boost list + blow-off exit in weak markets, always 100% stocks'], ['cushion', 'Follow Boost + cushion', autoNow('cushion')], ['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
+    var OPTS = [['boost100', 'Follow Boost 100%', 'Boost list + blow-off exit in weak markets + surge exit, always 100% stocks'], ['cushion', 'Follow Boost + cushion', autoNow('cushion')], ['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
                 ['cash', 'No trade', 'sit in cash this week'], ['custom', 'Custom', 'your own stocks / sleeve / cash']];
     $('choices').innerHTML = OPTS.map(function (o) { return '<button type="button" class="choice" role="radio" aria-checked="false" data-m="' + o[0] + '"><b>' + o[1] + '</b><span>' + o[2] + '</span></button>'; }).join('');
     function cuSync() {

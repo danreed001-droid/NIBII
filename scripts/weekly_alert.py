@@ -139,13 +139,16 @@ def build(scan, owner=None):
     if bx.get('sell') or bx.get('buy'):
         xs, xb = bx.get('sell') or [], bx.get('buy') or []
         if (xs, xb) != (sells, buys):
-            blown = set(bx.get('blown') or [])
-            items.append('**If you follow Boost 100% or Boost + cushion (boost list + blow-off exit):** '
-                         + ', '.join([f"sell {t}" + (" (blow-off exit)" if t in blown else "") for t in xs] + [f"buy {t}" for t in xb]))
+            blown, surged = set(bx.get('blown') or []), set(bx.get('surged') or [])
+            items.append('**If you follow Boost 100% or Boost + cushion (boost list + blow-off and surge exits):** '
+                         + ', '.join([f"sell {t}" + (" (blow-off exit)" if t in blown else " (surge exit)" if t in surged else "") for t in xs] + [f"buy {t}" for t in xb]))
             tags.append('boost 100%: ' + ', '.join([f"sell {t}" for t in xs] + [f"buy {t}" for t in xb]))
         cl = call_line(bx, xb, xs)
         if cl:
             items.append(cl)
+    sgl = surge_line(bx)
+    if sgl:
+        items.append(sgl)
     if bx and 'armedAt' in bx and bx.get('armedAt') != bx.get('prevArmed'):
         on = bx['armedAt']
         items.append(f"**Blow-off exit {'ON' if on else 'OFF'}** (Boost 100% and Boost + cushion): "
@@ -253,6 +256,18 @@ def call_line(bx, buys, sells):
             + '; '.join(parts))
 
 
+def surge_line(bx):
+    """Heads-up for surge-exit sales already scheduled (a 5%+ up day on 4x+ volume -> sold a week later)."""
+    g = (bx or {}).get('surge') or {}
+    pend = g.get('pending') or []
+    if not pend:
+        return None
+    return ('**Surge exit scheduled** (Boost 100%, cushion, and Boost + rotation while in stocks): '
+            + '; '.join(f"{p['t']} closed {p['up'] * 100:+.0f}% on {p['x']:.1f}x its normal volume on {fmt(p['d'])}, so it is sold at the close on {fmt(p['sell'])}"
+                        for p in pend)
+            + " unless another rule sells it first. An alert goes out the evening before.")
+
+
 def midweek(scan, owner=None):
     """A Boost + rotation switch or a blow-off exit sale decided at a weekday close other than
     Friday's: it fills at the next close."""
@@ -267,7 +282,7 @@ def midweek(scan, owner=None):
                  + (" except the blow-off sale below." if mw and (mw.get('sell') or mw.get('buy')) else "."), '',
                  rotation_now(rt)]
         if mw and (mw.get('sell') or mw.get('buy')):
-            lines += ['', f"**Boost 100% / cushion blow-off exit, same close:** "
+            lines += ['', f"**Boost 100% / cushion exit, same close:** "
                       + ', '.join([f"sell {t}" for t in mw.get('sell') or []] + [f"buy {t}" for t in mw.get('buy') or []])]
         lines += ['', f"Details: {PAGE}", '',
                   (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
@@ -282,17 +297,26 @@ def midweek(scan, owner=None):
             what = f"SPY downtrend below its 150-day, {rt['warn']} rising" if wl else "SPY RSI broke its support line"
             return f"Warning {fmt(scan['asOf'])}: {what}"[:240], '\n'.join(lines) + '\n'
         return None
-    blown = set(mw.get('blown') or [])
-    acts = [f"sell {t}" + (" (blow-off exit)" if t in blown else "") for t in mw.get('sell') or []] + [f"buy {t}" for t in mw.get('buy') or []]
+    blown, surged = set(mw.get('blown') or []), set(mw.get('surged') or [])
+    acts = [f"sell {t}" + (" (blow-off exit)" if t in blown else " (surge exit)" if t in surged else "") for t in mw.get('sell') or []] + [f"buy {t}" for t in mw.get('buy') or []]
+    g = bx.get('surge') or {}
+    why = []
+    if blown:
+        why.append(f"The blow-off exit fired at today's close ({fmt(scan['asOf'])}): the sold stock's last month's gain is more than "
+                   f"{bx.get('mult', 2):g}x its gain over the 5 months before. The exit is on because SPY is below its "
+                   f"{bx.get('ma', 150)}-day average.")
+    if surged:
+        why.append(f"The surge exit fired at today's close ({fmt(scan['asOf'])}): {', '.join(sorted(surged))} closed "
+                   f"{g.get('up', 0.05) * 100:.0f}%+ up on at least {g.get('vol', 4):g}x its 50-day average volume {g.get('delay', 5)} trading days ago.")
+    if not why:
+        why.append(f"A Boost 100% exit fired at today's close ({fmt(scan['asOf'])}).")
     lines = [f"**Trade at the close on {fmt(mw['date'])}:** Boost 100%, Boost + cushion, and Boost + rotation while it holds stocks: " + ', '.join(acts), '',
-             f"The blow-off exit fired at today's close ({fmt(scan['asOf'])}): the sold stock's last month's gain is more than "
-             f"{bx.get('mult', 2):g}x its gain over the 5 months before. The exit is on because SPY is below its "
-             f"{bx.get('ma', 150)}-day average. Swap the same dollar amount; the rest of the account stays as it is.",
+             ' '.join(why) + " Swap the same dollar amount; the rest of the account stays as it is.",
              *(['', call_line(bx, mw.get('buy') or [], mw.get('sell') or [])] if call_line(bx, mw.get('buy') or [], mw.get('sell') or []) else []),
              '', "Auto, Boost and Steps: nothing to do." + (f" Boost + rotation is out of stocks ({rt['mode']}): nothing to do." if rt.get('mode') and rt['mode'] != 'boost' else " Boost + rotation (in the Boost list): make the same swap."), '',
              f"Details: {PAGE}", '',
              (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
-    title = f"Trade {fmt(mw['date'])}: Boost 100% / cushion blow-off exit: " + ', '.join(acts)
+    title = f"Trade {fmt(mw['date'])}: Boost 100% / cushion {'surge' if surged and not blown else 'blow-off'} exit: " + ', '.join(acts)
     return title[:240], '\n'.join(lines) + '\n'
 
 

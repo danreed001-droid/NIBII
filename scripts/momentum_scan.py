@@ -37,7 +37,7 @@ from datetime import date, datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
-from mtl.momentum import blowoff_exit, last_sessions_of_weeks, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
+from mtl.momentum import blowoff_exit, last_sessions_of_weeks, surge_exit, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.heat import daily_closes, daily_heat, price_volume, weekly_heat  # noqa: E402
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
@@ -68,6 +68,7 @@ STEPS = {0: 1.0, 1: 0.8, 2: 0.6}        # steps: 1 down -> 80/20, 2 -> 60/40, 3+
 STEPS_MIN = 0.4
 BLOWOFF = 2.0                          # blow-off exit for Boost 100% / Boost + cushion (mtl.momentum.blowoff_exit)
 BLOWOFF_MA = 150                       # ... only while SPY closes below its 150-session average
+SURGE_UP, SURGE_VOL, SURGE_DELAY = 0.05, 4.0, 5   # surge exit (mtl.momentum.surge_exit): a 5%+ up day on 4x+ volume -> sold 5 sessions later
 CUSHION, CUSHION_MA = 0.75, 150      # Boost + cushion: 25% in the sleeve while SPY closes below its 150-session average
 REVISIONS_LOG = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'revisions_log.json')
 CREDIT_LOOK = 21                       # ... and junk bonds (HYG) lagged quality bonds (LQD) over the last 21 sessions
@@ -429,7 +430,11 @@ def main():
     # Boost 100% and Boost + cushion: the Boost list with the blow-off exit (a holding whose last
     # month's gain is more than BLOWOFF times the 5 months before it is sold and barred for 4 weeks),
     # switched on only in a weak market (SPY below its BLOWOFF_MA-session average)
-    rbx, hold_bx, after_bx = boost_run(lambda cal_: dict(hold_exit=blowoff_exit(prices, cal_, BLOWOFF, market='SPY', ma=BLOWOFF_MA)))
+    # ... plus the surge exit: a holding that closes 5%+ up on 4x+ its 50-day volume is sold a week (5 sessions) later
+    def bx_exit(cal_):
+        blow_, surge_ = blowoff_exit(prices, cal_, BLOWOFF, market='SPY', ma=BLOWOFF_MA), surge_exit(prices, volumes, cal_, SURGE_UP, SURGE_VOL, SURGE_DELAY)
+        return dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e))
+    rbx, hold_bx, after_bx = boost_run(bx_exit)
     picks_bx = rbx['picks']
 
     strat = [[d, v] for d, v, _ in r['curve']]
@@ -659,6 +664,33 @@ def main():
         i = bisect_right(pick_days_bx, d_) - 1
         return picks_bx[i][1] if i >= 0 else []
     blow_now = blowoff_exit(prices, calendar, BLOWOFF, market='SPY', ma=BLOWOFF_MA)
+    surge_now = surge_exit(prices, volumes, calendar, SURGE_UP, SURGE_VOL, SURGE_DELAY)
+
+    def surge_info(t, j):   # one surge day: date, % up, volume vs its 50-day average
+        px_, vol_ = prices.get(t, {}), volumes.get(t, {})
+        w_ = [vol_.get(calendar[i_]) for i_ in range(j - 50, j) if vol_.get(calendar[i_])]
+        return dict(t=t, d=calendar[j], up=r4(px_[calendar[j]] / px_[calendar[j - 1]] - 1), x=round(vol_[calendar[j]] / (sum(w_) / len(w_)), 1))
+
+    def sessions_ahead(n):   # the weekday n sessions after as_of (holidays not counted)
+        d_ = date.fromisoformat(as_of)
+        while n > 0:
+            d_ += timedelta(days=1)
+            if d_.weekday() < 5:
+                n -= 1
+        return d_.isoformat()
+    # holdings with a surge in the last SURGE_DELAY sessions while held: sold on the scheduled day unless an
+    # earlier rule sells them first
+    surge_pending = []
+    for t in after_bx:
+        for j in sorted(surge_now.events(t)):
+            if K - SURGE_DELAY < j <= K and t in held_at_bx(calendar[j]):
+                surge_pending.append(dict(surge_info(t, j), sell=sessions_ahead(j + SURGE_DELAY - K)))
+    surge_log = []   # surge days of stocks held at the time, last 6 months (most recent first)
+    for t in sorted({x for p_ in picks_bx for x in p_[1]}):
+        for j in surge_now.events(t):
+            if j >= K - 126 and t in held_at_bx(calendar[j]):
+                surge_log.append(surge_info(t, j))
+    surge_log.sort(key=lambda x: x['d'], reverse=True)
     armed_bx = market_armed(prices, calendar, 'SPY', ma=BLOWOFF_MA)
     spy_ma = sum(spy_px[calendar[k_]] for k_ in range(K - BLOWOFF_MA + 1, K + 1)) / BLOWOFF_MA
     last_flip = next((calendar[k_] for k_ in range(K, 0, -1) if armed_bx[k_] != armed_bx[k_ - 1]), None)
@@ -675,6 +707,8 @@ def main():
         armedWeeks=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and armed_bx[kidx[f_]]),
         holdings=after_bx, prev=hold_bx, sell=sold_bx, buy=[t for t in after_bx if t not in hold_bx],
         blown=[t for t in sold_bx if blow_now(t, K)],
+        surged=[t for t in sold_bx if surge_now(t, K) and not blow_now(t, K)],
+        surge=dict(up=SURGE_UP, vol=SURGE_VOL, delay=SURGE_DELAY, pending=surge_pending, log=surge_log[:10]),
         boosted=[t for t in after_bx if t not in (preview if signal_day else holdings)],
         replaced=[t for t in (preview if signal_day else holdings) if t not in after_bx],
         gaps=[dict(t=t, d=d_, n=names.get(t, ('', ''))[0], held=t in after_bx) for t, d_ in sorted(news_now.items(), key=lambda x: x[1], reverse=True)],
@@ -702,7 +736,8 @@ def main():
             nd_ += timedelta(days=1)
         auto['boostx']['midweek'] = dict(
             date=nd_.isoformat(), sell=[t for t in hold_bx if t not in pend_bx], buy=[t for t in pend_bx if t not in hold_bx],
-            blown=[t for t in hold_bx if t not in pend_bx and blow_now(t, K)])
+            blown=[t for t in hold_bx if t not in pend_bx and blow_now(t, K)],
+            surged=[t for t in hold_bx if t not in pend_bx and surge_now(t, K) and not blow_now(t, K)])
         for t in auto['boostx']['midweek']['buy']:
             auto['boostx']['calls'][t] = call_for(t)
     auto['cushion'] = dict(share=CUSHION, split=split_key(cushion_split(sig_d)), prevSplit=split_key(cushion_split(prev_d)),
