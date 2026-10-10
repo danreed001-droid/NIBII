@@ -198,6 +198,32 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .filters input, .filters select { font: inherit; font-size: 0.85rem; background: var(--surface); color: var(--ink); border: 1px solid var(--hairline); border-radius: 8px; padding: 7px 10px; min-width: 0; }
 .filters input { flex: 1 1 200px; }
 .count { font-size: 0.78rem; color: var(--muted); margin-left: auto; }
+/* 3D price-volume chart */
+.pv { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 14px 14px 12px; margin-bottom: 18px; }
+.pv-bar { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 8px; }
+.pv-group { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.pv-group > span { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-right: 2px; }
+.pv button { font: inherit; font-size: 0.78rem; border: 1px solid var(--hairline); background: transparent; color: var(--ink-2);
+  border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.pv button:hover { border-color: var(--muted); color: var(--ink); }
+.pv button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.pv button.tk { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.74rem; }
+.pv button.tk.held { border-color: color-mix(in srgb, var(--gold) 70%, var(--hairline)); }
+.pv button.tk sup { color: var(--muted); font-size: 0.6rem; margin-left: 2px; }
+.pv button.tk[aria-pressed="true"] sup { color: inherit; opacity: 0.7; }
+.pv-stage { position: relative; border-radius: 10px; overflow: hidden; background: var(--surface-2); }
+.pv-plot { width: 100%; height: min(68vh, 560px); min-height: 360px; }
+.pv-wait { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 0.85rem; pointer-events: none; }
+.pv-hint { position: absolute; left: 12px; bottom: 8px; font-size: 0.72rem; color: var(--muted); pointer-events: none; }
+.pv-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px 12px; margin-top: 10px; }
+.pv-stat { border-top: 1px solid var(--hairline); padding-top: 6px; min-width: 0; }
+.pv-stat .k { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.pv-stat .v { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 0.98rem; margin-top: 2px; }
+.pv-stat .s { font-size: 0.74rem; color: var(--ink-2); }
+.pv .pos { color: var(--pos); } .pv .neg { color: var(--neg); }
+.pv-note { font-size: 0.8rem; color: var(--muted); margin: 10px 2px 0; line-height: 1.5; }
+.pv-note i { display: inline-block; width: 12px; height: 3px; border-radius: 2px; vertical-align: middle; margin: 0 3px 0 1px; }
+
 /* weekly rank heatmap */
 .heatbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; font-size: 0.8rem; color: var(--muted); }
 .heatbar .hkey { display: inline-flex; align-items: center; gap: 6px; }
@@ -482,6 +508,34 @@ __OVLIB__
   <div class="heatbox"><table class="heat" id="dheat"></table></div>
   <div class="udtrend" id="dheat-trend" aria-label="Share of stocks up over time"></div>
   <p class="heatnote" id="dheat-note">Hover or tap a cell for details. On a phone, swipe the table sideways.</p>
+
+  <p class="section-label">Price, volume and time in 3D <span class="hint" id="pv-hint">last 6 months, daily · drag to rotate</span></p>
+  <div class="pv" id="pv">
+    <div class="pv-bar">
+      <div class="pv-group" role="group" aria-label="Top 10 picks" id="pv-top"><span>Top 10</span></div>
+      <div class="pv-group" role="group" aria-label="Other tickers" id="pv-oth"><span>Others</span></div>
+    </div>
+    <div class="pv-bar">
+      <div class="pv-group" role="group" aria-label="Volume shape" id="pv-shape"><span>Volume as</span>
+        <button type="button" data-shape="poles" aria-pressed="true">Poles</button>
+        <button type="button" data-shape="wall" aria-pressed="false">Wall</button></div>
+      <div class="pv-group" role="group" aria-label="View" id="pv-views"><span>View</span>
+        <button type="button" data-view="3d" aria-pressed="true">3D</button>
+        <button type="button" data-view="top" aria-pressed="false">From above: price</button>
+        <button type="button" data-view="front" aria-pressed="false">Front: volume over time</button>
+        <button type="button" data-view="side" aria-pressed="false">Side: volume by price</button>
+        <button type="button" id="pv-spin" aria-pressed="false">Spin</button></div>
+    </div>
+    <div class="pv-stage">
+      <div class="pv-plot" id="pv-plot" role="img" aria-label="3D chart of daily price and volume"></div>
+      <div class="pv-wait" id="pv-wait">Loading the 3D chart…</div>
+      <div class="pv-hint">Drag to rotate · scroll or pinch to zoom · hover a point for the day</div>
+    </div>
+    <div class="pv-stats" id="pv-stats"></div>
+    <p class="pv-note">x = time, y = price, z = volume (millions of shares). The grey line on the floor is the price chart; each day stands on it as a pole as tall as that day's volume:
+      <i style="background:var(--pos)"></i>green = closed up, <i style="background:var(--neg)"></i>red = closed down. <b>Wall</b> joins the poles into one surface.
+      <b>From above</b> = a price chart, <b>Front</b> = volume over time, <b>Side</b> = volume by price level. Gold-edged = held now; the small number is the current rank.</p>
+  </div>
 
 __GROWTH__
   <p class="section-label">Top 100 ranking <span class="hint">trend = weekly / daily swing structure</span></p>
@@ -1728,6 +1782,139 @@ __GROWTH__
   }
   heatmap(D.heat, 'heat');
   heatmap(D.dheat, 'dheat');
+
+  // 3D price-volume chart: x = trading day, y = close, z = volume; Plotly is loaded only when the section comes into view
+  (function () {
+    var PV = D.pv3d, box = $('pv');
+    if (!box) return;
+    if (!PV || !PV.tickers || !PV.tickers.length) { box.hidden = true; box.previousElementSibling.hidden = true; return; }
+    var plot = $('pv-plot'), wait = $('pv-wait'), ticker = PV.tickers[0].t, view = '3d', shape = 'poles', spinning = false, spinT = null, loaded = false;
+    try { var s0 = localStorage.getItem('nibii-pv-t'); if (s0 && PV.tickers.some(function (x) { return x.t === s0; })) ticker = s0;
+          var s1 = localStorage.getItem('nibii-pv-shape'); if (s1 === 'wall' || s1 === 'poles') shape = s1; } catch (e) {}
+    var CAMS = {
+      '3d': { eye: { x: -0.95, y: -2.15, z: 0.9 }, up: { x: 0, y: 0, z: 1 }, center: { x: 0, y: 0, z: -0.12 }, projection: { type: 'perspective' } },
+      top: { eye: { x: 0, y: 0, z: 2.4 }, up: { x: 0, y: 1, z: 0 }, center: { x: 0, y: 0, z: 0 }, projection: { type: 'orthographic' } },
+      front: { eye: { x: 0, y: -2.4, z: 0 }, up: { x: 0, y: 0, z: 1 }, center: { x: 0, y: 0, z: 0 }, projection: { type: 'orthographic' } },
+      side: { eye: { x: 2.4, y: 0, z: 0 }, up: { x: 0, y: 0, z: 1 }, center: { x: 0, y: 0, z: 0 }, projection: { type: 'orthographic' } } };
+    var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    function narrow() { return plot.clientWidth < 600; }
+    function cam(v) { var c = JSON.parse(JSON.stringify(CAMS[v])); if (v === '3d' && narrow()) c.eye = { x: c.eye.x * 1.45, y: c.eye.y * 1.45, z: c.eye.z * 1.3 }; return c; }
+    function tok(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+    function fd(s) { return fmtDate(s, { month: 'short', day: 'numeric', year: 'numeric' }); }
+    function pc(v) { return (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%'; }
+    function cur() { return PV.tickers.filter(function (x) { return x.t === ticker; })[0]; }
+    // ticker buttons: top 10 in rank order (gold edge = held now), then the reference tickers
+    PV.tickers.forEach(function (x) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'tk' + (x.held ? ' held' : '');
+      b.textContent = x.t; b.setAttribute('data-t', x.t); b.title = x.n + (x.rank ? ' · rank ' + x.rank : '') + (x.held ? ' · held now' : '');
+      if (x.rank) { var r = document.createElement('sup'); r.textContent = x.rank; b.appendChild(r); }
+      b.addEventListener('click', function () { ticker = x.t; try { localStorage.setItem('nibii-pv-t', ticker); } catch (e) {} mark(); draw(); });
+      $(x.rank ? 'pv-top' : 'pv-oth').appendChild(b);
+    });
+    function mark() {
+      box.querySelectorAll('button.tk').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-t') === ticker)); });
+      box.querySelectorAll('#pv-shape button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-shape') === shape)); });
+      box.querySelectorAll('#pv-views button[data-view]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-view') === view)); });
+    }
+    function rows() {
+      var X = cur(), out = [];
+      for (var i = 1; i < PV.days.length; i++) {
+        var c = X.close[i], p = X.close[i - 1], v = X.vol[i];
+        if (c == null || v == null) continue;
+        out.push({ d: PV.days[i], c: c, v: v / 1e6, ch: p ? c / p - 1 : 0 });
+      }
+      return out;
+    }
+    function stats(S) {
+      var X = cur(), first = null; for (var i = 0; i < X.close.length; i++) if (X.close[i] != null) { first = X.close[i]; break; }
+      if (!S.length) { $('pv-stats').innerHTML = ''; return; }
+      var last = S[S.length - 1], chg = last.c / first - 1, avg = S.reduce(function (a, r) { return a + r.v; }, 0) / S.length;
+      var big = S.reduce(function (a, r) { return r.v > a.v ? r : a; }, S[0]), up = S.filter(function (r) { return r.ch >= 0; }), dn = S.filter(function (r) { return r.ch < 0; });
+      function mean(a) { return a.reduce(function (s, r) { return s + r.v; }, 0) / (a.length || 1); }
+      var it = [['Last close', '$' + last.c.toFixed(2), fd(last.d)],
+        ['6-month change', '<span class="' + (chg >= 0 ? 'pos' : 'neg') + '">' + pc(chg) + '</span>', 'from $' + first.toFixed(2)],
+        ['Average volume', avg.toFixed(1) + 'M', 'shares a day'],
+        ['Heaviest day', big.v.toFixed(1) + 'M', fd(big.d) + ' · <span class="' + (big.ch >= 0 ? 'pos' : 'neg') + '">' + pc(big.ch) + '</span> · ' + (big.v / avg).toFixed(1) + '× average'],
+        ['Up / down days', up.length + ' / ' + dn.length, 'avg volume ' + mean(up).toFixed(1) + 'M vs ' + mean(dn).toFixed(1) + 'M']];
+      $('pv-stats').innerHTML = it.map(function (x) { return '<div class="pv-stat"><div class="k">' + x[0] + '</div><div class="v">' + x[1] + '</div><div class="s">' + x[2] + '</div></div>'; }).join('');
+    }
+    function traces(S) {
+      var up = tok('--pos'), dn = tok('--neg'), fl = tok('--muted'), X = S.map(function (r, n) { return n; });   // day number (big timestamps break WebGL precision)
+      var Y = S.map(function (r) { return r.c; }), Z = S.map(function (r) { return r.v; });
+      var out = [{ type: 'scatter3d', mode: 'lines', x: X, y: Y, z: S.map(function () { return 0; }), line: { color: fl, width: 5 }, hoverinfo: 'skip' }];
+      if (shape === 'wall') {
+        var vx = [], vy = [], vz = [], fi = [], fj = [], fk = [], fc = [];
+        S.forEach(function (r, n) { vx.push(n, n); vy.push(r.c, r.c); vz.push(0, r.v); });
+        for (var n = 0; n + 1 < S.length; n++) { var b0 = 2 * n, col = S[n + 1].ch >= 0 ? up : dn; fi.push(b0, b0); fj.push(b0 + 1, b0 + 3); fk.push(b0 + 3, b0 + 2); fc.push(col, col); }
+        out.push({ type: 'mesh3d', x: vx, y: vy, z: vz, i: fi, j: fj, k: fk, facecolor: fc, flatshading: true,
+          lighting: { ambient: 0.85, diffuse: 0.35, specular: 0.05, roughness: 0.9, fresnel: 0.05 }, hoverinfo: 'skip', showscale: false });
+        out.push({ type: 'scatter3d', mode: 'lines', x: X, y: Y, z: Z, line: { color: tok('--ink-2'), width: 2 }, hoverinfo: 'skip' });
+      } else {
+        [[function (r) { return r.ch >= 0; }, up], [function (r) { return r.ch < 0; }, dn]].forEach(function (g) {
+          var x = [], y = [], z = [];
+          S.forEach(function (r, n) { if (g[0](r)) { x.push(n, n, null); y.push(r.c, r.c, null); z.push(0, r.v, null); } });
+          out.push({ type: 'scatter3d', mode: 'lines', x: x, y: y, z: z, line: { color: g[1], width: 4 }, hoverinfo: 'skip', connectgaps: false });
+        });
+      }
+      out.push({ type: 'scatter3d', mode: 'markers', x: X, y: Y, z: Z, marker: { size: shape === 'wall' ? 2.4 : 3.2, color: S.map(function (r) { return r.ch >= 0 ? up : dn; }), line: { width: 0 } },
+        text: S.map(function (r) { return fd(r.d) + '<br>close $' + r.c.toFixed(2) + ' (' + pc(r.ch) + ')<br>volume ' + r.v.toFixed(1) + 'M'; }), hovertemplate: '%{text}<extra></extra>' });
+      return out;
+    }
+    function axis(title, extra) {
+      var ink = tok('--ink-2'), grid = tok('--hairline');
+      return Object.assign({ title: { text: title, font: { size: 12, color: ink } }, color: ink, gridcolor: grid, zerolinecolor: grid, showbackground: true,
+        backgroundcolor: tok('--surface'), tickfont: { size: 10, color: tok('--muted') }, showspikes: false }, extra || {});
+    }
+    function layout(S) {
+      var tv = [], tt = [];
+      S.forEach(function (r, n) { if (n > 0 && r.d.slice(5, 7) !== S[n - 1].d.slice(5, 7)) { tv.push(n); tt.push(MON[+r.d.slice(5, 7) - 1]); } });
+      return { paper_bgcolor: tok('--surface-2'), plot_bgcolor: tok('--surface-2'), margin: { l: 0, r: 0, t: 0, b: 0 }, showlegend: false,
+        font: { color: tok('--ink-2') },
+        hoverlabel: { bgcolor: tok('--surface'), bordercolor: tok('--hairline'), font: { color: tok('--ink'), size: 12 } },
+        scene: { xaxis: axis('Time', { tickmode: 'array', tickvals: tv, ticktext: tt, range: [-1, S.length] }), yaxis: axis('Price ($)', { tickprefix: '$' }),
+          zaxis: axis('Volume (M)', { rangemode: 'tozero' }),
+          aspectmode: 'manual', aspectratio: narrow() ? { x: 1.35, y: 0.9, z: 0.8 } : { x: 2.1, y: 1, z: 0.85 }, camera: cam(view), dragmode: 'turntable' } };
+    }
+    function draw() {
+      var S = rows(); stats(S);
+      if (!loaded) return;
+      Plotly.react(plot, traces(S), layout(S), { responsive: true, displaylogo: false, modeBarButtonsToRemove: ['toImage', 'resetCameraLastSave3d'] });
+    }
+    function setView(v) {
+      view = v; stopSpin(); mark();
+      if (!loaded) return;
+      var p0 = plot._fullLayout && plot._fullLayout.scene ? plot._fullLayout.scene.camera.projection.type : 'perspective';
+      if (p0 !== CAMS[v].projection.type) { Plotly.purge(plot); draw(); }   // the wall (mesh) needs a fresh scene when the camera type changes
+      else Plotly.relayout(plot, { 'scene.camera': cam(v) });
+    }
+    box.querySelectorAll('#pv-views button[data-view]').forEach(function (b) { b.addEventListener('click', function () { setView(b.getAttribute('data-view')); }); });
+    box.querySelectorAll('#pv-shape button').forEach(function (b) { b.addEventListener('click', function () {
+      shape = b.getAttribute('data-shape'); try { localStorage.setItem('nibii-pv-shape', shape); } catch (e) {} mark();
+      if (loaded) { var c = plot._fullLayout.scene.camera; draw(); Plotly.relayout(plot, { 'scene.camera': c }); } }); });
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function stopSpin() { spinning = false; clearInterval(spinT); $('pv-spin').setAttribute('aria-pressed', 'false'); }
+    $('pv-spin').addEventListener('click', function () {
+      if (spinning || !loaded) { stopSpin(); return; }
+      if (view !== '3d') setView('3d');
+      spinning = true; this.setAttribute('aria-pressed', 'true');
+      var e = plot._fullLayout.scene.camera.eye, r = Math.sqrt(e.x * e.x + e.y * e.y), a = Math.atan2(e.y, e.x);
+      spinT = setInterval(function () { a += reduce ? 0.02 : 0.012; Plotly.relayout(plot, { 'scene.camera.eye': { x: r * Math.cos(a), y: r * Math.sin(a), z: e.z } }); }, reduce ? 120 : 40);
+    });
+    plot.addEventListener('pointerdown', function () { if (spinning) stopSpin(); });
+    new MutationObserver(function () { if (loaded) { Plotly.purge(plot); draw(); } }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-mtl-theme'] });
+    mark(); stats(rows());
+    function load() {
+      if (loaded || load.started) return; load.started = true;
+      var sc = document.createElement('script'); sc.src = 'https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js';
+      sc.onload = function () { loaded = true; wait.hidden = true; draw(); };
+      sc.onerror = function () { wait.textContent = 'The 3D chart library did not load. Check the connection and reload the page.'; load.started = false; };
+      document.head.appendChild(sc);
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) { if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); load(); } }, { rootMargin: '400px' });
+      io.observe(box);
+    } else load();
+  })();
 
   // the weekly grid's top 15 as lines on one chart: daily closes (~6 months), or the grid's weekly closes
   // when the scan predates the daily ones; the stocks held now get a colour, the rest stay grey
