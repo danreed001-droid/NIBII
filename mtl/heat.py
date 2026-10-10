@@ -99,3 +99,12 @@ def daily_heat(prices, calendar, tickers, days=30, norm_days=63, extra=(), bread
     out['unit'] = 'day'
     out['extra'] = [t for t in extra if t in tickers]
     return out
+
+
+def daily_closes(prices, calendar, tickers, days=126):
+    """The last `days` sessions (plus the base session before them) of each ticker's daily
+    closes, for the scanner's overlay chart over the weekly grid:
+    {"days": [dates], "closes": {ticker: [close or None]}}."""
+    cal = calendar[-(days + 1):]
+    return dict(days=list(cal), closes={t: [round(prices[t][d], 4) if prices.get(t, {}).get(d) is not None else None for d in cal]
+                                         for t in tickers})

@@ -64,3 +64,12 @@ def test_daily_heat_ranks_each_session():
     assert [c[:2] for c in h['cells']['B']] == [[-0.02, 2], [0.0408, 1]]
     assert h['extra'] == ['B'] and h['partial'] is False
     assert h['breadth'] == [0.5, 0.5] and h['breadthN'] == 2
+
+
+def test_daily_closes_for_the_overlay_chart():
+    from mtl.heat import daily_closes
+    cal = [f'2026-01-{d:02d}' for d in range(5, 10)]
+    out = daily_closes({'A': {d: 10.0 + i for i, d in enumerate(cal)}, 'B': {cal[-1]: 5.0}}, cal, ['A', 'B', 'C'], days=3)
+    assert out['days'] == cal[-4:]                                   # 3 sessions + the base day
+    assert out['closes']['A'] == [11.0, 12.0, 13.0, 14.0] and out['closes']['B'] == [None, None, None, 5.0]
+    assert out['closes']['C'] == [None] * 4

@@ -38,7 +38,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
 from mtl.momentum import blowoff_exit, last_sessions_of_weeks, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
-from mtl.heat import daily_heat, weekly_heat  # noqa: E402
+from mtl.heat import daily_closes, daily_heat, weekly_heat  # noqa: E402
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
@@ -783,7 +783,8 @@ def main():
         trades=[dict(d=d_, side=s, t=t, n=names.get(t, ('', ''))[0], px=r4(prices[t].get(d_)))
                 for d_, s, t in trades[-24:]][::-1],
         table=table,
-        heat=weekly_heat(prices, calendar, [t for t, _ in now[:15]], breadth=[t for t in prices if t != 'SPY']),   # top 15's weekly ranks, last 26 weeks
+        heat=dict(weekly_heat(prices, calendar, [t for t, _ in now[:15]], breadth=[t for t in prices if t != 'SPY']),   # top 15's weekly ranks, last 26 weeks
+                  daily=daily_closes(prices, calendar, [t for t, _ in now[:15]])),   # their daily closes, ~6 months, for the overlay chart
         dheat=daily_heat(prices, calendar, [t for t, _ in now[:30]] + [t for t in HEAT_EXTRA if t in prices and t not in dict(now[:30])],
                          extra=[t for t in HEAT_EXTRA if t not in dict(now[:30])], breadth=[t for t in prices if t != 'SPY']),   # top 30 + a few large caps, last 30 days
         curves={k: [[d_, round(v, 2)] for d_, v in c] for k, c in curves.items()},   # daily: the page filters by date range
