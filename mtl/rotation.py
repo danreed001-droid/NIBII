@@ -38,6 +38,14 @@ the worst drop -31% vs -39%. The thresholds were picked on that same history.
    sessions, skipping any whose weekly structure is a downtrend (T-bills if none is up).
    It was on about 5% of the time (late 2008, late 2011, late 2015, late 2018, 2022).
 
+4. Rate/gold regime. When the 10-year Treasury yield and gold are both higher than
+   REGIME_LOOK sessions ago (an inflationary boom), the whipsaw half-switch is skipped and
+   the plan stays fully in the Boost list: bonds tend to lose in that regime, so moving half
+   into them was a drag. Default from Oct 10, 2026: 33.7% a year before tax (21.9% after)
+   vs 33.4% (21.7%), worst drop -41% for both; from 2010 29.1% vs 28.8%, from 2016 38.1%
+   vs 37.5%, from 2020 57.2% vs 55.8%. Also held with a 6-month look (33.7%, 29.1%, 56.9%); faded with a 1-month look.
+   A small gain from one more rule, so it is on probation until live results back it.
+
 Pure and network-free: bars are {ticker: [(date, open, high, low, close), ...]} oldest
 first (dividend-adjusted), calendar is the trading days.
 """
@@ -58,6 +66,7 @@ WHIP_MIN = 6          # sales needed in that window before it can switch on
 WHIP_LOSS = 0.65      # share of those sales below their buy price that switches it on
 WHIP_PCT = 63         # sessions of % change used to pick the half-switch asset
 WHIP_ASSETS = ('TLT', 'GLD', 'SPY')
+REGIME_LOOK = 63      # sessions over which the 10-year yield and gold must both be up to skip the half-switch
 
 
 def weekly(daily):
@@ -297,12 +306,30 @@ def whip_pick(R, closes, calendar, k, assets=WHIP_ASSETS, look=WHIP_PCT):
     return best, chg
 
 
-def whip_halves(modes, whip, R, closes, calendar, assets=WHIP_ASSETS, look=WHIP_PCT):
+def reflation(rate, gold, calendar, look=REGIME_LOOK):
+    """{date: True/False/None}: the 10-year yield (rate: {date: yield}) and gold ({date: close})
+    both higher than `look` sessions earlier, each carried forward over missing days; None
+    while either reading is missing."""
+    out, r, g, hr, hg = {}, None, None, [], []
+    for d in calendar:
+        r, g = rate.get(d, r), gold.get(d, g)
+        hr.append(r)
+        hg.append(g)
+    for k, d in enumerate(calendar):
+        if k < look or None in (hr[k], hr[k - look], hg[k], hg[k - look]):
+            out[d] = None
+        else:
+            out[d] = hr[k] > hr[k - look] and hg[k] > hg[k - look]
+    return out
+
+
+def whip_halves(modes, whip, R, closes, calendar, assets=WHIP_ASSETS, look=WHIP_PCT, skip=None):
     """{date: asset} for the days the plan is in the Boost list and the whipsaw check is on:
-    half the account goes into that asset (see whip_pick)."""
-    kidx = {d: i for i, d in enumerate(calendar)}
+    half the account goes into that asset (see whip_pick). skip: {date: True} for days the
+    half-switch stands aside (the reflation regime) and the plan stays fully in the Boost list."""
+    kidx, skip = {d: i for i, d in enumerate(calendar)}, skip or {}
     return {d: whip_pick(R, closes, calendar, kidx[d], assets, look)[0]
-            for d, m in modes.items() if m == 'boost' and whip.get(d)}
+            for d, m in modes.items() if m == 'boost' and whip.get(d) and not skip.get(d)}
 
 
 def whip_log(whip, half, calendar, n=8):

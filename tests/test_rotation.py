@@ -120,3 +120,31 @@ def test_curve_holds_half_in_the_whipsaw_asset():
     c = rotation_curve(boost, px, cal, modes, cost=0.0, half={cal[0]: 'GLD', cal[1]: 'GLD', cal[2]: 'GLD'})
     # from day 1's close half Boost, half gold: day 2 Boost +20% -> +10%; day 3 gold +50% -> +25%
     assert abs(c[2][1] - 1.1) < 1e-12 and abs(c[3][1] - 1.1 * 1.25) < 1e-12
+
+
+def test_reflation_needs_the_yield_and_gold_both_up():
+    from mtl.rotation import reflation
+    cal = days(10)
+    rate = {d: 4.0 + 0.1 * i for i, d in enumerate(cal)}               # yield climbing
+    gold = {d: 100.0 + i for i, d in enumerate(cal)}                    # gold climbing
+    r = reflation(rate, gold, cal, look=3)
+    assert r[cal[2]] is None and r[cal[3]] is True and r[cal[-1]] is True
+    falling = {d: 100.0 - i for i, d in enumerate(cal)}
+    assert not any(reflation(rate, falling, cal, look=3)[d] for d in cal[3:])
+    # a missing yield reading is carried forward from the last one
+    gap = {d: v for d, v in rate.items() if d != cal[5]}
+    assert reflation(gap, gold, cal, look=3)[cal[5]] is True
+
+
+def test_whip_halves_stand_aside_in_the_reflation_regime():
+    from mtl.rotation import whip_halves
+    cal = days(400)
+    bars = {'SPY': zigzag(cal, 0.001), 'TLT': zigzag(cal, -0.003), 'GLD': zigzag(cal, 0.002)}
+    R = Reader(bars)
+    closes = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items()}
+    last = cal[-3:]
+    modes = {d: 'boost' for d in last}
+    on = {d: True for d in last}
+    assert whip_halves(modes, on, R, closes, cal, look=63) == {d: 'GLD' for d in last}
+    half = whip_halves(modes, on, R, closes, cal, look=63, skip={last[1]: True})
+    assert last[1] not in half and half[last[0]] == half[last[2]] == 'GLD'
