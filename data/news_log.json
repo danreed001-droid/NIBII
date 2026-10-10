@@ -2577,5 +2577,45 @@
       "time": "Market hours",
       "vsExp": "Below expectations (miss)"
     }
+  },
+  {
+    "id": "2026-10-10-1-houthis-hit-riyadh-airport-again-trump-weighs-joining",
+    "data": {
+      "addedAt": "2026-10-10",
+      "category": "Geopolitics",
+      "date": "2026-10-10",
+      "day": "Sat",
+      "direction": "Bearish",
+      "event": "Houthis strike Riyadh's King Khalid International Airport for a second straight day, forcing another evacuation and a full suspension of operations; Trump says the US \"may\" join Saudi airstrikes on the Houthis and will decide \"very quickly\"",
+      "impact": "High",
+      "numbers": "~324 flight cancellations (FlightAware); airport operations suspended; markets closed for the weekend",
+      "order": 1,
+      "reaction": "State Dept condemned the \"Houthi terrorist attacks against civilian infrastructure and airports\"; US embassy urged citizens to avoid the airport; compounds Friday's deadly Riyadh airport attack and adds a fresh escalation/supply-risk premium heading into Monday's open, with explicit US strike involvement now in play",
+      "region": "Saudi Arabia / US",
+      "source": "https://www.cbsnews.com/live-updates/iran-war-trump-us-elections-saudi-arabia-yemen-houthis/",
+      "tickers": "USO, BNO, XLE, 2222.SE, ITA, LMT, RTX",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-10-2-putin-relays-irans-peace-terms-to-trump",
+    "data": {
+      "addedAt": "2026-10-10",
+      "category": "Geopolitics",
+      "date": "2026-10-10",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Kremlin says Putin relayed Iran's views on a possible war resolution to Trump in a Friday call; separately, Iran's President Pezeshkian says Tehran has revised its proposals and is ready to finalize them through mediators",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "No confirmed US response or scheduled talks yet; diplomacy has been at an impasse since Trump rejected Iran's \"seven-day plan\" in late September, so this is a modest de-escalation signal to weigh against today's Houthi/Riyadh-airport escalation heading into Monday's open",
+      "region": "Russia / Iran / US",
+      "source": "https://www.cbsnews.com/live-updates/iran-war-trump-us-elections-saudi-arabia-yemen-houthis/",
+      "tickers": "USO, BNO, XLE",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
