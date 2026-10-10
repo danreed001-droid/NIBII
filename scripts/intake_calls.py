@@ -5,7 +5,9 @@ body carries a ```json block) into docs/my_calls.json.
 Run by .github/workflows/calls-intake.yml, only for issues the repo owner
 opens. The issue body is untrusted text: only the JSON block is read, and
 every field is validated - dates, modes, percentages, tickers. The newest
-edit per week wins ('at'); a removed call is kept as {m: 'del'}.
+edit per week wins ('at'); a removed call is kept as {m: 'del'}. The same block can carry
+"warn": {date: {c: 'out' | 'stay', at, note}} - the viewer's call on a downtrend-warning
+day (stay in stocks, or out into bonds and gold), scored 3 months later by the daily scan.
 
 Usage:
     ISSUE_BODY="..." python scripts/intake_calls.py      # prints how many calls changed
@@ -43,8 +45,8 @@ def clean(c):
     return out
 
 
-def parse(body):
-    """The calls map from the issue body's ```json block (or {})."""
+def block(body):
+    """The parsed ```json block of the issue body (or {})."""
     m = re.search(r'```json\s*(\{.*?\})\s*```', body or '', re.S)
     if not m:
         return {}
@@ -52,7 +54,24 @@ def parse(body):
         data = json.loads(m.group(1))
     except ValueError:
         return {}
-    calls = data.get('calls') if isinstance(data, dict) else None
+    return data if isinstance(data, dict) else {}
+
+
+def parse_warn(body):
+    """The downtrend-warning calls {date: {c, note, at}} from the issue body (or {})."""
+    w = block(body).get('warn')
+    out = {}
+    for k, c in (w.items() if isinstance(w, dict) else []):
+        if isinstance(k, str) and DATE.match(k) and isinstance(c, dict) and c.get('c') in ('out', 'stay', 'del'):
+            at = str(c.get('at') or '')
+            out[k] = {'c': c['c'], 'note': str(c.get('note') or '')[:300], 'at': at if STAMP.match(at) else ''}
+    return out
+
+
+def parse(body):
+    """The calls map from the issue body's ```json block (or {})."""
+    data = block(body)
+    calls = data.get('calls')
     out = {}
     for k, c in (calls or {}).items() if isinstance(calls, dict) else []:
         cc = clean(c)
@@ -82,12 +101,19 @@ def main():
         doc = {}
     current = {k: c for k, c in ((doc.get('calls') or {}).items()) if clean(c)}
     merged, changed = merge(current, incoming)
-    if changed:
+    w_in = parse_warn(os.environ.get('ISSUE_BODY', ''))
+    w_cur = {k: c for k, c in (doc.get('warn') or {}).items() if isinstance(c, dict) and c.get('c') in ('out', 'stay', 'del')}
+    w_merged, w_changed = merge(w_cur, w_in)
+    if changed or w_changed:
+        out = {'app': 'nibii-calls', 'v': 1, 'calls': merged}
+        if w_merged:
+            out['warn'] = w_merged
         with open(PATH, 'w') as f:
-            json.dump({'app': 'nibii-calls', 'v': 1, 'calls': merged}, f, indent=1)
+            json.dump(out, f, indent=1)
             f.write('\n')
-    print(len(changed))
-    print(f"calls received {len(incoming)}, changed {len(changed)}: {', '.join(changed) or '-'}", file=sys.stderr)
+    print(len(changed) + len(w_changed))
+    print(f"calls received {len(incoming)}, changed {len(changed)}: {', '.join(changed) or '-'}; "
+          f"warning calls received {len(w_in)}, changed {len(w_changed)}: {', '.join(w_changed) or '-'}", file=sys.stderr)
 
 
 if __name__ == '__main__':

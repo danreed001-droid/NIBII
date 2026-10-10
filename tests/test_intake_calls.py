@@ -30,3 +30,17 @@ def test_merge_newest_wins():
     merged, changed = intake.merge(cur, intake.parse(BODY))
     assert merged['2026-10-02']['m'] == 'auto'               # the repo copy is newer
     assert changed == ['2026-09-18']
+
+
+def test_warning_calls_are_parsed_and_kept_beside_the_week_calls(tmp_path, monkeypatch):
+    body = ('```json\n{"warn": {"2026-10-09": {"c": "out", "note": "tariffs", "at": "2026-10-09T21:00:00Z"},'
+            ' "2026-10-08": {"c": "sell everything"}, "bad": {"c": "stay"}}}\n```')
+    assert intake.parse_warn(body) == {'2026-10-09': {'c': 'out', 'note': 'tariffs', 'at': '2026-10-09T21:00:00Z'}}
+    p = tmp_path / 'my_calls.json'
+    p.write_text('{"calls": {"2026-10-02": {"m": "steps", "note": "", "at": "2026-10-03T15:38:25Z"}}}')
+    monkeypatch.setattr(intake, 'PATH', str(p))
+    monkeypatch.setenv('ISSUE_BODY', body)
+    intake.main()
+    import json
+    doc = json.loads(p.read_text())
+    assert doc['calls']['2026-10-02']['m'] == 'steps' and doc['warn']['2026-10-09']['c'] == 'out'

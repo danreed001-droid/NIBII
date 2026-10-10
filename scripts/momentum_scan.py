@@ -261,6 +261,52 @@ def next_session(d_):
     return x.isoformat()
 
 
+WARN_HOLD = 63   # sessions a downtrend-warning call is held before it is scored
+
+
+def warn_calls_block(warn, calendar, K, spy_px, asset_px, hold=WARN_HOLD):
+    """The viewer's own calls on downtrend-warning days (docs/my_calls.json 'warn'), scored: SPY
+    vs half TLT / half GLD from the call day's close over `hold` sessions (so far, until then)."""
+    kidx = {d: i for i, d in enumerate(calendar)}
+    rows = []
+    for d_, c in sorted((warn or {}).items(), reverse=True):
+        if not isinstance(c, dict) or c.get('c') not in ('out', 'stay'):
+            continue
+        k = kidx.get(d_)
+        if k is None:
+            k = next((i for i, x in enumerate(calendar) if x >= d_), None)
+        if k is None:
+            continue
+        e = min(K, k + hold)
+
+        def r(px):
+            a, b = px.get(calendar[k]), px.get(calendar[e])
+            return b / a - 1 if a and b else None
+        spy_r, t, g = r(spy_px), r(asset_px.get('TLT', {})), r(asset_px.get('GLD', {}))
+        if spy_r is None or t is None or g is None:
+            continue
+        duo = (t + g) / 2
+        done = k + hold <= K
+        due = calendar[k + hold] if done else None
+        if not done:   # the weekday k + hold sessions on (holidays not counted)
+            n_, x_ = k + hold - K, date.fromisoformat(calendar[K])
+            while n_ > 0:
+                x_ += timedelta(days=1)
+                if x_.weekday() < 5:
+                    n_ -= 1
+            due = x_.isoformat()
+        rows.append(dict(d=d_, c=c['c'], note=c.get('note') or '', spy=r4(spy_r), duo=r4(duo), done=done, due=due,
+                         right=(duo > spy_r) == (c['c'] == 'out') if done else None))
+    sc = [x for x in rows if x['done']]
+    me = st = ou = 1.0
+    for x in reversed(sc):
+        me *= 1 + (x['duo'] if x['c'] == 'out' else x['spy'])
+        st *= 1 + x['spy']
+        ou *= 1 + x['duo']
+    return dict(hold=hold, calls=rows, n=len(sc), right=sum(1 for x in sc if x['right']),
+                me=r4(me - 1), stay=r4(st - 1), out=r4(ou - 1))
+
+
 def whip_block(modes, on, half, read, px, calendar, K, picks, prices):
     """The whipsaw half-switch now: on/off from the last weekly check, today's reading, the asset
     the half goes into, the Boost list's recent sales behind it, and its log."""
@@ -774,6 +820,12 @@ def main():
                            weeksSpyLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and (spy_gap(f_) or 0) < 0),
                            log=cushion_log(calendar, last_sessions_of_weeks(calendar), START, cushion_split, spy_gap, credit_gap))
     auto['rotation'] = rotation_block(rot_modes, rot_why, rot_read, rot_state, calendar, K, spy_gap, sleeve_px)
+    try:
+        with open(CALLS_PATH) as fh:
+            warn_calls = (json.load(fh) or {}).get('warn') or {}
+    except (OSError, ValueError):
+        warn_calls = {}
+    auto['rotation']['warnCalls'] = warn_calls_block(warn_calls, calendar, K, prices['SPY'], filled(sleeve_px, calendar))
     auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_bx, prices)
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]

@@ -63,7 +63,8 @@ def warn_line(rt):
     return (f"**Downtrend warning (information only):** SPY's daily chart is in a downtrend and SPY is below its "
             f"{rt.get('ma', 150)}-day average, while {rt['warn']} is rising most steeply. Boost + rotation keeps the stocks until its "
             f"{rt.get('confirm', 15)}-session confirmation; stepping into {rt['warn']} earlier is your call (as an automatic rule it fixed "
-            f"late 2018 but cost about 2 points a year over 2000-2026).")
+            f"late 2018 but cost about 2 points a year over 2000-2026). Record your out / stay call with the buttons under the warning "
+            f"on the dashboard; it is scored 3 months later against half bonds, half gold.")
 
 
 def rsi_line(rt):
