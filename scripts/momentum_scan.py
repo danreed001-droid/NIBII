@@ -264,9 +264,11 @@ def next_session(d_):
 WARN_HOLD = 63   # sessions a downtrend-warning call is held before it is scored
 
 
-def warn_calls_block(warn, calendar, K, spy_px, asset_px, hold=WARN_HOLD):
-    """The viewer's own calls on downtrend-warning days (docs/my_calls.json 'warn'), scored: SPY
-    vs half TLT / half GLD from the call day's close over `hold` sessions (so far, until then)."""
+def warn_calls_block(warn, calendar, K, spy_px, asset_px, hold=WARN_HOLD, plan_px=None):
+    """The viewer's own calls on downtrend-warning days (docs/my_calls.json 'warn'), scored from the
+    call day's close over `hold` sessions (so far, until then): 'stay' earns the plan (plan_px, the
+    default plan's value by date; SPY when not given), 'out' half TLT / half GLD. SPY is shown too."""
+    plan_px = plan_px or spy_px
     kidx = {d: i for i, d in enumerate(calendar)}
     rows = []
     for d_, c in sorted((warn or {}).items(), reverse=True):
@@ -282,8 +284,8 @@ def warn_calls_block(warn, calendar, K, spy_px, asset_px, hold=WARN_HOLD):
         def r(px):
             a, b = px.get(calendar[k]), px.get(calendar[e])
             return b / a - 1 if a and b else None
-        spy_r, t, g = r(spy_px), r(asset_px.get('TLT', {})), r(asset_px.get('GLD', {}))
-        if spy_r is None or t is None or g is None:
+        spy_r, t, g, pl = r(spy_px), r(asset_px.get('TLT', {})), r(asset_px.get('GLD', {})), r(plan_px)
+        if spy_r is None or t is None or g is None or pl is None:
             continue
         duo = (t + g) / 2
         done = k + hold <= K
@@ -295,16 +297,26 @@ def warn_calls_block(warn, calendar, K, spy_px, asset_px, hold=WARN_HOLD):
                 if x_.weekday() < 5:
                     n_ -= 1
             due = x_.isoformat()
-        rows.append(dict(d=d_, c=c['c'], note=c.get('note') or '', spy=r4(spy_r), duo=r4(duo), done=done, due=due,
-                         right=(duo > spy_r) == (c['c'] == 'out') if done else None))
+        rows.append(dict(d=d_, c=c['c'], note=c.get('note') or '', spy=r4(spy_r), plan=r4(pl), duo=r4(duo), done=done, due=due,
+                         right=(duo > pl) == (c['c'] == 'out') if done else None))
     sc = [x for x in rows if x['done']]
     me = st = ou = 1.0
     for x in reversed(sc):
-        me *= 1 + (x['duo'] if x['c'] == 'out' else x['spy'])
-        st *= 1 + x['spy']
+        me *= 1 + (x['duo'] if x['c'] == 'out' else x['plan'])
+        st *= 1 + x['plan']
         ou *= 1 + x['duo']
     return dict(hold=hold, calls=rows, n=len(sc), right=sum(1 for x in sc if x['right']),
                 me=r4(me - 1), stay=r4(st - 1), out=r4(ou - 1))
+
+
+BROAD_DOWN, BROAD_SHARE = -0.10, 0.20   # breadth read: a stock down 10%+ over 20 sessions; 20%+ of them = a broad selloff
+
+
+def breadth(prices, calendar, K, n=20, down=BROAD_DOWN, skip=('SPY',)):
+    """Share of the universe down `down` or more over the last n sessions at calendar[K] (and how many stocks were read)."""
+    a, b = calendar[K - n], calendar[K]
+    rr = [px[b] / px[a] - 1 for t, px in prices.items() if t not in skip and px.get(a) and px.get(b)]
+    return (sum(1 for x in rr if x <= down) / len(rr) if rr else None), len(rr)
 
 
 def whip_block(modes, on, half, read, px, calendar, K, picks, prices):
@@ -825,7 +837,12 @@ def main():
             warn_calls = (json.load(fh) or {}).get('warn') or {}
     except (OSError, ValueError):
         warn_calls = {}
-    auto['rotation']['warnCalls'] = warn_calls_block(warn_calls, calendar, K, prices['SPY'], filled(sleeve_px, calendar))
+    auto['rotation']['warnCalls'] = warn_calls_block(warn_calls, calendar, K, prices['SPY'], filled(sleeve_px, calendar),
+                                                     plan_px=dict(plans['rotation']))
+    br_now, br_n = breadth(prices, calendar, K)
+    br_prev = breadth(prices, calendar, K - 1)[0]
+    auto['rotation']['breadth'] = dict(down=r4(br_now), prev=r4(br_prev), n=br_n, cut=BROAD_DOWN, broad=BROAD_SHARE,
+                                       hist=[[calendar[k_], r4(breadth(prices, calendar, k_)[0])] for k_ in range(K - 20, K + 1)])
     auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_bx, prices)
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]

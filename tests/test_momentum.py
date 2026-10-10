@@ -447,8 +447,25 @@ def test_warning_calls_are_scored_after_three_months():
     px = {'TLT': {x: 100.0 + i * 0.1 for i, x in enumerate(cal)}, 'GLD': {x: 100.0 for x in cal}}
     out = ms.warn_calls_block({cal[2]: {'c': 'out'}, cal[5]: {'c': 'stay'}, cal[60]: {'c': 'out'}, 'junk': 1},
                               cal, len(cal) - 1, spy, px, hold=63)
+    # scored against the plan when given: a plan rising faster than bonds + gold makes 'stay' the right call
+    plan = {x: 100.0 + i * 0.5 for i, x in enumerate(cal)}
+    vs_plan = ms.warn_calls_block({cal[2]: {'c': 'out'}, cal[5]: {'c': 'stay'}}, cal, len(cal) - 1, spy, px, hold=63, plan_px=plan)
+    assert [x['right'] for x in vs_plan['calls']] == [True, False] and vs_plan['calls'][0]['plan'] > vs_plan['calls'][0]['spy']
     done = [x for x in out['calls'] if x['done']]
     assert out['n'] == 2 and out['right'] == 1 and len(done) == 2
     assert [x['right'] for x in done] == [False, True]                # newest first: the stay was wrong, the out right
     pend = [x for x in out['calls'] if not x['done']][0]
     assert pend['d'] == cal[60] and pend['right'] is None and pend['due'] > cal[-1]
+
+
+def test_breadth_counts_stocks_down_ten_percent_in_a_month():
+    import importlib.util, os
+    spec = importlib.util.spec_from_file_location(
+        'momentum_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'momentum_scan.py'))
+    ms = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ms)
+    cal = [f'2026-01-{d:02d}' for d in range(1, 31)]
+    prices = {'A': {cal[5]: 100.0, cal[25]: 85.0}, 'B': {cal[5]: 100.0, cal[25]: 95.0},
+              'C': {cal[5]: 100.0, cal[25]: 120.0}, 'SPY': {cal[5]: 100.0, cal[25]: 50.0}}
+    share, n = ms.breadth(prices, cal, 25)
+    assert n == 3 and abs(share - 1 / 3) < 1e-9
