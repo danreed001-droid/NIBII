@@ -2617,5 +2617,25 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-11-1-trump-putin-russian-diesel-deal",
+    "data": {
+      "addedAt": "2026-10-11",
+      "category": "Energy",
+      "date": "2026-10-11",
+      "day": "Sun",
+      "direction": "Mixed",
+      "event": "Trump strikes Russian diesel deal with Putin, eases sanctions to cool record US fuel prices ahead of midterms",
+      "impact": "Medium",
+      "numbers": "US diesel avg $6.28/gal Fri (record $6.52 on Sept 22); Russia to supply 300k tons immediately, 500k tons in Nov, 1mn tons 'immediately thereafter,' up to ~3mn tons more per Trump's claim (figures from Trump don't fully reconcile)",
+      "order": 1,
+      "reaction": "Diesel/heating-oil futures dipped slightly on the news; Treasury issued a temporary license shielding Russian diesel loaded by Oct 9 from sanctions until April 2027 (first such easing since the war began); analysts skeptical it meaningfully lowers prices, since Russian supply likely just displaces existing buyers; Zelenskyy called it 'a weak decision,' Rep. Don Beyer (D) called it 'infuriating'; move makes it less likely the White House invokes the new law's threatened 100% tariff on top Russian oil/gas buyers this month",
+      "region": "US/Russia",
+      "source": "https://www.pbs.org/newshour/world/trump-strikes-deal-with-putin-for-russian-diesel-in-sharp-reversal-of-u-s-policy-ahead-of-midterms",
+      "tickers": "USO, XLE, HO (heating oil futures), CVX, XOM",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
