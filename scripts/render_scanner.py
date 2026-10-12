@@ -601,6 +601,18 @@ __RESEARCH__
     if (!W.half) return '<span class="tag sell">sell ' + esc(W.held) + '</span><span class="tag buy">back to 100% the Boost list (whipsaw off)</span>';
     return '<span class="tag sell">sell ' + esc(W.held) + '</span><span class="tag buy">buy ' + esc(W.half) + ' (whipsaw half)</span>';
   }
+  function dipNote(RT) {   // the dip add: lean into a holding the day after a 10%+ drop
+    var P = RT && RT.dip;
+    if (!P) return '';
+    var nowT = Object.keys(P.now || {});
+    var now = nowT.length ? '<span class="pos"><b>Add now:</b></span> ' + nowT.map(function (t) { return '<b>' + esc(t) + '</b> ' + pct(P.now[t]); }).join(', ') + ' at today\u2019s close → at the close on <b>' + fmtDate(P.trade, { weekday: 'short', month: 'short', day: 'numeric' }) + '</b> raise it to ' + P.mult + 'x its share (about ' + Math.round(P.mult / (4 + P.mult) * 100) + '% of the stock part instead of 20%), trimming the others; back to equal at the next weekly rebalance'
+      : P.active ? 'Add in force: ' + P.active.t.map(esc).join(', ') + ' at ' + P.mult + 'x since ' + fmtDate(P.active.d, { month: 'short', day: 'numeric' }) + ', until the next weekly rebalance'
+      : 'nothing to add' + (P.skipFriday ? ' (Friday drops are left to Monday\u2019s rebalance)' : '');
+    var lg = (P.log || []).slice(0, 8).map(function (r) { return esc(r.t) + ' ' + fmtDate(r.d, { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + pct(r.drop) + (r.wk == null ? '' : ' → <span class="' + (r.wk < 0 ? 'neg' : 'pos') + '">' + pct(r.wk) + '</span> a week later'); }).join(' · ');
+    return '<br><b>4. Dip add:</b> when a Boost-list holding closes down ' + Math.round(P.drop * 100) + '% or more on a day the plan is fully in the Boost list, its weight goes to ' + P.mult + 'x at the next close (the others trimmed to make room) until the list next trades. <b>Now:</b> ' + now + '. ' +
+      (lg ? 'Recent adds: ' + lg + '. ' : '') + P.n + ' adds since ' + SINCE + '. ' +
+      '<span class="muted">Added Oct 12, 2026. A top-5 holding that fell 10%+ in a day while the plan was in stocks beat SPY by about 4 points the next week and 9 over four weeks (2000–2026, in both halves), against about 0.5 and 1.6 on an ordinary day. In the backtest it took the plan from 33.7% to 34.5% a year before tax from 2000 (21.9% to 22.4% after), 29.1% to 30.3% from 2010 and 55.8% to 57.5% from 2020, but 38.1% to 37.9% from 2016; abroad it was about neutral. A small, unproven gain: on probation.</span>';
+  }
   function whipNote(RT) {   // the whipsaw half-switch: rule, reading now, recent sales, log
     var W = RT && RT.whip;
     if (!W) return '';
@@ -691,8 +703,8 @@ __RESEARCH__
       RT.assets.map(function (t) { return t + ' daily ' + arw(RT.legs[t]) + gr(RT.legs[t]); }).join(' · ') + '.' +
       (RT.cand && RT.mode === 'boost' && RT.streak ? ' ' + esc(RT.cand) + ' has led for ' + RT.streak + ' of the ' + RT.confirm + ' sessions needed.' : '') +
       ' Out of stocks on ' + RT.daysOut + ' of ' + RT.days + ' sessions since ' + SINCE + ', ' + RT.switches + ' switches. Since ' + SINCE + ': ' + pct(P.stats.rotation.annual, 0) + ' a year, worst drop ' + pct(P.stats.rotation.maxDD, 0) + ' vs ' + pct(P.stats.boost100.annual, 0) + ' and ' + pct(P.stats.boost100.maxDD, 0) + ' for Boost 100%. ' +
-      'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $19.5M after tax vs $9.95M for Boost 100%: 33.7% a year before tax (21.9% after) vs 28.7% (18.8%), worst drop −41% vs −59%; from 2010 29.1% vs 24.9%, from 2020 57.2% vs 53.3% (all with the surge exit below, the whipsaw half-switch and its rate/gold regime; without the regime 33.4% and $18.7M, without the half-switch 32.8% and $17.4M, before the surge exit 31.0% and $13.6M). The thresholds were picked on that same history, so expect less.' +
-      (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '') + whipNote(RT);
+      'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $21.9M after tax vs $9.95M for Boost 100%: 34.5% a year before tax (22.4% after) vs 28.7% (18.8%), worst drop −40% vs −59%; from 2010 30.3% vs 24.9%, from 2020 57.5% vs 53.3% (all with the surge exit below, the whipsaw half-switch with its rate/gold regime, and the dip add; without the dip add 33.7% and $19.5M, without the regime 33.4% and $18.7M, without the half-switch 32.8% and $17.4M, before the surge exit 31.0% and $13.6M). The thresholds were picked on that same history, so expect less.' +
+      (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '') + whipNote(RT) + dipNote(RT);
   }
   function bxNote(A) {   // the blow-off exit line under Boost 100% / Boost + cushion
     var X = A && A.boostx, m = X ? X.mult : 2;
