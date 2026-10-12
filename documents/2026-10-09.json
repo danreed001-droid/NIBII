@@ -377,13 +377,12 @@
        null
       ]
      ],
-     "maturityClose": 7858.25,
-     "ret": -0.000985,
+     "maturityClose": 7857.0,
+     "ret": -0.001144,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2461,13 +2460,12 @@
        null
       ]
      ],
-     "maturityClose": 104.578125,
-     "ret": -0.000299,
+     "maturityClose": 104.5625,
+     "ret": -0.000448,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5083,12 +5081,12 @@
       [
        "bear",
        "The 10-year yield was about 5.25% on 9 October (from about 5.23%), holding near a 24-year high (news log); GC=F is 4220.30, below its 50-day (4377.05) and 200-day (4548.04) averages and the 10-year-yield correlation is -0.36 over 21 sessions",
-       true
+       false
       ],
       [
        "bear",
        "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained); a higher-for-longer path is a headwind for non-yielding gold",
-       true
+       false
       ],
       [
        "neu",
@@ -5118,7 +5116,7 @@
       [
        "bear",
        "The dollar index rose 0.24% to 102.231 on 9 October, just under its 52-week closing high of 102.24, a headwind for gold; Brent held above $100 on 9 October (about $102 early, from above $103) on Hormuz tensions; Trump said the US will not attack Iran before 3 November while a Revolutionary Guard strike on an LPG carrier was reported (news log)",
-       true
+       false
       ],
       [
        "neu",
@@ -5126,13 +5124,12 @@
        null
       ]
      ],
-     "maturityClose": 4188.7998046875,
-     "ret": -0.007464,
+     "maturityClose": 4195.89990234375,
+     "ret": -0.005782,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7204,13 +7201,12 @@
        null
       ]
      ],
-     "maturityClose": 102.46399688720703,
-     "ret": 0.002279,
+     "maturityClose": 102.58000183105469,
+     "ret": 0.003414,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9385,13 +9381,12 @@
        null
       ]
      ],
-     "maturityClose": 2816.199951171875,
-     "ret": -0.002585,
+     "maturityClose": 2812.300048828125,
+     "ret": -0.003967,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11342,13 +11337,12 @@
        null
       ]
      ],
-     "maturityClose": 30920.0,
-     "ret": -0.00653,
+     "maturityClose": 30877.5,
+     "ret": -0.007896,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,

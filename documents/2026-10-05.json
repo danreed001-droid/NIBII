@@ -509,13 +509,12 @@
        false
       ]
      ],
-     "maturityClose": 7858.25,
-     "ret": 0.003192,
+     "maturityClose": 7857.0,
+     "ret": 0.003032,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 10,
@@ -2635,13 +2634,12 @@
        null
       ]
      ],
-     "maturityClose": 104.578125,
-     "ret": 0.003298,
+     "maturityClose": 104.5625,
+     "ret": 0.003148,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 10,
@@ -5384,13 +5382,12 @@
        false
       ]
      ],
-     "maturityClose": 4188.7998046875,
-     "ret": 0.00569,
+     "maturityClose": 4195.89990234375,
+     "ret": 0.007395,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 10,
@@ -7475,13 +7472,12 @@
        null
       ]
      ],
-     "maturityClose": 102.46399688720703,
-     "ret": 0.003044,
+     "maturityClose": 102.58000183105469,
+     "ret": 0.00418,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 10,
@@ -9699,13 +9695,12 @@
        false
       ]
      ],
-     "maturityClose": 2816.199951171875,
-     "ret": -0.017924,
+     "maturityClose": 2812.300048828125,
+     "ret": -0.019284,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 10,
@@ -11656,7 +11651,7 @@
       [
        "bear",
        "The 10-year yield rose 7bp to 5.35% on 5 October, a fresh multi-decade high on term-premium/supply concerns (news log, thestreet.com 5 October); the Nasdaq-100 has a -0.551 correlation to 10-year yield changes",
-       false
+       true
       ],
       [
        "bull",
@@ -11699,13 +11694,12 @@
        null
       ]
      ],
-     "maturityClose": 30920.0,
-     "ret": -0.014502,
+     "maturityClose": 30877.5,
+     "ret": -0.015857,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 10,
