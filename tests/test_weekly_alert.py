@@ -127,7 +127,7 @@ def test_rotation_switch_midweek_sends_its_own_alert():
     s['plan']['auto']['rotation'] = rot(mode='GLD', held='boost', trade='2026-10-08', log=[['2026-10-07', 'boost', 'GLD', 'rotate']])
     title, body = alert.build(s, 'someone')
     assert title.startswith('Trade Thu Oct 8: Boost + rotation → GLD')
-    assert 'buy **GLD**' in body and 'steepest gradient' in body and '@someone' in body
+    assert 'buy **GLD**' in body and 'up most over 6 months' in body and '@someone' in body
 
 
 def test_rotation_back_to_stocks_on_friday_and_out_of_stocks_note():
@@ -149,7 +149,7 @@ def test_downtrend_warning_is_info_only():
     s = scan(signalDay=False, asOf='2026-10-07')
     s['plan']['auto']['rotation'] = rot(warn='TLT', prevWarn=None, ma=150, confirm=15)
     title, body = alert.build(s)
-    assert title.startswith('Warning Wed Oct 7') and 'TLT is rising most steeply' in body and 'not a signal' in body
+    assert title.startswith('Warning Wed Oct 7') and 'TLT is rising (up most over 6 months)' in body and 'not a signal' in body
     s['plan']['auto']['rotation'] = rot(warn='TLT', prevWarn='TLT')
     assert alert.build(s) is None          # already on yesterday: no repeat
     s = scan()

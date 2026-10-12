@@ -46,7 +46,7 @@ from mtl.heat import daily_closes, daily_heat, price_volume, weekly_heat  # noqa
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
-from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK  # noqa: E402
+from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK  # noqa: E402
 from mtl.dip import DIP_CALL_HOLD, DIP_CALL_MAX_IV, DIP_DROP, DIP_MULT, dip_call_target, dip_curve, dip_events  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
@@ -428,6 +428,7 @@ def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
                 spy=dict(daily=leg('SPY'), weekly=leg('SPY', 'w'), gap=r4(spy_gap(as_of)), lastHigh=lh,
                          lows=[[x['ts'][:10], r4(x['price']), x['label']] for x in los[-2:]]),
                 legs={t: leg(t) for t in ROT_ASSETS}, px={t: r4((px.get(t) or {}).get(as_of)) for t in ROT_ASSETS + ('BIL',)},
+                pick=PICK_LOOK, pickPct={t: r4(read.pct(t, as_of)) for t in ROT_ASSETS},
                 rot=state['rot'], streak=state['streak'], cand=state['cand'], out=state['out'],
                 daysOut=sum(1 for d_ in days if modes[d_] != 'boost'), days=len(days),
                 switches=sum(1 for a_, b_ in zip(days, days[1:]) if modes[a_] != modes[b_]),
