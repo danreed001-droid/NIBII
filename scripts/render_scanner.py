@@ -2419,15 +2419,15 @@ def ignition_html(scan=None):
 
 LAB_PATH = os.path.join(ROOT, 'data', 'strategy_backtest.json')
 LAB_NOTES = {
-    'Current: Top 5': 'the dashboard rule',
-    'Current + news boost': 'a 12%+ news gap jumps the queue (the Boost list)',
-    'Top 2 sectors': 'only the 2 strongest sectors',
-    'Top 3 industries': 'only the 3 strongest industries',
+    'Current system': 'what the dashboard trades: Boost list + exits + rotation + whipsaw',
+    '+ Ignition boost': 'an Ignition in the last 4 weeks also jumps the queue',
+    'Top 2 sectors': 'only stocks from the 2 strongest sectors',
+    'Top 3 industries': 'only stocks from the 3 strongest industries',
     'Ignition stocks only': 'only stocks with an Ignition in the last 3 months',
-    'Ignition boost': 'an Ignition in the last 4 weeks jumps the queue',
     'Repeat gappers': 'only stocks with 2+ big gap-ups in 12 months',
     'Trend leaders near highs': 'only uptrends within 5% of the 52-week high',
     'Semis & AI watchlist': 'only the watchlist names (hindsight)',
+    'Top 5 alone': 'the plain stock rule: no boost, exits or rotation',
 }
 
 
@@ -2442,39 +2442,47 @@ def lab_html(lab=None):
     periods = lab.get('periods') or {}
     if not periods:
         return ''
+    base_name = lab.get('base') or 'Current system'
     keys = list(periods)
     names = list(next(iter(periods.values()))['rows'])
+    skip = set(lab.get('hindsight') or [])
     best = {}
     for k in keys:
-        rows = periods[k]['rows']
-        cand = [(v.get('annual') or -9, n) for n, v in rows.items() if not v.get('bench') and n not in (lab.get('hindsight') or [])]
+        cand = [(v.get('annual') or -9, n) for n, v in periods[k]['rows'].items()
+                if not v.get('bench') and not v.get('ref') and n not in skip]
         best[k] = max(cand)[1] if cand else None
-    head = ''.join(f'<th>{_e(k)}+ /yr</th><th class="hide-sm">worst</th>' for k in keys)
+    head = ''.join(f'<th>{_e(k)}+ /yr</th><th class="hide-sm">after tax</th><th class="hide-sm">worst</th>' for k in keys)
     body = []
     for n in names:
         cells = []
         for k in keys:
             v = periods[k]['rows'].get(n) or {}
-            cur = (periods[k]['rows'].get('Current: Top 5') or {}).get('annual')
+            cur = (periods[k]['rows'].get(base_name) or {}).get('annual')
             a = v.get('annual')
-            diff = '' if a is None or cur is None or n == 'Current: Top 5' or v.get('bench') else \
+            diff = '' if a is None or cur is None or n == base_name or v.get('bench') else \
                 f' <span class="{_tone(a - cur)}">({(a - cur) * 100:+.0f})</span>'
             b = ' style="font-weight:700"' if best.get(k) == n else ''
             cells.append(f'<td class="num"{b} title="total {_p(v.get("total"), 0)}">{_p(a)}{diff}</td>'
+                         f'<td class="num hide-sm">{_p(v.get("afterTax"))}</td>'
                          f'<td class="num hide-sm neg">{_p(v.get("maxDD"), 0)}</td>')
-        bench = any((periods[k]['rows'].get(n) or {}).get('bench') for k in keys)
-        label = f'<b>{_e(n)}</b>' if n == 'Current: Top 5' else _e(n)
-        note = LAB_NOTES.get(n, 'buy and hold' if bench else '')
-        body.append(f'<tr{" class=bench" if bench else ""}><td class="l w">{label}<span class="sub">{_e(note)}</span></td>{"".join(cells)}</tr>')
-    return ('<style>#lab tr.bench td { color: var(--muted); } #lab td.w { min-width: 200px; }</style><section id="lab">'
-            '<p class="section-label">Strategy lab <span class="hint">new ideas vs the current Top 5 rule · same test: S&amp;P 500 + Nasdaq-100, '
-            f'top 5, weekly, 0.05% cost · to {_e(lab.get("asOf"))}</span></p>'
+        row0 = next(iter(periods.values()))['rows'].get(n) or {}
+        muted = row0.get('bench') or row0.get('ref')
+        label = f'<b>{_e(n)}</b>' if n == base_name else _e(n)
+        note = LAB_NOTES.get(n, 'buy and hold' if row0.get('bench') else '')
+        body.append(f'<tr{" class=bench" if muted else ""}><td class="l w">{label}<span class="sub">{_e(note)}</span></td>{"".join(cells)}</tr>')
+    tax = lab.get('taxRate')
+    return ('<style>#lab tr.bench td { color: var(--muted); } #lab td.w { min-width: 210px; } #lab td .sub { max-width: 260px; white-space: normal; }</style>'
+            '<section id="lab"><p class="section-label">Strategy lab <span class="hint">new ideas inside the current system '
+            '(same Boost list, exits, rotation and whipsaw; only which stocks may be bought changes) · weekly, 0.05% cost · '
+            f'to {_e(lab.get("asOf"))}</span></p>'
             '<div class="tablebox"><table><thead><tr><th class="l">Strategy</th>' + head + '</tr></thead><tbody>'
             + ''.join(body) + '</tbody></table></div>'
-            '<p class="note">Per-year return from each start to today (difference vs the current rule in points); worst = biggest '
-            'peak-to-trough drop. Bold = best per start, ignoring the watchlist row. <b>Caveats:</b> stocks that left the indexes or went '
-            'bust are missing, which flatters every row, more so from 2000. The Semis &amp; AI watchlist was picked in 2026 knowing AI won, '
-            'so its row is hindsight - it shows what the theme was worth, not what you could have known. Rebuilt by '
+            '<p class="note">Per-year return from each start to today, before tax (difference vs the current system in points); '
+            f'<b>after tax</b> = a regular taxable account, each year\'s gain taxed at {round((tax or 0.35) * 100)}% as short-term '
+            '(losses carried forward; buy-and-hold rows taxed once at 20%) - in an IRA / Roth use the before-tax column; '
+            'worst = biggest peak-to-trough drop. Bold = best per start, ignoring the watchlist and reference rows. '
+            '<b>Caveats:</b> stocks that left the indexes or went bust are missing, which flatters every row, more so from 2000. '
+            'The Semis &amp; AI watchlist was picked in 2026 knowing AI won, so its row is hindsight. Rebuilt by '
             '<code>scripts/backtest_strategies.py</code>. Not investment advice.</p></section>')
 
 

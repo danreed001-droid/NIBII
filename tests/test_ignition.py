@@ -156,11 +156,12 @@ def test_watchlist_panel_renders_groups_and_actions():
     assert 'Earnings in 5 days' in out and 'Oct 14' in out
 
 
-def test_strategy_lab_compares_with_the_current_rule():
-    row = lambda a, dd=-0.3: dict(total=1.0, annual=a, maxDD=dd)
-    lab = dict(asOf='2026-10-09', hindsight=['Semis & AI watchlist'], periods={
-        '2000': dict(start='2000-01-03', rows={'Current: Top 5': row(0.15), 'Ignition boost': row(0.18),
-                                                'Semis & AI watchlist': row(0.40), 'SPY': dict(row(0.08), bench=True)})})
+def test_strategy_lab_compares_with_the_current_system():
+    row = lambda a, dd=-0.3: dict(total=1.0, annual=a, maxDD=dd, afterTax=a * 0.65)
+    lab = dict(asOf='2026-10-09', hindsight=['Semis & AI watchlist'], base='Current system', taxRate=0.35, periods={
+        '2000': dict(start='2000-01-03', rows={'Current system': row(0.40), '+ Ignition boost': row(0.43),
+                                                'Semis & AI watchlist': row(0.60), 'Top 5 alone': dict(row(0.9), ref=True),
+                                                'SPY': dict(row(0.08), bench=True)})})
     out = render_scanner.lab_html(lab)
-    assert 'Strategy lab' in out and '+18.0%' in out and '(+3)' in out and 'hindsight' in out
-    assert 'style="font-weight:700" title="total +100%">+18.0%' in out      # best non-hindsight row is bold
+    assert 'Strategy lab' in out and '+43.0%' in out and '(+3)' in out and 'hindsight' in out and '+26.0%' in out
+    assert 'style="font-weight:700" title="total +100%">+43.0%' in out      # best real strategy is bold, not the reference row
