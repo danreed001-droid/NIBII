@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-12T15:41:29+00:00",
+ "generatedAt": "2026-10-12T15:55:19+00:00",
  "asOf": "2026-10-09",
  "periods": {
   "2000": {
@@ -104,6 +104,40 @@
       "MRVL",
       "SNDK"
      ]
+    },
+    "News gappers only": {
+     "total": 5.016654032773991,
+     "annual": 0.06948258736636714,
+     "maxDD": -0.3096992502398963,
+     "afterTax": 0.04390147955623003,
+     "holds": []
+    },
+    "News gappers when SPY up": {
+     "total": 33.00034972613227,
+     "annual": 0.14111195418742373,
+     "maxDD": -0.31842899364236354,
+     "afterTax": 0.09332466210179824,
+     "holds": []
+    },
+    "Boost only when SPY up": {
+     "total": 6544.413082610482,
+     "annual": 0.3894488503001947,
+     "maxDD": -0.5102538772433352,
+     "afterTax": 0.2636855465436143,
+     "holds": [
+      "MRNA",
+      "ALAB",
+      "HPE",
+      "AMD",
+      "MU"
+     ]
+    },
+    "News gappers, cash when SPY down": {
+     "total": 1.2937117134468874,
+     "annual": 0.03156383018551989,
+     "maxDD": -0.32015827260218066,
+     "afterTax": 0.01868954199654671,
+     "holds": []
     },
     "Top 5 alone": {
      "total": 540.7391081682408,
@@ -231,6 +265,40 @@
       "SNDK"
      ]
     },
+    "News gappers only": {
+     "total": 1.8827791269247816,
+     "annual": 0.06531358155448297,
+     "maxDD": -0.3096992502398953,
+     "afterTax": 0.03995872909253673,
+     "holds": []
+    },
+    "News gappers when SPY up": {
+     "total": 8.65728292954996,
+     "annual": 0.14512549122727503,
+     "maxDD": -0.2639663124074849,
+     "afterTax": 0.09603105671605472,
+     "holds": []
+    },
+    "Boost only when SPY up": {
+     "total": 591.7585808576887,
+     "annual": 0.4645424777203331,
+     "maxDD": -0.31372818407244385,
+     "afterTax": 0.31295946478215275,
+     "holds": [
+      "MRNA",
+      "ALAB",
+      "HPE",
+      "AMD",
+      "MU"
+     ]
+    },
+    "News gappers, cash when SPY down": {
+     "total": 0.4823404089159471,
+     "annual": 0.02380095022220563,
+     "maxDD": -0.320158272602181,
+     "afterTax": 0.012300560626113954,
+     "holds": []
+    },
     "Top 5 alone": {
      "total": 252.4149655344924,
      "annual": 0.39202969917856345,
@@ -356,6 +424,40 @@
       "MRVL",
       "SNDK"
      ]
+    },
+    "News gappers only": {
+     "total": 0.8139751948175007,
+     "annual": 0.09223415885950725,
+     "maxDD": -0.30969925023989586,
+     "afterTax": 0.05284658106071838,
+     "holds": []
+    },
+    "News gappers when SPY up": {
+     "total": 1.6387672609934119,
+     "annual": 0.15459531437066865,
+     "maxDD": -0.3249141902645186,
+     "afterTax": 0.10322010476305543,
+     "holds": []
+    },
+    "Boost only when SPY up": {
+     "total": 30.067655903963047,
+     "annual": 0.6637295822180844,
+     "maxDD": -0.4128748290049583,
+     "afterTax": 0.4501428093202733,
+     "holds": [
+      "MRNA",
+      "ALAB",
+      "HPE",
+      "AMD",
+      "MU"
+     ]
+    },
+    "News gappers, cash when SPY down": {
+     "total": 0.1794814675840939,
+     "annual": 0.024757031316900102,
+     "maxDD": -0.32015827260218077,
+     "afterTax": 0.008114415766282468,
+     "holds": []
     },
     "Top 5 alone": {
      "total": 24.219265562682537,

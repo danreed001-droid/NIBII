@@ -197,6 +197,19 @@ def main():
     surge = surge_exit(universe, D['vols'], cal, SURGE_UP, SURGE_VOL, SURGE_DELAY)
     exits = dict(hold_exit=lambda t, k, e=None: blow(t, k, e) or surge(t, k, e))
 
+    spy_c = [prices['SPY'].get(d) for d in cal]
+    above = {}
+    for i in range(199, len(cal)):
+        w = [x for x in spy_c[i - 199:i + 1] if x]
+        above[cal[i]] = bool(spy_c[i] and spy_c[i] > sum(w) / len(w))
+
+    def spy_up(d):
+        """Positive regime: SPY closed above its 200-day average."""
+        return above.get(d, False)
+
+    def ok_news(t, d):
+        return base_ok(t, d) and news(t, pos[d])
+
     def inside(ok):
         """The current system's stock part (Boost list + blow-off / surge exits) with only
         stocks passing `ok` allowed - news-gap boosts included."""
@@ -210,6 +223,11 @@ def main():
         'Repeat gappers': inside(ok_repeat),
         'Trend leaders near highs': inside(ok_near),
         'Semis & AI watchlist': inside(ok_watch),
+        'News gappers only': inside(ok_news),
+        'News gappers when SPY up': dict(eligible=lambda t, d: ok_news(t, d) if spy_up(d) else base_ok(t, d),
+                                         prefer=news, **force, **exits),
+        'Boost only when SPY up': dict(eligible=base_ok, prefer=lambda t, k: spy_up(cal[k]) and news(t, k), **force, **exits),
+        'News gappers, cash when SPY down': dict(inside(ok_news), risk_on=spy_up, _norot=True),
     }
 
     # the rotation overlay, exactly as the dashboard's default plan (scripts/momentum_scan.py)
@@ -224,10 +242,15 @@ def main():
         modes, _why, read, _state = rotation_modes(rot_bars, cal, start)
         rows = {}
         for name, kw in strategies.items():
+            kw = dict(kw)
+            norot = kw.pop('_norot', False)
             r = run_momentum(universe, cal, start, look=126, skip=21, top_n=5, exec_next='close', **kw)
             stock = [[d, v] for d, v, _ in r['curve']]
-            half = whip_halves(modes, whipsaw(r['picks'], universe, cal, start), read, whip_px, cal, skip=regime)
-            curve = rotation_curve(stock, whip_px, cal, modes, half=half)
+            if norot:
+                curve = stock
+            else:
+                half = whip_halves(modes, whipsaw(r['picks'], universe, cal, start), read, whip_px, cal, skip=regime)
+                curve = rotation_curve(stock, whip_px, cal, modes, half=half)
             rows[name] = summary(curve, holds=r['picks'][-1][1] if r.get('picks') else [])
             log(f"{label} {name:26} {rows[name]['annual']:+6.1%}/yr  after tax {rows[name]['afterTax']:+6.1%}  maxDD {rows[name]['maxDD']:6.0%}")
         r = run_momentum(universe, cal, start, look=126, skip=21, top_n=5, exec_next='close', eligible=base_ok)

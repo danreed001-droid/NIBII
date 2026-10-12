@@ -2427,6 +2427,10 @@ LAB_NOTES = {
     'Repeat gappers': 'only stocks with 2+ big gap-ups in 12 months',
     'Trend leaders near highs': 'only uptrends within 5% of the 52-week high',
     'Semis & AI watchlist': 'only the watchlist names (hindsight)',
+    'News gappers only': 'only stocks with a 12%+ news gap in the last 4 weeks',
+    'News gappers when SPY up': 'news-gap stocks only while SPY is above its 200-day, else the current picks',
+    'Boost only when SPY up': 'current system, news boost switched off while SPY is below its 200-day',
+    'News gappers, cash when SPY down': 'news-gap stocks above SPY\'s 200-day, cash (0%) below; no rotation',
     'Top 5 alone': 'the plain stock rule: no boost, exits or rotation',
 }
 
