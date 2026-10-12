@@ -10,6 +10,7 @@ table). Shares the Ledger's tokens, fonts and dark/light toggle.
 Usage:
     python scripts/render_scanner.py
 """
+import html
 import json
 import os
 import sys
@@ -2091,6 +2092,134 @@ def growth_html():
 RESEARCH_PATH = os.path.join(ROOT, 'documents', 'winners_research.html')
 
 
+IGNITION_PATH = os.path.join(ROOT, 'data', 'ignition_scan.json')
+KIND_LABEL = {'ignition': 'Ignition', 'turnaround': 'Turnaround', 'breakout': 'Breakout', 'pocket': 'Pocket pivot'}
+KIND_TONE = {'ignition': 'buy', 'turnaround': 'buy', 'breakout': '', 'pocket': ''}
+POCKET_SHOWN = 15
+RECENT_SHOWN = 40
+
+IGNITION_CSS = """<style>
+#watch .card { margin-bottom: 12px; }
+#watch p, #watch li { color: var(--ink-2); font-size: 0.86rem; }
+#watch p { margin: 0 0 8px; }
+#watch .tablebox { margin-bottom: 12px; }
+#watch td .sub { max-width: 240px; }
+#watch td.w, #watch th.w { white-space: normal; text-align: left; }
+#watch details { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 0 16px; margin-bottom: 10px; }
+#watch summary { cursor: pointer; padding: 12px 0; font-weight: 600; color: var(--ink); }
+#watch details[open] summary { border-bottom: 1px solid var(--hairline); margin-bottom: 10px; }
+#watch details > :last-child { margin-bottom: 14px; }
+#watch .grp { color: var(--gold); font-size: 0.7rem; font-weight: 600; margin-left: 4px; }
+#watch ul { margin: 0 0 8px; padding-left: 20px; }
+</style>"""
+
+
+def _e(x):
+    return html.escape(str(x or ''))
+
+
+def _p(x, d=1, sign=True):
+    if x is None:
+        return '–'
+    return f"{x * 100:+.{d}f}%" if sign else f"{x * 100:.{d}f}%"
+
+
+def _x(v):
+    return '–' if v is None else f'{v:.1f}x'
+
+
+def _tone(x):
+    return '' if x is None else ('pos' if x > 0 else 'neg' if x < 0 else '')
+
+
+def _stock(r):
+    sub = ' · '.join(filter(None, [r.get('n'), r.get('ind')]))
+    return f'<b>{_e(r["t"])}</b>' + (f'<span class="sub">{_e(sub)}</span>' if sub else '')
+
+
+def _tag(kind):
+    return f'<span class="tag {KIND_TONE.get(kind, "")}">{KIND_LABEL.get(kind, _e(kind))}</span>'
+
+
+def ignition_html(scan=None):
+    """The "Next big thing watch" block from data/ignition_scan.json (written
+    nightly by scripts/ignition_scan.py), or '' when there is no scan yet."""
+    if scan is None:
+        try:
+            with open(IGNITION_PATH) as f:
+                scan = json.load(f)
+        except (OSError, ValueError):
+            return ''
+    today = scan.get('today') or []
+    pockets = [r for r in today if r['kind'] == 'pocket']
+    shown = [r for r in today if r['kind'] != 'pocket'] + pockets[:POCKET_SHOWN]
+    out = [IGNITION_CSS, '<section id="watch">',
+           '<p class="section-label">Next big thing watch <span class="hint">'
+           f'ignition scan · {scan.get("liquid", 0):,} liquid US stocks (NYSE + Nasdaq, $5+, $10M+/day) · close of {_e(scan.get("asOf"))}</span></p>',
+           '<div class="card"><p>Every weekday after the close this scans every US-listed stock for the signatures that started the '
+           'big 2021–2026 winners (research below): a <b>gap up on several times normal volume</b>, ideally in an uptrend near the high, '
+           'stronger than the market, and <b>repeating</b> on later earnings. A flag is a reason to look closer, not a buy signal: '
+           'check the news behind it (guidance raise, contract, first profit?) and see the hit rates at the bottom before sizing anything.</p>']
+    if scan.get('mechanical'):
+        out.append('<p class="note">Options-expiry / index-rebalance day: breakout and pocket-pivot flags are skipped (mechanical volume).</p>')
+    out.append('</div>')
+
+    rows = ''.join(
+        f'<tr><td class="l">{_stock(r)}{"<span class=grp>▲ group</span>" if r.get("group") else ""}</td><td class="l">{_tag(r["kind"])}</td>'
+        f'<td class="num">{r["score"]:.1f}</td><td class="num {_tone(r.get("chg"))}">{_p(r.get("chg"))}</td>'
+        f'<td class="num hide-sm">{_p(r.get("gap"))}</td><td class="num">{_x(r.get("vr"))}</td>'
+        f'<td class="num">{"–" if r.get("rs") is None else r["rs"]}</td><td class="num hide-sm">{_p(r.get("offHigh"))}</td>'
+        f'<td class="num">{r.get("repeats") or "–"}</td></tr>' for r in shown)
+    if not rows:
+        rows = f'<tr><td colspan="9" class="l muted">Nothing flagged at the {_e(scan.get("asOf"))} close.</td></tr>'
+    extra = len(pockets) - POCKET_SHOWN
+    out.append('<p class="section-label">Flagged at the latest close <span class="hint">sorted by score: setup, relative strength, '
+               'repeat gaps, closeness to the 52-week high, group move</span></p>'
+               '<div class="tablebox"><table><thead><tr><th class="l">Stock</th><th class="l">Setup</th><th>Score</th><th>Day</th>'
+               '<th class="hide-sm">Gap</th><th>Vol vs 50d</th><th title="Relative strength percentile, 1-99">RS</th>'
+               '<th class="hide-sm">Off 52w high</th><th title="Qualifying gap-ups (ignition or turnaround) in the last 12 months">Gaps 12m</th>'
+               f'</tr></thead><tbody>{rows}</tbody></table></div>'
+               + (f'<p class="note">+{extra} more pocket pivots not shown.</p>' if extra > 0 else ''))
+
+    groups = scan.get('groups') or []
+    if groups:
+        out.append('<p class="note"><b>Group moves</b> (2+ stocks in one industry flagged in the last 5 sessions): '
+                   + ' · '.join(f'{_e(g)}: {", ".join(_e(t) for t in ts)}' for g, ts in groups) + '</p>')
+
+    recent = (scan.get('recent') or [])[:RECENT_SHOWN]
+    if recent:
+        rr = ''.join(
+            f'<tr><td class="num l">{_e(r["d"])}</td><td class="l">{_stock(r)}</td><td class="l">{_tag(r["kind"])}</td>'
+            f'<td class="num {_tone(r.get("since"))}">{_p(r.get("since"))}</td><td class="num hide-sm {_tone(r.get("ex"))}">{_p(r.get("ex"))}</td>'
+            f'<td>{"<span class=pos>holding</span>" if r.get("held") else "<span class=neg>lost it</span>"}</td></tr>' for r in recent)
+        out.append(f'<details><summary>Flags from the last {scan.get("rules", {}).get("recent", 20)} sessions and how they have done</summary>'
+                   '<div class="tablebox"><table><thead><tr><th class="l">Flagged</th><th class="l">Stock</th><th class="l">Setup</th>'
+                   '<th>Since</th><th class="hide-sm">vs SPY</th><th title="Still above the flag day\'s low - the usual stop">Flag-day low</th>'
+                   f'</tr></thead><tbody>{rr}</tbody></table></div></details>')
+
+    st = scan.get('stats') or {}
+    if st:
+        sr = ''.join(
+            f'<tr><td class="l">{_tag(k)}</td><td class="num">{v.get("n", 0):,}</td>'
+            f'<td class="num {_tone(v.get("ex20"))}">{_p(v.get("ret20"))} <span class="muted">({_p(v.get("ex20"))})</span></td>'
+            f'<td class="num {_tone(v.get("ex60"))}">{_p(v.get("ret60"))} <span class="muted">({_p(v.get("ex60"))})</span></td>'
+            f'<td class="num hide-sm {_tone(v.get("ex120"))}">{_p(v.get("ret120"))} <span class="muted">({_p(v.get("ex120"))})</span></td>'
+            f'<td class="num">{_p(v.get("beat60"), 0, False)}</td><td class="num">{_p(v.get("up50"), 0, False)}</td>'
+            f'<td class="num hide-sm neg">{_p(v.get("mae60"))}</td></tr>'
+            for k, v in st.items() if v.get('n'))
+        out.append(f'<details open><summary>Hit rates: every flag since {_e(scan.get("statsFrom"))}, replayed with the same rules</summary>'
+                   '<div class="tablebox"><table><thead><tr><th class="l">Setup</th><th>Flags</th><th>Median 20d (vs SPY)</th>'
+                   '<th>60d (vs SPY)</th><th class="hide-sm">120d (vs SPY)</th><th>Beat SPY 60d</th>'
+                   '<th title="Share of flags whose close reached +50% at some point within 120 sessions">Hit +50% in 120d</th>'
+                   '<th class="hide-sm" title="Median of the lowest close within 60 sessions vs the flag-day close">Typical dip 60d</th>'
+                   f'</tr></thead><tbody>{sr}</tbody></table></div>'
+                   '<p class="note">How to read it: the <b>median</b> flag goes nowhere special; the edge, if any, is in the <b>tail</b> '
+                   '(the share that reach +50%) and in cutting the losers early. Only stocks listed today are replayed, so companies that '
+                   'went bust or were delisted are missing, which flatters these numbers. Not investment advice.</p></details>')
+    out.append('</section>')
+    return '\n'.join(out)
+
+
 def research_html():
     """The five-year winners research section (documents/winners_research.html,
     a static HTML fragment), or '' when the file is missing."""
@@ -2111,7 +2240,7 @@ def overlay_lib():
 def render(scan, growth=None):
     # Escape "</" so a company name can never close the <script> block early.
     page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth).replace('__OVLIB__', overlay_lib(), 1)
-    page = page.replace('__RESEARCH__', research_html(), 1)
+    page = page.replace('__RESEARCH__', ignition_html() + research_html(), 1)
     return page.replace('__DATA__', json.dumps(scan, separators=(',', ':')).replace('</', '<\\/'))
 
 
