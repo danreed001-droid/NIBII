@@ -509,8 +509,8 @@
        false
       ]
      ],
-     "maturityClose": 7884.25,
-     "ret": 0.006511,
+     "maturityClose": 7865.5,
+     "ret": 0.004117,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2635,8 +2635,8 @@
        null
       ]
      ],
-     "maturityClose": 104.671875,
-     "ret": 0.004197,
+     "maturityClose": 104.53125,
+     "ret": 0.002848,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5384,8 +5384,8 @@
        false
       ]
      ],
-     "maturityClose": 4210.2998046875,
-     "ret": 0.010852,
+     "maturityClose": 4198.0,
+     "ret": 0.007899,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7475,8 +7475,8 @@
        null
       ]
      ],
-     "maturityClose": 102.23300170898438,
-     "ret": 0.000783,
+     "maturityClose": 102.4000015258789,
+     "ret": 0.002418,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9656,7 +9656,7 @@
       [
        "bear",
        "The 10-year yield rose 7bp to 5.35% on 5 October, a fresh multi-decade high on term-premium/supply concerns (news log, thestreet.com 5 October); small caps carry the strongest yield sensitivity on the board (10Y corr -0.653)",
-       false
+       true
       ],
       [
        "bull",
@@ -9699,8 +9699,8 @@
        false
       ]
      ],
-     "maturityClose": 2830.60009765625,
-     "ret": -0.012903,
+     "maturityClose": 2818.800048828125,
+     "ret": -0.017018,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11699,8 +11699,8 @@
        null
       ]
      ],
-     "maturityClose": 31229.75,
-     "ret": -0.004629,
+     "maturityClose": 31063.25,
+     "ret": -0.009936,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

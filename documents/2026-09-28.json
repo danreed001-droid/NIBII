@@ -560,7 +560,7 @@
       [
        "bull",
        "Weekly structure is choppy (HL 7324 (week of 27 July), HH 7838.5 (week of 10 August), HL 7509.25 (week of 14 September)); the read leans on the moving averages (7665.67 and 7236.77), since the weekly swings do not yet form a clean HH/HL sequence.",
-       true
+       false
       ],
       [
        "bear",
@@ -590,12 +590,12 @@
       [
        "bull",
        "AAII's survey for the week ending 23 September (the latest published) showed bulls at 32.7% (below the 37.5% historical average) and bears at 48.1% (well above the 31.5% average), a contrarian-bullish reading but a week stale",
-       true
+       false
       ],
       [
        "bull",
        "Nvidia raised its buyback authorization by a record $150 billion to $235 billion remaining (Bloomberg, 28 September), a supportive corporate-flow item over the longer window, while no dated fund-flow figure for broad US equities was obtainable for the day",
-       true
+       false
       ],
       [
        "neu",
@@ -623,11 +623,11 @@
        null
       ]
      ],
-     "maturityClose": 7884.25,
-     "ret": 0.017487,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 7865.5,
+     "ret": 0.015067,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against ES=F",
      "provisional": true
     }
@@ -2807,8 +2807,8 @@
        null
       ]
      ],
-     "maturityClose": 104.671875,
-     "ret": 0.001645,
+     "maturityClose": 104.53125,
+     "ret": 0.000299,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5622,8 +5622,8 @@
        false
       ]
      ],
-     "maturityClose": 4210.2998046875,
-     "ret": 0.013358,
+     "maturityClose": 4198.0,
+     "ret": 0.010398,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7709,8 +7709,8 @@
        null
       ]
      ],
-     "maturityClose": 102.23300170898438,
-     "ret": 0.009788,
+     "maturityClose": 102.4000015258789,
+     "ret": 0.011438,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -10007,8 +10007,8 @@
        false
       ]
      ],
-     "maturityClose": 2830.60009765625,
-     "ret": -0.003029,
+     "maturityClose": 2818.800048828125,
+     "ret": -0.007185,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -12071,8 +12071,8 @@
        null
       ]
      ],
-     "maturityClose": 31229.75,
-     "ret": 0.020855,
+     "maturityClose": 31063.25,
+     "ret": 0.015413,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
