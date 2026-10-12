@@ -4,7 +4,8 @@ name: Top 5 Strongest
 # from the Market Tape Ledger page - after each US session closes:
 # scripts/momentum_scan.py ranks the S&P 500 + Nasdaq-100 on daily closes and
 # replays the weekly rule since 2020, then scripts/render_scanner.py draws the
-# page. Holdings only change at the Friday close; weekday runs refresh the
+# page; scripts/ignition_scan.py adds the "Next big thing watch" (every US
+# stock checked for gap-ups on heavy volume). Holdings only change at the Friday close; weekday runs refresh the
 # rankings and the "if it rebalanced today" banner. The S&P 500 and
 # Nasdaq-100 lists refresh themselves once they're a week old.
 # On Fridays, when Monday's trade has anything to do (stock swaps, a sleeve
@@ -46,6 +47,13 @@ jobs:
       - name: Rank the S&P 500 + Nasdaq-100 and replay the rule
         run: python scripts/momentum_scan.py
 
+      - name: Scan all US stocks for ignition setups (Next big thing watch)
+        # A bad day for this ~5,000-ticker scan must never block the main dashboard;
+        # the page then shows the previous scan.
+        continue-on-error: true
+        timeout-minutes: 45
+        run: python scripts/ignition_scan.py
+
       - name: Render the dashboard
         run: python scripts/render_scanner.py
 
@@ -53,7 +61,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/scanner.html data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
+          git add docs/scanner.html data/ignition_scan.json data/listed.csv data/ignition_industries.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0
