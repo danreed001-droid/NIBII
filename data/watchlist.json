@@ -1,0 +1,7 @@
+{
+  "_note": "Watchlist shown on the scanner page (Next big thing watch). Edit freely: group name -> tickers (Yahoo symbols). Rebuilt nightly.",
+  "Semiconductors": ["NVDA", "AMD", "AVGO", "TSM", "MU", "MRVL", "ARM", "QCOM", "INTC", "TXN", "ADI", "MPWR", "ON", "MCHP"],
+  "Semi equipment": ["ASML", "AMAT", "LRCX", "KLAC", "TER", "ONTO"],
+  "AI hardware & data centers": ["SMCI", "DELL", "ANET", "CLS", "CRDO", "ALAB", "VRT", "LITE", "COHR", "SNDK", "STX", "WDC", "CRWV", "NBIS"],
+  "AI software & cloud": ["MSFT", "GOOGL", "META", "AMZN", "ORCL", "PLTR", "SNOW", "NOW", "CRM", "AI", "PATH", "SOUN"]
+}

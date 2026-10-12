@@ -50,6 +50,16 @@ def build(scan, owner=None, today=None):
     theme_txt = ('\n\n**Industries heating up** (new in the top 10, uptrend share rising fast): ' + '; '.join(
         f"{r['ind']} (heat {r['heat']}, {round(r['up'] * 100)}% in uptrend, {r['dUp'] * 100:+.0f} pts in 4 weeks; strongest "
         f"{', '.join(r.get('leaders') or [])})" for r in heating)) if heating else ''
+    wl = [(g['group'], r) for g in scan.get('watch') or [] for r in g.get('rows') or []
+          if (r.get('flag') or {}).get('days') == 0 and r['flag']['kind'] != 'pocket' and r['t'] not in {x['t'] for x in ign}]
+    wl_txt = ('\n\n**Watchlist:** ' + '; '.join(f"{r['t']} ({g}) {r['flag']['kind']}" for g, r in wl)
+              + ' - check the news; stop under the flag day\'s low.') if wl else ''
+    if not ign and wl:
+        when = fmt(scan['asOf'])
+        title = f"Watchlist alert: {', '.join(r['t'] + ' ' + r['flag']['kind'] for _, r in wl[:6])} ({when} close)"
+        body = (f"{'@' + owner + ' ' if owner else ''}A watchlist stock flagged at the {when} close." + wl_txt + theme_txt +
+                f"\n\n[Watchlist and action plan]({PAGE}) · automated scan, not investment advice.")
+        return title, body
     if not ign:
         if not heating:
             return None
@@ -86,7 +96,7 @@ def build(scan, owner=None, today=None):
             "- Ignition = gap up 8%+ on 3x+ volume in an uptrend; Turnaround = gap up 15%+ on 5x+ volume while beaten down.\n\n"
             "| Stock | Setup | Name | Industry | Day | Gap | Vol vs 50d | RS | Off 52w high | Gaps 12m |\n"
             "|---|---|---|---|---|---|---|---|---|---|\n" + rows +
-            f"\n\n**Market:** {market_note(scan.get('market'))[1]}\n\n**What to do:**\n" + lines + theme_txt + odds_txt +
+            f"\n\n**Market:** {market_note(scan.get('market'))[1]}\n\n**What to do:**\n" + lines + wl_txt + theme_txt + odds_txt +
             f"\n\n[Action plan and position sizes]({PAGE}) · automated scan, not investment advice.")
     return title, body
 

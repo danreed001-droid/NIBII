@@ -50,3 +50,10 @@ def test_a_new_hot_industry_alerts_even_without_flags():
     title, body = ignition_alert.build(dict(SCAN, today=[], themes=[th]), 'x', TODAY)
     assert title == 'Theme alert: Marine Shipping heating up (Fri Oct 9 close)' and 'FRO, DAC' in body
     assert ignition_alert.build(dict(SCAN, today=[], themes=[dict(th, newTop=False)]), 'x', TODAY) is None
+
+
+def test_a_watchlist_breakout_alerts():
+    wrow = dict(t='NVDA', flag=dict(kind='breakout', d='2026-10-09', days=0))
+    scan = dict(SCAN, today=[], watch=[dict(group='Semiconductors', rows=[wrow, dict(t='AMD', flag=dict(kind='pocket', days=0))])])
+    title, body = ignition_alert.build(scan, 'x', TODAY)
+    assert title == 'Watchlist alert: NVDA breakout (Fri Oct 9 close)' and 'AMD' not in body

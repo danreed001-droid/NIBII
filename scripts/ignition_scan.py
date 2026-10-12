@@ -94,6 +94,18 @@ def load_universe():
 SCREENER = 'https://api.nasdaq.com/api/screener/stocks?tableonly=true&download=true'
 IND_ALL = os.path.join(ROOT, 'data', 'industries_all.csv')
 THEME_HISTORY = os.path.join(ROOT, 'data', 'theme_history.json')
+WATCHLIST = os.path.join(ROOT, 'data', 'watchlist.json')
+WATCH_FLAG_LOOK = 60      # sessions back to show a watchlist stock's latest flag
+
+
+def load_watchlist():
+    """{group: [ticker, ...]} from data/watchlist.json ('_'-prefixed keys are notes)."""
+    try:
+        with open(WATCHLIST) as f:
+            w = json.load(f)
+    except (OSError, ValueError):
+        return {}
+    return {g: [t.strip().upper() for t in ts] for g, ts in w.items() if not g.startswith('_') and isinstance(ts, list)}
 
 
 def load_industries():
@@ -186,6 +198,42 @@ def industries(tickers, cache):
     return {t: seed.get(t) or cache.get(t) or '' for t in tickers}
 
 
+def watchlist_rows(watch, C, res, evs, spy, names, ind_all, theme_rows, last):
+    """[{group, rows: [...], up, r63}] - nightly status of every watchlist stock:
+    close, day, 1- and 3-month return vs SPY, relative strength, uptrend or
+    not, distance from the 52-week high and its latest flag (last 60 sessions)."""
+    latest = {}
+    for r, t, k in evs:
+        if r > last - WATCH_FLAG_LOOK:
+            latest[t] = (r, k)               # evs are sorted by row: the last one wins
+    rank = {r['ind']: (i, r['heat']) for i, r in enumerate(theme_rows, 1)}
+    sp = lambda n: spy.iat[last] / spy.iat[last - n] - 1
+    out = []
+    for g, ts in watch.items():
+        rows = []
+        for t in ts:
+            if t not in C.columns or not C[t].iloc[-5:].notna().any():
+                rows.append(dict(t=t, n=names.get(t, ''), missing=True))
+                continue
+            c = C[t].iat[last]
+            ret = lambda n: r4(c / C[t].iat[last - n] - 1 - sp(n)) if C[t].iat[last - n] == C[t].iat[last - n] else None
+            hi = C[t].iloc[last - 251:last + 1].max()
+            sma50 = C[t].iloc[last - 49:last + 1].mean()
+            rs = res['rs'][t].iat[last]
+            fl = latest.get(t)
+            trend = bool(res['trend'][t].iat[last])
+            rows.append(dict(t=t, n=names.get(t, ''), close=r4(c), chg=r4(res['chg'][t].iat[last]), r21=ret(21), r63=ret(63),
+                             rs=None if rs != rs else int(rs), offHigh=r4(c / hi - 1) if hi == hi else None,
+                             state='up' if trend else ('mixed' if c > sma50 else 'down'),
+                             flag=None if not fl else dict(kind=fl[1], d=C.index[fl[0]].date().isoformat(), days=last - fl[0]),
+                             ind=ind_all.get(t, ''), indRank=rank.get(ind_all.get(t, ''), (None, None))[0]))
+        live = [r for r in rows if not r.get('missing')]
+        r63s = [r['r63'] for r in live if r.get('r63') is not None]
+        out.append(dict(group=g, rows=rows, up=sum(r['state'] == 'up' for r in live), n=len(live),
+                        r63=r4(float(sorted(r63s)[len(r63s) // 2])) if r63s else None))
+    return out
+
+
 def r4(x):
     return None if x is None or x != x else round(float(x), 4)
 
@@ -200,6 +248,8 @@ def main():
     tickers = sorted(names)
     if a.limit:
         tickers = tickers[:a.limit]
+    watch = load_watchlist()
+    tickers = sorted(set(tickers) | {t for ts in watch.values() for t in ts})
     log(f'{len(tickers)} listed common stocks')
     start = (date.today() - timedelta(days=int(365.25 * YEARS) + 10)).isoformat()
     if a.cache and os.path.exists(a.cache):
@@ -280,12 +330,15 @@ def main():
     with open(THEME_HISTORY, 'w') as f:
         json.dump(history, f, separators=(',', ':'))
 
+    watch_out = watchlist_rows(watch, C, res, evs, spy, names, ind_all, theme_rows, last)
+
     scan = dict(
         generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'),
         asOf=C.index[last].date().isoformat(),
         listed=len(tickers), priced=int(C.shape[1]), liquid=int(res['liquid'].iloc[last].sum()),
         mechanical=bool(res['mech'].iat[last]),
         market=dict(spy=r4(spy.iat[last]), sma50=r4(spy.iloc[-50:].mean()), sma200=r4(spy.iloc[-200:].mean())),
+        watch=watch_out,
         today=today_rows, recent=recent, groups=groups, themes=theme_rows[:25], themeCount=len(theme_rows),
         stats={**ig.hit_stats(C, spy, evs), 'all': ig.baseline(C, spy, res['liquid'], warm)}, statsFrom=C.index[warm].date().isoformat(),
         rules=dict(minPrice=ig.MIN_PRICE, minDollarVol=ig.MIN_DOLLAR_VOL, ignGap=ig.IGN_GAP, ignVol=ig.IGN_VOL,

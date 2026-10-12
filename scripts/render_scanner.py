@@ -2122,6 +2122,10 @@ IGNITION_CSS = """<style>
 #watch .act .size { font-size: 0.8rem; color: var(--ink); }
 #watch .mkt { border-left: 4px solid var(--pos); } #watch .mkt.warn { border-left-color: var(--gold); } #watch .mkt.bad { border-left-color: var(--neg); }
 #watch .acct { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--ink-2); margin: 0 0 10px; }
+#watch tr.wg td { background: var(--surface-2); padding-top: 10px; }
+#watch table.wl td.do { min-width: 200px; max-width: 300px; font-size: 0.78rem; color: var(--ink-2); }
+#watch table.wl td .sub { max-width: 150px; }
+#watch table.wl th, #watch table.wl td { padding: 7px 8px; }
 #watch .acct input { font: inherit; width: 120px; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink); }
 </style>"""
 
@@ -2214,6 +2218,62 @@ def plan_html(scan):
     return ''.join(out) + SIZE_JS
 
 
+STATE_LABEL = {'up': ('Uptrend', 'pos'), 'mixed': ('Mixed', 'muted'), 'down': ('Downtrend', 'neg')}
+
+
+def _watch_do(r, plan_by_t):
+    a = plan_by_t.get(r['t'])
+    if a:
+        return f'<b>{ACT_LABEL[a["act"]]}:</b> {_e(a["text"])}'
+    f = r.get('flag')
+    if f and f['days'] == 0:
+        return f'Flagged {KIND_LABEL.get(f["kind"], f["kind"]).lower()} today: check the news; stop under today\'s low.'
+    if r['state'] == 'up':
+        return ('Uptrend, recent ' + KIND_LABEL.get(f['kind'], '').lower() + '. Hold; add on the next earnings gap-up.') if f else \
+            'Uptrend: wait for a gap-up on earnings or a breakout on volume to buy.'
+    if r['state'] == 'mixed':
+        return 'Above its 50-day average but not a full uptrend: wait.'
+    return 'Downtrend: avoid until it gets back above its 50-day average.'
+
+
+def watch_html(scan):
+    groups = scan.get('watch') or []
+    if not groups:
+        return ''
+    sys.path.insert(0, ROOT)
+    from mtl.ignition import plan
+    plan_by_t = {a['t']: a for a in plan(scan)}
+    body = []
+    for g in groups:
+        ranks = [r.get('indRank') for r in g['rows'] if r.get('indRank')]
+        ind_rank = max(set(ranks), key=ranks.count) if ranks else None
+        if ind_rank and ranks.count(ind_rank) * 2 < len(g['rows']):
+            ind_rank = None                     # the group spans several industries
+        body.append(f'<tr class="wg"><td colspan="9" class="l"><b>{_e(g["group"])}</b> <span class="muted">· {g["up"]} of {g["n"]} in an uptrend'
+                    f' · median 3m vs SPY {_p(g.get("r63"), 0)}'
+                    + (f' · industry rank #{ind_rank} of {scan.get("themeCount", "?")}' if ind_rank else '') + '</span></td></tr>')
+        for r in g['rows']:
+            if r.get('missing'):
+                body.append(f'<tr><td class="l"><b>{_e(r["t"])}</b></td><td colspan="8" class="l muted">no price data</td></tr>')
+                continue
+            lab, tone = STATE_LABEL[r['state']]
+            f = r.get('flag')
+            flag = f'{_tag(f["kind"])} <span class="muted">{_e(f["d"][5:])}</span>' if f else '<span class="muted">–</span>'
+            body.append(f'<tr><td class="l">{_stock(dict(t=r["t"], n=r.get("n")))}</td><td class="l {tone}">{lab}</td>'
+                        f'<td class="num {_tone(r.get("chg"))}">{_p(r.get("chg"))}</td>'
+                        f'<td class="num hide-sm {_tone(r.get("r21"))}">{_p(r.get("r21"), 0)}</td>'
+                        f'<td class="num {_tone(r.get("r63"))}">{_p(r.get("r63"), 0)}</td>'
+                        f'<td class="num">{"–" if r.get("rs") is None else r["rs"]}</td>'
+                        f'<td class="num hide-sm">{_p(r.get("offHigh"), 0)}</td><td class="l hide-sm">{flag}</td>'
+                        f'<td class="l w do">{_watch_do(r, plan_by_t)}</td></tr>')
+    return ('<p class="section-label">Watchlist: semis &amp; AI <span class="hint">nightly status · edit the list in '
+            '<a href="https://github.com/danreed001-droid/NIBII/blob/main/data/watchlist.json">data/watchlist.json</a></span></p>'
+            '<div class="tablebox"><table class="wl"><thead><tr><th class="l">Stock</th><th class="l">Trend</th><th>Day</th>'
+            '<th class="hide-sm">1m vs SPY</th><th>3m vs SPY</th><th title="Relative strength percentile, 1-99">RS</th>'
+            '<th class="hide-sm">Off 52w high</th><th class="l hide-sm">Latest flag</th><th class="l w">Do</th></tr></thead>'
+            f'<tbody>{"".join(body)}</tbody></table></div>')
+
+
 THEMES_SHOWN = 12
 
 
@@ -2272,6 +2332,7 @@ def ignition_html(scan=None):
         out.append('<p class="note">Options-expiry / index-rebalance day: breakout and pocket-pivot flags are skipped (mechanical volume).</p>')
     out.append('</div>')
     out.append(plan_html(scan))
+    out.append(watch_html(scan))
     out.append(themes_html(scan))
 
     rows = ''.join(
