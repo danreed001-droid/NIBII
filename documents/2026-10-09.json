@@ -377,8 +377,8 @@
        null
       ]
      ],
-     "maturityClose": 7868.0,
-     "ret": 0.000254,
+     "maturityClose": 7858.25,
+     "ret": -0.000985,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2461,8 +2461,8 @@
        null
       ]
      ],
-     "maturityClose": 104.53125,
-     "ret": -0.000747,
+     "maturityClose": 104.578125,
+     "ret": -0.000299,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5083,12 +5083,12 @@
       [
        "bear",
        "The 10-year yield was about 5.25% on 9 October (from about 5.23%), holding near a 24-year high (news log); GC=F is 4220.30, below its 50-day (4377.05) and 200-day (4548.04) averages and the 10-year-yield correlation is -0.36 over 21 sessions",
-       false
+       true
       ],
       [
        "bear",
        "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained); a higher-for-longer path is a headwind for non-yielding gold",
-       false
+       true
       ],
       [
        "neu",
@@ -5118,7 +5118,7 @@
       [
        "bear",
        "The dollar index rose 0.24% to 102.231 on 9 October, just under its 52-week closing high of 102.24, a headwind for gold; Brent held above $100 on 9 October (about $102 early, from above $103) on Hormuz tensions; Trump said the US will not attack Iran before 3 November while a Revolutionary Guard strike on an LPG carrier was reported (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -5126,8 +5126,8 @@
        null
       ]
      ],
-     "maturityClose": 4198.39990234375,
-     "ret": -0.005189,
+     "maturityClose": 4188.7998046875,
+     "ret": -0.007464,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7204,8 +7204,8 @@
        null
       ]
      ],
-     "maturityClose": 102.40399932861328,
-     "ret": 0.001692,
+     "maturityClose": 102.46399688720703,
+     "ret": 0.002279,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9385,8 +9385,8 @@
        null
       ]
      ],
-     "maturityClose": 2821.300048828125,
-     "ret": -0.000779,
+     "maturityClose": 2816.199951171875,
+     "ret": -0.002585,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11299,12 +11299,12 @@
       [
        "bear",
        "The 10-year yield was about 5.25% on 9 October (from about 5.23%), holding near a 24-year high (news log); the 21-session 10-year-yield correlation is -0.325",
-       false
+       true
       ],
       [
        "bear",
        "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)",
-       false
+       true
       ],
       [
        "neu",
@@ -11334,7 +11334,7 @@
       [
        "bear",
        "Brent held above $100 on 9 October (about $102 early, from above $103) on Hormuz tensions; Trump said the US will not attack Iran before 3 November while a Revolutionary Guard strike on an LPG carrier was reported (news log); oil is the dominant 21-session driver for the Nasdaq-100 (correlation -0.547)",
-       false
+       true
       ],
       [
        "neu",
@@ -11342,8 +11342,8 @@
        null
       ]
      ],
-     "maturityClose": 30980.25,
-     "ret": -0.004595,
+     "maturityClose": 30920.0,
+     "ret": -0.00653,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
