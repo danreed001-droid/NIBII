@@ -123,8 +123,8 @@ def dip_call_text(p):
             out.append(f"{t}: no live option quote; check the 3-month at-the-money call's implied volatility at your broker and use calls only if it is {mx}% or less")
         elif q.get('ok'):
             out.append(f"{t}: the {fmt(q['expiry'])} ${q['strike']:g} call is at {round(q['iv'] * 100)}% IV (mid ${q['mid']}"
-                       + (f", {pctw(q['cost'])} of the price" if q.get('cost') else '') + f"), under {mx}%: calls costing 1-2% of the account, sold after "
-                       f"{p.get('callHold', 20)} sessions, are the options version")
+                       + (f", {pctw(q['cost'])} of the price" if q.get('cost') else '') + f"), under {mx}%: optional, calls costing 1-2% of the account on top of the stock add, sold after "
+                       f"{p.get('callHold', 20)} sessions")
         else:
             out.append(f"{t}: the 3-month call is at {round(q['iv'] * 100)}% IV, over {mx}%: too expensive, stock add only")
     return ('. Options version: ' + '; '.join(out)) if out else ''

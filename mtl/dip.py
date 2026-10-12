@@ -23,8 +23,10 @@ Options version (information, not traded by the plan): instead of the 1.5x stock
 these calls instead of the stock add made 36-39% a year (2% of the account: 39-43%, worst drop
 -42%) against 34.5%, when the calls were priced at 50-70% implied volatility; priced at the
 stock's own recent volatility (often ~100% right after a drop) it made 33.1%, worse than doing
-nothing. The typical single call lost money (median -21%, 43% winners): the gain comes from a
-few big rebounds, so the IV check is the whole trade.
+nothing. The big rebounds come from the wildest stocks (+18% four weeks after the drop when the
+stock's volatility was over 100%, +6% under 70%), whose calls are expensive: taking calls only
+when the stock was calm enough (else the stock add) made 34.2% against 34.5%, so the plan keeps
+the stock add and the call is an optional extra when it happens to be cheap.
 
 Pure and network-free.
 """
