@@ -2112,6 +2112,17 @@ IGNITION_CSS = """<style>
 #watch details > :last-child { margin-bottom: 14px; }
 #watch .grp { color: var(--gold); font-size: 0.7rem; font-weight: 600; margin-left: 4px; }
 #watch ul { margin: 0 0 8px; padding-left: 20px; }
+#watch .acts { display: grid; gap: 8px; margin-bottom: 12px; }
+#watch .act { background: var(--surface); border: 1px solid var(--hairline); border-left: 4px solid var(--hairline); border-radius: 10px; padding: 10px 14px; }
+#watch .act p { margin: 4px 0 0; }
+#watch .act.new { border-left-color: var(--accent); } #watch .act.exit { border-left-color: var(--neg); }
+#watch .act.trail { border-left-color: var(--gold); } #watch .act.profit { border-left-color: var(--pos); }
+#watch .act .who { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+#watch .act .who .muted { font-size: 0.78rem; }
+#watch .act .size { font-size: 0.8rem; color: var(--ink); }
+#watch .mkt { border-left: 4px solid var(--pos); } #watch .mkt.warn { border-left-color: var(--gold); } #watch .mkt.bad { border-left-color: var(--neg); }
+#watch .acct { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--ink-2); margin: 0 0 10px; }
+#watch .acct input { font: inherit; width: 120px; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink); }
 </style>"""
 
 
@@ -2142,6 +2153,102 @@ def _tag(kind):
     return f'<span class="tag {KIND_TONE.get(kind, "")}">{KIND_LABEL.get(kind, _e(kind))}</span>'
 
 
+ACT_LABEL = {'new': 'New', 'exit': 'Exit', 'trail': 'Sell the rest', 'profit': 'Take profit', 'hold': 'Hold'}
+ACT_TONE = {'new': 'buy', 'exit': 'sell', 'trail': 'sell', 'profit': 'buy', 'hold': ''}
+
+SIZE_JS = """<script>
+(function () {
+  var box = document.getElementById('acct'); if (!box) return;
+  try { var v = localStorage.getItem('mtl-acct'); if (v) box.value = v; } catch (e) {}
+  function fill() {
+    var a = parseFloat(String(box.value).replace(/[^0-9.]/g, '')) || 0;
+    try { localStorage.setItem('mtl-acct', box.value); } catch (e) {}
+    document.querySelectorAll('#watch .size[data-close]').forEach(function (el) {
+      var c = +el.getAttribute('data-close'), st = +el.getAttribute('data-stop');
+      if (!a || !(c > st)) { el.textContent = ''; return; }
+      var n = Math.floor(Math.min(a * 0.01 / (c - st), a * 0.25 / c));
+      el.textContent = 'Size: ' + n + ' shares (~$' + Math.round(n * c).toLocaleString() + ') risks ~$' + Math.round(n * (c - st)).toLocaleString() + ' to the stop.';
+    });
+  }
+  box.addEventListener('input', fill); fill();
+})();
+</script>"""
+
+
+def _act(a):
+    size = (f'<p class="size" data-close="{a["close"]}" data-stop="{a["stop"]}"></p>'
+            if a['act'] == 'new' and a.get('close') and a.get('stop') else '')
+    return (f'<div class="act {a["act"]}"><div class="who"><span class="tag {ACT_TONE[a["act"]]}">{ACT_LABEL[a["act"]]}</span>'
+            f'<b>{_e(a["t"])}</b><span class="muted">{_e(a.get("n"))} · {KIND_LABEL.get(a["kind"], "")} {_e(a.get("d"))}</span></div>'
+            f'<p>{_e(a["text"])}</p>{size}</div>')
+
+
+def _theme_line(scan):
+    th = scan.get('themes') or []
+    if not th:
+        return ''
+    em = [r['ind'] for r in th if r.get('emerging') or r.get('newTop')]
+    return (f'<p><b>Hottest fields:</b> {", ".join(_e(r["ind"]) for r in th[:3])}'
+            + (f' · <b>heating up:</b> {", ".join(_e(g) for g in em[:4])}' if em else '') + ' (see Hot industries below).</p>')
+
+
+def plan_html(scan):
+    sys.path.insert(0, ROOT)
+    from mtl.ignition import market_note, plan
+    acts = plan(scan)
+    tone, note = market_note(scan.get('market'))
+    main = [a for a in acts if a['act'] != 'hold']
+    holds = [a for a in acts if a['act'] == 'hold']
+    out = ['<p class="section-label">Action plan <span class="hint">rewritten every night from the scan · '
+           'the swing playbook from the research below</span></p>',
+           f'<div class="card mkt {tone}"><p><b>Market:</b> {_e(note)}</p>' + _theme_line(scan) + '</div>',
+           '<label class="acct">Account size $<input id="acct" inputmode="decimal" placeholder="e.g. 25000">'
+           '<span class="muted">sizes new ideas to risk 1% to the stop, max 25% of the account per stock</span></label>']
+    if main:
+        out.append('<div class="acts">' + ''.join(_act(a) for a in main) + '</div>')
+    else:
+        out.append('<p class="note">No new ignitions or turnarounds and nothing to sell tonight.</p>')
+    if holds:
+        out.append(f'<details><summary>Hold - {len(holds)} recent flag{"s" if len(holds) != 1 else ""} still above their stops</summary>'
+                   '<div class="acts">' + ''.join(_act(a) for a in holds) + '</div></details>')
+    return ''.join(out) + SIZE_JS
+
+
+THEMES_SHOWN = 12
+
+
+def themes_html(scan):
+    th = (scan.get('themes') or [])[:THEMES_SHOWN]
+    if not th:
+        return ''
+    hot = [r for r in th if r.get('emerging') or r.get('newTop')]
+
+    def badges(r):
+        return ((' <span class="tag buy">Emerging</span>' if r.get('emerging') else '')
+                + (' <span class="tag">New in top 10</span>' if r.get('newTop') else ''))
+    rows = ''.join(
+        f'<tr><td class="num">{i}</td><td class="l w"><b>{_e(r["ind"])}</b>{badges(r)}</td><td class="num">{r["heat"]}</td>'
+        f'<td class="num hide-sm">{r["n"]}</td>'
+        f'<td class="l w">{r["flags"]}{(" · " + ", ".join(_e(t) for t in r["flagged"])) if r["flagged"] else ""}</td>'
+        f'<td class="num">{round(r["up"] * 100)}% <span class="{_tone(r["dUp"])}">({r["dUp"] * 100:+.0f})</span></td>'
+        f'<td class="num hide-sm {_tone(r.get("r63"))}">{_p(r.get("r63"), 0)}</td>'
+        f'<td class="l hide-sm">{", ".join(_e(t) for t in r.get("leaders") or [])}</td></tr>'
+        for i, r in enumerate(th, 1))
+    lead = (f'<p class="note"><b>Heating up:</b> ' + ' · '.join(_e(r['ind']) for r in hot) + '</p>') if hot else ''
+    return ('<p class="section-label">Hot industries <span class="hint">which field is blowing up, whatever it is · '
+            f'{scan.get("themeCount", len(th))} industries ranked by recent flags, share in an uptrend and 3-month return vs SPY</span></p>'
+            + lead +
+            '<div class="tablebox"><table><thead><tr><th>#</th><th class="l w">Industry</th>'
+            '<th title="0-100: average rank of flag rate, uptrend share and 3-month return vs SPY">Heat</th>'
+            '<th class="hide-sm">Stocks</th><th class="l w">Flags 20d</th>'
+            '<th title="Share of its stocks in an uptrend now (change in points over 4 weeks)">In uptrend (4w Δ)</th>'
+            '<th class="hide-sm">3m vs SPY</th><th class="l hide-sm">Strongest</th>'
+            f'</tr></thead><tbody>{rows}</tbody></table></div>'
+            '<p class="note"><b>Emerging</b> = its share of stocks in an uptrend rose 15+ points in 4 weeks and it ranks in the top '
+            'quarter. <b>New in top 10</b> = not in the top 10 a week ago. A field that keeps showing up here, with its stocks gapping '
+            'on earnings, is how the AI suppliers looked in 2023 - and how the next theme will look.</p>')
+
+
 def ignition_html(scan=None):
     """The "Next big thing watch" block from data/ignition_scan.json (written
     nightly by scripts/ignition_scan.py), or '' when there is no scan yet."""
@@ -2164,6 +2271,8 @@ def ignition_html(scan=None):
     if scan.get('mechanical'):
         out.append('<p class="note">Options-expiry / index-rebalance day: breakout and pocket-pivot flags are skipped (mechanical volume).</p>')
     out.append('</div>')
+    out.append(plan_html(scan))
+    out.append(themes_html(scan))
 
     rows = ''.join(
         f'<tr><td class="l">{_stock(r)}{"<span class=grp>▲ group</span>" if r.get("group") else ""}</td><td class="l">{_tag(r["kind"])}</td>'

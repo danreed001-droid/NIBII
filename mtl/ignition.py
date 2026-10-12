@@ -210,3 +210,124 @@ def hit_stats(C, spy, evs):
         st['mae60'] = float(np.median(dd)) if dd else None
         out[kind] = st
     return out
+
+
+PROFIT_AT = 0.20        # take part of the gain off here (the swing playbook in the research)
+TRAIL_AFTER = 5         # sessions before the 20-day-average trail applies
+ACT_KINDS = ('ignition', 'turnaround')
+ORDER = {'new': 0, 'exit': 1, 'trail': 2, 'profit': 3, 'hold': 4}
+
+
+def _pc(x, d=1):
+    return f'{x * 100:+.{d}f}%'
+
+
+def market_note(m):
+    """(tone, text) on how big new positions should be, from SPY's trend."""
+    if not m or not m.get('spy') or not m.get('sma200'):
+        return 'ok', 'Market trend unknown: use normal size.'
+    if m['spy'] < m['sma200']:
+        return 'bad', ('SPY is below its 200-day average. Momentum signals fail most in falling and panic-rebound markets: '
+                       'halve new position sizes, or wait.')
+    if m.get('sma50') and m['spy'] < m['sma50']:
+        return 'warn', 'SPY is above its 200-day but below its 50-day average: take only the best setups, at normal or smaller size.'
+    return 'ok', 'SPY is above its 50- and 200-day averages: normal size for new positions.'
+
+
+def plan(scan):
+    """What to do with each ignition / turnaround from the last few weeks plus
+    today's breakouts, from the swing playbook: new flag -> check the news, buy
+    near the close with the flag-day low as the stop; up 20%+ -> take part off
+    and trail on the 20-day average; closed under the 20-day average after a
+    gain -> sell the rest; closed under the flag-day low -> stop hit, exit.
+    [{t, n, kind, act, text, close, stop}] - newest flags first in each group."""
+    out, seen = [], set()
+    today = {r['t']: r for r in scan.get('today') or []}
+    for r in scan.get('recent') or []:          # newest first
+        t = r['t']
+        if t in seen or (r['kind'] not in ACT_KINDS and not (r['kind'] == 'breakout' and r.get('days') == 0)):
+            continue
+        seen.add(t)
+        close, low, sma20, since = r.get('close'), r.get('low'), r.get('sma20'), r.get('since') or 0.0
+        if close is None or low is None:
+            continue
+        risk = close / low - 1 if low else None
+        reps = (today.get(t) or r).get('repeats') or 0
+        if r.get('days') == 0:
+            act = 'new'
+            lead = (f'Repeat gap (#{reps} in 12 months) - the stronger signal; add if you already own it. ' if reps >= 2
+                    and r['kind'] in ACT_KINDS else '')
+            text = (lead + 'Check the news first: a guidance raise, big contract or first profit fits the winners\' pattern; '
+                    f'a buyout or one-off does not. If it fits, buy near the close or in tomorrow\'s first 30 minutes '
+                    f'with a stop at the flag-day low {low:.2f}' + (f' ({_pc(-risk)} away).' if risk else '.'))
+            if r['kind'] == 'breakout':
+                text = 'Breakout to a new high on volume - watchlist; ' + text[0].lower() + text[1:]
+        elif close < low:
+            act, text = 'exit', (f'If you hold it, exit - stop hit: closed {close:.2f}, below the flag-day low {low:.2f}. Exit; put it back on '
+                                 'the list if it gaps up on volume again.')
+        elif since > 0 and sma20 and close < sma20 and r.get('days', 0) >= TRAIL_AFTER:
+            act, text = 'trail', (f'Up {_pc(since)} since the flag but closed under its 20-day average ({sma20:.2f}): '
+                                  'if you hold it, sell what\'s left or tighten the stop to the latest low.')
+        elif since >= PROFIT_AT:
+            act, text = 'profit', (f'Up {_pc(since)} since the flag: if you hold it, take a third to a half off, trail the rest on the '
+                                   f'20-day average ({sma20:.2f}).' if sma20 else f'Up {_pc(since)}: take a third to a half off.')
+        else:
+            act, text = 'hold', (f'{_pc(since)} since the flag {r.get("days")} session{"s" if r.get("days") != 1 else ""} ago. Hold; stop stays at the '
+                                 f'flag-day low {low:.2f}' + (f' ({_pc(-risk)} away).' if risk else '.'))
+        out.append(dict(t=t, n=r.get('n', ''), kind=r['kind'], d=r.get('d'), act=act, text=text, close=close, stop=low))
+    out.sort(key=lambda x: (ORDER[x['act']], 0 if x['kind'] in ACT_KINDS else 1))
+    return out
+
+
+THEME_MIN = 8            # liquid stocks an industry needs to be ranked
+THEME_LOOK = 20          # sessions of flags / trend change
+EMERGING_DELTA = 0.15    # uptrend share up 15+ points in THEME_LOOK sessions
+
+
+def themes(C, res, industry, flagged, spy, look=THEME_LOOK):
+    """Which industries are heating up, whatever they are: for every industry
+    with THEME_MIN+ liquid stocks - how many of its stocks flagged recently,
+    what share are in an uptrend now vs `look` sessions ago, and the median
+    3-month return vs SPY. heat = average of the three cross-industry
+    percentile ranks (flag rate, uptrend share, 3-month return), 0-100.
+    flagged: {ticker} that flagged (not pocket pivots) in the last `look` sessions.
+    Returns rows sorted hottest first."""
+    last = len(C) - 1
+    liq = res['liquid'].iloc[last]
+    tr_now, tr_then = res['trend'].iloc[last], res['trend'].iloc[last - look]
+    r63 = C.iloc[last] / C.iloc[last - 63] - 1 - (spy.iat[last] / spy.iat[last - 63] - 1)
+    rs = res['rs'].iloc[last]
+    groups = {}
+    for t in C.columns:
+        g = industry.get(t)
+        if g and bool(liq.get(t)):
+            groups.setdefault(g, []).append(t)
+    rows = []
+    for g, ts in groups.items():
+        if len(ts) < THEME_MIN:
+            continue
+        fl = [t for t in ts if t in flagged]
+        up_now = float(np.mean([bool(tr_now[t]) for t in ts]))
+        up_then = float(np.mean([bool(tr_then[t]) for t in ts]))
+        ret = r63[ts].dropna()
+        leaders = sorted((t for t in ts if rs[t] == rs[t]), key=lambda t: -rs[t])[:4]
+        rows.append(dict(ind=g, n=len(ts), flags=len(fl), flagged=sorted(fl, key=lambda t: -(rs[t] if rs[t] == rs[t] else 0))[:6],
+                         up=round(up_now, 3), dUp=round(up_now - up_then, 3),
+                         r63=None if ret.empty else round(float(ret.median()), 4), leaders=leaders))
+    if not rows:
+        return []
+    df = pd.DataFrame(rows)
+    rank = lambda s: s.rank(pct=True).fillna(0)
+    df['heat'] = ((rank(df['flags'] / df['n']) + rank(df['up']) + rank(df['r63'].astype(float))) / 3 * 100).round()
+    df = df.sort_values(['heat', 'flags'], ascending=False)
+    df['emerging'] = (df['dUp'] >= EMERGING_DELTA) & (df['heat'] >= df['heat'].quantile(0.75))
+    return [{**r, 'heat': int(r['heat']), 'emerging': bool(r['emerging'])} for r in df.to_dict('records')]
+
+
+def new_leaders(top_now, history, top=10, back=5):
+    """Industries in today's top `top` that weren't in it `back` runs ago
+    (or the oldest run on record). history: [[date, [industry, ...]], ...]."""
+    if not history:
+        return []
+    then = set(history[-back][1][:top]) if len(history) >= back else set(history[0][1][:top])
+    return [g for g in top_now[:top] if g not in then]

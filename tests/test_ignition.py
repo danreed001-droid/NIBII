@@ -106,3 +106,39 @@ def test_baseline_covers_every_liquid_stock_day():
     res = ig.compute(O, H, L, C, V)
     st = ig.baseline(C, C['A'], res['liquid'], 252)
     assert st['n'] == 2 * (N - 252) and st['ex60'] == 0 and 0 < st['ret60'] < 0.2 and st['up50'] == 0
+
+
+def test_plan_turns_flags_into_actions():
+    rec = lambda t, **k: dict(dict(d='2026-10-01', t=t, n=t, kind='ignition', days=5, since=0.05, close=10.5, low=10.0,
+                                   sma20=10.2, repeats=1), **k)
+    scan = dict(today=[], recent=[rec('NEW', days=0, since=0.0), rec('STOP', close=9.5, since=-0.1),
+                                  rec('WIN', since=0.25, close=12.5, sma20=11.0), rec('FADE', since=0.05, close=10.1, sma20=10.3),
+                                  rec('OK'), rec('OK', d='2026-09-20'), rec('BRK', kind='breakout')])
+    acts = {a['t']: a['act'] for a in ig.plan(scan)}
+    assert acts == {'NEW': 'new', 'STOP': 'exit', 'WIN': 'profit', 'FADE': 'trail', 'OK': 'hold'}   # old breakouts skipped
+    assert [a['t'] for a in ig.plan(scan)][0] == 'NEW'
+
+
+def test_market_note_cuts_size_below_the_200_day():
+    assert ig.market_note(dict(spy=500, sma50=520, sma200=540))[0] == 'bad'
+    assert ig.market_note(dict(spy=530, sma50=535, sma200=500))[0] == 'warn'
+    assert ig.market_note(dict(spy=560, sma50=540, sma200=500))[0] == 'ok'
+
+
+def test_themes_rank_the_industry_that_is_heating_up_first():
+    up = list(20 * np.exp(np.linspace(0, 1.0, N)))
+    flat = list(20 + np.sin(np.linspace(0, 20, N)))
+    paths = {f'H{i}': up for i in range(8)}
+    paths.update({f'C{i}': flat for i in range(8)})
+    O, H, L, C, V = frames(paths)
+    res = ig.compute(O, H, L, C, V)
+    industry = {**{f'H{i}': 'Hot' for i in range(8)}, **{f'C{i}': 'Cold' for i in range(8)}}
+    rows = ig.themes(C, res, industry, {'H1', 'H2'}, C['C0'])
+    assert [r['ind'] for r in rows] == ['Hot', 'Cold']
+    assert rows[0]['flags'] == 2 and rows[0]['up'] == 1.0 and rows[0]['heat'] > rows[1]['heat']
+
+
+def test_new_leaders_are_industries_that_just_entered_the_top():
+    hist = [['d1', ['A', 'B']], ['d2', ['A', 'B']]]
+    assert ig.new_leaders(['C', 'A'], hist, top=2) == ['C']
+    assert ig.new_leaders(['C'], []) == []

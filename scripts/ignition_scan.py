@@ -91,6 +91,36 @@ def load_universe():
     return got
 
 
+SCREENER = 'https://api.nasdaq.com/api/screener/stocks?tableonly=true&download=true'
+IND_ALL = os.path.join(ROOT, 'data', 'industries_all.csv')
+THEME_HISTORY = os.path.join(ROOT, 'data', 'theme_history.json')
+
+
+def load_industries():
+    """{symbol: industry} for ~6,000 US stocks from Nasdaq's stock screener (one
+    request, one taxonomy for every exchange); the saved copy if it's unreachable."""
+    try:
+        req = urllib.request.Request(SCREENER, headers={'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json'})
+        with urllib.request.urlopen(req, timeout=90) as resp:
+            rows = json.load(resp)['data']['rows']
+        got = {r['symbol'].strip().replace('/', '-').replace('.', '-'): r['industry'].strip()
+               for r in rows if r.get('symbol') and (r.get('industry') or '').strip()}
+        if len(got) < 3000:
+            raise ValueError(f'only {len(got)} industries parsed')
+        with open(IND_ALL, 'w', newline='') as f:
+            w = csv.writer(f)
+            w.writerow(['symbol', 'industry'])
+            w.writerows(sorted(got.items()))
+        return got
+    except Exception as e:
+        log(f'industry download failed ({e}); using saved {IND_ALL}')
+        try:
+            with open(IND_ALL, newline='') as f:
+                return {r['symbol']: r['industry'] for r in csv.DictReader(f)}
+        except OSError:
+            return {}
+
+
 def download(tickers, start):
     """Wide adjusted O/H/L/C/V DataFrames (dates x tickers)."""
     import pandas as pd
@@ -202,7 +232,8 @@ def main():
     recent_rows = [(r, t, k) for r, t, k in evs if r > last - RECENT and k != 'pocket']
     today = [(t, k) for r, t, k in evs if r == last]
     need = list(dict.fromkeys([t for t, _ in today] + [t for _, t, _ in recent_rows]))
-    ind = industries(need, cache)
+    ind_all = load_industries()       # one taxonomy for display, groups and the industry ranking
+    ind = {**industries([t for t in need if not ind_all.get(t)], cache), **{t: ind_all[t] for t in need if ind_all.get(t)}}
     with open(IND_CACHE, 'w') as f:
         json.dump(dict(sorted(cache.items())), f, indent=0)
 
@@ -219,7 +250,7 @@ def main():
         off = c / hi - 1 if hi == hi and hi else None
         reps = int(res['repeats'][t].iat[r])
         rs = res['rs'][t].iat[r]
-        return dict(t=t, n=names.get(t, ''), ind=ind.get(t, ''), kind=k, close=r4(c), chg=r4(res['chg'][t].iat[r]),
+        return dict(t=t, n=names.get(t, ''), ind=ind.get(t, ''), kind=k, close=r4(c), low=r4(L[t].iat[r]), chg=r4(res['chg'][t].iat[r]),
                     gap=r4(res['gap'][t].iat[r]), vr=r4(res['vr'][t].iat[r]), rs=None if rs != rs else int(rs),
                     offHigh=r4(off), repeats=reps, group=ind.get(t, '') in hot,
                     score=ig.score(k, None if rs != rs else rs, reps, off, ind.get(t, '') in hot))
@@ -230,14 +261,32 @@ def main():
         entry, now = C[t].iat[r], C[t].iat[last]
         recent.append(dict(d=C.index[r].date().isoformat(), t=t, n=names.get(t, ''), ind=ind.get(t, ''), kind=k,
                            days=last - r, since=r4(now / entry - 1), ex=r4(now / entry - spy.iat[last] / spy.iat[r]),
-                           held=bool(now >= L[t].iat[r])))
+                           held=bool(now >= L[t].iat[r]), entry=r4(entry), close=r4(now), low=r4(L[t].iat[r]),
+                           sma20=r4(C[t].iloc[last - 19:last + 1].mean()), repeats=int(res['repeats'][t].iat[last])))
+
+    flagged20 = {t for r, t, k in evs if r > last - ig.THEME_LOOK and k != 'pocket'}
+    theme_rows = ig.themes(C, res, ind_all or ind, flagged20, spy)
+    try:
+        with open(THEME_HISTORY) as f:
+            history = json.load(f)
+    except (OSError, ValueError):
+        history = []
+    as_of = C.index[last].date().isoformat()
+    history = [h for h in history if h[0] != as_of]
+    fresh = set(ig.new_leaders([r['ind'] for r in theme_rows], history))
+    for r in theme_rows:
+        r['newTop'] = r['ind'] in fresh
+    history = (history + [[as_of, [r['ind'] for r in theme_rows[:25]]]])[-60:]
+    with open(THEME_HISTORY, 'w') as f:
+        json.dump(history, f, separators=(',', ':'))
 
     scan = dict(
         generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'),
         asOf=C.index[last].date().isoformat(),
         listed=len(tickers), priced=int(C.shape[1]), liquid=int(res['liquid'].iloc[last].sum()),
         mechanical=bool(res['mech'].iat[last]),
-        today=today_rows, recent=recent, groups=groups,
+        market=dict(spy=r4(spy.iat[last]), sma50=r4(spy.iloc[-50:].mean()), sma200=r4(spy.iloc[-200:].mean())),
+        today=today_rows, recent=recent, groups=groups, themes=theme_rows[:25], themeCount=len(theme_rows),
         stats={**ig.hit_stats(C, spy, evs), 'all': ig.baseline(C, spy, res['liquid'], warm)}, statsFrom=C.index[warm].date().isoformat(),
         rules=dict(minPrice=ig.MIN_PRICE, minDollarVol=ig.MIN_DOLLAR_VOL, ignGap=ig.IGN_GAP, ignVol=ig.IGN_VOL,
                    turnGap=ig.TURN_GAP, turnVol=ig.TURN_VOL, brkVol=ig.BRK_VOL, recent=RECENT),

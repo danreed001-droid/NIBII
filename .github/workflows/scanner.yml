@@ -61,7 +61,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/scanner.html data/ignition_scan.json data/listed.csv data/ignition_industries.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
+          git add docs/scanner.html data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0
@@ -97,7 +97,7 @@ jobs:
           esac
           gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$RUNNER_TEMP/alert_body.md"
 
-      - name: Ignition alert - open an issue when tonight's scan flags an Ignition
+      - name: Ignition alert - open an issue when tonight's scan flags an Ignition or Turnaround
         if: ${{ !cancelled() }}
         continue-on-error: true
         env:
@@ -116,7 +116,7 @@ jobs:
             exit 0
           fi
           # keep only the latest ignition alert open
-          for n in $(gh issue list --repo "$GITHUB_REPOSITORY" --state open --author "app/github-actions" --search "Ignition in:title" --json number,title --jq '.[] | select(.title | startswith("Ignition: ")) | .number'); do
+          for n in $(gh issue list --repo "$GITHUB_REPOSITORY" --state open --author "app/github-actions" --search "alert in:title" --json number,title --jq '.[] | select(.title | startswith("Ignition") or startswith("Theme alert")) | .number'); do
             gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "Superseded by a newer ignition alert."
           done
           gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$D/alert_body.md"

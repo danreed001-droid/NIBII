@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Ignition alert: writes a GitHub issue title/body when tonight's ignition
 scan (data/ignition_scan.json, written by scripts/ignition_scan.py) flagged
-any stock as an Ignition - a gap up of 8%+ on 3x+ normal volume in an
-uptrend. The workflow opens the issue with an @mention of the repo owner so
-GitHub emails / pushes it.
+any stock as an Ignition (a gap up of 8%+ on 3x+ normal volume in an uptrend)
+or a Turnaround (a gap up of 15%+ on 5x+ volume while still beaten down), with
+the Action plan's line for each and the market note. The workflow opens the
+issue with an @mention of the repo owner so GitHub emails / pushes it.
 
-Writes nothing (no alert) when there are no ignitions or when the scan file
+Writes nothing (no alert) when there are no such flags or when the scan file
 wasn't refreshed today (the scan step failed and the file is yesterday's).
 
 Usage:
@@ -16,6 +17,10 @@ import os
 import sys
 from datetime import date, datetime, timezone
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from mtl.ignition import market_note, plan  # noqa: E402
+
+KINDS = {'ignition': 'Ignition', 'turnaround': 'Turnaround'}
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCAN = os.path.join(ROOT, 'data', 'ignition_scan.json')
 PAGE = 'https://danreed001-droid.github.io/NIBII/scanner.html#watch'
@@ -40,31 +45,49 @@ def build(scan, owner=None, today=None):
     gen = (scan.get('generatedAt') or '')[:10]
     if gen != today.isoformat():
         return None
-    ign = [r for r in scan.get('today') or [] if r.get('kind') == 'ignition']
+    ign = [r for r in scan.get('today') or [] if r.get('kind') in KINDS]
+    heating = [r for r in scan.get('themes') or [] if r.get('emerging') and r.get('newTop')]
+    theme_txt = ('\n\n**Industries heating up** (new in the top 10, uptrend share rising fast): ' + '; '.join(
+        f"{r['ind']} (heat {r['heat']}, {round(r['up'] * 100)}% in uptrend, {r['dUp'] * 100:+.0f} pts in 4 weeks; strongest "
+        f"{', '.join(r.get('leaders') or [])})" for r in heating)) if heating else ''
     if not ign:
-        return None
+        if not heating:
+            return None
+        when = fmt(scan['asOf'])
+        title = f"Theme alert: {', '.join(r['ind'] for r in heating[:3])} heating up ({when} close)"
+        body = (f"{'@' + owner + ' ' if owner else ''}No ignitions tonight, but a field is heating up." + theme_txt +
+                f"\n\nWatch these for ignitions on their next earnings. [Hot industries]({PAGE}) · automated scan, not investment advice.")
+        return title, body
     ign.sort(key=lambda r: -(r.get('score') or 0))
     when = fmt(scan['asOf'])
-    title = f"Ignition: {', '.join(r['t'] for r in ign[:8])}{' +' + str(len(ign) - 8) if len(ign) > 8 else ''} ({when} close)"
+    title = f"Ignition alert: {', '.join(r['t'] for r in ign[:8])}{' +' + str(len(ign) - 8) if len(ign) > 8 else ''} ({when} close)"
     rows = '\n'.join(
-        f"| **{r['t']}** | {r.get('n') or ''} | {r.get('ind') or ''} | {pct(r.get('chg'))} | {pct(r.get('gap'))} | "
+        f"| **{r['t']}** | {KINDS[r['kind']]} | {r.get('n') or ''} | {r.get('ind') or ''} | {pct(r.get('chg'))} | {pct(r.get('gap'))} | "
         f"{vol(r.get('vr'))} | {r.get('rs') if r.get('rs') is not None else '–'} | "
         f"{pct(r.get('offHigh'))} | {r.get('repeats') or 1}{' · group move' if r.get('group') else ''} |" for r in ign)
-    st = (scan.get('stats') or {}).get('ignition') or {}
-    base = (scan.get('stats') or {}).get('all') or {}
-    odds = ''
-    if st.get('up50') is not None and base.get('up50') is not None:
-        odds = (f"\n\nSince {scan.get('statsFrom')}, {round(st['up50'] * 100)}% of ignitions reached +50% within 120 sessions "
-                f"(vs {round(base['up50'] * 100)}% for any liquid stock), but the median one did "
-                f"{pct(st.get('ex60'))} vs SPY over 60 sessions - most fail, so use the stop.")
-    body = (f"{'@' + owner + ' ' if owner else ''}**{len(ign)} ignition{'s' if len(ign) != 1 else ''} at the {when} close** "
-            f"- a gap up of 8%+ on 3x+ normal volume, in an uptrend.\n\n"
-            "| Stock | Name | Industry | Day | Gap | Vol vs 50d | RS | Off 52w high | Gaps 12m |\n"
-            "|---|---|---|---|---|---|---|---|---|\n" + rows +
-            "\n\n**Before acting:** check the news behind each gap (guidance raise, big contract, first profit = the winners' pattern; "
-            "a buyout or one-off = skip). The usual stop is the flag day's low; a second or third gap on later earnings is the "
-            "stronger signal." + odds +
-            f"\n\n[Next big thing watch]({PAGE}) · automated scan, not investment advice.")
+    acts = plan(scan)
+    flagged = {r['t'] for r in ign}
+    todo = [a for a in acts if a['t'] in flagged and a['act'] == 'new']
+    exits = [a for a in acts if a['act'] in ('exit', 'trail', 'profit') and a['t'] not in flagged]
+    lines = '\n'.join(f"- **{a['t']}**: {a['text']}" for a in todo)
+    if exits:
+        lines += '\n\n**Earlier flags:**\n' + '\n'.join(f"- **{a['t']}** ({a['act']}): {a['text']}" for a in exits[:10])
+    stats = scan.get('stats') or {}
+    base = stats.get('all') or {}
+    odds = []
+    for k, label in KINDS.items():
+        st = stats.get(k) or {}
+        if st.get('up50') is not None and base.get('up50') is not None:
+            odds.append(f"{label.lower()}s {round(st['up50'] * 100)}% (median {pct(st.get('ex60'))} vs SPY over 60 sessions)")
+    odds_txt = (f"\n\nSince {scan.get('statsFrom')}, share reaching +50% within 120 sessions: " + '; '.join(odds) +
+                f"; any liquid stock {round(base['up50'] * 100)}%. Most flags fail - use the stop.") if odds and base.get('up50') is not None else ''
+    n = len(ign)
+    body = (f"{'@' + owner + ' ' if owner else ''}**{n} flag{'s' if n != 1 else ''} at the {when} close** "
+            "- Ignition = gap up 8%+ on 3x+ volume in an uptrend; Turnaround = gap up 15%+ on 5x+ volume while beaten down.\n\n"
+            "| Stock | Setup | Name | Industry | Day | Gap | Vol vs 50d | RS | Off 52w high | Gaps 12m |\n"
+            "|---|---|---|---|---|---|---|---|---|---|\n" + rows +
+            f"\n\n**Market:** {market_note(scan.get('market'))[1]}\n\n**What to do:**\n" + lines + theme_txt + odds_txt +
+            f"\n\n[Action plan and position sizes]({PAGE}) · automated scan, not investment advice.")
     return title, body
 
 
