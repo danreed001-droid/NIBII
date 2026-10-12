@@ -17,12 +17,24 @@ vs 29.1%, from 2016 37.9% vs 38.1%, from 2020 57.5% vs 55.8% with a worst drop o
 2020. Abroad (Japan, UK, Germany, India, Hong Kong) it was about neutral. On its own the
 rule's gain is not statistically significant, so treat it as small and unproven live.
 
+Options version (information, not traded by the plan): instead of the 1.5x stock add, buy a
+3-month at-the-money call on the dropped stock and sell it 20 sessions later. In the backtest
+(2000-2026, option prices modeled, 3% bid/ask each way) spending 1% of the account per dip on
+these calls instead of the stock add made 36-39% a year (2% of the account: 39-43%, worst drop
+-42%) against 34.5%, when the calls were priced at 50-70% implied volatility; priced at the
+stock's own recent volatility (often ~100% right after a drop) it made 33.1%, worse than doing
+nothing. The typical single call lost money (median -21%, 43% winners): the gain comes from a
+few big rebounds, so the IV check is the whole trade.
+
 Pure and network-free.
 """
 from bisect import bisect_right
 
 DIP_DROP = 0.10      # a holding's one-day close-to-close fall that triggers the add
 DIP_MULT = 1.5       # its weight relative to an equal share while the add lasts
+DIP_CALL_MAX_IV = 0.70   # the options version only when the 3-month at-the-money call is priced at or below this
+DIP_CALL_DAYS = 91       # about 3 months to expiry
+DIP_CALL_HOLD = 20       # sessions the call is held before it is sold
 
 
 def dip_events(picks, prices, calendar, ok_day, drop=DIP_DROP):
@@ -100,3 +112,11 @@ def dip_curve(boost_curve, picks, prices, calendar, events, top_n, mult=DIP_MULT
         out.append([d, v])
         prev = val
     return out
+
+
+def dip_call_target(price, today):
+    """The call the options version looks for: about DIP_CALL_DAYS to expiry, strike at the price,
+    implied vol no higher than DIP_CALL_MAX_IV (the shape mtl.options_sim.quote_check reads)."""
+    from datetime import date, timedelta
+    exp = (date.fromisoformat(today) + timedelta(days=DIP_CALL_DAYS)).isoformat()
+    return dict(expiry=exp, strike=price, price=price, maxIv=DIP_CALL_MAX_IV)

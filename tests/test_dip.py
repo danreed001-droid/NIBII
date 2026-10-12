@@ -44,3 +44,9 @@ def test_dip_curve_adds_the_extra_weight_until_the_list_trades():
     extra = (w['A'] - 0.5) * 0.10 + (w['B'] - 0.5) * 0.0
     assert abs(c[4][1] - (1 + extra)) < 1e-12 and abs(c[-1][1] - c[4][1]) < 1e-12
     assert c[3][1] == 1.0                                # the add is bought at day 3's close: nothing before
+
+
+def test_dip_call_target_is_three_months_at_the_money():
+    from mtl.dip import dip_call_target, DIP_CALL_MAX_IV
+    c = dip_call_target(120.0, '2026-10-12')
+    assert c['expiry'] == '2027-01-11' and c['strike'] == 120.0 and c['price'] == 120.0 and c['maxIv'] == DIP_CALL_MAX_IV

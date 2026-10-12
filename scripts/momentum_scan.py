@@ -47,7 +47,7 @@ from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleev
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
 from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK  # noqa: E402
-from mtl.dip import DIP_DROP, DIP_MULT, dip_curve, dip_events  # noqa: E402
+from mtl.dip import DIP_CALL_HOLD, DIP_CALL_MAX_IV, DIP_DROP, DIP_MULT, dip_call_target, dip_curve, dip_events  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -343,7 +343,7 @@ def whip_block(modes, on, half, read, px, calendar, K, picks, prices):
                 daysOn=sum(1 for d_ in days if on[d_]), days=len(days), log=whip_log(on, half, calendar))
 
 
-def dip_block(events, ok_day, picks, prices, calendar, K, signal_day):
+def dip_block(events, ok_day, picks, prices, calendar, K, signal_day, quote=None):
     """The dip add now: a holding that fell DIP_DROP+ at today's close (bought up to DIP_MULT x at the
     next close unless the weekly rebalance comes first), any add still in force, and recent adds with
     how the stock did over the next week."""
@@ -369,8 +369,15 @@ def dip_block(events, ok_day, picks, prices, calendar, K, signal_day):
             j = idx[d_]
             p0, p1 = (prices.get(t) or {}).get(d_), (prices.get(t) or {}).get(calendar[min(j + 5, K)])
             log.append(dict(t=t, d=f_, drop=r4(c_), wk=r4(p1 / p0 - 1) if p0 and p1 and j + 5 <= K else None))
+    calls = {}
+    if now and quote:   # the options version: a live check of the 3-month at-the-money call (best effort)
+        for t in now:
+            q = quote(t, dip_call_target(prices[t][as_of], as_of), as_of)
+            if q:
+                calls[t] = dict(q, cost=r4(q['mid'] / prices[t][as_of]) if q.get('mid') else None)
     return dict(drop=DIP_DROP, mult=DIP_MULT, now=now, trade=next_session(as_of) if now else None, active=active,
-                log=log[:10], n=sum(len(e[2]) for e in events), skipFriday=bool(signal_day))
+                log=log[:10], n=sum(len(e[2]) for e in events), skipFriday=bool(signal_day),
+                calls=calls, callMaxIv=DIP_CALL_MAX_IV, callHold=DIP_CALL_HOLD)
 
 
 def regime_block(regime, rate, gold, calendar, K, look=REGIME_LOOK):
@@ -906,7 +913,8 @@ def main():
                                        hist=[[calendar[k_], r4(breadth(prices, calendar, k_)[0])] for k_ in range(K - 20, K + 1)])
     auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_bx, prices)
     auto['rotation']['whip']['regime'] = regime_block(regime, rate_px, whip_px.get('GLD') or {}, calendar, K)
-    auto['rotation']['dip'] = dip_block(dip_ev, dip_ok, picks_bx, prices, calendar, K, signal_day)
+    auto['rotation']['dip'] = dip_block(dip_ev, dip_ok, picks_bx, prices, calendar, K, signal_day,
+                                        quote=None if '--no-quotes' in sys.argv else quote_check)
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(STEPS.get(len(auto['previewDown']), STEPS_MIN))

@@ -110,7 +110,24 @@ def dip_line(rt):
     share = p.get('mult', 1.5) / (4 + p.get('mult', 1.5))
     return (f"**Boost + rotation, dip add:** {names} closed down {pctw(p.get('drop', 0.1))}+ today. At the close on {fmt(p['trade'])} raise "
             f"{'it' if len(p['now']) == 1 else 'each'} to {p.get('mult', 1.5):g}x its share (about {pctw(share)} of the stock part instead of 20%), "
-            f"trimming the other holdings to pay for it; everything goes back to equal at the next weekly rebalance")
+            f"trimming the other holdings to pay for it; everything goes back to equal at the next weekly rebalance" + dip_call_text(p))
+
+
+def dip_call_text(p):
+    """The options version of a dip add, from the live quote check (information, not traded by the plan)."""
+    mx = round((p.get('callMaxIv') or 0.7) * 100)
+    out = []
+    for t in sorted(p.get('now') or {}):
+        q = (p.get('calls') or {}).get(t)
+        if not q or q.get('iv') is None:
+            out.append(f"{t}: no live option quote; check the 3-month at-the-money call's implied volatility at your broker and use calls only if it is {mx}% or less")
+        elif q.get('ok'):
+            out.append(f"{t}: the {fmt(q['expiry'])} ${q['strike']:g} call is at {round(q['iv'] * 100)}% IV (mid ${q['mid']}"
+                       + (f", {pctw(q['cost'])} of the price" if q.get('cost') else '') + f"), under {mx}%: calls costing 1-2% of the account, sold after "
+                       f"{p.get('callHold', 20)} sessions, are the options version")
+        else:
+            out.append(f"{t}: the 3-month call is at {round(q['iv'] * 100)}% IV, over {mx}%: too expensive, stock add only")
+    return ('. Options version: ' + '; '.join(out)) if out else ''
 
 
 def whip_tag(rt):
