@@ -96,3 +96,27 @@ jobs:
             done;;
           esac
           gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$RUNNER_TEMP/alert_body.md"
+
+      - name: Ignition alert - open an issue when tonight's scan flags an Ignition
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          D="$RUNNER_TEMP/ignition"; mkdir -p "$D"   # its own folder: the Friday alert's files are in $RUNNER_TEMP
+          python scripts/ignition_alert.py "$D" "$OWNER"
+          if [ ! -f "$D/alert_title.txt" ]; then
+            echo "no ignition alert"
+            exit 0
+          fi
+          title=$(cat "$D/alert_title.txt")
+          if gh issue list --repo "$GITHUB_REPOSITORY" --state all --author "app/github-actions" --search "\"$title\" in:title" --json number --jq '.[].number' | grep -q .; then
+            echo "already sent: $title"
+            exit 0
+          fi
+          # keep only the latest ignition alert open
+          for n in $(gh issue list --repo "$GITHUB_REPOSITORY" --state open --author "app/github-actions" --search "Ignition in:title" --json number,title --jq '.[] | select(.title | startswith("Ignition: ")) | .number'); do
+            gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "Superseded by a newer ignition alert."
+          done
+          gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$D/alert_body.md"
