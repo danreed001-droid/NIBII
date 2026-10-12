@@ -2637,5 +2637,45 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-12-1-stocks-flat-near-records-ahead-of-bank-earnings",
+    "data": {
+      "addedAt": "2026-10-12",
+      "category": "Market",
+      "date": "2026-10-12",
+      "day": "Mon",
+      "direction": "Neutral",
+      "event": "US stocks start the week flat near record highs as traders await big-bank earnings Tuesday and CPI/retail sales later this week",
+      "impact": "Medium",
+      "numbers": "S&P 500 ~7,816 (+0.05%); Dow ~51,862 (+0.40%); Nasdaq ~27,306 (-0.22%); Russell 2000 ~2,807 (+0.46%); VIX ~15.4; Europe: DAX +0.7%, FTSE 100 +0.7%; Asia mixed (KOSPI -3.7% per Yahoo, cause n/a)",
+      "reaction": "Quiet tape with no US data Monday; JPMorgan, Goldman, Citi, Wells Fargo report Tuesday (Q3 S&P profit growth expected ~25% y/y); inflation and retail sales due Wed/Thu. Columbus Day: bond market holiday so Treasury yield quotes are stale",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-12-dow-sp-500-nasdaq-080321571.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "order": 1
+    }
+  },
+  {
+    "id": "2026-10-12-2-oil-climbs-on-mideast-and-ukraine-energy-strikes",
+    "data": {
+      "addedAt": "2026-10-12",
+      "category": "Energy",
+      "date": "2026-10-12",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Oil rises on Mideast and Ukraine energy-infrastructure risks; Trump floats US joining Saudi strikes on Houthis",
+      "impact": "Medium",
+      "numbers": "Brent ~$106.7 (+1.9%); WTI ~$93.4 (+1.7%); gold ~$4,197 (-0.5%); dollar index ~102.4 (+0.2%)",
+      "reaction": "Russian strikes on Ukrainian power plants and Houthi attacks on Saudi Arabia's main airport (12 killed) lifted crude; Trump said Russia and Ukraine agreed to stop hitting each other's energy infrastructure, which tempered the move. Higher oil keeps inflation and rate concerns in focus ahead of CPI",
+      "region": "Global",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-12-dow-sp-500-nasdaq-080321571.html",
+      "tickers": "SPY, S&P, GLD, gold, DXY, dollar",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "order": 2
+    }
   }
 ]
