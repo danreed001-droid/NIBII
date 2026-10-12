@@ -7,17 +7,19 @@ Two parts, both read from swing structure (mtl.structure: 3-bar swings on daily 
 
 1. Rotation. While SPY's daily structure is a downtrend (lower highs and lower lows),
    look for TLT or GLD in a daily uptrend (higher highs and higher lows) whose
-   gradient is positive: the line through its last two higher lows, per session,
-   divided by its daily volatility (so bonds, gold and stocks compare fairly). The
-   steepest one is the candidate. After it has led for CONFIRM sessions (counted on
-   days SPY's daily trend is down), switch into it. Leave it, back to the Boost list,
-   the day it is no longer in a daily uptrend.
+   gradient is positive and steeper than SPY's: the line through its last two higher
+   lows, per session, divided by its daily volatility (so bonds, gold and stocks compare
+   fairly). Of those, the one up most over the last PICK_LOOK sessions (6 months) is the
+   candidate. After it has led for CONFIRM sessions (counted on days SPY's daily trend is
+   down), switch into it. Leave it, back to the Boost list, the day it is no longer in a
+   daily uptrend.
 
 2. Downtrend exit. Out of stocks when SPY's weekly structure is a downtrend whose last
    lower high sits below the 150-day average, SPY closes below the average too, and
    the line through SPY's last two weekly lower lows falls slowly (|slope| / daily
-   volatility < SLOW: a grinding bear market, not a crash). While out, hold the
-   steepest of TLT / GLD in a daily uptrend (T-bills if neither). Back into the Boost
+   volatility < SLOW: a grinding bear market, not a crash). While out, hold whichever of
+   TLT / GLD in a daily uptrend is up most over PICK_LOOK sessions (T-bills if neither is
+   up). Back into the Boost
    list when SPY closes above its 150-day average, or SPY's daily structure turns up
    with higher lows steeper than TLT's and GLD's.
 
@@ -46,6 +48,15 @@ the worst drop -31% vs -39%. The thresholds were picked on that same history.
    vs 37.5%, from 2020 57.2% vs 55.8%. Also held with a 6-month look (33.7%, 29.1%, 56.9%); faded with a 1-month look.
    A small gain from one more rule, so it is on probation until live results back it.
 
+5. Which of TLT / GLD. Both parts pick by the plain % change over PICK_LOOK sessions (6
+   months) rather than by the steepest gradient. Default from Oct 12, 2026: 35.5% a year
+   before tax (23.0% after) vs 34.5% (22.4%) with the gradient pick, worst drop -40% for
+   both; from 2010 30.6% vs 30.3%, from 2016 38.4% vs 37.9%, from 2020 58.3% vs 57.5%.
+   Looks of 5 to 12 months all did about as well (7 months: 35.4%, 31.5%, 38.0%, 58.1%);
+   1 to 3 months did worse. Only about a dozen years change at all and most of the gain is
+   2008 (-17% to -2%) and 2024, so it rests on a handful of switches. Adding the dollar
+   (UUP) as a third choice did worse at 5-7 month looks.
+
 Pure and network-free: bars are {ticker: [(date, open, high, low, close), ...]} oldest
 first (dividend-adjusted), calendar is the trading days.
 """
@@ -67,6 +78,7 @@ WHIP_LOSS = 0.65      # share of those sales below their buy price that switches
 WHIP_PCT = 63         # sessions of % change used to pick the half-switch asset
 WHIP_ASSETS = ('TLT', 'GLD', 'SPY')
 REGIME_LOOK = 63      # sessions over which the 10-year yield and gold must both be up to skip the half-switch
+PICK_LOOK = 126       # sessions of % change that pick between TLT and GLD
 
 
 def weekly(daily):
@@ -144,6 +156,39 @@ class Reader:
                 best, bv = t, g
         return best
 
+    def pct(self, t, d, n=PICK_LOOK):
+        """% change of t's close over its last n sessions to d, or None."""
+        j = bisect_right(self.days.get(t, []), d) - 1
+        if j < n:
+            return None
+        a, b = self.bars[t][j - n][4], self.bars[t][j][4]
+        return b / a - 1 if a and b else None
+
+    def leading(self, d, assets=ROT_ASSETS, above=None, n=PICK_LOOK):
+        """The rotation candidate: of the assets in a daily uptrend with a positive gradient
+        (> above), the one up most over n sessions, or None."""
+        best, bv = None, None
+        for t in assets:
+            st, g = self.leg(t, d)
+            if st != 'uptrend' or g is None or g <= 0 or (above is not None and g <= above):
+                continue
+            c = self.pct(t, d, n)
+            if c is not None and (bv is None or c > bv):
+                best, bv = t, c
+        return best
+
+    def rising(self, d, assets=ROT_ASSETS, n=PICK_LOOK):
+        """The downtrend-exit holding: of the assets in a daily uptrend and up over n sessions,
+        the one up most, or None."""
+        best, bv = None, None
+        for t in assets:
+            if self.leg(t, d)[0] != 'uptrend':
+                continue
+            c = self.pct(t, d, n)
+            if c is not None and c > 0 and (bv is None or c > bv):
+                best, bv = t, c
+        return best
+
 
 def rotation_modes(bars, calendar, start, confirm=CONFIRM, slow=SLOW, ma=MA, assets=ROT_ASSETS):
     """(modes, why, reader, state): modes = {decision date: 'boost' | asset | 'BIL'} for
@@ -168,7 +213,7 @@ def rotation_modes(bars, calendar, start, confirm=CONFIRM, slow=SLOW, ma=MA, ass
         if mode == 'boost':
             sst, sg = R.leg('SPY', d)
             if sst == 'downtrend':
-                best = R.steepest(d, assets, above=sg)
+                best = R.leading(d, assets, above=sg)
                 streak = streak + 1 if best and best == cand_prev else (1 if best else 0)
                 cand_prev = best
                 if best and streak > confirm:
@@ -209,7 +254,7 @@ def rotation_modes(bars, calendar, start, confirm=CONFIRM, slow=SLOW, ma=MA, ass
                     others = [R.leg(t, d)[1] for t in assets if R.leg(t, d)[0] == 'uptrend']
                     if all(o is None or sg > o for o in others):
                         on, reason = False, 'steeper'
-        m = (R.steepest(d, assets) or 'BIL') if on else rot[d]
+        m = (R.rising(d, assets) or 'BIL') if on else rot[d]
         modes[d] = m
         if m != prev:
             why[d] = reason or ('switch' if on else 'rotate' if m != 'boost' else 'rotate-end')
@@ -220,7 +265,7 @@ def rotation_modes(bars, calendar, start, confirm=CONFIRM, slow=SLOW, ma=MA, ass
 def warnings(R, bars, calendar, start, ma=MA, assets=ROT_ASSETS):
     """Information only, not traded: the days SPY's daily structure is a downtrend while it
     closes below its `ma`-day average and TLT or GLD is in a rising daily structure.
-    Returns {date: steepest rising asset} for those days from `start`. Tested as an automatic
+    Returns {date: the rising asset up most over PICK_LOOK sessions} for those days from `start`. Tested as an automatic
     switch (straight into that asset, no wait) it fixed late-2018 but cost about 2 points a
     year over 2000-2026, so it is shown as a warning for the viewer to judge."""
     spy = {b[0]: b[4] for b in bars['SPY']}
@@ -234,7 +279,7 @@ def warnings(R, bars, calendar, start, ma=MA, assets=ROT_ASSETS):
             continue
         if R.leg('SPY', d)[0] != 'downtrend':
             continue
-        a = R.steepest(d, assets)
+        a = R.leading(d, assets)
         if a:
             out[d] = a
     return out

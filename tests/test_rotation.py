@@ -38,6 +38,21 @@ def test_reader_trend_and_gradient_sign():
     assert R.steepest(cal[-1], ('UP', 'DN')) == 'UP'
 
 
+def test_pick_is_by_six_month_gain_not_by_gradient():
+    cal = days(300)
+    R = Reader({'CALM': zigzag(cal, 0.002, amp=0.01), 'WILD': zigzag(cal, 0.004, amp=0.08, period=20),
+                'DN': zigzag(cal, -0.002)})
+    d = cal[-1]
+    assert R.steepest(d, ('CALM', 'WILD')) == 'CALM'          # steeper line for its volatility
+    assert R.pct('WILD', d) > R.pct('CALM', d) > 0
+    assert R.leading(d, ('CALM', 'WILD')) == 'WILD'           # but up more over 6 months
+    assert R.leading(d, ('CALM', 'WILD'), above=0.3) == 'CALM'   # must still beat SPY's gradient
+    assert R.rising(d, ('CALM', 'WILD', 'DN')) == 'WILD'
+    assert R.rising(d, ('DN',)) is None
+    assert abs(R.pct('CALM', d, 1) - (zigzag(cal, 0.002, amp=0.01)[-1][4] / zigzag(cal, 0.002, amp=0.01)[-2][4] - 1)) < 1e-12
+    assert R.pct('CALM', cal[10]) is None
+
+
 def test_rotates_into_the_rising_asset_after_the_confirmation_wait():
     cal = days(400)
     bars = {'SPY': zigzag(cal, 0.002)[:200] + zigzag(cal[200:], -0.002, base=zigzag(cal, 0.002)[199][4]),

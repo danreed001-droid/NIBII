@@ -34,9 +34,9 @@ def pct1(w):
     return f"{w * 100:+.1f}%"
 
 
-ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and lows with the steepest gradient (led for the confirmation period)',
+ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and lows, up most over 6 months (led for the confirmation period)',
            'rotate-end': "{frm}'s daily uptrend broke", 'exit': "SPY's weekly downtrend: last lower high below the 150-day average, SPY below it, lower lows falling slowly",
-           'switch': 'still out of stocks; {to} is now the steepest rising asset', 'above': 'SPY closed back above its 150-day average',
+           'switch': 'still out of stocks; {to} is now the rising asset up most over 6 months', 'above': 'SPY closed back above its 150-day average',
            'steeper': "SPY's daily higher lows are steeper than TLT's and GLD's"}
 
 
@@ -61,7 +61,7 @@ def warn_line(rt):
     if not rt or not rt.get('warn'):
         return None
     return (f"**Downtrend warning (information only):** SPY's daily chart is in a downtrend and SPY is below its "
-            f"{rt.get('ma', 150)}-day average, while {rt['warn']} is rising most steeply. Boost + rotation keeps the stocks until its "
+            f"{rt.get('ma', 150)}-day average, while {rt['warn']} is rising (up most over 6 months). Boost + rotation keeps the stocks until its "
             f"{rt.get('confirm', 15)}-session confirmation; stepping into {rt['warn']} earlier is your call (as an automatic rule it fixed "
             f"late 2018 but cost about 2 points a year over 2000-2026). Record your out / stay call with the buttons under the warning "
             f"on the dashboard; it is scored 3 months later (stay = what the plan made, out = half bonds, half gold)."
