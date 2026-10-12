@@ -565,6 +565,7 @@ __GROWTH__
   </table></div>
   <button type="button" class="more" id="more" hidden>Show all 100</button>
 
+__RESEARCH__
   <footer><ul>
     <li><b>The rule.</b> Score = return from 6 months ago to 1 month ago. Each Friday close: a stock must beat SPY's score to qualify; buy the top 5 in equal weight; a holding stays while it ranks in the top 10, otherwise it is replaced by the best-ranked stock not held. Trades are placed the following Monday in the last 30 minutes before the close (the track record uses Monday's closing prices; trading at Monday's open did about 3% a year worse in testing). Mon–Thu the banner previews what Friday's signal would be if it were today.</li>
     <li><b>Fair test.</b> S&amp;P 500 stocks count only from the day they joined the index. The 15 Nasdaq-only members have no published join dates, so the track record carries some hindsight from them; the S&amp;P-only version made about +1,219% from 2020 on (see Backtests). Stocks that left either index during the test period are missing, which also flatters the record. Small caps are deliberately excluded: adding the Russell 2000 cut the result to about +509% with a −73% drawdown.</li>
@@ -2087,6 +2088,19 @@ def growth_html():
                        + (f' · fetched {when}' if when else '') + '</span></p>', 1) if sec else ''
 
 
+RESEARCH_PATH = os.path.join(ROOT, 'documents', 'winners_research.html')
+
+
+def research_html():
+    """The five-year winners research section (documents/winners_research.html,
+    a static HTML fragment), or '' when the file is missing."""
+    try:
+        with open(RESEARCH_PATH) as f:
+            return f.read()
+    except OSError:
+        return ''
+
+
 def overlay_lib():
     """The shared overlay line chart (CSS + mtlOverlay script) from render_html."""
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -2097,6 +2111,7 @@ def overlay_lib():
 def render(scan, growth=None):
     # Escape "</" so a company name can never close the <script> block early.
     page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth).replace('__OVLIB__', overlay_lib(), 1)
+    page = page.replace('__RESEARCH__', research_html(), 1)
     return page.replace('__DATA__', json.dumps(scan, separators=(',', ':')).replace('</', '<\\/'))
 
 

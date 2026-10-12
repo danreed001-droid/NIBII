@@ -101,3 +101,9 @@ def test_warning_shows_breadth_and_scores_calls_against_the_plan():
     page = render_scanner.render(SCAN)
     assert 'function breadthNote(RT)' in page and 'breadthNote(RT) + warnCallNote(RT)' in page
     assert 'always staying in the plan' in page
+
+
+def test_page_has_the_five_year_winners_research_section():
+    page = render_scanner.render(SCAN)
+    assert 'id="winners"' in page and '__RESEARCH__' not in page
+    assert page.index('id="winners"') < page.index('<footer>')

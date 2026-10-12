@@ -1,0 +1,137 @@
+<style>
+#winners .card { margin-bottom: 12px; }
+#winners h3 { font-family: "Fraunces", Georgia, serif; font-size: 1.05rem; margin: 0 0 6px; }
+#winners p, #winners li { color: var(--ink-2); font-size: 0.88rem; }
+#winners p { margin: 0 0 8px; }
+#winners ul, #winners ol { margin: 0 0 8px; padding-left: 20px; }
+#winners b { color: var(--ink); }
+#winners .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px; }
+#winners .kpi { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 10px 12px; }
+#winners .kpi .v { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; font-size: 1.15rem; color: var(--ink); }
+#winners .kpi .k { font-size: 0.74rem; color: var(--muted); }
+#winners details { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 0 16px; margin-bottom: 10px; }
+#winners summary { cursor: pointer; padding: 12px 0; font-weight: 600; color: var(--ink); }
+#winners details[open] summary { border-bottom: 1px solid var(--hairline); margin-bottom: 10px; }
+#winners details > :last-child { margin-bottom: 14px; }
+#winners .tablebox { margin-bottom: 10px; }
+#winners td.w, #winners th.w { white-space: normal; text-align: left; min-width: 180px; }
+#winners code { font-size: 0.8rem; }
+</style>
+<section id="winners">
+  <p class="section-label">Five-year winners &amp; early signals <span class="hint">research · Oct 2021 – Oct 2026 · prices from Yahoo Finance to the 2026-10-09 close</span></p>
+
+  <div class="card">
+    <h3>AI suppliers won, and most of them flagged themselves with one huge-volume day</h3>
+    <p>The biggest US winners of the last five years were mostly <b>not</b> the famous AI names but the companies selling the "picks and shovels" of the data-center build-out: servers, switchgear, cooling, optics, memory and power. Almost every durable move started with a <b>quantified demand surprise</b> (guidance far above consensus, a tripled backlog, a gigawatt-scale contract, a first profit) and a single <b>ignition day</b>: a big gap up on several times normal volume, usually closing at a new 52-week high.</p>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v pos">+3,769%</div><div class="k">Celestica (CLS), #1 of the period</div></div>
+    <div class="kpi"><div class="v pos">~11x</div><div class="k">NVIDIA, for comparison</div></div>
+    <div class="kpi"><div class="v">+91%</div><div class="k">SPY over the same window</div></div>
+    <div class="kpi"><div class="v">~20% · 4.8x</div><div class="k">median ignition day: gain · volume vs 50-day avg</div></div>
+    <div class="kpi"><div class="v">16 of 23</div><div class="k">ignitions closed at a new 52-week high</div></div>
+    <div class="kpi"><div class="v neg">−35 to −60%</div><div class="k">drawdown nearly every winner sat through</div></div>
+  </div>
+
+  <details open>
+    <summary>Who shot up: data-center suppliers beat the AI headliners by 2–4x</summary>
+    <div class="tablebox"><table>
+      <thead><tr><th class="l">Group</th><th class="w">Names (5-year return)</th><th class="w">What they sold</th></tr></thead>
+      <tbody>
+        <tr><td class="l">AI hardware</td><td class="w"><b>CLS +3,769%</b>, CRDO +1,759% (since 2022 IPO), LITE +1,190%, DELL +1,110%, SMCI +1,032%, NVDA +1,013%, ANET +818%, AVGO +702%</td><td class="w">Servers, switches, optics, cables, GPUs, custom chips</td></tr>
+        <tr><td class="l">Memory &amp; storage</td><td class="w"><b>MU +1,422%</b>, STX +1,005%, WDC +840%, SNDK +4,294% (since Feb 2025 spin)</td><td class="w">HBM/DRAM and NAND in a shortage</td></tr>
+        <tr><td class="l">Build &amp; cool</td><td class="w"><b>STRL +2,149%</b>, <b>FIX +2,142%</b>, POWL +2,210%, MOD +1,421%, IESC +1,179%, VRT +996%</td><td class="w">Site work, electrical, switchgear, cooling</td></tr>
+        <tr><td class="l">Power</td><td class="w">BE +1,313%, VST +901%, GEV +669% (since spin), CEG +637% (since spin)</td><td class="w">Fuel cells, nuclear, turbines</td></tr>
+        <tr><td class="l">Other</td><td class="w">PLTR +788%, LLY +428%, CRS +1,026%, ATI +1,008%</td><td class="w">AI software, GLP-1 drugs, aerospace alloys</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Start date matters.</b> Stocks that crashed in 2022 look ordinary over five years but were the biggest winners from the low: Carvana +8,466% (after −99%), AppLovin +2,879% (after −92%), Palantir +3,384%, Robinhood +1,482%. Small-cap trough-to-peak moves were bigger still: Rigetti ~150x, Sezzle ~139x, GeneDx ~135x, D-Wave ~108x.</p>
+    <p><b>Many started as mid caps</b> (CLS, STRL, FIX, BE, LITE, CRDO, POWL) and only later became large caps, so a scan limited to today's index members misses them early. Celestica trades on the NYSE and is not in the S&amp;P 500 or Nasdaq-100.</p>
+  </details>
+
+  <details>
+    <summary>Why they shot up: guidance shocks tied to a capex cycle</summary>
+    <ul>
+      <li><b>NVIDIA</b> guided ~$11B vs ~$7.2B expected (May 2023) → +24% next day.</li>
+      <li><b>Broadcom</b> sized its AI market at $60–90B for FY2027 (Dec 2024) → +24%, passed $1T.</li>
+      <li><b>Powell</b> reported backlog nearly tripled to a record $1.3B (Aug 2023), before the data-center story attached to it.</li>
+      <li><b>Credo</b> guided $115–125M off a much smaller base → +48% in a day.</li>
+      <li><b>Constellation</b> signed the 20-year Microsoft deal to restart Three Mile Island → +22%. <b>Bloom</b> signed up to 1 GW with AEP → +59%.</li>
+      <li><b>Turnarounds</b> ignited on first profits or debt fixes: Carvana (positive EBITDA guide, ~50% of float short), Sezzle (Q1 2024 profit beat all of 2023), Root (revenue +173%).</li>
+    </ul>
+    <p><b>What held vs. what round-tripped.</b> All 16 theme stocks checked (quantum, small nuclear, space, eVTOL, speculative AI) are now 47–87% below their peaks; several had little or no revenue when they spiked. About 10 of 15 backlog-and-earnings compounders are within ~40% of their highs. Earnings alone weren't enough: Celsius, Duolingo, Cava and Hims still fell 55–72% when growth slowed. The durable recipe: <b>revenue already accelerating, a multi-year backlog, and demand tied to a measurable spending cycle</b>, confirmed again every quarter.</p>
+    <p><b>Skeptics were still around after ignition</b> (Palantir kept Hold/Sell ratings), and S&amp;P 500 inclusion acted as a later accelerant (APP +11.6%, HOOD +15.8% the next session).</p>
+  </details>
+
+  <details>
+    <summary>What the start looked like: ignition days</summary>
+    <div class="tablebox"><table>
+      <thead><tr><th class="l">Ticker</th><th>Date</th><th>1-day</th><th>Vol vs 50d</th><th>New 52w high</th><th class="w">Trigger</th></tr></thead>
+      <tbody>
+        <tr><td class="l"><b>NVDA</b></td><td class="num">2023-05-25</td><td class="num pos">+24%</td><td class="num">3.6x</td><td>Yes</td><td class="w">Guide ~$11B vs ~$7.2B</td></tr>
+        <tr><td class="l"><b>PLTR</b></td><td class="num">2023-05-09</td><td class="num pos">+23%</td><td class="num">7.5x</td><td>No (−32%)</td><td class="w">2nd profitable quarter, AIP demand</td></tr>
+        <tr><td class="l"><b>CLS</b></td><td class="num">2023-07-28</td><td class="num pos">+15%</td><td class="num">7.0x</td><td>Yes</td><td class="w">Beat and raise</td></tr>
+        <tr><td class="l"><b>VRT</b></td><td class="num">2023-08-02</td><td class="num pos">+29%</td><td class="num">6.8x</td><td>Yes</td><td class="w">Q2 2023 results</td></tr>
+        <tr><td class="l"><b>APP</b></td><td class="num">2023-08-10</td><td class="num pos">+27%</td><td class="num">8.2x</td><td>No (−27%)</td><td class="w">AXON 2.0 ramp</td></tr>
+        <tr><td class="l"><b>DELL</b></td><td class="num">2024-03-01</td><td class="num pos">+32%</td><td class="num">14.8x</td><td>Yes</td><td class="w">Q4 FY24 results</td></tr>
+        <tr><td class="l"><b>BE</b></td><td class="num">2024-11-15</td><td class="num pos">+59%</td><td class="num">10.7x</td><td>Yes</td><td class="w">AEP 1 GW agreement</td></tr>
+        <tr><td class="l"><b>CRDO</b></td><td class="num">2024-12-03</td><td class="num pos">+48%</td><td class="num">6.8x</td><td>Yes</td><td class="w">Guide $115–125M</td></tr>
+        <tr><td class="l"><b>SNDK</b></td><td class="num">2025-09-04</td><td class="num pos">+18%</td><td class="num">4.3x</td><td>Yes</td><td class="w">NAND undersupply through 2026</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>Ignitions cluster.</b> In NVIDIA's May 2023 report week, Broadcom and Vertiv also broke out on heavy volume. Waves: AI hardware (Feb–Aug 2023), power (2024), post-election (Nov–Dec 2024), memory (Apr–Sep 2025). When a leader posts a blowout, scan its suppliers next.</li>
+      <li><b>The first ignition often isn't the one that pays.</b> Micron (Dec 2023) and Dell went nowhere for a year with ~60% drawdowns before their real leg. The big trends came from <b>repeated</b> earnings gap-ups: Powell, AppLovin, Credo and Sezzle each had three to six.</li>
+      <li><b>Small caps were more extreme:</b> 20–75% days on 5–85x volume (Root 85x, GeneDx 35x, AST SpaceMobile 22x).</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Reality check: base rates and hindsight</summary>
+    <ul>
+      <li><b>Most stocks lose.</b> About 4% of US stocks account for all the market's net gain over T-bills since 1926 (Bessembinder). Roughly 0.7–2% of stocks go 10x in 10 years.</li>
+      <li><b>Traits barely predict it.</b> Observable characteristics explain only ~2% of which stocks become decade-long winners.</li>
+      <li><b>The proven signals give modest edges:</b> momentum (~5.5%/yr after publication), nearness to the 52-week high (George &amp; Hwang), the high-volume return premium (Gervais, Kaniel &amp; Mingelgrin), earnings-day volume plus surprise. Classic post-earnings drift has largely vanished from liquid US stocks since ~2006.</li>
+      <li><b>Volume alone makes breakouts less reliable.</b> In Bulkowski's ~8,000-pattern study, heavy-volume breakouts failed 14% vs 5% for quiet ones and pulled back to the breakout 57% vs 18% of the time.</li>
+      <li><b>Failures look identical at ignition.</b> Super Micro's Jan 2024 day (+36%, 7.3x volume, new high) was the perfect signature; it then fell 85% after a short report and its auditor resigning.</li>
+      <li><b>This study is hindsight too:</b> the 23 ignitions were picked because they worked. How many lookalike days led nowhere was not measured.</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>How to catch the next ones: scan rules</summary>
+    <div class="tablebox"><table>
+      <thead><tr><th class="l">#</th><th class="l">Rule</th><th class="w">Definition (daily OHLCV)</th></tr></thead>
+      <tbody>
+        <tr><td class="l">1</td><td class="l">Wide universe</td><td class="w">Include NYSE / NYSE American names outside the big indexes; price ≥ $5, 50-day dollar volume ≥ ~$5–20M</td></tr>
+        <tr><td class="l">2</td><td class="l">Up-day quality</td><td class="w">Up day closing in the top 40% of its range: (C−L)/(H−L) ≥ 0.6. Treat down-day volume spikes as distribution, not signals</td></tr>
+        <tr><td class="l">3</td><td class="l">Ignition gap</td><td class="w">Open ≥ 8% above prior close on ≥ 3x 50-day average volume, holding (close ≥ open or upper half of range)</td></tr>
+        <tr><td class="l">4</td><td class="l">Trend gate</td><td class="w">C &gt; SMA50 &gt; SMA150 &gt; SMA200, SMA200 rising over 21 sessions, within 25% of the 52-week high and ≥ 25% above the low; bonus for a new 252-day high</td></tr>
+        <tr><td class="l">5</td><td class="l">Relative strength</td><td class="w">0.4·r63 + 0.2·each earlier quarter, percentile ≥ 80; bonus when the stock/SPY line hits a 52-week high before price</td></tr>
+        <tr><td class="l">6</td><td class="l">Repeat &amp; group</td><td class="w">Boost names with ≥ 2 qualifying gaps in 12 months, and names whose industry peers flagged within 5 sessions</td></tr>
+        <tr><td class="l">7</td><td class="l">Pocket pivot</td><td class="w">Up-day volume above the largest down-day volume of the prior 10 sessions: quieter accumulation before the gap</td></tr>
+        <tr><td class="l">8</td><td class="l">Calendar hygiene</td><td class="w">Discount opex, triple witching / S&amp;P rebalance Fridays, Russell reconstitution and index-add days (mechanical volume)</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Turnaround lane.</b> Palantir, AppLovin, Vistra and Carvana ignited 20–72% <i>below</i> their highs, so the trend gate rejects them. Track them separately: ≥ 15% gap on ≥ 5x volume with strong 3-month relative strength. Expect more volatility.</p>
+    <p><b>Rank on a composite</b> (setup flags, RS percentile, nearness to the high, then volume ratio), not on raw volume ratio. Then backtest the flags over 2015–2026 to get their real hit and failure rates before sizing anything.</p>
+  </details>
+
+  <details>
+    <summary>Playbook: many small bets, re-enter second legs</summary>
+    <p>Nearly every winner bottomed near 2025-04-04 (Vertiv −61%, Credo −61%, AppLovin −57%, Celestica −54%). <b>A fixed −20% stop would have shaken you out of almost all of them.</b> Pick one style:</p>
+    <ul>
+      <li><b>Swing:</b> buy the ignition close or next day's opening range; stop at the gap-day low; take ⅓–½ off near +20%; trail the rest on the 10/20-day average; risk ~0.5–1% of equity per trade.</li>
+      <li><b>Compounder:</b> admit only names with accelerating revenue, growing backlog or rising margins; start small enough to survive a 50–60% drawdown; add on the 2nd and 3rd earnings gaps; exit on a broken thesis (guidance cut, accounting/auditor event, lost customer), not price alone.</li>
+    </ul>
+    <ol>
+      <li>Hold many small, roughly equal positions; winners are rare and skewed.</li>
+      <li>Re-enter names that re-ignite; Micron and Dell paid on the second ignition.</li>
+      <li>Cut new-entry size after big market drawdowns; momentum crashes in panic rebounds.</li>
+      <li>Exit a theme when several peers post high-volume down days together (quantum and nuclear peaked together Oct 7–15, 2025).</li>
+      <li>Short interest and options flow: tie-breakers only.</li>
+    </ol>
+    <p class="note">Research summary, not investment advice. Returns are split-adjusted closes from Yahoo Finance; figures after ~June 2026 rest on price data alone. Full report with sources: <a href="https://github.com/danreed001-droid/volume/blob/ccr-fb7af1a6-gl4wve/reports/Five%20year%20stock%20winners%20and%20early%20signals.md">Five year stock winners and early signals</a>.</p>
+  </details>
+</section>
