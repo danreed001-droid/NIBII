@@ -146,9 +146,21 @@ def test_new_leaders_are_industries_that_just_entered_the_top():
 
 def test_watchlist_panel_renders_groups_and_actions():
     scan = dict(SCAN, themeCount=80, watch=[dict(group='Semiconductors', up=1, n=2, r63=0.05, rows=[
-        dict(t='NVDA', n='NVIDIA', close=180, chg=0.01, r21=0.02, r63=0.08, rs=90, offHigh=-0.03, state='up', flag=None, indRank=3),
+        dict(t='NVDA', n='NVIDIA', close=180, chg=0.01, r21=0.02, r63=0.08, rs=90, offHigh=-0.03, state='up', flag=None, indRank=3,
+             earn='2026-10-14'),
         dict(t='INTC', n='Intel', close=30, chg=-0.01, r21=-0.02, r63=-0.1, rs=40, offHigh=-0.3, state='down', flag=None, indRank=3),
         dict(t='GONE', missing=True)])])
     out = render_scanner.ignition_html(scan)
     assert 'Watchlist: semis' in out and 'industry rank #3 of 80' in out
     assert 'wait for a gap-up on earnings' in out and 'Downtrend: avoid' in out and 'no price data' in out
+    assert 'Earnings in 5 days' in out and 'Oct 14' in out
+
+
+def test_strategy_lab_compares_with_the_current_rule():
+    row = lambda a, dd=-0.3: dict(total=1.0, annual=a, maxDD=dd)
+    lab = dict(asOf='2026-10-09', hindsight=['Semis & AI watchlist'], periods={
+        '2000': dict(start='2000-01-03', rows={'Current: Top 5': row(0.15), 'Ignition boost': row(0.18),
+                                                'Semis & AI watchlist': row(0.40), 'SPY': dict(row(0.08), bench=True)})})
+    out = render_scanner.lab_html(lab)
+    assert 'Strategy lab' in out and '+18.0%' in out and '(+3)' in out and 'hindsight' in out
+    assert 'style="font-weight:700" title="total +100%">+18.0%' in out      # best non-hindsight row is bold

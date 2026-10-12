@@ -198,6 +198,18 @@ def industries(tickers, cache):
     return {t: seed.get(t) or cache.get(t) or '' for t in tickers}
 
 
+def next_earnings(t):
+    """Next earnings date (ISO) from Yahoo, or None if unknown."""
+    try:
+        import yfinance as yf
+        cal = yf.Ticker(t).calendar
+        ds = cal.get('Earnings Date') if isinstance(cal, dict) else None
+        ds = [d for d in (ds or []) if d]
+        return min(ds).isoformat() if ds else None
+    except Exception:   # noqa: BLE001
+        return None
+
+
 def watchlist_rows(watch, C, res, evs, spy, names, ind_all, theme_rows, last):
     """[{group, rows: [...], up, r63}] - nightly status of every watchlist stock:
     close, day, 1- and 3-month return vs SPY, relative strength, uptrend or
@@ -222,11 +234,14 @@ def watchlist_rows(watch, C, res, evs, spy, names, ind_all, theme_rows, last):
             rs = res['rs'][t].iat[last]
             fl = latest.get(t)
             trend = bool(res['trend'][t].iat[last])
+            earn = next_earnings(t)
+            if earn and earn < C.index[last].date().isoformat():
+                earn = None
             rows.append(dict(t=t, n=names.get(t, ''), close=r4(c), chg=r4(res['chg'][t].iat[last]), r21=ret(21), r63=ret(63),
                              rs=None if rs != rs else int(rs), offHigh=r4(c / hi - 1) if hi == hi else None,
                              state='up' if trend else ('mixed' if c > sma50 else 'down'),
                              flag=None if not fl else dict(kind=fl[1], d=C.index[fl[0]].date().isoformat(), days=last - fl[0]),
-                             ind=ind_all.get(t, ''), indRank=rank.get(ind_all.get(t, ''), (None, None))[0]))
+                             earn=earn, ind=ind_all.get(t, ''), indRank=rank.get(ind_all.get(t, ''), (None, None))[0]))
         live = [r for r in rows if not r.get('missing')]
         r63s = [r['r63'] for r in live if r.get('r63') is not None]
         out.append(dict(group=g, rows=rows, up=sum(r['state'] == 'up' for r in live), n=len(live),

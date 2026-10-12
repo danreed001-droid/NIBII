@@ -2123,6 +2123,7 @@ IGNITION_CSS = """<style>
 #watch .mkt { border-left: 4px solid var(--pos); } #watch .mkt.warn { border-left-color: var(--gold); } #watch .mkt.bad { border-left-color: var(--neg); }
 #watch .acct { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--ink-2); margin: 0 0 10px; }
 #watch tr.wg td { background: var(--surface-2); padding-top: 10px; }
+#watch .soon { color: var(--gold); }
 #watch table.wl td.do { min-width: 200px; max-width: 300px; font-size: 0.78rem; color: var(--ink-2); }
 #watch table.wl td .sub { max-width: 150px; }
 #watch table.wl th, #watch table.wl td { padding: 7px 8px; }
@@ -2221,7 +2222,31 @@ def plan_html(scan):
 STATE_LABEL = {'up': ('Uptrend', 'pos'), 'mixed': ('Mixed', 'muted'), 'down': ('Downtrend', 'neg')}
 
 
-def _watch_do(r, plan_by_t):
+def _earn_days(r, as_of):
+    from datetime import date as _d
+    if not r.get('earn') or not as_of:
+        return None
+    return (_d.fromisoformat(r['earn'][:10]) - _d.fromisoformat(as_of)).days
+
+
+def _earn_cell(r, as_of):
+    n = _earn_days(r, as_of)
+    if n is None:
+        return '<span class="muted">–</span>'
+    from datetime import date as _d
+    d = _d.fromisoformat(r['earn'][:10])
+    txt = d.strftime('%b ') + str(d.day)
+    return f'<b class="soon">{txt}</b> <span class="muted">{n}d</span>' if n <= 14 else f'{txt} <span class="muted">{n}d</span>'
+
+
+def _watch_do(r, plan_by_t, as_of=None):
+    n = _earn_days(r, as_of)
+    pre = (f'<b>Earnings in {n} day{"s" if n != 1 else ""}</b> - the gap that matters often comes on the report; '
+           'avoid buying right before it, act on the reaction. ') if n is not None and 0 <= n <= 14 else ''
+    return pre + _watch_do_base(r, plan_by_t)
+
+
+def _watch_do_base(r, plan_by_t):
     a = plan_by_t.get(r['t'])
     if a:
         return f'<b>{ACT_LABEL[a["act"]]}:</b> {_e(a["text"])}'
@@ -2249,12 +2274,12 @@ def watch_html(scan):
         ind_rank = max(set(ranks), key=ranks.count) if ranks else None
         if ind_rank and ranks.count(ind_rank) * 2 < len(g['rows']):
             ind_rank = None                     # the group spans several industries
-        body.append(f'<tr class="wg"><td colspan="9" class="l"><b>{_e(g["group"])}</b> <span class="muted">· {g["up"]} of {g["n"]} in an uptrend'
+        body.append(f'<tr class="wg"><td colspan="10" class="l"><b>{_e(g["group"])}</b> <span class="muted">· {g["up"]} of {g["n"]} in an uptrend'
                     f' · median 3m vs SPY {_p(g.get("r63"), 0)}'
                     + (f' · industry rank #{ind_rank} of {scan.get("themeCount", "?")}' if ind_rank else '') + '</span></td></tr>')
         for r in g['rows']:
             if r.get('missing'):
-                body.append(f'<tr><td class="l"><b>{_e(r["t"])}</b></td><td colspan="8" class="l muted">no price data</td></tr>')
+                body.append(f'<tr><td class="l"><b>{_e(r["t"])}</b></td><td colspan="9" class="l muted">no price data</td></tr>')
                 continue
             lab, tone = STATE_LABEL[r['state']]
             f = r.get('flag')
@@ -2265,12 +2290,12 @@ def watch_html(scan):
                         f'<td class="num {_tone(r.get("r63"))}">{_p(r.get("r63"), 0)}</td>'
                         f'<td class="num">{"–" if r.get("rs") is None else r["rs"]}</td>'
                         f'<td class="num hide-sm">{_p(r.get("offHigh"), 0)}</td><td class="l hide-sm">{flag}</td>'
-                        f'<td class="l w do">{_watch_do(r, plan_by_t)}</td></tr>')
+                        f'<td class="num">{_earn_cell(r, scan.get("asOf"))}</td><td class="l w do">{_watch_do(r, plan_by_t, scan.get("asOf"))}</td></tr>')
     return ('<p class="section-label">Watchlist: semis &amp; AI <span class="hint">nightly status · edit the list in '
             '<a href="https://github.com/danreed001-droid/NIBII/blob/main/data/watchlist.json">data/watchlist.json</a></span></p>'
             '<div class="tablebox"><table class="wl"><thead><tr><th class="l">Stock</th><th class="l">Trend</th><th>Day</th>'
             '<th class="hide-sm">1m vs SPY</th><th>3m vs SPY</th><th title="Relative strength percentile, 1-99">RS</th>'
-            '<th class="hide-sm">Off 52w high</th><th class="l hide-sm">Latest flag</th><th class="l w">Do</th></tr></thead>'
+            '<th class="hide-sm">Off 52w high</th><th class="l hide-sm">Latest flag</th><th>Earnings</th><th class="l w">Do</th></tr></thead>'
             f'<tbody>{"".join(body)}</tbody></table></div>')
 
 
@@ -2392,6 +2417,67 @@ def ignition_html(scan=None):
     return '\n'.join(out)
 
 
+LAB_PATH = os.path.join(ROOT, 'data', 'strategy_backtest.json')
+LAB_NOTES = {
+    'Current: Top 5': 'the dashboard rule',
+    'Current + news boost': 'a 12%+ news gap jumps the queue (the Boost list)',
+    'Top 2 sectors': 'only the 2 strongest sectors',
+    'Top 3 industries': 'only the 3 strongest industries',
+    'Ignition stocks only': 'only stocks with an Ignition in the last 3 months',
+    'Ignition boost': 'an Ignition in the last 4 weeks jumps the queue',
+    'Repeat gappers': 'only stocks with 2+ big gap-ups in 12 months',
+    'Trend leaders near highs': 'only uptrends within 5% of the 52-week high',
+    'Semis & AI watchlist': 'only the watchlist names (hindsight)',
+}
+
+
+def lab_html(lab=None):
+    """The Strategy lab table from data/strategy_backtest.json (scripts/backtest_strategies.py), or ''."""
+    if lab is None:
+        try:
+            with open(LAB_PATH) as f:
+                lab = json.load(f)
+        except (OSError, ValueError):
+            return ''
+    periods = lab.get('periods') or {}
+    if not periods:
+        return ''
+    keys = list(periods)
+    names = list(next(iter(periods.values()))['rows'])
+    best = {}
+    for k in keys:
+        rows = periods[k]['rows']
+        cand = [(v.get('annual') or -9, n) for n, v in rows.items() if not v.get('bench') and n not in (lab.get('hindsight') or [])]
+        best[k] = max(cand)[1] if cand else None
+    head = ''.join(f'<th>{_e(k)}+ /yr</th><th class="hide-sm">worst</th>' for k in keys)
+    body = []
+    for n in names:
+        cells = []
+        for k in keys:
+            v = periods[k]['rows'].get(n) or {}
+            cur = (periods[k]['rows'].get('Current: Top 5') or {}).get('annual')
+            a = v.get('annual')
+            diff = '' if a is None or cur is None or n == 'Current: Top 5' or v.get('bench') else \
+                f' <span class="{_tone(a - cur)}">({(a - cur) * 100:+.0f})</span>'
+            b = ' style="font-weight:700"' if best.get(k) == n else ''
+            cells.append(f'<td class="num"{b} title="total {_p(v.get("total"), 0)}">{_p(a)}{diff}</td>'
+                         f'<td class="num hide-sm neg">{_p(v.get("maxDD"), 0)}</td>')
+        bench = any((periods[k]['rows'].get(n) or {}).get('bench') for k in keys)
+        label = f'<b>{_e(n)}</b>' if n == 'Current: Top 5' else _e(n)
+        note = LAB_NOTES.get(n, 'buy and hold' if bench else '')
+        body.append(f'<tr{" class=bench" if bench else ""}><td class="l w">{label}<span class="sub">{_e(note)}</span></td>{"".join(cells)}</tr>')
+    return ('<style>#lab tr.bench td { color: var(--muted); } #lab td.w { min-width: 200px; }</style><section id="lab">'
+            '<p class="section-label">Strategy lab <span class="hint">new ideas vs the current Top 5 rule · same test: S&amp;P 500 + Nasdaq-100, '
+            f'top 5, weekly, 0.05% cost · to {_e(lab.get("asOf"))}</span></p>'
+            '<div class="tablebox"><table><thead><tr><th class="l">Strategy</th>' + head + '</tr></thead><tbody>'
+            + ''.join(body) + '</tbody></table></div>'
+            '<p class="note">Per-year return from each start to today (difference vs the current rule in points); worst = biggest '
+            'peak-to-trough drop. Bold = best per start, ignoring the watchlist row. <b>Caveats:</b> stocks that left the indexes or went '
+            'bust are missing, which flatters every row, more so from 2000. The Semis &amp; AI watchlist was picked in 2026 knowing AI won, '
+            'so its row is hindsight - it shows what the theme was worth, not what you could have known. Rebuilt by '
+            '<code>scripts/backtest_strategies.py</code>. Not investment advice.</p></section>')
+
+
 def research_html():
     """The five-year winners research section (documents/winners_research.html,
     a static HTML fragment), or '' when the file is missing."""
@@ -2412,7 +2498,7 @@ def overlay_lib():
 def render(scan, growth=None):
     # Escape "</" so a company name can never close the <script> block early.
     page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth).replace('__OVLIB__', overlay_lib(), 1)
-    page = page.replace('__RESEARCH__', ignition_html() + research_html(), 1)
+    page = page.replace('__RESEARCH__', ignition_html() + lab_html() + research_html(), 1)
     return page.replace('__DATA__', json.dumps(scan, separators=(',', ':')).replace('</', '<\\/'))
 
 
