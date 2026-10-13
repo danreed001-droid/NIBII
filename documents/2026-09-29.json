@@ -1,7 +1,7 @@
 {
  "date": "2026-09-29",
  "basisDate": "2026-09-29",
- "scored": false,
+ "scored": true,
  "generatedAt": "2026-09-30T13:25:35Z",
  "generationLag": null,
  "schema": "multi-asset-v4",
@@ -549,7 +549,7 @@
       [
        "bull",
        "Weekly structure is choppy (HL 7324 (week of 27 July), HH 7838.5 (week of 10 August), HL 7509.25 (week of 14 September)); ES=F closed 7732 against a 50-day average of 7670.59 and a 200-day of 7240.96 with RSI(14) at 52.39.",
-       true
+       false
       ],
       [
        "bear",
@@ -579,7 +579,7 @@
       [
        "bull",
        "AAII's survey for the week ending 23 September (latest published) showed bulls at 32.7% against a 37.5% average and bears at 48.1% against 31.5%, a contrarian-bullish reading but a week stale; the Conference Board's 29 September consumer-confidence reading (81.9, lowest since April 2014) is a household, not investor, gauge",
-       true
+       false
       ],
       [
        "neu",
@@ -612,13 +612,12 @@
        null
       ]
      ],
-     "maturityClose": 7857.75,
-     "ret": 0.016264,
+     "maturityClose": 7855.5,
+     "ret": 0.015973,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     }
    ],
    "structure": {
@@ -2770,13 +2769,12 @@
        null
       ]
      ],
-     "maturityClose": 104.765625,
-     "ret": 0.003292,
+     "maturityClose": 104.75,
+     "ret": 0.003142,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     }
    ],
    "structure": {
@@ -5558,13 +5556,12 @@
        false
       ]
      ],
-     "maturityClose": 4186.10009765625,
-     "ret": 0.001531,
+     "maturityClose": 4184.2001953125,
+     "ret": 0.001077,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     }
    ],
    "structure": {
@@ -7611,13 +7608,12 @@
        null
       ]
      ],
-     "maturityClose": 102.197998046875,
-     "ret": 0.008168,
+     "maturityClose": 102.1969985961914,
+     "ret": 0.008158,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     }
    ],
    "structure": {
@@ -9891,13 +9887,12 @@
        false
       ]
      ],
-     "maturityClose": 2801.300048828125,
-     "ret": -0.009861,
+     "maturityClose": 2800.89990234375,
+     "ret": -0.010003,
      "correct": true,
      "shadowCorrect": false,
      "preReversionCorrect": true,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     }
    ],
    "structure": {
@@ -11930,13 +11925,12 @@
        null
       ]
      ],
-     "maturityClose": 30800.0,
-     "ret": 0.0061,
+     "maturityClose": 30782.0,
+     "ret": 0.005512,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     }
    ],
    "structure": {
