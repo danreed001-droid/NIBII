@@ -39,16 +39,18 @@ ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and
            'switch': 'still out of stocks; {to} is now the rising asset up most over 6 months', 'above': 'SPY closed back above its 150-day average',
            'steeper': "SPY's daily higher lows are steeper than TLT's and GLD's",
            'narrow': "narrow-market cash week: a week ago SPY sat within 2% of its 52-week high on a calm VIX while the "
-                     "equal-weight S&P lagged it by more than 1.5% over 3 months; T-bills for a week, then back to the plan",
+                     "equal-weight S&P lagged it by more than 1.5% over 3 months; out of stocks for a week ({to}: the stronger of TLT / GLD "
+                     "if it is up over 6 months, else cash), then back to the plan",
            'narrow-end': 'the narrow-market cash week is over: back to what the plan holds',
            'lowerhigh': "lower-high exit: SPY's weekly chart made a lower high (or an early one with the daily chart already "
-                        "turned down) and SPY closed below it; {to} for two weeks (the stronger of TLT / GLD, T-bills if "
-                        "neither is rising), then back to the plan",
-           'lowerhigh-end': 'the two weeks out after the lower high are over: back to what the plan holds'}
+                        "turned down) and SPY closed below it; {to} for two weeks (the stronger of TLT / GLD; if neither is rising, "
+                        "the one up more over 6 months if it is up, else cash), then back to the plan",
+           'lowerhigh-end': 'the two weeks out after the lower high are over: back to what the plan holds',
+           'nobills': 'no T-bills: {to} is now the stronger of TLT / GLD over 6 months (cash when neither is up)'}
 
 
 def rot_name(m):
-    return 'the Boost 100% stock list' if m == 'boost' else m
+    return 'the Boost 100% stock list' if m == 'boost' else 'cash (no T-bills)' if m == 'CASH' else m
 
 
 def rotation_line(rt, as_of):
@@ -58,7 +60,7 @@ def rotation_line(rt, as_of):
     frm, to = rt.get('held'), rt.get('mode')
     log = rt.get('log') or []
     why = log[0][3] if log and log[0][0] == as_of else None
-    reason = ROT_WHY.get(why, '').format(frm=frm, to=to)
+    reason = ROT_WHY.get(why, '').format(frm=rot_name(frm), to=rot_name(to))
     return (f"**Boost + rotation (the default plan):** sell {rot_name(frm)}, buy **{rot_name(to)}** with the whole account"
             + (f" ({reason})" if reason else ''))
 

@@ -9,7 +9,8 @@ The warning fires at a close when three things line up:
 
 NARROW_DELAY (5) sessions after each warning day the whole account moves to T-bills for NARROW_DAYS
 (5) sessions, then goes back to whatever the plan holds (stocks, TLT, GLD or T-bills). A warning that
-repeats extends the cash week. Like every rotation decision it is made at a close and traded at the
+repeats extends the cash week. Since Oct 13, 2026 the plan holds no T-bills (mtl/rotation.py no_bills):
+the cash week holds the stronger of TLT / GLD over 6 months if it is up, else plain cash. Like every rotation decision it is made at a close and traded at the
 next close.
 
 Audit (Oct 13, 2026, stocks in the S&P 500 at the time, EP and CPWR left out; the warning needs RSP

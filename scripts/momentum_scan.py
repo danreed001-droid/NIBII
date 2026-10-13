@@ -46,7 +46,7 @@ from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
 from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash, lowerhigh_state, LH_DAYS  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
-from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK  # noqa: E402
+from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -655,6 +655,9 @@ def main():
     narrow_warn = narrow_warnings(prices['SPY'], rsp_px, vix_px, calendar) if rsp_px and vix_px else []
     narrow_cash = narrow_cash_days(narrow_warn, calendar)
     rot_modes, rot_why = apply_narrow(rot_modes, rot_why, {d_ for d_ in narrow_cash if d_ >= START}, calendar)
+    # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
+    # stronger of TLT / GLD over 6 months if it is up, else cash (mtl/rotation.py no_bills)
+    rot_modes, rot_why, whip_half = no_bills(rot_modes, rot_why, whip_half, whip_px, calendar)
     plans['rotation'] = rotation_curve(strat_bx, whip_px, calendar, rot_modes, half=whip_half)
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
@@ -877,7 +880,8 @@ def main():
     auto['rotation']['narrow'] = dict(narrow_state(narrow_warn, narrow_cash, calendar, K),
                                       reading=None if nr_ is None else {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in nr_.items()},
                                       delay=NARROW_DELAY, days=NARROW_DAYS, high=NARROW_HIGH, lag=NARROW_LAG, vix=NARROW_VIX,
-                                      log=narrow_warn[-12:][::-1], ok=bool(rsp_px and vix_px))
+                                      log=narrow_warn[-12:][::-1], ok=bool(rsp_px and vix_px),
+                                      asset=rot_modes.get(as_of) if as_of in narrow_cash else None)
     if narrow_warn:   # the last decision day of the current or next cash run, rolled past today when needed
         end_k = calendar.index(narrow_warn[-1]) + NARROW_DELAY + NARROW_DAYS
         if end_k > K - 1:
@@ -886,6 +890,8 @@ def main():
                 until = next_session(until)
             auto['rotation']['narrow']['until'] = until
     lh_ = lowerhigh_state(bench['SPY'], lh_cash, lh_log, calendar, K)
+    if lh_['inCash']:   # what the account holds there after the no-T-bills swap
+        lh_['asset'] = rot_modes.get(as_of, lh_['asset'])
     if lh_['reading']:
         lh_['reading'] = {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in lh_['reading'].items()}
     if lh_log:   # the last decision day of the current two weeks, rolled past today when needed
@@ -908,6 +914,13 @@ def main():
     auto['rotation']['breadth'] = dict(down=r4(br_now), prev=r4(br_prev), n=br_n, cut=BROAD_DOWN, broad=BROAD_SHARE,
                                        hist=[[calendar[k_], r4(breadth(prices, calendar, k_)[0])] for k_ in range(K - 20, K + 1)])
     auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_bx, prices)
+    if auto['rotation']['whip']['pick'] == 'BIL':   # nothing up over 3 months: the no-T-bills swap
+        auto['rotation']['whip']['pick'] = bills_pick(whip_px, calendar, K)
+    auto['rotation']['noBills'] = dict(look=PICK_LOOK, assets=list(ROT_ASSETS), pick=bills_pick(whip_px, calendar, K),
+                                       pct={t: r4(whip_px[t][calendar[K]] / whip_px[t][calendar[K - PICK_LOOK]] - 1)
+                                            if whip_px.get(t, {}).get(calendar[K]) and whip_px.get(t, {}).get(calendar[K - PICK_LOOK]) else None
+                                            for t in ROT_ASSETS},
+                                       days=sum(1 for d_, m_ in rot_modes.items() if m_ == CASH))
     auto['rotation']['whip']['regime'] = regime_block(regime, rate_px, whip_px.get('GLD') or {}, calendar, K)
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]

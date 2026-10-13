@@ -7,7 +7,10 @@ tested exactly like the dashboard's Top 5 rule and compared with it from
 Every strategy: S&P 500 + Nasdaq-100 (today's lists; an S&P stock only from
 the day it joined), ranked by 6-1 month strength, must beat SPY, top 5 in
 equal weight, keep while top 10, signal at the week's last close, trade the
-next session's close, 0.05% cost. They differ only in which stocks may be
+next session's close, 0.05% cost. All but the last row then run inside the
+dashboard's default plan: the rotation into TLT / GLD, the lower-high exit, the
+whipsaw half-switch, the narrow-market cash week, and no T-bills (gold or bonds
+if up over 6 months, else cash). They differ only in which stocks may be
 bought (or jump the queue):
 
 - Current: Top 5            - the dashboard rule.
@@ -48,7 +51,9 @@ from momentum_scan import blocked_dates, fetch  # noqa: E402
 from mtl import ignition as ig  # noqa: E402
 from mtl.backtest import curve_stats  # noqa: E402
 from mtl.momentum import blowoff_exit, run_momentum, surge_exit  # noqa: E402
-from mtl.rotation import ROT_ASSETS, reflation, rotation_curve, rotation_modes, whip_halves, whipsaw  # noqa: E402
+from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash  # noqa: E402
+from mtl.narrow import apply_narrow, narrow_cash_days, narrow_warnings  # noqa: E402
+from mtl.rotation import ROT_ASSETS, no_bills, reflation, rotation_curve, rotation_modes, whip_halves, whipsaw  # noqa: E402
 from mtl.sleeve import ASSETS, filled  # noqa: E402
 from momentum_scan import BLOWOFF, BLOWOFF_MA, SURGE_DELAY, SURGE_UP, SURGE_VOL  # noqa: E402
 from mtl.news import booster, news_gap_days  # noqa: E402
@@ -79,17 +84,20 @@ def watchlist():
 
 
 def rotation_data():
-    """OHLC of the sleeve / rotation ETFs and the 10-year yield (the whipsaw's regime check)."""
+    """OHLC of the sleeve / rotation ETFs, the 10-year yield (the whipsaw's regime check), and the
+    equal-weight S&P 500 (RSP) and VIX closes (the narrow-market cash week)."""
     assets = fetch(ASSETS, start=FROM, adjusted=True)
     rate = {b[0]: b[4] for b in (fetch(['^TNX'], start=FROM).get('^TNX') or []) if b[4]}
-    return dict(assets=assets, rate=rate)
+    rsp = {b[0]: b[4] for b in (fetch(['RSP'], start=FROM, adjusted=True).get('RSP') or []) if b[4]}
+    vix = {b[0]: b[4] for b in (fetch(['^VIX'], start=FROM).get('^VIX') or []) if b[4]}
+    return dict(assets=assets, rate=rate, rsp=rsp, vix=vix)
 
 
 def load():
     if os.path.exists(CACHE):
         with open(CACHE, 'rb') as f:
             data = pickle.load(f)
-        if 'assets' not in data:            # older cache without the rotation's assets
+        if 'rsp' not in data:               # older cache without the rotation's assets or the cash week's data
             data.update(rotation_data())
             with open(CACHE, 'wb') as f:
                 pickle.dump(data, f)
@@ -230,16 +238,21 @@ def main():
         'News gappers, cash when SPY down': dict(inside(ok_news), risk_on=spy_up, _norot=True),
     }
 
-    # the rotation overlay, exactly as the dashboard's default plan (scripts/momentum_scan.py)
+    # the rotation overlay, exactly as the dashboard's default plan (scripts/momentum_scan.py): the rotation,
+    # the lower-high exit, the whipsaw half-switch, the narrow-market cash week, and no T-bills
     A = D['assets']
     sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in A.items() if bs}
     rot_bars = {'SPY': bench['SPY'], **{t: A[t] for t in ROT_ASSETS if A.get(t)}}
     whip_px = {**filled(sleeve_px, cal), 'SPY': prices['SPY']}
     regime = reflation(D['rate'], whip_px.get('GLD') or {}, cal)
+    narrow = narrow_cash_days(narrow_warnings(prices['SPY'], D['rsp'], D['vix'], cal), cal) if D['rsp'] and D['vix'] else set()
 
     out = {}
     for label, start in STARTS.items():
         modes, _why, read, _state = rotation_modes(rot_bars, cal, start)
+        lh, _ = lowerhigh_cash(bench['SPY'], cal, start, modes, dest=lambda d, read=read: read.steepest(d) or 'BIL')
+        modes, _why = apply_lowerhigh(modes, _why, lh, cal)
+        modes, _why = apply_narrow(modes, _why, {d for d in narrow if d >= start}, cal)
         rows = {}
         for name, kw in strategies.items():
             kw = dict(kw)
@@ -250,7 +263,8 @@ def main():
                 curve = stock
             else:
                 half = whip_halves(modes, whipsaw(r['picks'], universe, cal, start), read, whip_px, cal, skip=regime)
-                curve = rotation_curve(stock, whip_px, cal, modes, half=half)
+                m, _w, half = no_bills(modes, _why, half, whip_px, cal)
+                curve = rotation_curve(stock, whip_px, cal, m, half=half)
             rows[name] = summary(curve, holds=r['picks'][-1][1] if r.get('picks') else [])
             log(f"{label} {name:26} {rows[name]['annual']:+6.1%}/yr  after tax {rows[name]['afterTax']:+6.1%}  maxDD {rows[name]['maxDD']:6.0%}")
         r = run_momentum(universe, cal, start, look=126, skip=21, top_n=5, exec_next='close', eligible=base_ok)
