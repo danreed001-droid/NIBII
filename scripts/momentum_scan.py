@@ -22,9 +22,7 @@ are offered too. The default plan is Boost + rotation (mtl/rotation.py): the Boo
 list, moved into TLT / GLD (or T-bills) when SPY's swing structure turns down, and half of it
 moved into whichever of TLT / GLD / SPY is up most over 3 months while most of the list's recent
 sales were losers (the whipsaw half-switch; it stands aside while the 10-year yield and gold
-are both up over 3 months), decided at any close and traded at the next. A holding that closes down
-10%+ while the plan is fully in the Boost list goes to 1.5x weight at the next close until the list next
-trades (the dip add, mtl/dip.py). Signals come from each Friday's close; trades (stocks,
+are both up over 3 months), decided at any close and traded at the next. Signals come from each Friday's close; trades (stocks,
 sleeve switch, reset to the split) are made on Monday before the close, and the
 track record is computed that way.
 
@@ -47,7 +45,6 @@ from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleev
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
 from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK  # noqa: E402
-from mtl.dip import DIP_CALL_HOLD, DIP_CALL_MAX_IV, DIP_DROP, DIP_MULT, dip_call_target, dip_curve, dip_events  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -341,43 +338,6 @@ def whip_block(modes, on, half, read, px, calendar, K, picks, prices):
                 previewOn=len(rec) >= WHIP_MIN and lost / len(rec) >= WHIP_LOSS,
                 pick=pick, chg={t: r4(v) for t, v in chg.items()}, weekly=weekly,
                 daysOn=sum(1 for d_ in days if on[d_]), days=len(days), log=whip_log(on, half, calendar))
-
-
-def dip_block(events, ok_day, picks, prices, calendar, K, signal_day, quote=None):
-    """The dip add now: a holding that fell DIP_DROP+ at today's close (bought up to DIP_MULT x at the
-    next close unless the weekly rebalance comes first), any add still in force, and recent adds with
-    how the stock did over the next week."""
-    as_of = calendar[K]
-    days = [p[0] for p in picks]
-    i = bisect_right(days, as_of) - 1
-    held = picks[i][1] if i >= 0 else []
-    now = {}
-    if ok_day(as_of) and not signal_day:
-        for t in held:
-            a, b = (prices.get(t) or {}).get(calendar[K - 1]), (prices.get(t) or {}).get(as_of)
-            if a and b and b / a - 1 <= -DIP_DROP:
-                now[t] = r4(b / a - 1)
-    active = None
-    if events:
-        f_, d_, chg = events[-1]
-        if d_ <= as_of and not any(d_ < x <= as_of for x in days):
-            active = dict(t=sorted(chg), d=d_, signal=f_)
-    log = []
-    idx = {d: n for n, d in enumerate(calendar)}
-    for f_, d_, chg in reversed(events[-40:]):
-        for t, c_ in sorted(chg.items()):
-            j = idx[d_]
-            p0, p1 = (prices.get(t) or {}).get(d_), (prices.get(t) or {}).get(calendar[min(j + 5, K)])
-            log.append(dict(t=t, d=f_, drop=r4(c_), wk=r4(p1 / p0 - 1) if p0 and p1 and j + 5 <= K else None))
-    calls = {}
-    if now and quote:   # the options version: a live check of the 3-month at-the-money call (best effort)
-        for t in now:
-            q = quote(t, dip_call_target(prices[t][as_of], as_of), as_of)
-            if q:
-                calls[t] = dict(q, cost=r4(q['mid'] / prices[t][as_of]) if q.get('mid') else None)
-    return dict(drop=DIP_DROP, mult=DIP_MULT, now=now, trade=next_session(as_of) if now else None, active=active,
-                log=log[:10], n=sum(len(e[2]) for e in events), skipFriday=bool(signal_day),
-                calls=calls, callMaxIv=DIP_CALL_MAX_IV, callHold=DIP_CALL_HOLD)
 
 
 def regime_block(regime, rate, gold, calendar, K, look=REGIME_LOOK):
@@ -677,13 +637,7 @@ def main():
     # ... except while the 10-year yield and gold are both up over 3 months (reflation): then it stays in the Boost list
     regime = reflation(rate_px, whip_px.get('GLD') or {}, calendar)
     whip_half = whip_halves(rot_modes, whip_on, rot_read, whip_px, calendar, skip=regime)
-    # ... and the dip add: a holding that closes down 10%+ on a day the plan is fully in the Boost list
-    # goes to 1.5x weight at the next close (the others trimmed) until the list next trades (mtl/dip.py)
-    def dip_ok(f_):
-        return f_ >= START and rot_modes.get(f_, 'boost') == 'boost' and f_ not in whip_half
-    dip_ev = dip_events(picks_bx, prices, calendar, dip_ok)
-    strat_bxd = dip_curve(strat_bx, picks_bx, prices, calendar, dip_ev, TOP_N)
-    plans['rotation'] = rotation_curve(strat_bxd, whip_px, calendar, rot_modes, half=whip_half)
+    plans['rotation'] = rotation_curve(strat_bx, whip_px, calendar, rot_modes, half=whip_half)
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
     curves['plan'] = growth(plans['auto'])
@@ -914,8 +868,6 @@ def main():
                                        hist=[[calendar[k_], r4(breadth(prices, calendar, k_)[0])] for k_ in range(K - 20, K + 1)])
     auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_bx, prices)
     auto['rotation']['whip']['regime'] = regime_block(regime, rate_px, whip_px.get('GLD') or {}, calendar, K)
-    auto['rotation']['dip'] = dip_block(dip_ev, dip_ok, picks_bx, prices, calendar, K, signal_day,
-                                        quote=None if '--no-quotes' in sys.argv else quote_check)
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
         auto['preview'] = split_key(STEPS.get(len(auto['previewDown']), STEPS_MIN))

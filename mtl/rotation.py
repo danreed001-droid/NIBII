@@ -65,6 +65,11 @@ picked on that same history.
    not statistically significant; it beat the gradient pick in 74% of simulated ten-year
    futures.
 
+   The dip add (buying the Boost list back on a sharp dip while in the havens) was removed
+   on Oct 13, 2026: on corrected data the plan did slightly better without it, 30.6% a year
+   before tax (19.6% after) vs 30.4%, worst drop -44% either way; from 2010 30.1% vs 30.0%,
+   from 2016 38.6% vs 38.4%, from 2020 58.0% vs 58.3%.
+
 Pure and network-free: bars are {ticker: [(date, open, high, low, close), ...]} oldest
 first (dividend-adjusted), calendar is the trading days.
 """
