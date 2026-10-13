@@ -2648,14 +2648,14 @@
       "direction": "Neutral",
       "event": "US stocks start the week flat near record highs as traders await big-bank earnings Tuesday and CPI/retail sales later this week",
       "impact": "Medium",
-      "numbers": "S&P 500 ~7,816 (+0.05%); Dow ~51,862 (+0.40%); Nasdaq ~27,306 (-0.22%); Russell 2000 ~2,807 (+0.46%); VIX ~15.4; Europe: DAX +0.7%, FTSE 100 +0.7%; Asia mixed (KOSPI -3.7% per Yahoo, cause n/a)",
-      "reaction": "Quiet tape with no US data Monday; JPMorgan, Goldman, Citi, Wells Fargo report Tuesday (Q3 S&P profit growth expected ~25% y/y); inflation and retail sales due Wed/Thu. Columbus Day: bond market holiday so Treasury yield quotes are stale",
+      "numbers": "S&P 500 7,807 (-0.06%); Dow ~51,885 (+0.38%, +195 pts); Nasdaq 27,245 (-0.44%); Russell 2000 2,794 (-0.45%); VIX n/a; 10-yr Treasury yield n/a (bond market closed for Columbus Day)",
+      "order": 1,
+      "reaction": "Indexes finished mixed in a quiet, holiday-thinned session (bond market closed for Columbus Day): the Dow outperformed on a rotation into value/cyclicals while tech and semis (SOX -2.7%) lagged, pulling the S&P 500 and Nasdaq slightly lower. Big-bank earnings (JPM, GS, C, WFC, BAC, MS) kick off Tuesday; Q3 S&P profit growth expected ~25% y/y. September CPI due Wednesday, PPI Thursday.",
       "region": "US",
-      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-12-dow-sp-500-nasdaq-080321571.html",
+      "source": "https://investrade.com/market-review-october-12-2026/",
       "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell",
-      "time": "Pre-market",
-      "vsExp": "n/a",
-      "order": 1
+      "time": "Market hours",
+      "vsExp": "n/a"
     }
   },
   {
@@ -2669,13 +2669,13 @@
       "event": "Oil rises on Mideast and Ukraine energy-infrastructure risks; Trump floats US joining Saudi strikes on Houthis",
       "impact": "Medium",
       "numbers": "Brent ~$106.7 (+1.9%); WTI ~$93.4 (+1.7%); gold ~$4,197 (-0.5%); dollar index ~102.4 (+0.2%)",
+      "order": 2,
       "reaction": "Russian strikes on Ukrainian power plants and Houthi attacks on Saudi Arabia's main airport (12 killed) lifted crude; Trump said Russia and Ukraine agreed to stop hitting each other's energy infrastructure, which tempered the move. Higher oil keeps inflation and rate concerns in focus ahead of CPI",
       "region": "Global",
       "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-12-dow-sp-500-nasdaq-080321571.html",
       "tickers": "SPY, S&P, GLD, gold, DXY, dollar",
       "time": "Pre-market",
-      "vsExp": "n/a",
-      "order": 2
+      "vsExp": "n/a"
     }
   },
   {
