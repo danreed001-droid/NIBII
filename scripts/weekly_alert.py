@@ -101,35 +101,6 @@ def whip_line(rt):
             f"(it is now up most over 3 months: {chg}, weekly downtrends skipped)")
 
 
-def dip_line(rt):
-    """The dip add decided at the last close (None when there is nothing to add)."""
-    p = (rt or {}).get('dip') or {}
-    if not p.get('now') or rt.get('mode') != 'boost' or (rt.get('whip') or {}).get('half'):
-        return None
-    names = ', '.join(f"{t} ({pct1(v)})" for t, v in sorted(p['now'].items()))
-    share = p.get('mult', 1.5) / (4 + p.get('mult', 1.5))
-    return (f"**Boost + rotation, dip add:** {names} closed down {pctw(p.get('drop', 0.1))}+ today. At the close on {fmt(p['trade'])} raise "
-            f"{'it' if len(p['now']) == 1 else 'each'} to {p.get('mult', 1.5):g}x its share (about {pctw(share)} of the stock part instead of 20%), "
-            f"trimming the other holdings to pay for it; everything goes back to equal at the next weekly rebalance" + dip_call_text(p))
-
-
-def dip_call_text(p):
-    """The options version of a dip add, from the live quote check (information, not traded by the plan)."""
-    mx = round((p.get('callMaxIv') or 0.7) * 100)
-    out = []
-    for t in sorted(p.get('now') or {}):
-        q = (p.get('calls') or {}).get(t)
-        if not q or q.get('iv') is None:
-            out.append(f"{t}: no live option quote; check the 3-month at-the-money call's implied volatility at your broker and use calls only if it is {mx}% or less")
-        elif q.get('ok'):
-            out.append(f"{t}: the {fmt(q['expiry'])} ${q['strike']:g} call is at {round(q['iv'] * 100)}% IV (mid ${q['mid']}"
-                       + (f", {pctw(q['cost'])} of the price" if q.get('cost') else '') + f"), under {mx}%: optional, calls costing 1-2% of the account on top of the stock add, sold after "
-                       f"{p.get('callHold', 20)} sessions")
-        else:
-            out.append(f"{t}: the 3-month call is at {round(q['iv'] * 100)}% IV, over {mx}%: too expensive, stock add only")
-    return ('. Options version: ' + '; '.join(out)) if out else ''
-
-
 def whip_tag(rt):
     w = (rt or {}).get('whip') or {}
     return (f"whipsaw half → {w['half']}" if w.get('half') else "whipsaw half off") if w.get('trade') else None
@@ -366,13 +337,6 @@ def midweek(scan, owner=None):
                  "Decided at today's close; the other plans have nothing to do.", '', rotation_now(rt), '', f"Details: {PAGE}", '',
                  (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
         return f"Trade {fmt(w['trade'])}: Boost + rotation {whip_tag(rt)}"[:240], '\n'.join(lines) + '\n'
-    dl = dip_line(rt)
-    if dl and not (mw and (mw.get('sell') or mw.get('buy'))):
-        p = rt['dip']
-        lines = [f"**Trade at the close on {fmt(p['trade'])}:** {dl}.", '',
-                 "Decided at today's close; the other plans have nothing to do.", '', rotation_now(rt), '', f"Details: {PAGE}", '',
-                 (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
-        return f"Trade {fmt(p['trade'])}: Boost + rotation dip add: {', '.join(sorted(p['now']))} to {p.get('mult', 1.5):g}x"[:240], '\n'.join(lines) + '\n'
     if not mw or not (mw.get('sell') or mw.get('buy')):
         wl = warn_line(rt) if not rt.get('prevWarn') else None
         rl_ = rsi_line(rt) if not ((rt.get('rsiWarn') or {}).get('prevOn')) else None
@@ -399,7 +363,6 @@ def midweek(scan, owner=None):
              ' '.join(why) + " Swap the same dollar amount; the rest of the account stays as it is.",
              *(['', call_line(bx, mw.get('buy') or [], mw.get('sell') or [])] if call_line(bx, mw.get('buy') or [], mw.get('sell') or []) else []),
              *(['', whip_line(rt)] if whip_line(rt) else []),
-             *(['', dip_line(rt)] if dip_line(rt) else []),
              '', "Auto, Boost and Steps: nothing to do." + (f" Boost + rotation is out of stocks ({rt['mode']}): nothing to do." if rt.get('mode') and rt['mode'] != 'boost'
                                                            else " Boost + rotation (in the Boost list): make the same swap" + (f" with its half in the stocks ({rt['whip']['half']} is the other half)." if (rt.get('whip') or {}).get('half') else ".")), '',
              f"Details: {PAGE}", '',

@@ -214,28 +214,3 @@ def test_whipsaw_half_stands_aside_when_rates_and_gold_rise():
     title, body = alert.build(s)
     assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw half off'
     assert 'stands aside' in body and 'sell GLD, put that half back into the Boost list' in body
-
-
-def test_dip_add_midweek_sends_its_own_alert():
-    s = scan(signalDay=False, asOf='2026-10-06')
-    s['plan']['auto']['rotation'] = rot(dip=dict(drop=0.10, mult=1.5, now={'MU': -0.123}, trade='2026-10-07'))
-    title, body = alert.build(s)
-    assert title == 'Trade Wed Oct 7: Boost + rotation dip add: MU to 1.5x'
-    assert 'MU (-12.3%)' in body and '1.5x its share' in body and 'next weekly rebalance' in body
-
-
-def test_no_dip_add_while_out_of_stocks():
-    s = scan(signalDay=False, asOf='2026-10-06')
-    s['plan']['auto']['rotation'] = rot(mode='TLT', held='TLT', dip=dict(drop=0.10, mult=1.5, now={'MU': -0.123}, trade='2026-10-07'))
-    assert alert.build(s) is None
-
-
-def test_dip_add_alert_carries_the_options_check():
-    s = scan(signalDay=False, asOf='2026-10-06')
-    calls = {'MU': dict(expiry='2027-01-15', strike=990.0, mid=83.0, iv=0.50, ok=True, cost=0.084)}
-    s['plan']['auto']['rotation'] = rot(dip=dict(drop=0.10, mult=1.5, now={'MU': -0.123}, trade='2026-10-07', calls=calls, callMaxIv=0.7, callHold=20))
-    title, body = alert.build(s)
-    assert 'Options version: MU' in body and '50% IV' in body and 'under 70%' in body and 'optional' in body and '20 sessions' in body
-    calls['MU'].update(iv=0.95, ok=False)
-    title, body = alert.build(s)
-    assert 'over 70%: too expensive, stock add only' in body
