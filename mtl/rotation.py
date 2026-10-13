@@ -55,7 +55,12 @@ the worst drop -31% vs -39%. The thresholds were picked on that same history.
    Looks of 5 to 12 months all did about as well (7 months: 35.4%, 31.5%, 38.0%, 58.1%);
    1 to 3 months did worse. Only about a dozen years change at all and most of the gain is
    2008 (-17% to -2%) and 2024, so it rests on a handful of switches. Adding the dollar
-   (UUP) as a third choice did worse at 5-7 month looks.
+   (UUP) as a third choice did worse at 5-7 month looks. Replayed abroad with each market's
+   own stocks (TLT / GLD in local currency) it also did better in all five: Japan 18.7% vs
+   18.2% a year, UK 13.1% vs 11.2%, Germany 8.4% vs 7.6%, India 34.0% vs 33.1%, Hong Kong
+   28.4% vs 28.2%. On its own it adds about 0.7 points a year (t-stat 1.0), so the gain is
+   not statistically significant; it beat the gradient pick in 77% of simulated ten-year
+   futures.
 
 Pure and network-free: bars are {ticker: [(date, open, high, low, close), ...]} oldest
 first (dividend-adjusted), calendar is the trading days.
