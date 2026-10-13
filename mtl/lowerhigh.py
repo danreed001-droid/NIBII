@@ -79,13 +79,14 @@ def lowerhigh_reading(daily, swing=LH_SWING):
     return out
 
 
-def lowerhigh_cash(spy_bars, calendar, start, modes, swing=LH_SWING, days=LH_DAYS):
-    """(cash, log): the decision days on which the plan holds T-bills, and the signals that started a
-    stretch, oldest first ([date, kind, key]). Only days the plan would hold the Boost list (modes[d] ==
-    'boost') are read or changed; a signal fires when its lower high differs from the last one that fired
-    and no stretch is running, and covers `days` sessions from that close."""
+def lowerhigh_cash(spy_bars, calendar, start, modes, dest=None, swing=LH_SWING, days=LH_DAYS):
+    """(out, log): {decision day: asset held instead of the Boost list}, and the signals that started a
+    stretch, oldest first ([date, kind, key]). dest(d) picks the asset on each day of a stretch (the
+    stronger of TLT / GLD, or 'BIL'); without it, T-bills. Only days the plan would hold the Boost list
+    (modes[d] == 'boost') are read or changed; a signal fires when its lower high differs from the last one
+    that fired and no stretch is running, and covers `days` sessions from that close."""
     bdays = [b[0] for b in spy_bars]
-    cash, log = set(), []
+    cash, log = {}, []
     key, until, frm = None, -1, 0
     for k, d in enumerate(calendar):
         if d < start or modes.get(d, 'boost') != 'boost':
@@ -98,25 +99,27 @@ def lowerhigh_cash(spy_bars, calendar, start, modes, swing=LH_SWING, days=LH_DAY
             key, until, frm = r['key'], k + days - 1, k
             log.append([d, r['kind'], r['key'][:10]])
         if frm <= k <= until:
-            cash.add(d)
+            cash[d] = (dest(d) if dest else None) or 'BIL'
     return cash, log
 
 
 def apply_lowerhigh(modes, why, cash, calendar):
-    """New (modes, why): T-bills on the cash days, with the switch reasons 'lowerhigh' (into T-bills) and
-    'lowerhigh-end' (back to the plan's own holding)."""
+    """New (modes, why): the stretch's asset on its days (cash: {date: asset}, or a set of dates for
+    T-bills), with the switch reasons 'lowerhigh' (into it, or a change of asset) and 'lowerhigh-end' (back
+    to the plan's own holding)."""
     m, w = dict(modes), dict(why)
     prev = None
     for d in calendar:
         if d not in modes and d not in cash:
             continue
         if d in cash:
-            if prev != 'cash':
+            a = cash[d] if isinstance(cash, dict) else 'BIL'
+            if prev != a:
                 w[d] = 'lowerhigh'
-            m[d] = 'BIL'
-            prev = 'cash'
+            m[d] = a
+            prev = a
         else:
-            if prev == 'cash':
+            if prev not in (None, 'plan'):
                 w[d] = 'lowerhigh-end'
             prev = 'plan'
     return m, w
@@ -135,5 +138,6 @@ def lowerhigh_state(spy_bars, cash, log, calendar, k, days=LH_DAYS):
         last = calendar[min(len(calendar) - 1, k0 + days - 1)]
         if as_of <= last or k0 + days - 1 >= len(calendar):
             run = [log[-1][0], last if k0 + days - 1 < len(calendar) else None]
-    return dict(reading=r, inCash=as_of in cash, run=run, log=log[::-1][:8], n=len(log),
+    held = (cash.get(as_of) if isinstance(cash, dict) else 'BIL') if as_of in cash else None
+    return dict(reading=r, inCash=as_of in cash, asset=held, run=run, log=log[::-1][:8], n=len(log),
                 days=days, swing=LH_SWING)

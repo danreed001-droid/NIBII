@@ -638,8 +638,9 @@ def main():
     rot_bars = {'SPY': bench['SPY'], **{t: asset_bars[t] for t in ROT_ASSETS if asset_bars.get(t)}}
     rot_modes, rot_why, rot_read, rot_state = rotation_modes(rot_bars, calendar, START)
     # ... plus the lower-high exit: when SPY's weekly swings make a lower high (or an early one with the
-    # daily chart already turned down), two weeks in T-bills, then back to the plan (mtl/lowerhigh.py)
-    lh_cash, lh_log = lowerhigh_cash(bench['SPY'], calendar, START, rot_modes)
+    # daily chart already turned down), two weeks in the stronger of TLT / GLD (T-bills if neither is
+    # rising), then back to the plan (mtl/lowerhigh.py)
+    lh_cash, lh_log = lowerhigh_cash(bench['SPY'], calendar, START, rot_modes, dest=lambda d_: rot_read.steepest(d_) or 'BIL')
     rot_modes, rot_why = apply_lowerhigh(rot_modes, rot_why, lh_cash, calendar)
     # ... plus the whipsaw half-switch: when most of the Boost list's recent sales were losers, half
     # goes into whichever of TLT / GLD / SPY is up most over 3 months (skipping weekly downtrends)
