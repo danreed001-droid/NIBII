@@ -24,13 +24,15 @@ Two parts, both read from swing structure (mtl.structure: 3-bar swings on daily 
    with higher lows steeper than TLT's and GLD's.
 
 Tested 2000-2026 (stocks in the S&P 500 at the time, 0.15% slippage, 37%/20% tax;
-TLT / GLD spliced onto a Treasury fund / gold futures before they existed): 31.0% a year
-before tax (20.2% after), worst drop -46%, vs 27.4% (18.1%) and -60% for Boost 100%.
-With the surge exit added to the Boost 100% list (mtl.momentum.surge_exit, the dashboard
-default from Oct 10, 2026): 32.8% (21.3%), worst drop -44%, vs 28.7% (18.8%) and -59%.
-With the whipsaw half-switch on top (the default from Oct 10, 2026; see whipsaw() below):
-33.4% (21.7%), worst drop -41%; from 2010 28.8% vs 28.5%, from 2020 55.8% vs 55.9% with
-the worst drop -31% vs -39%. The thresholds were picked on that same history.
+TLT / GLD spliced onto a Treasury fund / gold futures before they existed; corrected on
+Oct 13, 2026 to leave out EP and CPWR, whose price histories belonged to later companies
+reusing the symbols): 27.4% a year before tax (17.8% after), worst drop -51%, vs 23.2%
+(15.2%) and -63% for Boost 100%. With the surge exit added to the Boost 100% list
+(mtl.momentum.surge_exit, the dashboard default from Oct 10, 2026): 29.0% (18.7%), worst
+drop -51%, vs 24.5% (15.9%) and -63%. With the whipsaw half-switch on top (the default from
+Oct 10, 2026; see whipsaw() below): 29.7% (19.1%), worst drop -49%; from 2010 29.4% vs
+29.1%, from 2020 55.8% vs 55.9% with the worst drop -31% vs -39%. The thresholds were
+picked on that same history.
 
 3. Whipsaw half-switch. Checked at each week's last close: of the stocks the Boost 100%
    list sold in the last WHIP_LOOK sessions (at least WHIP_MIN sales), if WHIP_LOSS or more
@@ -43,23 +45,24 @@ the worst drop -31% vs -39%. The thresholds were picked on that same history.
 4. Rate/gold regime. When the 10-year Treasury yield and gold are both higher than
    REGIME_LOOK sessions ago (an inflationary boom), the whipsaw half-switch is skipped and
    the plan stays fully in the Boost list: bonds tend to lose in that regime, so moving half
-   into them was a drag. Default from Oct 10, 2026: 33.7% a year before tax (21.9% after)
-   vs 33.4% (21.7%), worst drop -41% for both; from 2010 29.1% vs 28.8%, from 2016 38.1%
-   vs 37.5%, from 2020 57.2% vs 55.8%. Also held with a 6-month look (33.7%, 29.1%, 56.9%); faded with a 1-month look.
+   into them was a drag. Default from Oct 10, 2026 (corrected data): 29.9% a year before tax
+   (19.2% after) vs 29.7% (19.1%), worst drop -49% for both; from 2010 29.8% vs 29.4%, from
+   2016 38.1% vs 37.5%, from 2020 57.2% vs 55.8%. Also held with a 6-month look; faded with
+   a 1-month look.
    A small gain from one more rule, so it is on probation until live results back it.
 
 5. Which of TLT / GLD. Both parts pick by the plain % change over PICK_LOOK sessions (6
-   months) rather than by the steepest gradient. Default from Oct 12, 2026: 35.5% a year
-   before tax (23.0% after) vs 34.5% (22.4%) with the gradient pick, worst drop -40% for
-   both; from 2010 30.6% vs 30.3%, from 2016 38.4% vs 37.9%, from 2020 58.3% vs 57.5%.
-   Looks of 5 to 12 months all did about as well (7 months: 35.4%, 31.5%, 38.0%, 58.1%);
-   1 to 3 months did worse. Only about a dozen years change at all and most of the gain is
-   2008 (-17% to -2%) and 2024, so it rests on a handful of switches. Adding the dollar
+   months) rather than by the steepest gradient. Default from Oct 12, 2026 (corrected data):
+   30.4% a year before tax (19.5% after) vs 29.7% (19.1%) with the gradient pick, worst drop
+   -44% vs -49%; from 2010 30.0% vs 29.7%, from 2016 38.4% vs 37.9%, from 2020 58.3% vs
+   57.5%. Looks of 5 to 12 months all did about as well before the correction; 1 to 3 months
+   did worse. Only about ten years change at all and most of the gain is 2008 (-23% to -10%)
+   and 2024, so it rests on a handful of switches. Adding the dollar
    (UUP) as a third choice did worse at 5-7 month looks. Replayed abroad with each market's
    own stocks (TLT / GLD in local currency) it also did better in all five: Japan 18.7% vs
    18.2% a year, UK 13.1% vs 11.2%, Germany 8.4% vs 7.6%, India 34.0% vs 33.1%, Hong Kong
-   28.4% vs 28.2%. On its own it adds about 0.7 points a year (t-stat 1.0), so the gain is
-   not statistically significant; it beat the gradient pick in 77% of simulated ten-year
+   28.4% vs 28.2%. On its own it adds about 0.5 points a year (t-stat 0.8), so the gain is
+   not statistically significant; it beat the gradient pick in 74% of simulated ten-year
    futures.
 
 Pure and network-free: bars are {ticker: [(date, open, high, low, close), ...]} oldest

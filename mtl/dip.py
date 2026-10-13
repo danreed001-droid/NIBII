@@ -10,16 +10,16 @@ anyway, and a second dip before the rebalance replaces the first.
 Why: across 2000-2026, a top-5 holding that fell 10%+ in a day while the plan was in stocks
 beat SPY by about 4 points over the next week and 9 over the next four (6.8 points over four
 weeks in 2013-2026 alone, 10.3 in 2000-2012), against about 0.5 and 1.6 on an ordinary day:
-in a strong trend these drops are mostly shakeouts. Default from Oct 12, 2026: 34.5% a year
-before tax from 2000 (22.4% after) vs 33.7% (21.9%), worst drop -40% vs -41%; from 2010 30.3%
-vs 29.1%, from 2016 37.9% vs 38.1%, from 2020 57.5% vs 55.8% with a worst drop of -32% vs
--31%. Keeping the 1.5x for a full four weeks did better from 2000 but worse from 2010 and
-2020. Abroad (Japan, UK, Germany, India, Hong Kong) it was about neutral. On its own the
-rule's gain is not statistically significant, so treat it as small and unproven live.
+in a strong trend these drops are mostly shakeouts. Default from Oct 12, 2026. On the data
+corrected on Oct 13, 2026 (EP and CPWR left out: their price histories belonged to later
+companies reusing the symbols) the add no longer helps the whole plan: 29.7% a year before
+tax from 2000 vs 29.9% without it, 29.7% vs 29.8% from 2010, 37.9% vs 38.1% from 2016, and
+only 57.5% vs 57.2% from 2020. Abroad (Japan, UK, Germany, India, Hong Kong) it was about
+neutral. Treat it as unproven; it is a candidate to drop.
 
 Options version (information, not traded by the plan): instead of the 1.5x stock add, buy a
 3-month at-the-money call on the dropped stock and sell it 20 sessions later. In the backtest
-(2000-2026, option prices modeled, 3% bid/ask each way) spending 1% of the account per dip on
+(2000-2026 before the data correction, option prices modeled, 3% bid/ask each way) spending 1% of the account per dip on
 these calls instead of the stock add made 36-39% a year (2% of the account: 39-43%, worst drop
 -42%) against 34.5%, when the calls were priced at 50-70% implied volatility; priced at the
 stock's own recent volatility (often ~100% right after a drop) it made 33.1%, worse than doing

@@ -3,66 +3,66 @@
  "period": "Jan 2000 – Oct 2026",
  "plan": "Boost + rotation (surge exit, whipsaw half-switch with the rate/gold regime, dip add, TLT / GLD by 6-month gain)",
  "previous": "the same plan picking TLT / GLD by the steepest gradient (default until Oct 12, 2026)",
- "source": "From the audit's daily curves: stocks in the S&P 500 at the time, 0.15% slippage, 37%/20% tax; Sharpe and Sortino net of a 2% cash rate",
+ "source": "From the audit's daily curves: stocks in the S&P 500 at the time, 0.15% slippage, 37%/20% tax; Sharpe and Sortino net of a 2% cash rate. Corrected Oct 13, 2026: two tickers (EP, CPWR) had been priced with other companies' histories and are now left out",
  "scorecard": [
   {
    "k": "return",
-   "plan": "35.5% (23.2%)",
-   "prev": "34.5% (22.6%)",
+   "plan": "30.4% (19.8%)",
+   "prev": "29.7% (19.3%)",
    "spy": "8.4%"
   },
   {
    "k": "sharpe",
-   "plan": "0.98",
-   "prev": "0.96",
+   "plan": "0.95",
+   "prev": "0.93",
    "spy": "0.41"
   },
   {
    "k": "sortino",
-   "plan": "1.51",
-   "prev": "1.47",
+   "plan": "1.40",
+   "prev": "1.36",
    "spy": "0.58"
   },
   {
    "k": "maxdd",
-   "plan": "−40%",
-   "prev": "−40%",
+   "plan": "−43%",
+   "prev": "−49%",
    "spy": "−55%"
   },
   {
    "k": "calmar",
-   "plan": "0.88",
-   "prev": "0.86",
+   "plan": "0.70",
+   "prev": "0.61",
    "spy": "0.15"
   },
   {
    "k": "ulcer",
-   "plan": "13.8%",
-   "prev": "14.7%",
+   "plan": "13.0%",
+   "prev": "13.9%",
    "spy": "16.1%"
   },
   {
    "k": "omega",
-   "plan": "2.46",
-   "prev": "2.41",
+   "plan": "2.34",
+   "prev": "2.29",
    "spy": "1.44"
   },
   {
    "k": "capture",
-   "plan": "159% / 25%",
-   "prev": "158% / 28%",
+   "plan": "140% / 31%",
+   "prev": "139% / 33%",
    "spy": "100% / 100%"
   },
   {
    "k": "var",
-   "plan": "−9.6% / −14.0%",
-   "prev": "−9.8% / −14.3%",
+   "plan": "−8.0% / −12.6%",
+   "prev": "−8.4% / −13.1%",
    "spy": "−7.5% / −9.5%"
   },
   {
    "k": "worst3",
-   "plan": "−2.8% a year",
-   "prev": "−2.2% a year",
+   "plan": "−6.9% a year",
+   "prev": "−9.8% a year",
    "spy": "−16.3% a year"
   },
   {
@@ -73,14 +73,14 @@
   },
   {
    "k": "alpha",
-   "plan": "26.0% (t 3.8)",
-   "prev": "24.9% (t 3.7)",
+   "plan": "18.2% (t 3.6)",
+   "prev": "17.4% (t 3.5)",
    "spy": "–"
   },
   {
    "k": "alphadec",
-   "plan": "48.6% / 3.6% / 34.7%",
-   "prev": "44.3% / 3.6% / 34.9%",
+   "plan": "35.9% / −1.1% / 34.7%",
+   "prev": "32.5% / −1.1% / 34.9%",
    "spy": "–"
   }
  ],
@@ -95,17 +95,17 @@
    {
     "k": "typical",
     "v": [
-     "34.5% (22.7%)",
-     "35.2% (22.9%)",
-     "35.3% (23.2%)"
+     "29.5% (19.4%)",
+     "30.0% (19.5%)",
+     "30.1% (19.7%)"
     ]
    },
    {
     "k": "bad",
     "v": [
-     "7.6%",
-     "14.9%",
-     "20.4%"
+     "6.6%",
+     "12.9%",
+     "17.6%"
     ]
    },
    {
@@ -119,7 +119,7 @@
    {
     "k": "beatSpy",
     "v": [
-     "96%",
+     "95%",
      "99%",
      "100%"
     ]
@@ -127,32 +127,32 @@
    {
     "k": "beatSpyTax",
     "v": [
-     "86%",
-     "94%",
-     "99%"
+     "83%",
+     "92%",
+     "98%"
     ]
    },
    {
     "k": "beatSpyHalf",
     "v": [
-     "71%",
-     "80%",
-     "90%"
+     "74%",
+     "82%",
+     "91%"
     ]
    },
    {
     "k": "beatPrev",
     "v": [
-     "69%",
-     "77%",
-     "87%"
+     "66%",
+     "74%",
+     "84%"
     ]
    },
    {
     "k": "dd",
     "v": [
-     "−25%",
-     "−30%",
+     "−23%",
+     "−27%",
      "−32%"
     ]
    },
@@ -167,27 +167,17 @@
    {
     "k": "dd50Half",
     "v": [
-     "8%",
-     "21%",
-     "43%"
+     "5%",
+     "14%",
+     "30%"
     ]
    }
   ]
  },
  "other": [
   {
-   "k": "pbo",
-   "v": "17%",
-   "n": 580
-  },
-  {
-   "k": "walk",
-   "v": "21.7%",
-   "typical": "19.9%"
-  },
-  {
    "k": "pickT",
-   "v": "0.7 points a year, t 1.0"
+   "v": "0.5 points a year, t 0.8"
   },
   {
    "k": "abroad",
@@ -199,7 +189,7 @@
   },
   {
    "k": "plan",
-   "v": "about 15–24% a year before tax"
+   "v": "about 13–20% a year before tax (provisional while the overfitting test is re-run on the corrected data)"
   }
  ]
 }
