@@ -70,8 +70,8 @@ picked on that same history.
    See mtl/narrow.py, applied on top of the modes above in scripts/momentum_scan.py.
 
 7. Lower-high exit (default from Oct 13, 2026): when SPY's weekly chart makes a lower high, or an early
-   one while the daily chart has already turned down, the account holds T-bills for two weeks while the
-   plan would hold the Boost list, then goes back to the plan. See mtl/lowerhigh.py, applied in
+   one while the daily chart has already turned down, the account holds the stronger of TLT / GLD (T-bills
+   if neither is rising) for two weeks while the plan would hold the Boost list, then goes back to the plan. See mtl/lowerhigh.py, applied in
    scripts/momentum_scan.py after the rotation above and before the whipsaw half-switch and the cash week.
 
    The dip add (buying the Boost list back on a sharp dip while in the havens) was removed
