@@ -21,10 +21,20 @@ of 20,000 draws. It held with the warning thresholds moved (lag 1% or 2%, VIX wi
 or 3% from the high: better from all four starts each time). Moving the timing (the cash week starting
 3, 4, 6 or 7 sessions after the warning, or lasting 3, 4, 6 or 7 sessions) was better from 2000, 2010 and
 2016 every time, but from 2020 only the 3- and 6-session stays were; the other six were 0.2 to 5.1
-points a year worse, so the 2020 result depends on the exact timing in 2025-2026. Waiting for a 5% drop in SPY or the holdings before going to cash, or using the
-largest stocks or the momentum leaders lagging instead of the equal-weight index, did worse. It was
-designed after looking at the 2018-2026 drops and cannot be checked before 2012 or abroad, so it is on
-probation.
+points a year worse, so the 2020 result depends on the exact timing in 2025-2026. Waiting for a 5%
+drop in SPY or the holdings before going to cash, or using the largest stocks or the momentum leaders
+lagging instead of the equal-weight index, did worse. It was designed after looking at the 2018-2026
+drops and cannot be checked before 2012.
+
+Abroad there is no equal-weight index or VIX in the data, so it was rebuilt with stand-ins: an
+equal-weight basket of each index's current stocks, and the US VIX (previous US close) or the index's
+own 21-day volatility. Run on the US, the stand-ins kept most of the gain (31.8% from 2000, 32.0% from
+2010, 42.5% from 2016, 60.1% from 2020). Abroad the cash week lost in four of five markets: Japan 18.9%
+a year without it vs 16.7% / 17.8%, UK 12.6% vs 12.6% / 12.4%, Germany 8.5% vs 6.5% / 6.7%, Hong Kong
+28.1% vs 27.0% / 27.5%; India 34.1% vs 32.7% / 35.1%. It fired less often there (0.1% to 4.6% of days
+against 9.5% in the US), and in Germany and Japan at the wrong times: the plan gained more over the cash
+days than over random stretches, and big index drops were less likely after a warning. So it looks
+specific to the US since 2012, and it is on probation.
 """
 from bisect import bisect_right
 

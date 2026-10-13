@@ -615,7 +615,7 @@ __RESEARCH__
     var lg = (N.log || []).slice(0, 6).map(f).join(' · ');
     return '<br><span class="' + (N.inCash || N.cash ? 'neg' : 'muted') + '"><b>3. Narrow-market cash week</b> (default since Oct 13, 2026, on probation): ' + st + '.</span>' +
       '<span class="muted"> When SPY closes within 2% of its 52-week high, the equal-weight S&amp;P 500 has lagged it by more than 1.5% over 3 months (a few large stocks carrying the index) and the VIX sits within 2 points of its 3-month low (a calm market), the whole account moves to T-bills ' + N.delay + ' sessions later for ' + N.days + ' sessions, then back to whatever the plan holds.' + rd +
-      ' In the audit it made 32.8% a year from 2000 vs 30.6% without it (Sharpe 1.07 vs 0.97), 41.7% vs 38.6% from 2016 with a −23% worst drop instead of −29%, and 61.4% vs 58.0% from 2020; since 2012 the plan lost about 39% over its cash days, which random cash weeks matched in only 0.14% of draws, and it held with the thresholds moved. It can first act in 2012 and was found on the same history, so treat it as on probation.' +
+      ' In the audit it made 32.8% a year from 2000 vs 30.6% without it (Sharpe 1.07 vs 0.97), 41.7% vs 38.6% from 2016 with a −23% worst drop instead of −29%, and 61.4% vs 58.0% from 2020; since 2012 the plan lost about 39% over its cash days, which random cash weeks matched in only 0.14% of draws, and it held with the thresholds moved. It can first act in 2012 and was found on the same history. Rebuilt abroad with stand-ins for the equal-weight index and the VIX, it lost in four of five markets (it fired less often there, and in Germany and Japan at the wrong times), so it looks specific to the US: treat it as on probation.' +
       (lg ? ' Last warnings: ' + lg + ' (' + N.n + ' warning days since 2012).' : '') + '</span>';
   }
   function whipNote(RT) {   // the whipsaw half-switch: rule, reading now, recent sales, log
@@ -2466,8 +2466,9 @@ WALLST_OTHER = {
     'pbo': lambda o: f'<b>Overfitting test (PBO, {o.get("n")} versions):</b> a {_e(o["v"])} chance that the best-looking version is a fluke, judged on years it was not picked on. Under 50% means picking the best version helped.',
     'walk': lambda o: f'<b>Walk-forward:</b> re-picking the best version each year, using only the years before it, earned {_e(o["v"])} a year in 2005–2025 against {_e(o["typical"])} for the typical version.',
     'pickT': lambda o: f'<b>The 6-month pick on its own:</b> adds about {_e(o["v"])}; a t-stat under 2 means the gain is not proven, so it is on probation.',
-    'cashT': lambda o: f'<b>The narrow-market cash week on its own:</b> {_e(o["v"])}. Month by month the gain is not proven (most months it does nothing); judged on its cash weeks against random weeks it is unlikely to be luck. It can first act in 2012, so it is on probation.',
-    'abroad': lambda o: f'<b>Other countries</b> (the same rules on each market\'s own stocks, without the cash week, which needs US data): {_e(o["v"])}.',
+    'cashT': lambda o: f'<b>The narrow-market cash week on its own:</b> {_e(o["v"])}. Month by month the gain is not proven (most months it does nothing); judged on its cash weeks against random weeks it is unlikely to be luck. It can first act in 2012 and did not carry over abroad (below), so it is on probation.',
+    'abroad': lambda o: f'<b>Other countries</b> (the same rules on each market\'s own stocks, without the cash week): {_e(o["v"])}.',
+    'abroadCash': lambda o: f'<b>The cash week abroad</b> (rebuilt with an equal-weight basket of each index\'s current stocks and the US VIX or the index\'s own volatility; on US data these stand-ins kept most of the gain): {_e(o["v"])}. It fired less often abroad and, in Germany and Japan, at the wrong times, so it looks specific to the US since 2012.',
     'y1927': lambda o: f'<b>Before the data it was built on:</b> {_e(o["v"])}.',
     'plan': lambda o: f'<b>What to plan on:</b> {_e(o["v"])}. The rules were picked on the same history they are tested on, so the headline numbers are the best case.',
 }
