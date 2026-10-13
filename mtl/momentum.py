@@ -578,8 +578,8 @@ def surge_exit(prices, volumes, calendar, up=0.05, vol_k=4.0, delay=5, avg_n=50,
     surge came while it was held. The slot goes to the next-best stock as usual.
 
     Tested 2000-2026 on the Boost + rotation plan (point-in-time S&P 500): 5%+ on 4x
-    volume, sold 1 week later, added about 1.8 points a year before tax (32.8% vs 31.0%;
-    2000-2024 alone 28.0% vs 26.9%) with a slightly smaller worst drop. Selling the same
+    volume, sold 1 week later, added about 1.6 points a year before tax (29.0% vs 27.4%;
+    from 2010 29.1% vs 26.7%; corrected data, Oct 13, 2026) with about the same worst drop. Selling the same
     day sold too early in 2020; waiting 2-3 weeks gave most of the gain back; 2x-3x
     volume fired too often. `check.events(t)` = the surge session indexes of `t`."""
     cache = {}

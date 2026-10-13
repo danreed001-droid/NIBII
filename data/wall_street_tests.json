@@ -176,12 +176,22 @@
  },
  "other": [
   {
+   "k": "pbo",
+   "v": "12%",
+   "n": 599
+  },
+  {
+   "k": "walk",
+   "v": "21.3%",
+   "typical": "18.5%"
+  },
+  {
    "k": "pickT",
    "v": "0.5 points a year, t 0.8"
   },
   {
    "k": "abroad",
-   "v": "Japan 18.7%, UK 13.1%, Germany 8.4%, India 34.0%, Hong Kong 28.4% a year (6.7%, 2.0%, 5.4%, 14.1%, 2.5% for their indexes)"
+   "v": "Japan 18.9%, UK 12.6%, Germany 8.5%, India 34.1%, Hong Kong 28.1% a year (6.7%, 2.0%, 5.4%, 14.1%, 2.5% for their indexes)"
   },
   {
    "k": "y1927",
@@ -189,7 +199,7 @@
   },
   {
    "k": "plan",
-   "v": "about 13–20% a year before tax (provisional while the overfitting test is re-run on the corrected data)"
+   "v": "about 18–25% a year before tax"
   }
  ]
 }
