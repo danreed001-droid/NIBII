@@ -40,7 +40,10 @@ ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and
            'steeper': "SPY's daily higher lows are steeper than TLT's and GLD's",
            'narrow': "narrow-market cash week: a week ago SPY sat within 2% of its 52-week high on a calm VIX while the "
                      "equal-weight S&P lagged it by more than 1.5% over 3 months; T-bills for a week, then back to the plan",
-           'narrow-end': 'the narrow-market cash week is over: back to what the plan holds'}
+           'narrow-end': 'the narrow-market cash week is over: back to what the plan holds',
+           'lowerhigh': "lower-high exit: SPY's weekly chart made a lower high (or an early one with the daily chart already "
+                        "turned down) and SPY closed below it; T-bills for two weeks, then back to the plan",
+           'lowerhigh-end': 'the two weeks in T-bills after the lower high are over: back to what the plan holds'}
 
 
 def rot_name(m):
