@@ -66,13 +66,28 @@ picked on that same history.
    futures.
 
 6. Narrow-market cash week (default from Oct 13, 2026): a week after SPY closes near its 52-week high
-   on a calm VIX while the equal-weight S&P 500 lags it, the whole account holds T-bills for a week.
+   on a calm VIX while the equal-weight S&P 500 lags it, the whole account steps out of stocks for a week
+   (T-bills in mtl/narrow.py, swapped by item 8).
    See mtl/narrow.py, applied on top of the modes above in scripts/momentum_scan.py.
 
 7. Lower-high exit (default from Oct 13, 2026): when SPY's weekly chart makes a lower high, or an early
    one while the daily chart has already turned down, the account holds the stronger of TLT / GLD (T-bills
-   if neither is rising) for two weeks while the plan would hold the Boost list, then goes back to the plan. See mtl/lowerhigh.py, applied in
+   if neither is rising, swapped by item 8) for two weeks while the plan would hold the Boost list, then goes
+   back to the plan. See mtl/lowerhigh.py, applied in
    scripts/momentum_scan.py after the rotation above and before the whipsaw half-switch and the cash week.
+
+8. No T-bills (default from Oct 13, 2026; T-bills can't be held in the account): wherever the rules above
+   would hold T-bills (the downtrend or lower-high exit with neither TLT nor GLD rising, the whipsaw half
+   with nothing up, the narrow-market cash week), the plan holds instead whichever of TLT / GLD is up more
+   over PICK_LOOK sessions if it is up at all, else plain cash earning nothing (no_bills below, applied
+   last in scripts/momentum_scan.py). Audit (Oct 13, 2026): from 2000 37.0% a year before tax (23.4%
+   after) vs 34.9% (22.1%) with T-bills and 34.5% (21.8%) with plain cash, worst drop -31% vs -29%;
+   from 2010 38.0% vs 35.9% (-25% both); from 2016 47.0% vs 43.9% (-23% both); from 2020 67.6% vs 64.7%
+   (-27% both). Since 2000 it replaced 948 T-bill days: 447 in gold, 295 in bonds, 206 in cash. Holding
+   the stronger of the two even when both were falling did worse (36.9%, 37.9%, 46.2%, 64.8%, worst drop
+   -26% from 2016), as did cash in the cash week with gold or bonds elsewhere (35.2%, 35.1%, 41.9%,
+   61.1%). The gain is lumpy: mostly bonds in late 2008 and gold in the 2024-2025 cash weeks, while gold
+   cost about 40 points of 2026's gain, so count on it doing about as well as T-bills.
 
    The dip add (buying the Boost list back on a sharp dip while in the havens) was removed
    on Oct 13, 2026: on corrected data the plan did slightly better without it, 30.6% a year
@@ -101,6 +116,7 @@ WHIP_PCT = 63         # sessions of % change used to pick the half-switch asset
 WHIP_ASSETS = ('TLT', 'GLD', 'SPY')
 REGIME_LOOK = 63      # sessions over which the 10-year yield and gold must both be up to skip the half-switch
 PICK_LOOK = 126       # sessions of % change that pick between TLT and GLD
+CASH = 'CASH'         # uninvested cash (no interest), held instead of T-bills when neither TLT nor GLD is up
 
 
 def weekly(daily):
@@ -429,6 +445,8 @@ def rotation_curve(boost_curve, asset_px, calendar, modes, cost=SWITCH_COST, hal
     def ret(h, a, b):
         if h == 'boost':
             return bv[b] / bv[a]
+        if h == CASH:
+            return 1.0
         p0, p1 = asset_px[h].get(a), asset_px[h].get(b)
         return p1 / p0 if p0 and p1 else 1.0
     out, val, held, hh, prev = [], 1.0, 'boost', None, None
@@ -447,6 +465,35 @@ def rotation_curve(boost_curve, asset_px, calendar, modes, cost=SWITCH_COST, hal
         out.append([d, val])
         prev = d
     return out
+
+
+def bills_pick(closes, calendar, k, look=PICK_LOOK, assets=ROT_ASSETS):
+    """What no_bills holds instead of T-bills at calendar[k]: the asset up most over `look` sessions if
+    any is up, else CASH."""
+    best, bv = CASH, 0.0
+    if k >= look:
+        for t in assets:
+            a, b = (closes.get(t) or {}).get(calendar[k - look]), (closes.get(t) or {}).get(calendar[k])
+            if a and b and b / a - 1 > bv:
+                best, bv = t, b / a - 1
+    return best
+
+
+def no_bills(modes, why, half, closes, calendar, look=PICK_LOOK, assets=ROT_ASSETS):
+    """No T-bills (see item 8 above): wherever the plan would hold T-bills ('BIL' in modes, or as the
+    whipsaw half in half), hold instead whichever of `assets` is up most over `look` sessions to that
+    close if it is up at all, else cash ('CASH', earning nothing). Picked again at every close.
+    closes: {asset: {date: close}} (filled). Returns new (modes, why, half); a change of holding that
+    only this swap makes gets the reason 'nobills'."""
+    kidx = {d: i for i, d in enumerate(calendar)}
+    m = {d: bills_pick(closes, calendar, kidx[d], look, assets) if v == 'BIL' else v for d, v in modes.items()}
+    h = {d: bills_pick(closes, calendar, kidx[d], look, assets) if v == 'BIL' else v for d, v in (half or {}).items()}
+    w, prev = dict(why), 'boost'
+    for d in sorted(m):
+        if m[d] != prev and d not in w:
+            w[d] = 'nobills'
+        prev = m[d]
+    return m, w, h
 
 
 def switch_log(modes, why, n=12):

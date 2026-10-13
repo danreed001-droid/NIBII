@@ -163,3 +163,35 @@ def test_whip_halves_stand_aside_in_the_reflation_regime():
     assert whip_halves(modes, on, R, closes, cal, look=63) == {d: 'GLD' for d in last}
     half = whip_halves(modes, on, R, closes, cal, look=63, skip={last[1]: True})
     assert last[1] not in half and half[last[0]] == half[last[2]] == 'GLD'
+
+
+def test_no_bills_holds_the_stronger_rising_asset_else_cash():
+    from mtl.rotation import CASH, bills_pick, no_bills
+    cal = days(12)
+    # TLT up 10% over 4 sessions by day 4, GLD up 20% by day 8, both down from day 10
+    tlt = [100, 100, 100, 100, 110, 110, 110, 110, 110, 110, 90, 90]
+    gld = [100, 100, 100, 100, 100, 100, 100, 100, 120, 120, 80, 80]
+    closes = {'TLT': dict(zip(cal, tlt)), 'GLD': dict(zip(cal, gld))}
+    assert bills_pick(closes, cal, 3, look=4) == CASH                    # not enough history
+    assert bills_pick(closes, cal, 4, look=4) == 'TLT'
+    assert bills_pick(closes, cal, 8, look=4) == 'GLD'                   # up more than TLT (0%)
+    assert bills_pick(closes, cal, 11, look=4) == CASH                   # both down: cash
+    modes = {d: ('BIL' if 4 <= i <= 11 else 'boost') for i, d in enumerate(cal)}
+    why = {cal[4]: 'narrow'}
+    half = {cal[2]: 'BIL', cal[3]: 'TLT'}
+    m, w, h = no_bills(modes, why, half, closes, cal, look=4)
+    assert 'BIL' not in m.values() and 'BIL' not in h.values()
+    assert [m[d] for d in cal[4:]] == ['TLT'] * 4 + ['GLD'] * 2 + [CASH] * 2
+    assert w[cal[4]] == 'narrow' and w[cal[8]] == w[cal[10]] == 'nobills'
+    assert h == {cal[2]: CASH, cal[3]: 'TLT'}
+    # other holdings and the inputs are left alone
+    assert m[cal[0]] == 'boost' and modes[cal[4]] == 'BIL' and half[cal[2]] == 'BIL'
+
+
+def test_curve_earns_nothing_in_cash():
+    from mtl.rotation import CASH
+    cal = days(5)
+    boost = [[d, v] for d, v in zip(cal, (1.0, 1.1, 1.2, 1.3, 1.4))]
+    c = rotation_curve(boost, {}, cal, {cal[0]: CASH, cal[1]: CASH, cal[2]: 'boost'}, cost=0.0)
+    # cash decided at day 0's close is bought at day 1's close and held flat until day 3's close
+    assert [round(v, 12) for _, v in c] == [1.0, 1.1, 1.1, 1.1, round(1.1 * 1.4 / 1.3, 12)]
