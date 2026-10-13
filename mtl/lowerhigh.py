@@ -19,11 +19,12 @@ GLD or T-bills it is left alone. Like every rotation decision it is made at a cl
 close. Applied after the rotation and before the whipsaw half-switch and the narrow-market cash week.
 
 Audit (Oct 13, 2026, stocks in the S&P 500 at the time, EP and CPWR left out, on top of the rest of the
-plan): from 2000 34.5% a year before tax (21.8% after) vs 32.8% (20.8%) without it, worst drop -29% vs
--44%, Sharpe 1.14 vs 1.07; from 2010 35.4% vs 33.3% (-25% vs -34%); from 2016 42.7% vs 41.7% (-23% both);
-from 2020 62.4% vs 61.4% (-27% both). With T-bills instead of TLT / GLD (the first version, live for a few
-hours on Oct 13): 33.7%, 34.3%, 42.4%, 61.8%, worst drop -28% from 2000; gold or bonds did better from all
-four starts, most in 2008 and 2011. Waiting for the weekly lower high to be confirmed (T-bills): 33.3%,
+plan): from 2000 34.9% a year before tax (22.1% after) vs 32.8% (20.8%) without it, worst drop -29% vs
+-44%, Sharpe 1.16 vs 1.07; from 2010 35.9% vs 33.3% (-25% vs -34%); from 2016 43.9% vs 41.7% (-23% both);
+from 2020 64.7% vs 61.4% (-27% both). Earlier versions the same day: one stretch per lower high (no second
+two weeks on confirmation) 34.5%, 35.4%, 42.7%, 62.4% with the same worst drops (both triggers did better
+from all four starts, most in 2010 and 2020); T-bills instead of TLT / GLD 33.7%, 34.3%, 42.4%, 61.8%,
+worst drop -28% from 2000 (gold or bonds did better from all four starts, most in 2008 and 2011). Waiting for the weekly lower high to be confirmed (T-bills): 33.3%,
 33.4%, 42.8%, 62.2% with worst drops -31%, -31%, -23%, -27%. The return edge depends on the timing: with
 T-bills, 12 sessions instead of 10 or acting a day late beat the plan from only one of the four starts and
 8 sessions from none (the smaller drops held in every variant), so count on the smaller drops, not the
