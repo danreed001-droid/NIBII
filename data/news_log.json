@@ -2677,5 +2677,45 @@
       "vsExp": "n/a",
       "order": 2
     }
+  },
+  {
+    "id": "2026-10-13-1-kospi-plunges-on-memory-chip-selloff",
+    "data": {
+      "addedAt": "2026-10-13",
+      "category": "Market",
+      "date": "2026-10-13",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "KOSPI plunges ~5-6% as Samsung, SK Hynix slide on China memory-chip progress; Nasdaq futures drop",
+      "impact": "High",
+      "numbers": "KOSPI -5% to -6%; Samsung and SK Hynix each ~-8% (5th straight losing session); Nasdaq-100 futures ~-0.6% to -0.8%; S&P 500 futures ~-0.1%",
+      "order": 1,
+      "reaction": "The selloff followed Chinese memory maker CXMT's progress on a more efficient memory-cell design, with a server memory product targeted by end-2026. Memory and chip names are weighing on US tech futures, adding to AI-spending doubts after Broadcom's CEO called AI investing speculation 'a casino'",
+      "region": "Asia / US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-october-13-dow-sp-500-nasdaq-080236234.html",
+      "tickers": "QQQ, Nasdaq, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-13-2-jpmorgan-misses-goldman-and-wells-beat",
+    "data": {
+      "addedAt": "2026-10-13",
+      "category": "Earnings",
+      "date": "2026-10-13",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "Bank earnings: JPMorgan misses on EPS, Goldman profit jumps 29%, Wells Fargo beats",
+      "impact": "Medium",
+      "numbers": "JPM EPS $5.57 vs $5.90 est ($5.75 ex $658M securities losses); revenue $50.2B (+8%); profit $15.3B (+6%); Goldman profit +29% y/y, stock +4% pre-market; Dow futures up",
+      "order": 2,
+      "reaction": "Goldman and Wells Fargo strength lifted Dow futures while the JPMorgan miss was limited by solid revenue growth. Also pre-market: UnitedHealth raised its 2026 profit outlook (+3%); J&J beat and raised guidance but fell on weak device sales. Dimon flagged large deficits and sticky inflation",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-october-13-dow-sp-500-nasdaq-080236234.html",
+      "tickers": "SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "JPM EPS missed ($5.57 vs $5.90)"
+    }
   }
 ]
