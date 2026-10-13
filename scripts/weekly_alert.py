@@ -89,6 +89,18 @@ def rsi_line(rt):
             "about 2 points a year less than Boost + rotation over 2000-2026.")
 
 
+def trend_line(rt):
+    """Information only: SPY closed under its rising weekly trendline (touched 3 or 4 times about evenly)."""
+    t = (rt or {}).get('trendWatch') or {}
+    b = t.get('last') or {}
+    if not t.get('on') or not b:
+        return None
+    return (f"**SPY trendline warning (information only):** SPY closed under its rising weekly trendline on {fmt(b['date'])} "
+            f"(line {b['level']:.2f}, close {b['close']:.2f}; drawn through the {fmt(b['a'][0])} and {fmt(b['b'][0])} lows and touched "
+            f"{len(b.get('touches') or [])} times about evenly). It caught October 2014 but cost 2000 and 2018; as a two-week exit it made "
+            "about the same as Boost + rotation over 2000-2026 (36.7% vs 37.0% a year), so it is a heads-up, not a trade.")
+
+
 def whip_line(rt):
     """The whipsaw half-switch move decided at the last close (None when it holds)."""
     w = (rt or {}).get('whip') or {}
@@ -153,6 +165,10 @@ def build(scan, owner=None):
     if rl_ and not ((rt.get('rsiWarn') or {}).get('prevOn')):
         items.append(rl_)
         tags.append("RSI support-line warning")
+    tl_ = trend_line(rt)
+    if tl_ and not ((rt.get('trendWatch') or {}).get('prevOn')):
+        items.append(tl_)
+        tags.append("SPY trendline warning")
     if sells or buys:
         items.append('**Stocks:** ' + ', '.join([f"sell {t}" for t in sells] + [f"buy {t}" for t in buys]))
         tags.append(', '.join([f"sell {t}" for t in sells] + [f"buy {t}" for t in buys]))
@@ -222,6 +238,7 @@ def build(scan, owner=None):
              *([rotation_now(rt)] if rt else []),
              *([f"- {wl}"] if wl and rt.get('prevWarn') else []),
              *([f"- {rl_}"] if rl_ and (rt.get('rsiWarn') or {}).get('prevOn') else []),
+             *([f"- {tl_}"] if tl_ and (rt.get('trendWatch') or {}).get('prevOn') else []),
              f"- **Sleeve pick:** {sl.get('held')}" + (f" ({sl.get('n')})" if sl.get('n') else ''),
              *([cushion_check(cush)] if cush.get('split') else []), '',
              '| Mix | Top 5 | Sleeve | SPY | Calls |', '|---|---|---|---|---|',
@@ -349,10 +366,11 @@ def midweek(scan, owner=None):
     if not mw or not (mw.get('sell') or mw.get('buy')):
         wl = warn_line(rt) if not rt.get('prevWarn') else None
         rl_ = rsi_line(rt) if not ((rt.get('rsiWarn') or {}).get('prevOn')) else None
-        if wl or rl_:
-            lines = [x for x in (wl, rl_) if x] + ['', "Nothing to trade under any plan: this is a heads-up, not a signal.", '', f"Details: {PAGE}", '',
+        tl_ = trend_line(rt) if not ((rt.get('trendWatch') or {}).get('prevOn')) else None
+        if wl or rl_ or tl_:
+            lines = [x for x in (wl, rl_, tl_) if x] + ['', "Nothing to trade under any plan: this is a heads-up, not a signal.", '', f"Details: {PAGE}", '',
                      (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update."]
-            what = f"SPY downtrend below its 150-day, {rt['warn']} rising" if wl else "SPY RSI broke its support line"
+            what = f"SPY downtrend below its 150-day, {rt['warn']} rising" if wl else "SPY RSI broke its support line" if rl_ else "SPY closed under its rising trendline"
             return f"Warning {fmt(scan['asOf'])}: {what}"[:240], '\n'.join(lines) + '\n'
         return None
     blown, surged = set(mw.get('blown') or []), set(mw.get('surged') or [])

@@ -45,6 +45,7 @@ from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleev
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
 from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash, lowerhigh_state, LH_DAYS  # noqa: E402
+from mtl.trendline import TL_DAYS, trendline_state  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
 from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
@@ -902,6 +903,10 @@ def main():
                 until = next_session(until)
             lh_['until'] = until
     auto['rotation']['lowerhigh'] = lh_
+    # SPY trendline watch (information only): a rising weekly line touched 3 or 4 times about evenly (mtl/trendline.py)
+    tw_ = trendline_state(bench['SPY'][:K + 1])
+    tw_['prevOn'] = bool(tw_['last']) and 1 <= tw_['last']['ago'] <= TL_DAYS
+    auto['rotation']['trendWatch'] = tw_
     try:
         with open(CALLS_PATH) as fh:
             warn_calls = (json.load(fh) or {}).get('warn') or {}

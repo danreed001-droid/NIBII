@@ -167,6 +167,17 @@ def test_rsi_warning_alert_on_its_first_day():
     assert alert.build(s) is None
 
 
+def test_trendline_warning_alert_on_its_first_day():
+    s = scan(signalDay=False, asOf='2026-10-07')
+    last = dict(date='2026-10-07', a=['2025-04-11', 480.0], b=['2026-03-06', 560.0], touches=[['2025-04-11', 480.0], ['2025-09-05', 520.0], ['2026-03-06', 560.0]],
+                level=601.25, close=598.1, ago=0)
+    s['plan']['auto']['rotation'] = rot(trendWatch=dict(on=True, prevOn=False, last=last))
+    title, body = alert.build(s)
+    assert title == 'Warning Wed Oct 7: SPY closed under its rising trendline' and 'line 601.25, close 598.10' in body and 'touched 3 times' in body
+    s['plan']['auto']['rotation']['trendWatch']['prevOn'] = True
+    assert alert.build(s) is None
+
+
 def test_midweek_surge_sale_names_the_surge_exit():
     s = scan(signalDay=False, asOf='2026-10-06')
     s['plan']['auto']['boostx'] = dict(mult=2.0, ma=150, surge=dict(up=0.05, vol=4.0, delay=5),
