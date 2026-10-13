@@ -79,3 +79,19 @@ def test_apply_and_state():
     st = lowerhigh_state(bars, cash, [[cal[5], 'confirmed', cal[4]]], cal, 8)
     assert st['inCash'] and st['run'] == [cal[5], cal[14]] and st['n'] == 1
     assert not lowerhigh_state(bars, cash, [[cal[5], 'confirmed', cal[4]]], cal, 20)['inCash']
+
+
+def test_the_two_weeks_hold_the_chosen_asset_and_log_changes():
+    bars = _bars([(0, 100), (50, 115), (75, 105), (100, 130), (125, 110), (150, 120), (200, 105)])
+    cal = [b[0] for b in bars]
+    first = lowerhigh_cash(bars, cal, cal[0], {d: 'boost' for d in cal})[1][0][0]
+    k = cal.index(first)
+    pick = {d: ('GLD' if i < k + 4 else 'TLT') for i, d in enumerate(cal)}
+    cash, _ = lowerhigh_cash(bars, cal, cal[0], {d: 'boost' for d in cal}, dest=lambda d: pick[d])
+    assert [cash[d] for d in cal[k:k + LH_DAYS]] == ['GLD'] * 4 + ['TLT'] * (LH_DAYS - 4)
+    none, _ = lowerhigh_cash(bars, cal, cal[0], {d: 'boost' for d in cal}, dest=lambda d: None)
+    assert set(none.values()) == {'BIL'}                          # nothing rising: T-bills
+    m, why = apply_lowerhigh({d: 'boost' for d in cal}, {}, cash, cal)
+    assert m[cal[k]] == 'GLD' and m[cal[k + 4]] == 'TLT' and m[cal[k + LH_DAYS]] == 'boost'
+    assert why[cal[k]] == why[cal[k + 4]] == 'lowerhigh' and why[cal[k + LH_DAYS]] == 'lowerhigh-end'
+    assert lowerhigh_state(bars, cash, [[first, 'early', first]], cal, k + 5)['asset'] == 'TLT'
