@@ -2717,5 +2717,65 @@
       "time": "Pre-market",
       "vsExp": "JPM EPS missed ($5.57 vs $5.90)"
     }
+  },
+  {
+    "id": "2026-10-13-3-sp500-dow-nasdaq-close-mixed",
+    "data": {
+      "addedAt": "2026-10-13",
+      "category": "Market",
+      "date": "2026-10-13",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "S&P 500, Dow, Nasdaq close little changed as chip weakness offsets bank-earnings strength",
+      "impact": "High",
+      "numbers": "S&P 500 7,805 (-1.59, -0.02%); Dow 51,670 (-179.56, -0.35%); Nasdaq Composite 27,204 (-41.52, -0.15%); 10-yr Treasury yield 5.223% (-0.02pt)",
+      "order": 3,
+      "reaction": "Indexes finished mixed/roughly flat: memory-chip weakness (Micron, Western Digital, Sandisk, Applied Materials, tied to South Korea's Kospi -6% overnight on China CXMT memory-tech progress) offset strength in bank and energy names (Goldman Sachs, refiners). Dow lagged on broader industrial/financial drag; yields eased slightly late in the day after Fed comments.",
+      "region": "US",
+      "source": "https://investrade.com/market-review-october-13-2026",
+      "tickers": "SPY, DIA, QQQ, TNX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-13-4-fed-williams-one-more-hike-2026",
+    "data": {
+      "addedAt": "2026-10-13",
+      "category": "Fed",
+      "date": "2026-10-13",
+      "day": "Tue",
+      "direction": "Neutral",
+      "event": "NY Fed's Williams: one more 2026 rate hike still appropriate, none needed in 2027 as inflation cools",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 4,
+      "reaction": "Williams said he still sees one more hike this year as appropriate but doesn't expect further increases in 2027, with inflation seen slowing toward the Fed's 2% target. Comments gave a modest late-day lift to bonds and metals; markets now await September CPI (due Oct 14) for confirmation of the disinflation path.",
+      "region": "US",
+      "source": "https://investrade.com/market-review-october-13-2026",
+      "tickers": "TLT, TNX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-13-5-oil-firms-on-iran-standoff-risk",
+    "data": {
+      "addedAt": "2026-10-13",
+      "category": "Energy",
+      "date": "2026-10-13",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Oil firms as Paul Tudor Jones warns US-Iran standoff won't resolve before midterms",
+      "impact": "Medium",
+      "numbers": "WTI ~$94.14 (+0.43%); Brent ~$105.69 (-0.9%)",
+      "order": 5,
+      "reaction": "Jones said the US-Iran conflict is unlikely to de-escalate before the November midterms, keeping a geopolitical premium in crude; markets also weighed new US diesel tax relief and the lifting of sanctions on Russian diesel.",
+      "region": "Global / Middle East",
+      "source": "https://investrade.com/market-review-october-13-2026",
+      "tickers": "USO, BNO, XLE",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
