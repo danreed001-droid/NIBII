@@ -2441,7 +2441,7 @@ WALLST_MC = {
     'beatSpy': ('Chance of beating SPY', 'Share of simulated futures in which the plan ended ahead of SPY.'),
     'beatSpyTax': ('... after tax', 'The plan after tax against SPY untaxed.'),
     'beatSpyHalf': ('... with half the edge', 'If the plan only keeps half of its historical lead over SPY: the realistic check for a backtest tuned on this history.'),
-    'beatPrev': ('Chance of beating the previous plan', 'Share of simulated futures in which the 6-month TLT / GLD pick beat the previous steepest-gradient pick.'),
+    'beatPrev': ('Chance of beating the previous plan', 'Share of simulated futures in which the plan beat the previous plan (the same plan with the dip add).'),
     'dd': ('Typical worst drop', 'The middle worst drop within each simulated future.'),
     'dd50': ('Chance of a −50% drop', 'Share of simulated futures with a drop of half or more at some point.'),
     'dd50Half': ('... with half the edge', 'The same with half of the historical lead.'),
