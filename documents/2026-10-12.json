@@ -262,62 +262,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly: latest swings LH 7870.0, HL 7846.25, LH 7862.25); ES=F -0.23% to 7848.25 on 12 October, so the structure read is two-sided"
+       "1H structure is choppy (structure.hourly: latest swings LH 7870.0, HL 7846.25, LH 7862.25); ES=F -0.23% to 7848.25 on 12 October, so the structure read is two-sided",
+       null
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA count for 12 October was obtained; the news log shows the Dow +0.38% against the S&P 500 -0.06%, Nasdaq -0.44% and Russell 2000 -0.45% (a value/cyclical rotation), which is not a breadth count, so breadth is neutral"
+       "No advance/decline or %-above-MA count for 12 October was obtained; the news log shows the Dow +0.38% against the S&P 500 -0.06%, Nasdaq -0.44% and Russell 2000 -0.45% (a value/cyclical rotation), which is not a breadth count, so breadth is neutral",
+       null
       ],
       [
        "neu",
-       "VIX closed 15.21 on 12 October (from 14.84); no source names a percentile or record, so no volatility-regime edge is claimed"
+       "VIX closed 15.21 on 12 October (from 14.84); no source names a percentile or record, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral",
+       null
       ],
       [
        "neu",
-       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists"
+       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists",
+       null
       ],
       [
        "bear",
-       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)"
+       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)",
+       false
       ],
       [
        "neu",
-       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed"
+       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 12 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+       "No dated positioning or flow figure for 12 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "JPMorgan, Goldman, Citi, Wells Fargo and others report Tuesday; Q3 S&P profit growth is expected near 25% y/y (news log), but results and reaction are not known, so the 1-day read is neutral"
+       "JPMorgan, Goldman, Citi, Wells Fargo and others report Tuesday; Q3 S&P profit growth is expected near 25% y/y (news log), but results and reaction are not known, so the 1-day read is neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due Wednesday 14 October and PPI Thursday (news log, 12 October), after big-bank earnings on Tuesday; the readings are not known, so the calendar is two-sided and neutral"
+       "September CPI is due Wednesday 14 October and PPI Thursday (news log, 12 October), after big-bank earnings on Tuesday; the readings are not known, so the calendar is two-sided and neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral",
+       null
       ],
       [
        "bear",
-       "Brent rose about 1.9% to ~$106.7 and WTI ~1.7% to ~$93.4 on Mideast and Ukraine energy strikes, the dollar index firmed to ~102.4, and semis fell (SOX -2.7%) on 12 October (news log); equities' 21-session oil correlation is -0.413"
+       "Brent rose about 1.9% to ~$106.7 and WTI ~1.7% to ~$93.4 on Mideast and Ukraine energy strikes, the dollar index firmed to ~102.4, and semis fell (SOX -2.7%) on 12 October (news log); equities' 21-session oil correlation is -0.413",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7848.0,
+     "ret": -3.2e-05,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -2345,62 +2360,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly: latest swings HH 104.72, LL 104.44, LH 104.61); ZN=F +0.16% to 104.78 on 12 October"
+       "1H structure is choppy (structure.hourly: latest swings HH 104.72, LL 104.44, LH 104.61); ZN=F +0.16% to 104.78 on 12 October",
+       null
       ],
       [
        "neu",
-       "Breadth is not meaningful for a single Treasury future; no relevant count exists, so neutral"
+       "Breadth is not meaningful for a single Treasury future; no relevant count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No MOVE index or Treasury implied-volatility print newer than the stale TLT 30-day IV of 15 (25 September) was obtained, and it names no extreme, so neutral"
+       "No MOVE index or Treasury implied-volatility print newer than the stale TLT 30-day IV of 15 (25 September) was obtained, and it names no extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral",
+       null
       ],
       [
        "neu",
-       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists"
+       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists",
+       null
       ],
       [
        "bear",
-       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)"
+       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)",
+       false
       ],
       [
        "neu",
-       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed"
+       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 12 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+       "No dated positioning or flow figure for 12 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to a Treasury future directly and none is named in the news log for 12 October, so neutral"
+       "Earnings catalysts do not apply to a Treasury future directly and none is named in the news log for 12 October, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due Wednesday and PPI Thursday (news log); a hot print would hurt notes and a soft one help, and neither is known, so the calendar is neutral"
+       "September CPI is due Wednesday and PPI Thursday (news log); a hot print would hurt notes and a soft one help, and neither is known, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral",
+       null
       ],
       [
        "neu",
-       "Brent rose about 1.9% on 12 October (news log), an inflation headwind, but ZN=F's 21-session oil correlation is +0.237, the opposite sign, so the cross-asset read is two-sided"
+       "Brent rose about 1.9% on 12 October (news log), an inflation headwind, but ZN=F's 21-session oil correlation is +0.237, the opposite sign, so the cross-asset read is two-sided",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 104.8125,
+     "ret": 0.000298,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -5002,62 +5032,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly: latest swings HH 4242.3, LL 4178.1, LH 4201.7); GC=F fell 0.90% to 4182.4 on 12 October, so the swing read is two-sided"
+       "1H structure is choppy (structure.hourly: latest swings HH 4242.3, LL 4178.1, LH 4201.7); GC=F fell 0.90% to 4182.4 on 12 October, so the swing read is two-sided",
+       null
       ],
       [
        "neu",
-       "Breadth does not apply to gold; no relevant count exists, so neutral"
+       "Breadth does not apply to gold; no relevant count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "^GVZ closed 22.48 on 12 October; no source names a percentile or record, so no volatility-regime edge is claimed"
+       "^GVZ closed 22.48 on 12 October; no source names a percentile or record, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral",
+       null
       ],
       [
        "neu",
-       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists"
+       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists",
+       null
       ],
       [
        "bear",
-       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)"
+       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)",
+       false
       ],
       [
        "neu",
-       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed"
+       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated gold positioning figure newer than the CFTC report for the week to 22 September was obtained and it names no extreme, so positioning is neutral"
+       "No dated gold positioning figure newer than the CFTC report for the week to 22 September was obtained and it names no extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to gold and none is named in the news log, so neutral"
+       "Earnings catalysts do not apply to gold and none is named in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due Wednesday 14 October and PPI Thursday (news log, 12 October), after big-bank earnings on Tuesday; the readings are not known, so the calendar is two-sided and neutral"
+       "September CPI is due Wednesday 14 October and PPI Thursday (news log, 12 October), after big-bank earnings on Tuesday; the readings are not known, so the calendar is two-sided and neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral",
+       null
       ],
       [
        "bear",
-       "The dollar index firmed to ~102.4 (+0.2%) and GC=F fell 0.90% on 12 October (news log); a stronger dollar is a headwind for gold, though Mideast escalation (Houthi attack on a Saudi airport) was not enough to lift it"
+       "The dollar index firmed to ~102.4 (+0.2%) and GC=F fell 0.90% on 12 October (news log); a stronger dollar is a headwind for gold, though Mideast escalation (Houthi attack on a Saudi airport) was not enough to lift it",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4207.39990234375,
+     "ret": 0.005977,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -7086,62 +7131,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly: latest swings HL 102.147, HH 102.604, HH 102.607); DX-Y.NYB +0.24% to 102.474 on 12 October, so the swing read is two-sided"
+       "1H structure is choppy (structure.hourly: latest swings HL 102.147, HH 102.604, HH 102.607); DX-Y.NYB +0.24% to 102.474 on 12 October, so the swing read is two-sided",
+       null
       ],
       [
        "neu",
-       "Breadth does not apply to the dollar index; no relevant count exists, so neutral"
+       "Breadth does not apply to the dollar index; no relevant count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No EUR/USD implied-volatility print newer than 4.72 (21 September) was obtained and it names no percentile or record, so neutral"
+       "No EUR/USD implied-volatility print newer than 4.72 (21 September) was obtained and it names no percentile or record, so neutral",
+       null
       ],
       [
        "neu",
-       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral",
+       null
       ],
       [
        "neu",
-       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists"
+       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists",
+       null
       ],
       [
        "bull",
-       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)"
+       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)",
+       false
       ],
       [
        "neu",
-       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed"
+       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated dollar positioning figure newer than the CFTC report for the week to 22 September was obtained and it names no extreme, so positioning is neutral"
+       "No dated dollar positioning figure newer than the CFTC report for the week to 22 September was obtained and it names no extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to the dollar index and none is named in the news log, so neutral"
+       "Earnings catalysts do not apply to the dollar index and none is named in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due Wednesday 14 October and PPI Thursday (news log, 12 October), after big-bank earnings on Tuesday; the readings are not known, so the calendar is two-sided and neutral"
+       "September CPI is due Wednesday 14 October and PPI Thursday (news log, 12 October), after big-bank earnings on Tuesday; the readings are not known, so the calendar is two-sided and neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral",
+       null
       ],
       [
        "neu",
-       "The dollar index rose to ~102.4 (+0.2%) alongside oil and lower gold on 12 October (news log), but no dominant cross-asset driver exists (21-session oil correlation -0.022), so neutral"
+       "The dollar index rose to ~102.4 (+0.2%) alongside oil and lower gold on 12 October (news log), but no dominant cross-asset driver exists (21-session oil correlation -0.022), so neutral",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 102.21499633789062,
+     "ret": -0.002527,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 5,
@@ -9260,62 +9320,77 @@
      "votes": [
       [
        "bull",
-       "1H structure is an uptrend (structure.hourly: latest swings HH 2832.1, HH 2834.3, HL 2812.0) even though RTY=F fell 0.42% to 2811.6 on 12 October"
+       "1H structure is an uptrend (structure.hourly: latest swings HH 2832.1, HH 2834.3, HL 2812.0) even though RTY=F fell 0.42% to 2811.6 on 12 October",
+       false
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA count for 12 October was obtained; the news log shows the Dow +0.38% against the S&P 500 -0.06%, Nasdaq -0.44% and Russell 2000 -0.45% (a value/cyclical rotation), which is not a breadth count, so breadth is neutral"
+       "No advance/decline or %-above-MA count for 12 October was obtained; the news log shows the Dow +0.38% against the S&P 500 -0.06%, Nasdaq -0.44% and Russell 2000 -0.45% (a value/cyclical rotation), which is not a breadth count, so breadth is neutral",
+       null
       ],
       [
        "neu",
-       "No volatility-regime print newer than RVX 19.97 (23 September) was obtained and it names no percentile or record, so volatility regime is neutral"
+       "No volatility-regime print newer than RVX 19.97 (23 September) was obtained and it names no percentile or record, so volatility regime is neutral",
+       null
       ],
       [
        "neu",
-       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral",
+       null
       ],
       [
        "neu",
-       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists"
+       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists",
+       null
       ],
       [
        "bear",
-       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)"
+       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)",
+       false
       ],
       [
        "neu",
-       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed"
+       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 12 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+       "No dated positioning or flow figure for 12 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "No earnings release with a named market read for this asset is in the news log for 12 October, so earnings catalysts are neutral"
+       "No earnings release with a named market read for this asset is in the news log for 12 October, so earnings catalysts are neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due Wednesday 14 October and PPI Thursday (news log, 12 October), after big-bank earnings on Tuesday; the readings are not known, so the calendar is two-sided and neutral"
+       "September CPI is due Wednesday 14 October and PPI Thursday (news log, 12 October), after big-bank earnings on Tuesday; the readings are not known, so the calendar is two-sided and neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral",
+       null
       ],
       [
        "neu",
-       "The Russell 2000 fell 0.45% on 12 October while the Dow rose 0.38% (news log); oil's 21-session correlation with RTY=F is only -0.115, so the energy move gives no clear small-cap signal"
+       "The Russell 2000 fell 0.45% on 12 October while the Dow rose 0.38% (news log); oil's 21-session correlation with RTY=F is only -0.115, so the energy move gives no clear small-cap signal",
+       null
       ],
       [
        "bull",
-       "1H structure is uptrend - last labeled swings: HL/HH/HH/HL."
+       "1H structure is uptrend - last labeled swings: HL/HH/HH/HL.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2814.0,
+     "ret": 0.000854,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -11181,62 +11256,77 @@
      "votes": [
       [
        "neu",
-       "1H structure is choppy (structure.hourly: latest swings LH 31259.75, LL 30857.25, LL 30844.25); NQ=F -1.27% to 30729.0 on 12 October, but the swing read itself is mixed"
+       "1H structure is choppy (structure.hourly: latest swings LH 31259.75, LL 30857.25, LL 30844.25); NQ=F -1.27% to 30729.0 on 12 October, but the swing read itself is mixed",
+       null
       ],
       [
        "neu",
-       "No advance/decline or %-above-MA count for 12 October was obtained; the news log shows the Dow +0.38% against the S&P 500 -0.06%, Nasdaq -0.44% and Russell 2000 -0.45% (a value/cyclical rotation), which is not a breadth count, so breadth is neutral"
+       "No advance/decline or %-above-MA count for 12 October was obtained; the news log shows the Dow +0.38% against the S&P 500 -0.06%, Nasdaq -0.44% and Russell 2000 -0.45% (a value/cyclical rotation), which is not a breadth count, so breadth is neutral",
+       null
       ],
       [
        "neu",
-       "VXN closed 20.84 on 12 October (from 20.55); no source names a percentile or record, so no volatility-regime edge is claimed"
+       "VXN closed 20.84 on 12 October (from 20.55); no source names a percentile or record, so no volatility-regime edge is claimed",
+       null
       ],
       [
        "neu",
-       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral"
+       "No 12 October high-yield OAS or credit-spread print was obtainable, so credit is neutral",
+       null
       ],
       [
        "neu",
-       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists"
+       "The 10-year yield was about 5.25% on 9 October, near a 24-year high (news log); the bond market was closed 12 October for Columbus Day so no fresh Treasury yield print exists",
+       null
       ],
       [
        "bear",
-       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)"
+       "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)",
+       false
       ],
       [
        "neu",
-       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed"
+       "No AAII or other sentiment survey newer than the week to 23 September was obtained and it names no extreme, so no contrarian edge is claimed",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 12 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral"
+       "No dated positioning or flow figure for 12 October was obtained; the newest CFTC week obtained (22 September) names no extreme, so positioning is neutral",
+       null
       ],
       [
        "neu",
-       "Semis fell sharply on 12 October (SOX -2.7%) but the news log names no company earnings release or guide behind it, so earnings catalysts are neutral"
+       "Semis fell sharply on 12 October (SOX -2.7%) but the news log names no company earnings release or guide behind it, so earnings catalysts are neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due Wednesday 14 October and PPI Thursday (news log, 12 October), after big-bank earnings on Tuesday; the readings are not known, so the calendar is two-sided and neutral"
+       "September CPI is due Wednesday 14 October and PPI Thursday (news log, 12 October), after big-bank earnings on Tuesday; the readings are not known, so the calendar is two-sided and neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral"
+       "No dated seasonal statistic for this window was obtainable, so seasonality is neutral",
+       null
       ],
       [
        "bear",
-       "Oil is the dominant driver of the Nasdaq-100 (21-session correlation -0.55): Brent rose about 1.9% to ~$106.7 on 12 October and the dollar index firmed to ~102.4 (news log), while the Nasdaq fell 0.44% and semis 2.7%"
+       "Oil is the dominant driver of the Nasdaq-100 (21-session correlation -0.55): Brent rose about 1.9% to ~$106.7 on 12 October and the dollar index firmed to ~102.4 (news log), while the Nasdaq fell 0.44% and semis 2.7%",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 30644.25,
+     "ret": -0.002758,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 5,
