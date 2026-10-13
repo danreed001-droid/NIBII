@@ -613,10 +613,33 @@ __RESEARCH__
     var rd = R ? ' Now: SPY ' + pct(R.high) + ' from its 52-week high (needs within ' + Math.round((1 - N.high) * 100) + '%), equal-weight S&amp;P vs SPY over 3 months ' + pct(R.lag) +
       ' (needs below −' + (N.lag * 100).toFixed(1) + '%), VIX ' + R.vix.toFixed(1) + ' vs its 3-month low ' + R.vixLow.toFixed(1) + ' (needs within ' + N.vix + ').' : '';
     var lg = (N.log || []).slice(0, 6).map(f).join(' · ');
-    return '<br><span class="' + (N.inCash || N.cash ? 'neg' : 'muted') + '"><b>3. Narrow-market cash week</b> (default since Oct 13, 2026, on probation): ' + st + '.</span>' +
+    return '<br><span class="' + (N.inCash || N.cash ? 'neg' : 'muted') + '"><b>4. Narrow-market cash week</b> (default since Oct 13, 2026, on probation): ' + st + '.</span>' +
       '<span class="muted"> When SPY closes within 2% of its 52-week high, the equal-weight S&amp;P 500 has lagged it by more than 1.5% over 3 months (a few large stocks carrying the index) and the VIX sits within 2 points of its 3-month low (a calm market), the whole account moves to T-bills ' + N.delay + ' sessions later for ' + N.days + ' sessions, then back to whatever the plan holds.' + rd +
       ' In the audit it made 32.8% a year from 2000 vs 30.6% without it (Sharpe 1.07 vs 0.97), 41.7% vs 38.6% from 2016 with a −23% worst drop instead of −29%, and 61.4% vs 58.0% from 2020; since 2012 the plan lost about 39% over its cash days, which random cash weeks matched in only 0.14% of draws, and it held with the thresholds moved. It can first act in 2012 and was found on the same history. Rebuilt abroad with stand-ins for the equal-weight index and the VIX, it lost in four of five markets (it fired less often there, and in Germany and Japan at the wrong times), so it looks specific to the US: treat it as on probation.' +
       (lg ? ' Last warnings: ' + lg + ' (' + N.n + ' warning days since 2012).' : '') + '</span>';
+  }
+  function lowerhighNote(RT) {   // the lower-high exit: rule, reading now, current two weeks, log
+    var L = RT && RT.lowerhigh;
+    if (!L) return '';
+    var f = function (d) { return fmtDate(d, { month: 'short', day: 'numeric', year: 'numeric' }); }, R = L.reading;
+    var px = function (p) { return p[1].toFixed(2) + ' (' + f(p[0]) + ')'; };
+    var end = L.until || (L.run && L.run[1]);
+    var st = L.inCash ? '<b>ON: the account holds T-bills</b>' + (L.run ? ' since the close after ' + f(L.run[0]) : '') + (end ? ', back to the plan after the close on ' + f(end) : '')
+      : R && R.on ? (RT.mode !== 'boost' ? 'off: the signal is on, but the plan is already out of stocks' : 'off: the signal is on, but this lower high has already had its two weeks (only a new one fires again)')
+      : 'off';
+    var rd = '';
+    if (R) {
+      var lower = R.highs[1][1] < R.highs[0][1];
+      rd = ' Now: SPY ' + R.close.toFixed(2) + '; last two weekly swing highs ' + px(R.highs[0]) + ' → ' + px(R.highs[1]) + ' (' + (lower ? '<b>lower</b>' : 'higher') + ')' +
+        (R.peak ? '; latest weekly peak since, not yet confirmed, ' + px(R.peak) + (R.peak[1] < R.highs[1][1] ? ' (lower)' : '') : '') +
+        (R.daily && R.daily.length === 2 ? '; last two daily swing highs ' + px(R.daily[0]) + ' → ' + px(R.daily[1]) + ' (' + (R.daily[1][1] < R.daily[0][1] ? 'lower' : 'higher') + ')' : '') +
+        (R.on ? ' → <b>' + (R.kind === 'early' ? 'early' : 'confirmed') + ' lower high</b>' : '') + '.';
+    }
+    var lg = (L.log || []).slice(0, 6).map(function (r) { return f(r[0]) + ' <span class="muted">(' + esc(r[1]) + ')</span>'; }).join(' · ');
+    return '<br><span class="' + (L.inCash ? 'neg' : 'muted') + '"><b>5. Lower-high exit</b> (default since Oct 13, 2026, on probation): ' + st + '.</span>' +
+      '<span class="muted"> When SPY’s weekly chart (swings ' + L.swing + ' weeks either side) makes a lower high and SPY closes below it — or, without waiting for that high to be confirmed, the latest weekly peak sits below the last swing high while the daily chart has already made a lower high and SPY closes below both — the whole account moves to T-bills for ' + L.days + ' sessions (two weeks), then back to whatever the plan holds. The same lower high cannot fire it twice; it acts only while the plan holds the Boost list.' + rd +
+      ' In the audit it made 33.7% a year from 2000 vs 32.8% without it, worst drop −28% vs −44% (after tax 21.3% vs 20.8%); 34.3% vs 33.3% from 2010 (−25% vs −34%); 42.4% vs 41.7% from 2016 and 61.8% vs 61.4% from 2020 (same worst drops). Staying out until SPY’s downtrend ended instead of two weeks cut the drops but cost 2–8 points a year, because the momentum stocks rebound before SPY confirms. It fired about once a year and was designed after looking at the 2007–2011 and 2022 drops, so treat it as on probation.' +
+      (lg ? ' Last signals: ' + lg + ' (' + L.n + ' since ' + SINCE + ').' : '') + '</span>';
   }
   function whipNote(RT) {   // the whipsaw half-switch: rule, reading now, recent sales, log
     var W = RT && RT.whip;
@@ -697,7 +720,7 @@ __RESEARCH__
   function rotNote(RT, P) {   // the Boost + rotation explainer with today's readings
     var arw = function (l) { return l && l[0] ? (l[0] === 'up' ? 'up ▲' : l[0] === 'down' ? 'down ▼' : 'choppy') : '–'; };
     var gr = function (l) { return l && l[1] != null ? ' (gradient ' + l[1].toFixed(2) + ')' : ''; };
-    var S = RT.spy, LH = S.lastHigh, why = { rotate: 'rotation', 'rotate-end': 'its uptrend broke', exit: 'downtrend exit', 'switch': 'best asset changed', above: 'SPY back above its average', steeper: 'SPY’s higher lows steeper', narrow: 'narrow-market cash week', 'narrow-end': 'cash week over' };
+    var S = RT.spy, LH = S.lastHigh, why = { rotate: 'rotation', 'rotate-end': 'its uptrend broke', exit: 'downtrend exit', 'switch': 'best asset changed', above: 'SPY back above its average', steeper: 'SPY’s higher lows steeper', narrow: 'narrow-market cash week', 'narrow-end': 'cash week over', lowerhigh: 'lower-high exit', 'lowerhigh-end': 'two weeks out over' };
     var now = RT.mode === 'boost' ? 'in the <b>Boost 100% stock list</b>' : 'out of stocks, in <b>' + esc(RT.mode) + '</b> (' + esc(ROTN[RT.mode] || '') + ')';
     return '<b>Boost + rotation (the default):</b> the Boost 100% stock list (with its blow-off and surge exits), moved out of stocks when the charts say so; decided at any close and traded at the next close. ' +
       '<b>1. Rotation:</b> while SPY’s daily chart makes lower highs and lower lows, if TLT or GLD makes higher highs and higher lows with a steeper gradient than SPY (the line through its last two higher lows, scaled by its volatility), switch into whichever of them is up more over the last 6 months after it has led for ' + RT.confirm + ' sessions; back to stocks the day its uptrend breaks. ' +
@@ -708,8 +731,8 @@ __RESEARCH__
       RT.assets.map(function (t) { var c6 = RT.pickPct && RT.pickPct[t]; return t + ' daily ' + arw(RT.legs[t]) + gr(RT.legs[t]) + (c6 != null ? ', 6-month ' + pct(c6) : ''); }).join(' · ') + '.' +
       (RT.cand && RT.mode === 'boost' && RT.streak ? ' ' + esc(RT.cand) + ' has led for ' + RT.streak + ' of the ' + RT.confirm + ' sessions needed.' : '') +
       ' Out of stocks on ' + RT.daysOut + ' of ' + RT.days + ' sessions since ' + SINCE + ', ' + RT.switches + ' switches. Since ' + SINCE + ': ' + pct(P.stats.rotation.annual, 0) + ' a year, worst drop ' + pct(P.stats.rotation.maxDD, 0) + ' vs ' + pct(P.stats.boost100.annual, 0) + ' and ' + pct(P.stats.boost100.maxDD, 0) + ' for Boost 100%. ' +
-      'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $15.4M after tax vs $5.17M for Boost 100%: 32.8% a year before tax (20.8% after) vs 24.5% (15.9%), worst drop −44% vs −63%; from 2010 33.3% vs 26.2%, from 2020 61.4% vs 53.3% (all with the surge exit below, the whipsaw half-switch with its rate/gold regime, TLT / GLD picked by their 6-month gain and the narrow-market cash week; without the cash week 30.6% and $11.9M; with the old dip add 30.4% and $11.7M, so it was dropped; picking the steepest gradient instead 29.9% and $10.8M, without the regime 29.7% and $10.5M, without the half-switch 29.0% and $9.7M, before the surge exit 27.4% and $7.8M). Corrected Oct 13, 2026: two tickers (EP, CPWR) had been priced with the histories of other companies that reuse the symbols and are now left out, which took about 5 points a year off the 2000 figures. The thresholds were picked on that same history, so expect less: an overfitting test across 599 tested versions puts a realistic plan at about 18–25% a year before tax. The 6-month pick also did better than the gradient pick when replayed in Japan, the UK, Germany, India and Hong Kong (UK 13.1% vs 11.2% a year).' +
-      (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '') + whipNote(RT) + narrowNote(RT);
+      'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $17.2M after tax vs $5.17M for Boost 100%: 33.7% a year before tax (21.3% after) vs 24.5% (15.9%), worst drop −28% vs −63%; from 2010 34.3% vs 26.2%, from 2020 61.8% vs 53.3% (all with the surge exit below, the whipsaw half-switch with its rate/gold regime, TLT / GLD picked by their 6-month gain, the narrow-market cash week and the lower-high exit; without the lower-high exit 32.8% and $15.4M, worst drop −44%; without the cash week as well 30.6% and $11.9M; with the old dip add 30.4% and $11.7M, so it was dropped; picking the steepest gradient instead 29.9% and $10.8M, without the regime 29.7% and $10.5M, without the half-switch 29.0% and $9.7M, before the surge exit 27.4% and $7.8M). Corrected Oct 13, 2026: two tickers (EP, CPWR) had been priced with the histories of other companies that reuse the symbols and are now left out, which took about 5 points a year off the 2000 figures. The thresholds were picked on that same history, so expect less: an overfitting test across 599 tested versions (run before the lower-high exit was added) puts a realistic plan at about 18–25% a year before tax. The 6-month pick also did better than the gradient pick when replayed in Japan, the UK, Germany, India and Hong Kong (UK 13.1% vs 11.2% a year).' +
+      (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '') + whipNote(RT) + narrowNote(RT) + lowerhighNote(RT);
   }
   function bxNote(A) {   // the blow-off exit line under Boost 100% / Boost + cushion
     var X = A && A.boostx, m = X ? X.mult : 2;
@@ -2439,11 +2462,11 @@ WALLST_ROWS = {   # measure, what it means
     'return': ('Return a year (after tax)', 'Average yearly growth from 2000. After tax = a taxable account (37% short-term, 20% long-term).'),
     'sharpe': ('Sharpe ratio', 'Return above cash for each unit of ups and downs. Above 1 is excellent for a stock strategy; the market is about 0.4.'),
     'sortino': ('Sortino ratio', 'Like Sharpe, but only the downside swings count as risk, so big up-days are not punished.'),
-    'maxdd': ('Worst drop', 'The biggest fall from a high before it recovered (late 2007 to spring 2009). Expect to sit through drops like this.'),
+    'maxdd': ('Worst drop', 'The biggest fall from a high before it recovered (mid-2001 to mid-2002; −44% from late 2007 to spring 2009 before the lower-high exit). Expect to sit through drops like this.'),
     'calmar': ('Calmar ratio', 'Yearly return divided by the worst drop: how much you earn for the worst pain. SPY earns 0.15.'),
     'ulcer': ('Ulcer index', 'How deep and how long the drops last, combined into one number. Lower is calmer.'),
-    'omega': ('Omega ratio', 'Gains in up months divided by losses in down months (above cash): $2.46 gained for every $1 lost.'),
-    'capture': ('Up / down capture', 'In months SPY rose, the plan rose about 1.6x as much; in months SPY fell, it fell only a quarter as much.'),
+    'omega': ('Omega ratio', 'Gains in up months divided by losses in down months (above cash): $2.80 gained for every $1 lost.'),
+    'capture': ('Up / down capture', 'In months SPY rose, the plan rose about 1.3x as much; in months SPY fell, it fell only about a twentieth as much.'),
     'var': ('Bad month (VaR / CVaR 95%)', 'One month in 20 loses at least the first number; the second is the average of those bad months.'),
     'worst3': ('Worst 3 years', 'The weakest three-year stretch, per year (2000–2002 for SPY).'),
     'under': ('Longest underwater', 'The longest wait below a previous high before getting back to it.'),
@@ -2457,7 +2480,7 @@ WALLST_MC = {
     'beatSpy': ('Chance of beating SPY', 'Share of simulated futures in which the plan ended ahead of SPY.'),
     'beatSpyTax': ('... after tax', 'The plan after tax against SPY untaxed.'),
     'beatSpyHalf': ('... with half the edge', 'If the plan only keeps half of its historical lead over SPY: the realistic check for a backtest tuned on this history.'),
-    'beatPrev': ('Chance of beating the previous plan', 'Share of simulated futures in which the plan beat the previous plan (the same plan without the narrow-market cash week).'),
+    'beatPrev': ('Chance of beating the previous plan', 'Share of simulated futures in which the plan beat the previous plan (the same plan without the lower-high exit).'),
     'dd': ('Typical worst drop', 'The middle worst drop within each simulated future.'),
     'dd50': ('Chance of a −50% drop', 'Share of simulated futures with a drop of half or more at some point.'),
     'dd50Half': ('... with half the edge', 'The same with half of the historical lead.'),
@@ -2467,6 +2490,7 @@ WALLST_OTHER = {
     'walk': lambda o: f'<b>Walk-forward:</b> re-picking the best version each year, using only the years before it, earned {_e(o["v"])} a year in 2005–2025 against {_e(o["typical"])} for the typical version.',
     'pickT': lambda o: f'<b>The 6-month pick on its own:</b> adds about {_e(o["v"])}; a t-stat under 2 means the gain is not proven, so it is on probation.',
     'cashT': lambda o: f'<b>The narrow-market cash week on its own:</b> {_e(o["v"])}. Month by month the gain is not proven (most months it does nothing); judged on its cash weeks against random weeks it is unlikely to be luck. It can first act in 2012 and did not carry over abroad (below), so it is on probation.',
+    'lowerT': lambda o: f'<b>The lower-high exit on its own:</b> {_e(o["v"])}. Month by month the gain is not proven (most months it does nothing); the point is the smaller drops. It was designed after looking at the 2007–2011 and 2022 drops, so it is on probation.',
     'abroad': lambda o: f'<b>Other countries</b> (the same rules on each market\'s own stocks, without the cash week): {_e(o["v"])}.',
     'abroadCash': lambda o: f'<b>The cash week abroad</b> (rebuilt with an equal-weight basket of each index\'s current stocks and the US VIX or the index\'s own volatility; on US data these stand-ins kept most of the gain): {_e(o["v"])}. It fired less often abroad and, in Germany and Japan, at the wrong times, so it looks specific to the US since 2012.',
     'y1927': lambda o: f'<b>Before the data it was built on:</b> {_e(o["v"])}.',

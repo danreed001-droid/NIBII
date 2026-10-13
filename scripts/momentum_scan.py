@@ -44,6 +44,7 @@ from mtl.heat import daily_closes, daily_heat, price_volume, weekly_heat  # noqa
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
+from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash, lowerhigh_state, LH_DAYS  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
 from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
@@ -636,6 +637,10 @@ def main():
     # swing structure says so (mtl/rotation.py); decided at any close, traded at the next close
     rot_bars = {'SPY': bench['SPY'], **{t: asset_bars[t] for t in ROT_ASSETS if asset_bars.get(t)}}
     rot_modes, rot_why, rot_read, rot_state = rotation_modes(rot_bars, calendar, START)
+    # ... plus the lower-high exit: when SPY's weekly swings make a lower high (or an early one with the
+    # daily chart already turned down), two weeks in T-bills, then back to the plan (mtl/lowerhigh.py)
+    lh_cash, lh_log = lowerhigh_cash(bench['SPY'], calendar, START, rot_modes)
+    rot_modes, rot_why = apply_lowerhigh(rot_modes, rot_why, lh_cash, calendar)
     # ... plus the whipsaw half-switch: when most of the Boost list's recent sales were losers, half
     # goes into whichever of TLT / GLD / SPY is up most over 3 months (skipping weekly downtrends)
     whip_px = {**filled(sleeve_px, calendar), 'SPY': prices['SPY']}
@@ -879,6 +884,17 @@ def main():
             for _ in range(max(0, end_k - K)):
                 until = next_session(until)
             auto['rotation']['narrow']['until'] = until
+    lh_ = lowerhigh_state(bench['SPY'], lh_cash, lh_log, calendar, K)
+    if lh_['reading']:
+        lh_['reading'] = {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in lh_['reading'].items()}
+    if lh_log:   # the last decision day of the current two weeks, rolled past today when needed
+        end_k = calendar.index(lh_log[-1][0]) + LH_DAYS - 1
+        if end_k >= K:
+            until = calendar[K]
+            for _ in range(end_k - K):
+                until = next_session(until)
+            lh_['until'] = until
+    auto['rotation']['lowerhigh'] = lh_
     try:
         with open(CALLS_PATH) as fh:
             warn_calls = (json.load(fh) or {}).get('warn') or {}

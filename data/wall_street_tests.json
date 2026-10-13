@@ -1,86 +1,86 @@
 {
  "asOf": "2026-10-13",
  "period": "Jan 2000 – Oct 2026",
- "plan": "Boost + rotation (surge exit, whipsaw half-switch with the rate/gold regime, TLT / GLD by 6-month gain, narrow-market cash week)",
- "previous": "the same plan without the narrow-market cash week (default until Oct 13, 2026)",
+ "plan": "Boost + rotation (surge exit, whipsaw half-switch with the rate/gold regime, TLT / GLD by 6-month gain, narrow-market cash week, lower-high exit)",
+ "previous": "the same plan without the lower-high exit (default until Oct 13, 2026)",
  "source": "From the audit's daily curves: stocks in the S&P 500 at the time, 0.15% slippage, 37%/20% tax; Sharpe and Sortino net of a 2% cash rate. Corrected Oct 13, 2026: two tickers (EP, CPWR) had been priced with other companies' histories and are now left out",
  "scorecard": [
   {
    "k": "return",
-   "plan": "32.8% (21.1%)",
-   "prev": "30.6% (19.8%)",
+   "plan": "33.7% (21.6%)",
+   "prev": "32.8% (21.1%)",
    "spy": "8.4%"
   },
   {
    "k": "sharpe",
-   "plan": "1.05",
-   "prev": "0.95",
+   "plan": "1.10",
+   "prev": "1.05",
    "spy": "0.41"
   },
   {
    "k": "sortino",
-   "plan": "1.57",
-   "prev": "1.41",
+   "plan": "1.67",
+   "prev": "1.57",
    "spy": "0.58"
   },
   {
    "k": "maxdd",
-   "plan": "−44%",
+   "plan": "−28%",
    "prev": "−44%",
    "spy": "−55%"
   },
   {
    "k": "calmar",
-   "plan": "0.74",
-   "prev": "0.69",
+   "plan": "1.19",
+   "prev": "0.74",
    "spy": "0.15"
   },
   {
    "k": "ulcer",
-   "plan": "11.7%",
-   "prev": "12.9%",
+   "plan": "10.4%",
+   "prev": "11.7%",
    "spy": "16.1%"
   },
   {
    "k": "omega",
-   "plan": "2.62",
-   "prev": "2.36",
+   "plan": "2.80",
+   "prev": "2.62",
    "spy": "1.44"
   },
   {
    "k": "capture",
-   "plan": "134% / 13%",
-   "prev": "139% / 29%",
+   "plan": "131% / 5%",
+   "prev": "134% / 13%",
    "spy": "100% / 100%"
   },
   {
    "k": "var",
-   "plan": "−7.4% / −10.3%",
-   "prev": "−7.9% / −12.4%",
+   "plan": "−7.2% / −8.9%",
+   "prev": "−7.4% / −10.3%",
    "spy": "−7.5% / −9.5%"
   },
   {
    "k": "worst3",
-   "plan": "−7.3% a year",
+   "plan": "0.0% a year",
    "prev": "−7.3% a year",
    "spy": "−16.3% a year"
   },
   {
    "k": "under",
-   "plan": "24 months",
-   "prev": "31 months",
+   "plan": "29 months",
+   "prev": "24 months",
    "spy": "74 months"
   },
   {
    "k": "alpha",
-   "plan": "21.3% (t 4.4)",
-   "prev": "18.3% (t 3.6)",
+   "plan": "22.9% (t 4.8)",
+   "prev": "21.3% (t 4.4)",
    "spy": "–"
   },
   {
    "k": "alphadec",
-   "plan": "35.4% / 4.2% / 43.1%",
-   "prev": "35.4% / −0.5% / 34.6%",
+   "plan": "33.9% / 6.7% / 42.9%",
+   "prev": "35.4% / 4.2% / 43.1%",
    "spy": "–"
   }
  ],
@@ -95,17 +95,17 @@
    {
     "k": "typical",
     "v": [
-     "31.9% (20.8%)",
-     "32.3% (20.9%)",
-     "32.5% (21.1%)"
+     "32.8% (21.1%)",
+     "33.2% (21.3%)",
+     "33.5% (21.6%)"
     ]
    },
    {
     "k": "bad",
     "v": [
-     "9.4%",
-     "15.3%",
-     "20.1%"
+     "10.9%",
+     "17.1%",
+     "21.6%"
     ]
    },
    {
@@ -119,7 +119,7 @@
    {
     "k": "beatSpy",
     "v": [
-     "98%",
+     "99%",
      "100%",
      "100%"
     ]
@@ -127,33 +127,33 @@
    {
     "k": "beatSpyTax",
     "v": [
-     "87%",
-     "95%",
-     "99%"
+     "90%",
+     "97%",
+     "100%"
     ]
    },
    {
     "k": "beatSpyHalf",
     "v": [
-     "78%",
-     "87%",
-     "95%"
+     "81%",
+     "90%",
+     "97%"
     ]
    },
    {
     "k": "beatPrev",
     "v": [
-     "74%",
-     "81%",
-     "88%"
+     "59%",
+     "61%",
+     "66%"
     ]
    },
    {
     "k": "dd",
     "v": [
+     "−17%",
      "−19%",
-     "−25%",
-     "−30%"
+     "−23%"
     ]
    },
    {
@@ -161,15 +161,15 @@
     "v": [
      "0%",
      "0%",
-     "1%"
+     "0%"
     ]
    },
    {
     "k": "dd50Half",
     "v": [
-     "5%",
-     "13%",
-     "28%"
+     "1%",
+     "2%",
+     "6%"
     ]
    }
   ]
@@ -188,6 +188,10 @@
   {
    "k": "cashT",
    "v": "about 1.3 points a year (t-stat 0.8 on monthly returns); since 2012 the plan lost about 39% over its cash days, and random cash weeks of the same lengths did as well in only 0.14% of 20,000 draws"
+  },
+  {
+   "k": "lowerT",
+   "v": "about 0.4 points a year (t-stat 0.3 on monthly returns), but the worst drop falls from −44% to −28% and the worst three years from −7.3% to 0.0% a year; it beat the plan without it in 59–66% of the simulated futures"
   },
   {
    "k": "pickT",
