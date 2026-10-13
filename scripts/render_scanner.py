@@ -462,6 +462,7 @@ footer li { margin-bottom: 6px; }
     </div>
   </div>
 
+__WALLST__
   <div class="two" style="margin-top:0">
     <div>
       <p class="section-label">On deck <span class="hint">ranks 6–20 · climbing ▲ / slipping ▼ vs last week · tap one to open its swing chart below it</span></p>
@@ -2437,6 +2438,81 @@ def ignition_html(scan=None):
     return '\n'.join(out)
 
 
+WALLST_PATH = os.path.join(ROOT, 'data', 'wall_street_tests.json')
+WALLST_ROWS = {   # measure, what it means
+    'return': ('Return a year (after tax)', 'Average yearly growth from 2000. After tax = a taxable account (37% short-term, 20% long-term).'),
+    'sharpe': ('Sharpe ratio', 'Return above cash for each unit of ups and downs. Above 1 is excellent for a stock strategy; the market is about 0.4.'),
+    'sortino': ('Sortino ratio', 'Like Sharpe, but only the downside swings count as risk, so big up-days are not punished.'),
+    'maxdd': ('Worst drop', 'The biggest fall from a high before it recovered (spring 2010). Expect to sit through drops like this.'),
+    'calmar': ('Calmar ratio', 'Yearly return divided by the worst drop: how much you earn for the worst pain. SPY earns 0.15.'),
+    'ulcer': ('Ulcer index', 'How deep and how long the drops last, combined into one number. Lower is calmer.'),
+    'omega': ('Omega ratio', 'Gains in up months divided by losses in down months (above cash): $2.46 gained for every $1 lost.'),
+    'capture': ('Up / down capture', 'In months SPY rose, the plan rose about 1.6x as much; in months SPY fell, it fell only a quarter as much.'),
+    'var': ('Bad month (VaR / CVaR 95%)', 'One month in 20 loses at least the first number; the second is the average of those bad months.'),
+    'worst3': ('Worst 3 years', 'The weakest three-year stretch (2014–2016 for the plan, 2000–2002 for SPY), per year.'),
+    'under': ('Longest underwater', 'The longest wait below a previous high before getting back to it.'),
+    'alpha': ('Alpha after factors', 'Return left over after taking out what the market, size, value, quality, momentum, bonds and gold explain. A t-stat above 2 means it is unlikely to be luck.'),
+    'alphadec': ('Alpha 2000s / 2010s / 2020s', 'The same by decade: strong in the 2000s and 2020s, close to nothing in the 2010s.'),
+}
+WALLST_MC = {
+    'typical': ('Typical return a year (after tax)', 'The middle outcome of the simulated futures.'),
+    'bad': ('Bad case (1 in 20)', 'Only 5% of simulated futures did worse than this per year.'),
+    'spy': ('SPY, typical', 'The same simulation for SPY, for comparison.'),
+    'beatSpy': ('Chance of beating SPY', 'Share of simulated futures in which the plan ended ahead of SPY.'),
+    'beatSpyTax': ('... after tax', 'The plan after tax against SPY untaxed.'),
+    'beatSpyHalf': ('... with half the edge', 'If the plan only keeps half of its historical lead over SPY: the realistic check for a backtest tuned on this history.'),
+    'beatPrev': ('Chance of beating the previous plan', 'Share of simulated futures in which the 6-month TLT / GLD pick beat the previous steepest-gradient pick.'),
+    'dd': ('Typical worst drop', 'The middle worst drop within each simulated future.'),
+    'dd50': ('Chance of a −50% drop', 'Share of simulated futures with a drop of half or more at some point.'),
+    'dd50Half': ('... with half the edge', 'The same with half of the historical lead.'),
+}
+WALLST_OTHER = {
+    'pbo': lambda o: f'<b>Overfitting test (PBO, {o.get("n")} versions):</b> a {_e(o["v"])} chance that the best-looking version is a fluke, judged on years it was not picked on. Under 50% means picking the best version helped.',
+    'walk': lambda o: f'<b>Walk-forward:</b> re-picking the best version each year, using only the years before it, earned {_e(o["v"])} a year in 2005–2025 against {_e(o["typical"])} for the typical version.',
+    'pickT': lambda o: f'<b>The 6-month pick on its own:</b> adds about {_e(o["v"])}; a t-stat under 2 means the gain is not proven, so it is on probation.',
+    'abroad': lambda o: f'<b>Other countries</b> (the same rules on each market\'s own stocks): {_e(o["v"])}.',
+    'y1927': lambda o: f'<b>Before the data it was built on:</b> {_e(o["v"])}.',
+    'plan': lambda o: f'<b>What to plan on:</b> {_e(o["v"])}. The rules were picked on the same history they are tested on, so the headline numbers are the best case.',
+}
+
+
+def wallst_html(ws=None):
+    """The Wall Street tests (risk scorecard, Monte Carlo, overfitting) from data/wall_street_tests.json, or ''."""
+    if ws is None:
+        try:
+            with open(WALLST_PATH) as f:
+                ws = json.load(f)
+        except (OSError, ValueError):
+            return ''
+    rows = [r for r in ws.get('scorecard') or [] if r.get('k') in WALLST_ROWS]
+    if not rows:
+        return ''
+    sc = ''.join(f'<tr><td class="l w"><b>{_e(WALLST_ROWS[r["k"]][0])}</b><span class="msub">{_e(WALLST_ROWS[r["k"]][1])}</span></td>'
+                 f'<td class="num"><b>{_e(r.get("plan"))}</b></td><td class="num hide-sm">{_e(r.get("prev"))}</td><td class="num">{_e(r.get("spy"))}</td>'
+                 f'<td class="l m hide-sm">{_e(WALLST_ROWS[r["k"]][1])}</td></tr>' for r in rows)
+    mc = ws.get('monteCarlo') or {}
+    hz = mc.get('horizons') or []
+    mrows = ''.join(f'<tr><td class="l w"><b>{_e(WALLST_MC[r["k"]][0])}</b><span class="msub">{_e(WALLST_MC[r["k"]][1])}</span></td>'
+                    + ''.join(f'<td class="num{" hide-sm" if i == 0 else ""}">{_e(v)}</td>' for i, v in enumerate(r.get('v') or []))
+                    + f'<td class="l m hide-sm">{_e(WALLST_MC[r["k"]][1])}</td></tr>' for r in mc.get('rows') or [] if r.get('k') in WALLST_MC)
+    other = ''.join(f'<li>{WALLST_OTHER[o["k"]](o)}</li>' for o in ws.get('other') or [] if o.get('k') in WALLST_OTHER)
+    return ('<style>#wallst table td.m { min-width: 260px; max-width: 420px; white-space: normal; font-size: 0.78rem; color: var(--ink-2); }'
+            ' #wallst td.w { min-width: 170px; white-space: normal; } #wallst ul { margin: 10px 0 0; padding-left: 20px; font-size: 0.84rem; color: var(--ink-2); }'
+            ' #wallst li { margin-bottom: 6px; } #wallst .tablebox { margin-bottom: 12px; } #wallst .msub { display: none; }'
+            ' @media (max-width: 640px) { #wallst .msub { display: block; font-weight: 400; font-size: 0.74rem; color: var(--muted); margin-top: 3px; max-width: 230px; } }</style>'
+            '<section id="wallst"><p class="section-label">Wall Street tests <span class="hint">the standard checks a fund manager would run on the '
+            f'default plan · {_e(ws.get("period"))} backtest, before tax unless noted · run {_e(ws.get("asOf"))}</span></p>'
+            '<div class="tablebox"><table><thead><tr><th class="l">Measure</th><th>Plan</th><th class="hide-sm">Previous plan</th><th>SPY</th>'
+            '<th class="l hide-sm">What it means</th></tr></thead><tbody>' + sc + '</tbody></table></div>'
+            f'<p class="note" style="margin:-4px 0 12px"><b>Plan</b> = {_e(ws.get("plan"))}. <b>Previous plan</b> = {_e(ws.get("previous"))}. '
+            f'{_e(ws.get("source"))}.</p>'
+            + (f'<p class="section-label" style="margin-top:4px">Monte Carlo <span class="hint">{mc.get("paths", 0):,} simulated futures, built by '
+               'reshuffling the plan\'s own months in blocks of about a year; the same months for every column</span></p>'
+               '<div class="tablebox"><table><thead><tr><th class="l">Result</th>' + ''.join(f'<th{" class=hide-sm" if i == 0 else ""}>{_e(h)}</th>' for i, h in enumerate(hz))
+               + '<th class="l hide-sm">What it means</th></tr></thead><tbody>' + mrows + '</tbody></table></div>' if mrows else '')
+            + (f'<ul>{other}</ul>' if other else '') + '</section>')
+
+
 LAB_PATH = os.path.join(ROOT, 'data', 'strategy_backtest.json')
 LAB_NOTES = {
     'Current system': 'what the dashboard trades: Boost list + exits + rotation + whipsaw',
@@ -2530,6 +2606,7 @@ def overlay_lib():
 def render(scan, growth=None):
     # Escape "</" so a company name can never close the <script> block early.
     page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth).replace('__OVLIB__', overlay_lib(), 1)
+    page = page.replace('__WALLST__', wallst_html(), 1)
     page = page.replace('__RESEARCH__', ignition_html() + lab_html() + research_html(), 1)
     return page.replace('__DATA__', json.dumps(scan, separators=(',', ':')).replace('</', '<\\/'))
 
