@@ -44,6 +44,7 @@ from mtl.heat import daily_closes, daily_heat, price_volume, weekly_heat  # noqa
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
 from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
+from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
 from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
@@ -403,13 +404,18 @@ def main():
     print(f"Fetching daily history for {len(tickers)} stocks + SPY/QQQ...", file=sys.stderr)
     volumes = {}   # share volume, for the 3D price-volume chart
     bars = fetch(tickers, volumes=volumes)
-    bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD'], adjusted=True, volumes=volumes)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check
+    bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD', 'RSP'], adjusted=True, volumes=volumes)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check; RSP: equal-weight S&P 500 (narrow-market warning)
     asset_bars = fetch(ASSETS, adjusted=True)   # OHLC: Boost + rotation reads TLT's and GLD's swing structure
     try:   # the 10-year Treasury yield, for the rate/gold regime that can stand the half-switch aside
         rate_px = {b[0]: b[4] for b in (fetch(['^TNX']).get('^TNX') or []) if b[4]}
     except Exception as e:
         print(f"  10-year yield fetch failed: {e}", file=sys.stderr)
         rate_px = {}
+    try:   # the VIX, for the narrow-market warning (mtl/narrow.py)
+        vix_px = {b[0]: b[4] for b in (fetch(['^VIX']).get('^VIX') or []) if b[4]}
+    except Exception as e:
+        print(f"  VIX fetch failed: {e}", file=sys.stderr)
+        vix_px = {}
     sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in asset_bars.items()}
     prices = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items() if bs}
     prices['SPY'] = {b[0]: b[4] for b in bench['SPY']}
@@ -637,6 +643,12 @@ def main():
     # ... except while the 10-year yield and gold are both up over 3 months (reflation): then it stays in the Boost list
     regime = reflation(rate_px, whip_px.get('GLD') or {}, calendar)
     whip_half = whip_halves(rot_modes, whip_on, rot_read, whip_px, calendar, skip=regime)
+    # ... and the narrow-market cash week: a week after SPY sits near its high on a calm VIX while the
+    # equal-weight S&P lags it, the whole account holds T-bills for a week (mtl/narrow.py)
+    rsp_px = {b[0]: b[4] for b in bench.get('RSP') or []}
+    narrow_warn = narrow_warnings(prices['SPY'], rsp_px, vix_px, calendar) if rsp_px and vix_px else []
+    narrow_cash = narrow_cash_days(narrow_warn, calendar)
+    rot_modes, rot_why = apply_narrow(rot_modes, rot_why, {d_ for d_ in narrow_cash if d_ >= START}, calendar)
     plans['rotation'] = rotation_curve(strat_bx, whip_px, calendar, rot_modes, half=whip_half)
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
@@ -855,6 +867,18 @@ def main():
                            weeksSpyLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and (spy_gap(f_) or 0) < 0),
                            log=cushion_log(calendar, last_sessions_of_weeks(calendar), START, cushion_split, spy_gap, credit_gap))
     auto['rotation'] = rotation_block(rot_modes, rot_why, rot_read, rot_state, calendar, K, spy_gap, sleeve_px)
+    nr_ = narrow_reading(prices['SPY'], rsp_px, vix_px, calendar, K) if rsp_px and vix_px else None
+    auto['rotation']['narrow'] = dict(narrow_state(narrow_warn, narrow_cash, calendar, K),
+                                      reading=None if nr_ is None else {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in nr_.items()},
+                                      delay=NARROW_DELAY, days=NARROW_DAYS, high=NARROW_HIGH, lag=NARROW_LAG, vix=NARROW_VIX,
+                                      log=narrow_warn[-12:][::-1], ok=bool(rsp_px and vix_px))
+    if narrow_warn:   # the last decision day of the current or next cash run, rolled past today when needed
+        end_k = calendar.index(narrow_warn[-1]) + NARROW_DELAY + NARROW_DAYS
+        if end_k > K - 1:
+            until = calendar[min(end_k, K)]
+            for _ in range(max(0, end_k - K)):
+                until = next_session(until)
+            auto['rotation']['narrow']['until'] = until
     try:
         with open(CALLS_PATH) as fh:
             warn_calls = (json.load(fh) or {}).get('warn') or {}

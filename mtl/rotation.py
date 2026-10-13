@@ -65,6 +65,10 @@ picked on that same history.
    not statistically significant; it beat the gradient pick in 74% of simulated ten-year
    futures.
 
+6. Narrow-market cash week (default from Oct 13, 2026): a week after SPY closes near its 52-week high
+   on a calm VIX while the equal-weight S&P 500 lags it, the whole account holds T-bills for a week.
+   See mtl/narrow.py, applied on top of the modes above in scripts/momentum_scan.py.
+
    The dip add (buying the Boost list back on a sharp dip while in the havens) was removed
    on Oct 13, 2026: on corrected data the plan did slightly better without it, 30.6% a year
    before tax (19.6% after) vs 30.4%, worst drop -44% either way; from 2010 30.1% vs 30.0%,
