@@ -107,3 +107,18 @@ def test_page_has_the_five_year_winners_research_section():
     page = render_scanner.render(SCAN)
     assert 'id="winners"' in page and '__RESEARCH__' not in page
     assert page.index('id="winners"') < page.index('<footer>')
+
+
+def test_wall_street_tests_explain_each_number():
+    ws = dict(asOf='2026-10-13', period='Jan 2000 – Oct 2026', plan='the plan', previous='the old plan', source='audit',
+              scorecard=[dict(k='sharpe', plan='0.98', prev='0.96', spy='0.41'), dict(k='nope', plan='1')],
+              monteCarlo=dict(paths=20000, horizons=['5 years', '10 years'], rows=[dict(k='beatSpy', v=['96%', '99%']),
+                                                                                   dict(k='beatPrev', v=['69%', '77%'])]),
+              other=[dict(k='pbo', v='17%', n=580)])
+    out = render_scanner.wallst_html(ws)
+    assert 'Wall Street tests' in out and 'Sharpe ratio' in out and 'Above 1 is excellent' in out and 'nope' not in out
+    assert 'Chance of beating SPY' in out and '96%' in out and 'Chance of beating the previous plan' in out and '20,000' in out
+    assert 'a 17% chance that the best-looking version is a fluke' in out
+    assert render_scanner.wallst_html(dict(scorecard=[])) == ''
+    page = render_scanner.render(SCAN)
+    assert '__WALLST__' not in page and 'id="wallst"' in page     # the committed data file is on the page
