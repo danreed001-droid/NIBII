@@ -37,7 +37,10 @@ def pct1(w):
 ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and lows, up most over 6 months (led for the confirmation period)',
            'rotate-end': "{frm}'s daily uptrend broke", 'exit': "SPY's weekly downtrend: last lower high below the 150-day average, SPY below it, lower lows falling slowly",
            'switch': 'still out of stocks; {to} is now the rising asset up most over 6 months', 'above': 'SPY closed back above its 150-day average',
-           'steeper': "SPY's daily higher lows are steeper than TLT's and GLD's"}
+           'steeper': "SPY's daily higher lows are steeper than TLT's and GLD's",
+           'narrow': "narrow-market cash week: a week ago SPY sat within 2% of its 52-week high on a calm VIX while the "
+                     "equal-weight S&P lagged it by more than 1.5% over 3 months; T-bills for a week, then back to the plan",
+           'narrow-end': 'the narrow-market cash week is over: back to what the plan holds'}
 
 
 def rot_name(m):
