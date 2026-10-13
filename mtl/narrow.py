@@ -18,9 +18,10 @@ and the VIX, so it can first act in 2012): from 2000 32.8% a year before tax (20
 38.6% (worst drop -23% vs -29%); from 2020 61.4% vs 58.0% (-27% vs -31%). Since 2012 the plan lost
 about 39% over the ~570 cash days, where random cash weeks of the same lengths gained in all but 0.14%
 of 20,000 draws. It held with the warning thresholds moved (lag 1% or 2%, VIX within 1 or 3 points, 1%
-or 3% from the high: better from all four starts each time) and with the cash week starting 3 to 7
-sessions after the warning or lasting 3 to 7 sessions (better from 2000, 2010 and 2016; from 2020 some
-were slightly worse). Waiting for a 5% drop in SPY or the holdings before going to cash, or using the
+or 3% from the high: better from all four starts each time). Moving the timing (the cash week starting
+3, 4, 6 or 7 sessions after the warning, or lasting 3, 4, 6 or 7 sessions) was better from 2000, 2010 and
+2016 every time, but from 2020 only the 3- and 6-session stays were; the other six were 0.2 to 5.1
+points a year worse, so the 2020 result depends on the exact timing in 2025-2026. Waiting for a 5% drop in SPY or the holdings before going to cash, or using the
 largest stocks or the momentum leaders lagging instead of the equal-weight index, did worse. It was
 designed after looking at the 2018-2026 drops and cannot be checked before 2012 or abroad, so it is on
 probation.
