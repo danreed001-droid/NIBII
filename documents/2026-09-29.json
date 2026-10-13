@@ -549,7 +549,7 @@
       [
        "bull",
        "Weekly structure is choppy (HL 7324 (week of 27 July), HH 7838.5 (week of 10 August), HL 7509.25 (week of 14 September)); ES=F closed 7732 against a 50-day average of 7670.59 and a 200-day of 7240.96 with RSI(14) at 52.39.",
-       false
+       true
       ],
       [
        "bear",
@@ -579,7 +579,7 @@
       [
        "bull",
        "AAII's survey for the week ending 23 September (latest published) showed bulls at 32.7% against a 37.5% average and bears at 48.1% against 31.5%, a contrarian-bullish reading but a week stale; the Conference Board's 29 September consumer-confidence reading (81.9, lowest since April 2014) is a household, not investor, gauge",
-       false
+       true
       ],
       [
        "neu",
@@ -612,8 +612,8 @@
        null
       ]
      ],
-     "maturityClose": 7851.5,
-     "ret": 0.015455,
+     "maturityClose": 7857.75,
+     "ret": 0.016264,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5558,8 +5558,8 @@
        false
       ]
      ],
-     "maturityClose": 4186.10009765625,
-     "ret": 0.001531,
+     "maturityClose": 4188.2998046875,
+     "ret": 0.002057,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7611,8 +7611,8 @@
        null
       ]
      ],
-     "maturityClose": 102.18399810791016,
-     "ret": 0.00803,
+     "maturityClose": 102.19300079345703,
+     "ret": 0.008119,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9891,8 +9891,8 @@
        false
       ]
      ],
-     "maturityClose": 2801.800048828125,
-     "ret": -0.009685,
+     "maturityClose": 2804.5,
+     "ret": -0.00873,
      "correct": true,
      "shadowCorrect": false,
      "preReversionCorrect": true,
@@ -11930,8 +11930,8 @@
        null
       ]
      ],
-     "maturityClose": 30739.75,
-     "ret": 0.004132,
+     "maturityClose": 30775.5,
+     "ret": 0.0053,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
