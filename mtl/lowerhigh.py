@@ -12,8 +12,9 @@ to be confirmed:
 
 On a fresh signal, while the plan would hold the Boost list, the whole account moves for LH_DAYS (10)
 sessions into the stronger of TLT / GLD (the one in a daily uptrend with the steepest gradient, picked again
-each day; T-bills when neither is rising), then goes back to whatever the plan holds. The same lower high cannot fire it again (an
-early peak that is later confirmed counts as the same high); only a new one can. While the plan holds TLT,
+each day; T-bills when neither is rising), then goes back to whatever the plan holds. Both triggers count:
+an early signal gets its two weeks, and when that same high is later confirmed (with SPY still below it)
+it gets two more; otherwise the same lower high cannot fire again, only a new one can. While the plan holds TLT,
 GLD or T-bills it is left alone. Like every rotation decision it is made at a close and traded at the next
 close. Applied after the rotation and before the whipsaw half-switch and the narrow-market cash week.
 
@@ -88,8 +89,8 @@ def lowerhigh_cash(spy_bars, calendar, start, modes, dest=None, swing=LH_SWING, 
     """(out, log): {decision day: asset held instead of the Boost list}, and the signals that started a
     stretch, oldest first ([date, kind, key]). dest(d) picks the asset on each day of a stretch (the
     stronger of TLT / GLD, or 'BIL'); without it, T-bills. Only days the plan would hold the Boost list
-    (modes[d] == 'boost') are read or changed; a signal fires when its lower high differs from the last one
-    that fired and no stretch is running, and covers `days` sessions from that close."""
+    (modes[d] == 'boost') are read or changed; a signal fires when its (lower high, kind) differs from the
+    last one that fired and no stretch is running, and covers `days` sessions from that close."""
     bdays = [b[0] for b in spy_bars]
     cash, log = {}, []
     key, until, frm = None, -1, 0
@@ -100,8 +101,8 @@ def lowerhigh_cash(spy_bars, calendar, start, modes, dest=None, swing=LH_SWING, 
         r = lowerhigh_reading(spy_bars[max(0, j - LH_LOOK):j], swing)
         if r is None:
             continue
-        if r['on'] and r['key'] != key and k > until:
-            key, until, frm = r['key'], k + days - 1, k
+        if r['on'] and (r['key'], r['kind']) != key and k > until:
+            key, until, frm = (r['key'], r['kind']), k + days - 1, k
             log.append([d, r['kind'], r['key'][:10]])
         if frm <= k <= until:
             cash[d] = (dest(d) if dest else None) or 'BIL'

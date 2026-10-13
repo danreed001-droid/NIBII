@@ -48,13 +48,15 @@ def test_no_signal_without_two_weekly_highs_or_while_making_higher_highs():
     assert up is not None and not up['on']
 
 
-def test_two_weeks_in_t_bills_and_the_same_high_never_fires_twice():
+def test_early_then_confirmed_each_get_two_weeks_and_nothing_fires_twice():
     bars = _bars([(0, 100), (50, 115), (75, 105), (100, 130), (125, 110), (150, 120), (200, 105)])
     cal = [b[0] for b in bars]
     cash, log = lowerhigh_cash(bars, cal, cal[0], {d: 'boost' for d in cal})
-    assert len(log) == 1 and len(cash) == LH_DAYS            # on for weeks, but one stretch only
-    k = cal.index(log[0][0])
-    assert sorted(cash) == cal[k:k + LH_DAYS]
+    assert [x[1] for x in log] == ['early', 'confirmed'] and log[0][2] == log[1][2]   # the same high, both triggers
+    assert len(cash) == 2 * LH_DAYS                           # on for weeks after that, but no third stretch
+    for x in log:
+        k = cal.index(x[0])
+        assert all(d in cash for d in cal[k:k + LH_DAYS])
 
 
 def test_only_acts_while_the_plan_holds_the_boost_list():
