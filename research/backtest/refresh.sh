@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Rebuild data/track_record.json (the dashboard's track record) from a fresh point-in-time backtest.
 # Run from anywhere inside the repo; needs network (Yahoo Finance, Wikipedia's S&P 500 changes), about 10 minutes and
-# about 10 GB of memory (the backtest runs 4 processes).
+# about 10 GB of memory with the backtest's default 4 worker processes (ENGINE_PROCS=2 needs less; same results).
 #   bash research/backtest/refresh.sh
 # The engine is the "robustness" branch at BASE with the files in research/backtest/overlay copied over it.
 set -euo pipefail

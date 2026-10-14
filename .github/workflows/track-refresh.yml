@@ -43,6 +43,9 @@ jobs:
       - run: pip install -r requirements.txt
 
       - name: Rerun the backtest
+        # 2 worker processes fit the smaller runners private repos get (the results are the same)
+        env:
+          ENGINE_PROCS: '2'
         run: WORK="$RUNNER_TEMP/backtest" bash research/backtest/refresh.sh
 
       - name: Compare with the published numbers
