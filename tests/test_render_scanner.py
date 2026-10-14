@@ -122,3 +122,24 @@ def test_wall_street_tests_explain_each_number():
     assert render_scanner.wallst_html(dict(scorecard=[])) == ''
     page = render_scanner.render(SCAN)
     assert '__WALLST__' not in page and 'id="wallst"' in page     # the committed data file is on the page
+
+
+def test_track_record_comes_from_the_backtest_and_carries_on_with_the_scan(tmp_path):
+    track = dict(source='point-in-time backtest', start='2000-01-03', end='2000-01-05',
+                 series={'rotation': [['2000-01-03', 100.0], ['2000-01-04', 90.0], ['2000-01-05', 99.0]],
+                         'strategy': [['2000-01-03', 100.0], ['2000-01-05', 80.0]]},
+                 stats={'rotation': dict(annual=0.3, maxDD=-0.1), 'strategy': dict(annual=0.1, maxDD=-0.2)})
+    path = tmp_path / 'track.json'
+    path.write_text(json.dumps(track))
+    scan = dict(SCAN, curves={'strategy': [['2000-01-05', 50.0], ['2000-01-06', 55.0]],
+                              'rotation': [['2000-01-05', 200.0], ['2001-01-02', 220.0]],
+                              'cushion': [['2000-01-05', 1.0]], 'calls': [['2000-01-05', 1.0]]},
+                years={'cushion': {'2000': 0.5}}, stats={'strategy': dict(annual=0.9, maxDD=-0.05)})
+    out = render_scanner.with_track_record(scan, path=str(path))
+    # the backtest line, then the scan's own moves after the backtest ends (+10% from Jan 5)
+    assert out['curves']['rotation'] == [['2000-01-03', 100.0], ['2000-01-04', 90.0], ['2000-01-05', 99.0], ['2001-01-02', 108.9]]
+    assert out['years']['rotation'] == {'2000': -0.01, '2001': 0.1}
+    assert out['curves']['strategy'][-1] == ['2000-01-06', 88.0]
+    assert 'cushion' not in out['curves'] and 'calls' not in out['curves'] and 'cushion' not in out['years']
+    assert out['stats']['strategy']['annual'] == 0.1 and out['track']['stats']['rotation']['maxDD'] == -0.1
+    assert render_scanner.with_track_record(scan, path=str(tmp_path / 'missing.json')) is scan
