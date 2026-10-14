@@ -177,13 +177,13 @@
  "other": [
   {
    "k": "pbo",
-   "v": "7%",
-   "n": 671
+   "v": "3%",
+   "n": 990
   },
   {
    "k": "walk",
-   "v": "19.9%",
-   "typical": "18.9%"
+   "v": "26.3%",
+   "typical": "21.1%"
   },
   {
    "k": "cashT",
@@ -219,7 +219,7 @@
   },
   {
    "k": "plan",
-   "v": "about 18–25% a year before tax"
+   "v": "about 25% a year before tax, the low end of the 24–30% the latest overfitting test points to (most of the newer versions are small changes to the best plan, which flatters the test)"
   }
  ]
 }
