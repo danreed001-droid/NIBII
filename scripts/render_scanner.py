@@ -136,6 +136,9 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
 .stat-value { font-family: ui-monospace, monospace; font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
 .stat-sub { font-size: 0.75rem; color: var(--ink-2); }
+.stat.default { box-shadow: inset 4px 0 0 var(--s-rot); }
+.stat.default .stat-label { color: var(--ink); font-weight: 600; }
+.badge-def { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 999px; background: var(--s-rot); color: var(--surface); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; vertical-align: 1px; }
 
 /* charts */
 .card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 14px 16px; }
@@ -150,6 +153,11 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .legend .lg { display: inline-flex; align-items: center; gap: 6px; font: inherit; color: inherit; background: none; border: 1px solid var(--hairline); border-radius: 999px; padding: 3px 9px; cursor: pointer; }
 .legend .lg[aria-pressed="false"] { opacity: 0.45; text-decoration: line-through; }
 .legend .lg-hint { font-size: 0.72rem; }
+.legend .lg.default { font-weight: 600; border-color: var(--s-rot); }
+.legend .seg { margin-right: 4px; }
+.years th.def, .years td.def { background: color-mix(in srgb, var(--s-rot) 12%, transparent); }
+.years th.def { color: var(--ink); }
+.years th .sub { display: block; font-weight: 400; font-size: 0.66rem; color: var(--muted); }
 .key { width: 16px; height: 3px; border-radius: 2px; background: var(--c); }
 .seg { display: inline-flex; border: 1px solid var(--hairline); border-radius: 999px; padding: 2px; background: var(--surface-2); }
 .seg button { font: inherit; font-size: 0.76rem; border: 0; background: transparent; color: var(--ink-2); padding: 3px 10px; border-radius: 999px; cursor: pointer; }
@@ -163,6 +171,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .base { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
 .line { fill: none; stroke-linejoin: round; stroke-linecap: round; stroke-width: 1.8; }
 .line.main { stroke-width: 2.6; }
+.line.default { stroke-width: 3.6; }
 .endlabel { font-size: 11px; font-family: ui-monospace, monospace; fill: var(--ink-2); }
 .cross { stroke: var(--muted); stroke-width: 1; }
 .dotm { stroke: var(--surface); stroke-width: 2; }
@@ -451,7 +460,7 @@ footer li { margin-bottom: 6px; }
   <div class="stats" id="stats"></div>
   <div class="two" style="margin-top:12px">
     <div class="card">
-      <div class="chart-head"><div><p class="chart-title">Growth of $100</p><p class="chart-sub">Signal at Friday's close, traded at Monday's close, 0.05% cost · plan = top 5 + sleeve</p></div>
+      <div class="chart-head"><div><p class="chart-title">Growth of $100</p><p class="chart-sub">The thick line is the default plan, <b>Boost + rotation</b>. The other lines are alternative mixes to compare it with. Stock changes are signalled at Friday's close and traded at Monday's close, 0.05% cost.</p></div>
         <span class="seg" id="scale-seg"><button type="button" data-v="log">Log</button><button type="button" data-v="linear">Linear</button></span></div>
       <div class="legend" id="legend"></div>
       <div class="chart" id="growth"></div>
@@ -1546,22 +1555,28 @@ __RESEARCH__
     var tot = c[c.length - 1][1] / c[0][1] - 1, yrs = (Date.parse(c[c.length - 1][0]) - Date.parse(c[0][0])) / 31557600000;
     return { tot: tot, ann: yrs >= 0.95 ? Math.pow(1 + tot, 1 / yrs) - 1 : null, dd: dd };
   }
-  function tile(label, value, sub, cls) { return '<div class="stat"><span class="stat-label">' + label + '</span><span class="stat-value ' + (cls || '') + '">' + value + '</span><span class="stat-sub">' + sub + '</span></div>'; }
+  // the default plan's curve (Boost + rotation unless the scan says otherwise)
+  var DEFK = ({ auto: 'plan', rotation: 'rotation', boost: 'boost', boost100: 'boost100', cushion: 'cushion', calls: 'calls', cushionCalls: 'cushionCalls' })[(D.plan && D.plan['default']) || 'rotation'] || 'rotation';
+  function tile(label, value, sub, cls, wcls) { return '<div class="stat' + (wcls ? ' ' + wcls : '') + '"><span class="stat-label">' + label + '</span><span class="stat-value ' + (cls || '') + '">' + value + '</span><span class="stat-sub">' + sub + '</span></div>'; }
   function drawStats() {
     var t5 = rstat('strategy'), au = rstat('plan'), st = rstat('steps'), sp = rstat('SPY'), qq = rstat('QQQ'), sm = rstat('SPMO'), bo = rstat('boost'), b1 = rstat('boost100'), cs = rstat('cushion'), ro = rstat('rotation'), ca = rstat('calls'), cc = rstat('cushionCalls');
     if (!t5) { $('stats').innerHTML = tile('Range', '–', 'pick at least two trading days', ''); return; }
     function yr(x) { return x && x.ann != null ? pct(x.ann, 0) + ' a year' : 'under a year'; }
+    var DEFL = { rotation: 'Boost + rotation', boost100: 'Boost 100%', cushion: 'Boost + cushion', calls: 'Boost 100% + calls', cushionCalls: 'Boost + cushion + calls', plan: 'Auto mix', boost: 'Boost' };
+    var one = function (k, x, label) { return x ? tile(label, pct(x.tot, 0), yr(x) + ' · worst ' + pct(x.dd, 0), tone(x.tot)) : ''; };
+    var dx = rstat(DEFK);
     $('stats').innerHTML =
-      tile('Top 5', pct(t5.tot, 0), yr(t5), tone(t5.tot)) +
+      (dx ? tile((DEFL[DEFK] || DEFK) + '<span class="badge-def">default</span>', pct(dx.tot, 0), yr(dx) + ' · worst ' + pct(dx.dd, 0), tone(dx.tot), 'default') : '') +
+      tile('Top 5 basic rule', pct(t5.tot, 0), yr(t5), tone(t5.tot)) +
       tile('Boost / Auto', (bo ? pct(bo.tot, 0) : '–') + ' / ' + (au ? pct(au.tot, 0) : '–'), (bo ? yr(bo) : '') + ' · worst ' + (bo ? pct(bo.dd, 0) : '–') + ' / ' + (au ? pct(au.dd, 0) : '–'), tone(bo && bo.tot)) +
-      (ro ? tile('Boost + rotation', pct(ro.tot, 0), yr(ro) + ' · worst ' + pct(ro.dd, 0), tone(ro.tot)) : '') +
-      (b1 ? tile('Boost 100%', pct(b1.tot, 0), yr(b1) + ' · worst ' + pct(b1.dd, 0), tone(b1.tot)) : '') +
-      (cs ? tile('Boost + cushion', pct(cs.tot, 0), yr(cs) + ' · worst ' + pct(cs.dd, 0), tone(cs.tot)) : '') +
-      (ca ? tile('Boost 100% + calls', pct(ca.tot, 0), yr(ca) + ' · worst ' + pct(ca.dd, 0), tone(ca.tot)) : '') +
-      (cc ? tile('Boost + cushion + calls', pct(cc.tot, 0), yr(cc) + ' · worst ' + pct(cc.dd, 0), tone(cc.tot)) : '') +
+      (DEFK !== 'rotation' ? one('rotation', ro, 'Boost + rotation') : '') +
+      (DEFK !== 'boost100' ? one('boost100', b1, 'Boost 100%') : '') +
+      (DEFK !== 'cushion' ? one('cushion', cs, 'Boost + cushion') : '') +
+      (DEFK !== 'calls' ? one('calls', ca, 'Boost 100% + calls') : '') +
+      (DEFK !== 'cushionCalls' ? one('cushionCalls', cc, 'Boost + cushion + calls') : '') +
       tile('SPY / QQQ', pct(sp.tot, 0) + ' / ' + pct(qq.tot, 0), 'worst ' + pct(sp.dd, 0) + ' / ' + pct(qq.dd, 0)) +
       (sm ? tile('SPMO (momentum ETF)', pct(sm.tot, 0), yr(sm) + ' · worst ' + pct(sm.dd, 0) + (view('SPMO')[0][0] > inR(D.curves.strategy)[0][0] ? ' · since ' + fmtDate(view('SPMO')[0][0], { month: 'short', year: 'numeric' }) : ''), tone(sm.tot)) : '') +
-      tile('Top 5 worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since ' + SINCE : 'in this range', 'neg');
+      tile('Top 5 basic: worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since ' + SINCE : 'in this range', 'neg');
     $('range-hint').textContent = '$100 in the rule vs buying and holding · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b) +
       (TAX ? ' · after tax: rule 37% on each year’s gains (paid each April), SPY/QQQ/SPMO held, 20% long-term · value if cashed out that day' : ' · before tax');
   }
@@ -1632,7 +1647,7 @@ __RESEARCH__
   })();
 
   // growth chart
-  var SER = [['strategy', 'Top 5 strongest', 'var(--s-strat)', 'main'], ['QQQ', 'QQQ', 'var(--s-qqq)', ''], ['SPY', 'SPY', 'var(--s-spy)', '']];
+  var SER = [['strategy', 'Top 5 basic rule', 'var(--s-strat)', 'main'], ['QQQ', 'QQQ', 'var(--s-qqq)', ''], ['SPY', 'SPY', 'var(--s-spy)', '']];
   if (D.curves.SPMO) SER.splice(SER.length - 2, 0, ['SPMO', 'SPMO (from Oct 2015)', 'var(--s-spmo)', '']);
   if (D.curves.plan && D.plan) SER.splice(1, 0, ['plan', 'Plan (auto mix)', 'var(--s-plan)', 'main']);
   if (D.curves.boost && D.plan) SER.splice(1, 0, ['boost', 'Plan (boost)', 'var(--s-boost)', 'main']);
@@ -1643,20 +1658,33 @@ __RESEARCH__
   if (D.curves.cushionCalls && D.plan) SER.splice(6, 0, ['cushionCalls', 'Boost + cushion + calls', 'var(--s-ccalls)', 'main']);
   if (D.curves.monthlyBoost) SER.splice(SER.length - 2, 0, ['monthlyBoost', 'Monthly boost', 'var(--s-monb)', 'main']);
   if (D.curves.monthly) SER.splice(SER.length - 2, 0, ['monthly', 'Monthly auto', 'var(--s-mon)', 'main']);
-  var HIDE = {}; try { HIDE = JSON.parse(localStorage.getItem('nibii-hide-lines') || '{}') || {}; } catch (e) {}
+  // the default plan leads the legend, drawn thickest and labelled as the default
+  (function () {
+    var i = SER.findIndex(function (x) { return x[0] === DEFK; });
+    if (i >= 0) { var d0 = SER.splice(i, 1)[0]; SER.unshift([d0[0], d0[1] + ' (default)', d0[2], 'main default']); }
+  })();
+  var SIMPLE = [DEFK, 'SPY', 'QQQ'];
+  function simpleHide() { var h = {}; SER.forEach(function (x) { if (SIMPLE.indexOf(x[0]) < 0) h[x[0]] = 1; }); return h; }
+  var HIDE = null; try { HIDE = JSON.parse(localStorage.getItem('nibii-hide-lines2') || 'null'); } catch (e) {}
+  if (!HIDE) HIDE = simpleHide();
   function drawLegend() {
-    $('legend').innerHTML = SER.map(function (s) { return '<button type="button" class="lg" data-k="' + s[0] + '" aria-pressed="' + String(!HIDE[s[0]]) + '"><i class="key" style="--c:' + s[2] + '"></i>' + s[1] + '</button>'; }).join('') +
+    var simple = SER.every(function (x) { return !HIDE[x[0]] === (SIMPLE.indexOf(x[0]) >= 0); });
+    var all = SER.every(function (x) { return !HIDE[x[0]]; });
+    $('legend').innerHTML = '<span class="seg" id="lg-preset"><button type="button" data-p="def" aria-pressed="' + String(simple) + '">Default vs SPY &amp; QQQ</button><button type="button" data-p="all" aria-pressed="' + String(all) + '">All mixes</button></span>' +
+      SER.map(function (s) { return '<button type="button" class="lg' + (s[0] === DEFK ? ' default' : '') + '" data-k="' + s[0] + '" aria-pressed="' + String(!HIDE[s[0]]) + '"><i class="key" style="--c:' + s[2] + '"></i>' + s[1] + '</button>'; }).join('') +
       '<span class="muted lg-hint">tap a line to hide / show it</span>';
   }
   var scale = 'log';
   try { scale = localStorage.getItem('nibii-mom-scale') || 'log'; } catch (e) {}
   drawLegend();
   $('legend').onclick = function (e) {
+    var pb = e.target.closest('#lg-preset button');
+    if (pb) { HIDE = pb.getAttribute('data-p') === 'all' ? {} : simpleHide(); try { localStorage.setItem('nibii-hide-lines2', JSON.stringify(HIDE)); } catch (x) {} drawLegend(); drawGrowth(); return; }
     var b = e.target.closest('.lg'); if (!b) return;
     var k = b.getAttribute('data-k'), shownN = SER.filter(function (s) { return !HIDE[s[0]]; }).length;
     if (!HIDE[k] && shownN <= 1) return;   // keep at least one line
     if (HIDE[k]) delete HIDE[k]; else HIDE[k] = 1;
-    try { localStorage.setItem('nibii-hide-lines', JSON.stringify(HIDE)); } catch (x) {}
+    try { localStorage.setItem('nibii-hide-lines2', JSON.stringify(HIDE)); } catch (x) {}
     drawLegend(); drawGrowth();
   };
   function day(s) { return Date.parse(s + 'T12:00:00Z'); }
@@ -1682,7 +1710,7 @@ __RESEARCH__
     function Y(v) { return m.t + (1 - (f(v) - y0) / (y1 - y0 || 1)) * (H - m.t - m.b); }
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Growth of $100' }), g = el('g', { class: 'grid axis' });
     ticks.forEach(function (v) { g.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) })); var t = el('text', { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end' }); t.textContent = money(v); g.appendChild(t); });
-    if (x1 - x0 > 400 * 864e5) { for (var yr = new Date(x0).getUTCFullYear() + 1; Date.UTC(yr, 0, 1) <= x1; yr++) { var tx = el('text', { x: X(Date.UTC(yr, 0, 1)), y: H - 6, 'text-anchor': 'middle' }); tx.textContent = yr; g.appendChild(tx); } }
+    if (x1 - x0 > 400 * 864e5) { var ystep = Math.max(1, Math.ceil(40 / ((W - m.l - m.r) / ((x1 - x0) / (365.25 * 864e5))))); for (var yr = new Date(x0).getUTCFullYear() + 1; Date.UTC(yr, 0, 1) <= x1; yr++) { if (yr % ystep) continue; var tx = el('text', { x: X(Date.UTC(yr, 0, 1)), y: H - 6, 'text-anchor': 'middle' }); tx.textContent = yr; g.appendChild(tx); } }
     else { [x0, (x0 + x1) / 2, x1].forEach(function (t, j) { var tx = el('text', { x: X(t), y: H - 6, 'text-anchor': j === 0 ? 'start' : j === 2 ? 'end' : 'middle' }); tx.textContent = new Date(t).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: '2-digit' }); g.appendChild(tx); }); }
     svg.appendChild(g);
     svg.appendChild(el('line', { class: 'base', x1: m.l, x2: W - m.r, y1: Y(100), y2: Y(100) }));
@@ -1734,15 +1762,17 @@ __RESEARCH__
   var ys = Object.keys(D.years.strategy).sort(), maxAbs = 0;
   var YK = (D.years.monthly ? ['rotation', 'calls', 'boost100', 'cushionCalls', 'cushion', 'boost', 'plan', 'SPY', 'QQQ', 'SPMO'] : ['strategy', 'rotation', 'calls', 'boost100', 'cushionCalls', 'cushion', 'boost', 'plan', 'SPY', 'QQQ', 'SPMO'])
     .filter(function (k) { return D.years[k]; });
+  if (YK.indexOf(DEFK) > 0) { YK.splice(YK.indexOf(DEFK), 1); YK.unshift(DEFK); }
   var YC = { strategy: 'var(--s-strat)', boost: 'var(--s-boost)', boost100: 'var(--s-b100)', cushion: 'var(--s-cush)', plan: 'var(--s-plan)', monthlyBoost: 'var(--s-monb)', monthly: 'var(--s-mon)', SPY: 'var(--s-spy)', QQQ: 'var(--s-qqq)', SPMO: 'var(--s-spmo)', calls: 'var(--s-calls)', cushionCalls: 'var(--s-ccalls)', rotation: 'var(--s-rot)' };
-  var YH = { strategy: 'Top 5', boost: 'Boost', boost100: 'Boost 100%', cushion: 'Cushion', plan: 'Auto', monthlyBoost: 'M boost', monthly: 'M auto', SPY: 'SPY', QQQ: 'QQQ', SPMO: 'SPMO', calls: 'B100 + calls', cushionCalls: 'Cush + calls', rotation: 'Rotation' };
+  var YH = { strategy: 'Top 5 basic', boost: 'Boost', boost100: 'Boost 100%', cushion: 'Cushion', plan: 'Auto', monthlyBoost: 'M boost', monthly: 'M auto', SPY: 'SPY', QQQ: 'QQQ', SPMO: 'SPMO', calls: 'B100 + calls', cushionCalls: 'Cush + calls', rotation: 'Boost + rotation' };
+  var YHD = function (k) { return k === DEFK ? 'Default<span class="sub">' + YH[k] + '</span>' : YH[k]; };
   ys.forEach(function (y) { YK.forEach(function (k) { maxAbs = Math.max(maxAbs, Math.abs(D.years[k][y] || 0)); }); });
   var barMax = YK.length > 5 ? 3 : YK.length > 4 ? 18 : YK.length > 3 ? 26 : 70;
   function ybar(v, c) { var w = Math.max(2, Math.abs(v) / maxAbs * barMax); return '<span class="ybar' + (v < 0 ? ' neg' : '') + '"><i style="--c:' + c + ';width:' + w + 'px"></i><span class="num ' + tone(v) + '">' + pct(v, 0) + '</span></span>'; }
   $('years').className = 'years' + (YK.length > 5 ? ' tight' : '');
-  $('years').innerHTML = '<thead><tr><th class="l">Year</th>' + YK.map(function (k) { return '<th class="l y-' + k + '">' + YH[k] + '</th>'; }).join('') + '</tr></thead><tbody>' +
-    ys.map(function (y) { return '<tr><td class="l">' + y + '</td>' + YK.map(function (k) { return '<td class="l y-' + k + '">' + (D.years[k][y] == null ? '<span class="muted">–</span>' : ybar(D.years[k][y], YC[k])) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
-  $('ytd-note').textContent = ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ')' + '';
+  $('years').innerHTML = '<thead><tr><th class="l">Year</th>' + YK.map(function (k) { return '<th class="l y-' + k + (k === DEFK ? ' def' : '') + '">' + YHD(k) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+    ys.map(function (y) { return '<tr><td class="l">' + y + '</td>' + YK.map(function (k) { return '<td class="l y-' + k + (k === DEFK ? ' def' : '') + '">' + (D.years[k][y] == null ? '<span class="muted">–</span>' : ybar(D.years[k][y], YC[k])) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
+  $('ytd-note').textContent = 'The shaded first column is the default plan (' + YH[DEFK] + '); the rest are alternatives. ' + ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ').';
 
   // on deck
   $('deck').innerHTML = D.table.filter(function (r) { return r.rank > 5 && r.rank <= 20; }).map(function (r) {
