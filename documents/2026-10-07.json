@@ -474,8 +474,8 @@
        null
       ]
      ],
-     "maturityClose": 7752.0,
-     "ret": -0.013081,
+     "maturityClose": 7751.25,
+     "ret": -0.013177,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2572,8 +2572,8 @@
        null
       ]
      ],
-     "maturityClose": 104.734375,
-     "ret": 0.003293,
+     "maturityClose": 104.890625,
+     "ret": 0.00479,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5298,8 +5298,8 @@
        false
       ]
      ],
-     "maturityClose": 4105.2001953125,
-     "ret": -0.012532,
+     "maturityClose": 4114.2998046875,
+     "ret": -0.010343,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7344,12 +7344,12 @@
       [
        "bull",
        "The 10-year yield closed near 5.28% (intraday 5.36%, highest since April 2002) and the 30-year near 5.66% (news log, 7 October close entry); higher US yields support the dollar",
-       true
+       false
       ],
       [
        "bull",
        "September FOMC minutes (7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets price roughly 17-20% odds of an October hike (news log)",
-       true
+       false
       ],
       [
        "neu",
@@ -7369,7 +7369,7 @@
       [
        "bull",
        "Hawkish 7 October FOMC minutes (further hike 'likely appropriate by year end') point to a firmer dollar; DX-Y.NYB rose 0.25% on the day",
-       true
+       false
       ],
       [
        "neu",
@@ -7379,7 +7379,7 @@
       [
        "bull",
        "Risk-off tone with US yields at 2002 highs and gold falling alongside a 0.25% dollar gain (news log; DX-Y.NYB)",
-       true
+       false
       ],
       [
        "neu",
@@ -7387,8 +7387,8 @@
        null
       ]
      ],
-     "maturityClose": 102.71499633789062,
-     "ret": 0.004754,
+     "maturityClose": 102.52899932861328,
+     "ret": 0.002935,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9607,8 +9607,8 @@
        false
       ]
      ],
-     "maturityClose": 2738.0,
-     "ret": -0.025761,
+     "maturityClose": 2738.800048828125,
+     "ret": -0.025477,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -11591,8 +11591,8 @@
        null
       ]
      ],
-     "maturityClose": 30150.5,
-     "ret": -0.040969,
+     "maturityClose": 30139.5,
+     "ret": -0.041319,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
