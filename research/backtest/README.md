@@ -25,7 +25,9 @@ the workflow on GitHub (tap **Run workflow**). A run takes about 15 minutes:
    to publish anyway.
 3. Rank today's stocks, render `docs/scanner.html`, and push it with `data/track_record.json` to main.
 
-As of Oct 2026 the default made about 36.5–36.9% a year from 2000, with a −31% worst drop. Two runs on
+Since Oct 14, 2026 the narrow-market warning is read from the equal-weight index's full history (2003 on),
+so the backtest includes the three cash weeks of 2006–07 that the original audit missed. That took about half
+a point a year off: the default now makes about 36% a year from 2000, with a −31% worst drop. Two runs on
 Oct 14, 2026 differed by 0.4 points. Yahoo's dividend-adjusted prices differ slightly from one download to the
 next, and that flipped one close call between stocks, gold and bonds in Oct 2001; the difference then compounds
 over 25 years. So read the figure as accurate to about half a point. Boost 100% and the plain top 5 came out the
