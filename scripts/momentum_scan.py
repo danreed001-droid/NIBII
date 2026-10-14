@@ -46,6 +46,8 @@ from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
 from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash, lowerhigh_state, LH_DAYS  # noqa: E402
 from mtl.trendline import TL_DAYS, trendline_state  # noqa: E402
+from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
+from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
 from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
@@ -656,6 +658,11 @@ def main():
     narrow_warn = narrow_warnings(prices['SPY'], rsp_px, vix_px, calendar) if rsp_px and vix_px else []
     narrow_cash = narrow_cash_days(narrow_warn, calendar)
     rot_modes, rot_why = apply_narrow(rot_modes, rot_why, {d_ for d_ in narrow_cash if d_ >= START}, calendar)
+    # ... and the rebound rule: while SPY is 12%+ under its 3-month high, gold or bonds is up 2%+ since that high
+    # and SPY's daily chart has made a higher low, the plan holds the Boost list whatever the rules above say
+    # (mtl/rebound.py)
+    reb_days = rebound_days(bench['SPY'], whip_px, calendar, START)
+    rot_modes, rot_why, whip_half, reb_held = apply_rebound(rot_modes, rot_why, whip_half, reb_days, calendar)
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
     # stronger of TLT / GLD over 6 months if it is up, else cash (mtl/rotation.py no_bills)
     rot_modes, rot_why, whip_half = no_bills(rot_modes, rot_why, whip_half, whip_px, calendar)
@@ -903,6 +910,8 @@ def main():
                 until = next_session(until)
             lh_['until'] = until
     auto['rotation']['lowerhigh'] = lh_
+    rb_ = rebound_state(bench['SPY'], whip_px, calendar, K, reb_held)
+    auto['rotation']['rebound'] = {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in rb_.items()}
     # SPY trendline watch (information only): a rising weekly line touched 3 or 4 times about evenly (mtl/trendline.py)
     tw_ = trendline_state(bench['SPY'][:K + 1])
     tw_['prevOn'] = bool(tw_['last']) and 1 <= tw_['last']['ago'] <= TL_DAYS
@@ -972,6 +981,22 @@ def main():
         if scored:
             mine = dict(sig=signature(my_calls), curve=scored['curve'], base=base['curve'], weeks=scored['weeks'][-60:])
 
+    # You-2: the viewer's own stocks, timed by the default plan (mtl/you2.py; docs/my_calls.json "you2")
+    try:
+        with open(CALLS_PATH) as fh:
+            you2_doc = json.load(fh) or {}
+    except (OSError, ValueError):
+        you2_doc = {}
+    you2_px, you2_t = dict(prices), {t for l in you2_entries(you2_doc).values() for t in l}
+    if you2_t - set(prices):
+        try:
+            for t, bs in fetch(sorted(you2_t - set(prices)), start=YOU2_START[:4] + '-01-01').items():
+                if bs:
+                    you2_px[t] = {b[0]: b[4] for b in bs}
+        except Exception as e:   # noqa: BLE001
+            print(f"  You-2 price fetch failed: {e}", file=sys.stderr)
+    you2 = you2_block(you2_doc, you2_px, whip_px, calendar, rot_modes, whip_half, plans['rotation'], prices['SPY'], K)
+
     years = {k: yearly(v) for k, v in curves.items()}
     for k, v in curves.items():   # a curve that starts mid-year (SPMO, Oct 2015): no return for that part year
         if v and v[0][0][5:] > '01-15':
@@ -1019,7 +1044,7 @@ def main():
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
         monthly=monthly,
         option=option_check(held_rows, bars, as_of, calendar, signal_day),
-        plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto))
+        plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto, you2=you2))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)

@@ -7,7 +7,9 @@ opens. The issue body is untrusted text: only the JSON block is read, and
 every field is validated - dates, modes, percentages, tickers. The newest
 edit per week wins ('at'); a removed call is kept as {m: 'del'}. The same block can carry
 "warn": {date: {c: 'out' | 'stay', at, note}} - the viewer's call on a downtrend-warning
-day (stay in stocks, or out into bonds and gold), scored 3 months later by the daily scan.
+day (stay in stocks, or out into bonds and gold), scored 3 months later by the daily scan. And
+"you2": {date: {stocks: [tickers], note, at}} - the viewer's own stock list for You-2 (the default plan's
+timing on the viewer's stocks, mtl/you2.py), from that date's close on; {m: 'del'} removes one.
 
 Usage:
     ISSUE_BODY="..." python scripts/intake_calls.py      # prints how many calls changed
@@ -68,6 +70,25 @@ def parse_warn(body):
     return out
 
 
+def parse_you2(body):
+    """You-2 stock lists {date: {stocks, note, at}} (or {m: 'del'}) from the issue body (or {})."""
+    y = block(body).get('you2')
+    out = {}
+    for k, c in (y.items() if isinstance(y, dict) else []):
+        if not (isinstance(k, str) and DATE.match(k) and isinstance(c, dict)):
+            continue
+        at = str(c.get('at') or '')
+        at = at if STAMP.match(at) else ''
+        if c.get('m') == 'del':
+            out[k] = {'m': 'del', 'at': at}
+            continue
+        st = list(dict.fromkeys(t.strip().upper() for t in (c.get('stocks') or []) if isinstance(t, str)))
+        st = [t for t in st if TICKER.match(t)][:10]
+        if st:
+            out[k] = {'stocks': st, 'note': str(c.get('note') or '')[:300], 'at': at}
+    return out
+
+
 def parse(body):
     """The calls map from the issue body's ```json block (or {})."""
     data = block(body)
@@ -104,16 +125,22 @@ def main():
     w_in = parse_warn(os.environ.get('ISSUE_BODY', ''))
     w_cur = {k: c for k, c in (doc.get('warn') or {}).items() if isinstance(c, dict) and c.get('c') in ('out', 'stay', 'del')}
     w_merged, w_changed = merge(w_cur, w_in)
-    if changed or w_changed:
+    y_in = parse_you2(os.environ.get('ISSUE_BODY', ''))
+    y_cur = {k: c for k, c in (doc.get('you2') or {}).items() if isinstance(c, dict) and (c.get('stocks') or c.get('m') == 'del')}
+    y_merged, y_changed = merge(y_cur, y_in)
+    if changed or w_changed or y_changed:
         out = {'app': 'nibii-calls', 'v': 1, 'calls': merged}
         if w_merged:
             out['warn'] = w_merged
+        if y_merged:
+            out['you2'] = y_merged
         with open(PATH, 'w') as f:
             json.dump(out, f, indent=1)
             f.write('\n')
-    print(len(changed) + len(w_changed))
+    print(len(changed) + len(w_changed) + len(y_changed))
     print(f"calls received {len(incoming)}, changed {len(changed)}: {', '.join(changed) or '-'}; "
-          f"warning calls received {len(w_in)}, changed {len(w_changed)}: {', '.join(w_changed) or '-'}", file=sys.stderr)
+          f"warning calls received {len(w_in)}, changed {len(w_changed)}: {', '.join(w_changed) or '-'}; "
+          f"You-2 lists received {len(y_in)}, changed {len(y_changed)}: {', '.join(y_changed) or '-'}", file=sys.stderr)
 
 
 if __name__ == '__main__':

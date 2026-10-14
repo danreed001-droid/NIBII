@@ -46,7 +46,10 @@ ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and
                         "turned down) and SPY closed below it; {to} for two weeks (the stronger of TLT / GLD; if neither is rising, "
                         "the one up more over 6 months if it is up, else cash), then back to the plan",
            'lowerhigh-end': 'the two weeks out after the lower high are over: back to what the plan holds',
-           'nobills': 'no T-bills: {to} is now the stronger of TLT / GLD over 6 months (cash when neither is up)'}
+           'nobills': 'no T-bills: {to} is now the stronger of TLT / GLD over 6 months (cash when neither is up)',
+           'rebound': "rebound rule: SPY is 12%+ under its 3-month high, gold or bonds is up 2%+ since that high and SPY's "
+                      "daily chart has made a higher low, so the plan holds the Boost list whatever the other rules say",
+           'rebound-end': 'the rebound rule no longer holds: back to what the plan holds'}
 
 
 def rot_name(m):
@@ -98,7 +101,7 @@ def trend_line(rt):
     return (f"**SPY trendline warning (information only):** SPY closed under its rising weekly trendline on {fmt(b['date'])} "
             f"(line {b['level']:.2f}, close {b['close']:.2f}; drawn through the {fmt(b['a'][0])} and {fmt(b['b'][0])} lows and touched "
             f"{len(b.get('touches') or [])} times about evenly). It caught October 2014 but cost 2000 and 2018; as a two-week exit it made "
-            "about the same as Boost + rotation over 2000-2026 (36.2% vs 36.5% a year), so it is a heads-up, not a trade.")
+            "about the same as Boost + rotation over 2000-2026 (37.4% vs 37.8% a year), so it is a heads-up, not a trade.")
 
 
 def whip_line(rt):
