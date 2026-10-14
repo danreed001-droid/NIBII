@@ -460,7 +460,7 @@ footer li { margin-bottom: 6px; }
   <div class="stats" id="stats"></div>
   <div class="two" style="margin-top:12px">
     <div class="card">
-      <div class="chart-head"><div><p class="chart-title">Growth of $100</p><p class="chart-sub">The thick line is the default plan, <b>Boost + rotation</b>. The other lines are alternative mixes to compare it with. Stock changes are signalled at Friday's close and traded at Monday's close, 0.05% cost.</p></div>
+      <div class="chart-head"><div><p class="chart-title">Growth of $100</p><p class="chart-sub" id="growth-sub">The thick line is the default plan, <b>Boost + rotation</b>. The other lines are alternative mixes to compare it with.</p></div>
         <span class="seg" id="scale-seg"><button type="button" data-v="log">Log</button><button type="button" data-v="linear">Linear</button></span></div>
       <div class="legend" id="legend"></div>
       <div class="chart" id="growth"></div>
@@ -590,6 +590,9 @@ __RESEARCH__
 (function () {
   var D = JSON.parse(document.getElementById('scan-data').textContent);
   var SINCE = (D.rule && D.rule.start ? D.rule.start : '2020').slice(0, 4);
+  // the track record and its figures come from the point-in-time backtest (data/track_record.json) when there is one
+  var TRK = D.track || null, TSINCE = TRK && TRK.start ? TRK.start.slice(0, 4) : SINCE;
+  function bt(k) { return TRK && TRK.stats && TRK.stats[k] ? TRK.stats[k] : null; }
   var NS = 'http://www.w3.org/2000/svg';
   function $(id) { return document.getElementById(id); }
   function cushionLog(CU) {   // the cushion's recent on/off weeks
@@ -763,7 +766,7 @@ __RESEARCH__
       (LH ? '; last weekly swing high ' + LH.px.toFixed(2) + ' (' + esc(LH.label || '') + ', ' + fmtDate(LH.d) + (LH.ma ? ', average then ' + LH.ma.toFixed(2) : '') + ')' : '') + '. ' +
       RT.assets.map(function (t) { var c6 = RT.pickPct && RT.pickPct[t]; return t + ' daily ' + arw(RT.legs[t]) + gr(RT.legs[t]) + (c6 != null ? ', 6-month ' + pct(c6) : ''); }).join(' · ') + '.' +
       (RT.cand && RT.mode === 'boost' && RT.streak ? ' ' + esc(RT.cand) + ' has led for ' + RT.streak + ' of the ' + RT.confirm + ' sessions needed.' : '') +
-      ' Out of stocks on ' + RT.daysOut + ' of ' + RT.days + ' sessions since ' + SINCE + ', ' + RT.switches + ' switches. Since ' + SINCE + ': ' + pct(P.stats.rotation.annual, 0) + ' a year, worst drop ' + pct(P.stats.rotation.maxDD, 0) + ' vs ' + pct(P.stats.boost100.annual, 0) + ' and ' + pct(P.stats.boost100.maxDD, 0) + ' for Boost 100%. ' +
+      ' Out of stocks on ' + RT.daysOut + ' of ' + RT.days + ' sessions since ' + SINCE + ', ' + RT.switches + ' switches. ' + (bt('rotation') && bt('boost100') ? 'Backtest since ' + TSINCE + ' (stocks in the S&amp;P 500 at the time): ' + pct(bt('rotation').annual, 1) + ' a year, worst drop ' + pct(bt('rotation').maxDD, 0) + ' vs ' + pct(bt('boost100').annual, 1) + ' and ' + pct(bt('boost100').maxDD, 0) + ' for Boost 100%. ' : '') +
       'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $27.0M after tax vs $5.17M for Boost 100%: 37.0% a year before tax (23.4% after) vs 24.5% (15.9%), worst drop −31% vs −63%; from 2010 38.0% vs 26.2%, from 2020 67.6% vs 53.3% (all with the surge exit below, the whipsaw half-switch with its rate/gold regime, TLT / GLD picked by their 6-month gain, the narrow-market cash week, the lower-high exit into gold or bonds on both its triggers, and no T-bills; with T-bills 34.9% and $20.4M, worst drop −29%; with plain cash instead of T-bills 34.5% and $19.2M; with one stretch per lower high 34.5% and $19.3M; with T-bills in the lower-high exit 33.7% and $17.2M; without the lower-high exit 32.8% and $15.4M, worst drop −44%; without the cash week as well 30.6% and $11.9M; with the old dip add 30.4% and $11.7M, so it was dropped; picking the steepest gradient instead 29.9% and $10.8M, without the regime 29.7% and $10.5M, without the half-switch 29.0% and $9.7M, before the surge exit 27.4% and $7.8M). Corrected Oct 13, 2026: two tickers (EP, CPWR) had been priced with the histories of other companies that reuse the symbols and are now left out, which took about 5 points a year off the 2000 figures. The thresholds were picked on that same history, so expect less: an overfitting test across 599 tested versions (run before the lower-high exit was added) puts a realistic plan at about 18–25% a year before tax. The 6-month pick also did better than the gradient pick when replayed in Japan, the UK, Germany, India and Hong Kong (UK 13.1% vs 11.2% a year).' +
       (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '') + whipNote(RT) + narrowNote(RT) + lowerhighNote(RT) + noBillsNote(RT);
   }
@@ -1223,10 +1226,11 @@ __RESEARCH__
       if (RA) rows = '<tr><td><span class="sw" style="--c:var(--s-rot)"></span><b>' + esc(RA) + '</b> <span class="muted nm2">' + esc(ROTN[RA] || '') + ' · Boost + rotation is out of stocks</span></td><td class="r">' + usd(acct) + '</td><td class="r muted">' + sh(acct, RT.px[RA]) + '</td></tr>';
       rows += '<tr class="sum"><td>Total</td><td class="r">' + usd(acct) + '</td><td></td></tr>';
       $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
-      var st = P.stats[mix], S0 = D.stats.strategy;
-      $('plan-stats').innerHTML = (st ? '<span>Since ' + SINCE + ' ' + (mix === 'rotation' ? 'with boost + rotation' : mix === 'auto' ? 'with auto' : mix === 'boost' ? 'with auto + news boost' : mix === 'boost100' ? 'Boost at 100%' : mix === 'cushion' ? 'with boost + cushion' : mix === 'guard' ? 'with auto + guard' : mix === 'steps' ? 'with steps' : 'at ' + mix) + ': <b class="pos">' + pct(st.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(st.maxDD, 0) + '</b></span>'
-          : '<span>Your record is scored below, from your first call.</span>') +
-        '<span class="muted">Top 5 alone: ' + pct(S0.annual, 0) + ' a year, worst drop ' + pct(S0.maxDD, 0) + '</span>';
+      var bk = { rotation: 'rotation', boost100: 'boost100' }[mix], bs = bk ? bt(bk) : null, t5b = bt('strategy');
+      $('plan-stats').innerHTML = (bs ? '<span>Backtest since ' + TSINCE + ' (stocks in the S&amp;P 500 at the time): <b class="pos">' + pct(bs.annual, 1) + '</b> a year, worst drop <b class="neg">' + pct(bs.maxDD, 0) + '</b></span>'
+          : mix === 'mine' ? '<span>Your record is scored below, from your first call.</span>'
+          : '<span>No point-in-time backtest of this mix, so no track record is shown for it (a replay with today’s index members would flatter it).</span>') +
+        (t5b ? '<span class="muted">Top 5 basic rule, same backtest: ' + pct(t5b.annual, 1) + ' a year, worst drop ' + pct(t5b.maxDD, 0) + '</span>' : '');
       if (mix === 'mine') {
         $('auto-note').innerHTML = mine ? '<b>Mine:</b> your call in force — ' + callLabel(mine) + ' → <b>' + mixTxt(m) + '</b>' + (mine.note ? ' · “' + esc(mine.note) + '”' : '') + '. Change it under Your calls.'
           : '<b>Mine:</b> no call yet, so this shows Auto. Make one under Your calls.';
@@ -1239,12 +1243,12 @@ __RESEARCH__
           (D.signalDay ? 'This Friday: SPY ' : 'Last Friday: SPY ') + pct(CU.spyGap) + ' vs its ' + CU.ma + '-day average, junk vs quality bonds ' + crTxt(CU.credit) + ' → <b>' + CU.split + '</b>' + (D.signalDay && CU.split !== CU.prevSplit ? ' (was ' + CU.prevSplit + ' — trade it Monday)' : '') + '.' +
           (CU.spyGap != null && CU.spyGap < 0 && !crOk ? ' SPY is below its average but credit is calm, so the cushion stays off (a likely false alarm).' : '') +
           (!D.signalDay && CU.previewSplit !== CU.split ? ' If Friday were today it would be ' + CU.previewSplit + ' (SPY ' + pct(CU.previewSpyGap) + ' vs its average, junk vs quality ' + crTxt(CU.previewCredit) + ').' : '') +
-          ' The cushion was on in ' + CU.weeksLow + ' of ' + CU.weeks + ' weeks since ' + SINCE + (CU.weeksSpyLow != null ? ' (SPY alone was below its average in ' + CU.weeksSpyLow + ')' : '') + '. Since ' + SINCE + ': ' + pct(P.stats.cushion.annual, 0) + ' a year, worst drop ' + pct(P.stats.cushion.maxDD, 0) + '. ' +
+          ' The cushion was on in ' + CU.weeksLow + ' of ' + CU.weeks + ' weeks since ' + SINCE + (CU.weeksSpyLow != null ? ' (SPY alone was below its average in ' + CU.weeksSpyLow + ')' : '') + '. ' +
           'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $4.49M after tax (worst drop −59% before tax), vs $5.17M and −63% for Boost 100% (both with the surge exit; $3.80M and $4.36M before it) and $3.62M for the old SPY-only cushion (corrected data); from 2020 it made 54.2% a year vs 53.3% for Boost 100%, worst drop −34% vs −39%. There is no HYG data before 2007, so before then it is the SPY-only rule.' +
           cushionLog(CU) + bxNote(A);
       } else if (A && mix === 'boost100' && A.boost) {
         $('auto-note').innerHTML = '<b>Boost 100%:</b> the Boost stock list (top 5 + news gaps) with the blow-off and surge exits, always fully in the stocks: no Auto steps into the sleeve when holdings turn down. ' +
-          'Since ' + SINCE + ': ' + pct(P.stats.boost100.annual, 0) + ' a year, worst drop ' + pct(P.stats.boost100.maxDD, 0) + ', vs ' + pct(P.stats.boost.annual, 0) + ' and ' + pct(P.stats.boost.maxDD, 0) + ' for Boost. ' +
+          (bt('boost100') ? 'Backtest since ' + TSINCE + ' (stocks in the S&amp;P 500 at the time): ' + pct(bt('boost100').annual, 1) + ' a year, worst drop ' + pct(bt('boost100').maxDD, 0) + '. ' : '') +
           'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $5.17M after tax with the blow-off and surge exits ($4.36M before the surge exit, $3.87M with neither; corrected data); ' +
           'the cost is deeper drops: about −66% at the worst after tax. Only follow it if you would hold through a drop like that.' + bxNote(A);
       } else if (A && mix === 'boost' && A.boost) {
@@ -1254,7 +1258,7 @@ __RESEARCH__
           'News gaps in the last 4 weeks: ' + gl + '. ' +
           (B.boosted.length ? 'This week it holds <b>' + B.boosted.map(esc).join(', ') + '</b> instead of ' + B.replaced.map(esc).join(', ') + '. ' : 'This week it holds the same stocks as the plain top 5. ') +
           (D.signalDay ? 'Auto mix ' + B.split + (B.split !== B.prevSplit ? ' (was ' + B.prevSplit + ')' : '') + '. ' : '') +
-          'Since ' + SINCE + ': ' + pct(P.stats.boost.annual, 0) + ' a year vs ' + pct(P.stats.auto.annual, 0) + ' for Auto; tested 2000–2026 about +32% a year vs +25%, worst drop −62% vs −73%, and it caught the 2009 rebound (+35% vs −27%). ' +
+          'Tested 2000–2026 about +32% a year vs +25%, worst drop −62% vs −73%, and it caught the 2009 rebound (+35% vs −27%). ' +
           'Its list differed from the plain top 5 in ' + B.weeksDiff + ' of ' + A.weeks + ' weeks. Expect fewer real gains than the test: it only knows today’s index members.';
       } else if (A && mix === 'guard' && A.guard) {
         var G = A.guard;
@@ -1262,7 +1266,7 @@ __RESEARCH__
           '% of the stock part sits in SPY instead of the top 5. ' + (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + 'SPY ' + (G.spyNow != null ? G.spyNow.toFixed(2) : '–') + ' vs ' +
           (G.spyYearAgo != null ? G.spyYearAgo.toFixed(2) : '–') + ' a year ago → guard <b>' + (G.bear ? 'ON' : 'off') + '</b>' +
           (D.signalDay && G.bear !== G.prevBear ? ' (changed — trade it Monday)' : '') + '.' + (!D.signalDay && G.previewBear != null && G.previewBear !== G.bear ? ' If Friday were today the guard would turn ' + (G.previewBear ? 'ON' : 'off') + '.' : '') +
-          ' It costs a little in good years (since ' + SINCE + ': ' + pct(P.stats.guard.annual, 0) + ' a year vs ' + pct(P.stats.auto.annual, 0) + ' for Auto) and pays off in long bear markets: tested 2000–2026, about the same +25% a year with a worst drop near −63% instead of −73%, and 2009 about −5% instead of −27%. On ' + G.weeksBear + ' weeks since ' + SINCE + '.';
+          ' It costs a little in good years and pays off in long bear markets: tested 2000–2026, about the same +25% a year with a worst drop near −63% instead of −73%, and 2009 about −5% instead of −27%. On ' + G.weeksBear + ' weeks since ' + SINCE + '.';
       } else if (A && mix === 'steps' && A.steps) {
         var dn2 = A.down.length, lst2 = dn2 ? ' (' + A.down.map(esc).join(', ') + ')' : '', S2 = A.steps;
         $('auto-note').innerHTML = '<b>Steps:</b> 100% top 5 when no holding is in a daily lower-low downtrend at Friday’s close; 1 down → 80/20, 2 down → 60/40, 3 or more → 40/60 (Auto and Boost use these same tiers). ' +
@@ -1568,7 +1572,7 @@ __RESEARCH__
     $('stats').innerHTML =
       (dx ? tile((DEFL[DEFK] || DEFK) + '<span class="badge-def">default</span>', pct(dx.tot, 0), yr(dx) + ' · worst ' + pct(dx.dd, 0), tone(dx.tot), 'default') : '') +
       tile('Top 5 basic rule', pct(t5.tot, 0), yr(t5), tone(t5.tot)) +
-      tile('Boost / Auto', (bo ? pct(bo.tot, 0) : '–') + ' / ' + (au ? pct(au.tot, 0) : '–'), (bo ? yr(bo) : '') + ' · worst ' + (bo ? pct(bo.dd, 0) : '–') + ' / ' + (au ? pct(au.dd, 0) : '–'), tone(bo && bo.tot)) +
+      (bo || au ? tile('Boost / Auto', (bo ? pct(bo.tot, 0) : '–') + ' / ' + (au ? pct(au.tot, 0) : '–'), (bo ? yr(bo) : '') + ' · worst ' + (bo ? pct(bo.dd, 0) : '–') + ' / ' + (au ? pct(au.dd, 0) : '–'), tone(bo && bo.tot)) : '') +
       (DEFK !== 'rotation' ? one('rotation', ro, 'Boost + rotation') : '') +
       (DEFK !== 'boost100' ? one('boost100', b1, 'Boost 100%') : '') +
       (DEFK !== 'cushion' ? one('cushion', cs, 'Boost + cushion') : '') +
@@ -1576,8 +1580,8 @@ __RESEARCH__
       (DEFK !== 'cushionCalls' ? one('cushionCalls', cc, 'Boost + cushion + calls') : '') +
       tile('SPY / QQQ', pct(sp.tot, 0) + ' / ' + pct(qq.tot, 0), 'worst ' + pct(sp.dd, 0) + ' / ' + pct(qq.dd, 0)) +
       (sm ? tile('SPMO (momentum ETF)', pct(sm.tot, 0), yr(sm) + ' · worst ' + pct(sm.dd, 0) + (view('SPMO')[0][0] > inR(D.curves.strategy)[0][0] ? ' · since ' + fmtDate(view('SPMO')[0][0], { month: 'short', year: 'numeric' }) : ''), tone(sm.tot)) : '') +
-      tile('Top 5 basic: worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since ' + SINCE : 'in this range', 'neg');
-    $('range-hint').textContent = '$100 in the rule vs buying and holding · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b) +
+      tile('Top 5 basic: worst drop', pct(t5.dd, 0), R.a === ALL0 && R.b === ALL1 ? 'since ' + TSINCE : 'in this range', 'neg');
+    $('range-hint').textContent = (TRK ? 'Backtest with the stocks in the S&P 500 at the time' : '$100 in the rule vs buying and holding') + ' · ' + fmtDate(inR(D.curves.strategy)[0][0]) + ' – ' + fmtDate(R.b) +
       (TAX ? ' · after tax: rule 37% on each year’s gains (paid each April), SPY/QQQ/SPMO held, 20% long-term · value if cashed out that day' : ' · before tax');
   }
   var rf = $('r-from'), rto = $('r-to'), ryf = $('ry-from'), ryt = $('ry-to');
@@ -1634,7 +1638,7 @@ __RESEARCH__
         return (x.side === 'buy' ? 'bought ' : 'sold ') + '<b>' + esc(x.t) + '</b> ' + fmtDate(x.d, md);
       }).join(' · ');
       return '<div class="card"><p class="chart-title">' + title + '</p>' +
-        '<p class="chart-sub">Since ' + SINCE + ': <b class="pos">' + pct(b.stats.annual, 0) + '</b> a year, worst drop <b class="neg">' + pct(b.stats.maxDD, 0) + '</b> · this month ' + sp[0] + '% stocks' +
+        '<p class="chart-sub">This month ' + sp[0] + '% stocks' +
         (b.sleeve ? ', ' + sp[1] + '% in ' + esc(b.sleeve) : '') + '</p>' +
         '<table class="alloc"><tbody>' + (rows || '<tr><td class="muted">No holdings yet</td></tr>') + '</tbody></table>' +
         '<p class="mlist">Held since · gain since bought' + (tr ? '<br>Recent: ' + tr : '') + '</p>' +
@@ -1703,7 +1707,7 @@ __RESEARCH__
     var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), lo = Math.min.apply(null, ys), hi = Math.max.apply(null, ys);
     var log = scale === 'log', f = log ? Math.log : function (v) { return v; };
     var ticks = [];
-    if (log) { [50, 100, 200, 500, 1000, 2000, 5000, 10000].forEach(function (v) { if (v >= lo * 0.9 && v <= hi * 1.1) ticks.push(v); }); }
+    if (log) { [50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000].forEach(function (v) { if (v >= lo * 0.9 && v <= hi * 1.1) ticks.push(v); }); }
     if (!log || ticks.length < 3) { ticks = []; var st = Math.pow(10, Math.floor(Math.log10((hi - lo) / 4))); st = (hi - lo) / st > 20 ? st * 5 : (hi - lo) / st > 8 ? st * 2 : st; for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) ticks.push(v); }
     var y0 = f(Math.min(lo, ticks[0] || lo)), y1 = f(Math.max(hi, ticks[ticks.length - 1] || hi));
     function X(t) { return m.l + (t - x0) / (x1 - x0) * (W - m.l - m.r); }
@@ -1772,7 +1776,9 @@ __RESEARCH__
   $('years').className = 'years' + (YK.length > 5 ? ' tight' : '');
   $('years').innerHTML = '<thead><tr><th class="l">Year</th>' + YK.map(function (k) { return '<th class="l y-' + k + (k === DEFK ? ' def' : '') + '">' + YHD(k) + '</th>'; }).join('') + '</tr></thead><tbody>' +
     ys.map(function (y) { return '<tr><td class="l">' + y + '</td>' + YK.map(function (k) { return '<td class="l y-' + k + (k === DEFK ? ' def' : '') + '">' + (D.years[k][y] == null ? '<span class="muted">–</span>' : ybar(D.years[k][y], YC[k])) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
-  $('ytd-note').textContent = 'The shaded first column is the default plan (' + YH[DEFK] + '); the rest are alternatives. ' + ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ').';
+  $('ytd-note').textContent = 'The shaded first column is the default plan (' + YH[DEFK] + '); the rest are alternatives. ' + ys[ys.length - 1] + ' is year to date (' + fmtDate(D.asOf, { month: 'short', day: 'numeric' }) + ').' +
+    (TRK ? ' Backtest with the stocks in the S&P 500 at the time (delisted ones included), 0.15% a trade' + (TRK.end ? '; after ' + fmtDate(TRK.end, { month: 'short', day: 'numeric', year: 'numeric' }) + ' the lines follow the live scan' : '') + '.' : '');
+  if (TRK) $('growth-sub').innerHTML = 'The thick line is the default plan, <b>Boost + rotation</b>; the others are alternatives. Backtest from ' + TSINCE + ' with the stocks that were in the S&amp;P 500 at each date, delisted ones included, news gaps and 0.15% a trade' + (TRK.end ? '; after ' + fmtDate(TRK.end, { month: 'short', day: 'numeric', year: 'numeric' }) + ' the lines follow the live scan' : '') + '. Lines with no such backtest (cushion, calls, monthly mixes) are not shown.';
 
   // on deck
   $('deck').innerHTML = D.table.filter(function (r) { return r.rank > 5 && r.rank <= 20; }).map(function (r) {
@@ -2681,7 +2687,64 @@ def overlay_lib():
     return OVERLAY_CSS + OVERLAY_JS
 
 
+TRACK_PATH = os.path.join(ROOT, 'data', 'track_record.json')
+TRACK_KEYS = ('rotation', 'boost100', 'strategy', 'SPY', 'QQQ')
+REPLAY_ONLY = ('plan', 'boost', 'cushion', 'calls', 'cushionCalls', 'monthly', 'monthlyBoost', 'steps', 'guard')
+
+
+def calendar_years(curve):
+    """{year: return} from [[date, value], ...]: each year's last value over the year before's (the first year
+    from the first value)."""
+    out, prev, cur_y, last = {}, curve[0][1] if curve else None, None, None
+    for d, v in curve:
+        y = d[:4]
+        if cur_y is not None and y != cur_y:
+            out[cur_y] = round(last / prev - 1, 4)
+            prev = last
+        cur_y, last = y, v
+    if cur_y is not None:
+        out[cur_y] = round(last / prev - 1, 4)
+    return out
+
+
+def with_track_record(scan, path=TRACK_PATH):
+    """The track record from the point-in-time backtest (data/track_record.json: the stocks in the S&P 500 at each
+    date, delisted ones included, 0.15% slippage, from 2000) instead of the scan's replay, which only knows today's
+    index members and so flatters every year. Each backtest line carries on with the replay's own daily moves after
+    the backtest ends. Lines with no backtest behind them leave the track record."""
+    try:
+        with open(path) as f:
+            T = json.load(f)
+    except (OSError, ValueError):
+        return scan
+    curves = scan.get('curves') or {}
+    if not curves.get('strategy'):
+        return scan
+    out, C, Y = dict(scan), dict(curves), dict(scan.get('years') or {})
+    for k in TRACK_KEYS:
+        line = [list(p) for p in (T.get('series') or {}).get(k) or []]
+        if not line:
+            continue
+        end, base = line[-1][0], line[-1][1]
+        rep_ = curves.get(k) or []
+        anchor = next((v for d, v in reversed(rep_) if d <= end), None)
+        if anchor:
+            line += [[d, round(base * v / anchor, 4)] for d, v in rep_ if d > end]
+        C[k] = line
+        Y[k] = calendar_years(line)
+    for k in REPLAY_ONLY:
+        C.pop(k, None)
+        Y.pop(k, None)
+    out['curves'], out['years'] = C, Y
+    TS = T.get('stats') or {}
+    out['track'] = dict(source=T.get('source'), start=T.get('start'), end=T.get('end'), stats=TS)
+    if TS.get('strategy'):
+        out['stats'] = dict(scan.get('stats') or {}, strategy=dict((scan.get('stats') or {}).get('strategy') or {}, annual=TS['strategy']['annual'], maxDD=TS['strategy']['maxDD']))
+    return out
+
+
 def render(scan, growth=None):
+    scan = with_track_record(scan)
     # Escape "</" so a company name can never close the <script> block early.
     page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth).replace('__OVLIB__', overlay_lib(), 1)
     page = page.replace('__WALLST__', wallst_html(), 1)
