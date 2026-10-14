@@ -725,6 +725,11 @@ VARIANTS = {
     'WCb': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', chveto=dict(kind='wch', span=26, tol=0.02, near=0.03), any_lead=True, major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # gold-or-bonds count; same
     'WCc': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', chveto=dict(kind='wch', span=52, tol=0.02, near=0.03), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # current rule; near the bottom of a 12-month+ weekly channel
     'WCd': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', chveto=dict(kind='wch', span=52, tol=0.02, near=0.03), any_lead=True, major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # gold-or-bonds count; same
+    'WLa': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', wkout=dict(n=2, back='hl'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # weekly LH+LL (2-week swings) -> out; back on a daily higher low
+    'WLb': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', wkout=dict(n=4, back='hl'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # weekly LH+LL (4-week swings) -> out; back on a daily higher low
+    'WLc': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', wkout=dict(n=2, back='up'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # weekly LH+LL (2-week swings) -> out; back on a daily higher high + higher low
+    'WLd': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', wkout=dict(n=4, back='up'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # weekly LH+LL (4-week swings) -> out; back on a daily higher high + higher low
+    'WLe': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', wkout=dict(n=2, back='hl', below=True), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # as WLa, only while SPY is under the last weekly lower high
     'RGmc': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', regate=dict(when='ma', hold='cash'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'RGms': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', regate=dict(when='ma', hold='stay'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'RGmb': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', regate=dict(when='ma', hold='bil'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
@@ -4395,6 +4400,43 @@ def main():
                     json.dump(dict(pre=pre_mj, cash=sorted(d_ for d_ in modes if modes[d_] != pre_mj.get(d_)),
                                    assets={d_: modes[d_] for d_ in modes if modes[d_] != pre_mj.get(d_)}),
                               open(os.path.join(ROOT, 'data', f"major_{key}{os.environ.get('TAG', '')}.json"), 'w'))
+            wo_ = leg_.get('wkout')
+            if wo_:
+                # out of stocks while SPY's weekly chart shows a lower high and a lower low (swings wo_['n'] weeks
+                # either side); back to the plan once the daily chart (swings 3 days either side) makes a higher low
+                # after going out (back='hl'), or a higher high and a higher low (back='up'). The same weekly
+                # pattern can't send it out again: it takes a new weekly swing.
+                out_, since_, used_, n_wo = False, None, set(), 0
+                for k_ in range(1, len(cal)):
+                    f_ = cal[k_]
+                    if f_ < R.START:
+                        continue
+                    j_ = bisect_right(bdays['SPY'], f_)
+                    daily = [tuple(b_) for b_ in bars_src['SPY'][max(0, j_ - 700):j_]]
+                    if len(daily) < 120:
+                        continue
+                    if not out_:
+                        sw_ = _fs(weekly(daily), n=wo_.get('n', 2))
+                        hi_ = [x for x in sw_ if x['type'] == 'high']
+                        lo_ = [x for x in sw_ if x['type'] == 'low']
+                        if len(hi_) >= 2 and len(lo_) >= 2 and hi_[-1]['price'] < hi_[-2]['price'] and lo_[-1]['price'] < lo_[-2]['price']:
+                            sig_ = (hi_[-1]['ts'], lo_[-1]['ts'])
+                            if sig_ not in used_ and (not wo_.get('below') or daily[-1][4] < hi_[-1]['price']):
+                                out_, since_ = True, f_
+                                used_.add(sig_)
+                    else:
+                        sd_ = _fs(daily[-320:], n=wo_.get('dn', 3))
+                        dl_ = [x for x in sd_ if x['type'] == 'low']
+                        dh_ = [x for x in sd_ if x['type'] == 'high']
+                        hl_ = len(dl_) >= 2 and dl_[-1]['price'] > dl_[-2]['price'] and dl_[-1]['ts'][:10] >= since_
+                        if wo_.get('back', 'hl') == 'up':
+                            hl_ = hl_ and len(dh_) >= 2 and dh_[-1]['price'] > dh_[-2]['price']
+                        if hl_:
+                            out_ = False
+                    if out_ and (modes.get(f_, 'boost') == 'boost' or str(modes.get(f_, '')).startswith('SIDE:')):
+                        modes[f_] = 'BIL'
+                        n_wo += 1
+                R.log(f"  {key} weekly-downtrend sessions out {n_wo}")
             side_ = leg_.get('side')
             if side_:
                 # sideways SPY (checked at each week's last close): low efficiency ratio (net move / path length) or low R^2 of a
