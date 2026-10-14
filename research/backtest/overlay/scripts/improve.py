@@ -90,7 +90,7 @@ from mtl.news import booster  # noqa: E402
 from mtl.sleeve import ASSETS, best_of  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SIDE_ = os.environ.get('HARNESS_SIDE', os.path.join(ROOT, 'side'))   # side series: spliced TLT / gold / dollar, VIX, rates (research/backtest/side_data.py)
+SIDE_ = os.environ.get('HARNESS_SIDE', os.path.join(ROOT, 'side'))   # side series (research/backtest/side_data.py, volume_data.py)
 OUT = os.path.join(ROOT, 'data', 'improve.json')
 SLIP = 0.0015
 G = {}
@@ -1713,7 +1713,7 @@ def run_one(args):
         # extra exit on top of the plan's own: sell a holding after a big up move on heavy volume
         # (volume >= vol_k x its 50-day average); the slot goes to the next-best stock as usual
         if 'SVOL' not in G:
-            _z = _np.load(os.path.join(os.path.dirname(ROOT), 'stock_volume.npz'))
+            _z = _np.load(os.path.join(SIDE_, 'stock_volume.npz'))
             _di = {d_: i_ for i_, d_ in enumerate(_z['dates'].tolist())}
             G['SVOL'] = ({t_: i_ for i_, t_ in enumerate(_z['tickers'].tolist())}, _z['vol'],
                          _np.array([_di.get(d_, -1) for d_ in P['calendar']]))
@@ -1843,7 +1843,7 @@ def run_one(args):
                 carr[t] = a_
             return carr[t]
         if fname in ('upvol', 'vsurge') and 'SVOL' not in G:
-            _z = _np.load(os.path.join(os.path.dirname(ROOT), 'stock_volume.npz'))
+            _z = _np.load(os.path.join(SIDE_, 'stock_volume.npz'))
             _di = {d_: i_ for i_, d_ in enumerate(_z['dates'].tolist())}
             G['SVOL'] = ({t_: i_ for i_, t_ in enumerate(_z['tickers'].tolist())}, _z['vol'],
                          _np.array([_di.get(d_, -1) for d_ in P['calendar']]))
@@ -3732,7 +3732,7 @@ def main():
                     if not on_ and tg_ == 'vol' and (below or not ov_.get('vol_150', True)):
                         # heavy selling: a down day (at least vol_dn) on volume vol_k x or more its 50-day average
                         if 'SPYV' not in G:
-                            G['SPYV'] = json.load(open(os.path.join(os.path.dirname(ROOT), 'spy_volume.json')))['SPY']
+                            G['SPYV'] = json.load(open(os.path.join(SIDE_, 'spy_volume.json')))['SPY']
                         sv_ = G['SPYV']
                         vv = [sv_.get(cal[i_]) for i_ in range(k_ - 50, k_)]
                         vv = [x for x in vv if x]
@@ -3947,7 +3947,7 @@ def main():
                 # capitulation re-entry: SPY/QQQ falls k x its 63-day daily volatility (or more) on vol x its 50-day average
                 # volume; `delay` sessions later, if the plan is out of stocks, it goes back to the Boost list for `hold` sessions
                 if 'SPYV' not in G or 'QQQ' not in G['SPYV']:
-                    G['SPYV'] = json.load(open(os.path.join(os.path.dirname(ROOT), 'spy_volume.json')))
+                    G['SPYV'] = json.load(open(os.path.join(SIDE_, 'spy_volume.json')))
                 vs_ = G['SPYV'][cap_.get('src', 'SPY')]
                 pxs_ = {b_[0]: b_[4] for b_ in D['bench'][cap_.get('src', 'SPY')]}
                 cl_ = [pxs_.get(d_) for d_ in cal]
@@ -4004,7 +4004,7 @@ def main():
                         elif tg_ == 'broad':
                             # the selloff is broad: at least `bth` of S&P 500 members fell 10%+ over the last 20 sessions
                             if 'BREADTH' not in G:
-                                G['BREADTH'] = json.load(open(os.path.join(os.path.dirname(ROOT), 'wc', 'breadth_series.json')))
+                                G['BREADTH'] = json.load(open(os.path.join(SIDE_, 'breadth_series.json')))
                             cond = below and sst == 'downtrend' and bool(rising) and G['BREADTH'].get(f_, 0.0) >= wq_.get('bth', 0.20)
                         elif tg_ == 'fresh':
                             # the blind-test pattern: go out only while the drop is still fresh (SPY's 63-session
