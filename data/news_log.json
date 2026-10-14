@@ -2777,5 +2777,45 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-14-2-memory-chip-rout-weighs-on-tech",
+    "data": {
+      "addedAt": "2026-10-14",
+      "category": "Market",
+      "date": "2026-10-14",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Memory-chip rout continues; ASML reports today, TSMC Thursday",
+      "impact": "Medium",
+      "numbers": "Kospi -5.5%, SK Hynix -10.1% (Tue); S&P 500 7,805.45 (-0.02%), Nasdaq 27,204 (-0.15%) at Tue close",
+      "order": 2,
+      "reaction": "AI/memory worries (China CXMT advances) keep semiconductors under pressure; ASML earnings today and TSMC Thursday are the next checks on AI-chip demand.",
+      "region": "Global / Asia",
+      "source": "https://mitrade.com/insights/shares-analysis/us-stocks/bank-earnings-day-one-memory-chip-rout-20261014J1406",
+      "tickers": "QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-14-1-sept-cpi-hotter-than-expected-yields-jump",
+    "data": {
+      "addedAt": "2026-10-14",
+      "category": "Macro",
+      "date": "2026-10-14",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "September CPI hotter than expected; 10Y yield jumps above 5.3%",
+      "impact": "High",
+      "numbers": "Headline CPI +3.7% y/y (+0.6% m/m); core +2.6% y/y; energy index +5.2%, gasoline +9.1%; 10Y ~5.306%, 30Y ~5.564%",
+      "order": 1,
+      "reaction": "Core inflation beat forecasts two weeks before the Oct 27-28 FOMC, reviving rate-hike odds; Treasury yields rose, the dollar strengthened and S&P 500 futures fell.",
+      "region": "US",
+      "source": "https://www.cnbc.com/2026/10/14/us-treasury-yields-cpi-inflation-report.html",
+      "tickers": "SPY, S&P, TLT, 10Y, yield, Treasury, DXY, dollar, QQQ",
+      "time": "Pre-market",
+      "vsExp": "Headline 3.7% vs 3.6% exp; core 2.6% vs 2.5% exp"
+    }
   }
 ]
