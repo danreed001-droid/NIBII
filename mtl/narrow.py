@@ -13,8 +13,8 @@ repeats extends the cash week. Since Oct 13, 2026 the plan holds no T-bills (mtl
 the cash week holds the stronger of TLT / GLD over 6 months if it is up, else plain cash. Like every rotation decision it is made at a close and traded at the
 next close.
 
-Audit (Oct 13, 2026, stocks in the S&P 500 at the time, EP and CPWR left out; the warning needs RSP
-and the VIX, so it can first act in 2012): from 2000 32.8% a year before tax (20.8% after) vs 30.6%
+Audit (Oct 13, 2026, stocks in the S&P 500 at the time, EP and CPWR left out; the audit read RSP and the
+VIX from 2007, so the warning first acted in 2012): from 2000 32.8% a year before tax (20.8% after) vs 30.6%
 (19.6%), Sharpe 1.07 vs 0.97, worst drop -44% for both; from 2010 33.3% vs 30.1%; from 2016 41.7% vs
 38.6% (worst drop -23% vs -29%); from 2020 61.4% vs 58.0% (-27% vs -31%). Since 2012 the plan lost
 about 39% over the ~570 cash days, where random cash weeks of the same lengths gained in all but 0.14%
@@ -25,7 +25,10 @@ or 3% from the high: better from all four starts each time). Moving the timing (
 points a year worse, so the 2020 result depends on the exact timing in 2025-2026. Waiting for a 5%
 drop in SPY or the holdings before going to cash, or using the largest stocks or the momentum leaders
 lagging instead of the equal-weight index, did worse. It was designed after looking at the 2018-2026
-drops and cannot be checked before 2012.
+drops. RSP goes back to 2003, and on those unseen years (Oct 14, 2026 check) the warning fired three
+times: Aug-Sep 2006 and Oct 2006 cost money (stocks kept rising and gold, the haven then, fell; 2006
+-13.5% instead of +2.5%), Oct 2007 caught the top (2007 +38.1% instead of +28.1%); 37.0% a year from
+2000 became 36.5%. The dashboard's track record includes them since then.
 
 Abroad there is no equal-weight index or VIX in the data, so it was rebuilt with stand-ins: an
 equal-weight basket of each index's current stocks, and the US VIX (previous US close) or the index's
