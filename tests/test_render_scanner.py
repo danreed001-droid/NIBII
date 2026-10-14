@@ -166,3 +166,12 @@ def test_page_installs_as_an_app_and_asks_search_engines_to_skip_it():
     for i in man['icons']:
         assert os.path.exists(os.path.join(docs, i['src']))
     assert os.path.exists(os.path.join(docs, 'sw.js'))
+
+
+def test_rebalance_banner_explains_the_call():
+    page = render_scanner.render(SCAN)
+    assert 'function callWhy(pm)' in page and 'callWhy(pm)' in page and 'callWhy(pm2)' in page
+    assert '.banner .why' in page
+    for s in ('narrow-market cash week', 'No stock swaps', 'Closest to the edge', 'blow-off exit: its last month',
+              'surge exit: it closed', 'news boost: it gapped up', 'best-ranked stock not held', 'Cash, not gold or bonds'):
+        assert s in page
