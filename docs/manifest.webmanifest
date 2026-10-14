@@ -1,0 +1,15 @@
+{
+  "name": "Top 5 Strongest",
+  "short_name": "Top 5",
+  "description": "The Top 5 Strongest momentum dashboard: this week's holdings, the plan's mix and the track record.",
+  "start_url": "scanner.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#17181a",
+  "icons": [
+    {"src": "img/app-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "img/app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "img/app-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

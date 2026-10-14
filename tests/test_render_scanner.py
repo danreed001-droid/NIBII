@@ -151,3 +151,18 @@ def test_bottom_of_the_page_has_the_track_record_refresh_button():
     assert page.index('id="trk-card"') < i < page.index('<footer>')
     assert 'actions/workflows/track-refresh.yml' in page[i:page.index('</a>', i)]
     assert os.path.exists(os.path.join(os.path.dirname(__file__), '..', '.github', 'workflows', 'track-refresh.yml'))
+
+
+def test_page_installs_as_an_app_and_asks_search_engines_to_skip_it():
+    page = render_scanner.render(SCAN)
+    head = page[:page.index('<style>')]
+    assert 'rel="manifest" href="manifest.webmanifest"' in head and "serviceWorker.register('sw.js')" in head
+    assert '<meta name="robots" content="noindex">' in head
+    docs = os.path.join(os.path.dirname(__file__), '..', 'docs')
+    man = json.load(open(os.path.join(docs, 'manifest.webmanifest')))
+    assert man['start_url'] == 'scanner.html' and man['display'] == 'standalone'
+    sizes = {i['sizes'] for i in man['icons']}
+    assert {'192x192', '512x512'} <= sizes
+    for i in man['icons']:
+        assert os.path.exists(os.path.join(docs, i['src']))
+    assert os.path.exists(os.path.join(docs, 'sw.js'))
