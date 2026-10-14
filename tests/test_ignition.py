@@ -117,6 +117,11 @@ def test_plan_turns_flags_into_actions():
     acts = {a['t']: a['act'] for a in ig.plan(scan)}
     assert acts == {'NEW': 'new', 'STOP': 'exit', 'WIN': 'profit', 'FADE': 'trail', 'OK': 'hold'}   # old breakouts skipped
     assert [a['t'] for a in ig.plan(scan)][0] == 'NEW'
+    why = {a['t']: a['why'] for a in ig.plan(scan)}
+    assert all(len(w) >= 2 for w in why.values())                       # what flagged + why act now
+    assert why['NEW'][0].startswith('Flagged 2026-10-01: a gap up of 8%+') and why['NEW'][1].startswith('Why buy')
+    assert 'flag-day low (10.00)' in why['STOP'][1] and why['WIN'][1].startswith('Why take profit: up +25.0%')
+    assert why['FADE'][1].startswith('Why sell') and why['OK'][1].startswith('Why hold')
 
 
 def test_market_note_cuts_size_below_the_200_day():
@@ -165,3 +170,42 @@ def test_strategy_lab_compares_with_the_current_system():
     out = render_scanner.lab_html(lab)
     assert 'Strategy lab' in out and '+43.0%' in out and '(+3)' in out and 'hindsight' in out and '+26.0%' in out
     assert 'style="font-weight:700" title="total +100%">+43.0%' in out      # best real strategy is bold, not the reference row
+
+
+def _scan_module():
+    spec = importlib.util.spec_from_file_location(
+        'ignition_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'ignition_scan.py'))
+    scan = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(scan)
+    return scan
+
+
+def test_scan_asks_again_for_latest_prices_yahoo_left_blank():
+    scan = _scan_module()
+    idx = pd.bdate_range('2026-10-08', periods=4)
+    C = pd.DataFrame({t: [10.0, 11.0, 12.0, 13.0] for t in 'ABCD'}, index=idx)
+    C.iloc[-1, 1:] = np.nan
+    asked = []
+
+    def fetch(tickers, start, end=None):
+        asked.append((tickers, start, end))
+        got = pd.DataFrame({t: [12.0, 14.0] for t in tickers if t != 'D'}, index=idx[-2:])
+        return {'Close': got, 'Volume': got * 100}
+
+    out = scan.refetch_latest({'Close': C, 'Volume': C * 100}, fetch=fetch)
+    assert asked == [(['B', 'C', 'D'], '2026-10-06', '2026-10-14')]
+    assert out['Close'].iloc[-1].tolist()[:3] == [13.0, 14.0, 14.0] and out['Close'].iloc[-1].isna().tolist()[3]
+    assert out['Volume'].iat[-1, 1] == 1400 and out['Close'].iat[-2, 1] == 12.0
+    full = C.fillna(13.0)
+    assert scan.refetch_latest({'Close': full, 'Volume': full}, fetch=None)['Close'] is full   # nothing to ask
+
+
+def test_scan_drops_a_latest_session_priced_for_only_a_few_stocks():
+    scan = _scan_module()
+    idx = pd.bdate_range('2026-10-08', periods=4)
+    C = pd.DataFrame({t: [10.0, 11.0, 12.0, 13.0] for t in 'ABCD'}, index=idx)
+    C.iloc[-1, 1:] = np.nan                       # Yahoo had the last session for one stock in four
+    fr = {'Close': C, 'Volume': C * 100}
+    out = scan.drop_thin_sessions(fr)
+    assert list(out['Close'].index) == list(idx[:3]) and len(out['Volume']) == 3
+    assert scan.drop_thin_sessions({'Close': C.iloc[:3], 'Volume': C.iloc[:3]})['Close'].shape == (3, 4)

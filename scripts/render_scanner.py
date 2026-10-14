@@ -2246,6 +2246,8 @@ IGNITION_CSS = """<style>
 #watch .act .who { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 #watch .act .who .muted { font-size: 0.78rem; }
 #watch .act .size { font-size: 0.8rem; color: var(--ink); }
+#watch .act .why { margin: 6px 0 0; padding-left: 18px; font-size: 0.8rem; color: var(--ink-2); }
+#watch .act .why li { margin-top: 2px; }
 #watch .mkt { border-left: 4px solid var(--pos); } #watch .mkt.warn { border-left-color: var(--gold); } #watch .mkt.bad { border-left-color: var(--neg); }
 #watch .acct { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--ink-2); margin: 0 0 10px; }
 #watch tr.wg td { background: var(--surface-2); padding-top: 10px; }
@@ -2311,7 +2313,9 @@ def _act(a):
             if a['act'] == 'new' and a.get('close') and a.get('stop') else '')
     return (f'<div class="act {a["act"]}"><div class="who"><span class="tag {ACT_TONE[a["act"]]}">{ACT_LABEL[a["act"]]}</span>'
             f'<b>{_e(a["t"])}</b><span class="muted">{_e(a.get("n"))} · {KIND_LABEL.get(a["kind"], "")} {_e(a.get("d"))}</span></div>'
-            f'<p>{_e(a["text"])}</p>{size}</div>')
+            f'<p>{_e(a["text"])}</p>'
+            + (f'<ul class="why">' + ''.join(f'<li>{_e(w)}</li>' for w in a.get('why') or []) + '</ul>' if a.get('why') else '')
+            + f'{size}</div>')
 
 
 def _theme_line(scan):

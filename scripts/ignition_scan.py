@@ -133,7 +133,7 @@ def load_industries():
             return {}
 
 
-def download(tickers, start):
+def download(tickers, start, end=None):
     """Wide adjusted O/H/L/C/V DataFrames (dates x tickers)."""
     import pandas as pd
     import yfinance as yf
@@ -143,7 +143,7 @@ def download(tickers, start):
         log(f'  prices {k + len(part)}/{len(tickers)}')
         for attempt in range(3):
             try:
-                df = yf.download(part, start=start, interval='1d', group_by='column', auto_adjust=True,
+                df = yf.download(part, start=start, end=end, interval='1d', group_by='column', auto_adjust=True,
                                  threads=True, progress=False)
                 break
             except Exception as e:
@@ -156,6 +156,8 @@ def download(tickers, start):
         for f in parts:
             sub = df[f] if isinstance(df.columns, pd.MultiIndex) else df[[f]].rename(columns={f: part[0]})
             parts[f].append(sub)
+    if not parts['Close']:
+        return {}
     out = {f: pd.concat(v, axis=1).sort_index() for f, v in parts.items()}
     out = {f: d.loc[:, ~d.columns.duplicated()] for f, d in out.items()}
     keep = out['Close'].columns[out['Close'].notna().sum() > 0]
@@ -171,6 +173,42 @@ def drop_partial_session(frames):
         log(f'dropping unfinished session {now.date()}')
         return {f: d.iloc[:-1] for f, d in frames.items()}
     return frames
+
+
+def refetch_latest(frames, fetch=None, share=0.5):
+    """Yahoo's bulk download sometimes leaves the latest session blank for most stocks. Ask again for the stocks
+    priced the session before but not on the latest one, and fill in what comes back."""
+    C = frames['Close']
+    if len(C) < 2:
+        return frames
+    last, prev = C.iloc[-1], C.iloc[-2]
+    if last.notna().sum() >= share * prev.notna().sum():
+        return frames
+    miss = [t for t in C.columns if prev[t] == prev[t] and last[t] != last[t]]
+    day = C.index[-1]
+    log(f'{day.date()}: only {int(last.notna().sum())} stocks priced; asking again for {len(miss)}')
+    got = (fetch or download)(miss, (day - timedelta(days=7)).date().isoformat(), end=(day + timedelta(days=1)).date().isoformat())
+    out = {}
+    for f, d in frames.items():
+        d = d.copy()
+        new = got.get(f)
+        if new is not None and day in new.index:
+            row = new.loc[day].reindex(d.columns)
+            d.iloc[-1] = d.iloc[-1].fillna(row)
+        out[f] = d
+    log(f'{day.date()}: {int(out["Close"].iloc[-1].notna().sum())} stocks priced after asking again')
+    return out
+
+
+def drop_thin_sessions(frames, share=0.5):
+    """Yahoo sometimes has the latest session for only a few stocks; scoring that session would blank every
+    stock's latest close. Drop trailing sessions priced for under `share` of the stocks the session before had."""
+    C = frames['Close']
+    n = len(C)
+    while n > 1 and C.iloc[n - 1].notna().sum() < share * C.iloc[n - 2].notna().sum():
+        log(f'dropping {C.index[n - 1].date()}: only {int(C.iloc[n - 1].notna().sum())} stocks priced')
+        n -= 1
+    return frames if n == len(C) else {f: d.iloc[:n] for f, d in frames.items()}
 
 
 def industries(tickers, cache):
@@ -277,7 +315,7 @@ def main():
             import pickle
             with open(a.cache, 'wb') as f:
                 pickle.dump(fr, f)
-    fr = drop_partial_session(fr)
+    fr = drop_thin_sessions(refetch_latest(drop_partial_session(fr)))
     O, H, L, C, V = (fr[k] for k in ('Open', 'High', 'Low', 'Close', 'Volume'))
     spy = C.pop('SPY').ffill()
     for d in (O, H, L, V):
