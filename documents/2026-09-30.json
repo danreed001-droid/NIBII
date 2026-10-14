@@ -1,7 +1,7 @@
 {
  "date": "2026-09-30",
  "basisDate": "2026-09-30",
- "scored": false,
+ "scored": true,
  "generatedAt": "2026-10-01T13:23:32Z",
  "generationLag": null,
  "schema": "multi-asset-v4",
@@ -594,13 +594,12 @@
        null
       ]
      ],
-     "maturityClose": 7748.5,
-     "ret": 0.001163,
+     "maturityClose": 7765.25,
+     "ret": 0.003327,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     }
    ],
    "structure": {
@@ -2787,13 +2786,12 @@
        null
       ]
      ],
-     "maturityClose": 104.921875,
-     "ret": 0.0072,
+     "maturityClose": 104.90625,
+     "ret": 0.00705,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     }
    ],
    "structure": {
@@ -5601,13 +5599,12 @@
        false
       ]
      ],
-     "maturityClose": 4115.5,
-     "ret": -0.018202,
+     "maturityClose": 4127.2998046875,
+     "ret": -0.015387,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     }
    ],
    "structure": {
@@ -7702,8 +7699,7 @@
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     }
    ],
    "structure": {
@@ -9980,13 +9976,12 @@
        false
       ]
      ],
-     "maturityClose": 2737.60009765625,
-     "ret": -0.029633,
+     "maturityClose": 2744.800048828125,
+     "ret": -0.027081,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     }
    ],
    "structure": {
@@ -12004,7 +11999,7 @@
       [
        "bear",
        "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); the Nasdaq-100 proxy's correlations are -0.627 to the 10-year and -0.596 to oil",
-       true
+       false
       ],
       [
        "neu",
@@ -12047,13 +12042,12 @@
        null
       ]
      ],
-     "maturityClose": 30101.25,
-     "ret": -0.02325,
+     "maturityClose": 30139.25,
+     "ret": -0.022017,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     }
    ],
    "structure": {
