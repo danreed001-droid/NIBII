@@ -2779,6 +2779,26 @@
     }
   },
   {
+    "id": "2026-10-14-1-sept-cpi-hotter-than-expected-yields-jump",
+    "data": {
+      "addedAt": "2026-10-14",
+      "category": "Macro",
+      "date": "2026-10-14",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "September CPI hotter than expected; 10Y yield jumps above 5.3%",
+      "impact": "High",
+      "numbers": "Headline CPI +3.7% y/y (+0.6% m/m); core +2.6% y/y; energy index +5.2%, gasoline +9.1%; 10Y ~5.306%, 30Y ~5.564%",
+      "order": 1,
+      "reaction": "Core inflation beat forecasts two weeks before the Oct 27-28 FOMC, reviving rate-hike odds; Treasury yields rose, the dollar strengthened and S&P 500 futures fell.",
+      "region": "US",
+      "source": "https://www.cnbc.com/2026/10/14/us-treasury-yields-cpi-inflation-report.html",
+      "tickers": "SPY, S&P, TLT, 10Y, yield, Treasury, DXY, dollar, QQQ",
+      "time": "Pre-market",
+      "vsExp": "Headline 3.7% vs 3.6% exp; core 2.6% vs 2.5% exp"
+    }
+  },
+  {
     "id": "2026-10-14-2-memory-chip-rout-weighs-on-tech",
     "data": {
       "addedAt": "2026-10-14",
@@ -2799,23 +2819,63 @@
     }
   },
   {
-    "id": "2026-10-14-1-sept-cpi-hotter-than-expected-yields-jump",
+    "id": "2026-10-14-3-stocks-close-lower-hot-cpi",
     "data": {
       "addedAt": "2026-10-14",
-      "category": "Macro",
+      "category": "Market",
       "date": "2026-10-14",
       "day": "Wed",
       "direction": "Bearish",
-      "event": "September CPI hotter than expected; 10Y yield jumps above 5.3%",
+      "event": "Stocks close lower as hot CPI revives Fed rate-hike fears",
       "impact": "High",
-      "numbers": "Headline CPI +3.7% y/y (+0.6% m/m); core +2.6% y/y; energy index +5.2%, gasoline +9.1%; 10Y ~5.306%, 30Y ~5.564%",
-      "order": 1,
-      "reaction": "Core inflation beat forecasts two weeks before the Oct 27-28 FOMC, reviving rate-hike odds; Treasury yields rose, the dollar strengthened and S&P 500 futures fell.",
+      "numbers": "S&P 500 7,718.94 (-1.11%); Dow 51,621.48 (-0.09%); Nasdaq 26,692.87 (-1.88%); Russell 2000 2,729.53 (-1.93%); 10Y Treasury yield 5.278% (+6bp); VIX +10% to 16.82",
+      "order": 3,
+      "reaction": "Indexes gave up early gains after the CPI print. Tech (-3.00%) and communication services (-1.32%) led losses; health care (+2.44%), consumer staples (+2.21%) and energy (+0.65%) outperformed as defensives caught a bid.",
       "region": "US",
-      "source": "https://www.cnbc.com/2026/10/14/us-treasury-yields-cpi-inflation-report.html",
-      "tickers": "SPY, S&P, TLT, 10Y, yield, Treasury, DXY, dollar, QQQ",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-14-2026",
+      "tickers": "SPY, DIA, QQQ, IWM",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-14-4-fed-rate-hike-odds-jump-cpi",
+    "data": {
+      "addedAt": "2026-10-14",
+      "category": "Fed",
+      "date": "2026-10-14",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Odds of an October Fed rate hike jump after hot CPI",
+      "impact": "High",
+      "numbers": "Implied odds of a 25bp hike at the Oct 27-28 FOMC rose to ~46% (Bloomberg) from ~20% pre-CPI (prediction markets had the October meeting at roughly 80% hold / 20% hike as of Oct 13); 2Y Treasury yield +10 to +12bp to ~4.89-4.92%, a post-Sept-29 high",
+      "order": 4,
+      "reaction": "Hotter core CPI reopened the case for another hike just two weeks before the meeting; front-end yields led the move higher and the dollar firmed.",
+      "region": "US",
+      "source": "https://www.schwab.com/learn/story/stock-market-update-open",
+      "tickers": "TLT, SHY, DXY, UUP",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-14-5-bank-of-america-eps-miss",
+    "data": {
+      "addedAt": "2026-10-14",
+      "category": "Earnings",
+      "date": "2026-10-14",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Bank of America Q3 EPS misses estimates; shares slide",
+      "impact": "Medium",
+      "numbers": "Diluted EPS $0.91; net income $6.93B; net income to common $6.54B; total revenue net of interest expense $29.96B ($30.12B FTE)",
+      "order": 5,
+      "reaction": "Shares fell roughly 7-8% intraday, the weakest of the major banks reporting this week, dragging the financials sector lower.",
+      "region": "US",
+      "source": "https://www.sec.gov/Archives/edgar/data/0000070858/000007085826000481/bac-09302026ex993.htm",
+      "tickers": "BAC",
       "time": "Pre-market",
-      "vsExp": "Headline 3.7% vs 3.6% exp; core 2.6% vs 2.5% exp"
+      "vsExp": "EPS missed consensus of roughly $1.11 (TIKR) to $1.16 (Benzinga), a miss of about 18-22%"
     }
   }
 ]
