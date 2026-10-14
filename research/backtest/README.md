@@ -27,7 +27,8 @@ the workflow on GitHub (tap **Run workflow**). A run takes about 15 minutes:
 
 Since Oct 14, 2026 the narrow-market warning is read from the equal-weight index's full history (2003 on),
 so the backtest includes the three cash weeks of 2006–07 that the original audit missed. That took about half
-a point a year off: the default now makes about 36% a year from 2000, with a −31% worst drop. Two runs on
+a point a year off: the default now makes about 36% a year from 2000. Its worst drop became −33% (May to
+Oct 2006, when two of those cash weeks held gold as it fell), from −31% in 2001–02. Two runs on
 Oct 14, 2026 differed by 0.4 points. Yahoo's dividend-adjusted prices differ slightly from one download to the
 next, and that flipped one close call between stocks, gold and bonds in Oct 2001; the difference then compounds
 over 25 years. So read the figure as accurate to about half a point. Boost 100% and the plain top 5 came out the
