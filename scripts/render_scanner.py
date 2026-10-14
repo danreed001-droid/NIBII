@@ -96,6 +96,8 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .banner { margin-top: 18px; display: flex; gap: 10px 16px; align-items: center; flex-wrap: wrap; background: var(--surface);
   border: 1px solid var(--hairline); border-left: 4px solid var(--gold); border-radius: 12px; padding: 12px 16px; font-size: 0.88rem; }
 .banner b { font-weight: 600; }
+.banner .why { flex-basis: 100%; margin: 2px 0 0; padding-left: 18px; font-size: 0.85rem; color: var(--ink-2); }
+.banner .why li { margin-top: 3px; }
 .tag { display: inline-flex; align-items: center; gap: 4px; border-radius: 999px; padding: 2px 9px; font-size: 0.74rem; font-weight: 600;
   border: 1px solid var(--hairline); }
 .tag.buy { color: var(--pos); border-color: color-mix(in srgb, var(--pos) 50%, transparent); }
@@ -638,6 +640,68 @@ __RESEARCH__
     if (!W.half) return '<span class="tag sell">sell ' + esc(W.held) + '</span><span class="tag buy">back to 100% the Boost list (whipsaw off)</span>';
     return '<span class="tag sell">sell ' + esc(W.held) + '</span><span class="tag buy">buy ' + esc(W.half) + ' (whipsaw half)</span>';
   }
+  function callWhy(pm) {   // bullets under the rebalance banner: why this is the call
+    var A = D.plan && D.plan.auto, RT = A && A.rotation, X = A && A.boostx;
+    var L = (pm === 'boost100' || pm === 'cushion' || pm === 'rotation') && X ? X : null;
+    var f = function (d) { return fmtDate(d, { weekday: 'short', month: 'short', day: 'numeric' }); };
+    var nm = { TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', CASH: 'cash', BIL: 'T-bills' };
+    var row = {}, keep = D.rule.keepRank, out = [];
+    (D.table || []).forEach(function (r) { row[r.t] = r; });
+    var rank = function (t) { return row[t] && row[t].rank ? '#' + row[t].rank : 'below #' + (D.table || []).length; };
+    var beat = function (t) { return row[t] && row[t].vsSpy != null ? ' (its 6-to-1-month return beats SPY’s by ' + pct(row[t].vsSpy) + ')' : ''; };
+    var held = L ? L.holdings : (D.holdings || []).map(function (h) { return h.t; });
+    var out_ = pm === 'rotation' && RT && RT.mode !== 'boost';
+    if (out_) {
+      var N = RT.narrow, LH = RT.lowerhigh, B = RT.noBills, holds = nm[RT.mode] || RT.mode, last = (RT.log || [])[0];
+      if (N && N.inCash) {
+        var R = N.reading;
+        out.push('<b>Your plan holds ' + esc(holds) + ', not stocks,</b> until after the close on ' + f(N.until || N.cash[1]) + ': the narrow-market cash week, since the close after ' + f(N.cash[0]) + '.');
+        if (R) out.push('Why: SPY is ' + (R.high < 0 ? pct(-R.high).slice(1) + ' below' : 'at') + ' its 52-week high, the equal-weight S&amp;P 500 has trailed it by ' + pct(Math.abs(R.lag)).slice(1) + ' over 3 months (a few big stocks are carrying the index) and the VIX is ' + R.vix.toFixed(1) +
+          ', near its 3-month low of ' + R.vixLow.toFixed(1) + '. A calm, narrow high like this has come before drops' + (N.on ? '. The warning fired again at the last close, and each warning moves the end back a week' : '') + '.');
+      } else if (LH && LH.inCash) {
+        out.push('<b>Your plan holds ' + esc(holds) + ', not stocks,</b> until after the close on ' + f(LH.until || LH.run[1]) + ': the lower-high exit. SPY made a lower high on its weekly chart and closed below it, which came before the bigger drops in testing.');
+      } else {
+        var rs = { rotate: 'SPY is in a daily downtrend and ' + esc(RT.mode) + ' has been leading', exit: 'SPY is below its 150-day average in a weekly downtrend (the downtrend exit)', 'switch': 'SPY is below its 150-day average in a weekly downtrend (the downtrend exit)' };
+        out.push('<b>Your plan holds ' + esc(holds) + ', not stocks:</b> ' + (last && rs[last[3]] || 'the rotation rules are out of stocks') + '. It goes back to stocks when that ends.');
+      }
+      if (RT.mode === 'CASH' && B) out.push('Cash, not gold or bonds, because over 6 months ' + B.assets.map(function (t) { return esc(t) + ' is ' + pct(B.pct[t]); }).join(' and ') + ': the plan holds one of them only if it is up.');
+    } else if (pm === 'rotation' && RT && RT.spy) {
+      var S = RT.spy, NN = RT.narrow;
+      var tr = function (x) { return { up: 'uptrend', down: 'downtrend', chop: 'choppy' }[x && x[0]] || 'no clear trend'; };
+      out.push('<b>In stocks</b> because SPY is ' + pct(S.gap) + ' vs its 150-day average (daily chart ' + tr(S.daily) + ', weekly ' + tr(S.weekly) + '), with no lower-high exit or narrow-market cash week in force' +
+        (NN && NN.cash && !NN.inCash ? '. <b>A narrow-market cash week is scheduled</b> from the close after ' + f(NN.cash[0]) : '') + '.');
+    }
+    var lead = out_ ? ' in the list it goes back to' : '';
+    var sells = D.signalDay && L ? L.sell : D.changes.sell, buys = D.signalDay && L ? L.buy : D.changes.buy;
+    var when = D.signalDay ? '' : ' if Friday’s signal were today';
+    sells.forEach(function (t) {
+      var why = L && (L.blown || []).indexOf(t) >= 0 ? 'blow-off exit: its last month’s gain is more than ' + L.mult + '× its gain over the 5 months before, and SPY is below its ' + L.ma + '-day average (blow-offs tend to fade in a weak market)'
+        : L && (L.surged || []).indexOf(t) >= 0 ? 'surge exit: it closed ' + Math.round(L.surge.up * 100) + '%+ up on ' + L.surge.vol + '×+ its usual volume a week ago, which tends to fade'
+        : !row[t] || row[t].rank > keep ? 'it has dropped to ' + rank(t) + ', outside the top ' + keep
+        : row[t].vsSpy != null && row[t].vsSpy <= 0 ? 'its 6-to-1-month return no longer beats SPY’s (' + pct(row[t].vsSpy) + ')'
+        : 'it no longer makes the list (ranks ' + rank(t) + ')';
+      out.push('<b>Sell ' + esc(t) + '</b>' + lead + when + ': ' + why + '.');
+    });
+    var nb = 0;
+    buys.forEach(function (t) {
+      var why = L && (L.boosted || []).indexOf(t) >= 0 ? 'news boost: it gapped up ' + Math.round((A.boost ? A.boost.gap : 0.12) * 100) + '%+ on news in the last 4 weeks, so it takes the weakest holding’s slot'
+        : 'it ranks ' + rank(t) + ', the ' + (nb++ ? 'next ' : '') + 'best-ranked stock not held' + beat(t);
+      out.push('<b>Buy ' + esc(t) + '</b>' + lead + when + ': ' + why + '.');
+    });
+    if (!sells.length && !buys.length && held.length) {
+      var hs = held.slice().sort(function (a, b) { return ((row[a] || {}).rank || 999) - ((row[b] || {}).rank || 999); });
+      var edge = hs[hs.length - 1], er = (row[edge] || {}).rank;
+      var nxt = (D.table || []).filter(function (r) { return held.indexOf(r.t) < 0 && r.vsSpy > 0; })[0];
+      out.push('<b>No stock swaps</b>' + lead + ': all ' + held.length + ' holdings still rank in the top ' + keep + ' (' + hs.map(function (t) { return esc(t) + ' ' + rank(t); }).join(', ') +
+        '). A holding stays until it drops out of the top ' + keep + ', so small rank moves don’t cause trades.' +
+        (er && er >= keep - 1 && nxt ? ' Closest to the edge: ' + esc(edge) + ' at #' + er + '; if it is below #' + keep + ' at Friday’s close, ' + esc(nxt.t) + ' (#' + nxt.rank + ' now) takes its place.' : ''));
+    }
+    if (L && !out_) out.push('Blow-off exit ' + (L.armed ? '<b>on</b>: SPY is below its ' + L.ma + '-day average, so a holding whose last month’s gain is more than ' + L.mult + '× its prior 5 months’ is sold'
+      : 'off: SPY is above its ' + L.ma + '-day average, and in a steady market selling strong runners early cost money') + '.');
+    out.push(D.signalDay ? 'Stock swaps happen only on the Friday signal, traded Monday ' + fmtDate(D.tradeDate, { month: 'short', day: 'numeric' }) + ' in the last 30 minutes; moves into or out of stocks can happen at any close.'
+      : 'Stock swaps happen only on the Friday signal (Fri ' + fmtDate(D.signalDate, { month: 'short', day: 'numeric' }) + ', traded Mon ' + fmtDate(D.tradeDate, { month: 'short', day: 'numeric' }) + '), so Mon–Thu this is a preview; moves into or out of stocks can happen at any close.');
+    return '<ul class="why">' + out.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul>';
+  }
   function narrowNote(RT) {   // the narrow-market cash week: rule, reading now, schedule
     var N = RT && RT.narrow;
     if (!N) return '';
@@ -890,13 +954,13 @@ __RESEARCH__
     if (pm === 'guard' && GD && GD.bear !== GD.prevBear) mixTag += '<span class="tag ' + (GD.bear ? 'sell' : 'buy') + '">bear guard ' + (GD.bear ? 'ON → ' + Math.round(GD.share * 100) + '% of stocks into SPY' : 'OFF → back to the top 5') + '</span>';
     var sw = SLb && SLb.held !== SLb.prevHeld ? '<span class="tag sell">sell ' + esc(SLb.prevHeld) + '</span><span class="tag buy">buy ' + esc(SLb.held) + ' (sleeve)</span>' : '';
     $('banner').innerHTML = '<b>Trade Mon ' + fmtDate(D.tradeDate, md) + ', 3:30–4:00 pm ET</b><span class="muted">signal from ' + fmtDate(D.asOf, wd) + '’s close:</span>' +
-      (tags || sw || mixTag ? tags + sw + mixTag : '<span>No stock, sleeve or mix changes — just reset to your mix.</span>');
+      (tags || sw || mixTag ? tags + sw + mixTag : '<span>No stock, sleeve or mix changes — just reset to your mix.</span>') + callWhy(pm);
   } else {
     var RTm = D.plan && D.plan.auto && D.plan.auto.rotation, pm2 = (D.plan && D.plan['default']) || 'auto';
     try { pm2 = localStorage.getItem('nibii-plan-mix5') || pm2; } catch (e) {}
     $('banner').innerHTML = (RTm && RTm.rsiWarn && RTm.rsiWarn.on ? '<span class="tag sell">RSI support-line break, SPY near or below its 150-day (info only)</span>' : '') + (RTm && RTm.trendWatch && RTm.trendWatch.on ? '<span class="tag sell">SPY closed under its rising trendline (info only)</span>' : '') + (RTm && RTm.warn ? '<span class="tag sell">downtrend warning: SPY below its 150-day in a daily downtrend, ' + esc(RTm.warn) + ' rising (info only)</span>' : '') + (pm2 === 'rotation' && RTm && (RTm.trade || (RTm.whip && RTm.whip.trade)) ? '<b>Boost + rotation — trade at the close ' + fmtDate(RTm.trade || RTm.whip.trade, wd) + ':</b>' + rotTag(RTm) + '<br>' : '') + (tags ? '<b>Preview — if Friday’s signal were ' + fmtDate(D.asOf, wd) + '’s close:</b>' + tags
         : '<b>No changes so far</b><span class="muted">At ' + fmtDate(D.asOf, wd) + '’s close all five holdings still rank in the top ' + D.rule.keepRank + '.</span>') +
-      '<span class="muted">Signal Fri ' + fmtDate(D.signalDate, md) + ' → trade Mon ' + fmtDate(D.tradeDate, md) + ' before the close.</span>';
+      '<span class="muted">Signal Fri ' + fmtDate(D.signalDate, md) + ' → trade Mon ' + fmtDate(D.tradeDate, md) + ' before the close.</span>' + callWhy(pm2);
   }
 
   function spark(vals, w, h) {
