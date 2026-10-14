@@ -274,8 +274,56 @@ def plan(scan):
         else:
             act, text = 'hold', (f'{_pc(since)} since the flag {r.get("days")} session{"s" if r.get("days") != 1 else ""} ago. Hold; stop stays at the '
                                  f'flag-day low {low:.2f}' + (f' ({_pc(-risk)} away).' if risk else '.'))
-        out.append(dict(t=t, n=r.get('n', ''), kind=r['kind'], d=r.get('d'), act=act, text=text, close=close, stop=low))
+        out.append(dict(t=t, n=r.get('n', ''), kind=r['kind'], d=r.get('d'), act=act, text=text, close=close, stop=low,
+                        why=_why(act, r, scan, risk)))
     out.sort(key=lambda x: (ORDER[x['act']], 0 if x['kind'] in ACT_KINDS else 1))
+    return out
+
+
+def _flagged(r, rules):
+    """What made the stock flag, in words, from the scan's own thresholds."""
+    k, ru = r['kind'], rules or {}
+    if k == 'ignition':
+        what = f"a gap up of {ru.get('ignGap', 0.08) * 100:.0f}%+ on {ru.get('ignVol', 3):.0f}x its usual volume (an ignition)"
+    elif k == 'turnaround':
+        what = f"a gap up of {ru.get('turnGap', 0.15) * 100:.0f}%+ on {ru.get('turnVol', 5):.0f}x its usual volume after a slide (a turnaround)"
+    elif k == 'breakout':
+        what = f"a close at a new high on {ru.get('brkVol', 1.5):g}x its usual volume (a breakout)"
+    else:
+        what = 'a volume signal'
+    rep = r.get('repeats') or 0
+    return f"Flagged {r.get('d')}: {what}" + (f"; its #{rep} gap in 12 months, and repeat gaps were the stronger signal." if rep >= 2 else '.')
+
+
+def _why(act, r, scan, risk):
+    """The reasons behind an action, as short bullets: what flagged, and why the playbook acts now."""
+    st = (scan.get('stats') or {}).get(r['kind']) or {}
+    since_y = (scan.get('statsFrom') or '')[:4]
+    up50, ret60, mae = st.get('up50'), st.get('ret60'), st.get('mae60')
+    odds = (f"since {since_y} about {up50 * 100:.0f}% of {r['kind']}s went on to gain 50%+ within 6 months, while the typical one was "
+            f"{_pc(ret60, 0)} three months later" if up50 is not None and ret60 is not None else '')
+    since, low, sma20 = r.get('since') or 0.0, r.get('low'), r.get('sma20')
+    out = [_flagged(r, scan.get('rules'))]
+    if act == 'new':
+        out.append('Why buy: ' + (odds + ', so ' if odds else '') + 'the plan is many small bets: the stop at the flag-day low caps each '
+                   'loss' + (f' ({_pc(-risk)} away, sized to risk 1% of the account)' if risk else '') + ' and the few big winners pay for the rest.')
+        tone, _ = market_note(scan.get('market'))
+        if tone == 'bad':
+            out.append('SPY is below its 200-day average, when these signals fail most: half size, or wait.')
+    elif act == 'exit':
+        out.append(f'Why exit: closing under the flag-day low ({low:.2f}) means the buyers behind the gap have given it all back; '
+                   'cutting it here keeps the loss to the planned 1% of the account' +
+                   (f' (a typical flag dipped {_pc(mae, 0)} at its worst within 3 months).' if mae is not None else '.'))
+    elif act == 'trail':
+        out.append(f'Why sell: after a gain, a close under the 20-day average ({sma20:.2f}) is the playbook\'s sign the move is fading; '
+                   f'selling now keeps most of the {_pc(since)} instead of riding it back down.')
+    elif act == 'profit':
+        out.append(f'Why take profit: up {_pc(since)}, past the 20% mark where the playbook banks part of the gain' +
+                   (f'; only about {up50 * 100:.0f}% of these keep running to +50%' if up50 is not None else '') +
+                   ', so taking some off locks in the win while the rest rides a trailing stop.')
+    else:
+        out.append(f'Why hold: still above the flag-day low ({low:.2f}), so the setup has not failed; nothing to do until it hits the '
+                   f'stop, gains 20%, or closes under its 20-day average' + (f' ({sma20:.2f})' if sma20 else '') + '.')
     return out
 
 

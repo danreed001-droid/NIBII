@@ -173,6 +173,17 @@ def drop_partial_session(frames):
     return frames
 
 
+def drop_thin_sessions(frames, share=0.5):
+    """Yahoo sometimes has the latest session for only a few stocks; scoring that session would blank every
+    stock's latest close. Drop trailing sessions priced for under `share` of the stocks the session before had."""
+    C = frames['Close']
+    n = len(C)
+    while n > 1 and C.iloc[n - 1].notna().sum() < share * C.iloc[n - 2].notna().sum():
+        log(f'dropping {C.index[n - 1].date()}: only {int(C.iloc[n - 1].notna().sum())} stocks priced')
+        n -= 1
+    return frames if n == len(C) else {f: d.iloc[:n] for f, d in frames.items()}
+
+
 def industries(tickers, cache):
     """{ticker: industry}, filling the cache from Yahoo for unknown tickers."""
     import yfinance as yf
@@ -277,7 +288,7 @@ def main():
             import pickle
             with open(a.cache, 'wb') as f:
                 pickle.dump(fr, f)
-    fr = drop_partial_session(fr)
+    fr = drop_thin_sessions(drop_partial_session(fr))
     O, H, L, C, V = (fr[k] for k in ('Open', 'High', 'Low', 'Close', 'Volume'))
     spy = C.pop('SPY').ffill()
     for d in (O, H, L, V):
