@@ -323,7 +323,8 @@ def _why(act, r, scan, risk):
                    ', so taking some off locks in the win while the rest rides a trailing stop.')
     else:
         out.append(f'Why hold: still above the flag-day low ({low:.2f}), so the setup has not failed; nothing to do until it hits the '
-                   f'stop, gains 20%, or closes under its 20-day average' + (f' ({sma20:.2f})' if sma20 else '') + '.')
+                   f'stop, gains {PROFIT_AT * 100:.0f}%, or (in profit, {TRAIL_AFTER}+ sessions in) closes under its 20-day average'
+                   + (f' ({sma20:.2f})' if sma20 else '') + '.')
     return out
 
 

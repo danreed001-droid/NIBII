@@ -172,11 +172,36 @@ def test_strategy_lab_compares_with_the_current_system():
     assert 'style="font-weight:700" title="total +100%">+43.0%' in out      # best real strategy is bold, not the reference row
 
 
-def test_scan_drops_a_latest_session_priced_for_only_a_few_stocks():
+def _scan_module():
     spec = importlib.util.spec_from_file_location(
         'ignition_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'ignition_scan.py'))
     scan = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(scan)
+    return scan
+
+
+def test_scan_asks_again_for_latest_prices_yahoo_left_blank():
+    scan = _scan_module()
+    idx = pd.bdate_range('2026-10-08', periods=4)
+    C = pd.DataFrame({t: [10.0, 11.0, 12.0, 13.0] for t in 'ABCD'}, index=idx)
+    C.iloc[-1, 1:] = np.nan
+    asked = []
+
+    def fetch(tickers, start, end=None):
+        asked.append((tickers, start, end))
+        got = pd.DataFrame({t: [12.0, 14.0] for t in tickers if t != 'D'}, index=idx[-2:])
+        return {'Close': got, 'Volume': got * 100}
+
+    out = scan.refetch_latest({'Close': C, 'Volume': C * 100}, fetch=fetch)
+    assert asked == [(['B', 'C', 'D'], '2026-10-06', '2026-10-14')]
+    assert out['Close'].iloc[-1].tolist()[:3] == [13.0, 14.0, 14.0] and out['Close'].iloc[-1].isna().tolist()[3]
+    assert out['Volume'].iat[-1, 1] == 1400 and out['Close'].iat[-2, 1] == 12.0
+    full = C.fillna(13.0)
+    assert scan.refetch_latest({'Close': full, 'Volume': full}, fetch=None)['Close'] is full   # nothing to ask
+
+
+def test_scan_drops_a_latest_session_priced_for_only_a_few_stocks():
+    scan = _scan_module()
     idx = pd.bdate_range('2026-10-08', periods=4)
     C = pd.DataFrame({t: [10.0, 11.0, 12.0, 13.0] for t in 'ABCD'}, index=idx)
     C.iloc[-1, 1:] = np.nan                       # Yahoo had the last session for one stock in four
