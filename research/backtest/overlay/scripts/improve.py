@@ -2809,7 +2809,7 @@ def concentration(runs, scheds, px_all, cal, P, evaluate):
         kw = VARIANTS['v2'][0]
         jobs.append((f'{k}_ex1', kw, k.endswith('boost'), tuple(best[k][:1])))
         jobs.append((f'{k}_ex3', kw, k.endswith('boost'), tuple(best[k][:3])))
-    with get_context('fork').Pool(4) as pool:
+    with get_context('fork').Pool(int(os.environ.get('ENGINE_PROCS', '4'))) as pool:
         for key, run in pool.imap_unordered(run_one, jobs):
             _, _, out = evaluate(key, run)
             base_key = key.rsplit('_', 1)[0]
@@ -3178,7 +3178,7 @@ def main():
             jobs.append((f'{name}_auto', kw, False, ()))
         jobs.append((f'{name}_boost', kw, True, ()))
     runs = {}
-    with get_context('fork').Pool(4) as pool:
+    with get_context('fork').Pool(int(os.environ.get('ENGINE_PROCS', '4'))) as pool:
         for key, res in pool.imap_unordered(run_one, jobs):
             runs[key] = res
             R.log(f"  run done: {key}")
