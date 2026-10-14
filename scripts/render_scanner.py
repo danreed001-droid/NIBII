@@ -584,7 +584,7 @@ __RESEARCH__
     <p class="note">The growth chart and year table come from the point-in-time backtest, run through <b id="trk-end">its last refresh</b>; after that each line carries on with the daily scan.
       It reruns by itself every 3 months (Jan 5, Apr 5, Jul 5, Oct 5).</p>
     <div class="call-actions"><a class="btn" id="trk-refresh" href="https://github.com/danreed001-droid/NIBII/actions/workflows/track-refresh.yml" target="_blank" rel="noopener">Refresh now ↗</a></div>
-    <p class="note">Opens GitHub: tap <b>Run workflow</b>, then the green <b>Run workflow</b> button. It takes about 40 minutes, and the page updates when it finishes.
+    <p class="note">Opens GitHub: tap <b>Run workflow</b>, then the green <b>Run workflow</b> button. It takes about 15 minutes, and the page updates when it finishes.
       If the default plan’s return a year moves more than 3 points, or its worst drop more than 5, it stops without publishing. To publish anyway, run it again with <b>Publish even if the numbers moved a lot</b> ticked.</p>
   </div>
 

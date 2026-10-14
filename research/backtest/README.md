@@ -16,7 +16,7 @@ with the scanner's daily moves.
 
 The **Track record refresh** workflow (`.github/workflows/track-refresh.yml`) runs every 3 months, on Jan 5,
 Apr 5, Jul 5 and Oct 5. It also runs from the **Refresh now** button at the bottom of the dashboard, which opens
-the workflow on GitHub (tap **Run workflow**). A run takes about 40 minutes:
+the workflow on GitHub (tap **Run workflow**). A run takes about 15 minutes:
 
 1. Rerun the backtest (`refresh.sh`).
 2. Compare the new numbers with the published ones (`compare_track.py`). If the default plan's return a year
