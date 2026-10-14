@@ -594,8 +594,8 @@
        null
       ]
      ],
-     "maturityClose": 7748.5,
-     "ret": 0.001163,
+     "maturityClose": 7767.0,
+     "ret": 0.003553,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2787,8 +2787,8 @@
        null
       ]
      ],
-     "maturityClose": 104.921875,
-     "ret": 0.0072,
+     "maturityClose": 104.84375,
+     "ret": 0.00645,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5601,8 +5601,8 @@
        false
       ]
      ],
-     "maturityClose": 4115.5,
-     "ret": -0.018202,
+     "maturityClose": 4122.2998046875,
+     "ret": -0.01658,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7697,8 +7697,8 @@
        null
       ]
      ],
-     "maturityClose": 102.55000305175781,
-     "ret": 0.009867,
+     "maturityClose": 102.54199981689453,
+     "ret": 0.009789,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9980,8 +9980,8 @@
        false
       ]
      ],
-     "maturityClose": 2737.60009765625,
-     "ret": -0.029633,
+     "maturityClose": 2742.800048828125,
+     "ret": -0.02779,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -12004,7 +12004,7 @@
       [
        "bear",
        "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); the Nasdaq-100 proxy's correlations are -0.627 to the 10-year and -0.596 to oil",
-       true
+       false
       ],
       [
        "neu",
@@ -12047,8 +12047,8 @@
        null
       ]
      ],
-     "maturityClose": 30101.25,
-     "ret": -0.02325,
+     "maturityClose": 30152.75,
+     "ret": -0.021578,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
