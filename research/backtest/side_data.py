@@ -7,6 +7,9 @@ spliced.json   {name: [[date, o, h, l, c], ...]}    funds extended back with an 
                on its first day: TLTX = Vanguard long Treasury fund (VUSTX) then TLT; GLDX = gold futures then GLD;
                UUPX = dollar index then UUP; FXYX = 1 / USDJPY then FXY; DBCX = S&P GSCI then DBC; USOX = crude
                futures then USO.
+narrow_warn.json [date, ...]                        the narrow-market warning days (mtl/narrow.py) from SPY, the
+               equal-weight S&P 500 (RSP) and the VIX, read from NARROW_FROM on as in the audit (its series
+               started then, so the warning first fires in 2012; RSP's full history would add 2006-07 warnings).
 """
 import json
 import os
@@ -14,7 +17,11 @@ import sys
 
 import yfinance as yf
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+from mtl.narrow import narrow_warnings  # noqa: E402
+
 START = '1998-01-01'
+NARROW_FROM = '2007-01-03'
 XASSET = ['CL=F', 'DX-Y.NYB', 'GC=F', 'GLD', 'HG=F', 'HYG', 'IEF', 'IWM', 'LQD', 'RSP', 'SPY', 'TLT', 'XLK', 'XLU',
           '^FVX', '^IRX', '^TNX', '^VIX']
 
@@ -58,13 +65,16 @@ def main(out):
     json.dump(xa, open(os.path.join(out, 'xasset.json'), 'w'))
     json.dump({'^VIX': xa['^VIX'], '^IRX': xa['^IRX']}, open(os.path.join(out, 'vix_irx.json'), 'w'))
     json.dump({'^TNX': bars('^TNX', adjusted=False)}, open(os.path.join(out, 'rates', 'tnx.json'), 'w'))
+    cut = lambda px: {d: v for d, v in px.items() if d >= NARROW_FROM}
+    nw = narrow_warnings(cut(xa['SPY']), cut(xa['RSP']), cut(xa['^VIX']), sorted(cut(xa['SPY'])))
+    json.dump(nw, open(os.path.join(out, 'narrow_warn.json'), 'w'))
     sp = {'TLTX': splice(bars('VUSTX'), bars('TLT')), 'GLDX': splice(bars('GC=F'), bars('GLD')),
           'UUPX': splice(bars('DX-Y.NYB'), bars('UUP')), 'FXYX': inverse(bars('JPY=X'), bars('FXY')),
           'DBCX': splice(bars('^SPGSCI'), bars('DBC')), 'USOX': splice(bars('CL=F'), bars('USO'))}
     json.dump(sp, open(os.path.join(out, 'spliced.json'), 'w'))
     for k, v in sp.items():
         print(k, v[0][0], v[-1][0], len(v))
-    print('xasset through', max(xa['SPY']), '· VIX through', max(xa['^VIX']))
+    print('xasset through', max(xa['SPY']), '· VIX through', max(xa['^VIX']), f'· {len(nw)} narrow-market warning days, last', nw[-1] if nw else None)
 
 
 if __name__ == '__main__':

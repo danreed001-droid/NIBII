@@ -2387,7 +2387,7 @@ def run_one(args):
         # narrow-market warning (SPY within 2% of its 52-week high, equal-weight S&P lagging SPY by 1.5%+ over 3
         # months, VIX within 2 points of its 3-month low): starting `delay` sessions after each warning day, make no
         # new buys for `days` sessions; open slots stay in cash
-        W9 = set(json.load(open(os.path.join(ROOT, 'data', 'narrow_warn.json'))))
+        W9 = set(json.load(open(os.path.join(SIDE_, 'narrow_warn.json'))))
         cal_9 = P['calendar']; blk9 = [False] * len(cal_9)
         for i_, d_ in enumerate(cal_9):
             if d_ in W9:
@@ -4515,7 +4515,7 @@ def main():
                 # narrow-market warning arms the rule for `armed` sessions; if SPY ('spy'), the held Boost stocks
                 # ('basket') or either falls `drop` below its close on the latest warning day (ref 'warn') or below its
                 # 20-session high (ref 'hi20'), the account sits in T-bills for `days` sessions, then follows the plan
-                W11 = set(json.load(open(os.path.join(ROOT, 'data', 'narrow_warn.json'))))
+                W11 = set(json.load(open(os.path.join(SIDE_, 'narrow_warn.json'))))
                 ixw_ = {d_: i_ for i_, d_ in enumerate(cal)}
                 scd11 = dict(sc); cur11 = None; bas11 = []
                 for i_, d_ in enumerate(cal):          # equal-weight index of the stocks held (the plan's stock part)
@@ -4556,7 +4556,7 @@ def main():
             if nc_:
                 # narrow-market warning: starting `delay` sessions after each warning day, the whole account sits in
                 # T-bills for `days` sessions, whatever the plan would hold
-                W10 = set(json.load(open(os.path.join(ROOT, 'data', 'narrow_warn' + ('_' + nc_['w'] if nc_.get('w') else '') + '.json'))))
+                W10 = set(json.load(open(os.path.join(SIDE_, 'narrow_warn' + ('_' + nc_['w'] if nc_.get('w') else '') + '.json'))))
                 n_nc = 0; on10 = set()
                 for i_, d_ in enumerate(cal):
                     if d_ in W10:
