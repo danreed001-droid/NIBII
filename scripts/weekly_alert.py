@@ -98,7 +98,7 @@ def trend_line(rt):
     return (f"**SPY trendline warning (information only):** SPY closed under its rising weekly trendline on {fmt(b['date'])} "
             f"(line {b['level']:.2f}, close {b['close']:.2f}; drawn through the {fmt(b['a'][0])} and {fmt(b['b'][0])} lows and touched "
             f"{len(b.get('touches') or [])} times about evenly). It caught October 2014 but cost 2000 and 2018; as a two-week exit it made "
-            "about the same as Boost + rotation over 2000-2026 (36.7% vs 37.0% a year), so it is a heads-up, not a trade.")
+            "about the same as Boost + rotation over 2000-2026 (36.2% vs 36.5% a year), so it is a heads-up, not a trade.")
 
 
 def whip_line(rt):
