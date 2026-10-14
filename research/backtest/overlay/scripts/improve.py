@@ -738,6 +738,22 @@ VARIANTS = {
     'STw4': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', stx=dict(tf='w', m=4.0), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # Supertrend weekly (10, 4) on top of the plan
     'SRd3': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', stx=dict(tf='d', m=3.0), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=100000))), None),   # Supertrend daily (10, 3) instead of the rotation and downtrend exit
     'SRw3': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', stx=dict(tf='w', m=3.0), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=100000))), None),   # Supertrend weekly (10, 3) instead of the rotation and downtrend exit
+    'TWn': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='w', back='both', haven='nb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # weekly time-symmetry exit; haven: the usual no-T-bills pick
+    'TWt': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='w', back='both', haven='t'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # weekly time-symmetry exit; haven: gold/bonds past the time check
+    'TWu': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='w', back='both', haven='tu'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # weekly time-symmetry exit; haven: time check + up over 6 months
+    'TWh': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='w', back='both', haven='th'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # weekly time-symmetry exit; haven: time check + higher highs and lows
+    'TWx': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='w', back='both', haven='h'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # weekly time-symmetry exit; haven: higher highs and lows only
+    'TDn': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='d', back='both', haven='nb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # daily time-symmetry exit; haven: the usual no-T-bills pick
+    'TDt': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='d', back='both', haven='t'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # daily time-symmetry exit; haven: gold/bonds past the time check
+    'TDu': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='d', back='both', haven='tu'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # daily time-symmetry exit; haven: time check + up over 6 months
+    'TDh': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='d', back='both', haven='th'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # daily time-symmetry exit; haven: time check + higher highs and lows
+    'TDx': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='d', back='both', haven='h'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # daily time-symmetry exit; haven: higher highs and lows only
+    'TDnh': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='d', haven='nb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # reference: back only above the high
+    'TWnh': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', tsym=dict(tf='w', haven='nb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # reference: back only above the high
+    'HVwt': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='ts:w:t', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the plan as is; where it would hold T-bills, gold / bonds that pass the weekly time check, else cash
+    'HVwu': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='ts:w:tu', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the plan as is; where it would hold T-bills, gold / bonds that pass the weekly time check + up 6 months, else cash
+    'HVdt': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='ts:d:t', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the plan as is; where it would hold T-bills, gold / bonds that pass the daily time check, else cash
+    'HVdu': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='ts:d:tu', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the plan as is; where it would hold T-bills, gold / bonds that pass the daily time check + up 6 months, else cash
     'RGmc': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', regate=dict(when='ma', hold='cash'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'RGms': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', regate=dict(when='ma', hold='stay'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'RGmb': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', regate=dict(when='ma', hold='bil'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
@@ -4488,6 +4504,79 @@ def main():
                         modes[f_] = 'BIL'
                         n_st_out += 1
                 R.log(f"  {key} supertrend sessions out {n_st_out}")
+            ts_ = leg_.get('tsym')
+            if ts_:
+                # time symmetry on SPY (weekly or daily swings): out of stocks while the time since the last swing high is
+                # longer than the rally into it took (from the swing low before it) and SPY is still under that high.
+                # Where to: haven='nb' -> T-bills (the no-T-bills rule picks); else gold / bonds that pass the check
+                # ('t': time since its last swing low longer than the drop into it took, from the high before;
+                # 'tu': that and up over 6 months; 'th': that and higher highs + higher lows; 'h': higher highs + higher
+                # lows alone), the one up most over 6 months, else cash at 0%.
+                tf_ts, n_ts, hv_ = ts_.get('tf', 'w'), ts_.get('n', 2 if ts_.get('tf', 'w') == 'w' else 3), ts_.get('haven', 'nb')
+                if 'CASH0' not in px_all:
+                    px_all['CASH0'] = {d_: 1.0 for d_ in cal}
+
+                def ts_swings(t_, d_):
+                    j_ = bisect_right(bdays[t_], d_)
+                    daily = [tuple(b_) for b_ in bars_src[t_][max(0, j_ - (700 if tf_ts == 'w' else 320)):j_]]
+                    bs_ = weekly(daily) if tf_ts == 'w' else daily
+                    return bs_, _fs(bs_, n=n_ts)
+
+                def haven_ok(t_, d_):
+                    bs_, sw_ = ts_swings(t_, d_)
+                    his = [x for x in sw_ if x['type'] == 'high']
+                    los = [x for x in sw_ if x['type'] == 'low']
+                    hh_ = len(his) >= 2 and len(los) >= 2 and his[-1]['price'] > his[-2]['price'] and los[-1]['price'] > los[-2]['price']
+                    if hv_ == 'h':
+                        return hh_
+                    if not los:
+                        return False
+                    lo_ = los[-1]
+                    prev_ = [x for x in his if x['i'] < lo_['i']]
+                    if not prev_:
+                        return False
+                    ok_ = (len(bs_) - 1 - lo_['i']) > (lo_['i'] - prev_[-1]['i'])
+                    if ok_ and hv_ == 'tu':
+                        c_ = pchg(t_, d_, 126)
+                        ok_ = c_ is not None and c_ > 0
+                    if ok_ and hv_ == 'th':
+                        ok_ = hh_
+                    return ok_
+                n_ts_out, hold_ = 0, {}
+                out_, ex_, used_ = False, None, set()
+                for k_ in range(1, len(cal)):
+                    f_ = cal[k_]
+                    if f_ < R.START:
+                        continue
+                    bs_, sw_ = ts_swings('SPY', f_)
+                    his = [x for x in sw_ if x['type'] == 'high']
+                    if out_:
+                        # back above the high that sent it out; with back='both' also once SPY's rise since its last swing
+                        # low (made after that high) has lasted longer than the drop into it (from the high before it)
+                        back_ = bs_[-1][4] > ex_[1]
+                        if not back_ and ts_.get('back', 'hi') == 'both':
+                            lw_ = [x for x in sw_ if x['type'] == 'low' and x['ts'] > ex_[0]]
+                            if lw_:
+                                hb_ = [x for x in his if x['i'] < lw_[-1]['i']]
+                                back_ = bool(hb_) and (len(bs_) - 1 - lw_[-1]['i']) > (lw_[-1]['i'] - hb_[-1]['i'])
+                        if back_:
+                            out_ = False
+                            used_.add(ex_[0])
+                    if not out_ and his:
+                        hi_ = his[-1]
+                        lb_ = [x for x in sw_ if x['type'] == 'low' and x['i'] < hi_['i']]
+                        if lb_ and hi_['ts'] not in used_ and (len(bs_) - 1 - hi_['i']) > (hi_['i'] - lb_[-1]['i']) and bs_[-1][4] < hi_['price']:
+                            out_, ex_ = True, (hi_['ts'], hi_['price'])
+                    if not out_ or not (modes.get(f_, 'boost') == 'boost' or str(modes.get(f_, '')).startswith('SIDE:')):
+                        continue
+                    if hv_ == 'nb':
+                        modes[f_] = 'BIL'
+                    else:
+                        ok_ = [(pchg(t_, f_, 126) or -9, t_) for t_ in pool_ if t_ in bdays and haven_ok(t_, f_)]
+                        modes[f_] = max(ok_)[1] if ok_ else 'CASH0'
+                    hold_[modes[f_]] = hold_.get(modes[f_], 0) + 1
+                    n_ts_out += 1
+                R.log(f"  {key} time-symmetry sessions out {n_ts_out} {hold_}")
             side_ = leg_.get('side')
             if side_:
                 # sideways SPY (checked at each week's last close): low efficiency ratio (net move / path length) or low R^2 of a
@@ -5020,6 +5109,30 @@ def main():
                         c_ = pchg('UUPX', f_, 126)
                         up_ = [(v_, t_) for v_, t_ in ((a_, 'TLTX'), (b_, 'GLDX'), (c_, 'UUPX')) if v_ is not None and v_ > 0]
                         return max(up_)[1] if up_ else 'CASH0'
+                    if isinstance(kind_, str) and kind_.startswith('ts:'):
+                        # time check: gold / bonds whose time since its last swing low (weekly or daily swings) is longer
+                        # than the drop into it took (from the high before it); 'tu' also needs it up over 6 months.
+                        # The one up most over 6 months, else cash at 0%.
+                        _, tfh_, hvh_ = kind_.split(':')
+                        okh_ = []
+                        for t_ in ('TLTX', 'GLDX'):
+                            if t_ not in bdays:
+                                continue
+                            j_ = bisect_right(bdays[t_], f_)
+                            dly_ = [tuple(b_) for b_ in bars_src[t_][max(0, j_ - (700 if tfh_ == 'w' else 320)):j_]]
+                            bsh_ = weekly(dly_) if tfh_ == 'w' else dly_
+                            swh_ = _fs(bsh_, n=2 if tfh_ == 'w' else 3)
+                            lsh_ = [x for x in swh_ if x['type'] == 'low']
+                            if not lsh_:
+                                continue
+                            hph_ = [x for x in swh_ if x['type'] == 'high' and x['i'] < lsh_[-1]['i']]
+                            if not hph_ or (len(bsh_) - 1 - lsh_[-1]['i']) <= (lsh_[-1]['i'] - hph_[-1]['i']):
+                                continue
+                            c_ = pchg(t_, f_, 126)
+                            if hvh_ == 'tu' and (c_ is None or c_ <= 0):
+                                continue
+                            okh_.append((c_ if c_ is not None else -9, t_))
+                        return max(okh_)[1] if okh_ else 'CASH0'
                     if kind_ == 'gbup':
                         # the stronger of TLT / GLD over 6 months if it is up, else cash at 0%
                         up_ = [(v_, t_) for v_, t_ in ((a_, 'TLTX'), (b_, 'GLDX')) if v_ is not None and v_ > 0]
