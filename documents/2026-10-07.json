@@ -474,8 +474,8 @@
        null
       ]
      ],
-     "maturityClose": 7872.25,
-     "ret": 0.002228,
+     "maturityClose": 7823.75,
+     "ret": -0.003947,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2572,8 +2572,8 @@
        null
       ]
      ],
-     "maturityClose": 104.859375,
-     "ret": 0.00449,
+     "maturityClose": 104.046875,
+     "ret": -0.003293,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5298,8 +5298,8 @@
        false
       ]
      ],
-     "maturityClose": 4166.2998046875,
-     "ret": 0.002165,
+     "maturityClose": 4108.7998046875,
+     "ret": -0.011666,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7344,12 +7344,12 @@
       [
        "bull",
        "The 10-year yield closed near 5.28% (intraday 5.36%, highest since April 2002) and the 30-year near 5.66% (news log, 7 October close entry); higher US yields support the dollar",
-       false
+       true
       ],
       [
        "bull",
        "September FOMC minutes (7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets price roughly 17-20% odds of an October hike (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -7369,7 +7369,7 @@
       [
        "bull",
        "Hawkish 7 October FOMC minutes (further hike 'likely appropriate by year end') point to a firmer dollar; DX-Y.NYB rose 0.25% on the day",
-       false
+       true
       ],
       [
        "neu",
@@ -7379,7 +7379,7 @@
       [
        "bull",
        "Risk-off tone with US yields at 2002 highs and gold falling alongside a 0.25% dollar gain (news log; DX-Y.NYB)",
-       false
+       true
       ],
       [
        "neu",
@@ -7387,8 +7387,8 @@
        null
       ]
      ],
-     "maturityClose": 102.23600006103516,
-     "ret": 6.9e-05,
+     "maturityClose": 102.83200073242188,
+     "ret": 0.005899,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9564,12 +9564,12 @@
       [
        "bear",
        "The 10-year yield closed near 5.28% (intraday 5.36%, highest since April 2002) and the 30-year near 5.66% (news log, 7 October close entry); rate-sensitive small caps correlate -0.518 with 10-year yield changes over 21 sessions",
-       false
+       true
       ],
       [
        "bear",
        "September FOMC minutes (7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets price roughly 17-20% odds of an October hike (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -9589,7 +9589,7 @@
       [
        "bear",
        "Hawkish 7 October FOMC minutes; Russell 2000 futures were -0.89% pre-market and closed -1.20% (news log; RTY=F)",
-       false
+       true
       ],
       [
        "neu",
@@ -9599,7 +9599,7 @@
       [
        "bear",
        "Brent was above $101 and WTI about $90 on 7 October on continued Strait of Hormuz attacks (news log, pre-market entry); oil correlation to small caps is -0.385 and the dollar index rose 0.25%",
-       false
+       true
       ],
       [
        "bull",
@@ -9607,11 +9607,11 @@
        false
       ]
      ],
-     "maturityClose": 2809.0,
-     "ret": -0.000498,
-     "correct": true,
-     "shadowCorrect": true,
-     "preReversionCorrect": true,
+     "maturityClose": 2764.699951171875,
+     "ret": -0.016261,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
      "settlementNote": "graded against RTY=F",
      "provisional": true
     },
@@ -11591,8 +11591,8 @@
        null
       ]
      ],
-     "maturityClose": 30792.25,
-     "ret": -0.020556,
+     "maturityClose": 30560.5,
+     "ret": -0.027928,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

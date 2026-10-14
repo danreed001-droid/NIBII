@@ -312,62 +312,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for ES=F on 13 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for ES=F on 13 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VIX closed 15.27 on 13 October, unremarkable and naming no percentile"
+       "VIX closed 15.27 on 13 October, unremarkable and naming no percentile",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral"
+       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral",
+       null
       ],
       [
        "neu",
-       "NY Fed's Williams (13 October): one more 2026 hike still appropriate, none needed in 2027 as inflation cools (news log); September CPI due 14 October is the next check, so the Fed path is two-sided"
+       "NY Fed's Williams (13 October): one more 2026 hike still appropriate, none needed in 2027 as inflation cools (news log); September CPI due 14 October is the next check, so the Fed path is two-sided",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Bank earnings were mixed (JPMorgan miss, Goldman and Wells Fargo beats) and chips fell; offsetting, so neutral"
+       "Bank earnings were mixed (JPMorgan miss, Goldman and Wells Fargo beats) and chips fell; offsetting, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral"
+       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided"
+       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7823.75,
+     "ret": -0.004073,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -2360,62 +2375,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for ZN=F on 13 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for ZN=F on 13 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral"
+       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral"
+       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral",
+       null
       ],
       [
        "bear",
-       "NY Fed's Williams (13 October, news log) still sees one more 2026 rate hike as appropriate, a headwind for note prices near term, though he sees none in 2027"
+       "NY Fed's Williams (13 October, news log) still sees one more 2026 rate hike as appropriate, a headwind for note prices near term, though he sees none in 2027",
+       true
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 13 October, so neutral"
+       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 13 October, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral"
+       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided"
+       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 104.046875,
+     "ret": -0.006564,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -4989,62 +5019,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for GC=F on 13 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for GC=F on 13 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "GVZ closed 22.09 on 13 October, naming no percentile"
+       "GVZ closed 22.09 on 13 October, naming no percentile",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral"
+       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral",
+       null
       ],
       [
        "neu",
-       "NY Fed's Williams (13 October): one more 2026 hike still appropriate, none needed in 2027 as inflation cools (news log); September CPI due 14 October is the next check, so the Fed path is two-sided"
+       "NY Fed's Williams (13 October): one more 2026 hike still appropriate, none needed in 2027 as inflation cools (news log); September CPI due 14 October is the next check, so the Fed path is two-sided",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 13 October, so neutral"
+       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 13 October, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral"
+       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided"
+       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4108.7998046875,
+     "ret": -0.016398,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -7030,62 +7075,77 @@
      "votes": [
       [
        "bear",
-       "structure.hourly reads downtrend for DX-Y.NYB on 13 October - a run of lower swings"
+       "structure.hourly reads downtrend for DX-Y.NYB on 13 October - a run of lower swings",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral"
+       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral"
+       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral",
+       null
       ],
       [
        "bull",
-       "NY Fed's Williams (13 October, news log) still sees one more 2026 rate hike as appropriate, supportive of the dollar near term, though he sees none in 2027"
+       "NY Fed's Williams (13 October, news log) still sees one more 2026 rate hike as appropriate, supportive of the dollar near term, though he sees none in 2027",
+       true
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 13 October, so neutral"
+       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 13 October, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral"
+       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided"
+       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided",
+       null
       ],
       [
        "bear",
-       "1H structure is downtrend - last labeled swings: LL/LH/LL/LH."
+       "1H structure is downtrend - last labeled swings: LL/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 102.83200073242188,
+     "ret": 0.006381,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 5,
@@ -9162,62 +9222,77 @@
      "votes": [
       [
        "bear",
-       "structure.hourly reads downtrend for RTY=F on 13 October - a run of lower swings"
+       "structure.hourly reads downtrend for RTY=F on 13 October - a run of lower swings",
+       true
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral"
+       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral"
+       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral",
+       null
       ],
       [
        "neu",
-       "NY Fed's Williams (13 October): one more 2026 hike still appropriate, none needed in 2027 as inflation cools (news log); September CPI due 14 October is the next check, so the Fed path is two-sided"
+       "NY Fed's Williams (13 October): one more 2026 hike still appropriate, none needed in 2027 as inflation cools (news log); September CPI due 14 October is the next check, so the Fed path is two-sided",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Bank earnings on 13 October were mixed (JPMorgan EPS $5.57 vs $5.90 est, Goldman profit +29%, Wells Fargo beat) and memory-chip names fell (news log); no clear net directional catalyst for this asset, so neutral"
+       "Bank earnings on 13 October were mixed (JPMorgan EPS $5.57 vs $5.90 est, Goldman profit +29%, Wells Fargo beat) and memory-chip names fell (news log); no clear net directional catalyst for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral"
+       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided"
+       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided",
+       null
       ],
       [
        "bear",
-       "1H structure is downtrend - last labeled swings: LL/LH/LL/LH."
+       "1H structure is downtrend - last labeled swings: LL/LH/LL/LH.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2764.699951171875,
+     "ret": -0.012642,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -11056,62 +11131,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for NQ=F on 13 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for NQ=F on 13 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VXN closed 21.14 on 13 October, naming no percentile"
+       "VXN closed 21.14 on 13 October, naming no percentile",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral"
+       "The 10-year Treasury yield eased 2bp to 5.223% on 13 October (news log), still near a multi-decade high; the net signal for this asset over the horizon is two-sided, so neutral",
+       null
       ],
       [
        "neu",
-       "NY Fed's Williams (13 October): one more 2026 hike still appropriate, none needed in 2027 as inflation cools (news log); September CPI due 14 October is the next check, so the Fed path is two-sided"
+       "NY Fed's Williams (13 October): one more 2026 hike still appropriate, none needed in 2027 as inflation cools (news log); September CPI due 14 October is the next check, so the Fed path is two-sided",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "Memory-chip selloff on 13 October (Kospi -5% to -6%; Micron, Western Digital, Sandisk, Applied Materials lower per news log) tied to China CXMT progress and AI-spending doubts weighs on Nasdaq-100 tech near term"
+       "Memory-chip selloff on 13 October (Kospi -5% to -6%; Micron, Western Digital, Sandisk, Applied Materials lower per news log) tied to China CXMT progress and AI-spending doubts weighs on Nasdaq-100 tech near term",
+       true
       ],
       [
        "neu",
-       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral"
+       "September CPI is due 14 October and the Fed meets 27-28 October (news log); outcomes are unknown at the 13 October close, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 13 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided"
+       "Cross-asset signals on 13 October were mixed (WTI ~$94.14 +0.43%, Brent ~$105.69 -0.9%, yield -2bp, chips weak, banks strong), so the cross-asset read is two-sided",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 30560.5,
+     "ret": -0.007502,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 5,

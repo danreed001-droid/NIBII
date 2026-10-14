@@ -594,8 +594,8 @@
        null
       ]
      ],
-     "maturityClose": 7872.25,
-     "ret": 0.017152,
+     "maturityClose": 7823.75,
+     "ret": 0.010886,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2787,8 +2787,8 @@
        null
       ]
      ],
-     "maturityClose": 104.859375,
-     "ret": 0.0066,
+     "maturityClose": 104.046875,
+     "ret": -0.0012,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5601,8 +5601,8 @@
        false
       ]
      ],
-     "maturityClose": 4166.2998046875,
-     "ret": -0.006083,
+     "maturityClose": 4108.7998046875,
+     "ret": -0.019801,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7697,8 +7697,8 @@
        null
       ]
      ],
-     "maturityClose": 102.23600006103516,
-     "ret": 0.006775,
+     "maturityClose": 102.83200073242188,
+     "ret": 0.012644,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9937,7 +9937,7 @@
       [
        "bear",
        "The 10-year Treasury yield closed about 5.25-5.28% on 30 September, its highest since 2007 per the close wrap (news log); small caps' correlation to the 10-year is -0.724, the strongest of the six assets",
-       false
+       true
       ],
       [
        "neu",
@@ -9980,8 +9980,8 @@
        false
       ]
      ],
-     "maturityClose": 2809.0,
-     "ret": -0.004324,
+     "maturityClose": 2764.699951171875,
+     "ret": -0.020027,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -12047,8 +12047,8 @@
        null
       ]
      ],
-     "maturityClose": 30792.25,
-     "ret": -0.000827,
+     "maturityClose": 30560.5,
+     "ret": -0.008347,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
