@@ -175,3 +175,9 @@ def test_rebalance_banner_explains_the_call():
     for s in ('narrow-market cash week', 'No stock swaps', 'Closest to the edge', 'blow-off exit: its last month',
               'surge exit: it closed', 'news boost: it gapped up', 'best-ranked stock not held', 'Cash, not gold or bonds'):
         assert s in page
+
+
+def test_rotation_explains_the_rebound_rule():
+    page = render_scanner.render(SCAN)
+    assert 'function reboundNote(RT)' in page and 'reboundNote(RT);' in page and '7. Rebound rule' in page
+    assert 'In stocks because of the rebound rule' in page and "rebound: 'rebound rule: back in stocks'" in page

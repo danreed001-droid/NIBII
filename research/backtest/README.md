@@ -27,12 +27,16 @@ the workflow on GitHub (tap **Run workflow**). A run takes about 15 minutes:
 
 Since Oct 14, 2026 the narrow-market warning is read from the equal-weight index's full history (2003 on),
 so the backtest includes the three cash weeks of 2006–07 that the original audit missed. That took about half
-a point a year off: the default now makes about 36% a year from 2000. Its worst drop became −33% (May to
-Oct 2006, when two of those cash weeks held gold as it fell), from −31% in 2001–02. Two runs on
-Oct 14, 2026 differed by 0.4 points. Yahoo's dividend-adjusted prices differ slightly from one download to the
-next, and that flipped one close call between stocks, gold and bonds in Oct 2001; the difference then compounds
-over 25 years. So read the figure as accurate to about half a point. Boost 100% and the plain top 5 came out the
-same both times.
+a point a year off: the default made about 36% a year from 2000. Its worst drop became −33% (May to
+Oct 2006, when two of those cash weeks held gold as it fell), from −31% in 2001–02. Two runs on Oct 14, 2026
+differed by 0.4 points. Yahoo's dividend-adjusted prices differ slightly from one download to the next, and that
+flipped one close call between stocks, gold and bonds in Oct 2001; the difference then compounds over 25 years. So
+read the figure as accurate to about half a point. Boost 100% and the plain top 5 came out the same both times.
+
+Since Oct 14, 2026 the default (`NBup`) includes the rebound rule (`mtl/rebound.py`): while SPY is 12%+ under its
+63-session high, gold or bonds is up 2%+ since that high and SPY's daily chart has made a higher low, it holds the
+Boost list over every other rule. The refresh that day put the default at 37.2% a year from 2000 (worst drop −33%),
+up from 36.0%; the audit data gives 37.8% vs 36.5% without it. `NBpre` is the default before the rule.
 
 ## Run it by hand
 

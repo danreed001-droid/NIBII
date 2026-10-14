@@ -28,7 +28,9 @@ lagging instead of the equal-weight index, did worse. It was designed after look
 drops. RSP goes back to 2003, and on those unseen years (Oct 14, 2026 check) the warning fired three
 times: Aug-Sep 2006 and Oct 2006 cost money (stocks kept rising and gold, the haven then, fell; 2006
 -13.5% instead of +2.5%), Oct 2007 caught the top (2007 +38.1% instead of +28.1%); 37.0% a year from
-2000 became 36.5%. The dashboard's track record includes them since then.
+2000 became 36.5%. The dashboard's track record includes them since then. With the rebound rule (mtl/rebound.py,
+Oct 14, 2026) the plan made 37.8% a year from 2000 vs 35.6% without the cash week, 39.2% vs 35.1% from 2010,
+47.3% vs 43.4% from 2016 and 69.7% vs 66.0% from 2020.
 
 Abroad there is no equal-weight index or VIX in the data, so it was rebuilt with stand-ins: an
 equal-weight basket of each index's current stocks, and the US VIX (previous US close) or the index's

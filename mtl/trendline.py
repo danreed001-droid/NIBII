@@ -15,8 +15,9 @@ warning fires on the first close under it and stays on for TL_DAYS = 10 sessions
 
 Audit (Oct 13, 2026, as a two-week step out of stocks on top of the plan, into the stronger of gold / bonds or
 cash, then back to whatever the plan holds): the line fired 5 times since 2000 (Sep 2000, Oct 2014, Oct 2018, Jun 2021, Feb 2025) and made 36.7% a
-year from 2000 against 37.0% for the plan (36.2% vs 36.5% once the cash week read its full history, Oct 14), 38.1% vs 38.0% from 2010, 45.8% vs 47.0% from 2016 and 67.3% vs
-67.6% from 2020 (worst drops the same, except -25% vs -23% from 2016). It caught October 2014 (that year +11.5%
+year from 2000 against 37.0% for the plan (36.2% vs 36.5% once the cash week read its full history, Oct 14; 37.4% vs 37.8% with the rebound rule), 38.1% vs
+38.0% from 2010 (39.3% vs 39.2%), 45.8% vs 47.0% from 2016 (46.1% vs 47.3%) and 67.3% vs 67.6% from 2020 (worst
+drops the same, except -25% vs -23% from 2016). It caught October 2014 (that year +11.5%
 instead of -3.6%) but cost 2000 and 2018; stepping out again when SPY broke the same line a second time did
 worse (35.8% from 2000). Allowing 4 even touches as well as 3 gave the same 5 breaks; 4 touches with no spacing
 rule fired 9 times and made 35.8%. Near-parallel two-line channels broke only 2-4 times since 2000 and did no

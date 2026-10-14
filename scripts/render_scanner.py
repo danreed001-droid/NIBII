@@ -360,6 +360,9 @@ tbody tr:last-child td { border-bottom: 0; }
 #call-status { font-size: 0.8rem; color: var(--ink-2); }
 #trk-card { margin-top: 28px; }
 #trk-card .btn { text-decoration: none; display: inline-block; }
+#y2-in { width: 100%; font: 0.9rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 8px 10px; margin: 4px 0 8px; box-sizing: border-box; }
+#y2-chart svg { width: 100%; height: auto; display: block; }
+#y2-log { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
 #sync-token { flex: 1 1 180px; min-width: 0; font: 0.84rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 6px 8px; }
 .sync code { font-size: 0.74rem; }
 .rec-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; margin: 8px 0 10px; }
@@ -464,6 +467,25 @@ footer li { margin-bottom: 6px; }
       <div class="range" id="rec-range" hidden><label>From <input type="date" id="rr-from"></label><label>To <input type="date" id="rr-to"></label>
         <button type="button" class="linkbtn" id="rr-all">All</button></div>
       <div id="rec"></div>
+    </div>
+  </div>
+
+  <p class="section-label">You-2 <span class="hint">your stocks, the default plan’s timing · since Oct 14, 2026</span></p>
+  <div class="plan">
+    <div class="card" id="you2">
+      <p class="chart-title">You-2: your stocks</p>
+      <p class="chart-sub" id="y2-sub">Starts Oct 14, 2026 with the default plan’s five</p>
+      <div id="y2-now"></div>
+      <label class="note" for="y2-in">Your stocks (up to 10 tickers, commas or spaces)</label>
+      <input id="y2-in" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="DELL, MRNA, MU, AMD, HPE">
+      <div class="call-actions"><a class="btn" id="y2-submit" target="_blank" rel="noopener">Save to repo ↗</a><span id="y2-status" role="status"></span></div>
+      <p class="note">Saving opens a filled-in GitHub issue: tap <b>Create</b> and the repo records the list within a minute. The list is bought in equal weights at the next close after the day you save it. From then on You-2 follows the default plan: in your stocks while the plan holds the Boost list, in gold, bonds or cash (or half in one) whenever the plan is, and back in your stocks when the plan is (the rebound rule included). Switches happen at the same closes as the plan’s.</p>
+    </div>
+    <div class="card">
+      <p class="chart-title">You-2 record</p>
+      <p class="chart-sub">$100 from Oct 14, 2026: You-2 vs the default plan and SPY</p>
+      <div id="y2-chart"></div>
+      <div id="y2-log"></div>
     </div>
   </div>
 
@@ -665,6 +687,16 @@ __RESEARCH__
         out.push('<b>Your plan holds ' + esc(holds) + ', not stocks:</b> ' + (last && rs[last[3]] || 'the rotation rules are out of stocks') + '. It goes back to stocks when that ends.');
       }
       if (RT.mode === 'CASH' && B) out.push('Cash, not gold or bonds, because over 6 months ' + B.assets.map(function (t) { return esc(t) + ' is ' + pct(B.pct[t]); }).join(' and ') + ': the plan holds one of them only if it is up.');
+      var RB2 = RT.rebound;
+      if (RB2 && RB2.drop != null && RB2.drop >= RB2.drop_th && !RB2.on) {
+        var miss = [];
+        if (!(RB2.best != null && RB2.best >= RB2.haven_th)) miss.push('gold or bonds up ' + Math.round(RB2.haven_th * 100) + '%+ since the high (now ' + pct(RB2.best) + ')');
+        if (!RB2.hl) miss.push('a higher low on SPY’s daily chart');
+        out.push('Rebound rule: SPY is ' + pct(-RB2.drop) + ' from its 3-month high; the plan goes back into stocks once it also has ' + miss.join(' and ') + '.');
+      }
+    } else if (pm === 'rotation' && RT && RT.rebound && RT.rebound.active) {
+      var RB = RT.rebound;
+      out.push('<b>In stocks because of the rebound rule:</b> SPY is ' + pct(-RB.drop) + ' from its 3-month high (' + fmtDate(RB.high[0], { month: 'short', day: 'numeric' }) + '), gold or bonds is up ' + pct(RB.best) + ' since then, and SPY’s daily chart has made a higher low, so the plan holds the Boost list over the rules that would take it out. Drops like this, with money running to safety and the selling drying up, have rebounded hard.');
     } else if (pm === 'rotation' && RT && RT.spy) {
       var S = RT.spy, NN = RT.narrow;
       var tr = function (x) { return { up: 'uptrend', down: 'downtrend', chop: 'choppy' }[x && x[0]] || 'no clear trend'; };
@@ -716,7 +748,7 @@ __RESEARCH__
     var lg = (N.log || []).slice(0, 6).map(f).join(' · ');
     return '<br><span class="' + (N.inCash || N.cash ? 'neg' : 'muted') + '"><b>4. Narrow-market cash week</b> (default since Oct 13, 2026, on probation): ' + st + '.</span>' +
       '<span class="muted"> When SPY closes within 2% of its 52-week high, the equal-weight S&amp;P 500 has lagged it by more than 1.5% over 3 months (a few large stocks carrying the index) and the VIX sits within 2 points of its 3-month low (a calm market), the whole account moves out of stocks ' + N.delay + ' sessions later for ' + N.days + ' sessions (into gold or bonds if one is up over 6 months, else cash: see 6. No T-bills), then back to whatever the plan holds.' + rd +
-      ' In the audit the plan made 36.5% a year from 2000 vs 34.4% without it (Sharpe 1.18 vs 1.09; worst drop −33% vs −31%), 38.0% vs 34.0% from 2010 (−25% vs −29%), 47.0% vs 43.1% from 2016 (−23% vs −29%) and 67.6% vs 63.9% from 2020 (−27% vs −29%); since 2012 the plan lost about 39% over its cash days, which random cash weeks matched in only 0.14% of draws, and it held with the thresholds moved. It was found on 2012–2026. On 2006–07, which it was not built on, it fired three times: twice in 2006 it cost money (stocks kept rising and gold, held instead, fell: that year −13.5% instead of +2.5%, the plan’s worst drop), and in October 2007 it caught the top (+38.1% instead of +28.1%). Rebuilt abroad with stand-ins for the equal-weight index and the VIX, it lost in four of five markets (it fired less often there, and in Germany and Japan at the wrong times), so it looks specific to the US: treat it as on probation.' +
+      ' In the audit the plan made 37.8% a year from 2000 vs 35.6% without it (Sharpe 1.20 vs 1.11; worst drop −33% either way), 39.2% vs 35.1% from 2010 (−25% vs −29%), 47.3% vs 43.4% from 2016 (−23% vs −29%) and 69.7% vs 66.0% from 2020 (−27% vs −29%); since 2012 the plan lost about 39% over its cash days, which random cash weeks matched in only 0.14% of draws, and it held with the thresholds moved. It was found on 2012–2026. On 2006–07, which it was not built on, it fired three times: twice in 2006 it cost money (stocks kept rising and gold, held instead, fell: that year −13.5% instead of +2.5%, the plan’s worst drop), and in October 2007 it caught the top (+38.1% instead of +28.1%). Rebuilt abroad with stand-ins for the equal-weight index and the VIX, it lost in four of five markets (it fired less often there, and in Germany and Japan at the wrong times), so it looks specific to the US: treat it as on probation.' +
       (lg ? ' Last warnings: ' + lg + ' (' + N.n + ' warning days since 2012).' : '') + '</span>';
   }
   function lowerhighNote(RT) {   // the lower-high exit: rule, reading now, current two weeks, log
@@ -740,7 +772,7 @@ __RESEARCH__
     var lg = (L.log || []).slice(0, 6).map(function (r) { return f(r[0]) + ' <span class="muted">(' + esc(r[1]) + ')</span>'; }).join(' · ');
     return '<br><span class="' + (L.inCash ? 'neg' : 'muted') + '"><b>5. Lower-high exit</b> (default since Oct 13, 2026, on probation): ' + st + '.</span>' +
       '<span class="muted"> When SPY’s weekly chart (swings ' + L.swing + ' weeks either side) makes a lower high and SPY closes below it — or, without waiting for that high to be confirmed, the latest weekly peak sits below the last swing high while the daily chart has already made a lower high and SPY closes below both — the whole account moves into the stronger of TLT / GLD (the one in a daily uptrend with the steepest gradient, picked again each day; when neither is rising, the one up more over 6 months if it is up, else cash) for ' + L.days + ' sessions (two weeks), then back to whatever the plan holds. An early signal and the later confirmation of the same high each get their two weeks; otherwise the same high cannot fire again. It acts only while the plan holds the Boost list.' + rd +
-      ' In the audit the plan made 36.5% a year from 2000 vs 33.8% without it, worst drop −33% vs −42% (after tax 23.1% vs 21.4%); 38.0% vs 35.1% from 2010 (−25% vs −34%); 47.0% vs 45.1% from 2016 and 67.6% vs 64.8% from 2020 (same worst drops). In the T-bills version of the plan (34.7% from 2000), one stretch per lower high (no second two weeks on confirmation) made 34.2% and T-bills instead of gold or bonds in the exit 33.4% (gold and bonds helped most in 2008 and 2011). The extra return depends on the exact timing (with T-bills, 12 sessions or acting a day late beat the plan from only one of four starts), but the smaller drops held in every variant. Staying out until SPY’s downtrend ended instead of two weeks cut the drops but cost 2–8 points a year, because the momentum stocks rebound before SPY confirms. It fired about once a year and was designed after looking at the 2007–2011 and 2022 drops, so treat it as on probation.' +
+      ' In the audit the plan made 37.8% a year from 2000 vs 35.2% without it, worst drop −33% vs −35% (after tax 23.8% vs 22.2%); 39.2% vs 35.8% from 2010 (−25% vs −34%); 47.3% vs 45.1% from 2016 and 69.7% vs 66.4% from 2020 (same worst drops). In the T-bills version of the plan (35.6% from 2000), one stretch per lower high (no second two weeks on confirmation) made 34.6% and T-bills instead of gold or bonds in the exit 34.3% (gold and bonds helped most in 2008 and 2011). The extra return depends on the exact timing (with T-bills, 12 sessions or acting a day late beat the plan from only one of four starts), but the smaller drops held in every variant. Staying out until SPY’s downtrend ended instead of two weeks cut the drops but cost 2–8 points a year, because the momentum stocks rebound before SPY confirms. It fired about once a year and was designed after looking at the 2007–2011 and 2022 drops, so treat it as on probation.' +
       (lg ? ' Last signals: ' + lg + ' (' + L.n + ' since ' + SINCE + ').' : '') + '</span>';
   }
   function noBillsNote(RT) {   // no T-bills: what the plan holds wherever it would have held T-bills
@@ -750,8 +782,22 @@ __RESEARCH__
     var chg = B.assets.map(function (t) { return esc(t) + ' ' + (B.pct[t] == null ? '–' : pct(B.pct[t])); }).join(' · ');
     return '<br><span class="muted"><b>6. No T-bills</b> (default since Oct 13, 2026): wherever the rules above would hold T-bills — the narrow-market cash week, the downtrend or lower-high exit with neither TLT nor GLD rising, the whipsaw half with nothing up — the plan holds instead whichever of TLT / GLD is up more over the last ' + B.look + ' sessions (6 months) if it is up at all, else plain cash earning nothing, picked again at each close. ' +
       'Now: 6-month change ' + chg + ' → it would hold <b>' + esc(nm[B.pick] || B.pick) + '</b>. ' +
-      'In the audit it made 36.5% a year from 2000 vs 34.7% with T-bills and 34.2% with plain cash (after tax 23.1% vs 21.9%; worst drop −33% vs −29%), 38.0% vs 35.9% from 2010, 47.0% vs 43.9% from 2016 and 67.6% vs 64.7% from 2020 (same worst drops). Since 2000 it replaced 957 T-bill days: 462 in gold, 297 in bonds, 198 in cash. ' +
-      'Holding the stronger of the two even when both are falling did worse (36.4%, 37.9%, 46.2%, 64.8%; worst drop −26% from 2016). The gain is lumpy: most of it is bonds in late 2008 and gold during the 2024–2025 cash weeks, while gold cost about 40 points in 2026 and about 7 in 2006 (the larger worst drop from 2000), so count on it about matching T-bills, not on the extra return.</span>';
+      'In the audit it made 37.8% a year from 2000 vs 35.6% with T-bills and 35.1% with plain cash (after tax 23.8% vs 22.4%; worst drop −33% vs −32%), 39.2% vs 37.2% from 2010, 47.3% vs 44.3% from 2016 and 69.7% vs 67.0% from 2020 (same worst drops). Since 2000 it replaced 957 T-bill days: 462 in gold, 297 in bonds, 198 in cash. ' +
+      'Holding the stronger of the two even when both are falling did worse (37.7%, 39.1%, 46.5%, 66.9%; worst drop −26% from 2016). The gain is lumpy: most of it is bonds in late 2008 and gold during the 2024–2025 cash weeks, while gold cost about 40 points in 2026 and about 7 in 2006 (the larger worst drop from 2000), so count on it about matching T-bills, not on the extra return.</span>';
+  }
+  function reboundNote(RT) {   // the rebound rule: stay in stocks after a deep drop that has started to turn
+    var B = RT && RT.rebound;
+    if (!B) return '';
+    var f = function (d) { return fmtDate(d, { month: 'short', day: 'numeric', year: 'numeric' }); };
+    var hv = Object.keys(B.haven || {}).map(function (t) { return esc(t) + ' ' + pct(B.haven[t]); }).join(', ');
+    var lows = B.lows && B.lows.length === 2 ? 'last two daily swing lows ' + B.lows[0][1].toFixed(2) + ' (' + f(B.lows[0][0]) + ') → ' + B.lows[1][1].toFixed(2) + ' (' + f(B.lows[1][0]) + ')' : 'not two daily swing lows yet';
+    var st = B.active ? '<b>ON: the plan holds the Boost list</b> over the other rules' : B.on ? 'conditions met, but the plan holds stocks anyway' : 'off';
+    var rd = B.high ? ' Now: SPY ' + pct(-B.drop) + ' from its highest close of the last ' + B.look + ' sessions (' + B.high[1].toFixed(2) + ' on ' + f(B.high[0]) + '; needs −' + Math.round(B.drop_th * 100) + '% or worse); since then ' + (hv || 'no gold / bond prices') + ' (the better needs +' + Math.round(B.haven_th * 100) + '% or more); ' + lows + ' (' + (B.hl ? 'a higher low since the high' : 'no higher low since the high') + ').' : '';
+    var lg = (B.log || []).map(function (r) { return f(r[0]) + (r[1] !== r[0] ? '–' + f(r[1]) : ''); }).join(' · ');
+    return '<br><span class="' + (B.active ? 'pos' : 'muted') + '"><b>7. Rebound rule</b> (default since Oct 14, 2026, on probation): ' + st + '.</span>' +
+      '<span class="muted"> When SPY closes 12% or more under its highest close of the last 3 months, gold or bonds (the better of GLD / TLT) is up 2% or more since that high, and SPY’s daily chart has made a higher low since then (its last swing low, ' + B.swing + ' days either side, above the one before), the plan holds the Boost list whatever rules 1–6 say. Money running to safety during a deep drop marks the kind of fall that has rebounded hard, and the higher low says the selling has started to dry up; without that last check the rule stayed in stocks through the October 2008 collapse (worst drop −40% instead of −33%).' + rd +
+      ' In the audit the plan made 37.8% a year from 2000 vs 36.5% without it, 39.2% vs 38.0% from 2010, 47.3% vs 47.0% from 2016 and 69.7% vs 67.6% from 2020, with the same worst drops. It overrode the other rules on only 70 sessions since 2000, most of them in late 2008 and early 2009 (2008 +38.7% instead of +30.4%, 2009 +101.6% instead of +85.1%), the rest in 2001, 2002, 2011 (+24.9% instead of +16.6%), 2016 and 2020. At 15% it made about the same as without it and at 20% a little more, so it rests on a handful of bear-market bottoms and was picked after about 80 timing tests in one day. Checked on the index alone where the audit never looked: in the US in 1962–1999 it fired 6 times and the S&amp;P 500 was higher 3 months later every time (median +17%); abroad, with US bonds and gold as the havens, the index did better after it fired than after other deep drops in the UK, Germany and Japan but not Canada, and as a re-entry on a simple 150-day timing rule it added a little return in most markets while deepening the worst drop in Japan, Germany and Hong Kong; and in 1928–1961, with no gold or bond prices to check, the deep drop and higher low alone kept buying the 1930s collapse (worst drop −66% vs −41%). Treat it as on probation.' +
+      (lg ? ' Last held: ' + lg + ' (' + B.n + ' stretches since ' + SINCE + ').' : ' It has not had to override the other rules since ' + SINCE + '.') + '</span>';
   }
   function whipNote(RT) {   // the whipsaw half-switch: rule, reading now, recent sales, log
     var W = RT && RT.whip;
@@ -839,12 +885,12 @@ __RESEARCH__
     var now = L ? ' Line watched now: through the ' + f(L.a[0]) + ' and ' + f(L.b[0]) + ' weekly lows, touched ' + tp(L) + '; at ' + L.level.toFixed(2) + ' this week, SPY ' + T.close.toFixed(2) + ' (' + pct(L.gap) + ' vs the line).' : ' No line qualifies right now.';
     var lg = (T.log || []).map(function (r) { return f(r[0]); }).join(' · ');
     return '<br><span class="' + (T.on ? 'neg' : 'muted') + '"><b>SPY trendline warning ' + st + '</b></span><span class="muted"> (information only)' + brk + '. A rising line on SPY’s weekly chart through two swing lows at least ' + T.span + ' weeks (6 months) apart, touched 3 or 4 times about evenly: weeks whose low sits within 1% of the line, starting at its first point and reaching its second, the shortest gap at least half the longest. It fires on the first close under the line and stays on for ' + T.days + ' sessions; each line breaks once.' + now +
-      ' As a two-week step out of stocks on top of Boost + rotation it fired 5 times since 2000 and made 36.2% a year from 2000 vs 36.5% for the plan (38.1% vs 38.0% from 2010, 45.8% vs 47.0% from 2016): it caught October 2014 (that year +11.5% instead of −3.6%) but cost 2000 and 2018, and stepping out again on a second break of the same line did worse, so it is a heads-up, not a trade.' + (lg ? ' Recent breaks: ' + lg + '.' : '') + '</span>';
+      ' As a two-week step out of stocks on top of Boost + rotation it fired 5 times since 2000 and made 37.4% a year from 2000 vs 37.8% for the plan (39.3% vs 39.2% from 2010, 46.1% vs 47.3% from 2016): it caught October 2014 (that year +11.5% instead of −3.6%) but cost 2000 and 2018, and stepping out again on a second break of the same line did worse, so it is a heads-up, not a trade.' + (lg ? ' Recent breaks: ' + lg + '.' : '') + '</span>';
   }
   function rotNote(RT, P) {   // the Boost + rotation explainer with today's readings
     var arw = function (l) { return l && l[0] ? (l[0] === 'up' ? 'up ▲' : l[0] === 'down' ? 'down ▼' : 'choppy') : '–'; };
     var gr = function (l) { return l && l[1] != null ? ' (gradient ' + l[1].toFixed(2) + ')' : ''; };
-    var S = RT.spy, LH = S.lastHigh, why = { rotate: 'rotation', 'rotate-end': 'its uptrend broke', exit: 'downtrend exit', 'switch': 'best asset changed', above: 'SPY back above its average', steeper: 'SPY’s higher lows steeper', narrow: 'narrow-market cash week', 'narrow-end': 'cash week over', lowerhigh: 'lower-high exit', 'lowerhigh-end': 'two weeks out over', nobills: 'no T-bills: stronger of TLT / GLD, or cash' };
+    var S = RT.spy, LH = S.lastHigh, why = { rotate: 'rotation', 'rotate-end': 'its uptrend broke', exit: 'downtrend exit', 'switch': 'best asset changed', above: 'SPY back above its average', steeper: 'SPY’s higher lows steeper', narrow: 'narrow-market cash week', 'narrow-end': 'cash week over', lowerhigh: 'lower-high exit', 'lowerhigh-end': 'two weeks out over', nobills: 'no T-bills: stronger of TLT / GLD, or cash', rebound: 'rebound rule: back in stocks', 'rebound-end': 'rebound rule over' };
     var now = RT.mode === 'boost' ? 'in the <b>Boost 100% stock list</b>' : 'out of stocks, in <b>' + esc(RT.mode) + '</b> (' + esc(ROTN[RT.mode] || '') + ')';
     return '<b>Boost + rotation (the default):</b> the Boost 100% stock list (with its blow-off and surge exits), moved out of stocks when the charts say so; decided at any close and traded at the next close. ' +
       '<b>1. Rotation:</b> while SPY’s daily chart makes lower highs and lower lows, if TLT or GLD makes higher highs and higher lows with a steeper gradient than SPY (the line through its last two higher lows, scaled by its volatility), switch into whichever of them is up more over the last 6 months after it has led for ' + RT.confirm + ' sessions; back to stocks the day its uptrend breaks. ' +
@@ -855,8 +901,8 @@ __RESEARCH__
       RT.assets.map(function (t) { var c6 = RT.pickPct && RT.pickPct[t]; return t + ' daily ' + arw(RT.legs[t]) + gr(RT.legs[t]) + (c6 != null ? ', 6-month ' + pct(c6) : ''); }).join(' · ') + '.' +
       (RT.cand && RT.mode === 'boost' && RT.streak ? ' ' + esc(RT.cand) + ' has led for ' + RT.streak + ' of the ' + RT.confirm + ' sessions needed.' : '') +
       ' Out of stocks on ' + RT.daysOut + ' of ' + RT.days + ' sessions since ' + SINCE + ', ' + RT.switches + ' switches. ' + (bt('rotation') && bt('boost100') ? 'Backtest since ' + TSINCE + ' (stocks in the S&amp;P 500 at the time): ' + pct(bt('rotation').annual, 1) + ' a year, worst drop ' + pct(bt('rotation').maxDD, 0) + ' vs ' + pct(bt('boost100').annual, 1) + ' and ' + pct(bt('boost100').maxDD, 0) + ' for Boost 100%. ' : '') +
-      'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $25.4M after tax vs $5.17M for Boost 100%: 36.5% a year before tax (23.1% after) vs 24.5% (15.9%), worst drop −33% vs −63%; from 2010 38.0% vs 26.2%, from 2020 67.6% vs 53.3% (all with the surge exit below, the whipsaw half-switch with its rate/gold regime, TLT / GLD picked by their 6-month gain, the narrow-market cash week, the lower-high exit into gold or bonds on both its triggers, and no T-bills; with T-bills 34.7% and $19.7M, worst drop −29%; with plain cash instead of T-bills 34.2% and $18.5M; with one stretch per lower high 34.2% and $18.6M; with T-bills in the lower-high exit 33.4% and $16.6M; without the lower-high exit 32.5% and $14.8M, worst drop −44%; without the cash week as well 30.6% and $11.9M; with the old dip add 30.4% and $11.7M, so it was dropped; picking the steepest gradient instead 29.9% and $10.8M, without the regime 29.7% and $10.5M, without the half-switch 29.0% and $9.7M, before the surge exit 27.4% and $7.8M). Corrected Oct 13, 2026: two tickers (EP, CPWR) had been priced with the histories of other companies that reuse the symbols and are now left out, which took about 5 points a year off the 2000 figures. Since Oct 14, 2026 the cash week reads the equal-weight index from 2003, so the audit includes three 2006–07 cash weeks the first run missed (37.0% before). The thresholds were picked on that same history, so expect less: an overfitting test across 599 tested versions (run before the lower-high exit was added) puts a realistic plan at about 18–25% a year before tax. The 6-month pick also did better than the gradient pick when replayed in Japan, the UK, Germany, India and Hong Kong (UK 13.1% vs 11.2% a year).' +
-      (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '') + whipNote(RT) + narrowNote(RT) + lowerhighNote(RT) + noBillsNote(RT);
+      'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $29.8M after tax vs $5.17M for Boost 100%: 37.8% a year before tax (23.8% after) vs 24.5% (15.9%), worst drop −33% vs −63%; from 2010 39.2% vs 26.2%, from 2016 47.3%, from 2020 69.7% vs 53.3% (all with the surge exit below, the whipsaw half-switch with its rate/gold regime, TLT / GLD picked by their 6-month gain, the narrow-market cash week, the lower-high exit into gold or bonds on both its triggers, no T-bills and the rebound rule; without the rebound rule 36.5% and $25.4M; with T-bills 35.6% and $22.2M, worst drop −32%; with plain cash instead of T-bills 35.1% and $20.8M; with one stretch per lower high 34.6% and $19.5M; with T-bills in the lower-high exit 34.3% and $18.7M; without the lower-high exit 33.5% and $17.1M, worst drop −35%. Earlier steps, measured before the rebound rule: without the cash week as well 30.6% and $11.9M; with the old dip add 30.4% and $11.7M, so it was dropped; picking the steepest gradient instead 29.9% and $10.8M, without the regime 29.7% and $10.5M, without the half-switch 29.0% and $9.7M, before the surge exit 27.4% and $7.8M). Corrected Oct 13, 2026: two tickers (EP, CPWR) had been priced with the histories of other companies that reuse the symbols and are now left out, which took about 5 points a year off the 2000 figures. Since Oct 14, 2026 the cash week reads the equal-weight index from 2003, so the audit includes three 2006–07 cash weeks the first run missed (37.0% before). The thresholds were picked on that same history, so expect less: an overfitting test across 599 tested versions (run before the lower-high exit was added) puts a realistic plan at about 18–25% a year before tax. The 6-month pick also did better than the gradient pick when replayed in Japan, the UK, Germany, India and Hong Kong (UK 13.1% vs 11.2% a year).' +
+      (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '') + whipNote(RT) + narrowNote(RT) + lowerhighNote(RT) + noBillsNote(RT) + reboundNote(RT);
   }
   function bxNote(A) {   // the blow-off exit line under Boost 100% / Boost + cushion
     var X = A && A.boostx, m = X ? X.mult : 2;
@@ -962,6 +1008,54 @@ __RESEARCH__
         : '<b>No changes so far</b><span class="muted">At ' + fmtDate(D.asOf, wd) + '’s close all five holdings still rank in the top ' + D.rule.keepRank + '.</span>') +
       '<span class="muted">Signal Fri ' + fmtDate(D.signalDate, md) + ' → trade Mon ' + fmtDate(D.tradeDate, md) + ' before the close.</span>' + callWhy(pm2);
   }
+
+  // You-2: your stocks, the default plan's timing (mtl/you2.py; docs/my_calls.json "you2")
+  (function () {
+    if (!$('you2')) return;
+    var Y = D.plan && D.plan.you2, inp = $('y2-in'), sub = $('y2-submit');
+    var hn = { stocks: 'your stocks', cash: 'cash', CASH: 'cash', TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', BIL: 'T-bills' };
+    function hname(h) { if (!h) return '–'; if (h.indexOf('stocks+') === 0) return 'half your stocks, half ' + (hn[h.slice(7)] || h.slice(7)); return hn[h] || h; }
+    function today() { try { return new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); } catch (e) { return new Date().toISOString().slice(0, 10); } }
+    function tickers() { return (inp.value || '').toUpperCase().split(/[\s,;]+/).filter(function (t) { return /^[A-Z][A-Z0-9.\-]{0,9}$/.test(t); }).filter(function (t, i, a) { return a.indexOf(t) === i; }).slice(0, 10); }
+    function update() {
+      var t = tickers(), day = today();
+      var block = {}; block[day] = { stocks: t, note: '', at: new Date().toISOString() };
+      var body = 'You-2 list from the Top 5 dashboard. Leave the block below as-is: the Calls intake workflow records it in docs/my_calls.json and closes this issue.\n\n```json\n' + JSON.stringify({ you2: block }) + '\n```\n';
+      sub.href = 'https://github.com/danreed001-droid/NIBII/issues/new?title=' + encodeURIComponent('calls you2 ' + day) + '&body=' + encodeURIComponent(body);
+      var same = Y && (Y.stocks || []).join(',') === t.join(',');
+      $('y2-status').textContent = !t.length ? 'Enter at least one ticker' : same ? 'Same as your current list' : t.length + ' stock' + (t.length === 1 ? '' : 's') + ': ' + t.join(', ');
+      sub.style.pointerEvents = t.length && !same ? '' : 'none';
+      sub.style.opacity = t.length && !same ? '' : '0.5';
+    }
+    if (Y) {
+      inp.value = (Y.stocks || []).join(', ');
+      var n = (Y.entries || []).length, last = function (c) { return c && c.length ? c[c.length - 1][1] : null; };
+      $('y2-sub').textContent = 'Started ' + fmtDate(Y.start, { month: 'short', day: 'numeric', year: 'numeric' }) + ' · ' + n + ' list' + (n === 1 ? '' : 's') + ' so far';
+      var yv = last(Y.curve), pv = last(Y.plan), sv = last(Y.spy);
+      $('y2-now').innerHTML = '<p>Now holds <b>' + esc(hname(Y.holds)) + '</b>' + (Y.next && Y.next !== Y.holds ? '; after the next close: <b>' + esc(hname(Y.next)) + '</b>' : '') + '. Your list: <b>' + esc((Y.stocks || []).join(', ') || '–') + '</b>.' +
+        (Y.missing && Y.missing.length ? ' <span class="neg">No price for ' + esc(Y.missing.join(', ')) + ': check the ticker.</span>' : '') +
+        (yv != null ? ' Since the start: You-2 ' + pct(yv - 1) + ', the default plan ' + pct(pv != null ? pv - 1 : null) + ', SPY ' + pct(sv != null ? sv - 1 : null) + '.' : '') + '</p>';
+      var C = Y.curve || [];
+      if (C.length < 2) $('y2-chart').innerHTML = '<p class="note">The chart starts after the first closes.</p>';
+      else {
+        var ser = [['You-2', C, 'var(--s-ccalls)'], ['Default plan', Y.plan || [], 'var(--s-rot)'], ['SPY', Y.spy || [], 'var(--s-spy)']];
+        var all = []; ser.forEach(function (x) { x[1].forEach(function (p) { all.push(p[1]); }); });
+        var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all), W = 560, H = 180, n0 = C.length;
+        var xs = function (i, len) { return (i / Math.max(1, len - 1)) * (W - 70) + 4; }, ys = function (v) { return H - 18 - (v - lo) / ((hi - lo) || 1) * (H - 30); };
+        var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="You-2 vs the default plan and SPY since the start">';
+        ser.forEach(function (x) {
+          if (!x[1].length) return;
+          svg += '<polyline style="fill:none;stroke:' + x[2] + ';stroke-width:2" points="' + x[1].map(function (p, i) { return xs(i, x[1].length).toFixed(1) + ',' + ys(p[1]).toFixed(1); }).join(' ') + '"/>';
+          var lp = x[1][x[1].length - 1];
+          svg += '<text x="' + (xs(x[1].length - 1, x[1].length) + 6).toFixed(1) + '" y="' + (ys(lp[1]) + 4).toFixed(1) + '" font-size="11" style="fill:var(--ink-2)">' + esc(x[0]) + ' $' + Math.round(lp[1] * 100) + '</text>';
+        });
+        $('y2-chart').innerHTML = svg + '</svg>';
+      }
+      $('y2-log').innerHTML = 'Your lists: ' + (Y.entries || []).map(function (e) { return fmtDate(e[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ': ' + esc(e[1].join(', ')); }).join(' · ');
+    }
+    inp.addEventListener('input', update);
+    update();
+  })();
 
   function spark(vals, w, h) {
     if (!vals || vals.length < 2) return '';
@@ -1173,7 +1267,7 @@ __RESEARCH__
         .then(function (r) {
           if (r.status === 404) return { sha: null, calls: {} };
           if (!r.ok) throw new Error(r.status === 401 || r.status === 403 ? 'token' : 'http ' + r.status);
-          return r.json().then(function (j) { var d = {}; try { d = JSON.parse(b64d(j.content)); } catch (x) {} return { sha: j.sha, calls: (d && d.calls) || {}, warn: (d && d.warn) || null }; });
+          return r.json().then(function (j) { var d = {}; try { d = JSON.parse(b64d(j.content)); } catch (x) {} return { sha: j.sha, calls: (d && d.calls) || {}, warn: (d && d.warn) || null, you2: (d && d.you2) || null }; });
         });
     }
     var syncNote = '', remote = null;   // remote: the repo copy, once loaded
@@ -1218,7 +1312,7 @@ __RESEARCH__
       return ghGet().then(function (g) {
         merge(g.calls); saveCalls();
         var body = { message: 'My calls: ' + what, branch: GH.branch,
-                     content: b64e(JSON.stringify(g.warn ? { app: 'nibii-calls', v: 1, calls: calls, warn: g.warn } : { app: 'nibii-calls', v: 1, calls: calls }, null, 1) + '\n') };   // keeps the warning calls
+                     content: b64e(JSON.stringify(Object.assign({ app: 'nibii-calls', v: 1, calls: calls }, g.warn ? { warn: g.warn } : {}, g.you2 ? { you2: g.you2 } : {}), null, 1) + '\n') };   // keeps the warning calls and You-2
         if (g.sha) body.sha = g.sha;
         return fetch(API, { method: 'PUT', headers: { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       }).then(function (r) {
@@ -2616,10 +2710,10 @@ WALLST_ROWS = {   # measure, what it means
     'return': ('Return a year (after tax)', 'Average yearly growth from 2000. After tax = a taxable account (37% short-term, 20% long-term).'),
     'sharpe': ('Sharpe ratio', 'Return above cash for each unit of ups and downs. Above 1 is excellent for a stock strategy; the market is about 0.4.'),
     'sortino': ('Sortino ratio', 'Like Sharpe, but only the downside swings count as risk, so big up-days are not punished.'),
-    'maxdd': ('Worst drop', 'The biggest fall from a high before it recovered (May to Oct 2006, when two cash weeks held gold as it fell; −29% in 2001–02 for the previous plan, −44% from late 2007 to spring 2009 before the lower-high exit). Expect to sit through drops like this.'),
+    'maxdd': ('Worst drop', 'The biggest fall from a high before it recovered (−33.4% from May 2001 to June 2002, about 2 points deeper than before the rebound rule because of its two days in stocks in October 2001; −33.3% from May to Oct 2006, when two cash weeks held gold as it fell; −44% from late 2007 to spring 2009 before the lower-high exit). Expect to sit through drops like this.'),
     'calmar': ('Calmar ratio', 'Yearly return divided by the worst drop: how much you earn for the worst pain. SPY earns 0.15.'),
     'ulcer': ('Ulcer index', 'How deep and how long the drops last, combined into one number. Lower is calmer.'),
-    'omega': ('Omega ratio', 'Gains in up months divided by losses in down months (above cash): $2.87 gained for every $1 lost.'),
+    'omega': ('Omega ratio', 'Gains in up months divided by losses in down months (above cash): $2.94 gained for every $1 lost.'),
     'capture': ('Up / down capture', 'In months SPY rose, the plan rose about 1.4x as much; in months SPY fell, it was about flat on average.'),
     'var': ('Bad month (VaR / CVaR 95%)', 'One month in 20 loses at least the first number; the second is the average of those bad months.'),
     'worst3': ('Worst 3 years', 'The weakest three-year stretch, per year (2000–2002 for SPY).'),
@@ -2645,6 +2739,7 @@ WALLST_OTHER = {
     'pickT': lambda o: f'<b>The 6-month pick on its own:</b> adds about {_e(o["v"])}; a t-stat under 2 means the gain is not proven, so it is on probation.',
     'cashT': lambda o: f'<b>The narrow-market cash week on its own:</b> {_e(o["v"])}. Month by month the gain is not proven (most months it does nothing); judged on its cash weeks against random weeks it is unlikely to be luck. It was found on 2012–2026, went 1 for 3 on the 2006–07 years it was not built on, and did not carry over abroad (below), so it is on probation.',
     'billsT': lambda o: f'<b>No T-bills on its own</b> (gold or bonds if up over 6 months, else cash): {_e(o["v"])}. The gain is lumpy (bonds in late 2008, gold in the 2024–2025 cash weeks; gold cost about 40 points of 2026\'s gain), so count on it doing about as well as T-bills.',
+    'reboundT': lambda o: f'<b>The rebound rule on its own:</b> {_e(o["v"])}. Month by month the gain is not proven; it rests on a handful of bear-market bottoms (most of it late 2008 and early 2009) and was picked after many timing tests, so it is on probation.',
     'lowerT': lambda o: f'<b>The lower-high exit on its own:</b> {_e(o["v"])}. Month by month the gain is not proven (most months it does nothing); the point is the smaller drops. It was designed after looking at the 2007–2011 and 2022 drops, so it is on probation.',
     'abroad': lambda o: f'<b>Other countries</b> (the same rules on each market\'s own stocks, without the cash week): {_e(o["v"])}.',
     'abroadCash': lambda o: f'<b>The cash week abroad</b> (rebuilt with an equal-weight basket of each index\'s current stocks and the US VIX or the index\'s own volatility; on US data these stand-ins kept most of the gain): {_e(o["v"])}. It fired less often abroad and, in Germany and Japan, at the wrong times, so it looks specific to the US since 2012.',
