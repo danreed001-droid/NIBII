@@ -376,8 +376,8 @@
        null
       ]
      ],
-     "maturityClose": 7823.75,
-     "ret": -0.004073,
+     "maturityClose": 7795.5,
+     "ret": -0.00767,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2401,7 +2401,7 @@
       [
        "bear",
        "NY Fed's Williams (13 October, news log) still sees one more 2026 rate hike as appropriate, a headwind for note prices near term, though he sees none in 2027",
-       true
+       false
       ],
       [
        "neu",
@@ -2439,8 +2439,8 @@
        null
       ]
      ],
-     "maturityClose": 104.046875,
-     "ret": -0.006564,
+     "maturityClose": 104.375,
+     "ret": -0.003431,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5083,8 +5083,8 @@
        null
       ]
      ],
-     "maturityClose": 4108.7998046875,
-     "ret": -0.016398,
+     "maturityClose": 4115.7998046875,
+     "ret": -0.014722,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7139,8 +7139,8 @@
        false
       ]
      ],
-     "maturityClose": 102.83200073242188,
-     "ret": 0.006381,
+     "maturityClose": 102.85700225830078,
+     "ret": 0.006626,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9286,8 +9286,8 @@
        true
       ]
      ],
-     "maturityClose": 2764.699951171875,
-     "ret": -0.012642,
+     "maturityClose": 2763.199951171875,
+     "ret": -0.013178,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11195,8 +11195,8 @@
        null
       ]
      ],
-     "maturityClose": 30560.5,
-     "ret": -0.007502,
+     "maturityClose": 30436.25,
+     "ret": -0.011537,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
