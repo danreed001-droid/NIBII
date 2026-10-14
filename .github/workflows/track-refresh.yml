@@ -1,0 +1,75 @@
+name: Track record refresh
+
+# Reruns the point-in-time backtest (research/backtest/refresh.sh) and rebuilds
+# data/track_record.json, the growth chart and year table on the Top 5 Strongest
+# dashboard, then renders docs/scanner.html with it. Runs every 3 months and from
+# the "Refresh now" button at the bottom of the dashboard (Run workflow).
+# It stops without publishing when the default plan's return a year moves more
+# than 3 points or its worst drop more than 5 (research/backtest/compare_track.py);
+# run it with "Publish even if the numbers moved a lot" ticked to publish anyway.
+
+on:
+  schedule:
+    # 13:47 UTC on Jan 5, Apr 5, Jul 5 and Oct 5
+    - cron: '47 13 5 1,4,7,10 *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Publish even if the numbers moved a lot'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: track-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0   # the engine is a commit on the robustness branch
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install -r requirements.txt
+
+      - name: Rerun the backtest
+        run: WORK="$RUNNER_TEMP/backtest" bash research/backtest/refresh.sh
+
+      - name: Compare with the published numbers
+        run: |
+          git show HEAD:data/track_record.json > "$RUNNER_TEMP/published.json"
+          python research/backtest/compare_track.py "$RUNNER_TEMP/published.json" data/track_record.json \
+            || [ "${{ inputs.force }}" = "true" ]
+
+      - name: Rank today's stocks and render the dashboard
+        run: |
+          python scripts/momentum_scan.py
+          python scripts/render_scanner.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/track_record.json docs/scanner.html
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+            exit 0
+          fi
+          git commit -m "Track record: backtest refresh"
+          git stash -u -q || true
+          # The dashboard and daily-fetch workflows push to main too; replay on top.
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin main && git push && exit 0
+            sleep 10
+          done
+          exit 1

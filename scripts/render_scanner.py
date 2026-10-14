@@ -343,6 +343,8 @@ tbody tr:last-child td { border-bottom: 0; }
 .linkbtn { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit; font-size: 0.8rem; }
 .linkbtn input { display: none; }
 #call-status { font-size: 0.8rem; color: var(--ink-2); }
+#trk-card { margin-top: 28px; }
+#trk-card .btn { text-decoration: none; display: inline-block; }
 #sync-token { flex: 1 1 180px; min-width: 0; font: 0.84rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 6px 8px; }
 .sync code { font-size: 0.74rem; }
 .rec-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; margin: 8px 0 10px; }
@@ -577,6 +579,15 @@ __GROWTH__
   <button type="button" class="more" id="more" hidden>Show all 100</button>
 
 __RESEARCH__
+  <div class="card" id="trk-card">
+    <p class="chart-title">Refresh the track record</p>
+    <p class="note">The growth chart and year table come from the point-in-time backtest, run through <b id="trk-end">its last refresh</b>; after that each line carries on with the daily scan.
+      It reruns by itself every 3 months (Jan 5, Apr 5, Jul 5, Oct 5).</p>
+    <div class="call-actions"><a class="btn" id="trk-refresh" href="https://github.com/danreed001-droid/NIBII/actions/workflows/track-refresh.yml" target="_blank" rel="noopener">Refresh now ↗</a></div>
+    <p class="note">Opens GitHub: tap <b>Run workflow</b>, then the green <b>Run workflow</b> button. It takes about 15 minutes, and the page updates when it finishes.
+      If the default plan’s return a year moves more than 3 points, or its worst drop more than 5, it stops without publishing. To publish anyway, run it again with <b>Publish even if the numbers moved a lot</b> ticked.</p>
+  </div>
+
   <footer><ul>
     <li><b>The rule.</b> Score = return from 6 months ago to 1 month ago. Each Friday close: a stock must beat SPY's score to qualify; buy the top 5 in equal weight; a holding stays while it ranks in the top 10, otherwise it is replaced by the best-ranked stock not held. Trades are placed the following Monday in the last 30 minutes before the close (the track record uses Monday's closing prices; trading at Monday's open did about 3% a year worse in testing). Mon–Thu the banner previews what Friday's signal would be if it were today.</li>
     <li><b>Fair test.</b> S&amp;P 500 stocks count only from the day they joined the index. The 15 Nasdaq-only members have no published join dates, so the track record carries some hindsight from them; the S&amp;P-only version made about +1,219% from 2020 on (see Backtests). Stocks that left either index during the test period are missing, which also flatters the record. Small caps are deliberately excluded: adding the Russell 2000 cut the result to about +509% with a −73% drawdown.</li>
@@ -833,6 +844,7 @@ __RESEARCH__
   }
   meta(); setInterval(meta, 60000);
   $('gen').textContent = 'built ' + gen.toLocaleString();
+  if (TRK && TRK.end) $('trk-end').textContent = fmtDate(TRK.end);
 
   // rebalance banner
   var ch = D.changes;

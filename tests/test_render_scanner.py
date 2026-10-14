@@ -143,3 +143,11 @@ def test_track_record_comes_from_the_backtest_and_carries_on_with_the_scan(tmp_p
     assert 'cushion' not in out['curves'] and 'calls' not in out['curves'] and 'cushion' not in out['years']
     assert out['stats']['strategy']['annual'] == 0.1 and out['track']['stats']['rotation']['maxDD'] == -0.1
     assert render_scanner.with_track_record(scan, path=str(tmp_path / 'missing.json')) is scan
+
+
+def test_bottom_of_the_page_has_the_track_record_refresh_button():
+    page = render_scanner.render(SCAN)
+    i = page.index('id="trk-refresh"')
+    assert page.index('id="trk-card"') < i < page.index('<footer>')
+    assert 'actions/workflows/track-refresh.yml' in page[i:page.index('</a>', i)]
+    assert os.path.exists(os.path.join(os.path.dirname(__file__), '..', '.github', 'workflows', 'track-refresh.yml'))
