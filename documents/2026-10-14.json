@@ -372,8 +372,8 @@
        null
       ]
      ],
-     "maturityClose": 7783.25,
-     "ret": 0.001673,
+     "maturityClose": 7766.75,
+     "ret": -0.00045,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2414,8 +2414,8 @@
        null
       ]
      ],
-     "maturityClose": 105.53125,
-     "ret": 0.006257,
+     "maturityClose": 105.578125,
+     "ret": 0.006704,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -4995,8 +4995,8 @@
        null
       ]
      ],
-     "maturityClose": 4173.2001953125,
-     "ret": 0.015896,
+     "maturityClose": 4178.60009765625,
+     "ret": 0.017211,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7054,8 +7054,8 @@
        true
       ]
      ],
-     "maturityClose": 102.04399871826172,
-     "ret": -0.004934,
+     "maturityClose": 101.99400329589844,
+     "ret": -0.005422,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -9159,8 +9159,8 @@
        null
       ]
      ],
-     "maturityClose": 2768.60009765625,
-     "ret": 0.008597,
+     "maturityClose": 2765.60009765625,
+     "ret": 0.007505,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11010,12 +11010,12 @@
       [
        "bear",
        "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset",
-       false
+       true
       ],
       [
        "bear",
        "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset",
-       false
+       true
       ],
       [
        "neu",
@@ -11030,7 +11030,7 @@
       [
        "bear",
        "Tech fell 3.00% on 14 October amid the continuing memory-chip rout (Kospi -5.5%, SK Hynix -10.1% the prior day; news log), a near-term drag on the Nasdaq-100; ASML/TSMC results are not yet known",
-       false
+       true
       ],
       [
        "neu",
@@ -11053,8 +11053,8 @@
        null
       ]
      ],
-     "maturityClose": 30047.0,
-     "ret": -0.004498,
+     "maturityClose": 29954.5,
+     "ret": -0.007562,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
