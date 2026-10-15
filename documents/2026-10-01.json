@@ -592,8 +592,8 @@
        null
       ]
      ],
-     "maturityClose": 7777.0,
-     "ret": 0.006308,
+     "maturityClose": 7791.5,
+     "ret": 0.008184,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2788,8 +2788,8 @@
        null
       ]
      ],
-     "maturityClose": 105.5625,
-     "ret": 0.010016,
+     "maturityClose": 105.5,
+     "ret": 0.009418,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5565,8 +5565,8 @@
        false
       ]
      ],
-     "maturityClose": 4179.60009765625,
-     "ret": 0.000958,
+     "maturityClose": 4193.7001953125,
+     "ret": 0.004335,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7656,8 +7656,8 @@
        null
       ]
      ],
-     "maturityClose": 102.0459976196289,
-     "ret": -0.000646,
+     "maturityClose": 102.01799774169922,
+     "ret": -0.000921,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9858,7 +9858,7 @@
       [
        "bear",
        "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); small caps' 21-session correlation to the 10-year is -0.742, the strongest rate sensitivity on the board",
-       true
+       false
       ],
       [
        "neu",
@@ -9901,8 +9901,8 @@
        false
       ]
      ],
-     "maturityClose": 2767.300048828125,
-     "ret": -0.021879,
+     "maturityClose": 2782.0,
+     "ret": -0.016683,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11920,7 +11920,7 @@
       [
        "bear",
        "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); the yield sits at a multi-decade high and the 21-session correlation to the 10-year is -0.610, a headwind that is two-sided for just the next session",
-       true
+       false
       ],
       [
        "neu",
@@ -11955,7 +11955,7 @@
       [
        "bear",
        "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market) (21-session oil correlation -0.533) while the 10-year stayed near 5.24%, both headwinds for this asset",
-       true
+       false
       ],
       [
        "neu",
@@ -11963,8 +11963,8 @@
        null
       ]
      ],
-     "maturityClose": 30003.0,
-     "ret": -0.026532,
+     "maturityClose": 30130.5,
+     "ret": -0.022396,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

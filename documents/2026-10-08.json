@@ -476,8 +476,8 @@
        null
       ]
      ],
-     "maturityClose": 7777.0,
-     "ret": -0.007054,
+     "maturityClose": 7791.5,
+     "ret": -0.005203,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2581,8 +2581,8 @@
        null
       ]
      ],
-     "maturityClose": 105.5625,
-     "ret": 0.007456,
+     "maturityClose": 105.5,
+     "ret": 0.00686,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5267,8 +5267,8 @@
        false
       ]
      ],
-     "maturityClose": 4179.60009765625,
-     "ret": -0.004454,
+     "maturityClose": 4193.7001953125,
+     "ret": -0.001096,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7365,8 +7365,8 @@
        null
       ]
      ],
-     "maturityClose": 102.0459976196289,
-     "ret": 0.000578,
+     "maturityClose": 102.01799774169922,
+     "ret": 0.000304,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9514,12 +9514,12 @@
       [
        "bear",
        "The 10-year yield eased to about 5.23% on 8 October from about 5.28%, still near multidecade highs (highest since April 2002 at 5.36% intraday on 7 October), with the 30-year about 5.67% (news log, 8 October close entry); small caps correlate -0.549 with 10-year yield changes over 21 sessions",
-       true
+       false
       ],
       [
        "bear",
        "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)",
-       true
+       false
       ],
       [
        "neu",
@@ -9549,7 +9549,7 @@
       [
        "bear",
        "Brent rose above $103 and WTI to about $91 on 8 October on Iran's stepped-up tanker attacks in the Strait of Hormuz (news log); oil correlation to small caps is -0.25",
-       true
+       false
       ],
       [
        "bull",
@@ -9557,11 +9557,11 @@
        false
       ]
      ],
-     "maturityClose": 2767.300048828125,
-     "ret": -0.017887,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 2782.0,
+     "ret": -0.01267,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against RTY=F",
      "provisional": true
     },
@@ -11536,8 +11536,8 @@
        null
       ]
      ],
-     "maturityClose": 30003.0,
-     "ret": -0.033922,
+     "maturityClose": 30130.5,
+     "ret": -0.029817,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
