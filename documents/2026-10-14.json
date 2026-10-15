@@ -308,62 +308,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for ES=F on 14 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for ES=F on 14 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VIX closed 16.87 on 14 October (news log: +10% on the day), naming no percentile"
+       "VIX closed 16.87 on 14 October (news log: +10% on the day), naming no percentile",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset"
+       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset",
+       false
       ],
       [
        "bear",
-       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset"
+       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset",
+       false
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "Bank of America missed Q3 EPS (0.91 vs ~1.11-1.16 est) and fell 7-8%, and tech slid on 14 October (news log)"
+       "Bank of America missed Q3 EPS (0.91 vs ~1.11-1.16 est) and fell 7-8%, and tech slid on 14 October (news log)",
+       false
       ],
       [
        "neu",
-       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 14 October were mixed (yields up, dollar firmer, defensives bid against tech weakness), so the cross-asset read is two-sided"
+       "Cross-asset signals on 14 October were mixed (yields up, dollar firmer, defensives bid against tech weakness), so the cross-asset read is two-sided",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7739.5,
+     "ret": -0.003957,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -2335,62 +2350,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for ZN=F on 14 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for ZN=F on 14 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral"
+       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset"
+       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset",
+       false
       ],
       [
        "bear",
-       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset"
+       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset",
+       false
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 14 October, so neutral"
+       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 14 October, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "Cross-asset on 14 October: yields up, dollar +0.36%, equities down ~1%, all consistent with a hawkish repricing of the Fed"
+       "Cross-asset on 14 October: yields up, dollar +0.36%, equities down ~1%, all consistent with a hawkish repricing of the Fed",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 105.78125,
+     "ret": 0.008641,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -4901,62 +4931,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for GC=F on 14 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for GC=F on 14 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "GVZ closed 22.78 on 14 October, naming no percentile"
+       "GVZ closed 22.78 on 14 October, naming no percentile",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset"
+       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset",
+       false
       ],
       [
        "bear",
-       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset"
+       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset",
+       false
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 14 October, so neutral"
+       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 14 October, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "Cross-asset on 14 October: yields up, dollar +0.36%, equities down ~1%, all consistent with a hawkish repricing of the Fed"
+       "Cross-asset on 14 October: yields up, dollar +0.36%, equities down ~1%, all consistent with a hawkish repricing of the Fed",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4176.60009765625,
+     "ret": 0.016724,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -6945,62 +6990,77 @@
      "votes": [
       [
        "bear",
-       "structure.hourly reads downtrend for DX-Y.NYB on 14 October - a run of lower swings"
+       "structure.hourly reads downtrend for DX-Y.NYB on 14 October - a run of lower swings",
+       true
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral"
+       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bull",
-       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), supportive of the dollar"
+       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), supportive of the dollar",
+       false
       ],
       [
        "bull",
-       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), supportive of the dollar"
+       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), supportive of the dollar",
+       false
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 14 October, so neutral"
+       "Earnings catalysts do not apply to this asset directly and none is named in the news log for 14 October, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bull",
-       "Cross-asset on 14 October: yields up and equities down ~1% as hike odds rose, a dollar-supportive mix"
+       "Cross-asset on 14 October: yields up and equities down ~1% as hike odds rose, a dollar-supportive mix",
+       false
       ],
       [
        "bear",
-       "1H structure is downtrend - last labeled swings: LL/LH/LL/LH."
+       "1H structure is downtrend - last labeled swings: LL/LH/LL/LH.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 102.06199645996094,
+     "ret": -0.004759,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 5,
@@ -9035,62 +9095,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for RTY=F on 14 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for RTY=F on 14 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral"
+       "No current volatility print for this asset was obtained (sigma is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset"
+       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset",
+       false
       ],
       [
        "bear",
-       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset"
+       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset",
+       false
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "Bank of America missed Q3 EPS (0.91 vs ~1.11-1.16 est) and fell 7-8%, and tech slid on 14 October (news log)"
+       "Bank of America missed Q3 EPS (0.91 vs ~1.11-1.16 est) and fell 7-8%, and tech slid on 14 October (news log)",
+       false
       ],
       [
        "neu",
-       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 14 October were mixed (yields up, dollar firmer, defensives bid against tech weakness), so the cross-asset read is two-sided"
+       "Cross-asset signals on 14 October were mixed (yields up, dollar firmer, defensives bid against tech weakness), so the cross-asset read is two-sided",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2747.800048828125,
+     "ret": 0.00102,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -10914,62 +10989,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for NQ=F on 14 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for NQ=F on 14 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VXN closed 22.70 on 14 October, naming no percentile"
+       "VXN closed 22.70 on 14 October, naming no percentile",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset"
+       "The 10-year yield rose 6bp to 5.278% and the 2-year 10-12bp to ~4.9% on 14 October after hot CPI (news log), a headwind for this asset",
+       true
       ],
       [
        "bear",
-       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset"
+       "Implied odds of a 25bp hike at the 27-28 October FOMC rose to ~46% from ~20% after the CPI print (news log, Bloomberg), a headwind for this asset",
+       true
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "Tech fell 3.00% on 14 October amid the continuing memory-chip rout (Kospi -5.5%, SK Hynix -10.1% the prior day; news log), a near-term drag on the Nasdaq-100; ASML/TSMC results are not yet known"
+       "Tech fell 3.00% on 14 October amid the continuing memory-chip rout (Kospi -5.5%, SK Hynix -10.1% the prior day; news log), a near-term drag on the Nasdaq-100; ASML/TSMC results are not yet known",
+       true
       ],
       [
        "neu",
-       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI is already out at the 14 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic figure for 14 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 14 October were mixed (yields up, dollar firmer, defensives bid against tech weakness), so the cross-asset read is two-sided"
+       "Cross-asset signals on 14 October were mixed (yields up, dollar firmer, defensives bid against tech weakness), so the cross-asset read is two-sided",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 29780.0,
+     "ret": -0.013344,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 5,
