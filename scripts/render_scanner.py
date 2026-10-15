@@ -500,8 +500,8 @@ footer li { margin-bottom: 6px; }
     </div>
     <div class="card">
       <p class="chart-title">What the backtest says to expect</p>
-      <p class="chart-sub">Every 3-, 6- and 12-month window of the default plan, 2000–2026</p>
-      <div class="tablebox" style="border:0;background:none"><table class="years" id="pp-bands"></table></div>
+      <p class="chart-sub">Every 3-, 6- and 12-month window of the default plan, 2000–2026: return, share of windows ahead of SPY, and the typical worst drop inside a window</p>
+      <div class="tablebox" style="border:0;background:none;overflow-x:auto"><table class="years" id="pp-bands"></table></div>
       <div id="pp-log"></div>
     </div>
   </div>
@@ -1089,14 +1089,14 @@ __RESEARCH__
     $('pp-sub').textContent = 'Started ' + fmtDate(P.start, md) + ' · ' + P.entries + ' decision' + (P.entries === 1 ? '' : 's') + ' logged · ' +
       (ch ? 'rule code changed on ' + fmtDate(ch, md) : 'rules unchanged since ' + fmtDate(fr.since || P.start, md)) + ' (fingerprint ' + (fr.fingerprint || '').slice(0, 8) + ')';
     var S = P.status || {}, html = '<p>';
-    html += 'After tonight’s close it holds <b>' + esc(what(P.tonight)) + '</b>. ';
+    html += 'Latest decision, for the next close: <b>' + esc(what(P.tonight)) + '</b>. ';
     if (S.sessions > 0) html += 'Over ' + S.sessions + ' session' + (S.sessions === 1 ? '' : 's') + ': paper record <b>' + pct(S.ret) + '</b>, SPY ' + pct(S.spy) + ', worst drop ' + pct(S.dd) + '. ';
     else html += 'The record starts with the first fill. ';
     html += (S.band ? 'Judged on the ' + P.bands[String(S.band)].label + ' range. ' : 'Too early to judge against the ranges (3 months at the earliest). ');
     html += (S.flags && S.flags.length) ? '<span class="neg">Warning: ' + esc(S.flags.join('; ')) + '.</span> ' : '<span class="pos">No warnings.</span> ';
     html += P.checked ? (P.diffs && P.diffs.length
       ? '<span class="neg">Replay check: ' + P.diffs.length + ' of ' + P.checked + ' logged days differ: ' + esc(P.diffs.map(function (x) { return x.d + ' (' + x.what + ')'; }).join('; ')) + '.</span>'
-      : 'Replay check: all ' + P.checked + ' logged day' + (P.checked === 1 ? '' : 's') + ' match.')
+      : (P.checked === 1 ? 'Replay check: the logged day matches.' : 'Replay check: all ' + P.checked + ' logged days match.'))
       : 'Replay check: starts once a logged day has passed.';
     $('pp-now').innerHTML = html + '</p>';
     var C = P.curve || [], Sp = P.spy || [];
@@ -1115,10 +1115,10 @@ __RESEARCH__
       });
       $('pp-chart').innerHTML = svg + '</svg>';
     }
-    var B = P.bands || {}, rows = '<thead><tr><th class="l">After</th><th>Bad (1 in 20)</th><th>Low quarter</th><th>Typical</th><th>High quarter</th><th>Ahead of SPY</th><th>Typical worst drop</th></tr></thead><tbody>';
+    var B = P.bands || {}, rows = '<thead><tr><th class="l">After</th><th>1 in 20 bad</th><th>Typical</th><th>Beat SPY</th><th>Typical drop</th></tr></thead><tbody>';
     Object.keys(B).sort(function (a, b) { return a - b; }).forEach(function (h) {
       var b = B[h], on = String(S.band) === h;
-      rows += '<tr' + (on ? ' style="font-weight:600"' : '') + '><td class="l">' + esc(b.label) + (on ? ' (now)' : '') + '</td><td>' + pct(b.p5) + '</td><td>' + pct(b.p25) + '</td><td>' + pct(b.p50) + '</td><td>' + pct(b.p75) + '</td><td>' + Math.round(b.ahead * 100) + '%</td><td>' + pct(b.dd50, 0) + '</td></tr>';
+      rows += '<tr' + (on ? ' style="font-weight:600"' : '') + '><td class="l">' + esc(b.label) + (on ? ' (now)' : '') + '</td><td>' + pct(b.p5) + '</td><td>' + pct(b.p50) + '</td><td>' + Math.round(b.ahead * 100) + '%</td><td>' + pct(b.dd50, 0) + '</td></tr>';
     });
     $('pp-bands').innerHTML = rows + '</tbody>';
     $('pp-log').innerHTML = '<p class="note">Warning signs: the latest 3, 6 or 12 months (the longest reached) below the 1-in-20 floor for that length, trailing SPY by more than the 1-in-10 margin, or a drop deeper than the backtest’s worst (' + pct(P.worstDD, 0) + '). Trailing SPY in a single year is not one: the backtest did that 1 year in 5.</p>' +
