@@ -1,7 +1,7 @@
 {
  "date": "2026-10-01",
  "basisDate": "2026-10-01",
- "scored": false,
+ "scored": true,
  "generatedAt": "2026-10-02T13:23:11Z",
  "generationLag": null,
  "schema": "multi-asset-v4",
@@ -592,13 +592,12 @@
        null
       ]
      ],
-     "maturityClose": 7791.5,
-     "ret": 0.008184,
+     "maturityClose": 7786.0,
+     "ret": 0.007473,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     }
    ],
    "structure": {
@@ -2788,13 +2787,12 @@
        null
       ]
      ],
-     "maturityClose": 105.5,
-     "ret": 0.009418,
+     "maturityClose": 105.671875,
+     "ret": 0.011063,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     }
    ],
    "structure": {
@@ -5565,13 +5563,12 @@
        false
       ]
      ],
-     "maturityClose": 4193.7001953125,
-     "ret": 0.004335,
+     "maturityClose": 4192.5,
+     "ret": 0.004047,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     }
    ],
    "structure": {
@@ -7656,13 +7653,12 @@
        null
       ]
      ],
-     "maturityClose": 102.01799774169922,
-     "ret": -0.000921,
+     "maturityClose": 102.01000213623047,
+     "ret": -0.000999,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     }
    ],
    "structure": {
@@ -9901,13 +9897,12 @@
        false
       ]
      ],
-     "maturityClose": 2782.0,
-     "ret": -0.016683,
+     "maturityClose": 2782.60009765625,
+     "ret": -0.016471,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     }
    ],
    "structure": {
@@ -11920,7 +11915,7 @@
       [
        "bear",
        "the 10-year yield touched 5.34% intraday (highest since 2002) before closing 5.24%, -6bp (news log); the yield sits at a multi-decade high and the 21-session correlation to the 10-year is -0.610, a headwind that is two-sided for just the next session",
-       false
+       true
       ],
       [
        "neu",
@@ -11955,7 +11950,7 @@
       [
        "bear",
        "WTI rose about 2% and Brent regained $100 on 1 October (news log, pre-market) (21-session oil correlation -0.533) while the 10-year stayed near 5.24%, both headwinds for this asset",
-       false
+       true
       ],
       [
        "neu",
@@ -11963,13 +11958,12 @@
        null
       ]
      ],
-     "maturityClose": 30130.5,
-     "ret": -0.022396,
+     "maturityClose": 30078.25,
+     "ret": -0.024091,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     }
    ],
    "structure": {
