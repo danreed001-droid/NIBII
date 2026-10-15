@@ -26,13 +26,14 @@ RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/narro
 SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (settings, not page code)
 CLOSE_ET = time(16, 15)             # a decision is logged only after the close it is read from
 
-# The 2000-2026 backtest of the default plan (S&P 500 members at each date, 0.15% per side), every window
-# of that length: return percentiles, share ahead of SPY, the 1-in-10 shortfall against SPY, and the worst
+# The 2000-2026 backtest of the default plan on the dashboard's universe (S&P 500 members at each date plus the
+# Nasdaq-100 members outside it from their join dates; research/validation/ndx_universe.py), 0.15% per side, every
+# window of that length: return percentiles, share ahead of SPY, the 1-in-10 shortfall against SPY, and the worst
 # drop inside the window (typical, and the 1-in-20 worst).
 BANDS = {
-    63: dict(label='3 months', p5=-0.097, p25=-0.011, p50=0.072, p75=0.160, p95=0.348, ahead=0.67, lag10=-0.075, dd50=-0.10, dd95=-0.19),
-    126: dict(label='6 months', p5=-0.098, p25=0.025, p50=0.133, p75=0.301, p95=0.657, ahead=0.76, lag10=-0.071, dd50=-0.13, dd95=-0.24),
-    252: dict(label='12 months', p5=-0.086, p25=0.087, p50=0.284, p75=0.624, p95=1.372, ahead=0.80, lag10=-0.065, dd50=-0.16, dd95=-0.28),
+    63: dict(label='3 months', p5=-0.099, p25=-0.014, p50=0.071, p75=0.162, p95=0.361, ahead=0.67, lag10=-0.076, dd50=-0.097, dd95=-0.19),
+    126: dict(label='6 months', p5=-0.097, p25=0.024, p50=0.133, p75=0.303, p95=0.685, ahead=0.76, lag10=-0.078, dd50=-0.126, dd95=-0.25),
+    252: dict(label='12 months', p5=-0.088, p25=0.090, p50=0.285, p75=0.619, p95=1.397, ahead=0.80, lag10=-0.068, dd50=-0.165, dd95=-0.28),
 }
 WORST_DD = -0.33                # the backtest's worst drop, 2000-2026
 
