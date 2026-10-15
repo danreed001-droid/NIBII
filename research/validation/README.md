@@ -79,5 +79,27 @@ evening's saved dashboard snapshot; every later one is added by the scheduled sc
   floor for that length or trails SPY by more than its 1-in-10 margin, or when a drop is deeper than the backtest's
   worst (−33%).
 
-The dashboard's universe is the S&P 500 plus the Nasdaq-100 members outside it, while the backtest behind the
-ranges uses S&P 500 members only, so a pick outside the S&P 500 is something the backtest never held.
+The dashboard's universe is the S&P 500 plus the 15 Nasdaq-100 members outside it, so the ranges come from a
+backtest of that universe (next section), not the S&P-only audit.
+
+## `ndx_universe.py`: the default plan with the dashboard's Nasdaq-100 additions
+
+The audit backtest uses S&P 500 members only; the dashboard also ranks the 15 Nasdaq-100 members outside the
+S&P 500. This runs the default plan three ways on the same engine: S&P 500 only (`NBup`), plus the 15 only while
+each was in the Nasdaq-100 (`NDXa`, join dates in `ndx_join_dates.json`, from Nasdaq's announcements), and plus
+the 15 from their first price (`NDXh`, hindsight, as the dashboard's own replay treats them).
+
+Result on Oct 15, 2026 (return a year before tax, worst drop in brackets, daily):
+
+| Since | S&P 500 only | With the 15 from their join dates | With the 15 from their first price |
+|---|---|---|---|
+| 2000 | 37.8% (−33%) | 37.9% (−33%) | 37.4% |
+| 2016 | 48.2% (−23%) | 48.6% (−25%) | |
+| 2020 | 68.8% (−23%) | 69.5% (−25%) | |
+| 2024 | 113.5% (−23%) | 118.8% (−25%) | |
+
+After tax from 2000: 23.8%, 23.9% and 23.6%. With the join dates, one of the 15 was held after 98 of the 1,746 rebalances: MercadoLibre
+(2017–2024), PDD (2020–2024), MicroStrategy (2025), Shopify (2025), and Arm, Astera Labs and Nebius (2026). The
+3/6/12-month ranges barely move. Limits: all 15 joined the Nasdaq-100 in 2017 or later, and Nasdaq-100 members
+outside the S&P 500 that later left the index (for example Zoom, DocuSign, Peloton and JD.com around 2020–2023)
+are not included, so this checks the 15 as traded, not the full point-in-time Nasdaq-100.

@@ -500,7 +500,7 @@ footer li { margin-bottom: 6px; }
     </div>
     <div class="card">
       <p class="chart-title">What the backtest says to expect</p>
-      <p class="chart-sub">Every 3-, 6- and 12-month window of the default plan, 2000–2026: return, share of windows ahead of SPY, and the typical worst drop inside a window</p>
+      <p class="chart-sub">Every 3-, 6- and 12-month window of the default plan on this page’s universe, 2000–2026: return, share of windows ahead of SPY, and the typical worst drop inside a window</p>
       <div class="tablebox" style="border:0;background:none;overflow-x:auto"><table class="years" id="pp-bands"></table></div>
       <div id="pp-log"></div>
     </div>
