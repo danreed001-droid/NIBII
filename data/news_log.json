@@ -2877,5 +2877,45 @@
       "time": "Pre-market",
       "vsExp": "EPS missed consensus of roughly $1.11 (TIKR) to $1.16 (Benzinga), a miss of about 18-22%"
     }
+  },
+  {
+    "id": "2026-10-15-1-tsmc-record-q3-chip-stocks-fall-premarket",
+    "data": {
+      "addedAt": "2026-10-15",
+      "category": "Earnings",
+      "date": "2026-10-15",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "TSMC posts record Q3 profit but chip and AI stocks fall pre-market",
+      "impact": "High",
+      "numbers": "TSMC Q3 revenue $46.72B (+41.2% y/y); net profit NT$763.06B (+68.7% y/y); Q4 revenue guide $52.3B-$54.3B. Pre-market: TSM ~-1.9%, MU ~-4.5%, AMD ~-3%, NVDA ~-2%, ORCL ~-1.8%, CRWV >-6%",
+      "order": 1,
+      "reaction": "Record results failed to lift semis; management was cautious on the 2027 macro outlook and flagged overseas capacity expansion weighing on margins. Nasdaq-100 futures ~-1% pre-market, extending Wednesday's tech rout (Nasdaq Composite -1.9%).",
+      "region": "Taiwan / US",
+      "source": "https://www.tradingkey.com/analysis/stocks/us-stocks/262218623-us-premarket-tsmc-record-profit-chip-stocks-fall-nvidia-micron-ppi-tradingkey",
+      "tickers": "TSM, NVDA, MU, AMD, ORCL, CRWV, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-15-2-futures-mixed-nasdaq-lags-ahead-of-ppi-retail",
+    "data": {
+      "addedAt": "2026-10-15",
+      "category": "Market",
+      "date": "2026-10-15",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "US futures mixed, Nasdaq lags, ahead of PPI, retail sales and jobless claims",
+      "impact": "High",
+      "numbers": "Pre-market futures: Dow ~+0.3%, S&P 500 ~-0.2%, Nasdaq-100 ~-1.0%. Wednesday close: S&P 500 -1.0%, Nasdaq -1.9%, Dow -0.1%. 8:30 AM ET data: Sept PPI, retail sales, jobless claims (consensus ~200K vs 197K prior). Sept CPI 3.7% y/y vs 3.6% expected",
+      "order": 2,
+      "reaction": "Hot CPI keeps Fed rate-hike risk in focus (Williams backs one more hike in 2026); tech weakness offsets a steadier Dow. Open hinges on the 8:30 AM ET inflation and consumer data.",
+      "region": "US",
+      "source": "https://invezz.com/news/2026/10/15/nasdaq-futures-crash-380-points-5-things-to-know-before-wall-street-opens-on-oct-15/",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, 10Y, yield",
+      "time": "Pre-market",
+      "vsExp": "PPI and retail sales actuals not verified at time of logging (n/a)"
+    }
   }
 ]
