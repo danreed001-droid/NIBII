@@ -35,6 +35,24 @@
    "at": "2026-10-14T23:57:50+00:00",
    "fp": "f70101c525f6aec0",
    "src": "dashboard snapshot of the Oct 14 evening run (commit 147dcfd)"
+  },
+  {
+   "d": "2026-10-15",
+   "mode": "CASH",
+   "half": null,
+   "list": [
+    "CRWD",
+    "DELL",
+    "HPE",
+    "MRNA",
+    "MU"
+   ],
+   "w": {
+    "CASH": 1.0
+   },
+   "at": "2026-10-15T23:43:55+00:00",
+   "fp": "f70101c525f6aec0",
+   "src": "scanner run"
   }
  ]
 }
