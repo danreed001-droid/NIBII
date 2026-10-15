@@ -1,0 +1,59 @@
+# Validation tools
+
+Two checks a reviewer asked for in October 2026. Neither changes the strategy; they test it. Both run against
+the backtest engine that `research/backtest/refresh.sh` sets up (the `robustness` worktree with `overlay/`
+copied over it), after a backtest run has filled the engine's data cache.
+
+## `friction_test.py`: trading-cost stress test
+
+Replays the plan's exact holdings schedule with higher costs per round trip and reports return a year and
+worst drop for the whole run and for 2016–2020, 2021–2023 and 2024 on, plus the round-trip cost at which the
+plan would only match SPY.
+
+```
+# in the engine folder: write the default plan's schedule
+env HARNESS_SIDE=<side folder> NIBII_REPO=<repo> START=2000-01-03 FROM=1998-06-01 EXCLUDE=EP,CPWR BOOST_ONLY=1 \
+    ONLY=NBup DUMP_SCHED=NBup_boost TAG=_fric python scripts/improve.py
+# then, from the repo
+python research/validation/friction_test.py --engine <engine folder> --sched <engine folder>/data/sched_NBup_boost_fric.json
+```
+
+Result on Oct 15, 2026 (default plan, 2000 to Oct 6, 2026, before tax; worst drop in brackets):
+
+| Round-trip cost | 2000–2026 | 2016–2020 | 2021–2023 | 2024 on |
+|---|---|---|---|---|
+| 0.15% | 41.6% (−33%) | 42.1% (−19%) | 22.7% (−19%) | 119.4% (−23%) |
+| 0.30% (engine default) | 37.8% (−33%) | 38.3% (−20%) | 18.9% (−20%) | 113.4% (−23%) |
+| 0.50% | 32.8% (−40%) | 33.3% (−21%) | 14.0% (−22%) | 105.6% (−23%) |
+| 1.0% | 21.1% (−58%) | 21.6% (−26%) | 2.7% (−32%) | 87.3% (−23%) |
+| 5.0% | −41.9% (−100%) | −41.5% (−95%) | −55.3% (−93%) | −10.8% (−49%) |
+| 10.0% | −66.7% (−100%) | −57.5% (−99%) | −36.0% (−75%) | −15.1% (−36%) |
+| SPY | 8.4% (−55%) | 15.1% (−34%) | 10.0% (−24%) | 21.4% (−19%) |
+
+The plan trades about 20 times its value a year, so each 0.1% of round-trip cost takes about 2 points a year
+off. It matches SPY at about 1.6% per round trip. S&P 500 stocks cost a few hundredths of a percent to trade, so
+the 0.30% default is already cautious; the 5% and 10% rows are micro-cap costs.
+
+## `class_cpcv.py`: class layer on the weekly horizon, with CPCV
+
+Builds a weekly panel (each Friday, every S&P 500 member at that date; target = the 5-trading-day return from
+the next close, the horizon of a weekly trade), checks that each of five macro-sectors is at least 10% of the
+full dataset, and asks whether a ranking that also learns macro-sector, size, volatility and market-season
+interactions picks better top-5 stocks than the plain ranking. It uses combinatorial purged cross-validation
+on 2000–2015 (6 time groups, 2 held out, 15 splits, 5 paths, 1 week purged before and 8 weeks embargoed after
+each held-out group), a chronological check on 2016–2026, and a false-discovery check over every 1-, 2- and
+3-class combination.
+
+```
+python research/validation/class_cpcv.py --engine <engine folder> --side <side folder> --repo . [--cpi CPIAUCSL.csv]
+```
+
+Result on Oct 15, 2026: every macro-sector passed the 10% check on the full dataset (Healthcare lowest, at
+10.3% of trading value). The class-aware ranking did worse than the plain ranking on all 5 CPCV paths and in
+both 2021–2023 and 2024 on, and none of 288 class combinations passed the false-discovery check. The plain
+ranking stays.
+
+The ranking signal in this panel is a simplified weekly version of the strategy's, without the risk layer,
+so it measures stock selection only. The strategy itself is not re-fitted between periods, so CPCV paths of
+the strategy alone would all reproduce the same backtest; CPCV matters for anything that is learned, like the
+class layer here.
