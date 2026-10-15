@@ -1,0 +1,40 @@
+{
+ "about": "Paper record of the default plan: one decision per session, logged after the close it is read from and never edited (mtl/paper.py).",
+ "start": "2026-10-14",
+ "slip": 0.0015,
+ "frozen": {
+  "since": "2026-10-14",
+  "fingerprint": "f70101c525f6aec0",
+  "files": {
+   "mtl/momentum.py": "d6f7279621a1",
+   "mtl/rotation.py": "eb2c775180a8",
+   "mtl/rebound.py": "c54c8da0dce7",
+   "mtl/narrow.py": "ffd9c01fc5a8",
+   "mtl/lowerhigh.py": "c167257a9110",
+   "mtl/news.py": "a361de45badc",
+   "mtl/structure.py": "2ac3bad9c866",
+   "mtl/universe.py": "93bbda358364",
+   "scripts/momentum_scan.py (settings)": "49dd48643477"
+  }
+ },
+ "entries": [
+  {
+   "d": "2026-10-14",
+   "mode": "CASH",
+   "half": null,
+   "list": [
+    "AMD",
+    "DELL",
+    "HPE",
+    "MRNA",
+    "MU"
+   ],
+   "w": {
+    "CASH": 1.0
+   },
+   "at": "2026-10-14T23:57:50+00:00",
+   "fp": "f70101c525f6aec0",
+   "src": "dashboard snapshot of the Oct 14 evening run (commit 147dcfd)"
+  }
+ ]
+}

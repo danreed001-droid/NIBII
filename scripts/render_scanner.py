@@ -489,6 +489,23 @@ footer li { margin-bottom: 6px; }
     </div>
   </div>
 
+  <p class="section-label">Paper record <span class="hint">the default plan, frozen and logged every evening · since Oct 14, 2026</span></p>
+  <div class="plan">
+    <div class="card" id="paper">
+      <p class="chart-title">Paper record: the default plan</p>
+      <p class="chart-sub" id="pp-sub">Starts Oct 14, 2026</p>
+      <div id="pp-now"></div>
+      <div id="pp-chart"></div>
+      <p class="note">Each evening after the close, the decision for the next close is logged with the time and a fingerprint of the rule code, and never edited. It fills at the next close with 0.15% per side, like the backtest. Every run also replays each logged day on fresh data and code, and lists any difference.</p>
+    </div>
+    <div class="card">
+      <p class="chart-title">What the backtest says to expect</p>
+      <p class="chart-sub">Every 3-, 6- and 12-month window of the default plan, 2000–2026</p>
+      <div class="tablebox" style="border:0;background:none"><table class="years" id="pp-bands"></table></div>
+      <div id="pp-log"></div>
+    </div>
+  </div>
+
   <p class="section-label">Track record <span class="hint" id="range-hint">$100 in the rule vs buying and holding</span></p>
   <div class="range" id="range">
     <label>Years <select id="ry-from" aria-label="From year"></select></label><label>to <select id="ry-to" aria-label="To year"></select></label>
@@ -1055,6 +1072,60 @@ __RESEARCH__
     }
     inp.addEventListener('input', update);
     update();
+  })();
+
+  // Paper record: the default plan's frozen, time-stamped forward test (mtl/paper.py; data/paper_ledger.json)
+  (function () {
+    var P = D.plan && D.plan.paper;
+    if (!P || !$('paper')) return;
+    var md = { month: 'short', day: 'numeric', year: 'numeric' };
+    var hn = { CASH: 'cash', TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', SPY: 'SPY', BIL: 'T-bills' };
+    function what(e) {
+      if (!e) return '–';
+      if (e.mode !== 'boost') return hn[e.mode] || e.mode;
+      return (e.half ? 'half in ' + (hn[e.half] || e.half) + ', half in ' : '') + (e.list || []).join(', ');
+    }
+    var fr = P.frozen || {}, ch = (P.rulesChanged || [])[0];
+    $('pp-sub').textContent = 'Started ' + fmtDate(P.start, md) + ' · ' + P.entries + ' decision' + (P.entries === 1 ? '' : 's') + ' logged · ' +
+      (ch ? 'rule code changed on ' + fmtDate(ch, md) : 'rules unchanged since ' + fmtDate(fr.since || P.start, md)) + ' (fingerprint ' + (fr.fingerprint || '').slice(0, 8) + ')';
+    var S = P.status || {}, html = '<p>';
+    html += 'After tonight’s close it holds <b>' + esc(what(P.tonight)) + '</b>. ';
+    if (S.sessions > 0) html += 'Over ' + S.sessions + ' session' + (S.sessions === 1 ? '' : 's') + ': paper record <b>' + pct(S.ret) + '</b>, SPY ' + pct(S.spy) + ', worst drop ' + pct(S.dd) + '. ';
+    else html += 'The record starts with the first fill. ';
+    html += (S.band ? 'Judged on the ' + P.bands[String(S.band)].label + ' range. ' : 'Too early to judge against the ranges (3 months at the earliest). ');
+    html += (S.flags && S.flags.length) ? '<span class="neg">Warning: ' + esc(S.flags.join('; ')) + '.</span> ' : '<span class="pos">No warnings.</span> ';
+    html += P.checked ? (P.diffs && P.diffs.length
+      ? '<span class="neg">Replay check: ' + P.diffs.length + ' of ' + P.checked + ' logged days differ: ' + esc(P.diffs.map(function (x) { return x.d + ' (' + x.what + ')'; }).join('; ')) + '.</span>'
+      : 'Replay check: all ' + P.checked + ' logged day' + (P.checked === 1 ? '' : 's') + ' match.')
+      : 'Replay check: starts once a logged day has passed.';
+    $('pp-now').innerHTML = html + '</p>';
+    var C = P.curve || [], Sp = P.spy || [];
+    if (C.length < 2) $('pp-chart').innerHTML = '<p class="note">The chart starts after the first closes.</p>';
+    else {
+      var ser = [['Paper record', C, 'var(--s-rot)'], ['SPY', Sp, 'var(--s-spy)']];
+      var all = []; ser.forEach(function (x) { x[1].forEach(function (p) { all.push(p[1]); }); });
+      var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all), W = 560, H = 180;
+      var xs = function (i, len) { return (i / Math.max(1, len - 1)) * (W - 90) + 4; }, ys = function (v) { return H - 18 - (v - lo) / ((hi - lo) || 1) * (H - 30); };
+      var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Paper record vs SPY since the start">';
+      ser.forEach(function (x) {
+        if (!x[1].length) return;
+        svg += '<polyline style="fill:none;stroke:' + x[2] + ';stroke-width:2" points="' + x[1].map(function (p, i) { return xs(i, x[1].length).toFixed(1) + ',' + ys(p[1]).toFixed(1); }).join(' ') + '"/>';
+        var lp = x[1][x[1].length - 1];
+        svg += '<text x="' + (xs(x[1].length - 1, x[1].length) + 6).toFixed(1) + '" y="' + (ys(lp[1]) + 4).toFixed(1) + '" font-size="11" style="fill:var(--ink-2)">' + esc(x[0]) + ' $' + Math.round(lp[1] * 100) + '</text>';
+      });
+      $('pp-chart').innerHTML = svg + '</svg>';
+    }
+    var B = P.bands || {}, rows = '<thead><tr><th class="l">After</th><th>Bad (1 in 20)</th><th>Low quarter</th><th>Typical</th><th>High quarter</th><th>Ahead of SPY</th><th>Typical worst drop</th></tr></thead><tbody>';
+    Object.keys(B).sort(function (a, b) { return a - b; }).forEach(function (h) {
+      var b = B[h], on = String(S.band) === h;
+      rows += '<tr' + (on ? ' style="font-weight:600"' : '') + '><td class="l">' + esc(b.label) + (on ? ' (now)' : '') + '</td><td>' + pct(b.p5) + '</td><td>' + pct(b.p25) + '</td><td>' + pct(b.p50) + '</td><td>' + pct(b.p75) + '</td><td>' + Math.round(b.ahead * 100) + '%</td><td>' + pct(b.dd50, 0) + '</td></tr>';
+    });
+    $('pp-bands').innerHTML = rows + '</tbody>';
+    $('pp-log').innerHTML = '<p class="note">Warning signs: the latest 3, 6 or 12 months (the longest reached) below the 1-in-20 floor for that length, trailing SPY by more than the 1-in-10 margin, or a drop deeper than the backtest’s worst (' + pct(P.worstDD, 0) + '). Trailing SPY in a single year is not one: the backtest did that 1 year in 5.</p>' +
+      '<p class="note">Latest decisions: ' + (P.last || []).map(function (e) {
+        var t = e.at ? new Date(e.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' }) + ' ET' : '';
+        return fmtDate(e.d, { month: 'short', day: 'numeric' }) + ': ' + esc(what(e)) + (t ? ' <span class="muted">(logged ' + esc(t) + ')</span>' : '');
+      }).join(' · ') + '</p>';
   })();
 
   function spark(vals, w, h) {

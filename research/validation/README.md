@@ -57,3 +57,27 @@ The ranking signal in this panel is a simplified weekly version of the strategy'
 so it measures stock selection only. The strategy itself is not re-fitted between periods, so CPCV paths of
 the strategy alone would all reproduce the same backtest; CPCV matters for anything that is learned, like the
 class layer here.
+
+## Paper record: the live forward test
+
+`mtl/paper.py` keeps a frozen, time-stamped paper record of the default plan in `data/paper_ledger.json`, starting
+Oct 14, 2026, the day the current default (with the rebound rule) went live. The first entry comes from that
+evening's saved dashboard snapshot; every later one is added by the scheduled scanner run.
+
+- **Logged after the close, never edited.** Each evening (`PAPER_LEDGER_WRITE=1` in `.github/workflows/scanner.yml`,
+  and only once New York has closed) the run appends what the plan will hold after the next close: the mode, the
+  whipsaw half and the Boost list, the weights that follow, the time it was logged and a fingerprint of the rule
+  code. A day already logged is never rewritten; the repo's commit history time-stamps each entry independently.
+- **Frozen rules.** The fingerprint covers the rule modules and the scanner's settings lines (not page code or file
+  paths). The page says whether it still matches the one frozen on Oct 14; a rule change shows the date it happened.
+- **Paper fills.** Each decision fills at the next session's close with 0.15% per side on what changes hands;
+  positions drift between trades and are reset to their weights on the weekly trade.
+- **Replay check.** Every run replays each logged day on that run's data and code and lists any day whose mode,
+  half or list differs from what was logged.
+- **Expected ranges.** The page compares the record with every 3-, 6- and 12-month window of the 2000–2026 backtest
+  and warns only when the latest 3-, 6- or 12-month stretch (the longest reached) is below the backtest's 1-in-20
+  floor for that length or trails SPY by more than its 1-in-10 margin, or when a drop is deeper than the backtest's
+  worst (−33%).
+
+The dashboard's universe is the S&P 500 plus the Nasdaq-100 members outside it, while the backtest behind the
+ranges uses S&P 500 members only, so a pick outside the S&P 500 is something the backtest never held.
