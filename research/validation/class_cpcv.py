@@ -294,7 +294,7 @@ def main():
     for p in ('2000-2015', '2016-2020', '2021-2023', '2024 on'):
         c_, v_ = sum(per[p].values()), sum(perv[p].values())
         OUT['macro'][p] = {m: [per[p][m] / c_, perv[p][m] / v_] for m in MACROS}
-        print(f"  {p:9}" + ' | '.join(f"{m} {per[p][m] / c_:.1%} / {perv[p][m] / v_:.1%}" for m in MACROS))
+        print(f"  {p:10} " + ' | '.join(f"{m} {per[p][m] / c_:.1%} / {perv[p][m] / v_:.1%}" for m in MACROS))
 
     weeks = sorted({r['date'] for r in rows})
     widx = {w: i for i, w in enumerate(weeks)}
