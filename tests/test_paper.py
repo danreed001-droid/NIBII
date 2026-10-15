@@ -1,0 +1,86 @@
+"""mtl/paper.py - the default plan's paper record: append-only log, next-close fills, replay check, status."""
+from datetime import datetime, timezone
+
+import pandas as pd
+
+from mtl import paper
+
+CAL = [d.date().isoformat() for d in pd.bdate_range('2026-10-12', periods=10)]   # Mon Oct 12 ...
+PX = {'AAA': {d: 10.0 * (1.1 ** i) for i, d in enumerate(CAL)}, 'BBB': {d: 20.0 for d in CAL},
+      'GLD': {d: 100.0 * (1.02 ** i) for i, d in enumerate(CAL)}, 'SPY': {d: 500.0 * (1.01 ** i) for i, d in enumerate(CAL)}}
+
+
+def ledger(*decs):
+    L = paper.new_ledger('fp1', {})
+    L['start'] = CAL[0]
+    for i, d in enumerate(decs):
+        assert paper.record(L, d, f'{d["d"]}T21:30:00+00:00', 'fp1')
+    return L
+
+
+def test_weights_follow_mode_half_and_list():
+    assert paper.weights('boost', None, ['AAA', 'BBB']) == {'AAA': 0.5, 'BBB': 0.5}
+    assert paper.weights('boost', 'GLD', ['AAA', 'BBB']) == {'AAA': 0.25, 'BBB': 0.25, 'GLD': 0.5}
+    assert paper.weights('TLT', 'GLD', ['AAA']) == {'TLT': 1.0}
+    assert paper.weights('CASH', None, []) == {'CASH': 1.0}
+    assert paper.decision(CAL[0], 'GLD', 'TLT', ['AAA'])['half'] is None      # no half outside the stocks
+
+
+def test_record_is_append_only_and_one_entry_per_day():
+    L = ledger(paper.decision(CAL[1], 'boost', None, ['AAA']))
+    first = dict(L['entries'][0])
+    assert not paper.record(L, paper.decision(CAL[1], 'CASH', None, []), 'later', 'fp1')    # the day is logged
+    assert not paper.record(L, paper.decision(CAL[0], 'CASH', None, []), 'later', 'fp1')    # nothing back-dated
+    assert L['entries'][0] == first and len(L['entries']) == 1
+    assert paper.record(L, paper.decision(CAL[2], 'CASH', None, []), 'x', 'fp2')
+    assert [e['fp'] for e in L['entries']] == ['fp1', 'fp2']
+
+
+def test_decisions_fill_at_the_next_close_with_costs():
+    L = ledger(paper.decision(CAL[1], 'boost', None, ['AAA', 'BBB']),
+               paper.decision(CAL[2], 'boost', None, ['AAA', 'BBB']),
+               paper.decision(CAL[3], 'GLD', None, ['AAA', 'BBB']))
+    c = dict(paper.account(L['entries'], PX, CAL))
+    assert min(c) == CAL[2]                                            # the first fill is CAL[2]'s close
+    assert abs(c[CAL[2]] - (1 - paper.SLIP)) < 1e-12                   # buying 100% costs 0.15%
+    v2 = 1 - paper.SLIP
+    v3 = v2 * (0.5 * 1.1 + 0.5)                                        # AAA +10%, BBB flat; no trade (same holdings)
+    assert abs(c[CAL[3]] - v3) < 1e-9
+    v4 = v2 * (0.5 * 1.21 + 0.5) * (1 - paper.SLIP * 2)                # marked at CAL[4]'s close, then all sold for gold
+    assert abs(c[CAL[4]] - v4) < 1e-9
+    assert abs(c[CAL[5]] - v4 * 1.02) < 1e-9                           # then gold's move
+
+
+def test_cash_is_flat_and_nothing_before_the_first_fill():
+    L = ledger(paper.decision(CAL[4], 'CASH', None, ['AAA']))
+    c = paper.account(L['entries'], PX, CAL)
+    assert c[0][0] == CAL[5] and all(abs(v - 1.0) < 1e-12 for _, v in c)
+
+
+def test_replay_check_lists_differences_and_skips_today():
+    L = ledger(paper.decision(CAL[1], 'boost', None, ['AAA', 'BBB']), paper.decision(CAL[2], 'CASH', None, []),
+               paper.decision(CAL[3], 'boost', None, ['AAA']))
+    replay = {CAL[1]: paper.decision(CAL[1], 'boost', None, ['BBB', 'AAA']), CAL[2]: paper.decision(CAL[2], 'GLD', None, [])}
+    n, diffs = paper.replay_check(L['entries'], replay.get, CAL[3])
+    assert n == 2 and len(diffs) == 1 and diffs[0]['d'] == CAL[2] and 'CASH logged, GLD' in diffs[0]['what']
+
+
+def test_status_flags_only_against_the_ranges():
+    flat = [[d, 1.0] for d in CAL]
+    s = paper.status(flat, PX['SPY'])
+    assert s['band'] is None and s['flags'] == [] and s['sessions'] == len(CAL) - 1
+    crash = [[d, 1.0 if i < 5 else 0.6] for i, d in enumerate(CAL)]
+    assert any('deeper than' in f for f in paper.status(crash, PX['SPY'])['flags'])
+
+
+def test_after_close_uses_new_york_time():
+    assert not paper.after_close('2026-10-15', datetime(2026, 10, 15, 19, 0, tzinfo=timezone.utc))     # 3pm ET
+    assert paper.after_close('2026-10-15', datetime(2026, 10, 15, 21, 20, tzinfo=timezone.utc))        # 5:20pm ET
+    assert paper.after_close('2026-10-15', datetime(2026, 10, 16, 1, 0, tzinfo=timezone.utc))
+
+
+def test_block_reports_frozen_rules_and_changes():
+    L = ledger(paper.decision(CAL[1], 'boost', None, ['AAA']))
+    paper.record(L, paper.decision(CAL[2], 'boost', None, ['AAA']), 'x', 'fp-new')
+    b = paper.block(L, PX, CAL, len(CAL) - 1, PX['SPY'], lambda d: None, 'fp-new')
+    assert b['frozen']['fingerprint'] == 'fp1' and b['rulesChanged'] == [CAL[2]] and b['entries'] == 2 and b['curve']

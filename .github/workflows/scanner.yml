@@ -45,6 +45,9 @@ jobs:
       - run: pip install -r requirements.txt
 
       - name: Rank the S&P 500 + Nasdaq-100 and replay the rule
+        # also logs tonight's decision to the default plan's paper record (data/paper_ledger.json, mtl/paper.py)
+        env:
+          PAPER_LEDGER_WRITE: '1'
         run: python scripts/momentum_scan.py
 
       - name: Scan all US stocks for ignition setups (Next big thing watch)
@@ -61,7 +64,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/scanner.html data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
+          git add docs/scanner.html data/paper_ledger.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0

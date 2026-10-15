@@ -48,6 +48,7 @@ from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash, lowerhigh_state, LH_D
 from mtl.trendline import TL_DAYS, trendline_state  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
+from mtl import paper as paper_rec  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
 from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
@@ -80,6 +81,7 @@ CUSHION, CUSHION_MA = 0.75, 150      # Boost + cushion: 25% in the sleeve while 
 REVISIONS_LOG = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'revisions_log.json')
 CREDIT_LOOK = 21                       # ... and junk bonds (HYG) lagged quality bonds (LQD) over the last 21 sessions
 CALLS_PATH = os.path.join(ROOT, 'docs', 'my_calls.json')   # the viewer's calls, synced from the page
+PAPER_PATH = os.path.join(ROOT, 'data', 'paper_ledger.json')   # the default plan's paper record (mtl/paper.py)
 GUARD_SHARE = 0.5                       # bear guard: this much of the stock part goes to SPY while SPY < a year ago
 HUMAN_FROM = '2024-01-01'               # daily series shipped for scoring the viewer's own weekly calls
 STATE = {'uptrend': 'up', 'downtrend': 'down', 'choppy': 'chop', None: None}
@@ -997,6 +999,31 @@ def main():
             print(f"  You-2 price fetch failed: {e}", file=sys.stderr)
     you2 = you2_block(you2_doc, you2_px, whip_px, calendar, rot_modes, whip_half, plans['rotation'], prices['SPY'], K)
 
+    # Paper record (mtl/paper.py): log tonight's decision for the next close - only in the scheduled scanner
+    # run (PAPER_LEDGER_WRITE=1) and only after the close - then score the ledger and replay each logged day
+    paper_fp, paper_files = paper_rec.fingerprint(ROOT)
+    ledger = paper_rec.load(PAPER_PATH) or paper_rec.new_ledger(paper_fp, paper_files)
+    p_idx = {d_: i for i, d_ in enumerate(calendar)}
+    p_days = [p_[0] for p_ in picks_bx]
+
+    def p_list(s_):   # the Boost list held after the close of session s_
+        i_ = bisect_right(p_days, s_) - 1
+        return picks_bx[i_][1] if i_ >= 0 else []
+
+    def p_replay(d_):
+        i_ = p_idx.get(d_)
+        if i_ is None or i_ + 1 >= len(calendar):
+            return None
+        return paper_rec.decision(d_, rot_modes.get(d_, 'boost'), whip_half.get(d_), p_list(calendar[i_ + 1]))
+    p_now = paper_rec.decision(as_of, rot_modes.get(as_of, 'boost'), whip_half.get(as_of),
+                               after_bx if signal_day else (list(pend_bx) if pend_bx is not None else hold_bx))
+    if os.environ.get('PAPER_LEDGER_WRITE') == '1' and paper_rec.after_close(as_of):
+        if paper_rec.record(ledger, p_now, datetime.now(timezone.utc).isoformat(timespec='seconds'), paper_fp):
+            paper_rec.save(PAPER_PATH, ledger)
+            print(f"paper record: logged {as_of} ({p_now['mode']})", file=sys.stderr)
+    paper = paper_rec.block(ledger, {**whip_px, **prices}, calendar, K, prices['SPY'], p_replay, paper_fp)
+    paper['tonight'] = p_now
+
     years = {k: yearly(v) for k, v in curves.items()}
     for k, v in curves.items():   # a curve that starts mid-year (SPMO, Oct 2015): no return for that part year
         if v and v[0][0][5:] > '01-15':
@@ -1044,7 +1071,7 @@ def main():
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
         monthly=monthly,
         option=option_check(held_rows, bars, as_of, calendar, signal_day),
-        plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto, you2=you2))
+        plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto, you2=you2, paper=paper))
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)
