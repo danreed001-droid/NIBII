@@ -66,7 +66,7 @@ sessions before the last 63). Its slot stays in cash (`buy_max_rank` in `mtl/mom
 next-ranked stock, until it drops out of the top 5 or stops fading. A stock already held is kept as usual. You-2
 applies the same check to the viewer's stocks.
 
-**Whipsaw shadow count (Oct 16, 2026).** The whipsaw half-switch reads the same Boost list run with the filter off: a
+**Whipsaw shadow count (Oct 16, 2026).** The whipsaw switch reads the same Boost list run with the filter off: a
 stock the filter skipped counts as if it had been bought and later sold, and an empty slot is never a sale. The
 backtest engine had counted the empty slot as a sale that didn't lose and held it in T-bills (swapped to gold or
 bonds), unlike the live scanner; in a run started Jan 2, 2020 that kept the half-switch off through most of the
@@ -80,7 +80,10 @@ same held for shrinking swings, in both 2000–2012 and 2013–2026. Skipping th
 did **not** help (37.6% vs 37.8% a year): the replacements carried their own risk. Leaving the slot in cash did.
 Because the pattern came from the same history it was tested on, it went through the overfitting checks first.
 
-Results (engine `NBup` = with the filter, `NBnf` = without; S&P 500 members at each date, 0.15% per side):
+Results as tested, with the whipsaw switch moving half the account (engine `NBup` = with the filter, `NBnf` = without;
+S&P 500 members at each date, 0.15% per side). With the whole-account switch adopted later the same day (next
+section) the plan makes 41.0% a year from 2000 with the filter and 38.7% without it (43.2% vs 40.9% from 2010, 50.7% vs
+47.9% from 2016, 74.8% vs 71.8% from 2020), t-statistic 2.2 on monthly returns.
 
 | Check | Without | With |
 |---|---|---|
@@ -97,7 +100,34 @@ Results (engine `NBup` = with the filter, `NBnf` = without; S&P 500 members at e
 Limits, stated plainly: the gain over the plan without it is not statistically proven once the ~55 versions tried
 that day are counted (t-statistic of the monthly difference 2.3 on the S&P list and 1.3 on the dashboard's
 universe, against about 3 needed); 2009 is a large part of it; and it does nothing abroad. It doesn't hurt in any
-of the checks, so it went in on probation. The paper record (next section) shows the change as a listed update.
+of the checks, so it went in on probation. The paper record shows the change as a listed update.
+
+## Whipsaw switch: the whole account (default since Oct 16, 2026)
+
+When the whipsaw check is on (65% or more of the Boost list's sales in the last 126 sessions were losers, at least 6
+sales), the plan now holds 100% of whichever of TLT, GLD and SPY is up most over 3 months (skipping weekly
+downtrends) instead of 50% of it next to the Boost list (`WHIP_SHARE` in `mtl/rotation.py`; engine `NBup` = whole
+account, `NBhalf` = half). It came from asking how the switch did over its own days: across its 22 stretches since 2000
+(251 sessions, about 4% of the time) the Boost list lost about 3% while the asset it picked gained about 13%.
+
+| Check | Half (until Oct 16) | Whole account |
+|---|---|---|
+| From 2000, a year before tax (after tax) | 40.3% (25.4%) | 41.0% (25.8%) |
+| Worst drop from 2000 / from 2020 | −33% / −27% | −34% / −23% |
+| From 2010 / 2016 / 2020 | 42.0% / 50.3% / 73.3% | 43.2% / 50.7% / 74.8% |
+| Dashboard universe (with the 15 Nasdaq-100 additions), from 2000 | 39.4% | 40.1% |
+| Share of the account in the asset: 0 / 33 / 50 / 66 / 100%, from 2000 | | 39.3 / 40.0 / 40.3 / 40.5 / 41.0% |
+| Ten separate periods (Holdout Review) | | better in 2 (2010–2013, 2016–2018), same in 7, worse in 1 (2013–2015) |
+| Deflated Sharpe, 1,081 versions counted | 99.92% | 99.94% |
+| Probability of backtest overfitting (CSCV), 1,081 versions | 1.4% | 1.4% |
+| Monthly difference | | +0.6 points a year, t-statistic 0.9 (0.8 on the dashboard's universe) |
+| Monte Carlo: beats the half switch over 5 / 10 / 20 years | | 63% / 73% / 85% |
+| Abroad (Japan, UK, Germany, India, Hong Kong) | 15.1 / 13.2 / 5.9 / 32.5 / 27.1% | 16.2 / 13.1 / 5.5 / 33.7 / 26.2% |
+
+Limits, stated plainly: most of the gain comes from two years (+16 points in 2011, +8 in 2016) and it gave back 6
+points in 2015; the monthly difference is far from significant; abroad it helped in two markets and hurt in three,
+all within about a point; and the share of the account was chosen on this history. It went in on probation, and the
+paper record lists it as an update.
 
 ## Paper record: the live forward test
 
