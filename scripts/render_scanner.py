@@ -2825,7 +2825,7 @@ WALLST_ROWS = {   # measure, what it means
     'capture': ('Up / down capture', 'In months SPY rose, the plan rose about 1.4x as much; in months SPY fell, it was about flat on average.'),
     'var': ('Bad month (VaR / CVaR 95%)', 'One month in 20 loses at least the first number; the second is the average of those bad months.'),
     'worst3': ('Worst 3 years', 'The weakest three-year stretch, per year (2000–2002 for SPY).'),
-    'under': ('Longest underwater', 'The longest wait below a previous high before getting back to it.'),
+    'under': ('Longest underwater', 'The longest wait below a previous high before getting back to it, on daily closes (the plan: May 2001 to May 2003; SPY: March 2000 to October 2006). Every drop is listed under Back to the peak below.'),
     'alpha': ('Alpha after factors', 'Return left over after taking out what the market, size, value, quality, momentum, bonds and gold explain. A t-stat above 2 means it is unlikely to be luck.'),
     'alphadec': ('Alpha 2000s / 2010s / 2020s', 'The same by decade: strong in the 2000s and 2020s, weakest in the 2010s.'),
 }
@@ -2836,13 +2836,19 @@ WALLST_MC = {
     'beatSpy': ('Chance of beating SPY', 'Share of simulated futures in which the plan ended ahead of SPY.'),
     'beatSpyTax': ('... after tax', 'The plan after tax against SPY untaxed.'),
     'beatSpyHalf': ('... with half the edge', 'If the plan only keeps half of its historical lead over SPY: the realistic check for a backtest tuned on this history.'),
-    'beatPrev': ('Chance of beating the previous plan', 'Share of simulated futures in which the plan beat the previous plan (the same plan holding T-bills).'),
+    'beatPrev': ('Chance of beating the previous plan', 'Share of simulated futures in which the plan beat the previous plan (the same plan moving only half the account in the whipsaw switch).'),
     'dd': ('Typical worst drop', 'The middle worst drop within each simulated future.'),
     'dd50': ('Chance of a −50% drop', 'Share of simulated futures with a drop of half or more at some point.'),
     'dd50Half': ('... with half the edge', 'The same with half of the historical lead.'),
+    'under': ('Typical longest wait for a new high', 'The middle of each simulated future’s longest stretch below a previous high.'),
+    'underBad': ('... bad case (1 in 20)', 'Only 5% of simulated futures had a longer wait at some point.'),
+    'under2y': ('Chance of a wait over 2 years', 'Share of simulated futures with at least one stretch of more than 24 months below a previous high.'),
+    'underSpy': ('SPY, typical longest wait', 'The same for SPY, for comparison.'),
 }
 WALLST_OTHER = {
     'pbo': lambda o: f'<b>Overfitting test (PBO, {o.get("n")} versions):</b> a {_e(o["v"])} chance that the best-looking version is a fluke, judged on years it was not picked on. Under 50% means picking the best version helped.',
+    'dsr': lambda o: f'<b>Deflated Sharpe ratio ({o.get("n"):,} versions):</b> a {_e(o["v"])} chance the edge is real after allowing for how many versions were tried. '
+                     f'Luck alone would give the best of that many versions a Sharpe ratio of about {_e(o["luck"])}; the plan’s is {_e(o["sharpe"])}. Above 95% is the usual bar.',
     'walk': lambda o: f'<b>Walk-forward:</b> re-picking the best version each year, using only the years before it, earned {_e(o["v"])} a year in 2005–2025 against {_e(o["typical"])} for the typical version.',
     'pickT': lambda o: f'<b>The 6-month pick on its own:</b> adds about {_e(o["v"])}; a t-stat under 2 means the gain is not proven, so it is on probation.',
     'cashT': lambda o: f'<b>The narrow-market cash week on its own:</b> {_e(o["v"])}. Month by month the gain is not proven (most months it does nothing); judged on its cash weeks against random weeks it is unlikely to be luck. It was found on 2012–2026, went 1 for 3 on the 2006–07 years it was not built on, and did not carry over abroad (below), so it is on probation.',
@@ -2855,6 +2861,35 @@ WALLST_OTHER = {
     'y1927': lambda o: f'<b>Before the data it was built on:</b> {_e(o["v"])}.',
     'plan': lambda o: f'<b>What to plan on:</b> {_e(o["v"])}. The rules were picked on the same history they are tested on, so the headline numbers are the best case.',
 }
+
+
+def recovery_html(rc):
+    """Back to the peak: how long the plan took to get back to a previous high after each 15%+ drop, or ''."""
+    drops = (rc or {}).get('drops') or []
+    if not drops:
+        return ''
+    MN = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
+    def md(d): return f'{MN[int(d[5:7]) - 1]} {d[:4]}' if d else 'not yet'
+    def mo(x): return f'{x:.0f}' if x >= 0.95 else 'under 1'
+    def pc(v): return f'{v * 100:.0f}%'.replace('-', '−')
+    top, rest = drops[:8], drops[8:]
+    rows = ''.join(f'<tr><td class="num">{pc(x["depth"])}</td><td class="l">{md(x["peak"])}</td><td class="l hide-sm">{md(x["low"])}</td>'
+                   f'<td class="l">{md(x["back"])}</td><td class="num"><b>{mo(x["total"])}</b></td>'
+                   f'<td class="num hide-sm">{mo(x["down"])}</td><td class="num hide-sm">{mo(x["up"])}</td></tr>' for x in top)
+    L, now = rc.get('longest') or {}, rc.get('now') or {}
+    lo_, hi_ = (min(x['total'] for x in rest), max(x['total'] for x in rest)) if rest else (0, 0)
+    tail = f'The other {len(rest)} took {mo(lo_)} to {mo(hi_)} months each. ' if rest else ''
+    cmp_ = ''.join(f'{lab} waited <b>{L[k]["months"]} months</b> ({md(L[k]["peak"])} to {md(L[k]["back"])}). ' for k, lab in (('spy', 'SPY'), ('qqq', 'QQQ')) if L.get(k))
+    nowtxt = (f'At the end of the audit ({md(rc.get("end"))}) the plan was {abs(now["below"]) * 100:.1f}% below its high of {md(now["since"])}. ' if now.get('below', 0) < -0.001 else '')
+    return ('<p class="section-label" style="margin-top:4px">Back to the peak <span class="hint">how long the plan took to get back to a previous high · '
+            f'every drop of {rc.get("cut", 0.15) * 100:.0f}% or more · daily closes from Jan 2000</span></p>'
+            f'<p class="note" style="margin:0 0 8px">{rc.get("count")} drops of {rc.get("cut", 0.15) * 100:.0f}% or more in {rc.get("years")} years. '
+            f'The typical one took about <b>{mo(rc.get("median", 0))} months</b> from the peak back to it: about {mo(rc.get("medianDown", 0))} falling and {mo(rc.get("medianUp", 0))} climbing back. '
+            f'The longest was <b>{L.get("plan", {}).get("months")} months</b>. For comparison, {cmp_}'
+            f'Between those drops, half of the plan’s {rc.get("newHighs", 0):,} new highs came within {rc.get("gapMedianDays")} days of the one before, and 90% within {round(rc.get("gap90Days", 0) / 7)} weeks.</p>'
+            '<div class="tablebox"><table><thead><tr><th>Drop</th><th class="l">Peak</th><th class="l hide-sm">Low</th><th class="l">Back</th>'
+            '<th>Months</th><th class="hide-sm">Months falling</th><th class="hide-sm">Months back</th></tr></thead><tbody>' + rows + '</tbody></table></div>'
+            f'<p class="note" style="margin:-4px 0 12px">Back = when the plan was back at its peak; months = from the peak to then, split on wider screens into months falling and months back. The {len(top)} longest waits, longest first. {tail}{nowtxt}A backtest, so expect real waits to run a little longer.</p>')
 
 
 def wallst_html(ws=None):
@@ -2887,6 +2922,7 @@ def wallst_html(ws=None):
             '<th class="l hide-sm">What it means</th></tr></thead><tbody>' + sc + '</tbody></table></div>'
             f'<p class="note" style="margin:-4px 0 12px"><b>Plan</b> = {_e(ws.get("plan"))}. <b>Previous plan</b> = {_e(ws.get("previous"))}. '
             f'{_e(ws.get("source"))}.</p>'
+            + recovery_html(ws.get('recovery'))
             + (f'<p class="section-label" style="margin-top:4px">Monte Carlo <span class="hint">{mc.get("paths", 0):,} simulated futures, built by '
                'reshuffling the plan\'s own months in blocks of about a year; the same months for every column</span></p>'
                '<div class="tablebox"><table><thead><tr><th class="l">Result</th>' + ''.join(f'<th{" class=hide-sm" if i == 0 else ""}>{_e(h)}</th>' for i, h in enumerate(hz))
