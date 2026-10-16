@@ -19,8 +19,12 @@ def ledger(*decs):
 
 
 def test_weights_follow_mode_half_and_list():
-    assert paper.weights('boost', None, ['AAA', 'BBB']) == {'AAA': 0.5, 'BBB': 0.5}
-    assert paper.weights('boost', 'GLD', ['AAA', 'BBB']) == {'AAA': 0.25, 'BBB': 0.25, 'GLD': 0.5}
+    five = ['A1', 'A2', 'A3', 'A4', 'A5']
+    assert paper.weights('boost', None, five) == {t: 0.2 for t in five}
+    w = paper.weights('boost', None, ['AAA', 'BBB'])            # empty slots (fading filter) are cash
+    assert w['AAA'] == w['BBB'] == 0.2 and abs(w['CASH'] - 0.6) < 1e-12
+    w = paper.weights('boost', 'GLD', five[:4])
+    assert all(abs(w[t] - 0.1) < 1e-12 for t in five[:4]) and abs(w['CASH'] - 0.1) < 1e-12 and w['GLD'] == 0.5
     assert paper.weights('TLT', 'GLD', ['AAA']) == {'TLT': 1.0}
     assert paper.weights('CASH', None, []) == {'CASH': 1.0}
     assert paper.decision(CAL[0], 'GLD', 'TLT', ['AAA'])['half'] is None      # no half outside the stocks
@@ -36,7 +40,8 @@ def test_record_is_append_only_and_one_entry_per_day():
     assert [e['fp'] for e in L['entries']] == ['fp1', 'fp2']
 
 
-def test_decisions_fill_at_the_next_close_with_costs():
+def test_decisions_fill_at_the_next_close_with_costs(monkeypatch):
+    monkeypatch.setattr(paper, 'SLOTS', 2)                         # a two-stock list fills the account
     L = ledger(paper.decision(CAL[1], 'boost', None, ['AAA', 'BBB']),
                paper.decision(CAL[2], 'boost', None, ['AAA', 'BBB']),
                paper.decision(CAL[3], 'GLD', None, ['AAA', 'BBB']))
@@ -55,6 +60,22 @@ def test_cash_is_flat_and_nothing_before_the_first_fill():
     L = ledger(paper.decision(CAL[4], 'CASH', None, ['AAA']))
     c = paper.account(L['entries'], PX, CAL)
     assert c[0][0] == CAL[5] and all(abs(v - 1.0) < 1e-12 for _, v in c)
+
+
+def test_replay_check_only_compares_entries_under_todays_rules():
+    L = ledger(paper.decision(CAL[1], 'boost', None, ['AAA']))
+    paper.record(L, paper.decision(CAL[2], 'boost', None, ['AAA']), 'x', 'fp-new')
+    replay = lambda d: paper.decision(d, 'CASH', None, [])         # today's code would decide differently
+    n, diffs = paper.replay_check(L['entries'], replay, CAL[3], 'fp-new')
+    assert n == 1 and [x['d'] for x in diffs] == [CAL[2]]          # the entry under the old rules isn't compared
+
+
+def test_listed_rule_update_is_not_flagged():
+    L = ledger(paper.decision(CAL[1], 'boost', None, ['AAA']))
+    paper.record(L, paper.decision(CAL[2], 'boost', None, ['AAA']), 'x', 'fp-new')
+    L['updates'] = [dict(since=CAL[2], fingerprint='fp-new', files={}, what='a new filter')]
+    b = paper.block(L, PX, CAL, len(CAL) - 1, PX['SPY'], lambda d: None, 'fp-new')
+    assert b['rulesChanged'] == [] and b['updates'][0]['what'] == 'a new filter'
 
 
 def test_replay_check_lists_differences_and_skips_today():

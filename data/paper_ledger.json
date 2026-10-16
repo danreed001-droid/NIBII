@@ -54,5 +54,24 @@
    "fp": "f70101c525f6aec0",
    "src": "scanner run"
   }
+ ],
+ "updates": [
+  {
+   "since": "2026-10-16",
+   "fingerprint": "f157670e15323ec6",
+   "files": {
+    "mtl/momentum.py": "80dc1ad632b0",
+    "mtl/rotation.py": "eb2c775180a8",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/narrow.py": "ffd9c01fc5a8",
+    "mtl/lowerhigh.py": "c167257a9110",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "93bbda358364",
+    "mtl/fade.py": "2cac2d2d1ee8",
+    "scripts/momentum_scan.py (settings)": "49dd48643477"
+   },
+   "what": "fading-energy filter on new buys (a top-5 stock whose volume and daily swings have both faded isn\u2019t bought; its slot stays in cash)"
+  }
  ]
 }

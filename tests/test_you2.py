@@ -41,3 +41,16 @@ def test_intake_reads_you2_lists_and_ignores_junk():
     spec.loader.exec_module(m)
     body = 'x\n```json\n{"you2": {"2026-10-15": {"stocks": ["dell", "MRNA", "bad ticker", "MRNA"], "at": "2026-10-15T14:00:00Z"}, "nope": {}}}\n```'
     assert m.parse_you2(body) == {'2026-10-15': {'stocks': ['DELL', 'MRNA'], 'note': '', 'at': '2026-10-15T14:00:00Z'}}
+
+
+def test_fading_stock_waits_in_cash_until_a_week_end_check_clears_it():
+    cal = [d.date().isoformat() for d in pd.bdate_range('2026-10-12', periods=10)]   # Mon Oct 12 .. Fri Oct 23
+    px = {'AAA': {d: 10.0 for d in cal}, 'BBB': {d: 10.0 * 1.1 ** i for i, d in enumerate(cal)}}
+    entries = {cal[0]: ['AAA', 'BBB']}
+    skip = lambda t, k: t == 'BBB' and cal[k] < cal[4]               # BBB fades until Friday Oct 16's close
+    c = dict(you2.picks_curve(entries, px, cal, cal[0], skip=skip))
+    assert abs(c[cal[3]] - 1.0) < 1e-12                              # half in AAA (flat), half in cash: no gain yet
+    assert abs(c[cal[5]] - 1.0) < 1e-12                              # cleared at Friday's check, bought at Monday's close
+    assert abs(c[cal[6]] - (0.5 + 0.5 * 1.1)) < 1e-9                 # then its half rises with it
+    plain = dict(you2.picks_curve(entries, px, cal, cal[0]))
+    assert plain[cal[3]] > 1.0                                       # without the filter BBB's half rose
