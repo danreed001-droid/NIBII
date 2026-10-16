@@ -2977,5 +2977,45 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-16-1-us-futures-higher-bessent-iran-pressure",
+    "data": {
+      "addedAt": "2026-10-16",
+      "category": "Market",
+      "date": "2026-10-16",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "US stock futures point higher Friday as Bessent steps up economic pressure on Iran and Treasury yields cool",
+      "impact": "Medium",
+      "numbers": "Futures levels n/a; Fed on hold odds ~85% (CME FedWatch); ex-auto/gas retail sales +0.2%, control group +0.1%",
+      "order": 1,
+      "reaction": "Dow, S&P 500 and Nasdaq 100 futures were higher pre-market after Thursday's higher close, with yields cooling and Q3 earnings (TSMC, Alcoa, IBKR) in focus. Soft retail-sales control group and a likely Fed hold support the rates-relief tone.",
+      "region": "US",
+      "source": "https://www.benzinga.com/markets/equities/26/10/62404483/stock-market-today-dow-sp-500-futures-rise-as-bessent-intensifies-economic-pressure-on-iran-treasury-yields-cool-off-tsla-aa-ibkr-in-focus",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, TLT, 10Y, yield",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-16-2-brent-holds-near-105-iran-blockade",
+    "data": {
+      "addedAt": "2026-10-16",
+      "category": "Energy",
+      "date": "2026-10-16",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Brent steady near $105 in early Friday trade as Iran oil-revenue squeeze continues",
+      "impact": "Medium",
+      "numbers": "Brent ~$105.46 (-0.21%) at 02:15 UTC; WTI -1.74% per Vantage",
+      "order": 2,
+      "reaction": "Oil still carries a large geopolitical premium amid the US blockade of Iranian exports and sanctions on the shadow fleet; early-session moves were modest and not a clear directional catalyst for the open.",
+      "region": "Global / Middle East",
+      "source": "https://vantagemarkets.com/market-news/oil-prices-today-brent-wti-shadow-fleet-sanctions-october-16-2026",
+      "tickers": "USO, WTI, Brent, XLE",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
