@@ -317,7 +317,7 @@
       [
        "bear",
        "structure.hourly reads downtrend for ES=F on 15 October",
-       false
+       true
       ],
       [
        "neu",
@@ -342,7 +342,7 @@
       [
        "bear",
        "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for equities",
-       false
+       true
       ],
       [
        "neu",
@@ -377,11 +377,11 @@
       [
        "bear",
        "1H structure is downtrend - last labeled swings: LL/LL/LL/LH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 7805.75,
-     "ret": 0.002086,
+     "maturityClose": 7708.25,
+     "ret": -0.010431,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2471,8 +2471,8 @@
        null
       ]
      ],
-     "maturityClose": 105.25,
-     "ret": -0.002074,
+     "maturityClose": 105.375,
+     "ret": -0.000889,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5129,8 +5129,8 @@
        null
       ]
      ],
-     "maturityClose": 4178.10009765625,
-     "ret": 0.000599,
+     "maturityClose": 4179.7001953125,
+     "ret": 0.000982,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7184,7 +7184,7 @@
       [
        "bear",
        "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), a headwind for the dollar (DX-Y.NYB -0.48% to 102.06)",
-       true
+       false
       ],
       [
        "bull",
@@ -7227,8 +7227,8 @@
        false
       ]
      ],
-     "maturityClose": 101.79499816894531,
-     "ret": -0.002587,
+     "maturityClose": 101.94100189208984,
+     "ret": -0.001156,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9364,7 +9364,7 @@
       [
        "bear",
        "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for rate-sensitive small caps",
-       false
+       true
       ],
       [
        "neu",
@@ -9402,8 +9402,8 @@
        null
       ]
      ],
-     "maturityClose": 2784.0,
-     "ret": 0.000755,
+     "maturityClose": 2737.199951171875,
+     "ret": -0.016068,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11308,7 +11308,7 @@
       [
        "bear",
        "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for long-duration tech",
-       false
+       true
       ],
       [
        "neu",
@@ -11323,7 +11323,7 @@
       [
        "bear",
        "TSMC posted record Q3 profit (NT$763.06B, +68.7% y/y) yet chip/AI stocks fell (MU ~-4.5%, NVDA ~-2% pre-market) and Asian tech sold off sharply overnight (Kospi -8%, Nikkei -5%, Taiex -3%) on margin and 2027-outlook worries (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -11346,8 +11346,8 @@
        null
       ]
      ],
-     "maturityClose": 30058.5,
-     "ret": -0.000299,
+     "maturityClose": 29507.25,
+     "ret": -0.018633,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

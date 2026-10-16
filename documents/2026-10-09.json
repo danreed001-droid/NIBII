@@ -429,12 +429,12 @@
       [
        "bear",
        "The 10-year yield was about 5.25% on 9 October (from about 5.23%), holding near a 24-year high (news log); the 21-session 10-year-yield correlation is -0.415",
-       false
+       true
       ],
       [
        "bear",
        "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained)",
-       false
+       true
       ],
       [
        "neu",
@@ -454,7 +454,7 @@
       [
        "bear",
        "University of Michigan preliminary October sentiment fell to 46.3, the lowest since May, below the ~47.6 forecast and 48.1 in September; 1-year inflation expectations were 3.9% in September (news log); weak consumer data is a mild headwind even though stocks rallied",
-       false
+       true
       ],
       [
        "neu",
@@ -464,7 +464,7 @@
       [
        "bear",
        "Brent held above $100 on 9 October (about $102 early, from above $103) on Hormuz tensions; Trump said the US will not attack Iran before 3 November while a Revolutionary Guard strike on an LPG carrier was reported (news log); equities' 21-session oil correlation is -0.428",
-       false
+       true
       ],
       [
        "neu",
@@ -472,8 +472,8 @@
        null
       ]
      ],
-     "maturityClose": 7805.75,
-     "ret": -0.00766,
+     "maturityClose": 7708.25,
+     "ret": -0.020055,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2570,8 +2570,8 @@
        null
       ]
      ],
-     "maturityClose": 105.25,
-     "ret": 0.006124,
+     "maturityClose": 105.375,
+     "ret": 0.007319,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5253,8 +5253,8 @@
        false
       ]
      ],
-     "maturityClose": 4178.10009765625,
-     "ret": -0.009999,
+     "maturityClose": 4179.7001953125,
+     "ret": -0.00962,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7341,8 +7341,8 @@
        null
       ]
      ],
-     "maturityClose": 101.79499816894531,
-     "ret": -0.004265,
+     "maturityClose": 101.94100189208984,
+     "ret": -0.002837,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9496,12 +9496,12 @@
       [
        "bear",
        "The 10-year yield was about 5.25% on 9 October (from about 5.23%), holding near a 24-year high (news log); small caps' 21-session 10-year-yield correlation is -0.468, and RTY=F at 2823.5 (RSI 38.78) is below its 50-day average of 2940.73",
-       false
+       true
       ],
       [
        "bear",
        "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; October hike odds were roughly 17-20% as of 7 October (news log, latest Fed information obtained); higher rates weigh on rate-sensitive small caps",
-       false
+       true
       ],
       [
        "neu",
@@ -9521,7 +9521,7 @@
       [
        "bear",
        "University of Michigan preliminary October sentiment fell to 46.3, the lowest since May, below the ~47.6 forecast and 48.1 in September; 1-year inflation expectations were 3.9% in September (news log); small caps are the most domestically exposed to consumer weakness",
-       false
+       true
       ],
       [
        "neu",
@@ -9539,11 +9539,11 @@
        false
       ]
      ],
-     "maturityClose": 2784.0,
-     "ret": -0.01399,
-     "correct": true,
-     "shadowCorrect": true,
-     "preReversionCorrect": true,
+     "maturityClose": 2737.199951171875,
+     "ret": -0.030565,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
      "settlementNote": "graded against RTY=F",
      "provisional": true
     },
@@ -11507,8 +11507,8 @@
        null
       ]
      ],
-     "maturityClose": 30058.5,
-     "ret": -0.034211,
+     "maturityClose": 29507.25,
+     "ret": -0.051923,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
