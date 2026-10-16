@@ -32,6 +32,16 @@ def test_confirmed_lower_high_fires():
     assert r['highs'][1][1] < r['highs'][0][1] and r['close'] < r['highs'][1][1]
 
 
+def test_an_equal_high_counts_as_lower_whatever_the_rounding():
+    # a double top at 130: rounding noise either way in the adjusted prices still reads as a lower high
+    for top in (130 * (1 - 1e-8), 130.0, 130 * (1 + 1e-8)):
+        r = lowerhigh_reading(_bars([(0, 100), (50, 115), (75, 105), (100, 130), (125, 110), (150, top), (200, 105)]))
+        assert r['on'] and r['kind'] == 'confirmed'
+    # a real higher high (a cent above) does not
+    r = lowerhigh_reading(_bars([(0, 100), (50, 115), (75, 105), (100, 130), (125, 110), (150, 130.01), (200, 105)]))
+    assert not r['on']
+
+
 def test_early_lower_high_needs_the_daily_chart_to_turn():
     # straight down from the 125 peak: no daily lower high yet, so no signal
     off = lowerhigh_reading(_bars(BASE, extra=[124, 123, 122, 121, 120, 119, 118, 117, 116, 115]))
