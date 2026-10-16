@@ -72,6 +72,23 @@
     "scripts/momentum_scan.py (settings)": "49dd48643477"
    },
    "what": "fading-energy filter on new buys (a top-5 stock whose volume and daily swings have both faded isn\u2019t bought; its slot stays in cash)"
+  },
+  {
+   "since": "2026-10-16",
+   "fingerprint": "b6dd877b90d915ea",
+   "files": {
+    "mtl/momentum.py": "80dc1ad632b0",
+    "mtl/rotation.py": "4f07f284c021",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/narrow.py": "ffd9c01fc5a8",
+    "mtl/lowerhigh.py": "c167257a9110",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "93bbda358364",
+    "mtl/fade.py": "eed144f30a67",
+    "scripts/momentum_scan.py (settings)": "49dd48643477"
+   },
+   "what": "whipsaw half-switch counts the Boost list with the fading filter off (a stock the filter skipped counts as if it had been bought and later sold; an empty slot is never a sale)"
   }
  ]
 }

@@ -66,6 +66,14 @@ sessions before the last 63). Its slot stays in cash (`buy_max_rank` in `mtl/mom
 next-ranked stock, until it drops out of the top 5 or stops fading. A stock already held is kept as usual. You-2
 applies the same check to the viewer's stocks.
 
+**Whipsaw shadow count (Oct 16, 2026).** The whipsaw half-switch reads the same Boost list run with the filter off: a
+stock the filter skipped counts as if it had been bought and later sold, and an empty slot is never a sale. The
+backtest engine had counted the empty slot as a sale that didn't lose and held it in T-bills (swapped to gold or
+bonds), unlike the live scanner; in a run started Jan 2, 2020 that kept the half-switch off through most of the
+Feb–Mar 2020 crash (worst drop −40% against −27% without the filter). The engine now matches the live scanner, the
+half-switch turns on in the same weeks as without the filter, and the figures below are from the corrected engine
+(first count: 40.5% from 2000, 67.6% from 2020).
+
 **How it was found.** A study of the plan's 1,384 purchases since 2000 (return vs SPY over each holding): picks
 bought while their volume had dried up trailed SPY by 10%+ about 14% of the time against 7–9% for the rest, and the
 same held for shrinking swings, in both 2000–2012 and 2013–2026. Skipping them and buying the next-ranked stock
@@ -76,18 +84,18 @@ Results (engine `NBup` = with the filter, `NBnf` = without; S&P 500 members at e
 
 | Check | Without | With |
 |---|---|---|
-| From 2000, a year before tax (after tax) | 37.8% (23.8%) | 40.5% (25.5%) |
+| From 2000, a year before tax (after tax) | 37.8% (23.8%) | 40.3% (25.4%) |
 | Worst drop from 2000 | −33% | −33% |
-| From 2010 / 2016 / 2020 | 39.5% / 48.2% / 64.9% | 42.2% / 52.0% / 67.9% |
-| Dashboard universe (with the 15 Nasdaq-100 additions), from 2000 | 37.9% | 39.6% |
+| From 2010 / 2016 / 2020 | 39.5% / 47.3% / 69.7% | 42.0% / 50.3% / 73.3% |
+| Dashboard universe (with the 15 Nasdaq-100 additions), from 2000 | 37.9% | 39.4% |
 | Ten separate periods (Holdout Review) | | better in 7, same in 2, worse in 1 (2010–2013) |
 | Volume threshold 60% / 70% / 78% / 85% / 90% / 100% (volume alone) | 37.8% | 38.1 / 39.0 / 41.0 / 41.3 / 40.8 / 39.3% |
-| Deflated Sharpe, 1,045 versions counted | 99.85% | 99.96% |
-| Probability of backtest overfitting (CSCV), 1,045 versions | 1.6% | 1.6% |
-| Abroad (Japan, UK, Germany, India, Hong Kong) | 15.1 / 13.4 / 5.5 / 32.8 / 27.1% | 15.4 / 13.1 / 6.0 / 32.7 / 26.9% |
+| Deflated Sharpe, 1,070 versions counted | 99.79% | 99.93% |
+| Probability of backtest overfitting (CSCV), 1,070 versions | 1.4% | 1.4% |
+| Abroad (Japan, UK, Germany, India, Hong Kong) | 15.1 / 13.4 / 5.5 / 32.8 / 27.1% | 15.1 / 13.2 / 5.9 / 32.5 / 27.1% |
 
 Limits, stated plainly: the gain over the plan without it is not statistically proven once the ~55 versions tried
-that day are counted (t-statistic of the monthly difference 2.5 on the S&P list and 1.5 on the dashboard's
+that day are counted (t-statistic of the monthly difference 2.3 on the S&P list and 1.3 on the dashboard's
 universe, against about 3 needed); 2009 is a large part of it; and it does nothing abroad. It doesn't hurt in any
 of the checks, so it went in on probation. The paper record (next section) shows the change as a listed update.
 

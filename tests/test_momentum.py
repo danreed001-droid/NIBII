@@ -469,3 +469,18 @@ def test_breadth_counts_stocks_down_ten_percent_in_a_month():
               'C': {cal[5]: 100.0, cal[25]: 120.0}, 'SPY': {cal[5]: 100.0, cal[25]: 50.0}}
     share, n = ms.breadth(prices, cal, 25)
     assert n == 3 and abs(share - 1 / 3) < 1e-9
+
+
+def test_whipsaw_counts_a_skipped_stock_as_if_bought():
+    import importlib.util, os
+    spec = importlib.util.spec_from_file_location(
+        'momentum_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'momentum_scan.py'))
+    ms = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ms)
+    prices = {'A': {'d1': 10.0, 'd2': 9.0}, 'B': {'d1': 20.0, 'd2': 18.0}, 'C': {'d1': 5.0, 'd2': 6.0}}
+    unfiltered = [['d1', ['A', 'B']], ['d2', ['C']]]          # the list with the fading filter off
+    held = [['d1', ['A']], ['d2', ['C']]]                      # B was fading: skipped, its slot stayed in cash
+    rows = ms.whip_sales(unfiltered, prices, held)
+    assert [r[:2] for r in rows] == [['d2', 'A'], ['d2', 'B']]
+    assert len(rows[0]) == 5 and rows[1][5] is True and rows[1][4] == -0.1   # B counted as a losing sale
+    assert len(ms.whip_sales(held, prices)) == 1                             # the empty slot is never a sale
