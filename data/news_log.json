@@ -3017,5 +3017,85 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-16-3-stocks-sink-tech-led-selloff",
+    "data": {
+      "addedAt": "2026-10-16",
+      "category": "Market",
+      "date": "2026-10-16",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Stocks sink as S&P 500 and Nasdaq post steep losses on tech-led selloff",
+      "impact": "High",
+      "numbers": "S&P 500 7,659.44 (-84.65, -1.09%); Dow 52,001 (-176.17, -0.34%); Nasdaq 26,140 (-572.99, -2.14%); Russell 2000 2,721 (-1.66%); 10-yr yield 5.097%",
+      "order": 3,
+      "reaction": "Nasdaq and small caps led declines as tech/AI names sold off while the Dow held up relatively better; for the week S&P -1.95%, Nasdaq -4.48%, Dow +0.67%, and the 10-yr yield fell ~14.6bp, its biggest weekly drop since mid-February.",
+      "region": "US",
+      "source": "https://investrade.com/market-review-october-16-2026/",
+      "tickers": "SPY, DIA, QQQ, IWM, TLT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-16-4-ai-bubble-fears-coreweave-semis-selloff",
+    "data": {
+      "addedAt": "2026-10-16",
+      "category": "Tech",
+      "date": "2026-10-16",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "AI bubble fears deepen as CoreWeave slides toward 11.8% intraday on $50B debt load; semis extend losing streak",
+      "impact": "High",
+      "numbers": "CoreWeave intraday -11.8%; Philadelphia Semiconductor Index (SOX) fell for an 8th straight session, SOXX -12.6% from its Oct 2 close",
+      "order": 4,
+      "reaction": "Nvidia CEO Jensen Huang pushed back on the fears, saying CoreWeave's cost of capital is actually decreasing; investors remain focused on whether upcoming Big Tech earnings show AI capex converting into revenue and cash flow.",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-16-2026",
+      "tickers": "CRWV, NVDA, SOXX, QQQ",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-16-5-oil-surges-mideast-black-sea-tensions",
+    "data": {
+      "addedAt": "2026-10-16",
+      "category": "Energy",
+      "date": "2026-10-16",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "Oil jumps to multi-month highs as Saudi-led coalition intercepts missiles and NATO weighs response to Black Sea drone attacks",
+      "impact": "High",
+      "numbers": "WTI (Dec) $99.02 (+$2.52, +2.61%), highest close since Sept 17; Brent $109.86 (+$3.94), highest since May 19",
+      "order": 5,
+      "reaction": "Early signals of Iranian openness to dialogue had briefly eased prices, but renewed reports of military escalation reversed the move; energy stocks outperformed amid the broader equity selloff.",
+      "region": "Middle East / Europe",
+      "source": "https://investrade.com/market-review-october-16-2026/",
+      "tickers": "USO, XLE, BNO",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-16-6-hot-inflation-data-import-prices-output",
+    "data": {
+      "addedAt": "2026-10-16",
+      "category": "Macro",
+      "date": "2026-10-16",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "September import prices and industrial output top forecasts, reinforcing a sticky-inflation narrative after this week's CPI/PPI beats",
+      "impact": "Medium",
+      "numbers": "Import prices +1.1% (vs +0.8% exp); industrial production +0.7% (vs +0.4% exp); Sept CPI +0.6% m/m, 3.7% y/y (vs 3.6% exp), core CPI 2.6% y/y; Sept PPI +1.3%, core PPI +0.3%",
+      "order": 6,
+      "reaction": "A week of hotter-than-expected inflation prints (CPI Tue, PPI/retail sales/jobless claims Thu, import prices/industrial output Fri) tempered bets on near-term Fed easing and pressured rate-sensitive growth and AI stocks, even as the 10-yr yield still fell on the week.",
+      "region": "US",
+      "source": "https://investrade.com/market-review-october-16-2026/",
+      "tickers": "TLT, DXY, SPY",
+      "time": "Market hours",
+      "vsExp": "Above expectations"
+    }
   }
 ]
