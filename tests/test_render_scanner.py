@@ -187,3 +187,19 @@ def test_your_record_shows_recent_weeks_and_counts_cash_as_earning_nothing():
     page = render_scanner.render(SCAN)
     assert 'var REC_WEEKS = 8;' in page and "'rr-more'" in page
     assert 'cash earns nothing (no T-bills)' in page and 'cash earns the T-bill rate' not in page
+
+
+def test_wall_street_tests_show_back_to_the_peak_and_the_deflated_sharpe():
+    rc = dict(cut=0.15, end='2026-10-06', count=2, years=26.7, median=5.8, medianDown=3.7, medianUp=2.5, newHighs=802, gapMedianDays=2,
+              gap90Days=19, now=dict(below=-0.0133, since='2026-09-25'),
+              longest=dict(plan=dict(months=24, peak='2001-05-21', back='2003-05-14'), spy=dict(months=79, peak='2000-03-24', back='2006-10-26')),
+              drops=[dict(peak='2001-05-21', low='2002-06-13', back='2003-05-14', depth=-0.3358, down=12.7, up=11.0, total=23.8),
+                     dict(peak='2025-03-24', low='2025-04-08', back='2025-05-09', depth=-0.2307, down=0.5, up=1.0, total=1.5)])
+    ws = dict(period='Jan 2000 – Oct 2026', asOf='2026-10-16', scorecard=[dict(k='under', plan='24 months', prev='24 months', spy='79 months')],
+              recovery=rc, monteCarlo=dict(paths=20000, horizons=['5 years', '10 years', '20 years'], rows=[dict(k='under', v=['11 months', '15 months', '21 months'])]),
+              other=[dict(k='dsr', v='99.94%', n=1081, luck='0.64', sharpe='1.27')])
+    h = render_scanner.wallst_html(ws)
+    assert 'Back to the peak' in h and 'May 2001' in h and 'May 2003' in h and '−34%' in h and 'SPY waited <b>79 months</b>' in h
+    assert '1.3% below its high of Sep 2026' in h
+    assert 'Typical longest wait for a new high' in h and 'Deflated Sharpe ratio (1,081 versions)' in h
+    assert render_scanner.recovery_html({}) == ''
