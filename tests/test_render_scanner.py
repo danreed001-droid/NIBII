@@ -181,3 +181,9 @@ def test_rotation_explains_the_rebound_rule():
     page = render_scanner.render(SCAN)
     assert 'function reboundNote(RT)' in page and 'reboundNote(RT);' in page and '7. Rebound rule' in page
     assert 'In stocks because of the rebound rule' in page and "rebound: 'rebound rule: back in stocks'" in page
+
+
+def test_your_record_shows_recent_weeks_and_counts_cash_as_earning_nothing():
+    page = render_scanner.render(SCAN)
+    assert 'var REC_WEEKS = 8;' in page and "'rr-more'" in page
+    assert 'cash earns nothing (no T-bills)' in page and 'cash earns the T-bill rate' not in page

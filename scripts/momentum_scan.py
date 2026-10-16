@@ -978,9 +978,10 @@ def main():
         auto['guard']['previewBear'] = bear(as_of)
 
     # the viewer's own calls ("Mine") are scored in the browser from these: daily
-    # values of the top-5 rule, the sleeve and T-bills (cash), and each week's
-    # signal Friday -> trade day with the Auto and Steps stock shares
-    sl_val, bil = dict(sl_curve), f['BIL']
+    # values of the top-5 rule, the sleeve and cash, and each week's signal
+    # Friday -> trade day with the Auto and Steps stock shares. Cash earns nothing:
+    # the account can't hold T-bills, so cash is a flat 1.0 on the T-bill calendar.
+    sl_val, bil = dict(sl_curve), {d_: 1.0 for d_, v_ in f['BIL'].items() if v_}
     strat_b_val = dict((d_, v) for d_, v in strat_b)
     strat_bx_val = dict((d_, v) for d_, v in strat_bx)
     human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_]), round(strat_b_val.get(d_, v), 6), round(strat_bx_val.get(d_, v), 6)] for d_, v in strat
