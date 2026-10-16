@@ -51,7 +51,7 @@ from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries
 from mtl import paper as paper_rec  # noqa: E402
 from mtl.fade import SWING_TH as FADE_SWING, VOL_TH as FADE_VOL, buy_ok as fade_buy_ok, fading as fade_check, ratios as fade_ratios  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
-from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
+from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, WHIP_SHARE, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -338,8 +338,8 @@ def whip_sales(picks, prices, held=None):
 
 
 def whip_block(modes, on, half, read, px, calendar, K, picks, prices, held=None):
-    """The whipsaw half-switch now: on/off from the last weekly check, today's reading, the asset
-    the half goes into, the Boost list's recent sales behind it (whip_sales), and its log."""
+    """The whipsaw switch now: on/off from the last weekly check, today's reading, the asset it moves
+    into (part: the account's share in it), the Boost list's recent sales behind it (whip_sales), and its log."""
     as_of, y = calendar[K], calendar[K - 1]
     first = K - WHIP_LOOK + 1
     rec = [r_ for r_ in whip_sales(picks, prices, held) if calendar[max(0, first)] <= r_[0] <= as_of]
@@ -349,7 +349,7 @@ def whip_block(modes, on, half, read, px, calendar, K, picks, prices, held=None)
     weekly = {t: STATE.get(read.leg(t, as_of, 'w')[0], read.leg(t, as_of, 'w')[0]) for t in WHIP_ASSETS}
     return dict(on=on.get(as_of, False), prevOn=on.get(y, False), half=half.get(as_of), held=half.get(y),
                 trade=next_session(as_of) if half.get(as_of) != half.get(y) and modes.get(as_of, 'boost') == 'boost' else None,
-                look=WHIP_LOOK, need=WHIP_MIN, loss=WHIP_LOSS, pctLook=WHIP_PCT, assets=list(WHIP_ASSETS),
+                look=WHIP_LOOK, need=WHIP_MIN, loss=WHIP_LOSS, pctLook=WHIP_PCT, assets=list(WHIP_ASSETS), part=WHIP_SHARE,
                 sales=rec[::-1][:12], n=len(rec), lost=lost, share=r4(lost / len(rec)) if rec else None,
                 previewOn=len(rec) >= WHIP_MIN and lost / len(rec) >= WHIP_LOSS,
                 pick=pick, chg={t: r4(v) for t, v in chg.items()}, weekly=weekly,

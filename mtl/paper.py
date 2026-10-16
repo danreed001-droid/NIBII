@@ -20,6 +20,8 @@ import json
 import os
 from datetime import date, datetime, time, timezone
 
+from mtl.rotation import WHIP_SHARE
+
 START = '2026-10-14'            # the day the current default plan (with the rebound rule) went live
 SLIP = 0.0015                   # per side, as in the backtest
 CASH = 'CASH'
@@ -64,20 +66,22 @@ def fingerprint(root):
 
 def weights(mode, half, stocks):
     """Target weights after the next close: a fifth per Boost-list stock while the mode is 'boost' (an empty
-    slot, e.g. a stock the fading filter skipped, is cash; half of it in `half` during the whipsaw half-switch),
-    otherwise all in the mode's asset (or cash)."""
+    slot, e.g. a stock the fading filter skipped, is cash; WHIP_SHARE of the account in `half` during the whipsaw
+    switch, all of it since Oct 16, 2026), otherwise all in the mode's asset (or cash)."""
     if mode != 'boost':
         return {mode or CASH: 1.0}
+    if half and WHIP_SHARE >= 1:
+        return {half: 1.0}
     stocks = [t for t in stocks or []]
     if not stocks:
         return {CASH: 1.0}
-    part = 0.5 if half else 1.0
+    part = 1 - WHIP_SHARE if half else 1.0
     each = part / max(SLOTS, len(stocks))
     w = {t: each for t in stocks}
     if part - each * len(stocks) > 1e-12:
         w[CASH] = part - each * len(stocks)
     if half:
-        w[half] = w.get(half, 0.0) + 0.5
+        w[half] = w.get(half, 0.0) + WHIP_SHARE
     return w
 
 

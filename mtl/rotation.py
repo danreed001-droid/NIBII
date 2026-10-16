@@ -34,12 +34,17 @@ Oct 10, 2026; see whipsaw() below): 29.7% (19.1%), worst drop -49%; from 2010 29
 29.1%, from 2020 55.8% vs 55.9% with the worst drop -31% vs -39%. The thresholds were
 picked on that same history.
 
-3. Whipsaw half-switch. Checked at each week's last close: of the stocks the Boost 100%
+3. Whipsaw switch. Checked at each week's last close: of the stocks the Boost 100%
    list sold in the last WHIP_LOOK sessions (at least WHIP_MIN sales), if WHIP_LOSS or more
    were sold below their buy price, momentum is whipsawing. Until the next weekly check
-   finds otherwise, while the plan would hold the Boost list, half stays in the Boost list
-   and half goes into whichever of TLT, GLD and SPY is up most over the last WHIP_PCT
-   sessions, skipping any whose weekly structure is a downtrend (T-bills if none is up).
+   finds otherwise, while the plan would hold the Boost list, WHIP_SHARE of the account goes
+   into whichever of TLT, GLD and SPY is up most over the last WHIP_PCT sessions, skipping
+   any whose weekly structure is a downtrend (T-bills if none is up), and the rest stays in
+   the Boost list. Half until Oct 16, 2026; since then the whole account (WHIP_SHARE = 1.0):
+   41.0% a year from 2000 vs 40.3% (worst drop -34% vs -33%), 43.2% vs 42.0% from 2010, 50.7%
+   vs 50.3% from 2016, 74.8% vs 73.3% from 2020 (-23% vs -27%); most of the gain is 2011 and
+   2016, the month-by-month t-stat is 0.9 and abroad it was up in two markets and down in
+   three (within about a point), so it is on probation.
    It was on about 5% of the time (late 2008, late 2011, late 2015, late 2018, 2022).
    With the fading-energy filter (mtl/fade.py) the check reads the Boost list run with the filter off
    (scripts/momentum_scan.py picks_whip), so the filter never changes when the half-switch turns on.
@@ -114,7 +119,8 @@ SWITCH_COST = 0.001   # one full switch (sell everything, buy the other), like r
 WHIP_LOOK = 126       # sessions of Boost-list sales the whipsaw check looks back over
 WHIP_MIN = 6          # sales needed in that window before it can switch on
 WHIP_LOSS = 0.65      # share of those sales below their buy price that switches it on
-WHIP_PCT = 63         # sessions of % change used to pick the half-switch asset
+WHIP_PCT = 63         # sessions of % change used to pick the whipsaw switch's asset
+WHIP_SHARE = 1.0      # the account's share in that asset while the switch is on (0.5 until Oct 16, 2026)
 WHIP_ASSETS = ('TLT', 'GLD', 'SPY')
 REGIME_LOOK = 63      # sessions over which the 10-year yield and gold must both be up to skip the half-switch
 PICK_LOOK = 126       # sessions of % change that pick between TLT and GLD
@@ -410,8 +416,8 @@ def reflation(rate, gold, calendar, look=REGIME_LOOK):
 
 def whip_halves(modes, whip, R, closes, calendar, assets=WHIP_ASSETS, look=WHIP_PCT, skip=None):
     """{date: asset} for the days the plan is in the Boost list and the whipsaw check is on:
-    half the account goes into that asset (see whip_pick). skip: {date: True} for days the
-    half-switch stands aside (the reflation regime) and the plan stays fully in the Boost list."""
+    WHIP_SHARE of the account goes into that asset (see whip_pick). skip: {date: True} for days the
+    switch stands aside (the reflation regime) and the plan stays fully in the Boost list."""
     kidx, skip = {d: i for i, d in enumerate(calendar)}, skip or {}
     return {d: whip_pick(R, closes, calendar, kidx[d], assets, look)[0]
             for d, m in modes.items() if m == 'boost' and whip.get(d) and not skip.get(d)}
@@ -438,8 +444,8 @@ def rotation_curve(boost_curve, asset_px, calendar, modes, cost=SWITCH_COST, hal
     """[[date, value]] from 1.0: the Boost curve while the mode is 'boost', else the asset
     (asset_px: {asset: {date: close}}, filled). The mode decided at a close is traded at
     the next session's close; a switch costs `cost` of the account. half: {date: asset}
-    for the days half the account sits in that asset instead (the whipsaw half-switch),
-    kept at 50/50 each session; moving the half costs half of `cost`."""
+    for the days WHIP_SHARE of the account sits in that asset instead (the whipsaw switch),
+    kept at that split each session; moving it costs WHIP_SHARE of `cost`."""
     bv = dict(boost_curve)
     idx = {d: i for i, d in enumerate(calendar)}
     half = half or {}
@@ -454,7 +460,7 @@ def rotation_curve(boost_curve, asset_px, calendar, modes, cost=SWITCH_COST, hal
     out, val, held, hh, prev = [], 1.0, 'boost', None, None
     for d, _ in boost_curve:
         if prev is not None:
-            val *= ret(held, prev, d) if hh is None else 0.5 * ret('boost', prev, d) + 0.5 * ret(hh, prev, d)
+            val *= ret(held, prev, d) if hh is None else (1 - WHIP_SHARE) * ret('boost', prev, d) + WHIP_SHARE * ret(hh, prev, d)
         k = idx[d]
         y = calendar[k - 1] if k > 0 else None   # decided yesterday, traded at today's close
         nxt = modes.get(y, 'boost') if y else 'boost'
@@ -462,7 +468,7 @@ def rotation_curve(boost_curve, asset_px, calendar, modes, cost=SWITCH_COST, hal
         if nxt != held:
             val *= 1 - cost
         elif nh != hh:
-            val *= 1 - cost / 2
+            val *= 1 - cost * WHIP_SHARE
         held, hh = nxt, nh
         out.append([d, val])
         prev = d

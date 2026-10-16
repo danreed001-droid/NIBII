@@ -18,11 +18,13 @@ def ledger(*decs):
     return L
 
 
-def test_weights_follow_mode_half_and_list():
+def test_weights_follow_mode_half_and_list(monkeypatch):
     five = ['A1', 'A2', 'A3', 'A4', 'A5']
     assert paper.weights('boost', None, five) == {t: 0.2 for t in five}
     w = paper.weights('boost', None, ['AAA', 'BBB'])            # empty slots (fading filter) are cash
     assert w['AAA'] == w['BBB'] == 0.2 and abs(w['CASH'] - 0.6) < 1e-12
+    assert paper.weights('boost', 'GLD', five[:4]) == {'GLD': 1.0}   # the whipsaw switch moves the whole account
+    monkeypatch.setattr(paper, 'WHIP_SHARE', 0.5)                    # the half-switch it replaced (until Oct 16, 2026)
     w = paper.weights('boost', 'GLD', five[:4])
     assert all(abs(w[t] - 0.1) < 1e-12 for t in five[:4]) and abs(w['CASH'] - 0.1) < 1e-12 and w['GLD'] == 0.5
     assert paper.weights('TLT', 'GLD', ['AAA']) == {'TLT': 1.0}

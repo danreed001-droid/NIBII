@@ -11,7 +11,7 @@ and daily swings have both faded when the list is bought isn't bought; its share
 again at each week's last close, then bought at the next close once it no longer fades.
 
 Started Oct 14, 2026 with the default's own five stocks."""
-from mtl.rotation import CASH, SWITCH_COST, rotation_curve
+from mtl.rotation import CASH, SWITCH_COST, WHIP_SHARE, rotation_curve
 
 YOU2_START = '2026-10-14'
 YOU2_MAX = 10          # stocks in one list
@@ -90,14 +90,15 @@ def you2_curve(entries, prices, asset_px, calendar, modes, half, start=YOU2_STAR
 
 
 def holding(modes, half, calendar, k):
-    """What You-2 holds after calendar[k]'s close: 'stocks', an asset (TLT / GLD / CASH), or 'stocks+X' for the
-    whipsaw half (what the plan decided at the previous close, traded at this one)."""
+    """What You-2 holds after calendar[k]'s close: 'stocks', an asset (TLT / GLD / CASH), or the whipsaw switch's
+    asset ('stocks+X' while the switch kept part in stocks; what the plan decided at the previous close, traded
+    at this one)."""
     y = calendar[k - 1] if k > 0 else calendar[k]
     m = modes.get(y, 'boost')
     if m != 'boost':
         return 'cash' if m == CASH else m
     h = (half or {}).get(y)
-    return f'stocks+{h}' if h else 'stocks'
+    return (h if WHIP_SHARE >= 1 else f'stocks+{h}') if h else 'stocks'
 
 
 def block(doc, prices, asset_px, calendar, modes, half, plan_curve, spy_px, k, start=YOU2_START, skip=None, why=None):
@@ -121,7 +122,7 @@ def block(doc, prices, asset_px, calendar, modes, half, plan_curve, spy_px, k, s
     return dict(start=start, entries=[[d, entries[d]] for d in sorted(entries)], stocks=active_list(entries, day),
                 holds=holding(modes, half, calendar, k),
                 next='stocks' if nxt == 'boost' and not (half or {}).get(day) else
-                ('stocks+' + half[day] if nxt == 'boost' else ('cash' if nxt == CASH else nxt)),
+                ((half[day] if WHIP_SHARE >= 1 else 'stocks+' + half[day]) if nxt == 'boost' else ('cash' if nxt == CASH else nxt)),
                 curve=[[d, round(v, 4)] for d, v in curve], plan=rebase(plan_curve),
                 spy=rebase([[d, spy_px[d]] for d in calendar if d in spy_px]),
                 missing=sorted({t for l in entries.values() for t in l if not prices.get(t, {}).get(day)}), fading=fading)

@@ -202,20 +202,29 @@ def whip(**kw):
     return w
 
 
-def test_whipsaw_half_switch_on_friday():
+def test_whipsaw_switch_on_friday_moves_the_whole_account():
+    s = scan()
+    s['plan']['auto']['rotation'] = rot(whip=whip(part=1.0))
+    title, body = alert.build(s)
+    assert 'whipsaw → GLD' in title
+    assert 'sell the Boost list, buy **GLD** with the account' in body and '7 of the Boost list' in body
+    assert '100% GLD (whipsaw switch)' in body and '| Boost + rotation | 0% (+100% GLD, whipsaw switch) |' in body
+
+
+def test_whipsaw_half_switch_on_friday():      # the half-switch it replaced (no `part` in the payload)
     s = scan()
     s['plan']['auto']['rotation'] = rot(whip=whip())
     title, body = alert.build(s)
-    assert 'whipsaw half → GLD' in title
+    assert 'whipsaw → GLD' in title
     assert 'sell half the Boost list, buy **GLD**' in body and '7 of the Boost list' in body
-    assert '50% the Boost 100% stock list, 50% GLD' in body and '| Boost + rotation | 50% (+50% GLD, whipsaw half) |' in body
+    assert '50% the Boost 100% stock list, 50% GLD' in body and '| Boost + rotation | 50% (+50% GLD, whipsaw switch) |' in body
 
 
 def test_whipsaw_half_moving_midweek_sends_its_own_alert():
     s = scan(signalDay=False)
     s['plan']['auto']['rotation'] = rot(whip=whip(held='GLD', half='SPY'))
     title, body = alert.build(s)
-    assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw half → SPY'
+    assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw → SPY'
     assert 'sell GLD, buy **SPY** with that half' in body
 
 
@@ -223,5 +232,5 @@ def test_whipsaw_half_stands_aside_when_rates_and_gold_rise():
     s = scan(signalDay=False)
     s['plan']['auto']['rotation'] = rot(whip=whip(held='GLD', half=None, regime=dict(on=True)))
     title, body = alert.build(s)
-    assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw half off'
+    assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw off'
     assert 'stands aside' in body and 'sell GLD, put that half back into the Boost list' in body

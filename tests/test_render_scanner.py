@@ -91,10 +91,10 @@ def test_page_has_the_3d_price_volume_chart():
     assert 'id="pv"' in page and 'plotly.js-dist-min@2.35.2' in page and 'D.pv3d' in page
 
 
-def test_rotation_explains_the_whipsaw_half_switch():
+def test_rotation_explains_the_whipsaw_switch():
     page = render_scanner.render(SCAN)
-    assert 'function whipNote(RT)' in page and 'Whipsaw half-switch' in page
-    assert 'whipsaw half-switch' in page and 'whipTag(RT)' in page
+    assert 'function whipNote(RT)' in page and 'Whipsaw switch' in page
+    assert 'whipsaw switch' in page and 'whipTag(RT)' in page and 'Until Oct 16, 2026 only half the account moved' in page
 
 
 def test_warning_shows_breadth_and_scores_calls_against_the_plan():
