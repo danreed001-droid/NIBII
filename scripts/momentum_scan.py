@@ -328,13 +328,21 @@ def breadth(prices, calendar, K, n=20, down=BROAD_DOWN, skip=('SPY',)):
     return (sum(1 for x in rr if x <= down) / len(rr) if rr else None), len(rr)
 
 
-def whip_block(modes, on, half, read, px, calendar, K, picks, prices):
+def whip_sales(picks, prices, held=None):
+    """The sales the whipsaw check counts: [[date, ticker, buy close, sell close, return]] from `picks` (the Boost
+    list with the fading-energy filter off). With `held` (the list actually held), a counted sale it never made (a
+    stock the filter skipped) gets a sixth field, True."""
+    real = {(d_, t) for d_, t, _, _ in sales(held, prices)} if held is not None else None
+    return [[d_, t, r4(a_), r4(b_), r4(b_ / a_ - 1) if a_ and b_ else None] + ([True] if real is not None and (d_, t) not in real else [])
+            for d_, t, a_, b_ in sales(picks, prices)]
+
+
+def whip_block(modes, on, half, read, px, calendar, K, picks, prices, held=None):
     """The whipsaw half-switch now: on/off from the last weekly check, today's reading, the asset
-    the half goes into, the Boost list's recent sales behind it, and its log."""
+    the half goes into, the Boost list's recent sales behind it (whip_sales), and its log."""
     as_of, y = calendar[K], calendar[K - 1]
     first = K - WHIP_LOOK + 1
-    rec = [[d_, t, r4(a_), r4(b_), r4(b_ / a_ - 1) if a_ and b_ else None] for d_, t, a_, b_ in sales(picks, prices)
-           if d_ >= calendar[max(0, first)] and d_ <= as_of]
+    rec = [r_ for r_ in whip_sales(picks, prices, held) if calendar[max(0, first)] <= r_[0] <= as_of]
     lost = sum(1 for r_ in rec if r_[4] is not None and r_[4] < 0)
     pick, chg = whip_pick(read, px, calendar, K)
     days = [d_ for d_ in calendar if d_ in on]
@@ -552,6 +560,15 @@ def main():
                     buy_when=fade_buy_ok(prices, volumes, cal_), buy_max_rank=TOP_N)
     rbx, hold_bx, after_bx = boost_run(bx_exit)
     picks_bx = rbx['picks']
+    # the whipsaw half-switch reads the same list with the fading-energy filter off (since Oct 16, 2026): a stock the filter
+    # skipped counts as if it had been bought and later sold, so the filter changes which stocks are bought, never when
+    # half the account steps out (an empty slot is not a sale)
+    def bx_shadow(cal_):
+        e_ = bx_exit(cal_)
+        e_.pop('buy_when', None)
+        e_.pop('buy_max_rank', None)
+        return e_
+    picks_whip = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), **boost_kw, **bx_shadow(calendar))['picks']
 
     strat = [[d, v] for d, v, _ in r['curve']]
     strat_b = [[d, v] for d, v, _ in rb['curve']]
@@ -654,7 +671,7 @@ def main():
     # ... plus the whipsaw half-switch: when most of the Boost list's recent sales were losers, half
     # goes into whichever of TLT / GLD / SPY is up most over 3 months (skipping weekly downtrends)
     whip_px = {**filled(sleeve_px, calendar), 'SPY': prices['SPY']}
-    whip_on = whipsaw(picks_bx, prices, calendar, START)
+    whip_on = whipsaw(picks_whip, prices, calendar, START)
     # ... except while the 10-year yield and gold are both up over 3 months (reflation): then it stays in the Boost list
     regime = reflation(rate_px, whip_px.get('GLD') or {}, calendar)
     whip_half = whip_halves(rot_modes, whip_on, rot_read, whip_px, calendar, skip=regime)
@@ -945,7 +962,7 @@ def main():
     br_prev = breadth(prices, calendar, K - 1)[0]
     auto['rotation']['breadth'] = dict(down=r4(br_now), prev=r4(br_prev), n=br_n, cut=BROAD_DOWN, broad=BROAD_SHARE,
                                        hist=[[calendar[k_], r4(breadth(prices, calendar, k_)[0])] for k_ in range(K - 20, K + 1)])
-    auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_bx, prices)
+    auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_whip, prices, held=picks_bx)
     if auto['rotation']['whip']['pick'] == 'BIL':   # nothing up over 3 months: the no-T-bills swap
         auto['rotation']['whip']['pick'] = bills_pick(whip_px, calendar, K)
     auto['rotation']['noBills'] = dict(look=PICK_LOOK, assets=list(ROT_ASSETS), pick=bills_pick(whip_px, calendar, K),

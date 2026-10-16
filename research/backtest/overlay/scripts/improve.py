@@ -2096,6 +2096,11 @@ def run_one(args):
             if sf == 'wait':
                 kw['wait_buy'] = True
     pf_ = kw.pop('pf', None)
+    nopf_ = None
+    lr_pf = (plan or {}).get('legrot') or {}
+    if pf_ and pf_.get('cash') and (lr_pf.get('side') or {}).get('metric') == 'whip' and lr_pf.get('whip_src', 'nopf') == 'nopf':
+        # shadow count for the whipsaw half-switch: keep the buy rules from before the filter for a second run
+        nopf_ = dict(buy_when=kw.get('buy_when'), buy_max_rank=kw.get('buy_max_rank'))
     if pf_:
         # pick filters on new buys (a stock already held is kept as usual; the next-ranked stock is bought instead).
         # Each kind flags a stock at the decision close k:
@@ -2797,7 +2802,19 @@ def run_one(args):
             _mm.score_table = _orig_st
     else:
         r = run_momentum(prices_run, P['calendar'], R.START, **opts)
-    return key, dict(picks=r['picks'], weights=r['weights'], turnover=r['turnover'], plan=plan, curve=[[c_[0], c_[1]] for c_ in r['curve']])
+    out_ = dict(picks=r['picks'], weights=r['weights'], turnover=r['turnover'], plan=plan, curve=[[c_[0], c_[1]] for c_ in r['curve']])
+    if pf_ and pf_.get('cash'):
+        out_['spare_cash'] = True      # the filter's empty slot is plain cash, as the live scanner holds it
+    if nopf_ is not None:
+        # the same list with the filter off: the whipsaw half-switch counts its sales (Oct 16, 2026, as the live scanner)
+        o2_ = dict(opts)
+        for k2_, v2_ in nopf_.items():
+            if v2_ is None:
+                o2_.pop(k2_, None)
+            else:
+                o2_[k2_] = v2_
+        out_['whip_picks'] = run_momentum(prices_run, P['calendar'], R.START, **o2_)['picks']
+    return key, out_
 
 
 def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
@@ -2844,7 +2861,7 @@ def schedule(run, calendar, sleeve_f, down, start, frac=0.4):
         out_w = {t: split * x for t, x in w.items()}
         spare = split * (1 - sum(w.values()))
         if spare > 1e-6:
-            sp_a = 'SPY' if po.get('spare_spy') else 'BIL'
+            sp_a = 'SPY' if po.get('spare_spy') else 'CASH0' if run.get('spare_cash') else 'BIL'
             out_w[sp_a] = out_w.get(sp_a, 0.0) + spare
         if split < 1:
             if (po.get('cash') and G['spy_below'](f)) or (po.get('cash3') and n_down >= 3):
@@ -3407,6 +3424,8 @@ def main():
         return out
 
     def evaluate(key, run):
+        if run.get('spare_cash') and 'CASH0' not in px_all:
+            px_all['CASH0'] = {d_: 1.0 for d_ in cal}
         sc = run['sched'] if 'sched' in run else schedule(run, cal, P['sleeve_f'], down, R.START)
         if (run.get('plan') or {}).get('lev'):
             sc = lever(sc, run['plan'])
@@ -4724,6 +4743,9 @@ def main():
                 if side_['metric'] in ('turn', 'whip'):
                     # the Boost list's own trades: per session, names that left the list and (for 'whip') whether each lost money
                     scm_, held_, tev_ = dict(sc), {}, []
+                    if run.get('whip_picks') is not None:
+                        # shadow count: the stock list with the pick filter off (a skipped stock counts as if bought and sold)
+                        scm_ = {d_: {t_: 1.0 for t_ in nm_} for d_, nm_ in run['whip_picks']}
                     for k_, d_ in enumerate(cal):
                         ex_ = []
                         if d_ in scm_:
@@ -4948,7 +4970,7 @@ def main():
                     else:
                         bas11.append(bas11[-1] if bas11 else 1.0)
                     if d_ in scd11:
-                        cur11 = [t_ for t_, w_ in (scd11[d_] or {}).items() if w_ > 0 and t_ not in ('TLTX', 'GLDX', 'BIL', 'SPY')]
+                        cur11 = [t_ for t_, w_ in (scd11[d_] or {}).items() if w_ > 0 and t_ not in ('TLTX', 'GLDX', 'BIL', 'SPY', 'CASH0')]
                 spx11 = px_all.get('SPY') or {}
                 spy11 = []
                 for d_ in cal:
@@ -5122,7 +5144,7 @@ def main():
                         B_.append(B_[-1] if B_ else 1.0)
                     bd_.append(d_)
                     if d_ in scd_:
-                        cur_ = [t_ for t_, w_ in (scd_[d_] or {}).items() if w_ > 0 and t_ not in ('TLTX', 'GLDX', 'BIL', 'SPY')]
+                        cur_ = [t_ for t_, w_ in (scd_[d_] or {}).items() if w_ > 0 and t_ not in ('TLTX', 'GLDX', 'BIL', 'SPY', 'CASH0')]
                 def stretched_(d_):
                     k_ = ixk_[d_]
                     st_ = [t_ for t_ in (cur_map_.get(d_) or [])]
@@ -5137,7 +5159,7 @@ def main():
                 cur_map_, cc_ = {}, None
                 for d_ in bd_:
                     if d_ in scd_:
-                        cc_ = [t_ for t_, w_ in (scd_[d_] or {}).items() if w_ > 0 and t_ not in ('TLTX', 'GLDX', 'BIL', 'SPY')]
+                        cc_ = [t_ for t_, w_ in (scd_[d_] or {}).items() if w_ > 0 and t_ not in ('TLTX', 'GLDX', 'BIL', 'SPY', 'CASH0')]
                     cur_map_[d_] = cc_
                 on_, n_on = False, 0
                 for i_, d_ in enumerate(bd_):
@@ -5340,7 +5362,7 @@ def main():
                     f_, g_ = cal[k_ - 1], cal[k_ - 2]
                     if modes.get(f_, 'boost') != 'boost' or not cur_ or d_ in scd:
                         continue
-                    drops = [t_ for t_, w_ in cur_.items() if w_ > 0 and t_ not in ('TLTX', 'GLDX', 'BIL', 'SPY')
+                    drops = [t_ for t_, w_ in cur_.items() if w_ > 0 and t_ not in ('TLTX', 'GLDX', 'BIL', 'SPY', 'CASH0')
                              and (px_all.get(t_) or {}).get(f_) and (px_all.get(t_) or {}).get(g_)
                              and px_all[t_][f_] / px_all[t_][g_] - 1 <= -dp_['th']]
                     if not drops:

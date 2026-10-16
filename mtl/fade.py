@@ -10,6 +10,12 @@ The default plan doesn't buy a fading stock. With `buy_max_rank` = top_n (mtl/mo
 cash instead of going to the next-ranked stock, until the stock drops out of the top 5 or stops fading. A stock
 already held is kept as usual. You-2 applies the same check to the viewer's stocks (mtl/you2.py).
 
+The whipsaw half-switch (mtl/rotation.py whipsaw) doesn't see the filter: it counts the sales of the same list run
+with the filter off, so a skipped stock counts as if it had been bought and later sold, and an empty slot is never a
+sale. Counting the slot as a sale that didn't lose kept the half-switch off through most of the Feb-Mar 2020 crash in
+a backtest started Jan 2, 2020 (worst drop -40% vs -27% without the filter); with this shadow count the half-switch
+turns on in the same weeks as without the filter.
+
 Found by studying the plan's own picks (big losers were mostly stocks whose run had gone quiet), so it was
 checked against the overfitting tests before it went in: research/validation/README.md."""
 import math

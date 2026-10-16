@@ -41,6 +41,8 @@ picked on that same history.
    and half goes into whichever of TLT, GLD and SPY is up most over the last WHIP_PCT
    sessions, skipping any whose weekly structure is a downtrend (T-bills if none is up).
    It was on about 5% of the time (late 2008, late 2011, late 2015, late 2018, 2022).
+   With the fading-energy filter (mtl/fade.py) the check reads the Boost list run with the filter off
+   (scripts/momentum_scan.py picks_whip), so the filter never changes when the half-switch turns on.
 
 4. Rate/gold regime. When the 10-year Treasury yield and gold are both higher than
    REGIME_LOOK sessions ago (an inflationary boom), the whipsaw half-switch is skipped and
