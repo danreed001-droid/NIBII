@@ -1,86 +1,86 @@
 {
- "asOf": "2026-10-14",
+ "asOf": "2026-10-16",
  "period": "Jan 2000 – Oct 2026",
- "plan": "Boost + rotation (surge exit, whipsaw half-switch with the rate/gold regime, TLT / GLD by 6-month gain, narrow-market cash week read from the equal-weight index’s full history, lower-high exit into gold or bonds on both its triggers, no T-bills: gold or bonds if up over 6 months, else cash; rebound rule: stays in stocks after a 12%+ drop with gold or bonds up 2%+ and a daily higher low)",
- "previous": "the same plan holding T-bills (default until Oct 13, 2026)",
+ "plan": "Boost + rotation (surge exit, whipsaw half-switch with the rate/gold regime, TLT / GLD by 6-month gain, narrow-market cash week read from the equal-weight index’s full history, lower-high exit into gold or bonds on both its triggers, no T-bills: gold or bonds if up over 6 months, else cash; rebound rule: stays in stocks after a 12%+ drop with gold or bonds up 2%+ and a daily higher low; fading-energy filter: a top-5 stock whose volume and daily swings have both faded isn’t bought, its slot stays in cash)",
+ "previous": "the same plan without the fading-energy filter (default until Oct 16, 2026)",
  "source": "From the audit’s daily curves (prices downloaded Oct 6, 2026; the track record above is a later download and can differ by about half a point): stocks in the S&P 500 at the time, 0.15% slippage, 37%/20% tax; Sharpe and Sortino net of a 2% cash rate. EP and CPWR are left out (their tickers were reused by later companies)",
  "scorecard": [
   {
    "k": "return",
-   "plan": "37.8% (24.0%)",
-   "prev": "35.6% (22.8%)",
+   "plan": "40.5% (25.7%)",
+   "prev": "37.8% (24.0%)",
    "spy": "8.4%"
   },
   {
    "k": "sharpe",
-   "plan": "1.19",
-   "prev": "1.15",
+   "plan": "1.26",
+   "prev": "1.19",
    "spy": "0.41"
   },
   {
    "k": "sortino",
-   "plan": "1.80",
-   "prev": "1.74",
+   "plan": "1.91",
+   "prev": "1.80",
    "spy": "0.58"
   },
   {
    "k": "maxdd",
    "plan": "−33%",
-   "prev": "−32%",
+   "prev": "−33%",
    "spy": "−55%"
   },
   {
    "k": "calmar",
-   "plan": "1.13",
-   "prev": "1.12",
+   "plan": "1.21",
+   "prev": "1.13",
    "spy": "0.15"
   },
   {
    "k": "ulcer",
-   "plan": "11.1%",
-   "prev": "10.7%",
+   "plan": "10.8%",
+   "prev": "11.1%",
    "spy": "16.1%"
   },
   {
    "k": "omega",
-   "plan": "2.94",
-   "prev": "2.87",
+   "plan": "3.09",
+   "prev": "2.94",
    "spy": "1.44"
   },
   {
    "k": "capture",
-   "plan": "135% / -10%",
-   "prev": "131% / -5%",
+   "plan": "141% / -13%",
+   "prev": "135% / -10%",
    "spy": "100% / 100%"
   },
   {
    "k": "var",
    "plan": "−6.8% / −9.0%",
-   "prev": "−7.1% / −9.1%",
+   "prev": "−6.8% / −9.0%",
    "spy": "−7.5% / −9.5%"
   },
   {
    "k": "worst3",
-   "plan": "1.0% a year",
-   "prev": "0.7% a year",
+   "plan": "1.8% a year",
+   "prev": "1.0% a year",
    "spy": "−16.3% a year"
   },
   {
    "k": "under",
-   "plan": "23 months",
-   "prev": "29 months",
+   "plan": "22 months",
+   "prev": "23 months",
    "spy": "74 months"
   },
   {
    "k": "alpha",
-   "plan": "27.3% (t 4.5)",
-   "prev": "25.7% (t 4.6)",
+   "plan": "30.0% (t 4.9)",
+   "prev": "27.3% (t 4.5)",
    "spy": "–"
   },
   {
    "k": "alphadec",
-   "plan": "42.0% / 9.1% / 42.5%",
-   "prev": "41.1% / 8.7% / 44.3%",
+   "plan": "45.2% / 10.1% / 48.1%",
+   "prev": "42.0% / 9.1% / 42.5%",
    "spy": "–"
   }
  ],
@@ -95,17 +95,17 @@
    {
     "k": "typical",
     "v": [
-     "37.0% (23.6%)",
-     "37.2% (23.7%)",
-     "37.7% (24.0%)"
+     "39.6% (25.2%)",
+     "40.0% (25.5%)",
+     "40.4% (25.7%)"
     ]
    },
    {
     "k": "bad",
     "v": [
-     "12.2%",
-     "19.0%",
-     "23.9%"
+     "13.8%",
+     "20.7%",
+     "26.0%"
     ]
    },
    {
@@ -127,31 +127,31 @@
    {
     "k": "beatSpyTax",
     "v": [
-     "91%",
-     "97%",
+     "93%",
+     "98%",
      "100%"
     ]
    },
    {
     "k": "beatSpyHalf",
     "v": [
-     "80%",
-     "89%",
+     "82%",
+     "91%",
      "97%"
     ]
    },
    {
     "k": "beatPrev",
     "v": [
-     "70%",
-     "77%",
-     "86%"
+     "88%",
+     "95%",
+     "99%"
     ]
    },
    {
     "k": "dd",
     "v": [
-     "−18%",
+     "−17%",
      "−21%",
      "−26%"
     ]
@@ -177,25 +177,29 @@
  "other": [
   {
    "k": "pbo",
-   "v": "3%",
-   "n": 990
+   "v": "1.6%",
+   "n": 1045
   },
   {
    "k": "walk",
-   "v": "26.3%",
-   "typical": "21.1%"
+   "v": "31.3%",
+   "typical": "21.3%"
   },
   {
    "k": "cashT",
-   "v": "about 1.4 points a year (t-stat 0.8 on monthly returns); since 2012 the plan lost about 39% over its cash days, and random cash weeks of the same lengths did as well in only 0.14% of 20,000 draws; on 2006–07, before the years it was found on, it fired three times and helped once (the October 2007 top)"
+   "v": "about 1.6 points a year (t-stat 0.9 on monthly returns); since 2012 the plan lost about 39% over its cash days, and random cash weeks of the same lengths did as well in only 0.14% of 20,000 draws; on 2006–07, before the years it was found on, it fired three times and helped once (the October 2007 top)"
   },
   {
    "k": "reboundT",
-   "v": "about 1.0 point a year (t-stat 0.8 on monthly returns): 37.8% a year from 2000 vs 36.5% without it, the same worst drop; it overrode the other rules on 70 sessions since 2000"
+   "v": "about 1.1 points a year (t-stat 0.9 on monthly returns): 40.5% a year from 2000 vs 39.1% without it, the same worst drop; it overrode the other rules on 70 sessions since 2000"
+  },
+  {
+   "k": "fadeT",
+   "v": "about 2.0 points a year from 2000 (t-stat 2.5 on monthly returns, 1.5 on the dashboard’s own stocks, where about 3 is needed after the ~55 versions tried that day); 42.2% vs 39.5% from 2010 and 50.2% vs 47.3% from 2016, but 67.6% vs 69.7% from 2020; the same worst drop from 2000; better in 7 of 10 separate test periods; it did nothing in Japan, the UK, Germany, India and Hong Kong"
   },
   {
    "k": "lowerT",
-   "v": "about 1.7 points a year (t-stat 0.9 on monthly returns), but the worst drop falls from −35% to −33% and the worst three years from −2.0% to 1.0% a year; it beat the plan without it in 67–80% of the simulated futures"
+   "v": "about 1.7 points a year (t-stat 0.8 on monthly returns), but the worst drop falls from −36% to −33% and the worst three years from −1.9% to 1.8% a year; it beat the plan without it in 65–78% of the simulated futures"
   },
   {
    "k": "billsT",
@@ -219,7 +223,7 @@
   },
   {
    "k": "plan",
-   "v": "about 25% a year before tax, the low end of the 24–30% the latest overfitting test points to (most of the newer versions are small changes to the best plan, which flatters the test)"
+   "v": "about 25% a year before tax, the low end of the 24–34% the latest overfitting test points to (most of the newer versions are small changes to the best plan, which flatters the test)"
   }
  ]
 }
