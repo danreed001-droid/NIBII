@@ -670,7 +670,12 @@ __RESEARCH__
   function rotName(m) { return m === 'boost' ? 'the Boost list' : m === 'CASH' ? 'cash' : m; }
   function rotTag(RT) {   // the switch decided at the last close
     if (!RT.trade) return whipTag(RT);
-    return '<span class="tag sell">sell ' + esc(rotName(RT.held)) + '</span><span class="tag buy">buy ' + esc(rotName(RT.mode)) + ' (rotation)</span>';
+    var X = D.plan && D.plan.auto && D.plan.auto.boostx, buy = esc(rotName(RT.mode)) + ' (rotation)';
+    if (RT.mode === 'boost' && X && X.holdings && X.holdings.length) {   // back into stocks: name them, and any cash slot
+      var sk = (X.fade && X.fade.skipped) || [], open = Math.max(0, 5 - X.holdings.length);
+      buy = X.holdings.map(esc).join(', ') + ' (20% each' + (open ? '; keep ' + open * 20 + '% in cash' + (sk.length ? ', ' + sk.map(function (s) { return esc(s.t); }).join(', ') + ' fading' : '') : '') + ')';
+    }
+    return '<span class="tag sell">sell ' + esc(rotName(RT.held)) + '</span><span class="tag buy">buy ' + buy + '</span>';
   }
   function whipTag(RT) {   // the whipsaw half-switch decided at the last close
     var W = RT && RT.whip;
