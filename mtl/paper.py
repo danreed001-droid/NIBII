@@ -12,6 +12,8 @@ From the ledger alone it then builds:
 - a replay check: the run's own replay of each past day (on today's data and code) must give the decision
   that was logged at the time; any difference is listed;
 - the status against the ranges the 2000-2026 backtest gives for 3, 6 and 12 months.
+A deliberate rule change is listed in the ledger's `updates` (date, new fingerprint, what changed); entries logged
+under a listed version aren't flagged, and the replay check only compares entries logged under today's rules.
 Pure apart from load/save and the code fingerprint; no network."""
 import hashlib
 import json
@@ -22,18 +24,19 @@ START = '2026-10-14'            # the day the current default plan (with the reb
 SLIP = 0.0015                   # per side, as in the backtest
 CASH = 'CASH'
 RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/narrow.py', 'mtl/lowerhigh.py',
-              'mtl/news.py', 'mtl/structure.py', 'mtl/universe.py')
+              'mtl/news.py', 'mtl/structure.py', 'mtl/universe.py', 'mtl/fade.py')
+SLOTS = 5                       # the Boost list's slots: each stock is a fifth, an empty slot (fading filter) is cash
 SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (settings, not page code)
 CLOSE_ET = time(16, 15)             # a decision is logged only after the close it is read from
 
-# The 2000-2026 backtest of the default plan on the dashboard's universe (S&P 500 members at each date plus the
-# Nasdaq-100 members outside it from their join dates; research/validation/ndx_universe.py), 0.15% per side, every
-# window of that length: return percentiles, share ahead of SPY, the 1-in-10 shortfall against SPY, and the worst
-# drop inside the window (typical, and the 1-in-20 worst).
+# The 2000-2026 backtest of the default plan (with the fading-energy filter since Oct 16, 2026) on the dashboard's
+# universe (S&P 500 members at each date plus the Nasdaq-100 members outside it from their join dates;
+# research/validation/ndx_universe.py), 0.15% per side, every window of that length: return percentiles, share
+# ahead of SPY, the 1-in-10 shortfall against SPY, and the worst drop inside the window (typical, and the 1-in-20 worst).
 BANDS = {
-    63: dict(label='3 months', p5=-0.099, p25=-0.014, p50=0.071, p75=0.162, p95=0.361, ahead=0.67, lag10=-0.076, dd50=-0.097, dd95=-0.19),
-    126: dict(label='6 months', p5=-0.097, p25=0.024, p50=0.133, p75=0.303, p95=0.685, ahead=0.76, lag10=-0.078, dd50=-0.126, dd95=-0.25),
-    252: dict(label='12 months', p5=-0.088, p25=0.090, p50=0.285, p75=0.619, p95=1.397, ahead=0.80, lag10=-0.068, dd50=-0.165, dd95=-0.28),
+    63: dict(label='3 months', p5=-0.101, p25=-0.012, p50=0.073, p75=0.167, p95=0.357, ahead=0.69, lag10=-0.077, dd50=-0.096, dd95=-0.20),
+    126: dict(label='6 months', p5=-0.094, p25=0.025, p50=0.133, p75=0.321, p95=0.738, ahead=0.76, lag10=-0.077, dd50=-0.128, dd95=-0.25),
+    252: dict(label='12 months', p5=-0.084, p25=0.097, p50=0.305, p75=0.632, p95=1.449, ahead=0.82, lag10=-0.066, dd50=-0.169, dd95=-0.28),
 }
 WORST_DD = -0.33                # the backtest's worst drop, 2000-2026
 
@@ -60,15 +63,19 @@ def fingerprint(root):
 
 
 def weights(mode, half, stocks):
-    """Target weights after the next close: the Boost list in equal parts while the mode is 'boost' (half of
-    it in `half` during the whipsaw half-switch), otherwise all in the mode's asset (or cash)."""
+    """Target weights after the next close: a fifth per Boost-list stock while the mode is 'boost' (an empty
+    slot, e.g. a stock the fading filter skipped, is cash; half of it in `half` during the whipsaw half-switch),
+    otherwise all in the mode's asset (or cash)."""
     if mode != 'boost':
         return {mode or CASH: 1.0}
     stocks = [t for t in stocks or []]
     if not stocks:
         return {CASH: 1.0}
     part = 0.5 if half else 1.0
-    w = {t: part / len(stocks) for t in stocks}
+    each = part / max(SLOTS, len(stocks))
+    w = {t: each for t in stocks}
+    if part - each * len(stocks) > 1e-12:
+        w[CASH] = part - each * len(stocks)
     if half:
         w[half] = w.get(half, 0.0) + 0.5
     return w
@@ -161,12 +168,12 @@ def account(entries, prices, calendar, slip=SLIP):
     return out
 
 
-def replay_check(entries, replay, as_of):
+def replay_check(entries, replay, as_of, fp=None):
     """Compare each logged decision before `as_of` with replay(day) -> decision dict on today's data and
-    code. Returns (checked, [differences])."""
+    code (with fp given, only decisions logged under those same rules). Returns (checked, [differences])."""
     diffs, n = [], 0
     for e in entries:
-        if e['d'] >= as_of:
+        if e['d'] >= as_of or (fp is not None and e.get('fp') and e['fp'] != fp):
             continue
         r = replay(e['d'])
         if r is None:
@@ -225,11 +232,12 @@ def block(ledger, prices, calendar, k, spy_px, replay, fp):
     day = calendar[k]
     ent = ledger['entries']
     curve = account(ent, prices, calendar[:k + 1], ledger.get('slip', SLIP))
-    n, diffs = replay_check(ent, replay, day)
+    n, diffs = replay_check(ent, replay, day, fp)
     base = curve[0][0] if curve else None
     spy = [[d, spy_px[d] / spy_px[base]] for d, _ in curve if base and spy_px.get(d) and spy_px.get(base)]
-    changed = sorted({e['d'] for e in ent if e.get('fp') and e['fp'] != ledger['frozen']['fingerprint']})
-    return dict(start=ledger['start'], frozen=ledger['frozen'], fpNow=fp, rulesChanged=changed[:1],
+    known = {ledger['frozen']['fingerprint']} | {u['fingerprint'] for u in ledger.get('updates') or []}
+    changed = sorted({e['d'] for e in ent if e.get('fp') and e['fp'] not in known})
+    return dict(start=ledger['start'], frozen=ledger['frozen'], updates=ledger.get('updates') or [], fpNow=fp, rulesChanged=changed[:1],
                 entries=len(ent), last=ent[-8:][::-1], curve=[[d, round(v, 5)] for d, v in curve],
                 spy=[[d, round(v, 5)] for d, v in spy], checked=n, diffs=diffs[-10:],
                 status=status(curve, spy_px), bands={str(h): b for h, b in BANDS.items()}, worstDD=WORST_DD)

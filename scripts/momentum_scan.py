@@ -49,6 +49,7 @@ from mtl.trendline import TL_DAYS, trendline_state  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import paper as paper_rec  # noqa: E402
+from mtl.fade import SWING_TH as FADE_SWING, VOL_TH as FADE_VOL, buy_ok as fade_buy_ok, fading as fade_check, ratios as fade_ratios  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
 from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
@@ -543,9 +544,12 @@ def main():
     # month's gain is more than BLOWOFF times the 5 months before it is sold and barred for 4 weeks),
     # switched on only in a weak market (SPY below its BLOWOFF_MA-session average)
     # ... plus the surge exit: a holding that closes 5%+ up on 4x+ its 50-day volume is sold a week (5 sessions) later
+    # ... plus the fading-energy filter (mtl/fade.py, since Oct 16, 2026): a top-5 stock whose volume and daily swings
+    # have both faded isn't bought; its slot stays in cash (buy_max_rank) until it leaves the top 5 or stops fading
     def bx_exit(cal_):
         blow_, surge_ = blowoff_exit(prices, cal_, BLOWOFF, market='SPY', ma=BLOWOFF_MA), surge_exit(prices, volumes, cal_, SURGE_UP, SURGE_VOL, SURGE_DELAY)
-        return dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e))
+        return dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e),
+                    buy_when=fade_buy_ok(prices, volumes, cal_), buy_max_rank=TOP_N)
     rbx, hold_bx, after_bx = boost_run(bx_exit)
     picks_bx = rbx['picks']
 
@@ -855,6 +859,18 @@ def main():
         weeksDiff=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and set(held_at_bx(f_)) != set(held_at_b(f_))),
         stops=rbx.get('stops', 0),
         armedAt=armed_bx[kidx[sig_d]], prevArmed=armed_bx[kidx[prev_d]])
+    # fading-energy filter: top-5 stocks at the last decision that weren't bought (their slot sits in cash)
+    fade_k = K if signal_day else kidx[sig_d]
+    fade_now = fade_check(prices, volumes, calendar)
+    cur_bx = after_bx if signal_day else hold_bx
+    top_now = [t_ for t_, sc_, beats_ in score_table(prices, calendar, fade_k, LOOK, SKIP, eligible=eligible) if beats_][:TOP_N]
+    skipped_bx = []
+    for i_, t_ in enumerate(top_now):
+        if t_ not in cur_bx and fade_now(t_, fade_k):
+            vr_, sr_ = fade_ratios(prices, volumes, calendar, t_, fade_k)
+            skipped_bx.append(dict(t=t_, rank=i_ + 1, vol=r4(vr_), swing=r4(sr_), n=names.get(t_, ('', ''))[0]))
+    auto['boostx']['fade'] = dict(vol=FADE_VOL, swing=FADE_SWING, decided=calendar[fade_k], skipped=skipped_bx,
+                                  cash=max(0, TOP_N - len(cur_bx)) if cur_bx else 0)
 
     def call_for(t):   # optional call sleeve: the 20% OTM 6-month call at best-case pricing
         cl = [prices[t].get(calendar[k_]) for k_ in range(max(0, K - 80), K + 1)]
@@ -992,12 +1008,14 @@ def main():
     you2_px, you2_t = dict(prices), {t for l in you2_entries(you2_doc).values() for t in l}
     if you2_t - set(prices):
         try:
-            for t, bs in fetch(sorted(you2_t - set(prices)), start=YOU2_START[:4] + '-01-01').items():
+            for t, bs in fetch(sorted(you2_t - set(prices)), start='2025-01-01', volumes=volumes).items():   # a year back: the fading check
                 if bs:
                     you2_px[t] = {b[0]: b[4] for b in bs}
         except Exception as e:   # noqa: BLE001
             print(f"  You-2 price fetch failed: {e}", file=sys.stderr)
-    you2 = you2_block(you2_doc, you2_px, whip_px, calendar, rot_modes, whip_half, plans['rotation'], prices['SPY'], K)
+    you2_fade = fade_check(you2_px, volumes, calendar)
+    you2 = you2_block(you2_doc, you2_px, whip_px, calendar, rot_modes, whip_half, plans['rotation'], prices['SPY'], K,
+                      skip=you2_fade, why=lambda t_, k_: fade_ratios(you2_px, volumes, calendar, t_, k_))
 
     # Paper record (mtl/paper.py): log tonight's decision for the next close - only in the scheduled scanner
     # run (PAPER_LEDGER_WRITE=1) and only after the close - then score the ledger and replay each logged day

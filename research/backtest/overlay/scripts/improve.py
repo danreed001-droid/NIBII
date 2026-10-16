@@ -700,7 +700,8 @@ VARIANTS = {
     'NBmx': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='cash', other='gb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBbl': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='bil', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBrv': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='gb', other='cash'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
-    'NBup': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
+    'NBup': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys (Oct 16, 2026)
+    'NBnf': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default before the fading-energy filter (Oct 14-16, 2026)
     'NBpre': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the rebound rule (Oct 14, 2026)
     'ANY15': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', any_lead=True, major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # gold or bonds leading counts toward the 15 sessions
     'ANY10': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', any_lead=True, major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # ... 10 sessions
@@ -2094,6 +2095,106 @@ def run_one(args):
                 kw['buy_max_rank'] = kw.get('top_n', 5)
             if sf == 'wait':
                 kw['wait_buy'] = True
+    pf_ = kw.pop('pf', None)
+    if pf_:
+        # pick filters on new buys (a stock already held is kept as usual; the next-ranked stock is bought instead).
+        # Each kind flags a stock at the decision close k:
+        #   fade_v  volume dried up: average volume of the last 21 sessions < th_v x the 105 sessions before
+        #   fade_s  swings shrinking: daily volatility of the last 21 sessions < th_s x its normal (the 189 sessions
+        #           before the last 63)
+        #   fade_vs both of those;  calm  63-session volatility under th_c a year
+        #   wdown   weekly chart in a downtrend: the last two confirmed weekly swing highs and lows both lower
+        #           (swings 2 weeks either side, confirmed once the second week after closes)
+        # need='any' skips a stock flagged by any listed kind.
+        from bisect import bisect_right as _brp
+        cal_p = P['calendar']
+        if 'SVOL' not in G:
+            _z = _np.load(os.path.join(SIDE_, 'stock_volume.npz'))
+            _di = {d_: i_ for i_, d_ in enumerate(_z['dates'].tolist())}
+            G['SVOL'] = ({t_: i_ for i_, t_ in enumerate(_z['tickers'].tolist())}, _z['vol'],
+                         _np.array([_di.get(d_, -1) for d_ in cal_p]))
+        XP = G['XF']
+        th_v, th_s, th_c = pf_.get('th_v', 0.78), pf_.get('th_s', 0.64), pf_.get('th_c', 0.30)
+        vc_p, wc_p = {}, {}
+
+        def pf_vol(t):
+            if t not in vc_p:
+                ti_, M_, ci_ = G['SVOL']
+                vc_p[t] = _np.where(ci_ >= 0, M_[ti_[t]][_np.maximum(ci_, 0)], _np.nan).astype(float) if t in ti_ else None
+            return vc_p[t]
+
+        def f_fade_v(t, k):
+            v_ = pf_vol(t)
+            if v_ is None or k < 130:
+                return False
+            a_, b_ = v_[k - 20:k + 1], v_[k - 125:k - 20]
+            a_, b_ = a_[~_np.isnan(a_)], b_[~_np.isnan(b_)]
+            if len(a_) < 15 or len(b_) < 70 or b_.mean() <= 0:
+                return False
+            return a_.mean() / b_.mean() < th_v
+
+        def logret(t, k, n):
+            a = XP(t)
+            if a is None or k < n + 1:
+                return None
+            c = a['c'][k - n:k + 1]
+            if _np.isnan(c).any() or (c <= 0).any():
+                return None
+            return _np.diff(_np.log(c))
+
+        def f_fade_s(t, k):
+            r_ = logret(t, k, 252)
+            if r_ is None:
+                return False
+            nrm = r_[:189].std(ddof=1)
+            return bool(nrm > 0 and r_[-21:].std(ddof=1) / nrm < th_s)
+
+        def f_calm(t, k):
+            r_ = logret(t, k, 63)
+            return r_ is not None and r_.std(ddof=1) * math.sqrt(252) < th_c
+
+        def wk_swings(t):
+            if t not in wc_p:
+                rows, cur = [], None
+                for b in G['BARS'].get(t) or []:
+                    key_ = date.fromisoformat(b[0][:10]).isocalendar()[:2]
+                    if cur is None or key_ != cur:
+                        rows.append([b[0][:10], b[2], b[3]]); cur = key_
+                    else:
+                        rows[-1][0] = b[0][:10]; rows[-1][1] = max(rows[-1][1], b[2]); rows[-1][2] = min(rows[-1][2], b[3])
+                sw = []      # (confirmed on, 'h'/'l', price)
+                for i in range(2, len(rows) - 2):
+                    win = rows[i - 2:i + 3]
+                    if rows[i][1] == max(r[1] for r in win):
+                        sw.append((rows[i + 2][0], 'h', rows[i][1]))
+                    if rows[i][2] == min(r[2] for r in win):
+                        sw.append((rows[i + 2][0], 'l', rows[i][2]))
+                sw.sort(key=lambda x: x[0])
+                wc_p[t] = (sw, [x[0] for x in sw])
+            return wc_p[t]
+
+        def f_wdown(t, k):
+            sw, cd = wk_swings(t)
+            n_ = _brp(cd, cal_p[k])
+            hs, ls = [], []
+            for x in reversed(sw[:n_]):
+                (hs if x[1] == 'h' else ls).append(x[2])
+                if len(hs) >= 2 and len(ls) >= 2:
+                    break
+            return len(hs) >= 2 and len(ls) >= 2 and hs[0] < hs[1] and ls[0] < ls[1]
+
+        PFK = dict(fade_v=f_fade_v, fade_s=f_fade_s, fade_vs=lambda t, k: f_fade_v(t, k) and f_fade_s(t, k),
+                   calm=f_calm, wdown=f_wdown)
+        fns_ = [PFK[x] for x in pf_['kinds']]
+
+        def pf_ok(t, k):
+            return not any(f_(t, k) for f_ in fns_)
+        if pf_.get('cash'):
+            # no replacement: only top-`top_n` names may be bought, so a skipped one leaves its slot in cash until it
+            # drops out of the top `top_n` (or stops being flagged)
+            kw.setdefault('buy_max_rank', kw.get('top_n', 5))
+        prev_pf = kw.get('buy_when')
+        kw['buy_when'] = (lambda t, k: prev_pf(t, k) and pf_ok(t, k)) if prev_pf else pf_ok
     hhl = kw.pop('hhline', None)
     if hhl:
         # don't buy a stock sitting at (or above) a rising line drawn through its last m swing highs when that line

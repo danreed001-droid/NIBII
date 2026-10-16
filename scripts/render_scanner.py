@@ -689,6 +689,9 @@ __RESEARCH__
     var rank = function (t) { return row[t] && row[t].rank ? '#' + row[t].rank : 'below #' + (D.table || []).length; };
     var beat = function (t) { return row[t] && row[t].vsSpy != null ? ' (its 6-to-1-month return beats SPY’s by ' + pct(row[t].vsSpy) + ')' : ''; };
     var held = L ? L.holdings : (D.holdings || []).map(function (h) { return h.t; });
+    var FD = L && L.fade, fadeWhy = FD && FD.skipped && FD.skipped.length ? FD.skipped.map(function (s) {
+      return '<b>' + esc(s.t) + '</b> (#' + s.rank + ': volume ' + Math.round(s.vol * 100) + '% of normal, daily swings ' + Math.round(s.swing * 100) + '%)';
+    }).join(', ') : '';
     var out_ = pm === 'rotation' && RT && RT.mode !== 'boost';
     if (out_) {
       var N = RT.narrow, LH = RT.lowerhigh, B = RT.noBills, holds = nm[RT.mode] || RT.mode, last = (RT.log || [])[0];
@@ -745,6 +748,8 @@ __RESEARCH__
         '). A holding stays until it drops out of the top ' + keep + ', so small rank moves don’t cause trades.' +
         (er && er >= keep - 1 && nxt ? ' Closest to the edge: ' + esc(edge) + ' at #' + er + '; if it is below #' + keep + ' at Friday’s close, ' + esc(nxt.t) + ' (#' + nxt.rank + ' now) takes its place.' : ''));
     }
+    if (fadeWhy && !out_) out.push('<b>Cash slot (' + Math.round((FD.cash || FD.skipped.length) * 100 / 5) + '% of the stocks part)</b>: ' + fadeWhy + (FD.skipped.length === 1 ? ' is' : ' are') +
+      ' in the top 5 but not bought: trading volume and daily swings have both faded (under ' + Math.round(FD.vol * 100) + '% and ' + Math.round(FD.swing * 100) + '% of normal), which in testing marked runs running out of steam. The slot stays in cash, not the next stock, until it drops out of the top 5 or picks up again.');
     if (L && !out_) out.push('Blow-off exit ' + (L.armed ? '<b>on</b>: SPY is below its ' + L.ma + '-day average, so a holding whose last month’s gain is more than ' + L.mult + '× its prior 5 months’ is sold'
       : 'off: SPY is above its ' + L.ma + '-day average, and in a steady market selling strong runners early cost money') + '.');
     out.push(D.signalDay ? 'Stock swaps happen only on the Friday signal, traded Monday ' + fmtDate(D.tradeDate, { month: 'short', day: 'numeric' }) + ' in the last 30 minutes; moves into or out of stocks can happen at any close.'
@@ -1083,11 +1088,14 @@ __RESEARCH__
     function what(e) {
       if (!e) return '–';
       if (e.mode !== 'boost') return hn[e.mode] || e.mode;
-      return (e.half ? 'half in ' + (hn[e.half] || e.half) + ', half in ' : '') + (e.list || []).join(', ');
+      var cash = e.w && e.w.CASH ? ' + ' + Math.round(e.w.CASH * 100) + '% cash' : '';
+      return (e.half ? 'half in ' + (hn[e.half] || e.half) + ', half in ' : '') + (e.list || []).join(', ') + cash;
     }
-    var fr = P.frozen || {}, ch = (P.rulesChanged || [])[0];
+    var fr = P.frozen || {}, ch = (P.rulesChanged || [])[0], up = (P.updates || [])[(P.updates || []).length - 1];
     $('pp-sub').textContent = 'Started ' + fmtDate(P.start, md) + ' · ' + P.entries + ' decision' + (P.entries === 1 ? '' : 's') + ' logged · ' +
-      (ch ? 'rule code changed on ' + fmtDate(ch, md) : 'rules unchanged since ' + fmtDate(fr.since || P.start, md)) + ' (fingerprint ' + (fr.fingerprint || '').slice(0, 8) + ')';
+      (ch ? 'rule code changed on ' + fmtDate(ch, md) + ' without an update note'
+        : up ? 'rules updated on ' + fmtDate(up.since, md) + ': ' + up.what
+        : 'rules unchanged since ' + fmtDate(fr.since || P.start, md)) + ' (fingerprint ' + ((up || fr).fingerprint || '').slice(0, 8) + ')';
     var S = P.status || {}, html = '<p>';
     html += 'Latest decision, for the next close: <b>' + esc(what(P.tonight)) + '</b>. ';
     if (S.sessions > 0) html += 'Over ' + S.sessions + ' session' + (S.sessions === 1 ? '' : 's') + ': paper record <b>' + pct(S.ret) + '</b>, SPY ' + pct(S.spy) + ', worst drop ' + pct(S.dd) + '. ';

@@ -93,7 +93,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  sector_of=None, top_sectors=None, sector_grace=1, sector_min=3,
                  rsi_exit=None, rsi_period=14, buy_ok=None, weighting='equal', vol_target=None,
                  vol_window=63, max_corr=None, corr_window=63, risk_adj=False, exec_next=None,
-                 exit_when=None, exit_daily=True, buy_when=None, lookback_at=None, hold_exit=None,
+                 exit_when=None, exit_daily=True, buy_when=None, buy_max_rank=None, lookback_at=None, hold_exit=None,
                  prefer=None, prefer_rank=20, prefer_mode='fill', prefer_pool='qualified',
                  rebal_dates=None):
     """prices: {ticker: {date: close}} (must include `benchmark`);
@@ -144,6 +144,10 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     buy_when: optional callable(ticker, k) -> bool; a stock not held is only
       bought when it is True (e.g. "its daily chart is in an uptrend") - the
       next-best ranked stock that passes is taken instead.
+    buy_max_rank: optional int; only stocks ranked in the top `buy_max_rank` may be
+      bought (news-preferred stocks excepted). With buy_max_rank=top_n, a top-ranked
+      stock skipped by buy_when leaves its slot in cash instead of going to the
+      next-ranked stock, until it drops out of the top or passes (mtl/fade.py).
     hold_exit: optional callable(ticker, k, entry_k) -> bool, checked every session
       for each holding (entry_k = the session it was bought); True sells it at
       the next trade and bars it for `cooldown` sessions (e.g. blowoff_exit).
@@ -338,6 +342,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
             if t not in target and fits(t):
                 if exit_when and t not in shares and exit_when(t, k):
                     continue          # its chart is breaking down: take the next one
+                if buy_max_rank is not None and t not in shares and rank.get(t, 10 ** 9) >= buy_max_rank \
+                        and not (prefer is not None and prefer(t, k)):
+                    continue          # only top-ranked names may be bought: a skipped one leaves its slot in cash
                 if buy_when and t not in shares and not buy_when(t, k):
                     continue
                 if max_corr is not None and any(corr(rets(t, k, corr_window), rets(u, k, corr_window)) > max_corr

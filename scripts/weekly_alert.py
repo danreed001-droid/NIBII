@@ -211,6 +211,12 @@ def build(scan, owner=None):
     sgl = surge_line(bx)
     if sgl:
         items.append(sgl)
+    fd = bx.get('fade') or {}
+    if fd.get('skipped') and rt.get('mode', 'boost') == 'boost':
+        sk = ', '.join(f"{s['t']} (#{s['rank']}: volume {round((s.get('vol') or 0) * 100)}% of normal, swings {round((s.get('swing') or 0) * 100)}%)" for s in fd['skipped'])
+        items.append(f"**Cash slot (fading-energy filter):** {sk} {'is' if len(fd['skipped']) == 1 else 'are'} in the top 5 but not bought. "
+                     f"Keep {'its' if len(fd['skipped']) == 1 else 'their'} {20 * len(fd['skipped'])}% in cash until it drops out of the top 5 or picks up again")
+        tags.append('cash slot: ' + ', '.join(s['t'] for s in fd['skipped']))
     if bx and 'armedAt' in bx and bx.get('armedAt') != bx.get('prevArmed'):
         on = bx['armedAt']
         items.append(f"**Blow-off exit {'ON' if on else 'OFF'}** (Boost 100% and Boost + cushion): "
