@@ -29,14 +29,14 @@ SLOTS = 5                       # the Boost list's slots: each stock is a fifth,
 SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (settings, not page code)
 CLOSE_ET = time(16, 15)             # a decision is logged only after the close it is read from
 
-# The 2000-2026 backtest of the default plan (with the fading-energy filter since Oct 16, 2026) on the dashboard's
+# The 2000-2026 backtest of the default plan (with the fading-energy filter and its whipsaw shadow count since Oct 16, 2026) on the dashboard's
 # universe (S&P 500 members at each date plus the Nasdaq-100 members outside it from their join dates;
 # research/validation/ndx_universe.py), 0.15% per side, every window of that length: return percentiles, share
 # ahead of SPY, the 1-in-10 shortfall against SPY, and the worst drop inside the window (typical, and the 1-in-20 worst).
 BANDS = {
-    63: dict(label='3 months', p5=-0.101, p25=-0.012, p50=0.073, p75=0.167, p95=0.357, ahead=0.69, lag10=-0.077, dd50=-0.096, dd95=-0.20),
-    126: dict(label='6 months', p5=-0.094, p25=0.025, p50=0.133, p75=0.321, p95=0.738, ahead=0.76, lag10=-0.077, dd50=-0.128, dd95=-0.25),
-    252: dict(label='12 months', p5=-0.084, p25=0.097, p50=0.305, p75=0.632, p95=1.449, ahead=0.82, lag10=-0.066, dd50=-0.169, dd95=-0.28),
+    63: dict(label='3 months', p5=-0.100, p25=-0.012, p50=0.072, p75=0.166, p95=0.357, ahead=0.68, lag10=-0.077, dd50=-0.096, dd95=-0.20),
+    126: dict(label='6 months', p5=-0.093, p25=0.023, p50=0.132, p75=0.319, p95=0.738, ahead=0.76, lag10=-0.080, dd50=-0.128, dd95=-0.25),
+    252: dict(label='12 months', p5=-0.084, p25=0.095, p50=0.302, p75=0.632, p95=1.449, ahead=0.82, lag10=-0.074, dd50=-0.169, dd95=-0.28),
 }
 WORST_DD = -0.33                # the backtest's worst drop, 2000-2026
 
