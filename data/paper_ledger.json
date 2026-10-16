@@ -89,6 +89,23 @@
     "scripts/momentum_scan.py (settings)": "49dd48643477"
    },
    "what": "whipsaw half-switch counts the Boost list with the fading filter off (a stock the filter skipped counts as if it had been bought and later sold; an empty slot is never a sale)"
+  },
+  {
+   "since": "2026-10-16",
+   "fingerprint": "54c5268f4c529a9f",
+   "files": {
+    "mtl/momentum.py": "80dc1ad632b0",
+    "mtl/rotation.py": "4f07f284c021",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/narrow.py": "ffd9c01fc5a8",
+    "mtl/lowerhigh.py": "f23d2780d271",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "93bbda358364",
+    "mtl/fade.py": "eed144f30a67",
+    "scripts/momentum_scan.py (settings)": "49dd48643477"
+   },
+   "what": "lower-high exit: an equal weekly or daily high (a double top) counts as a lower high, with a part-per-million tolerance so rounding in dividend-adjusted prices can't decide a tie"
   }
  ]
 }

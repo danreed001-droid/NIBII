@@ -4399,7 +4399,9 @@ def main():
                     lo_ = [x for x in sw_ if x['type'] == 'low']
                     if len(hi_) < 2:
                         continue
-                    down_ = hi_[-1]['price'] < hi_[-2]['price'] and daily[-1][4] < hi_[-1]['price']
+                    # an equal high (a double top) counts as lower, with a part-per-million tolerance so rounding in the
+                    # adjusted prices can't decide a tie (as mtl/lowerhigh.py, Oct 16, 2026)
+                    down_ = hi_[-1]['price'] <= hi_[-2]['price'] * (1 + 1e-6) and daily[-1][4] < hi_[-1]['price']
                     if mj_.get('nolh'):
                         down_ = True
                     if down_ and mj_.get('ll'):
@@ -4449,12 +4451,12 @@ def main():
                                 break
                         if pk_i is not None:
                             pk_ = bs_[pk_i]
-                            if pk_[2] < hi_[-1]['price'] and daily[-1][4] < pk_[2]:
+                            if pk_[2] <= hi_[-1]['price'] * (1 + 1e-6) and daily[-1][4] < pk_[2]:
                                 if mj_['prov'] == 'dd':
                                     turn_ = leg('SPY', f_)[0] == 'downtrend'
                                 else:
                                     dh_ = [x for x in _fs(daily[-120:], n=3) if x['type'] == 'high']
-                                    turn_ = len(dh_) >= 2 and dh_[-1]['price'] < dh_[-2]['price'] and daily[-1][4] < dh_[-1]['price']
+                                    turn_ = len(dh_) >= 2 and dh_[-1]['price'] <= dh_[-2]['price'] * (1 + 1e-6) and daily[-1][4] < dh_[-1]['price']
                                 if turn_:
                                     down_, sig_key = True, ((pk_[0], 'e') if mj_.get('twice') else pk_[0])
                     cn_ = mj_.get('chan2')

@@ -48,6 +48,14 @@ LH_DAYS = 10          # sessions in T-bills after a fresh signal
 LH_LOOK = 700         # daily bars the weekly swings are read from
 LH_DAILY_SWING = 3    # daily bars either side of a daily swing high
 LH_DAILY_LOOK = 120   # daily bars the daily swings are read from
+LH_TIE = 1e-6         # highs this close count as equal (rounding in dividend-adjusted prices)
+
+
+def _lower(a, b):
+    """True when high `a` is a lower high than `b`. An equal high (a double top) counts as lower, with a
+    part-per-million tolerance so rounding in the adjusted prices can't decide a tie (Oct 16, 2026: SPY's
+    $124.74 highs of Aug 3 and Sep 9, 2005 came out either way depending on the download)."""
+    return a <= b * (1 + LH_TIE)
 
 
 def lowerhigh_reading(daily, swing=LH_SWING):
@@ -69,7 +77,7 @@ def lowerhigh_reading(daily, swing=LH_SWING):
                highs=[[h1['ts'][:10], round(h1['price'], 2)], [h2['ts'][:10], round(h2['price'], 2)]], daily=[])
     dh = [s for s in find_swings(bars[-LH_DAILY_LOOK:], n=LH_DAILY_SWING) if s['type'] == 'high']
     out['daily'] = [[s['ts'][:10], round(s['price'], 2)] for s in dh[-2:]]
-    if h2['price'] < h1['price'] and close < h2['price']:
+    if _lower(h2['price'], h1['price']) and close < h2['price']:
         out.update(on=True, kind='confirmed')
         return out
     # the latest finished week since the last confirmed high that tops the `swing` weeks before it and every week after it
@@ -81,8 +89,8 @@ def lowerhigh_reading(daily, swing=LH_SWING):
     if pk is None:
         return out
     out['peak'] = [pk[0][:10], round(pk[2], 2)]
-    if pk[2] < h2['price'] and close < pk[2]:
-        if len(dh) >= 2 and dh[-1]['price'] < dh[-2]['price'] and close < dh[-1]['price']:
+    if _lower(pk[2], h2['price']) and close < pk[2]:
+        if len(dh) >= 2 and _lower(dh[-1]['price'], dh[-2]['price']) and close < dh[-1]['price']:
             out.update(on=True, kind='early', key=pk[0])
     return out
 
