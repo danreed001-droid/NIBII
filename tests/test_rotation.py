@@ -127,13 +127,18 @@ def test_whip_pick_takes_the_biggest_gain_and_skips_weekly_downtrends():
     assert whip_pick(R, flat, cal, len(cal) - 1, look=63)[0] == 'BIL'
 
 
-def test_curve_holds_half_in_the_whipsaw_asset():
+def test_curve_holds_the_whipsaw_asset(monkeypatch):
+    import mtl.rotation as MR
     cal = days(4)
     boost = [[d, v] for d, v in zip(cal, (1.0, 1.0, 1.2, 1.2))]
     px = {'GLD': dict(zip(cal, (10.0, 10.0, 10.0, 15.0)))}
     modes = {d: 'boost' for d in cal}
-    c = rotation_curve(boost, px, cal, modes, cost=0.0, half={cal[0]: 'GLD', cal[1]: 'GLD', cal[2]: 'GLD'})
-    # from day 1's close half Boost, half gold: day 2 Boost +20% -> +10%; day 3 gold +50% -> +25%
+    half = {cal[0]: 'GLD', cal[1]: 'GLD', cal[2]: 'GLD'}
+    c = rotation_curve(boost, px, cal, modes, cost=0.0, half=half)
+    # from day 1's close all in gold: day 2 Boost +20% -> flat; day 3 gold +50% -> +50%
+    assert abs(c[2][1] - 1.0) < 1e-12 and abs(c[3][1] - 1.5) < 1e-12
+    monkeypatch.setattr(MR, 'WHIP_SHARE', 0.5)      # the half-switch it replaced: half Boost, half gold
+    c = rotation_curve(boost, px, cal, modes, cost=0.0, half=half)
     assert abs(c[2][1] - 1.1) < 1e-12 and abs(c[3][1] - 1.1 * 1.25) < 1e-12
 
 

@@ -106,6 +106,23 @@
     "scripts/momentum_scan.py (settings)": "49dd48643477"
    },
    "what": "lower-high exit: an equal weekly or daily high (a double top) counts as a lower high, with a part-per-million tolerance so rounding in dividend-adjusted prices can't decide a tie"
+  },
+  {
+   "since": "2026-10-16",
+   "fingerprint": "51b4e53db3e3d05a",
+   "files": {
+    "mtl/momentum.py": "80dc1ad632b0",
+    "mtl/rotation.py": "f45e3a5b577f",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/narrow.py": "ffd9c01fc5a8",
+    "mtl/lowerhigh.py": "f23d2780d271",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "93bbda358364",
+    "mtl/fade.py": "eed144f30a67",
+    "scripts/momentum_scan.py (settings)": "49dd48643477"
+   },
+   "what": "whipsaw switch moves the whole account into its asset (TLT, GLD or SPY, the one up most over 3 months) instead of half"
   }
  ]
 }

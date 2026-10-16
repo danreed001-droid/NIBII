@@ -20,6 +20,8 @@ import json
 import os
 from datetime import date, datetime, time, timezone
 
+from mtl.rotation import WHIP_SHARE
+
 START = '2026-10-14'            # the day the current default plan (with the rebound rule) went live
 SLIP = 0.0015                   # per side, as in the backtest
 CASH = 'CASH'
@@ -29,16 +31,16 @@ SLOTS = 5                       # the Boost list's slots: each stock is a fifth,
 SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (settings, not page code)
 CLOSE_ET = time(16, 15)             # a decision is logged only after the close it is read from
 
-# The 2000-2026 backtest of the default plan (with the fading-energy filter and its whipsaw shadow count since Oct 16, 2026) on the dashboard's
+# The 2000-2026 backtest of the default plan (with the fading-energy filter, its whipsaw shadow count and the whole-account whipsaw switch since Oct 16, 2026) on the dashboard's
 # universe (S&P 500 members at each date plus the Nasdaq-100 members outside it from their join dates;
 # research/validation/ndx_universe.py), 0.15% per side, every window of that length: return percentiles, share
 # ahead of SPY, the 1-in-10 shortfall against SPY, and the worst drop inside the window (typical, and the 1-in-20 worst).
 BANDS = {
-    63: dict(label='3 months', p5=-0.100, p25=-0.012, p50=0.072, p75=0.166, p95=0.357, ahead=0.68, lag10=-0.077, dd50=-0.096, dd95=-0.20),
-    126: dict(label='6 months', p5=-0.093, p25=0.023, p50=0.132, p75=0.319, p95=0.738, ahead=0.76, lag10=-0.080, dd50=-0.128, dd95=-0.25),
-    252: dict(label='12 months', p5=-0.084, p25=0.095, p50=0.302, p75=0.632, p95=1.449, ahead=0.82, lag10=-0.074, dd50=-0.169, dd95=-0.28),
+    63: dict(label='3 months', p5=-0.100, p25=-0.012, p50=0.073, p75=0.168, p95=0.359, ahead=0.68, lag10=-0.078, dd50=-0.095, dd95=-0.20),
+    126: dict(label='6 months', p5=-0.093, p25=0.023, p50=0.141, p75=0.325, p95=0.738, ahead=0.77, lag10=-0.082, dd50=-0.128, dd95=-0.25),
+    252: dict(label='12 months', p5=-0.089, p25=0.113, p50=0.320, p75=0.632, p95=1.449, ahead=0.83, lag10=-0.077, dd50=-0.169, dd95=-0.28),
 }
-WORST_DD = -0.33                # the backtest's worst drop, 2000-2026
+WORST_DD = -0.34                # the backtest's worst drop, 2000-2026
 
 
 def fingerprint(root):
@@ -64,20 +66,22 @@ def fingerprint(root):
 
 def weights(mode, half, stocks):
     """Target weights after the next close: a fifth per Boost-list stock while the mode is 'boost' (an empty
-    slot, e.g. a stock the fading filter skipped, is cash; half of it in `half` during the whipsaw half-switch),
-    otherwise all in the mode's asset (or cash)."""
+    slot, e.g. a stock the fading filter skipped, is cash; WHIP_SHARE of the account in `half` during the whipsaw
+    switch, all of it since Oct 16, 2026), otherwise all in the mode's asset (or cash)."""
     if mode != 'boost':
         return {mode or CASH: 1.0}
+    if half and WHIP_SHARE >= 1:
+        return {half: 1.0}
     stocks = [t for t in stocks or []]
     if not stocks:
         return {CASH: 1.0}
-    part = 0.5 if half else 1.0
+    part = 1 - WHIP_SHARE if half else 1.0
     each = part / max(SLOTS, len(stocks))
     w = {t: each for t in stocks}
     if part - each * len(stocks) > 1e-12:
         w[CASH] = part - each * len(stocks)
     if half:
-        w[half] = w.get(half, 0.0) + 0.5
+        w[half] = w.get(half, 0.0) + WHIP_SHARE
     return w
 
 

@@ -40,11 +40,13 @@ up from 36.0%; the audit data gives 37.8% vs 36.5% without it. `NBpre` is the de
 
 Since Oct 16, 2026 the default (`NBup`) also has the fading-energy filter (`mtl/fade.py`, the `pf` option in
 `overlay/scripts/improve.py`): a top-5 stock whose volume and daily swings have both faded isn't bought and its slot
-stays in cash. The whipsaw half-switch counts the same list with the filter off (a skipped stock as if bought; an empty slot
-is never a sale), and the empty slot is plain cash, as in the live scanner (engine fix of Oct 16, 2026). The audit data gives
-40.3% a year from 2000 (worst drop −33%) vs 37.8% without it (`NBnf`). The first
+stays in cash. The whipsaw switch counts the same list with the filter off (a skipped stock as if bought; an empty slot
+is never a sale), and the empty slot is plain cash, as in the live scanner (engine fix of Oct 16, 2026). Later that day
+the whipsaw switch moved to the whole account (side option `share=1.0`; `NBhalf` keeps the half). The audit data gives
+41.0% a year from 2000 (worst drop −34%) vs 40.3% with the half switch and 38.7% without the filter (`NBnf`). The first
 refresh after the filter moved the default by about 2.7 points (published with **Publish even if the numbers moved a
-lot** ticked); the engine fix moves it by about 0.2. The checks are in `research/validation/README.md`.
+lot** ticked); the engine fix moved it by about 0.2 and the whole-account switch moves it by about 0.7. The checks are
+in `research/validation/README.md`.
 
 ## Run it by hand
 

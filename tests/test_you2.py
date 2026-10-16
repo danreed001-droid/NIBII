@@ -26,7 +26,7 @@ def test_follows_the_plan_out_of_stocks_and_back():
     g = GLD['GLD'][CAL[5]] / GLD['GLD'][CAL[4]]
     assert abs(cv[CAL[5]] / cv[CAL[4]] - g * (1 - you2.SWITCH_COST)) < 1e-9   # in gold, then back (0.1% a switch)
     assert abs(cv[CAL[6]] / cv[CAL[5]] - stocks[CAL[6]] / stocks[CAL[5]]) < 1e-9   # back in the stocks
-    assert you2.holding(modes, {}, CAL, 4) == 'GLD' and you2.holding(modes, {CAL[5]: 'TLT'}, CAL, 6) == 'stocks+TLT'
+    assert you2.holding(modes, {}, CAL, 4) == 'GLD' and you2.holding(modes, {CAL[5]: 'TLT'}, CAL, 6) == 'TLT'
 
 
 def test_block_reports_the_list_holding_and_missing_tickers():
