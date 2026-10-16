@@ -380,8 +380,8 @@
        true
       ]
      ],
-     "maturityClose": 7702.0,
-     "ret": -0.011233,
+     "maturityClose": 7699.75,
+     "ret": -0.011522,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2471,8 +2471,8 @@
        null
       ]
      ],
-     "maturityClose": 105.359375,
-     "ret": -0.001037,
+     "maturityClose": 105.390625,
+     "ret": -0.000741,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5129,8 +5129,8 @@
        null
       ]
      ],
-     "maturityClose": 4180.10009765625,
-     "ret": 0.001078,
+     "maturityClose": 4180.89990234375,
+     "ret": 0.001269,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7184,7 +7184,7 @@
       [
        "bear",
        "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), a headwind for the dollar (DX-Y.NYB -0.48% to 102.06)",
-       false
+       true
       ],
       [
        "bull",
@@ -7227,8 +7227,8 @@
        false
       ]
      ],
-     "maturityClose": 101.927001953125,
-     "ret": -0.001293,
+     "maturityClose": 101.90399932861328,
+     "ret": -0.001519,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9402,8 +9402,8 @@
        null
       ]
      ],
-     "maturityClose": 2735.60009765625,
-     "ret": -0.016643,
+     "maturityClose": 2734.89990234375,
+     "ret": -0.016895,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11346,8 +11346,8 @@
        null
       ]
      ],
-     "maturityClose": 29461.75,
-     "ret": -0.020146,
+     "maturityClose": 29452.0,
+     "ret": -0.020471,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
