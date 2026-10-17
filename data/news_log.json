@@ -3097,5 +3097,45 @@
       "time": "Market hours",
       "vsExp": "Above expectations"
     }
+  },
+  {
+    "id": "2026-10-17-1-hormuz-tanker-attacks-record-high-iran-escalation",
+    "data": {
+      "addedAt": "2026-10-17",
+      "category": "Geopolitics",
+      "date": "2026-10-17",
+      "day": "Sat",
+      "direction": "Bearish",
+      "event": "Reported attacks on tankers in/near the Strait of Hormuz hit a record high as Iran escalates strikes with little US military response so far; reports indicate the Pentagon is weighing a possible strike on Iran's underground nuclear facilities",
+      "impact": "High",
+      "numbers": "n/a (shipping-security trackers cited by NBC/CBS show attack frequency at a record high); oil was near/above $100/bbl (Brent) heading into the weekend",
+      "order": 1,
+      "reaction": "No market reaction yet (markets closed); the unresolved escalation keeps a geopolitical risk premium in crude and is a headline risk for Monday's open, especially if Washington opts for direct military action against Iranian nuclear sites.",
+      "region": "Middle East / Global",
+      "source": "https://www.nbcnews.com/world/iran/iran-strikes-strait-hormuz-shipping-trump-oil-prices-midterms-rcna603670",
+      "tickers": "USO, XLE, BNO, SPY",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-17-2-trump-waives-russia-oil-sanctions-tariffs",
+    "data": {
+      "addedAt": "2026-10-17",
+      "category": "Geopolitics",
+      "date": "2026-10-17",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Trump waives new Russia-related sanctions and 100% secondary tariffs on major buyers of Russian oil under the Graham Act, days before they were set to take effect",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "Cited reason is easing diesel costs after Putin agreed to release more Russian diesel into global markets; the waiver removes a near-term upside risk to crude/diesel prices and secondary tariffs that would have hit buyers like China and India. Ukraine's Zelenskyy called the move 'wrong' and some US lawmakers pushed back, adding policy-risk uncertainty.",
+      "region": "US / Russia / Europe",
+      "source": "https://www.cnbc.com/2026/10/17/trump-waives-russia-related-sanctions-tariffs-before-they-take-effect-.html",
+      "tickers": "USO, XLE, BNO, RSX",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
