@@ -20,6 +20,7 @@ import json
 import os
 from datetime import date, datetime, time, timezone
 
+from mtl.calendar_nyse import week_ended
 from mtl.rotation import WHIP_SHARE
 
 START = '2026-10-14'            # the day the current default plan (with the rebound rule) went live
@@ -106,10 +107,12 @@ def new_ledger(fp, files):
 
 
 def load(path):
+    """The ledger, or None when there is no file yet. A file that can't be read or parsed raises, so the run
+    fails and says so rather than starting an empty record over the real one."""
     try:
         with open(path) as fh:
             return json.load(fh)
-    except (OSError, ValueError):
+    except FileNotFoundError:
         return None
 
 
@@ -128,6 +131,46 @@ def record(ledger, dec, at, fp, src='scanner run'):
         return False
     ledger['entries'].append(dict(dec, at=at, fp=fp, src=src))
     return True
+
+
+def gaps(entries, calendar, as_of, look=10):
+    """Sessions among the last `look` before `as_of` (from the first logged day on) with no logged decision:
+    a run that failed, was late, or found stale data. The record carries the previous holdings across them."""
+    have = {e['d'] for e in entries}
+    if not have:
+        return []
+    first = min(have)
+    past = [d for d in calendar if first <= d < as_of][-look:]
+    return [d for d in past if d not in have]
+
+
+def same(a, b):
+    """True when two decisions agree on the mode, the whipsaw asset and (in stocks) the list."""
+    return (a['mode'] == b['mode'] and (a.get('half') or None) == (b.get('half') or None)
+            and (a['mode'] != 'boost' or sorted(a.get('list') or []) == sorted(b.get('list') or [])))
+
+
+def problems(ledger, blk, tonight, as_of, calendar):
+    """The record's own warnings, in plain language, for the issues list and the alert: missing sessions, a
+    re-run that disagrees with the logged decision, logged days the replay no longer reproduces, a rule change
+    without an update entry, and the expected-range flags."""
+    out = []
+    ent = ledger.get('entries') or []
+    miss = gaps(ent, calendar, as_of)
+    if miss:
+        out.append(f"The paper record has no decision for {', '.join(miss)} (a run failed, was late or had stale "
+                   f"data); it carries the previous holdings across.")
+    logged = next((e for e in ent if e['d'] == as_of), None)
+    if logged and tonight and not same(logged, tonight):
+        out.append(f"Tonight's run reads {as_of} differently from the decision logged for it ({logged['mode']} logged, "
+                   f"{tonight['mode']} now): the logged one stands; check the data.")
+    for x in blk.get('diffs') or []:
+        out.append(f"Paper record re-check: the decision logged for {x['d']} no longer replays the same ({x['what']}).")
+    if blk.get('rulesChanged'):
+        out.append(f"The rules changed on {blk['rulesChanged'][0]} without an update entry in the paper record.")
+    for f in (blk.get('status') or {}).get('flags') or []:
+        out.append(f"Paper record warning: {f}.")
+    return out
 
 
 def account(entries, prices, calendar, slip=SLIP):
@@ -163,7 +206,7 @@ def account(entries, prices, calendar, slip=SLIP):
         if e:
             cur = {t: n * (px(t, d) or 0.0) / val for t, n in units.items()} if units and val else {}
             tgt = e['w']
-            weekly = date.fromisoformat(e['d']).weekday() == 4
+            weekly = week_ended(e['d'])   # the week's last session (a Thursday before a Friday holiday)
             if not units or set(k for k, v in cur.items() if v > 1e-9) != set(tgt) or weekly:
                 traded = sum(abs(tgt.get(t, 0.0) - cur.get(t, 0.0)) for t in set(tgt) | set(cur) if t != CASH)
                 val *= 1 - slip * traded
@@ -218,10 +261,10 @@ def status(curve, spy_px):
     flags = []
     if dd < WORST_DD:
         flags.append(f"worst drop {dd:.0%} is deeper than the backtest's worst ({WORST_DD:.0%})")
-    if band:
-        b = BANDS[band]
-        # judge the last `band` sessions, the window the range describes
-        w = curve[-band - 1:]
+    for h in reached:   # every horizon reached, so the shorter ranges keep being checked after a year
+        b = BANDS[h]
+        # judge the last `h` sessions, the window the range describes
+        w = curve[-h - 1:]
         r_w = w[-1][1] / w[0][1] - 1
         sp0, sp1 = spy_px.get(w[0][0]), spy_px.get(w[-1][0])
         if r_w < b['p5']:

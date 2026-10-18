@@ -107,3 +107,31 @@ def test_block_reports_frozen_rules_and_changes():
     paper.record(L, paper.decision(CAL[2], 'boost', None, ['AAA']), 'x', 'fp-new')
     b = paper.block(L, PX, CAL, len(CAL) - 1, PX['SPY'], lambda d: None, 'fp-new')
     assert b['frozen']['fingerprint'] == 'fp1' and b['rulesChanged'] == [CAL[2]] and b['entries'] == 2 and b['curve']
+
+
+def test_corrupt_ledger_raises_and_missing_is_none(tmp_path):
+    import pytest
+    assert paper.load(str(tmp_path / 'none.json')) is None
+    p = tmp_path / 'bad.json'
+    p.write_text('{"entries": [')
+    with pytest.raises(ValueError):
+        paper.load(str(p))
+
+
+def test_problems_report_gaps_reruns_and_replay_differences():
+    cal = ['2026-10-12', '2026-10-13', '2026-10-14', '2026-10-15', '2026-10-16']
+    ent = [dict(d='2026-10-12', mode='boost', half=None, list=['A']), dict(d='2026-10-14', mode='boost', half=None, list=['A']),
+           dict(d='2026-10-16', mode='CASH', half=None, list=[])]
+    blk = dict(diffs=[dict(d='2026-10-14', what='mode boost logged, GLD in the replay')], rulesChanged=[], status=dict(flags=[]))
+    out = ' '.join(paper.problems(dict(entries=ent), blk, dict(d='2026-10-16', mode='boost', half=None, list=['A']), '2026-10-16', cal))
+    assert 'no decision for 2026-10-13, 2026-10-15' in out
+    assert 'reads 2026-10-16 differently' in out and 'no longer replays the same' in out
+
+
+def test_status_checks_every_horizon_reached():
+    n = 300
+    cal = [f'd{i:04d}' for i in range(n + 1)]
+    # flat for most of the year, then a steep fall in the last 3 months: the 3-month floor must still fire
+    curve = [[d, 1.0 if i < n - 63 else 1.0 * (0.997 ** (i - (n - 63)))] for i, d in enumerate(cal)]
+    flags = ' '.join(paper.status(curve, {})['flags'])
+    assert 'last 3 months' in flags and 'last 12 months' in flags

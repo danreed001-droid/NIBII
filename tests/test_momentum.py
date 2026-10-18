@@ -529,3 +529,37 @@ def test_data_problems_flag_missing_series_and_held_stocks():
     text = ' '.join(bad)
     assert 'No data for the 10-year Treasury yield' in text and 'the VIX stops on 2026-10-14' in text
     assert 'BBB (held by the plan) has no price' in text and 'ZZZ has left the S&P 500 list' in text
+
+
+def test_data_problems_flag_a_session_behind_top_stocks_and_volume():
+    import importlib.util, os
+    spec = importlib.util.spec_from_file_location(
+        'momentum_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'momentum_scan.py'))
+    ms = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ms)
+    cal = ['2026-10-09', '2026-10-12', '2026-10-13', '2026-10-14', '2026-10-15', '2026-10-16']
+    full = {d: 1.0 for d in cal}
+    bars = {'AAA': [(d, 1, 1, 1, 1) for d in cal], 'CCC': [(d, 1, 1, 1, 1) for d in cal[:-1]]}
+    bench = {'RSP': [(d, 1, 1, 1, 1) for d in cal]}
+    assets = {'TLT': [(d, 1, 1, 1, 1) for d in cal[:-1]], 'GLD': [(d, 1, 1, 1, 1) for d in cal]}
+    sp = {'AAA': 1, 'CCC': 1}
+    vol = {'AAA': {d: 100 for d in cal}}
+    # the 10-year yield may be one session behind (bond holidays); TLT may not
+    out = ms.data_problems('2026-10-16', cal, bars, bench, assets, {d: 1.0 for d in cal[:-1]}, full, sp, ['AAA'], ['AAA'],
+                           watch=['CCC'], volumes=vol)
+    text = ' '.join(out)
+    assert 'TLT stops on 2026-10-15' in text and '10-year' not in text
+    assert 'CCC (near the top of the ranking) has no price for 2026-10-16' in text
+    assert 'CCC has no trading volume' in text and 'AAA has no trading volume' not in text
+
+
+def test_last_closed_session_in_winter_expects_the_days_close():
+    import importlib.util, os
+    from datetime import datetime, timezone
+    spec = importlib.util.spec_from_file_location(
+        'momentum_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'momentum_scan.py'))
+    ms = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ms)
+    # the 22:20 UTC run is 5:20 pm EST: Friday's close is due, so a missing Friday bar gets flagged
+    assert ms.last_closed_session(datetime(2027, 1, 15, 22, 20, tzinfo=timezone.utc)) == '2027-01-15'
+    assert ms.last_closed_session(datetime(2027, 1, 15, 21, 0, tzinfo=timezone.utc)) == '2027-01-14'   # 4:00 pm EST

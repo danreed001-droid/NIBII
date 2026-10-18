@@ -51,7 +51,7 @@ from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash, lowerhigh_state, LH_D
 from mtl.trendline import TL_DAYS, trendline_state  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
-from mtl import paper as paper_rec  # noqa: E402
+from mtl import health, paper as paper_rec  # noqa: E402
 from mtl.fade import SWING_TH as FADE_SWING, VOL_TH as FADE_VOL, buy_ok as fade_buy_ok, fading as fade_check, ratios as fade_ratios  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
 from mtl.rotation import CONFIRM as ROT_CONFIRM, CONFIRM_GAP as ROT_CONFIRM_GAP, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, WHIP_SHARE, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
@@ -201,16 +201,15 @@ def option_check(held_rows, bars, as_of, calendar, signal_day):
     moves = [abs(span[i + 20] / span[i] - 1) for i in range(len(span) - 20)]
     usual = sum(moves) / len(moves)
     fair = 0.113 * hv * S
-    trade = date.fromisoformat(as_of)
-    if signal_day:
-        trade += timedelta(days=3)
+    trade = next_trading_day(as_of) if signal_day else date.fromisoformat(as_of)   # a Friday signal trades the next session
     exp = trade + timedelta(days=28)
     while exp.weekday() != 4:
         exp -= timedelta(days=1)
     earn = next_earnings(top['t'])
     return dict(t=top['t'], n=top.get('n'), price=r4(S), hv=r4(hv), usual=r4(usual), usualUsd=r4(usual * S),
                 fair=r4(fair), cheap=r4(min(0.13 * hv * S, 0.57 * usual * S)),
-                skip=r4(min(0.15 * hv * S, 0.70 * usual * S)),   # the stricter of the two reads expiry=exp.isoformat(), earnings=earn,
+                skip=r4(min(0.15 * hv * S, 0.70 * usual * S)),   # the stricter of the two reads
+                expiry=exp.isoformat(), earnings=earn,
                 earningsInside=bool(earn and trade.isoformat() <= earn <= exp.isoformat()))
 
 
@@ -404,20 +403,23 @@ def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
 
 def last_closed_session(now=None):
     """The latest NYSE session whose closing prices should be in by `now` (default: the clock), New York time:
-    today once it is 5 pm on a trading day, else the session before."""
+    today once the close has printed (16:15, as for the paper record) on a trading day, else the session before.
+    The scheduled run starts at 16:20 New York time in winter and 17:20 in summer, so both expect today's close."""
     from zoneinfo import ZoneInfo
     now = (now or datetime.now(timezone.utc)).astimezone(ZoneInfo('America/New_York'))
     d = now.date()
-    if is_trading_day(d) and (now.hour, now.minute) >= (17, 0):
+    if is_trading_day(d) and now.time() >= paper_rec.CLOSE_ET:
         return d.isoformat()
     return previous_trading_day(d).isoformat()
 
 
-def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, held, logged, expected=None):
+def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, held, logged, expected=None,
+                  watch=(), volumes=None):
     """Plain-language problems with tonight's data that change (or stop) a rule: prices that stop before the
-    last close that should be in (`expected`), a series a rule needs missing or more than a session old, a
-    stock the plan holds with no price or out of the S&P 500, or many stocks that failed to download. The
-    page shows them and the alert step opens an issue."""
+    last close that should be in (`expected`), a series a rule needs missing or behind, a stock the plan holds
+    (or one near the top of the ranking, `watch`) with no price or no recent volume, a held stock out of the
+    S&P 500, a stale member list, or many stocks that failed to download. The page shows them and the alert
+    step opens an issue."""
     out, prev = [], calendar[-2] if len(calendar) > 1 else as_of
     if expected and as_of < expected:
         out.append(f"Prices stop on {as_of}, but {expected}'s close should be in: a data delay (the next run usually "
@@ -426,16 +428,18 @@ def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp,
 
     def last(ser):
         return max(ser) if ser else None
-    for name, ser, what in (
-            ('the 10-year Treasury yield (^TNX)', rate_px, "the rate/gold rule can't run, so the whipsaw switch can't stand aside"),
-            ('the VIX', vix_px, "the narrow-market rule can't run"),
-            ('RSP (equal-weight S&P 500)', {b[0]: 1 for b in bench.get('RSP') or []}, "the narrow-market rule can't run"),
-            ('TLT', {b[0]: 1 for b in asset_bars.get('TLT') or []}, "the bond haven can't be read"),
-            ('GLD', {b[0]: 1 for b in asset_bars.get('GLD') or []}, "the gold haven can't be read")):
+    # due: the last day each series should have. The bond market closes on Columbus and Veterans Day while
+    # stocks trade, so the 10-year yield may be a session behind; everything else trades every NYSE session.
+    for name, ser, what, due in (
+            ('the 10-year Treasury yield (^TNX)', rate_px, "the rate/gold rule can't run, so the whipsaw switch can't stand aside", prev),
+            ('the VIX', vix_px, "the narrow-market rule can't run", as_of),
+            ('RSP (equal-weight S&P 500)', {b[0]: 1 for b in bench.get('RSP') or []}, "the narrow-market rule can't run", as_of),
+            ('TLT', {b[0]: 1 for b in asset_bars.get('TLT') or []}, "the bond haven can't be read", as_of),
+            ('GLD', {b[0]: 1 for b in asset_bars.get('GLD') or []}, "the gold haven can't be read", as_of)):
         ld = last(ser)
         if ld is None:
             out.append(f"No data for {name}: {what}.")
-        elif ld < prev:
+        elif ld < due:
             out.append(f"{name} stops on {ld} (data through {as_of} expected): {what} on current data.")
     for t in sorted(set(held) | set(logged)):
         if t not in sp:
@@ -443,14 +447,25 @@ def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp,
                        f"If you hold it, sell it at the next close.")
         elif not bars.get(t) or bars[t][-1][0] < as_of:
             out.append(f"{t} (held by the plan) has no price for {as_of}: check the stock before trading.")
+    for t in [t for t in watch if t not in held and t not in logged]:
+        if not bars.get(t) or bars[t][-1][0] < as_of:
+            out.append(f"{t} (near the top of the ranking) has no price for {as_of}, so it dropped out of tonight's "
+                       f"ranking: the stock list may be off until it comes back.")
+    recent = calendar[-6:]
+    for t in sorted(set(held) | set(logged) | set(watch)):
+        v = (volumes or {}).get(t) or {}
+        if volumes is not None and bars.get(t) and not any(v.get(d_) for d_ in recent):
+            out.append(f"{t} has no trading volume in the last {len(recent)} sessions: the fading-energy and surge "
+                       f"checks can't read it.")
     from mtl.universe import last_refreshed
     lr_ = last_refreshed()
-    if lr_ is None or (date.fromisoformat(as_of) - lr_).days > 21:
+    if lr_ is None or (date.fromisoformat(as_of) - lr_).days > 10:
         out.append(f"The S&P 500 member list was last refreshed {lr_ or 'never'}: its weekly refresh from Wikipedia keeps "
                    f"failing (the page layout may have changed), so index joins and removals since then are missing.")
-    miss = sorted(t for t in sp if not bars.get(t))
+    miss = sorted(t for t in sp if not bars.get(t) or bars[t][-1][0] < as_of)
     if len(miss) > 10:
-        out.append(f"{len(miss)} S&P 500 stocks returned no prices (e.g. {', '.join(miss[:5])}): rankings and sales may be off.")
+        out.append(f"{len(miss)} S&P 500 stocks have no price for {as_of} (e.g. {', '.join(miss[:5])}): rankings and "
+                   f"sales may be off.")
     return out
 
 
@@ -474,6 +489,16 @@ def main():
     except Exception as e:
         print(f"  VIX fetch failed: {e}", file=sys.stderr)
         vix_px = {}
+    # a run before the close (by hand during the day, or the quarterly track refresh in the morning) must not read
+    # the session still trading: keep only closes up to the last session that has closed
+    cut_ = last_closed_session()
+    for src_ in (bars, bench, asset_bars):
+        for t_ in src_:
+            src_[t_] = [b_ for b_ in src_[t_] or [] if b_[0] <= cut_]
+    rate_px = {d_: v_ for d_, v_ in rate_px.items() if d_ <= cut_}
+    vix_px = {d_: v_ for d_, v_ in vix_px.items() if d_ <= cut_}
+    for t_ in volumes:
+        volumes[t_] = {d_: v_ for d_, v_ in volumes[t_].items() if d_ <= cut_}
     sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in asset_bars.items()}
     prices = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items() if bs}
     prices['SPY'] = {b[0]: b[4] for b in bench['SPY']}
@@ -1061,7 +1086,7 @@ def main():
     you2_px, you2_t = dict(prices), {t for l in you2_entries(you2_doc).values() for t in l}
     if you2_t - set(prices):
         try:
-            for t, bs in fetch(sorted(you2_t - set(prices)), start='2025-01-01', volumes=volumes).items():   # a year back: the fading check
+            for t, bs in fetch(sorted(you2_t - set(prices)), start=(date.fromisoformat(as_of) - timedelta(days=400)).isoformat(), volumes=volumes).items():   # a year back: the fading check
                 if bs:
                     you2_px[t] = {b[0]: b[4] for b in bs}
         except Exception as e:   # noqa: BLE001
@@ -1074,8 +1099,10 @@ def main():
     # run (PAPER_LEDGER_WRITE=1) and only after the close - then score the ledger and replay each logged day
     paper_fp, paper_files = paper_rec.fingerprint(ROOT)
     ledger = paper_rec.load(PAPER_PATH) or paper_rec.new_ledger(paper_fp, paper_files)
+    top_prev = [t for t, _, _ in score_table(prices, calendar, K - 1, LOOK, SKIP, WIN, 'rank', eligible)[:10]]
     data_issues = data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, hold_bx,
-                                ((ledger.get('entries') or [{}])[-1].get('list') or []), expected=last_closed_session())
+                                ((ledger.get('entries') or [{}])[-1].get('list') or []), expected=last_closed_session(),
+                                watch=top_prev, volumes=volumes)
     p_idx = {d_: i for i, d_ in enumerate(calendar)}
     p_days = [p_[0] for p_ in picks_bx]
 
@@ -1096,6 +1123,12 @@ def main():
             print(f"paper record: logged {as_of} ({p_now['mode']})", file=sys.stderr)
     paper = paper_rec.block(ledger, {**whip_px, **prices}, calendar, K, prices['SPY'], p_replay, paper_fp)
     paper['tonight'] = p_now
+    data_issues += paper_rec.problems(ledger, paper, p_now, as_of, calendar)
+    # every problem also goes into the dated issues log behind the page's "Issues (last 2 weeks)" section
+    issue_log = health.load()
+    for x_ in data_issues:
+        health.add(issue_log, as_of, 'scan', x_)
+    health.save(issue_log)
 
     years = {k: yearly(v) for k, v in curves.items()}
     for k, v in curves.items():   # a curve that starts mid-year (SPMO, Oct 2015): no return for that part year
@@ -1119,6 +1152,8 @@ def main():
     trade_date = next_trading_day(signal_date)
     payload = dict(
         generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'), asOf=as_of,
+        # the page turns red after this: the next session's run (22:20 UTC, a backup at 02:20) should be in by then
+        nextUpdateBy=(next_trading_day(as_of) + timedelta(days=1)).isoformat() + 'T05:00:00Z',
         lastRebalance=last_rebalance, signalDay=signal_day, signalDate=signal_date.isoformat(),
         tradeDate=trade_date.isoformat(),
         rule=dict(look=LOOK, skip=SKIP, topN=TOP_N, keepRank=2 * TOP_N, start=START),

@@ -88,3 +88,5 @@ built here. The three variants in the track record don't use it.
 
 When a rule changes the default plan, update its variant in `overlay/scripts/improve.py` to match. If the
 variant gets a new name, update the `KEYS` in `build_track.py` and `ONLY` / `DUMP_CURVES` in `refresh.sh` too.
+Then run `python research/backtest/check_sync.py --update`: it records the live rules' fingerprint in
+`engine_sync.json`, and each refresh opens an issue when the live rules have changed since (it still publishes).

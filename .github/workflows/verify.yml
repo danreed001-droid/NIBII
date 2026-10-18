@@ -5,15 +5,22 @@ on:
     paths: ['mtl/**', 'tests/**', 'contracts/**', 'golden/**', '.github/workflows/verify.yml']
   pull_request:
   workflow_dispatch: {}
+  schedule:
+    # Mondays 11:41 UTC: the nightly runs install the newest libraries, so test them weekly too
+    - cron: '41 11 * * 1'
+
+permissions:
+  contents: write
+  issues: write
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: '3.13'
       - run: pip install -r requirements.txt
       - name: Golden fidelity test
         run: python -m pytest tests/ -q
@@ -21,3 +28,14 @@ jobs:
         run: |
           if [ -d documents ]; then python scripts/run_verify.py documents; else
           echo "no documents/ directory yet - golden test is the gate"; fi
+      - name: Python still supported
+        if: github.event_name == 'schedule'
+        run: python scripts/check_runtime.py
+      - name: Open an issue if the weekly check failed
+        if: ${{ (failure() || cancelled()) && github.event_name == 'schedule' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          bash scripts/report_failure.sh "Weekly tests failed $(date -u +%Y-%m-%d)" \
+            "The weekly test run failed with the newest libraries (or the Python version is near its end of life), so the nightly scanner may break next. The run log says which test." tests

@@ -32,16 +32,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 180
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: main
           fetch-depth: 0   # the engine is a commit on the robustness branch
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - run: pip install -r requirements.txt
+
+      - name: Backtest engine in step with the live rules
+        # a live rule changed since the overlay engine was last synced: the run goes on, and an issue says so
+        id: sync
+        continue-on-error: true
+        run: python research/backtest/check_sync.py
 
       - name: Rerun the backtest
         # 2 worker processes fit the smaller runners private repos get (the results are the same)
@@ -80,12 +86,19 @@ jobs:
 
       - name: Open an issue if the refresh stopped
         # a failed step, or the published numbers would have moved more than the comparison allows
-        if: ${{ failure() }}
+        if: ${{ failure() || cancelled() }}
         env:
           GH_TOKEN: ${{ github.token }}
           OWNER: ${{ github.repository_owner }}
         run: |
-          title="Track record refresh stopped $(date -u +%Y-%m-%d)"
-          printf '%s\n\n%s\n\n%s\n' "The track record refresh stopped without publishing: a step failed, or the default plan's numbers moved more than 3 points a year (or its worst drop more than 5). The log says which; to publish moved numbers anyway, run it again with \"Publish even if the numbers moved a lot\" ticked." \
-            "Run log: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" "@$OWNER - sent automatically." > "$RUNNER_TEMP/fail.md"
-          gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$RUNNER_TEMP/fail.md"
+          bash scripts/report_failure.sh "Track record refresh stopped $(date -u +%Y-%m-%d)" \
+            "The track record refresh stopped without publishing: a step failed or timed out, or the default plan's numbers moved more than 3 points a year (or its worst drop more than 5). The log says which; to publish moved numbers anyway, run it again with \"Publish even if the numbers moved a lot\" ticked." track
+
+      - name: Open an issue if the engine is behind the live rules
+        if: ${{ !cancelled() && steps.sync.outcome == 'failure' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          bash scripts/report_failure.sh "Backtest engine behind the live rules $(date -u +%Y-%m-%d)" \
+            "A live rule changed since the backtest engine (research/backtest/overlay) was last synced, so the refreshed track record may not be the live plan's. Sync the engine's NBup variant, then run research/backtest/check_sync.py --update." track
