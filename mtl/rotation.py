@@ -112,6 +112,7 @@ from mtl.structure import find_swings, label_structure, trend_state
 
 ROT_ASSETS = ('TLT', 'GLD')
 CONFIRM = 15          # sessions a candidate must lead before the switch
+CONFIRM_GAP = 10      # the count starts over once SPY has been out of its downtrend more than this many sessions in a row
 SLOW = 0.12           # downtrend exit only when SPY's weekly lower lows fall slower than this
 MA = 150              # SPY's average for the downtrend exit and the way back
 VOL_LOOK = 63         # sessions of daily returns for the volatility scaling
@@ -236,7 +237,21 @@ class Reader:
         return best
 
 
-def rotation_modes(bars, calendar, start, confirm=CONFIRM, slow=SLOW, ma=MA, assets=ROT_ASSETS):
+def count_step(streak, cand, gap_n, spy_down, best, gap=CONFIRM_GAP):
+    """One session of rotation's confirmation count while the plan holds stocks -> (streak, cand, gap_n).
+    On a day SPY's daily chart is in a downtrend the leader's count grows (a new leader, or none, starts it
+    over). On other days the count waits, but it starts over once SPY has been out of its downtrend more
+    than `gap` sessions in a row (since Oct 19, 2026; before, it could add up days months apart)."""
+    if not spy_down:
+        gap_n += 1
+        if gap is not None and gap_n > gap:
+            streak, cand = 0, None
+        return streak, cand, gap_n
+    streak = streak + 1 if best and best == cand else (1 if best else 0)
+    return streak, best, 0
+
+
+def rotation_modes(bars, calendar, start, confirm=CONFIRM, slow=SLOW, ma=MA, assets=ROT_ASSETS, gap=CONFIRM_GAP):
     """(modes, why, reader, state): modes = {decision date: 'boost' | asset | 'BIL'} for
     every session from `start` (decided at that close, traded at the next session's close);
     why = {date: 'rotate' | 'rotate-end' | 'exit' | 'switch' | 'above' | 'steeper'} for the
@@ -251,19 +266,17 @@ def rotation_modes(bars, calendar, start, confirm=CONFIRM, slow=SLOW, ma=MA, ass
         return sum(w) / ma if len(w) == ma else None
 
     # 1. rotation
-    rot, mode, streak, cand_prev = {}, 'boost', 0, None
+    rot, mode, streak, cand_prev, gap_n = {}, 'boost', 0, None, 0
     for k in range(1, len(calendar)):
         d = calendar[k]
         if d < start:
             continue
         if mode == 'boost':
             sst, sg = R.leg('SPY', d)
-            if sst == 'downtrend':
-                best = R.leading(d, assets, above=sg)
-                streak = streak + 1 if best and best == cand_prev else (1 if best else 0)
-                cand_prev = best
-                if best and streak > confirm:
-                    mode, streak = best, 0
+            best = R.leading(d, assets, above=sg) if sst == 'downtrend' else None
+            streak, cand_prev, gap_n = count_step(streak, cand_prev, gap_n, sst == 'downtrend', best, gap)
+            if best and streak > confirm:
+                mode, streak = best, 0
         elif R.leg(mode, d)[0] != 'uptrend':
             mode = 'boost'
         rot[d] = mode

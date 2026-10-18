@@ -200,3 +200,22 @@ def test_curve_earns_nothing_in_cash():
     c = rotation_curve(boost, {}, cal, {cal[0]: CASH, cal[1]: CASH, cal[2]: 'boost'}, cost=0.0)
     # cash decided at day 0's close is bought at day 1's close and held flat until day 3's close
     assert [round(v, 12) for _, v in c] == [1.0, 1.1, 1.1, 1.1, round(1.1 * 1.4 / 1.3, 12)]
+
+
+def test_confirmation_count_waits_through_short_breaks_only():
+    from mtl.rotation import count_step
+    st = (0, None, 0)
+    for _ in range(8):                                      # 8 downtrend days with TLT leading
+        st = count_step(*st, True, 'TLT', gap=10)
+    assert st == (8, 'TLT', 0)
+    for _ in range(10):                                     # 10 sessions out of the downtrend: the count waits
+        st = count_step(*st, False, None, gap=10)
+    assert st[:2] == (8, 'TLT')
+    assert count_step(*st, True, 'TLT', gap=10) == (9, 'TLT', 0)
+    st = count_step(*st, False, None, gap=10)               # the 11th session out: it starts over
+    assert st[:2] == (0, None)
+    assert count_step(*st, True, 'TLT', gap=10)[0] == 1
+    old = (8, 'TLT', 0)
+    for _ in range(60):                                     # no limit (the old rule): days months apart add up
+        old = count_step(*old, False, None, gap=None)
+    assert old[:2] == (8, 'TLT')

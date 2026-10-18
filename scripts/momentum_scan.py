@@ -54,7 +54,7 @@ from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries
 from mtl import paper as paper_rec  # noqa: E402
 from mtl.fade import SWING_TH as FADE_SWING, VOL_TH as FADE_VOL, buy_ok as fade_buy_ok, fading as fade_check, ratios as fade_ratios  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
-from mtl.rotation import CONFIRM as ROT_CONFIRM, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, WHIP_SHARE, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
+from mtl.rotation import CONFIRM as ROT_CONFIRM, CONFIRM_GAP as ROT_CONFIRM_GAP, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, WHIP_SHARE, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -391,7 +391,7 @@ def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
     rw['log'] = [[calendar[i_], brk[i_][0], r4(spy_gap(calendar[i_]))] for i_ in sorted(brk)[-8:]][::-1]
     return dict(rsiWarn=rw,warn=warn.get(as_of), prevWarn=warn.get(calendar[K - 1]), warnDays=len(warn), warnLog=warning_log(warn, calendar),
                 mode=mode, held=held, trade=next_session(as_of) if mode != held else None,
-                confirm=ROT_CONFIRM, slow=ROT_SLOW, ma=ROT_MA, assets=list(ROT_ASSETS),
+                confirm=ROT_CONFIRM, confirmGap=ROT_CONFIRM_GAP, slow=ROT_SLOW, ma=ROT_MA, assets=list(ROT_ASSETS),
                 spy=dict(daily=leg('SPY'), weekly=leg('SPY', 'w'), gap=r4(spy_gap(as_of)), lastHigh=lh,
                          lows=[[x['ts'][:10], r4(x['price']), x['label']] for x in los[-2:]]),
                 legs={t: leg(t) for t in ROT_ASSETS}, px={t: r4((px.get(t) or {}).get(as_of)) for t in ROT_ASSETS + ('BIL',)},
