@@ -28,3 +28,27 @@ def test_week_end_sessions_follow_nyse_holidays():
     assert next_trading_day('2027-01-15').isoformat() == '2027-01-19'          # Martin Luther King Day Monday
     assert month_end_session('2026-12-10') == '2026-12-31'
     assert month_end_session('2027-04-02') == '2027-04-30'
+
+
+def test_holidays_follow_the_exchange_rules_in_any_year():
+    from mtl.calendar_nyse import holidays, is_trading_day
+    assert set(holidays(2027)) == {'2027-01-01', '2027-01-18', '2027-02-15', '2027-03-26', '2027-05-31',
+                                   '2027-06-18', '2027-07-05', '2027-09-06', '2027-11-25', '2027-12-24'}
+    assert '2033-01-01' not in holidays(2033) and is_trading_day('2032-12-31')   # Saturday New Year: not made up
+    assert '2034-01-02' in holidays(2034)                                         # Sunday New Year: Monday off
+    assert '2030-04-19' in holidays(2030) and '2041-04-19' in holidays(2041)      # Good Friday from Easter
+    assert '2021-06-18' not in holidays(2021) and '2022-06-20' in holidays(2022)  # Juneteenth from 2022
+    assert not is_trading_day('2025-01-09')                                       # an unscheduled closure
+
+
+def test_last_closed_session_waits_for_the_close():
+    import importlib.util, os
+    from datetime import datetime, timezone
+    spec = importlib.util.spec_from_file_location(
+        'momentum_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'momentum_scan.py'))
+    ms = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ms)
+    assert ms.last_closed_session(datetime(2026, 10, 16, 22, 0, tzinfo=timezone.utc)) == '2026-10-16'   # Fri 6 pm ET
+    assert ms.last_closed_session(datetime(2026, 10, 16, 19, 0, tzinfo=timezone.utc)) == '2026-10-15'   # Fri 3 pm ET
+    assert ms.last_closed_session(datetime(2026, 10, 18, 15, 0, tzinfo=timezone.utc)) == '2026-10-16'   # Sunday
+    assert ms.last_closed_session(datetime(2027, 1, 18, 23, 0, tzinfo=timezone.utc)) == '2027-01-15'    # MLK Day
