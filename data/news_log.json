@@ -3137,5 +3137,25 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-18-1-hormuz-tankers-hit-mines-fire",
+    "data": {
+      "addedAt": "2026-10-18",
+      "category": "Geopolitics",
+      "date": "2026-10-18",
+      "day": "Sun",
+      "direction": "Bearish",
+      "event": "Iran's IRGC said two oil tankers (~2 million barrels of crude each) hit naval mines in the Strait of Hormuz on Saturday and caught fire -- one after an explosion, the other engulfed in a large blaze. The IRGC claimed the vessels had switched off tracking/radar and attempted an unauthorized route, with one allegedly trying to cross \"with US support.\" Follows a record pace of strait attacks this week, two tanker fires in the Gulf of Oman on Thu/Fri, and two tankers struck off Saudi Arabia on Friday. Trump has ruled out nuclear weapons or ground troops and said he expects a deal after the Nov. 3 US midterms.",
+      "impact": "High",
+      "numbers": "Brent ~$105-110/bbl, WTI ~$97-101/bbl as of Oct 16-18 (up from ~$100/bbl a week earlier); Hormuz tanker traffic fell from ~20.8M bbl (Oct 8) to ~2.9M bbl (Oct 11) per Kpler",
+      "order": 1,
+      "reaction": "No cash-market reaction yet (markets closed); keeps a large geopolitical/energy risk premium heading into Monday's open, with continued upside risk for energy/tanker names and headline risk for broader risk assets if the US responds militarily or the strait disruption deepens.",
+      "region": "Middle East / Global",
+      "source": "https://www.aljazeera.com/news/2026/10/18/iran-says-two-tankers-catch-fire-after-hitting-mines-in-strait-of-hormuz",
+      "tickers": "USO, BNO, XLE, SPY",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
