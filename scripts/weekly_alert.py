@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Friday alert: writes a GitHub issue title/body when Monday's trade has
-anything to do - stock swaps (also the News boost list's), a sleeve switch, or a change in the Auto,
-Boost, Guard or Steps mix (including the bear guard turning on or off). Midweek, an alert goes
-out when Boost + rotation (the default plan) switches, its whipsaw half-switch moves, or the
-blow-off exit sells a stock: all trade at the next session's close.
+"""Week-end alert: writes a GitHub issue title/body when the next session's trade has anything to do -
+stock swaps (also the News boost list's), a sleeve switch, or a change in the Auto, Boost, Guard or Steps
+mix (including the bear guard turning on or off). Signals come from the week's last NYSE session (usually
+Friday's close) and trade at the next session's close (usually Monday). The title leads with the default
+plan (Boost + rotation). Midweek, an alert goes out when Boost + rotation switches, its whipsaw switch
+moves, or the blow-off or surge exit sells a stock: all trade at the next session's close. Data problems
+found by the scan are added to the alert, or sent on their own.
 
-Reads data/momentum_scan.json (written by scripts/momentum_scan.py). Only on a
-signal day (Friday's close); on other days, or when nothing changes, it writes
+Reads data/momentum_scan.json (written by scripts/momentum_scan.py). When nothing changes it writes
 nothing and the workflow skips the issue.
 
 Usage:
@@ -141,8 +142,52 @@ def rotation_now(rt):
                                           else "in the Boost 100% stock list" if m == 'boost' else f"out of stocks, 100% in {m}"))
 
 
+def data_lines(scan):
+    """Data problems found tonight (scripts/momentum_scan.py data_problems), as alert lines."""
+    return [f"- {x}" for x in scan.get('dataIssues') or []]
+
+
+def with_data(res, scan, owner=None):
+    """Adds tonight's data problems to an alert, or makes one of its own when there is nothing else to send."""
+    dl = data_lines(scan)
+    if not dl:
+        return res
+    head = ['### Data problem', *dl, '']
+    if res:
+        title, body = res
+        return title, '\n'.join(head) + '\n' + body
+    lines = [*head, "The plan's rules ran on the data that came in; the lines above say what that changes. "
+             "The next run tries again.", '', f"Details: {PAGE}", '',
+             (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update."]
+    return f"Data problem {fmt(scan['asOf'])}: {(scan.get('dataIssues') or [''])[0]}"[:240], '\n'.join(lines) + '\n'
+
+
+def default_line(rt, bx):
+    """The default plan (Boost + rotation) in one line when it has no switch tonight: what it holds and its stock swaps."""
+    m = (rt or {}).get('mode')
+    if not m:
+        return None, None
+    if m != 'boost':
+        return (f"**Default plan (Boost + rotation):** out of stocks, 100% in {rot_name(m)}: nothing to do",
+                f"default plan: nothing to do (in {'cash' if m == 'CASH' else m})")
+    w = (rt.get('whip') or {})
+    if w.get('half') and (w.get('part') or 0.5) >= 1:
+        return (f"**Default plan (Boost + rotation):** 100% {w['half']} (whipsaw switch): nothing to do",
+                f"default plan: nothing to do ({w['half']})")
+    xs, xb = (bx or {}).get('sell') or [], (bx or {}).get('buy') or []
+    if xs or xb:
+        acts = ', '.join([f"sell {t}" for t in xs] + [f"buy {t}" for t in xb])
+        return f"**Default plan (Boost + rotation), in stocks:** {acts}", f"default plan: {acts}"
+    return "**Default plan (Boost + rotation):** in stocks, no changes", "default plan: no change"
+
+
 def build(scan, owner=None):
-    """(title, body) or None when there's nothing to do Monday (or, midweek, no rotation switch or blow-off sale)."""
+    """(title, body) or None when there's nothing to do Monday (or, midweek, no rotation switch or blow-off sale);
+    tonight's data problems are added, or sent on their own."""
+    return with_data(build_trades(scan, owner), scan, owner)
+
+
+def build_trades(scan, owner=None):
     if not scan.get('signalDay'):
         return midweek(scan, owner)
     ch = scan.get('changes') or {}
@@ -161,8 +206,15 @@ def build(scan, owner=None):
     if wh:
         items.append(wh)
         tags.append(whip_tag(rt))
+    lead_tag, standing = None, set()
+    if not rl and not wh:
+        dl_, lead_tag = default_line(rt, auto.get('boostx') or {})
+        if dl_:
+            items.append(dl_)
+            standing.add(dl_)
     if rt.get('mode') and rt['mode'] != 'boost':
         items.append(f"Boost + rotation is out of stocks ({rt['mode']}): the stock changes below don't apply to it")
+        standing.add(items[-1])
     wl = warn_line(rt)
     if wl and not rt.get('prevWarn'):
         items.append(wl)
@@ -237,13 +289,15 @@ def build(scan, owner=None):
                      + (f", junk vs quality bonds {pct1(cr)} over {cush.get('creditLook', 21)} sessions" if cr is not None else '') + '; '
                      + ("both say weak: move 25% of the stocks into the sleeve" if to_sleeve else "move the sleeve part back into the Boost list") + ")")
         tags.append(f"cushion {cush['split']}")
-    if not items or items == [f"Boost + rotation is out of stocks ({rt.get('mode')}): the stock changes below don't apply to it"]:
-        return None
+    if all(x in standing for x in items):
+        return None       # only the default plan's standing lines: nothing to do under any plan
+    if lead_tag and lead_tag not in tags:
+        tags.insert(0, lead_tag)
     hold = [h['t'] for h in sorted(scan.get('holdings') or [], key=lambda h: h.get('rank') or 99)]
     gw = guard.get('weights') or [1, 0, 0]
     a_s = int((auto.get('split') or '100/0').split('/')[0]) / 100
     lines = [f"Signal from {fmt(scan['asOf'])}'s close. **Trade {fmt(scan['tradeDate'])}, 3:30–4:00 pm ET.**", '',
-             '### What to do Monday', *[f"- {x}" for x in items], '',
+             f"### What to do {date.fromisoformat(scan['tradeDate']).strftime('%A')}", *[f"- {x}" for x in items], '',
              '### After the trades', f"- **Top 5:** {', '.join(hold)} (equal amounts)",
              *([f"- **Boost list:** {', '.join(boost['holdings'])}"] if boost.get('holdings') and set(boost['holdings']) != set(hold) else []),
              *([f"- **Boost 100% / cushion list:** {', '.join(bx['holdings'])}"] if bx.get('holdings') and set(bx['holdings']) != set(boost.get('holdings') or hold) else []),
@@ -398,7 +452,7 @@ def midweek(scan, owner=None):
         why.append(f"The surge exit fired at today's close ({fmt(scan['asOf'])}): {', '.join(sorted(surged))} closed "
                    f"{g.get('up', 0.05) * 100:.0f}%+ up on at least {g.get('vol', 4):g}x its 50-day average volume {g.get('delay', 5)} trading days ago.")
     if not why:
-        why.append(f"A Boost 100% exit fired at today's close ({fmt(scan['asOf'])}).")
+        why.append(f"A Boost 100% sale or refill was decided at today's close ({fmt(scan['asOf'])}).")
     lines = [f"**Trade at the close on {fmt(mw['date'])}:** Boost 100%, Boost + cushion, and Boost + rotation while it holds stocks: " + ', '.join(acts), '',
              ' '.join(why) + " Swap the same dollar amount; the rest of the account stays as it is.",
              *(['', call_line(bx, mw.get('buy') or [], mw.get('sell') or [])] if call_line(bx, mw.get('buy') or [], mw.get('sell') or []) else []),

@@ -2,7 +2,7 @@ name: Top 5 Strongest
 
 # Rebuilds docs/scanner.html - the "Top 5 Strongest" momentum dashboard linked
 # from the Market Tape Ledger page - after each US session closes:
-# scripts/momentum_scan.py ranks the S&P 500 + Nasdaq-100 on daily closes and
+# scripts/momentum_scan.py ranks the S&P 500 on daily closes and
 # replays the weekly rule since 2020, then scripts/render_scanner.py draws the
 # page; scripts/ignition_scan.py adds the "Next big thing watch" (every US
 # stock checked for gap-ups on heavy volume). Holdings only change at the Friday close; weekday runs refresh the
@@ -44,7 +44,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Rank the S&P 500 + Nasdaq-100 and replay the rule
+      - name: Rank the S&P 500 and replay the rule
         # also logs tonight's decision to the default plan's paper record (data/paper_ledger.json, mtl/paper.py)
         env:
           PAPER_LEDGER_WRITE: '1'

@@ -3,28 +3,30 @@
 (docs/scanner.html, rendered by scripts/render_scanner.py).
 
 The rule (same as scripts/backtest_momentum.py's best fair version):
-every week's last session, rank the S&P 500 + Nasdaq-100 stocks by their
+every week's last NYSE session (usually Friday), rank the S&P 500 stocks by their
 6-month return skipping the latest month (126 / 21 sessions), require
 beating SPY over the same window, and hold the top 5 in equal weight; a
-holding stays while it still ranks in the top 10. S&P stocks count only
-from the day they joined the index; the Nasdaq-only members have no join
-dates, so the track record carries a little hindsight from them. A stock
+holding stays while it still ranks in the top 10. Stocks count only from
+the day they joined the index (the Nasdaq-100 names outside the S&P 500 are
+fetched but not picked since Oct 19, 2026). A run on another weekday previews
+the week's decision without trading it (stops aside). A stock
 is skipped for 150 sessions after a one-day close move beyond +200% /
 -80% (unadjusted spin-offs and data glitches read as crashes).
 
 The page's plan pairs the rule with the best-of sleeve (mtl/sleeve.py), whichever
 of gold / bonds / dollar / commodities / T-bills had the best 6 months, no
-leverage. 'Auto' (the default) holds 100% in the top 5 and moves to 60/40 for
+leverage. 'Auto' holds 100% in the top 5 and moves to 60/40 for
 the week when 2 or more holdings are in a daily lower-low downtrend at Friday's
 close (the swing read shown on each card). 'Steps' scales with the count instead:
 1 holding down -> 80/20, 2 -> 60/40, 3+ -> 40/60. Fixed 100/0, 80/20 and 60/40 mixes
 are offered too. The default plan is Boost + rotation (mtl/rotation.py): the Boost 100%
-list, moved into TLT / GLD (or T-bills) when SPY's swing structure turns down, and half of it
-moved into whichever of TLT / GLD / SPY is up most over 3 months while most of the list's recent
-sales were losers (the whipsaw half-switch; it stands aside while the 10-year yield and gold
-are both up over 3 months), decided at any close and traded at the next. Signals come from each Friday's close; trades (stocks,
-sleeve switch, reset to the split) are made on Monday before the close, and the
-track record is computed that way.
+list, moved into TLT / GLD (or cash, the account can't hold T-bills) when SPY's swing structure turns down,
+and all of it moved into whichever of TLT / GLD / SPY is up most over 3 months while most of the list's recent
+sales were losers (the whipsaw switch; it stands aside while the 10-year yield and gold
+are both up over 3 months), decided at any close and traded at the next. Signals come from each week's last
+close; trades (stocks, sleeve switch, reset to the split) are made at the next session's close (usually
+Monday), and the track record is computed that way. Data problems that change or stop a rule are listed
+in the payload's dataIssues (shown on the page and sent as an alert).
 
 Usage:
     python scripts/momentum_scan.py               # writes data/momentum_scan.json
@@ -39,6 +41,7 @@ from datetime import date, datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
+from mtl.calendar_nyse import add_trading_days, known as nyse_known, month_end_session, next_trading_day, week_end_session, week_ended  # noqa: E402
 from mtl.momentum import blowoff_exit, last_sessions_of_weeks, surge_exit, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.heat import daily_closes, daily_heat, price_volume, weekly_heat  # noqa: E402
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
@@ -65,7 +68,7 @@ START, LOOK, SKIP, TOP_N, TABLE = '2010-01-04', 126, 21, 5, 100
 # #1 holding at 2x was tried and reverted - it did worse on 2000-2009 data the rules were never tuned on.)
 WIN = None
 RANK = {}
-RK = {}
+RK = dict(open_end=True)   # live runs: the last day is a week-end only if it is the week's last NYSE session
 GLITCH_BLOCK = 150
 HEAT_EXTRA = ('AAPL', 'GOOGL', 'MSFT', 'NVDA', 'JNJ', 'UNH')   # always shown in the daily heatmap
 PV3D_OTHERS = ['AAPL', 'NVDA', 'MSFT', 'SPY', 'QQQ']   # reference tickers beside the top 10 in the 3D price-volume chart
@@ -254,20 +257,13 @@ def month_ends(calendar):
 
 
 def last_business_day(d):
-    """The last weekday of d's month (holidays aside)."""
-    nxt = (d.replace(day=28) + timedelta(days=4)).replace(day=1)
-    x = nxt - timedelta(days=1)
-    while x.weekday() >= 5:
-        x -= timedelta(days=1)
-    return x
+    """The last NYSE session of d's month."""
+    return date.fromisoformat(month_end_session(d))
 
 
 def next_session(d_):
-    """The next weekday after d_ (holidays aside)."""
-    x = date.fromisoformat(d_) + timedelta(days=1)
-    while x.weekday() > 4:
-        x += timedelta(days=1)
-    return x.isoformat()
+    """The next NYSE session after d_ (weekends and market holidays skipped)."""
+    return next_trading_day(d_).isoformat()
 
 
 WARN_HOLD = 63   # sessions a downtrend-warning call is held before it is scored
@@ -299,13 +295,8 @@ def warn_calls_block(warn, calendar, K, spy_px, asset_px, hold=WARN_HOLD, plan_p
         duo = (t + g) / 2
         done = k + hold <= K
         due = calendar[k + hold] if done else None
-        if not done:   # the weekday k + hold sessions on (holidays not counted)
-            n_, x_ = k + hold - K, date.fromisoformat(calendar[K])
-            while n_ > 0:
-                x_ += timedelta(days=1)
-                if x_.weekday() < 5:
-                    n_ -= 1
-            due = x_.isoformat()
+        if not done:   # the NYSE session k + hold sessions on
+            due = add_trading_days(calendar[K], k + hold - K)
         rows.append(dict(d=d_, c=c['c'], note=c.get('note') or '', spy=r4(spy_r), plan=r4(pl), duo=r4(duo), done=done, due=due,
                          right=(duo > pl) == (c['c'] == 'out') if done else None))
     sc = [x for x in rows if x['done']]
@@ -411,6 +402,39 @@ def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
                 log=switch_log(modes, why))
 
 
+def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, held, logged):
+    """Plain-language problems with tonight's data that change (or stop) a rule: a series a rule needs
+    is missing or more than a session old, a stock the plan holds has no price or has left the S&P 500,
+    or many stocks failed to download. The page shows them and the alert step opens an issue."""
+    out, prev = [], calendar[-2] if len(calendar) > 1 else as_of
+
+    def last(ser):
+        return max(ser) if ser else None
+    for name, ser, what in (
+            ('the 10-year Treasury yield (^TNX)', rate_px, "the rate/gold rule can't run, so the whipsaw switch can't stand aside"),
+            ('the VIX', vix_px, "the narrow-market rule can't run"),
+            ('RSP (equal-weight S&P 500)', {b[0]: 1 for b in bench.get('RSP') or []}, "the narrow-market rule can't run"),
+            ('TLT', {b[0]: 1 for b in asset_bars.get('TLT') or []}, "the bond haven can't be read"),
+            ('GLD', {b[0]: 1 for b in asset_bars.get('GLD') or []}, "the gold haven can't be read")):
+        ld = last(ser)
+        if ld is None:
+            out.append(f"No data for {name}: {what}.")
+        elif ld < prev:
+            out.append(f"{name} stops on {ld} (data through {as_of} expected): {what} on current data.")
+    for t in sorted(set(held) | set(logged)):
+        if t not in sp:
+            out.append(f"{t} has left the S&P 500 list: the plan no longer ranks it, so no sell signal will show. "
+                       f"If you hold it, sell it at the next close.")
+        elif not bars.get(t) or bars[t][-1][0] < as_of:
+            out.append(f"{t} (held by the plan) has no price for {as_of}: check the stock before trading.")
+    miss = sorted(t for t in sp if not bars.get(t))
+    if len(miss) > 10:
+        out.append(f"{len(miss)} S&P 500 stocks returned no prices (e.g. {', '.join(miss[:5])}): rankings and sales may be off.")
+    if not nyse_known(add_trading_days(as_of, 25)):
+        out.append("The NYSE holiday list (mtl/calendar_nyse.py) ends within 5 weeks: add next year's closures.")
+    return out
+
+
 def main():
     names = momentum_universe(refresh='--no-refresh' not in sys.argv)
     sp = load_sp500()
@@ -438,9 +462,11 @@ def main():
     blocked = {t: blocked_dates(bs) for t, bs in bars.items()}
 
     def eligible(t, d):
-        if d in blocked.get(t, ()):
+        # picks come from S&P 500 members only (since Oct 19, 2026; the Nasdaq-100 names outside the S&P 500 were
+        # dropped: the plan was tested on S&P 500 members, and adding them did worse point in time)
+        if t not in sp or d in blocked.get(t, ()):
             return False
-        return t not in sp or added.get(t, '0000') <= d
+        return added.get(t, '0000') <= d
 
     # decided on each Friday close, traded at Monday's close (you can't trade after the bell)
     r = run_momentum(prices, calendar, START, look=LOOK, skip=SKIP, top_n=TOP_N, eligible=eligible,
@@ -499,7 +525,7 @@ def main():
     # ranks 1-20 carry the swing chart (on-deck cards open it); the next few keep a sparkline
     table = [row(t, detail='chart' if i < 20 else i < 25) for i, (t, _) in enumerate(now[:TABLE])]
     # on a Friday the cards show what to own after Monday's trades (new buys flagged)
-    signal_day = date.fromisoformat(as_of).weekday() == 4
+    signal_day = week_ended(as_of)   # the week's last NYSE session: a Friday, or a Thursday before a Friday holiday
     held_rows = []
     shown = preview if signal_day else holdings
     if signal_day or not r['weights']:   # Monday's weights: equal
@@ -532,8 +558,7 @@ def main():
         held = rr['picks'][-1][1] if rr['picks'] else []
         after = held
         if signal_day:
-            nd = (today_d := date.fromisoformat(as_of)) + timedelta(days=3 if today_d.weekday() == 4 else 1)
-            nd = nd.isoformat()
+            nd = next_session(as_of)
             added_px = [t for t in prices if prices[t].get(as_of)]
             for t in added_px:
                 prices[t][nd] = prices[t][as_of]
@@ -671,7 +696,7 @@ def main():
     # ... plus the whipsaw half-switch: when most of the Boost list's recent sales were losers, half
     # goes into whichever of TLT / GLD / SPY is up most over 3 months (skipping weekly downtrends)
     whip_px = {**filled(sleeve_px, calendar), 'SPY': prices['SPY']}
-    whip_on = whipsaw(picks_whip, prices, calendar, START)
+    whip_on = whipsaw(picks_whip, prices, calendar, START, open_end=True)
     # ... except while the 10-year yield and gold are both up over 3 months (reflation): then it stays in the Boost list
     regime = reflation(rate_px, whip_px.get('GLD') or {}, calendar)
     whip_half = whip_halves(rot_modes, whip_on, rot_read, whip_px, calendar, skip=regime)
@@ -721,12 +746,10 @@ def main():
     curves['monthly'] = growth(m_auto)
     curves['monthlyBoost'] = growth(m_boost)
     today_d = date.fromisoformat(as_of)
-    dec_d = last_business_day(today_d)          # holidays aside
+    dec_d = last_business_day(today_d)          # the month's last NYSE session
     if dec_d < today_d:
         dec_d = last_business_day(dec_d + timedelta(days=7))
-    trd_d = dec_d + timedelta(days=1)
-    while trd_d.weekday() >= 5:
-        trd_d += timedelta(days=1)
+    trd_d = next_trading_day(dec_d)
     last_dec = months[-1] if months else None
 
     def monthly_block(run, held_fn, split_fn, curve):
@@ -830,20 +853,15 @@ def main():
         w_ = [vol_.get(calendar[i_]) for i_ in range(j - 50, j) if vol_.get(calendar[i_])]
         return dict(t=t, d=calendar[j], up=r4(px_[calendar[j]] / px_[calendar[j - 1]] - 1), x=round(vol_[calendar[j]] / (sum(w_) / len(w_)), 1))
 
-    def sessions_ahead(n):   # the weekday n sessions after as_of (holidays not counted)
-        d_ = date.fromisoformat(as_of)
-        while n > 0:
-            d_ += timedelta(days=1)
-            if d_.weekday() < 5:
-                n -= 1
-        return d_.isoformat()
+    def sessions_ahead(n):   # the NYSE session n sessions after as_of
+        return add_trading_days(as_of, n)
     # holdings with a surge in the last SURGE_DELAY sessions while held: sold on the scheduled day unless an
     # earlier rule sells them first
     surge_pending = []
     for t in after_bx:
         for j in sorted(surge_now.events(t)):
             if K - SURGE_DELAY < j <= K and t in held_at_bx(calendar[j]):
-                surge_pending.append(dict(surge_info(t, j), sell=sessions_ahead(j + SURGE_DELAY - K)))
+                surge_pending.append(dict(surge_info(t, j), sell=sessions_ahead(j + SURGE_DELAY + 1 - K)))   # decided j + delay, sold at the next close
     surge_log = []   # surge days of stocks held at the time, last 6 months (most recent first)
     for t in sorted({x for p_ in picks_bx for x in p_[1]}):
         for j in surge_now.events(t):
@@ -902,9 +920,7 @@ def main():
     # session's close: flag it so the alert can go out the same evening
     pend_bx = rbx.get('pending')
     if not signal_day and pend_bx is not None and set(pend_bx) != set(hold_bx):
-        nd_ = date.fromisoformat(as_of) + timedelta(days=1)
-        while nd_.weekday() > 4:
-            nd_ += timedelta(days=1)
+        nd_ = next_trading_day(as_of)
         auto['boostx']['midweek'] = dict(
             date=nd_.isoformat(), sell=[t for t in hold_bx if t not in pend_bx], buy=[t for t in pend_bx if t not in hold_bx],
             blown=[t for t in hold_bx if t not in pend_bx and blow_now(t, K)],
@@ -987,7 +1003,7 @@ def main():
     human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_]), round(strat_b_val.get(d_, v), 6), round(strat_bx_val.get(d_, v), 6)] for d_, v in strat
                   if d_ >= HUMAN_FROM and d_ in sl_val and bil.get(d_)]
     nxt = {calendar[i]: calendar[i + 1] for i in range(len(calendar) - 1)}
-    coming_trade = (today + timedelta(days=(4 - today.weekday()) % 7 + 3)).isoformat()
+    coming_trade = next_session(week_end_session(today))
     human_weeks = [[f_, nxt.get(f_, coming_trade), auto_split(f_), steps_split(f_), auto_split_b(f_), cushion_split(f_)]
                    for f_ in [calendar[k] for k in week_ends] + ([as_of] if signal_day else [])
                    if f_ >= HUMAN_FROM]
@@ -1039,6 +1055,8 @@ def main():
     # run (PAPER_LEDGER_WRITE=1) and only after the close - then score the ledger and replay each logged day
     paper_fp, paper_files = paper_rec.fingerprint(ROOT)
     ledger = paper_rec.load(PAPER_PATH) or paper_rec.new_ledger(paper_fp, paper_files)
+    data_issues = data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, hold_bx,
+                                ((ledger.get('entries') or [{}])[-1].get('list') or []))
     p_idx = {d_: i for i, d_ in enumerate(calendar)}
     p_days = [p_[0] for p_ in picks_bx]
 
@@ -1078,14 +1096,14 @@ def main():
                 r_['rev'] = revs[r_['t']]
         if signal_day and revs:
             log_revisions(REVISIONS_LOG, as_of, revs, {t: rank.get(t) for t in revs})
-    signal_date = today + timedelta(days=(4 - today.weekday()) % 7)   # today if Friday, else the coming Friday
-    trade_date = signal_date + timedelta(days=3)
+    signal_date = date.fromisoformat(as_of if signal_day else week_end_session(today))   # this week's last NYSE session
+    trade_date = next_trading_day(signal_date)
     payload = dict(
         generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'), asOf=as_of,
         lastRebalance=last_rebalance, signalDay=signal_day, signalDate=signal_date.isoformat(),
         tradeDate=trade_date.isoformat(),
         rule=dict(look=LOOK, skip=SKIP, topN=TOP_N, keepRank=2 * TOP_N, start=START),
-        universe=dict(total=len(names), sp=sum(1 for t in names if t in sp), ndxOnly=sum(1 for t in names if t not in sp)),
+        universe=dict(total=len(names), sp=sum(1 for t in names if t in sp), ndxOnly=sum(1 for t in names if t not in sp), picks='sp'),
         spyScore=r4(spy_score), holdings=held_rows, preview=preview,
         changes=dict(sell=[t for t in holdings if t not in preview], buy=[t for t in preview if t not in holdings]),
         trades=[dict(d=d_, side=s, t=t, n=names.get(t, ('', ''))[0], px=r4(prices[t].get(d_)))
@@ -1107,7 +1125,8 @@ def main():
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
         monthly=monthly,
         option=option_check(held_rows, bars, as_of, calendar, signal_day),
-        plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto, you2=you2, paper=paper))
+        plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto, you2=you2, paper=paper),
+        dataIssues=data_issues)
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)

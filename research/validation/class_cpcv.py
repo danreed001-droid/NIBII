@@ -4,7 +4,7 @@ Question: does teaching the stock ranking a layer of classes (macro-sector, size
 better stocks than the plain ranking? Everything is graded on the exact horizon of a weekly trade.
 
 Steps
-  1. Universe: S&P 500 members at each date (delisted ones included), from the engine's data cache.
+  1. Universe: S&P 500 members at each date that have price history (58% of members in 2000, over 90% since 2020), from the engine's data cache.
   2. Classes, measured with data up to each Friday:
        macro-sector  5 groups (reviewer's map of the 11 sectors),
        size          thirds by trailing 1-year average daily trading value (free data has no history of market

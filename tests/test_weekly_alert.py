@@ -234,3 +234,26 @@ def test_whipsaw_half_stands_aside_when_rates_and_gold_rise():
     title, body = alert.build(s)
     assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw off'
     assert 'stands aside' in body and 'sell GLD, put that half back into the Boost list' in body
+
+
+def test_title_leads_with_the_default_plan():
+    s = scan(changes={'sell': ['MRVL'], 'buy': ['MU']})
+    s['plan']['auto']['rotation'] = dict(mode='CASH', held='CASH', log=[])
+    title, body = alert.build(s, None)
+    assert title.startswith('Trade Mon Oct 5: default plan: nothing to do (in cash)')
+    assert '### What to do Monday' in body and 'out of stocks, 100% in cash' in body
+    s2 = scan(changes={'sell': ['MRVL'], 'buy': ['MU']}, tradeDate='2026-12-28', asOf='2026-12-24')
+    s2['plan']['auto']['rotation'] = dict(mode='boost', held='boost', log=[])
+    s2['plan']['auto']['boostx'] = dict(sell=['MRVL'], buy=['MU'])
+    title2, body2 = alert.build(s2, None)
+    assert title2.startswith('Trade Mon Dec 28: default plan: sell MRVL, buy MU')
+
+
+def test_data_problems_alert_on_their_own_or_inside_a_trade_alert():
+    s = scan(dataIssues=['No data for the VIX: the narrow-market rule can’t run.'])
+    title, body = alert.build(s, None)
+    assert title.startswith('Data problem Fri Oct 2') and '### Data problem' in body
+    s2 = scan(changes={'sell': ['MRVL'], 'buy': ['MU']}, dataIssues=['MU (held by the plan) has no price for 2026-10-02'])
+    title2, body2 = alert.build(s2, None)
+    assert title2.startswith('Trade Mon Oct 5') and body2.startswith('### Data problem')
+    assert alert.build(scan(signalDay=False, dataIssues=['x'])) is not None   # weekdays too
