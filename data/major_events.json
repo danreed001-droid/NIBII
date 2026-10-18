@@ -1,0 +1,1091 @@
+{
+ "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
+ "updated": "2026-10-18T23:44:55+00:00",
+ "events": [
+  {
+   "d": "2000-03-10",
+   "what": "Dot-com peak: Nasdaq closes at its record 5,049",
+   "src": "curated",
+   "day": -0.0053,
+   "month": 0.0735
+  },
+  {
+   "d": "2000-04-14",
+   "what": "Nasdaq crashes 9.7% in a day as the dot-com bubble bursts",
+   "src": "curated",
+   "day": -0.0572,
+   "month": 0.0169
+  },
+  {
+   "d": "2000-05-16",
+   "what": "Fed hikes 0.50% to 6.5%, the last hike before the bust",
+   "src": "curated",
+   "day": 0.0097,
+   "month": 0.0198
+  },
+  {
+   "d": "2001-01-03",
+   "what": "Surprise Fed cut",
+   "src": "curated",
+   "day": 0.048,
+   "month": 0.0465
+  },
+  {
+   "d": "2001-04-18",
+   "what": "Surprise Fed cut",
+   "src": "curated",
+   "day": 0.0397,
+   "month": 0.0829
+  },
+  {
+   "d": "2001-09-17",
+   "what": "9/11 attacks: market reopens after 4 days closed",
+   "src": "curated",
+   "day": -0.0522,
+   "month": 0.0032
+  },
+  {
+   "d": "2001-12-03",
+   "what": "Enron bankruptcy",
+   "src": "curated",
+   "day": -0.006,
+   "month": 0.028
+  },
+  {
+   "d": "2002-07-22",
+   "what": "WorldCom bankruptcy",
+   "src": "curated",
+   "day": -0.0296,
+   "month": 0.1143
+  },
+  {
+   "d": "2002-10-09",
+   "what": "Dot-com bear market bottoms (S&P 777, −49% from 2000)",
+   "src": "curated",
+   "day": -0.0282,
+   "month": 0.1293
+  },
+  {
+   "d": "2003-03-20",
+   "what": "Iraq war begins",
+   "src": "curated",
+   "day": 0.0022,
+   "month": 0.0233
+  },
+  {
+   "d": "2003-06-25",
+   "what": "Fed cuts to 1%, a 45-year low",
+   "src": "curated",
+   "day": -0.01,
+   "month": 0.0174
+  },
+  {
+   "d": "2004-06-30",
+   "what": "Fed starts hiking from 1% (17 straight hikes follow)",
+   "src": "curated",
+   "day": 0.0054,
+   "month": -0.027
+  },
+  {
+   "d": "2005-08-29",
+   "what": "Hurricane Katrina hits New Orleans; oil and gasoline spike",
+   "src": "curated",
+   "day": 0.0077,
+   "month": 0.0118
+  },
+  {
+   "d": "2006-06-29",
+   "what": "Fed's last hike of the cycle, to 5.25%",
+   "src": "curated",
+   "day": 0.0202,
+   "month": 0.0248
+  },
+  {
+   "d": "2007-02-27",
+   "what": "China stock crash spreads worldwide",
+   "src": "curated",
+   "day": -0.0391,
+   "month": -0.0192
+  },
+  {
+   "d": "2007-07-17",
+   "what": "Bear Stearns says two subprime hedge funds are nearly wiped out",
+   "src": "curated",
+   "day": -0.0005,
+   "month": -0.0891
+  },
+  {
+   "d": "2007-08-09",
+   "what": "BNP Paribas freezes funds",
+   "src": "curated",
+   "day": -0.0296,
+   "month": -0.027
+  },
+  {
+   "d": "2007-08-17",
+   "what": "Fed discount-rate cut",
+   "src": "curated",
+   "day": 0.0184,
+   "month": 0.0729
+  },
+  {
+   "d": "2007-09-18",
+   "what": "Fed's first cut of the crisis, 0.50%",
+   "src": "curated",
+   "day": 0.0294,
+   "month": 0.0465
+  },
+  {
+   "d": "2007-10-09",
+   "what": "S&P 500 peaks before the financial crisis",
+   "src": "curated",
+   "day": 0.0094,
+   "month": -0.0459
+  },
+  {
+   "d": "2008-01-22",
+   "what": "Emergency Fed cut 0.75%",
+   "src": "curated",
+   "day": -0.0101,
+   "month": 0.0207
+  },
+  {
+   "d": "2008-03-14",
+   "what": "Bear Stearns collapse",
+   "src": "curated",
+   "day": -0.0155,
+   "month": 0.0171
+  },
+  {
+   "d": "2008-07-11",
+   "what": "IndyMac bank seized",
+   "src": "curated",
+   "day": -0.0117,
+   "month": 0.0432
+  },
+  {
+   "d": "2008-07-13",
+   "what": "Treasury plan to rescue Fannie Mae and Freddie Mac",
+   "src": "curated",
+   "day": -0.009,
+   "month": 0.0445
+  },
+  {
+   "d": "2008-09-08",
+   "what": "Fannie/Freddie takeover",
+   "src": "curated",
+   "day": 0.0207,
+   "month": -0.1914
+  },
+  {
+   "d": "2008-09-15",
+   "what": "Lehman bankruptcy",
+   "src": "curated",
+   "day": -0.0476,
+   "month": -0.2035
+  },
+  {
+   "d": "2008-09-16",
+   "what": "AIG bailed out ($85B)",
+   "src": "curated",
+   "day": 0.0167,
+   "month": -0.2461
+  },
+  {
+   "d": "2008-09-19",
+   "what": "TARP plan + short-sale ban",
+   "src": "curated",
+   "day": 0.0397,
+   "month": -0.1723
+  },
+  {
+   "d": "2008-09-25",
+   "what": "Washington Mutual seized: largest US bank failure",
+   "src": "curated",
+   "day": 0.0156,
+   "month": -0.2681
+  },
+  {
+   "d": "2008-09-29",
+   "what": "House rejects TARP",
+   "src": "curated",
+   "day": -0.0784,
+   "month": -0.2242
+  },
+  {
+   "d": "2008-10-03",
+   "what": "TARP passes",
+   "src": "curated",
+   "day": -0.0135,
+   "month": -0.1318
+  },
+  {
+   "d": "2008-10-08",
+   "what": "Coordinated global rate cut",
+   "src": "curated",
+   "day": -0.0252,
+   "month": -0.0917
+  },
+  {
+   "d": "2008-10-13",
+   "what": "Bank recapitalisation plans",
+   "src": "curated",
+   "day": 0.1452,
+   "month": 0.0144
+  },
+  {
+   "d": "2008-11-25",
+   "what": "QE1 announced",
+   "src": "curated",
+   "day": 0.0074,
+   "month": 0.0334
+  },
+  {
+   "d": "2008-12-16",
+   "what": "Fed cuts to zero (0–0.25%)",
+   "src": "curated",
+   "day": 0.0471,
+   "month": -0.0228
+  },
+  {
+   "d": "2009-02-17",
+   "what": "Obama stimulus (ARRA, $787B) signed",
+   "src": "curated",
+   "day": -0.0428,
+   "month": -0.0342
+  },
+  {
+   "d": "2009-03-09",
+   "what": "Financial-crisis bear market bottoms (S&P 676)",
+   "src": "curated",
+   "day": -0.0118,
+   "month": 0.1932
+  },
+  {
+   "d": "2009-03-18",
+   "what": "QE1 expanded",
+   "src": "curated",
+   "day": 0.0224,
+   "month": 0.1218
+  },
+  {
+   "d": "2009-03-23",
+   "what": "Toxic-asset plan (PPIP)",
+   "src": "curated",
+   "day": 0.0718,
+   "month": 0.1021
+  },
+  {
+   "d": "2009-05-07",
+   "what": "Bank stress-test results released",
+   "src": "curated",
+   "day": -0.0139,
+   "month": 0.0219
+  },
+  {
+   "d": "2010-04-27",
+   "what": "Greece cut to junk",
+   "src": "curated",
+   "day": -0.0237,
+   "month": -0.1169
+  },
+  {
+   "d": "2010-05-06",
+   "what": "Flash crash (Dow −1,000 in minutes) amid Greek riots",
+   "src": "curated",
+   "day": -0.0332,
+   "month": -0.097
+  },
+  {
+   "d": "2010-05-10",
+   "what": "EU-IMF Greece bailout fund",
+   "src": "curated",
+   "day": 0.044,
+   "month": -0.0468
+  },
+  {
+   "d": "2010-07-21",
+   "what": "Dodd-Frank financial reform signed",
+   "src": "curated",
+   "day": -0.013,
+   "month": -0.0055
+  },
+  {
+   "d": "2010-08-27",
+   "what": "Bernanke hints QE2",
+   "src": "curated",
+   "day": 0.0155,
+   "month": 0.0955
+  },
+  {
+   "d": "2010-11-03",
+   "what": "QE2 announced",
+   "src": "curated",
+   "day": 0.004,
+   "month": 0.0286
+  },
+  {
+   "d": "2011-03-11",
+   "what": "Japan earthquake / Fukushima",
+   "src": "curated",
+   "day": 0.0069,
+   "month": 0.0238
+  },
+  {
+   "d": "2011-08-02",
+   "what": "Debt-ceiling deal signed hours before default",
+   "src": "curated",
+   "day": -0.0255,
+   "month": -0.0509
+  },
+  {
+   "d": "2011-08-04",
+   "what": "Euro debt crisis spreads to Italy/Spain",
+   "src": "curated",
+   "day": -0.0468,
+   "month": -0.0659
+  },
+  {
+   "d": "2011-08-08",
+   "what": "US credit downgrade",
+   "src": "curated",
+   "day": -0.0651,
+   "month": 0.0017
+  },
+  {
+   "d": "2011-09-21",
+   "what": "Operation Twist",
+   "src": "curated",
+   "day": -0.0295,
+   "month": 0.0124
+  },
+  {
+   "d": "2011-11-01",
+   "what": "Greek referendum call",
+   "src": "curated",
+   "day": -0.0279,
+   "month": -0.0042
+  },
+  {
+   "d": "2011-11-30",
+   "what": "Central-bank dollar swap lines",
+   "src": "curated",
+   "day": 0.0411,
+   "month": 0.052
+  },
+  {
+   "d": "2012-05-07",
+   "what": "Greek election chaos",
+   "src": "curated",
+   "day": 0.0007,
+   "month": -0.0367
+  },
+  {
+   "d": "2012-07-26",
+   "what": "Draghi: \"whatever it takes\"",
+   "src": "curated",
+   "day": 0.0165,
+   "month": 0.0564
+  },
+  {
+   "d": "2012-09-06",
+   "what": "ECB bond-buying plan",
+   "src": "curated",
+   "day": 0.0203,
+   "month": 0.0427
+  },
+  {
+   "d": "2012-09-13",
+   "what": "QE3 announced",
+   "src": "curated",
+   "day": 0.0152,
+   "month": -0.0051
+  },
+  {
+   "d": "2012-12-12",
+   "what": "QE3 expanded",
+   "src": "curated",
+   "day": 0.0005,
+   "month": 0.0319
+  },
+  {
+   "d": "2013-01-02",
+   "what": "Fiscal-cliff tax deal passes",
+   "src": "curated",
+   "day": 0.0256,
+   "month": 0.062
+  },
+  {
+   "d": "2013-03-18",
+   "what": "Cyprus deposit grab",
+   "src": "curated",
+   "day": -0.0055,
+   "month": -0.0046
+  },
+  {
+   "d": "2013-05-22",
+   "what": "Taper tantrum",
+   "src": "curated",
+   "day": -0.0074,
+   "month": -0.0434
+  },
+  {
+   "d": "2013-10-01",
+   "what": "Government shutdown",
+   "src": "curated",
+   "day": 0.0079,
+   "month": 0.0493
+  },
+  {
+   "d": "2013-12-18",
+   "what": "Fed starts tapering",
+   "src": "curated",
+   "day": 0.0171,
+   "month": 0.0366
+  },
+  {
+   "d": "2014-09-30",
+   "what": "Ebola reaches the US",
+   "src": "curated",
+   "day": -0.0026,
+   "month": 0.0029
+  },
+  {
+   "d": "2014-10-15",
+   "what": "Treasury \"flash rally\" and stock sell-off",
+   "src": "curated",
+   "day": -0.0068,
+   "month": 0.0879
+  },
+  {
+   "d": "2014-11-28",
+   "what": "OPEC refuses to cut (oil crash)",
+   "src": "curated",
+   "day": -0.0021,
+   "month": 0.0053
+  },
+  {
+   "d": "2015-01-15",
+   "what": "Swiss franc unpegged",
+   "src": "curated",
+   "day": -0.0092,
+   "month": 0.0461
+  },
+  {
+   "d": "2015-01-22",
+   "what": "ECB starts QE",
+   "src": "curated",
+   "day": 0.0149,
+   "month": 0.04
+  },
+  {
+   "d": "2015-06-29",
+   "what": "Greek capital controls",
+   "src": "curated",
+   "day": -0.021,
+   "month": 0.0045
+  },
+  {
+   "d": "2015-07-13",
+   "what": "Greek deal reached",
+   "src": "curated",
+   "day": 0.011,
+   "month": 0.0057
+  },
+  {
+   "d": "2015-08-11",
+   "what": "China devalues the yuan",
+   "src": "curated",
+   "day": -0.009,
+   "month": -0.0699
+  },
+  {
+   "d": "2015-08-24",
+   "what": "\"Black Monday\": Dow drops 1,000 points at the open on China fears",
+   "src": "curated",
+   "day": -0.0421,
+   "month": -0.0163
+  },
+  {
+   "d": "2015-12-16",
+   "what": "Fed's first hike since 2006",
+   "src": "curated",
+   "day": 0.0146,
+   "month": -0.0773
+  },
+  {
+   "d": "2016-01-07",
+   "what": "China halts its stock market twice in a week; worst start to a year on record",
+   "src": "curated",
+   "day": -0.024,
+   "month": -0.0674
+  },
+  {
+   "d": "2016-01-29",
+   "what": "Bank of Japan adopts negative rates",
+   "src": "curated",
+   "day": 0.0244,
+   "month": 0.0476
+  },
+  {
+   "d": "2016-02-11",
+   "what": "Oil bottoms near $26; stocks bottom with it",
+   "src": "curated",
+   "day": -0.013,
+   "month": 0.093
+  },
+  {
+   "d": "2016-06-24",
+   "what": "Brexit vote",
+   "src": "curated",
+   "day": -0.0359,
+   "month": 0.0282
+  },
+  {
+   "d": "2016-11-09",
+   "what": "Trump wins the 2016 election (feared shock, then a rally)",
+   "src": "curated",
+   "day": 0.0106,
+   "month": 0.0579
+  },
+  {
+   "d": "2017-08-08",
+   "what": "North Korea \"fire and fury\"",
+   "src": "curated",
+   "day": -0.0025,
+   "month": -0.004
+  },
+  {
+   "d": "2017-12-22",
+   "what": "Tax Cuts and Jobs Act signed (corporate tax to 21%)",
+   "src": "curated",
+   "day": -0.0003,
+   "month": 0.0587
+  },
+  {
+   "d": "2018-02-05",
+   "what": "\"Volmageddon\": VIX doubles, Dow falls 1,175 points",
+   "src": "curated",
+   "day": -0.0418,
+   "month": -0.0097
+  },
+  {
+   "d": "2018-03-22",
+   "what": "China tariffs announced",
+   "src": "curated",
+   "day": -0.025,
+   "month": -0.0143
+  },
+  {
+   "d": "2018-10-03",
+   "what": "Powell: long way from neutral",
+   "src": "curated",
+   "day": 0.0005,
+   "month": -0.0619
+  },
+  {
+   "d": "2018-12-24",
+   "what": "Christmas Eve sell-off amid government shutdown (bottom of the 2018 drop)",
+   "src": "curated",
+   "day": -0.0264,
+   "month": 0.1042
+  },
+  {
+   "d": "2019-01-04",
+   "what": "Powell pivot (\"patient\")",
+   "src": "curated",
+   "day": 0.0335,
+   "month": 0.1183
+  },
+  {
+   "d": "2019-05-06",
+   "what": "Tariff-hike tweet",
+   "src": "curated",
+   "day": -0.0041,
+   "month": -0.0376
+  },
+  {
+   "d": "2019-06-04",
+   "what": "Powell: will act as appropriate",
+   "src": "curated",
+   "day": 0.0217,
+   "month": 0.0935
+  },
+  {
+   "d": "2019-07-31",
+   "what": "Fed's first cut since 2008",
+   "src": "curated",
+   "day": -0.0109,
+   "month": -0.0271
+  },
+  {
+   "d": "2019-08-01",
+   "what": "New tariffs on $300B",
+   "src": "curated",
+   "day": -0.0087,
+   "month": -0.0167
+  },
+  {
+   "d": "2019-08-05",
+   "what": "Yuan breaks 7",
+   "src": "curated",
+   "day": -0.0301,
+   "month": 0.0049
+  },
+  {
+   "d": "2019-09-17",
+   "what": "Overnight repo rates spike; Fed injects cash",
+   "src": "curated",
+   "day": 0.0025,
+   "month": -0.0013
+  },
+  {
+   "d": "2020-01-03",
+   "what": "Soleimani killed",
+   "src": "curated",
+   "day": -0.0076,
+   "month": 0.0129
+  },
+  {
+   "d": "2020-01-23",
+   "what": "Wuhan lockdown",
+   "src": "curated",
+   "day": 0.0011,
+   "month": -0.0269
+  },
+  {
+   "d": "2020-02-19",
+   "what": "S&P 500 peaks before Covid",
+   "src": "curated",
+   "day": 0.0048,
+   "month": -0.2857
+  },
+  {
+   "d": "2020-02-24",
+   "what": "Covid spreads to Italy/Korea",
+   "src": "curated",
+   "day": -0.0332,
+   "month": -0.2666
+  },
+  {
+   "d": "2020-03-03",
+   "what": "Emergency Fed cut",
+   "src": "curated",
+   "day": -0.0286,
+   "month": -0.1989
+  },
+  {
+   "d": "2020-03-09",
+   "what": "Saudi-Russia oil price war: S&P −7.6%, first circuit breaker since 1997",
+   "src": "curated",
+   "day": -0.0781,
+   "month": -0.1034
+  },
+  {
+   "d": "2020-03-12",
+   "what": "Pandemic declared / Europe travel ban",
+   "src": "curated",
+   "day": -0.0957,
+   "month": 0.0106
+  },
+  {
+   "d": "2020-03-16",
+   "what": "Fed cuts to zero + QE",
+   "src": "curated",
+   "day": -0.1094,
+   "month": 0.0374
+  },
+  {
+   "d": "2020-03-23",
+   "what": "Fed: unlimited QE (the Covid low)",
+   "src": "curated",
+   "day": -0.0256,
+   "month": 0.2198
+  },
+  {
+   "d": "2020-03-26",
+   "what": "CARES Act passes",
+   "src": "curated",
+   "day": 0.0584,
+   "month": 0.1631
+  },
+  {
+   "d": "2020-04-09",
+   "what": "Fed $2.3T lending",
+   "src": "curated",
+   "day": 0.0152,
+   "month": 0.0674
+  },
+  {
+   "d": "2020-04-20",
+   "what": "US oil futures turn negative",
+   "src": "curated",
+   "day": -0.0176,
+   "month": 0.0186
+  },
+  {
+   "d": "2020-11-09",
+   "what": "Pfizer vaccine results",
+   "src": "curated",
+   "day": 0.0126,
+   "month": 0.0477
+  },
+  {
+   "d": "2021-01-27",
+   "what": "GameStop meme-stock squeeze peaks",
+   "src": "curated",
+   "day": -0.0244,
+   "month": -0.0089
+  },
+  {
+   "d": "2021-03-26",
+   "what": "Archegos collapse forces block sales",
+   "src": "curated",
+   "day": 0.0161,
+   "month": 0.0714
+  },
+  {
+   "d": "2021-09-20",
+   "what": "Evergrande debt crisis",
+   "src": "curated",
+   "day": -0.0167,
+   "month": 0.0209
+  },
+  {
+   "d": "2021-11-26",
+   "what": "Omicron variant",
+   "src": "curated",
+   "day": -0.0223,
+   "month": 0.0194
+  },
+  {
+   "d": "2021-11-30",
+   "what": "Powell drops \"transitory\": inflation fight begins",
+   "src": "curated",
+   "day": -0.0195,
+   "month": 0.0285
+  },
+  {
+   "d": "2022-02-24",
+   "what": "Russia invades Ukraine",
+   "src": "curated",
+   "day": 0.015,
+   "month": 0.0762
+  },
+  {
+   "d": "2022-03-16",
+   "what": "Fed's first hike since 2018",
+   "src": "curated",
+   "day": 0.0222,
+   "month": 0.0305
+  },
+  {
+   "d": "2022-06-10",
+   "what": "Inflation hits 8.6%, a 40-year high",
+   "src": "curated",
+   "day": -0.029,
+   "month": -0.0522
+  },
+  {
+   "d": "2022-06-15",
+   "what": "Fed hikes 0.75%, largest since 1994",
+   "src": "curated",
+   "day": 0.0143,
+   "month": 0.026
+  },
+  {
+   "d": "2022-08-26",
+   "what": "Powell hawkish at Jackson Hole",
+   "src": "curated",
+   "day": -0.0338,
+   "month": -0.1302
+  },
+  {
+   "d": "2022-09-23",
+   "what": "UK \"mini-budget\" sets off a gilt crisis",
+   "src": "curated",
+   "day": -0.0168,
+   "month": 0.0124
+  },
+  {
+   "d": "2022-10-12",
+   "what": "Bear market bottoms (S&P 3,577)",
+   "src": "curated",
+   "day": -0.0033,
+   "month": 0.1033
+  },
+  {
+   "d": "2022-11-10",
+   "what": "Softer CPI: S&P +5.5% in a day",
+   "src": "curated",
+   "day": 0.055,
+   "month": 0.0663
+  },
+  {
+   "d": "2022-11-11",
+   "what": "FTX crypto exchange files for bankruptcy",
+   "src": "curated",
+   "day": 0.0097,
+   "month": 0.0184
+  },
+  {
+   "d": "2022-11-30",
+   "what": "ChatGPT launches: start of the AI boom",
+   "src": "curated",
+   "day": 0.0315,
+   "month": -0.0279
+  },
+  {
+   "d": "2023-03-10",
+   "what": "Silicon Valley Bank fails",
+   "src": "curated",
+   "day": -0.0144,
+   "month": 0.0504
+  },
+  {
+   "d": "2023-03-13",
+   "what": "Fed bank backstop after SVB",
+   "src": "curated",
+   "day": -0.0014,
+   "month": 0.0614
+  },
+  {
+   "d": "2023-03-20",
+   "what": "Credit Suisse rescue",
+   "src": "curated",
+   "day": 0.0096,
+   "month": 0.0619
+  },
+  {
+   "d": "2023-05-01",
+   "what": "First Republic Bank seized and sold to JPMorgan",
+   "src": "curated",
+   "day": -0.001,
+   "month": 0.0046
+  },
+  {
+   "d": "2023-05-24",
+   "what": "Nvidia's huge AI forecast sets off the AI rally",
+   "src": "curated",
+   "day": -0.0072,
+   "month": 0.0458
+  },
+  {
+   "d": "2023-06-03",
+   "what": "Debt-ceiling deal signed",
+   "src": "curated",
+   "day": -0.0019,
+   "month": 0.0313
+  },
+  {
+   "d": "2023-07-26",
+   "what": "Fed's last hike of the cycle, to 5.25–5.5%",
+   "src": "curated",
+   "day": 0.0002,
+   "month": -0.0407
+  },
+  {
+   "d": "2023-08-02",
+   "what": "Fitch downgrades the US",
+   "src": "curated",
+   "day": -0.0139,
+   "month": -0.0134
+  },
+  {
+   "d": "2023-10-09",
+   "what": "Hamas attack on Israel",
+   "src": "curated",
+   "day": 0.0064,
+   "month": 0.0172
+  },
+  {
+   "d": "2023-12-13",
+   "what": "Fed signals rate cuts for 2024",
+   "src": "curated",
+   "day": 0.0138,
+   "month": 0.0275
+  },
+  {
+   "d": "2024-04-15",
+   "what": "Iran attacks Israel",
+   "src": "curated",
+   "day": -0.0125,
+   "month": 0.0244
+  },
+  {
+   "d": "2024-08-05",
+   "what": "Yen carry-trade unwind: Nikkei −12%, VIX spikes above 60 intraday",
+   "src": "curated",
+   "day": -0.0291,
+   "month": 0.0339
+  },
+  {
+   "d": "2024-09-18",
+   "what": "Fed's first cut since 2020, 0.50%",
+   "src": "curated",
+   "day": -0.003,
+   "month": 0.0374
+  },
+  {
+   "d": "2024-11-06",
+   "what": "Trump wins the 2024 election; stocks rally",
+   "src": "curated",
+   "day": 0.0249,
+   "month": 0.0539
+  },
+  {
+   "d": "2024-12-18",
+   "what": "Fed signals fewer cuts: S&P −2.9%",
+   "src": "curated",
+   "day": -0.0298,
+   "month": 0.0069
+  },
+  {
+   "d": "2025-01-27",
+   "what": "DeepSeek AI shock",
+   "src": "curated",
+   "day": -0.0141,
+   "month": -0.0221
+  },
+  {
+   "d": "2025-02-19",
+   "what": "S&P 500 peaks before the tariff sell-off",
+   "src": "curated",
+   "day": 0.0024,
+   "month": -0.0752
+  },
+  {
+   "d": "2025-03-10",
+   "what": "Recession and tariff fears: Nasdaq −4%",
+   "src": "curated",
+   "day": -0.0266,
+   "month": -0.1353
+  },
+  {
+   "d": "2025-04-03",
+   "what": "Liberation Day tariffs",
+   "src": "curated",
+   "day": -0.0493,
+   "month": -0.0018
+  },
+  {
+   "d": "2025-04-09",
+   "what": "90-day tariff pause",
+   "src": "curated",
+   "day": 0.105,
+   "month": 0.1367
+  },
+  {
+   "d": "2025-05-12",
+   "what": "US-China tariff truce",
+   "src": "curated",
+   "day": 0.033,
+   "month": 0.0656
+  },
+  {
+   "d": "2025-06-13",
+   "what": "Israel strikes Iran",
+   "src": "curated",
+   "day": -0.0112,
+   "month": 0.037
+  },
+  {
+   "d": "2025-06-23",
+   "what": "US strikes Iran",
+   "src": "curated",
+   "day": 0.0099,
+   "month": 0.0672
+  },
+  {
+   "d": "2025-07-04",
+   "what": "\"One Big Beautiful Bill\" tax and spending law signed",
+   "src": "curated",
+   "day": -0.0075,
+   "month": 0.0042
+  },
+  {
+   "d": "2025-09-17",
+   "what": "Fed resumes cutting (0.25%)",
+   "src": "curated",
+   "day": -0.0012,
+   "month": 0.0037
+  },
+  {
+   "d": "2025-10-01",
+   "what": "US government shutdown begins (lasts 43 days)",
+   "src": "curated",
+   "day": 0.0034,
+   "month": 0.0205
+  },
+  {
+   "d": "2025-10-10",
+   "what": "100% China tariff threat",
+   "src": "curated",
+   "day": -0.027,
+   "month": 0.0153
+  },
+  {
+   "d": "2026-03-27",
+   "what": "Fear spike: the VIX closes at 31, its first close above 30 in three months",
+   "src": "auto: VIX",
+   "day": -0.0171,
+   "month": 0.1032
+  },
+  {
+   "d": "2026-03-31",
+   "what": "S&P 500 +2.9% in a day",
+   "src": "auto: big move",
+   "day": 0.0291,
+   "month": 0.1372
+  },
+  {
+   "d": "2026-04-08",
+   "what": "S&P 500 +2.5% in a day",
+   "src": "auto: big move",
+   "day": 0.0255,
+   "month": 0.1098
+  },
+  {
+   "d": "2026-06-05",
+   "what": "S&P 500 −2.6% in a day",
+   "src": "auto: big move",
+   "day": -0.0258,
+   "month": -0.0129
+  },
+  {
+   "d": "2026-08-28",
+   "what": "New Fed chair Warsh hawkish at Jackson Hole",
+   "src": "curated",
+   "day": -0.0023,
+   "month": -0.0065
+  },
+  {
+   "d": "2026-09-14",
+   "what": "10-year Treasury yield breaks 5% as Brent nears $110 (Hormuz attacks)",
+   "src": "curated",
+   "day": -0.0045,
+   "month": 0.0205
+  },
+  {
+   "d": "2026-09-16",
+   "what": "Fed hikes 0.25% to 3.75–4%, first hike since 2023",
+   "src": "curated",
+   "day": -0.0044,
+   "month": 0.0215
+  },
+  {
+   "d": "2026-10-01",
+   "what": "10-year yield at its highest since 2002 (5.33%)",
+   "src": "curated",
+   "day": 0.0018,
+   "month": null
+  },
+  {
+   "d": "2026-10-14",
+   "what": "Hot September CPI (3.7%) revives hike fears",
+   "src": "curated",
+   "day": -0.0108,
+   "month": null
+  }
+ ]
+}

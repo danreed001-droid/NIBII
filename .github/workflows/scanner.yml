@@ -95,11 +95,25 @@ jobs:
       - name: Render the dashboard
         run: python scripts/render_scanner.py
 
+      - name: Update the market events page
+        # new big-move, Fed, VIX and market-phase events and SPY's moves (docs/events.html, information only);
+        # a failure never blocks the dashboard and is logged to the issues list
+        id: events
+        continue-on-error: true
+        timeout-minutes: 10
+        run: python scripts/major_events.py
+
+      - name: Log a failed events update
+        if: ${{ steps.events.outcome == 'failure' }}
+        run: |
+          python scripts/log_issue.py events "Tonight's market events update failed, so the events page wasn't updated (it never affects the plan)."
+          python scripts/render_scanner.py
+
       - name: Commit and push the dashboard
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/scanner.html data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
+          git add docs/scanner.html docs/events.html data/major_events.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0

@@ -70,10 +70,11 @@ a { color: var(--accent); }
 .masthead { background: var(--masthead-bg); color: var(--masthead-ink);
   background-image: radial-gradient(1200px 300px at 85% -40%, rgba(217,180,106,0.16), transparent 60%); }
 .masthead-inner { max-width: 1120px; margin-inline: auto; padding: 20px 16px 24px; border-bottom: 2px solid var(--gold); }
-.nav { display: flex; justify-content: space-between; gap: 12px; font-size: 0.8rem; }
+.nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 12px; font-size: 0.8rem; }
 .nav a { color: var(--masthead-ink-2); text-decoration: none; }
 .nav a:hover { color: var(--gold); }
 .nav .bt { color: var(--gold); font-weight: 600; }
+.nav-r { display: flex; gap: 14px; }
 .eyebrow { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 16px 0 6px; }
 .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 h1 { font-size: 2.4rem; font-weight: 600; }
@@ -392,7 +393,7 @@ footer li { margin-bottom: 6px; }
 </style>
 
 <div class="masthead"><div class="masthead-inner">
-  <div class="nav"><a href="index.html">← Market Tape Ledger</a><a class="bt" href="backtest.html">Backtests →</a></div>
+  <div class="nav"><a href="index.html">← Market Tape Ledger</a><span class="nav-r"><a class="bt" href="events.html">Events →</a><a class="bt" href="backtest.html">Backtests →</a></span></div>
   <p class="eyebrow">NIBII · Momentum</p>
   <div class="top"><h1>Top 5 Strongest</h1>
     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark/light theme">
