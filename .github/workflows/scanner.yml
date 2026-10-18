@@ -17,9 +17,12 @@ name: Top 5 Strongest
 
 on:
   schedule:
-    # 21:20 UTC Mon-Fri = 5:20pm EDT / 4:20pm EST, after the close and
-    # Yahoo's end-of-day prices.
-    - cron: '20 21 * * 1-5'
+    # 22:20 UTC Mon-Fri = 6:20pm EDT / 5:20pm EST, well after the close and
+    # Yahoo's end-of-day prices in both summer and winter.
+    - cron: '20 22 * * 1-5'
+    # Backup, 02:20 UTC Tue-Sat (that evening in New York): runs only when the
+    # main run hasn't logged tonight's decision (GitHub can delay or drop one).
+    - cron: '20 2 * * 2-6'
   workflow_dispatch: {}
 
 permissions:
@@ -31,31 +34,63 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  gate:
+    # the backup run goes ahead only when tonight's decision isn't logged yet
     runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.need.outputs.run }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - id: need
+        run: |
+          if [ "${{ github.event.schedule }}" = "20 2 * * 2-6" ]; then
+            # if the check itself breaks, run anyway: a second run is harmless, a missed one isn't
+            python scripts/check_scanner_fresh.py gate || echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v5
         with:
           ref: main
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - run: pip install -r requirements.txt
 
       - name: Rank the S&P 500 and replay the rule
         # also logs tonight's decision to the default plan's paper record (data/paper_ledger.json, mtl/paper.py)
+        # and every data problem to the issues log (data/issues_log.json, mtl/health.py)
+        id: scan
+        timeout-minutes: 45
         env:
           PAPER_LEDGER_WRITE: '1'
         run: python scripts/momentum_scan.py
 
       - name: Scan all US stocks for ignition setups (Next big thing watch)
         # A bad day for this ~5,000-ticker scan must never block the main dashboard;
-        # the page then shows the previous scan.
+        # the page then shows the previous scan, and the next step logs the failure.
+        id: ignition
         continue-on-error: true
         timeout-minutes: 45
         run: python scripts/ignition_scan.py
+
+      - name: Log a failed ignition scan
+        if: ${{ steps.ignition.outcome == 'failure' }}
+        run: python scripts/log_issue.py ignition "Tonight's Next big thing scan failed, so the page shows the previous one (it never affects the plan)."
 
       - name: Render the dashboard
         run: python scripts/render_scanner.py
@@ -64,7 +99,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/scanner.html data/paper_ledger.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
+          git add docs/scanner.html data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0
@@ -78,6 +113,8 @@ jobs:
           exit 1
 
       - name: Friday alert - open an issue when Monday's trade has anything to do
+        # runs even if the push failed: the alert matters more than the page
+        if: ${{ !cancelled() && steps.scan.outcome == 'success' }}
         env:
           GH_TOKEN: ${{ github.token }}
           OWNER: ${{ github.repository_owner }}
@@ -88,7 +125,10 @@ jobs:
             exit 0
           fi
           title=$(cat "$RUNNER_TEMP/alert_title.txt")
-          if gh issue list --repo "$GITHUB_REPOSITORY" --state open --author "app/github-actions" --search "\"$title\" in:title" --json number --jq '.[].number' | grep -q .; then
+          # the same title sent in the last 30 days (open or closed) is a re-run, not a new alert
+          since=$(date -u -d '30 days ago' +%Y-%m-%d)
+          if gh issue list --repo "$GITHUB_REPOSITORY" --state all --author "app/github-actions" --search "\"$title\" in:title created:>=$since" --json title \
+               --jq ".[] | select(.title == $(printf '%s' "$title" | jq -Rs .)) | .title" | grep -q .; then
             echo "already sent: $title"
             exit 0
           fi
@@ -114,7 +154,9 @@ jobs:
             exit 0
           fi
           title=$(cat "$D/alert_title.txt")
-          if gh issue list --repo "$GITHUB_REPOSITORY" --state all --author "app/github-actions" --search "\"$title\" in:title" --json number --jq '.[].number' | grep -q .; then
+          since=$(date -u -d '30 days ago' +%Y-%m-%d)
+          if gh issue list --repo "$GITHUB_REPOSITORY" --state all --author "app/github-actions" --search "\"$title\" in:title created:>=$since" --json title \
+               --jq ".[] | select(.title == $(printf '%s' "$title" | jq -Rs .)) | .title" | grep -q .; then
             echo "already sent: $title"
             exit 0
           fi
@@ -125,16 +167,12 @@ jobs:
           gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$D/alert_body.md"
 
       - name: Open an issue if this run failed
-        # any failed step above (the ignition scan's own failures don't count): tonight's decision, page or alert may be missing
-        if: ${{ failure() }}
+        # any failed, timed-out or cancelled step above (the ignition scan's own failures are logged above):
+        # tonight's decision, page or alert may be missing. Also added to the page's issues list.
+        if: ${{ failure() || cancelled() }}
         env:
           GH_TOKEN: ${{ github.token }}
           OWNER: ${{ github.repository_owner }}
         run: |
-          title="Scanner run failed $(date -u +%Y-%m-%d)"
-          if gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "\"$title\" in:title" --json number --jq '.[].number' | grep -q .; then
-            echo "already reported"; exit 0
-          fi
-          printf '%s\n\n%s\n\n%s\n' "The Top 5 Strongest update failed, so tonight's decision, dashboard or trade alert may be missing. Check the run before trading." \
-            "Run log: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" "@$OWNER - sent automatically." > "$RUNNER_TEMP/fail.md"
-          gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$RUNNER_TEMP/fail.md"
+          bash scripts/report_failure.sh "Scanner run failed $(TZ=America/New_York date +%Y-%m-%d)" \
+            "The nightly scanner run failed or timed out, so that night's decision, dashboard or trade alert may be missing. Check the run log before trading." run

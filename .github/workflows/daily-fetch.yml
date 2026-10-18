@@ -61,6 +61,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 # A Routine pushes twice in a row (the board, then data/patterns.json), so a
 # newer push cancels a still-waiting follow-up run - only the last one runs.
@@ -100,16 +101,16 @@ jobs:
         if: github.event_name == 'push'
         run: sleep 600
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           # The push that triggered this run may no longer be the tip of main
           # after the wait - check out the latest main, not the triggering sha.
           ref: main
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - run: pip install -r requirements.txt
 
@@ -134,7 +135,7 @@ jobs:
 
       - name: Fetch the growth ranking grid's weekly/daily data
         # Display overlay only; a Yahoo hiccup must never block the re-render.
-        run: python scripts/fetch_growth_rank.py || echo "growth ranking fetch failed - keeping the previous file"
+        run: python scripts/fetch_growth_rank.py || python scripts/log_issue.py daily-fetch "The growth ranking grid's data fetch failed, so the Market Tape page keeps the previous grid."
 
       - name: Re-render the latest published report with fresh live prices
         run: |
@@ -166,3 +167,13 @@ jobs:
             done
             exit 1
           fi
+
+      - name: Open an issue if this run failed
+        # one issue a day at most (the title carries the date); also added to the scanner page's issues list
+        if: ${{ failure() || cancelled() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          bash scripts/report_failure.sh "Daily market data fetch failed $(TZ=America/New_York date +%Y-%m-%d)" \
+            "The Market Tape Ledger's data fetch failed (it never affects the Top 5 plan); its page may be out of date until a later run works." daily-fetch

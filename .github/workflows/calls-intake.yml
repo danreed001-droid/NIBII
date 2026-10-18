@@ -24,13 +24,13 @@ jobs:
     if: github.event.issue.user.login == github.repository_owner && startsWith(github.event.issue.title, 'calls')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: main
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - name: Merge the submitted calls
         id: merge
@@ -50,6 +50,15 @@ jobs:
             sleep 5
           done
           exit 1
+
+      - name: Say so on the issue if this run failed
+        if: ${{ failure() || cancelled() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$NUMBER" --repo "$GITHUB_REPOSITORY" \
+            --body "The calls weren't saved: the update failed. Run log: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
       - name: Reply and close
         env:
