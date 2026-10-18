@@ -41,7 +41,7 @@ from datetime import date, datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from mtl.backtest import curve_stats, resample  # noqa: E402
 from mtl.human import score as score_calls, signature  # noqa: E402
-from mtl.calendar_nyse import add_trading_days, known as nyse_known, month_end_session, next_trading_day, week_end_session, week_ended  # noqa: E402
+from mtl.calendar_nyse import add_trading_days, is_trading_day, month_end_session, next_trading_day, previous_trading_day, week_end_session, week_ended  # noqa: E402
 from mtl.momentum import blowoff_exit, last_sessions_of_weeks, surge_exit, market_armed, ranking, run_momentum, score_at, score_table, trades_from_picks  # noqa: E402
 from mtl.heat import daily_closes, daily_heat, price_volume, weekly_heat  # noqa: E402
 from mtl.options_sim import SLEEVE_SPREAD, call_sleeve_curve, quote_check, sleeve_call  # noqa: E402
@@ -402,11 +402,27 @@ def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
                 log=switch_log(modes, why))
 
 
-def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, held, logged):
-    """Plain-language problems with tonight's data that change (or stop) a rule: a series a rule needs
-    is missing or more than a session old, a stock the plan holds has no price or has left the S&P 500,
-    or many stocks failed to download. The page shows them and the alert step opens an issue."""
+def last_closed_session(now=None):
+    """The latest NYSE session whose closing prices should be in by `now` (default: the clock), New York time:
+    today once it is 5 pm on a trading day, else the session before."""
+    from zoneinfo import ZoneInfo
+    now = (now or datetime.now(timezone.utc)).astimezone(ZoneInfo('America/New_York'))
+    d = now.date()
+    if is_trading_day(d) and (now.hour, now.minute) >= (17, 0):
+        return d.isoformat()
+    return previous_trading_day(d).isoformat()
+
+
+def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, held, logged, expected=None):
+    """Plain-language problems with tonight's data that change (or stop) a rule: prices that stop before the
+    last close that should be in (`expected`), a series a rule needs missing or more than a session old, a
+    stock the plan holds with no price or out of the S&P 500, or many stocks that failed to download. The
+    page shows them and the alert step opens an issue."""
     out, prev = [], calendar[-2] if len(calendar) > 1 else as_of
+    if expected and as_of < expected:
+        out.append(f"Prices stop on {as_of}, but {expected}'s close should be in: a data delay (the next run usually "
+                   f"catches up), or a market closure the calendar doesn't know (add it to EXTRA_CLOSURES in "
+                   f"mtl/calendar_nyse.py). Tonight's decision is from {as_of}'s close.")
 
     def last(ser):
         return max(ser) if ser else None
@@ -427,11 +443,14 @@ def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp,
                        f"If you hold it, sell it at the next close.")
         elif not bars.get(t) or bars[t][-1][0] < as_of:
             out.append(f"{t} (held by the plan) has no price for {as_of}: check the stock before trading.")
+    from mtl.universe import last_refreshed
+    lr_ = last_refreshed()
+    if lr_ is None or (date.fromisoformat(as_of) - lr_).days > 21:
+        out.append(f"The S&P 500 member list was last refreshed {lr_ or 'never'}: its weekly refresh from Wikipedia keeps "
+                   f"failing (the page layout may have changed), so index joins and removals since then are missing.")
     miss = sorted(t for t in sp if not bars.get(t))
     if len(miss) > 10:
         out.append(f"{len(miss)} S&P 500 stocks returned no prices (e.g. {', '.join(miss[:5])}): rankings and sales may be off.")
-    if not nyse_known(add_trading_days(as_of, 25)):
-        out.append("The NYSE holiday list (mtl/calendar_nyse.py) ends within 5 weeks: add next year's closures.")
     return out
 
 
@@ -1056,7 +1075,7 @@ def main():
     paper_fp, paper_files = paper_rec.fingerprint(ROOT)
     ledger = paper_rec.load(PAPER_PATH) or paper_rec.new_ledger(paper_fp, paper_files)
     data_issues = data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, hold_bx,
-                                ((ledger.get('entries') or [{}])[-1].get('list') or []))
+                                ((ledger.get('entries') or [{}])[-1].get('list') or []), expected=last_closed_session())
     p_idx = {d_: i for i, d_ in enumerate(calendar)}
     p_days = [p_[0] for p_ in picks_bx]
 

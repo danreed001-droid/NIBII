@@ -1,29 +1,85 @@
-"""NYSE trading calendar: maturity dates and holiday rolls."""
-from datetime import date, timedelta
+"""NYSE trading calendar: maturity dates and holiday rolls.
 
-# Full-day closures. Extend as years are added.
-HOLIDAYS = {
-    "2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03", "2026-05-25",
-    "2026-06-19", "2026-07-03", "2026-09-07", "2026-11-26", "2026-12-25",
-    "2027-01-01", "2027-01-18", "2027-02-15", "2027-03-26", "2027-05-31",
-    "2027-06-18", "2027-07-05", "2027-09-06", "2027-11-25", "2027-12-24",
-    "2028-01-17", "2028-02-21", "2028-04-14", "2028-05-29", "2028-06-19",
-    "2028-07-04", "2028-09-04", "2028-11-23", "2028-12-25",
+Full-day closures come from the exchange's own rules, so the calendar works for any year without edits:
+New Year's Day, Martin Luther King Jr. Day (third Monday of January, from 1998), Washington's Birthday
+(third Monday of February), Good Friday, Memorial Day (last Monday of May), Juneteenth (from 2022),
+Independence Day, Labor Day (first Monday of September), Thanksgiving (fourth Thursday of November) and
+Christmas. A holiday on a Saturday is observed the Friday before, on a Sunday the Monday after, except
+New Year's Day on a Saturday, which is not made up. Unscheduled closures (a national day of mourning,
+a storm) can't be predicted: add them to EXTRA_CLOSURES when the exchange announces one."""
+from datetime import date, timedelta
+from functools import lru_cache
+
+EXTRA_CLOSURES = {
+    "2001-09-11", "2001-09-12", "2001-09-13", "2001-09-14",   # September 11
+    "2004-06-11",                                              # President Reagan's funeral
+    "2007-01-02",                                              # President Ford's funeral
+    "2012-10-29", "2012-10-30",                                # Hurricane Sandy
+    "2018-12-05",                                              # President George H. W. Bush's funeral
+    "2025-01-09",                                              # President Carter's funeral
 }
-HOLIDAY_YEARS = (2026, 2027, 2028)   # years whose closures are listed above
+
+
+def _easter(y):
+    """Easter Sunday (Gregorian), anonymous computus."""
+    a, b, c = y % 19, y // 100, y % 100
+    d, e = b // 4, b % 4
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i, k = c // 4, c % 4
+    l_ = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l_) // 451
+    month = (h + l_ - 7 * m + 114) // 31
+    day = (h + l_ - 7 * m + 114) % 31 + 1
+    return date(y, month, day)
+
+
+def _nth(y, month, weekday, n):
+    """The n-th `weekday` (Mon=0) of the month; n=-1 is the last."""
+    if n > 0:
+        d = date(y, month, 1)
+        d += timedelta(days=(weekday - d.weekday()) % 7)
+        return d + timedelta(weeks=n - 1)
+    d = (date(y, month, 28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+    return d - timedelta(days=(d.weekday() - weekday) % 7)
+
+
+def _observed(d):
+    return d - timedelta(days=1) if d.weekday() == 5 else d + timedelta(days=1) if d.weekday() == 6 else d
+
+
+@lru_cache(maxsize=None)
+def holidays(y):
+    """The NYSE's scheduled full-day closures in year y, as 'YYYY-MM-DD' strings."""
+    out = []
+    ny = date(y, 1, 1)
+    if ny.weekday() != 5:              # a Saturday New Year's Day isn't made up on the Friday before
+        out.append(_observed(ny))
+    if y >= 1998:
+        out.append(_nth(y, 1, 0, 3))   # Martin Luther King Jr. Day
+    out.append(_nth(y, 2, 0, 3))       # Washington's Birthday
+    out.append(_easter(y) - timedelta(days=2))   # Good Friday
+    out.append(_nth(y, 5, 0, -1))      # Memorial Day
+    if y >= 2022:
+        out.append(_observed(date(y, 6, 19)))   # Juneteenth
+    out.append(_observed(date(y, 7, 4)))
+    out.append(_nth(y, 9, 0, 1))       # Labor Day
+    out.append(_nth(y, 11, 3, 4))      # Thanksgiving
+    out.append(_observed(date(y, 12, 25)))
+    return frozenset(d.isoformat() for d in out)
 
 
 def known(d) -> bool:
-    """True when d's year has its closures listed (outside them only weekends are skipped)."""
-    if isinstance(d, str):
-        d = date.fromisoformat(d)
-    return d.year in HOLIDAY_YEARS
+    """Kept for callers: the rules cover every year."""
+    return True
 
 
 def is_trading_day(d) -> bool:
     if isinstance(d, str):
         d = date.fromisoformat(d)
-    return d.weekday() < 5 and d.isoformat() not in HOLIDAYS
+    s_ = d.isoformat()
+    return d.weekday() < 5 and s_ not in holidays(d.year) and s_ not in EXTRA_CLOSURES
 
 
 def next_trading_day(d):

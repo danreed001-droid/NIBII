@@ -144,7 +144,7 @@
   },
   {
    "since": "2026-10-19",
-   "fingerprint": "bb8eb29b3cc45d7a",
+   "fingerprint": "c4e33e79804fc89b",
    "files": {
     "mtl/momentum.py": "30434b62e1e5",
     "mtl/rotation.py": "c1b9577635ce",
@@ -155,10 +155,10 @@
     "mtl/structure.py": "2ac3bad9c866",
     "mtl/universe.py": "93bbda358364",
     "mtl/fade.py": "eed144f30a67",
-    "mtl/calendar_nyse.py": "50050b9dd1d1",
+    "mtl/calendar_nyse.py": "f968ab11e45a",
     "scripts/momentum_scan.py (settings)": "c10bba062f81"
    },
-   "what": "picks from S&P 500 members only (the Nasdaq-100 names outside it dropped); a Monday-Thursday run no longer re-ranks the stock list or re-checks the whipsaw switch (only a blow-off or surge sale trades mid-week); NYSE holidays set the week\u2019s last session and the trade date"
+   "what": "picks from S&P 500 members only (the Nasdaq-100 names outside it dropped); a Monday-Thursday run no longer re-ranks the stock list or re-checks the whipsaw switch (only a blow-off or surge sale trades mid-week); NYSE holidays (from the exchange\u2019s rules, any year) set the week\u2019s last session and the trade date"
   }
  ]
 }

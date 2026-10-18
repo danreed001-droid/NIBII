@@ -123,3 +123,18 @@ jobs:
             gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "Superseded by a newer ignition alert."
           done
           gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$D/alert_body.md"
+
+      - name: Open an issue if this run failed
+        # any failed step above (the ignition scan's own failures don't count): tonight's decision, page or alert may be missing
+        if: ${{ failure() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          title="Scanner run failed $(date -u +%Y-%m-%d)"
+          if gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "\"$title\" in:title" --json number --jq '.[].number' | grep -q .; then
+            echo "already reported"; exit 0
+          fi
+          printf '%s\n\n%s\n\n%s\n' "The Top 5 Strongest update failed, so tonight's decision, dashboard or trade alert may be missing. Check the run before trading." \
+            "Run log: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" "@$OWNER - sent automatically." > "$RUNNER_TEMP/fail.md"
+          gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$RUNNER_TEMP/fail.md"

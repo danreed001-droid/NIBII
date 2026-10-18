@@ -21,6 +21,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: track-refresh
@@ -76,3 +77,15 @@ jobs:
             sleep 10
           done
           exit 1
+
+      - name: Open an issue if the refresh stopped
+        # a failed step, or the published numbers would have moved more than the comparison allows
+        if: ${{ failure() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          title="Track record refresh stopped $(date -u +%Y-%m-%d)"
+          printf '%s\n\n%s\n\n%s\n' "The track record refresh stopped without publishing: a step failed, or the default plan's numbers moved more than 3 points a year (or its worst drop more than 5). The log says which; to publish moved numbers anyway, run it again with \"Publish even if the numbers moved a lot\" ticked." \
+            "Run log: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" "@$OWNER - sent automatically." > "$RUNNER_TEMP/fail.md"
+          gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$RUNNER_TEMP/fail.md"
