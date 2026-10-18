@@ -43,6 +43,18 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      - name: Keep the engine's base commit tagged
+        # refresh.sh builds on the commit BASE; the backtest-engine-base tag keeps it reachable on GitHub
+        run: |
+          BASE=$(sed -n 's/^BASE=//p' research/backtest/refresh.sh)
+          if git ls-remote --exit-code --tags origin refs/tags/backtest-engine-base >/dev/null; then
+            echo "tag backtest-engine-base is there"
+          else
+            git cat-file -e "$BASE^{commit}" 2>/dev/null || git fetch -q origin robustness
+            git tag backtest-engine-base "$BASE"
+            git push origin refs/tags/backtest-engine-base
+          fi
+
       - name: Backtest engine in step with the live rules
         # a live rule changed since the overlay engine was last synced: the run goes on, and an issue says so
         id: sync

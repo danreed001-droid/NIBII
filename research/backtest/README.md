@@ -61,7 +61,8 @@ python -m pytest -q
 `refresh.sh` needs network access (Yahoo Finance, and Wikipedia's list of S&P 500 changes). It:
 
 1. Checks out the engine as a temporary git worktree: the `robustness` branch at a fixed commit (`BASE` in the
-   script). Keep that branch. The script then copies `overlay/` over the worktree.
+   script). The commit is tagged `backtest-engine-base` (the refresh workflow re-creates the tag if it is ever
+   missing, and fetches by tag first), so the branch can't take it away. The script then copies `overlay/` over the worktree.
 2. Rebuilds the side series with `side_data.py`: gold, bonds, the dollar, VIX and rates.
 3. Downloads the point-in-time S&P 500 universe and its prices.
 4. Downloads daily volumes for those stocks, plus SPY and QQQ, with `volume_data.py`. The blow-off exit needs them.
