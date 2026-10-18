@@ -700,7 +700,8 @@ VARIANTS = {
     'NBmx': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='cash', other='gb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBbl': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='bil', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBrv': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='gb', other='cash'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
-    'NBup': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026)
+    'NBup': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026)
+    'NBg0': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the count restart (Oct 19, 2026)
     'NBhalf': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the previous default: half the account in the whipsaw switch's asset
     'NBnf': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default before the fading-energy filter (Oct 14-16, 2026)
     'NBpre': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the rebound rule (Oct 14, 2026)
@@ -3815,6 +3816,7 @@ def main():
                 return lowcache[(t_, d_)]
             exit_tf = leg_.get('exit_tf', tfl)
             streak, cand_prev, cool_left = 0, None, 0
+            gap_n = 0      # sessions in a row SPY has been out of its downtrend
             modes, mode_ = {}, 'boost'
             for k_ in range(1, len(cal)):
                 f_ = cal[k_]
@@ -3875,9 +3877,19 @@ def main():
                             continue
                     else:
                         if not (leg_.get('spy_free') or sst != 'uptrend'):
+                            if leg_.get('conf_gap') is not None:
+                                # the count starts over once SPY has been out of its downtrend more than conf_gap sessions in a row
+                                gap_n += 1
+                                if gap_n > leg_['conf_gap']:
+                                    streak, cand_prev = 0, None
                             modes[f_] = mode_
                             continue
                         if leg_.get('spy_down') and sst != 'downtrend':
+                            if leg_.get('conf_gap') is not None:
+                                # the count starts over once SPY has been out of its downtrend more than conf_gap sessions in a row
+                                gap_n += 1
+                                if gap_n > leg_['conf_gap']:
+                                    streak, cand_prev = 0, None
                             modes[f_] = mode_
                             continue
                     best_, bv = None, None
@@ -3903,6 +3915,7 @@ def main():
                             continue
                         if bv is None or key_ > bv:
                             best_, bv = t_, key_
+                    gap_n = 0
                     if leg_.get('any_lead'):
                         # count the sessions gold or bonds leads, whichever it is, and switch into the leader of the day
                         streak = streak + 1 if best_ and cand_prev else (1 if best_ else 0)

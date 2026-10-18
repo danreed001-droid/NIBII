@@ -144,10 +144,10 @@
   },
   {
    "since": "2026-10-19",
-   "fingerprint": "c4e33e79804fc89b",
+   "fingerprint": "097c0bf55928c30a",
    "files": {
     "mtl/momentum.py": "30434b62e1e5",
-    "mtl/rotation.py": "c1b9577635ce",
+    "mtl/rotation.py": "ab66cf117271",
     "mtl/rebound.py": "c54c8da0dce7",
     "mtl/narrow.py": "ffd9c01fc5a8",
     "mtl/lowerhigh.py": "9e700c7f7779",
@@ -158,7 +158,7 @@
     "mtl/calendar_nyse.py": "f968ab11e45a",
     "scripts/momentum_scan.py (settings)": "c10bba062f81"
    },
-   "what": "picks from S&P 500 members only (the Nasdaq-100 names outside it dropped); a Monday-Thursday run no longer re-ranks the stock list or re-checks the whipsaw switch (only a blow-off or surge sale trades mid-week); NYSE holidays (from the exchange\u2019s rules, any year) set the week\u2019s last session and the trade date"
+   "what": "picks from S&P 500 members only (the Nasdaq-100 names outside it dropped); a Monday-Thursday run no longer re-ranks the stock list or re-checks the whipsaw switch (only a blow-off or surge sale trades mid-week); NYSE holidays (from the exchange\u2019s rules, any year) set the week\u2019s last session and the trade date; the whipsaw switch's 15-session count of TLT/GLD leading starts over once SPY has been out of its downtrend for more than 10 sessions in a row"
   }
  ]
 }
