@@ -4,8 +4,10 @@ The dashboard's growth chart and year table (`data/track_record.json`) come from
 not from the scanner's replay. The replay uses today's S&P 500 and Nasdaq-100 members, so it never holds a
 stock that later dropped out and looks better than it should. This backtest uses:
 
-- the stocks in the S&P 500 at each date, delisted ones included (EP and CPWR are left out because their
-  tickers were reused);
+- the stocks in the S&P 500 at each date that have price history (EP and CPWR are left out because their
+  tickers were reused). Free price history covers 58% of the members in 2000, 61% in 2005, 67% in 2010, 77% in
+  2015, 91% in 2020 and 98% in 2025: most companies bought out or delisted before then are missing, which likely
+  flatters the early years (results from 2020 on rest on nearly complete data);
 - news gaps, and 0.15% slippage on every trade;
 - TLT and GLD extended back with a long Treasury fund and gold futures for the years before they existed.
 

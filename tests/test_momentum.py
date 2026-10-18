@@ -484,3 +484,48 @@ def test_whipsaw_counts_a_skipped_stock_as_if_bought():
     assert [r[:2] for r in rows] == [['d2', 'A'], ['d2', 'B']]
     assert len(rows[0]) == 5 and rows[1][5] is True and rows[1][4] == -0.1   # B counted as a losing sale
     assert len(ms.whip_sales(held, prices)) == 1                             # the empty slot is never a sale
+
+
+def test_open_end_week_end_only_on_the_weeks_last_session():
+    from mtl.momentum import last_sessions_of_weeks
+    cal = ['2026-10-12', '2026-10-13', '2026-10-14', '2026-10-15']             # Mon-Thu: the week isn't over
+    assert last_sessions_of_weeks(cal)[-1] == '2026-10-15'                    # backtests: the list's end counts
+    assert '2026-10-15' not in last_sessions_of_weeks(cal, open_end=True)     # live: not before Friday's close
+    assert last_sessions_of_weeks(cal + ['2026-10-16'], open_end=True)[-1] == '2026-10-16'
+    hol = ['2027-03-22', '2027-03-23', '2027-03-24', '2027-03-25']             # Good Friday Mar 26: Thursday ends the week
+    assert last_sessions_of_weeks(hol, open_end=True)[-1] == '2027-03-25'
+
+
+def test_live_run_does_not_rebalance_midweek():
+    from mtl.momentum import run_momentum
+    cal = ['2026-09-%02d' % d for d in (1, 2, 3, 4, 8, 9, 10, 11, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 28, 29, 30)] + \
+          ['2026-10-01', '2026-10-02', '2026-10-05', '2026-10-06', '2026-10-07']   # ends on a Wednesday
+    n = len(cal)
+    # A leads until Monday Oct 5, then B overtakes it: a Wednesday re-rank would swap them
+    prices = {'SPY': {d: 100.0 for d in cal},
+              'A': {d: 100 + i for i, d in enumerate(cal)},
+              'B': {d: (100 + i if i < n - 3 else 100 + i + 20 * (i - n + 4)) for i, d in enumerate(cal)}}
+    live = run_momentum(prices, cal, cal[6], look=5, skip=0, top_n=1, keep_rank=1, exec_next='close', open_end=True)
+    back = run_momentum(prices, cal, cal[6], look=5, skip=0, top_n=1, keep_rank=1, exec_next='close')
+    assert live['pending'] is None                                           # no stop: nothing to trade mid-week
+    assert back['pending'] == ['B']                                          # a backtest treats its last day as a week-end
+
+
+def test_data_problems_flag_missing_series_and_held_stocks():
+    import importlib.util, os
+    spec = importlib.util.spec_from_file_location(
+        'momentum_scan', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'momentum_scan.py'))
+    ms = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ms)
+    cal = ['2026-10-14', '2026-10-15', '2026-10-16']
+    full = {d: 1.0 for d in cal}
+    bars = {'AAA': [(d, 1, 1, 1, 1) for d in cal], 'BBB': [(d, 1, 1, 1, 1) for d in cal[:1]]}
+    bench = {'RSP': [(d, 1, 1, 1, 1) for d in cal]}
+    assets = {'TLT': [(d, 1, 1, 1, 1) for d in cal], 'GLD': [(d, 1, 1, 1, 1) for d in cal]}
+    sp = {'AAA': 1, 'BBB': 1}
+    ok = ms.data_problems('2026-10-16', cal, bars, bench, assets, full, full, sp, ['AAA'], ['AAA'])
+    assert ok == []
+    bad = ms.data_problems('2026-10-16', cal, bars, bench, assets, {}, {'2026-10-14': 1.0}, sp, ['BBB'], ['ZZZ'])
+    text = ' '.join(bad)
+    assert 'No data for the 10-year Treasury yield' in text and 'the VIX stops on 2026-10-14' in text
+    assert 'BBB (held by the plan) has no price' in text and 'ZZZ has left the S&P 500 list' in text

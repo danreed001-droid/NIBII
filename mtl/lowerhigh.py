@@ -44,7 +44,7 @@ from mtl.rotation import weekly
 from mtl.structure import find_swings
 
 LH_SWING = 4          # weekly bars either side of a swing high
-LH_DAYS = 10          # sessions in T-bills after a fresh signal
+LH_DAYS = 10          # sessions out of stocks (the stronger of TLT / GLD, or cash) after a fresh signal
 LH_LOOK = 700         # daily bars the weekly swings are read from
 LH_DAILY_SWING = 3    # daily bars either side of a daily swing high
 LH_DAILY_LOOK = 120   # daily bars the daily swings are read from

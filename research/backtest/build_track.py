@@ -8,9 +8,10 @@ import sys
 from datetime import date
 
 KEYS = {'rotation': 'NBup_boost', 'boost100': 'B1S_boost', 'strategy': 'N1_auto', 'SPY': 'spy', 'QQQ': 'qqq'}
-SOURCE = ('Point-in-time backtest: the stocks in the S&P 500 at each date (delisted ones included; EP and CPWR left out '
-          'for reused tickers), news gaps, 0.15% slippage a trade, TLT / GLD spliced onto a Treasury fund / gold futures '
-          'before they existed.')
+SOURCE = ('Point-in-time backtest: the stocks in the S&P 500 at each date that have price history (58% of members in '
+          '2000, 67% in 2010, 77% in 2015, over 90% since 2020; most companies bought out or delisted before then are '
+          'missing, which likely flatters the early years; EP and CPWR left out for reused tickers), news gaps, 0.15% '
+          'slippage a trade, TLT / GLD spliced onto a Treasury fund / gold futures before they existed.')
 
 
 def main(src, dst):

@@ -26,19 +26,19 @@ START = '2026-10-14'            # the day the current default plan (with the reb
 SLIP = 0.0015                   # per side, as in the backtest
 CASH = 'CASH'
 RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/narrow.py', 'mtl/lowerhigh.py',
-              'mtl/news.py', 'mtl/structure.py', 'mtl/universe.py', 'mtl/fade.py')
+              'mtl/news.py', 'mtl/structure.py', 'mtl/universe.py', 'mtl/fade.py', 'mtl/calendar_nyse.py')
 SLOTS = 5                       # the Boost list's slots: each stock is a fifth, an empty slot (fading filter) is cash
 SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (settings, not page code)
 CLOSE_ET = time(16, 15)             # a decision is logged only after the close it is read from
 
-# The 2000-2026 backtest of the default plan (with the fading-energy filter, its whipsaw shadow count and the whole-account whipsaw switch since Oct 16, 2026) on the dashboard's
-# universe (S&P 500 members at each date plus the Nasdaq-100 members outside it from their join dates;
-# research/validation/ndx_universe.py), 0.15% per side, every window of that length: return percentiles, share
+# The 2000-2026 backtest of the default plan (with the fading-energy filter, its whipsaw shadow count and the whole-account
+# whipsaw switch since Oct 16, 2026) on S&P 500 members at each date - the stocks the live plan picks from since
+# Oct 19, 2026 (engine NBup, 41.0% a year) - 0.15% per side, every window of that length: return percentiles, share
 # ahead of SPY, the 1-in-10 shortfall against SPY, and the worst drop inside the window (typical, and the 1-in-20 worst).
 BANDS = {
-    63: dict(label='3 months', p5=-0.100, p25=-0.012, p50=0.073, p75=0.168, p95=0.359, ahead=0.68, lag10=-0.078, dd50=-0.095, dd95=-0.20),
-    126: dict(label='6 months', p5=-0.093, p25=0.023, p50=0.141, p75=0.325, p95=0.738, ahead=0.77, lag10=-0.082, dd50=-0.128, dd95=-0.25),
-    252: dict(label='12 months', p5=-0.089, p25=0.113, p50=0.320, p75=0.632, p95=1.449, ahead=0.83, lag10=-0.077, dd50=-0.169, dd95=-0.28),
+    63: dict(label='3 months', p5=-0.096, p25=-0.008, p50=0.077, p75=0.168, p95=0.355, ahead=0.68, lag10=-0.073, dd50=-0.095, dd95=-0.19),
+    126: dict(label='6 months', p5=-0.091, p25=0.028, p50=0.148, p75=0.330, p95=0.729, ahead=0.78, lag10=-0.070, dd50=-0.128, dd95=-0.24),
+    252: dict(label='12 months', p5=-0.085, p25=0.110, p50=0.313, p75=0.655, p95=1.466, ahead=0.83, lag10=-0.061, dd50=-0.163, dd95=-0.28),
 }
 WORST_DD = -0.34                # the backtest's worst drop, 2000-2026
 

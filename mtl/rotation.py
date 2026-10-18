@@ -362,10 +362,12 @@ def sales(picks, prices):
     return out
 
 
-def whipsaw(picks, prices, calendar, start, look=WHIP_LOOK, need=WHIP_MIN, loss=WHIP_LOSS):
+def whipsaw(picks, prices, calendar, start, look=WHIP_LOOK, need=WHIP_MIN, loss=WHIP_LOSS, open_end=False):
     """{date: on} for every session from `start`: decided at each week's last close from the
     Boost list's sales in the last `look` sessions (on when at least `need` sales and a
-    `loss` share or more of them below their buy close), carried until the next week's check."""
+    `loss` share or more of them below their buy close), carried until the next week's check.
+    open_end: a live run - the calendar's last day is checked only if it is the week's last NYSE session."""
+    from mtl.calendar_nyse import week_ended
     kidx = {d: i for i, d in enumerate(calendar)}
     by_k = {}
     for d, t, a, b in sales(picks, prices):
@@ -373,7 +375,10 @@ def whipsaw(picks, prices, calendar, start, look=WHIP_LOOK, need=WHIP_MIN, loss=
             by_k.setdefault(kidx[d], []).append(bool(a and b and b < a))
     out, on = {}, False
     for k, d in enumerate(calendar):
-        last = k + 1 == len(calendar) or date.fromisoformat(calendar[k + 1]).isocalendar()[:2] != date.fromisoformat(d).isocalendar()[:2]
+        if k + 1 == len(calendar):
+            last = not open_end or week_ended(d)
+        else:
+            last = date.fromisoformat(calendar[k + 1]).isocalendar()[:2] != date.fromisoformat(d).isocalendar()[:2]
         if last and k >= look:
             ex = [x for i in range(k - look + 1, k + 1) for x in by_k.get(i, ())]
             on = len(ex) >= need and sum(ex) / len(ex) >= loss

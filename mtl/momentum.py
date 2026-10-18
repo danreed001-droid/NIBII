@@ -21,13 +21,19 @@ holding without a close that day carries its last price.
 """
 
 
-def last_sessions_of_weeks(calendar):
-    """The last date of each ISO week in a sorted list of 'YYYY-MM-DD'."""
+def last_sessions_of_weeks(calendar, open_end=False):
+    """The last date of each ISO week in a sorted list of 'YYYY-MM-DD'. The list's own last date counts as
+    a week's last unless `open_end` (a live run whose data stops at today's close): then it counts only
+    when it really is the week's last NYSE session, so a Monday-Thursday run doesn't rebalance."""
     from datetime import date
+    from mtl.calendar_nyse import week_ended
     out = []
     for k, d in enumerate(calendar):
         nxt = calendar[k + 1] if k + 1 < len(calendar) else None
-        if nxt is None or date.fromisoformat(nxt).isocalendar()[:2] != date.fromisoformat(d).isocalendar()[:2]:
+        if nxt is None:
+            if not open_end or week_ended(d):
+                out.append(d)
+        elif date.fromisoformat(nxt).isocalendar()[:2] != date.fromisoformat(d).isocalendar()[:2]:
             out.append(d)
     return out
 
@@ -95,7 +101,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  vol_window=63, max_corr=None, corr_window=63, risk_adj=False, exec_next=None,
                  exit_when=None, exit_daily=True, buy_when=None, buy_max_rank=None, lookback_at=None, hold_exit=None,
                  prefer=None, prefer_rank=20, prefer_mode='fill', prefer_pool='qualified',
-                 rebal_dates=None):
+                 rebal_dates=None, open_end=False):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -161,11 +167,13 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       when no slot is open (at most one swap per preferred stock).
       prefer_rank=None: any rank. prefer_pool='all': flagged stocks qualify even
       when they don't beat the benchmark (ranked by score among all stocks).
+    open_end: a live run (data up to today's close): the last date is a week-end only if it really is the
+      week's last NYSE session (last_sessions_of_weeks).
     rebal_dates: optional set of decision dates replacing the default week-ends
       (e.g. month-ends). The result's `weights` lists [trade date, {ticker: weight}]
       for every trade (weights below 1 in total = the rest sits in cash)."""
     keep_rank = keep_rank or 2 * top_n
-    rebal = set(rebal_dates) if rebal_dates is not None else set(last_sessions_of_weeks(calendar))
+    rebal = set(rebal_dates) if rebal_dates is not None else set(last_sessions_of_weeks(calendar, open_end))
     wlog = []
     if rebalance_on_start:   # buy on the first session >= start, not the next week-end
         rebal.add(next(d for d in calendar if d >= start))
