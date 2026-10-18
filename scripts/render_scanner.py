@@ -86,6 +86,8 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .issues-card li:first-child { border-top: 0; }
 .issues-card .when { color: var(--muted); font-size: 0.74rem; margin-right: 6px; white-space: nowrap; }
 .issues-card .ok { color: var(--pos); font-weight: 600; }
+.meta b.pos { color: var(--pos); } .meta b.neg { color: var(--neg); } .meta b.warn { color: var(--gold); }
+.meta .market-signs { flex-basis: 100%; font-size: 0.8rem; line-height: 1.4; color: var(--muted); }
 .meta .data-issues { flex-basis: 100%; border: 1px solid var(--neg); border-radius: 8px; padding: 8px 11px; font-size: 0.82rem; line-height: 1.4; color: var(--masthead-ink); background: rgba(220, 60, 60, 0.14); }
 .meta .dot { display: inline-block; width: 7px; height: 7px; border-radius: 99px; background: #5fb87a; margin-right: 6px; vertical-align: 1px; }
 .meta .dot.aging { background: #d9b46a; } .meta .dot.stale { background: #e5705f; }
@@ -1016,9 +1018,24 @@ __ISSUES__
       (D.signalDay ? '<span>Trade <b>' + fmtDate(D.tradeDate, { weekday: 'short', month: 'short', day: 'numeric' }) + '</b>, 3:30–4:00 pm ET</span>'
         : '<span>Next signal <b>' + fmtDate(D.signalDate, { weekday: 'short', month: 'short', day: 'numeric' }) + '</b> → trade <b>' + fmtDate(D.tradeDate, { weekday: 'short', month: 'short', day: 'numeric' }) + '</b></span>') +
       '<span>Picks from the <b>' + (D.universe.sp || D.universe.total) + '</b> S&amp;P 500 stocks</span>' +
+      marketPill() +
       (D.nextUpdateBy && Date.now() > Date.parse(D.nextUpdateBy) ? '<div class="data-issues neg" role="alert"><b>Not updated:</b> this page is from ' + fmtDate(D.asOf) +
         '’s close and the next nightly run is overdue (it failed, or GitHub skipped or paused it). Don’t trade on it until it updates; see Issues at the bottom.</div>' : '') +
       ((D.dataIssues || []).length ? '<div class="data-issues neg" role="alert"><b>Data problem:</b> ' + D.dataIssues.map(esc).join(' ') + '</div>' : '');
+  }
+  // market phase: bull run / correction / bear market (information only; no rule reads it)
+  function marketPill() {
+    var M = D.market; if (!M || !M.phase) return '';
+    var tone = { 'bull run': 'pos', 'new bull run': 'pos', 'correction': 'warn', 'recovering': 'warn', 'bear market': 'neg' }[M.phase] || '';
+    var name = M.phase.charAt(0).toUpperCase() + M.phase.slice(1);
+    var bull = M.phase === 'bull run' || M.phase === 'new bull run';
+    var tip = bull ? 'SPY ' + (M.dd < -0.0005 ? Math.abs(M.dd * 100).toFixed(1) + '% below its high, ' : 'at its high, ') + 'up ' + Math.round(M.up * 100) + '% from that bear-market low'
+      : M.phase === 'correction' ? 'SPY ' + Math.abs(M.dd * 100).toFixed(1) + '% below its ' + fmtDate(M.high) + ' high'
+      : 'SPY ' + Math.abs(M.dd * 100).toFixed(1) + '% below its ' + fmtDate(M.high) + ' high, up ' + Math.round(M.up * 100) + '% from its ' + fmtDate(M.low) + ' low';
+    var since = M.since ? ' since <b>' + fmtDate(M.since, { month: 'short', day: 'numeric', year: 'numeric' }) + '</b>' : '';
+    var signs = (M.signs || []).length ? '<div class="market-signs"><b>Early signs of a bottom</b> (information only; in backtests they also fired in bear-market rallies): ' +
+      M.signs.map(function (x) { return esc(x.what) + ' (' + fmtDate(x.d, { month: 'short', day: 'numeric' }) + ')'; }).join('; ') + '</div>' : '';
+    return '<span title="' + esc('Bear market: SPY 20%+ below its high. New bull run: up 20% from a bear-market low, until a new high. Correction: 10-20% below the high. Information only; the plan does not use it.') + '">Market <b class="' + tone + '">' + name + '</b>' + since + ' · ' + tip + '</span>' + signs;
   }
   meta(); setInterval(meta, 60000);
   $('gen').textContent = 'built ' + gen.toLocaleString();

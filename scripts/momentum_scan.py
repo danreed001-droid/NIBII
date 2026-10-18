@@ -52,6 +52,7 @@ from mtl.trendline import TL_DAYS, trendline_state  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import health, paper as paper_rec  # noqa: E402
+from mtl.phase import market_phase  # noqa: E402
 from mtl.fade import SWING_TH as FADE_SWING, VOL_TH as FADE_VOL, buy_ok as fade_buy_ok, fading as fade_check, ratios as fade_ratios  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
 from mtl.rotation import CONFIRM as ROT_CONFIRM, CONFIRM_GAP as ROT_CONFIRM_GAP, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, WHIP_SHARE, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
@@ -1154,6 +1155,9 @@ def main():
         generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'), asOf=as_of,
         # the page turns red after this: the next session's run (22:20 UTC, a backup at 02:20) should be in by then
         nextUpdateBy=(next_trading_day(as_of) + timedelta(days=1)).isoformat() + 'T05:00:00Z',
+        # bull run / correction / bear market label for the masthead (information only, mtl/phase.py)
+        market=market_phase(calendar, [b_[4] for b_ in bench['SPY']], volumes.get('SPY') or {}, vix_px, prices,
+                            [t_ for t_ in prices if t_ in sp]),
         lastRebalance=last_rebalance, signalDay=signal_day, signalDate=signal_date.isoformat(),
         tradeDate=trade_date.isoformat(),
         rule=dict(look=LOOK, skip=SKIP, topN=TOP_N, keepRank=2 * TOP_N, start=START),
