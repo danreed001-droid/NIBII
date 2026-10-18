@@ -3,14 +3,16 @@
 # Run from anywhere inside the repo; needs network (Yahoo Finance, Wikipedia's S&P 500 changes), about 10 minutes and
 # about 10 GB of memory with the backtest's default 4 worker processes (ENGINE_PROCS=2 needs less; same results).
 #   bash research/backtest/refresh.sh
-# The engine is the "robustness" branch at BASE with the files in research/backtest/overlay copied over it.
+# The engine is the commit BASE (tagged backtest-engine-base; the tip of the "robustness" branch) with the files in
+# research/backtest/overlay copied over it. The tag keeps BASE reachable even if that branch is ever deleted.
 set -euo pipefail
 REPO=$(cd "$(dirname "$0")/../.." && pwd)
 BASE=2482d03db8ec6659ffd4a6f6a9bc1056aa01c819
 WORK=${WORK:-$(mktemp -d)}
 echo "work folder: $WORK"
 python -c "import yfinance, lxml, numpy" 2>/dev/null || pip install -q -r "$REPO/requirements.txt"
-git -C "$REPO" cat-file -e "$BASE^{commit}" 2>/dev/null || git -C "$REPO" fetch -q origin robustness
+git -C "$REPO" cat-file -e "$BASE^{commit}" 2>/dev/null || git -C "$REPO" fetch -q origin tag backtest-engine-base 2>/dev/null \
+  || git -C "$REPO" fetch -q origin robustness
 git -C "$REPO" cat-file -e "$BASE^{commit}"
 git -C "$REPO" worktree prune
 rm -rf "$WORK/engine"
