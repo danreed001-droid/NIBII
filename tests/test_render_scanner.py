@@ -209,3 +209,19 @@ def test_add_news_button_opens_the_events_form():
     from mtl.events import ADD_URL
     page = render_scanner.render(SCAN)
     assert f'<a class="bt add" href="{ADD_URL}" target="_blank"' in page and '__ADD_URL__' not in page
+
+
+def test_events_search_embeds_the_events_safely(tmp_path):
+    p = tmp_path / 'ev.json'
+    p.write_text(json.dumps(dict(events=[
+        dict(d='2026-10-16', what='</script><script>alert(1)</script> __DATA__', src='added by you', day=-0.01, month=None,
+             link='javascript:alert(1)'),
+        dict(d='2008-09-15', what='Lehman bankruptcy', src='curated', day=-0.048, month=-0.203, link='https://x.test/a')])))
+    sec = render_scanner.events_html(str(p))
+    assert '<script>alert' not in sec and '__DATA__' not in sec and 'id="ev-q"' in sec
+    blob = sec[sec.index('id="ev-data">') + len('id="ev-data">'):sec.index('</script>')]
+    rows = json.loads(blob)
+    assert rows[0][1].startswith('</script>') and rows[0][2] == 'added by you' and rows[0][6] == ''
+    assert rows[1][5] == 'september sep 15 2008 lehman bankruptcy ' and rows[1][6] == 'https://x.test/a'
+    page = render_scanner.render(SCAN)
+    assert page.index('id="events-find"') < page.index('Your plan') and '__EVENTS__' not in page

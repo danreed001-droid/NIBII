@@ -76,3 +76,25 @@ def test_your_items_are_copied_in_kept_and_removed_with_the_file():
     evs[-1]['day'] = 0.02
     ev.sync_mine(evs, [dict(d='2026-10-02', what='Second')])
     assert [(e['what'], e['day']) for e in evs if e['src'] == 'added by you'] == [('Second', 0.02)]
+
+
+def test_shared_search_matches_words_and_moves():
+    import json, shutil, subprocess
+    import pytest
+    node = shutil.which('node')
+    if not node:
+        pytest.skip('node is not installed')
+    js = ev.MATCH_JS + """
+var el = function (v) { return {value: v}; };
+var f = function (q, per, dir, min) { return evFilter(el(q), el(per), el(dir), el(min)); };
+var s = 'march mar 16 2020 fed cuts to zero + qe';
+console.log(JSON.stringify([
+  evMatch(s, -0.109, 0.037, f('fed  QE', 'day', 'any', '')),
+  evMatch(s, -0.109, 0.037, f('fed bank', 'day', 'any', '')),
+  evMatch(s, -0.109, 0.037, f('', 'day', 'down', '-5')),
+  evMatch(s, -0.109, 0.037, f('', 'day', 'up', '5')),
+  evMatch(s, -0.109, 0.037, f('', 'month', 'any', '5')),
+  evMatch(s, -0.109, undefined, f('', 'month', 'up', '')),
+  evOn(f('', 'day', 'any', '')), evOn(f('', 'day', 'up', ''))]));"""
+    out = subprocess.run([node, '-e', js], capture_output=True, text=True, check=True).stdout
+    assert json.loads(out) == [True, False, True, False, False, False, False, True]

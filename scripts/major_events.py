@@ -64,12 +64,12 @@ def render(doc):
         rows = []
         for e in es:
             d = date.fromisoformat(e['d'])
-            label = '' if e['src'] == 'curated' else e['src'].replace('auto: ', 'auto · ')
+            label = ev.tag(e)
             tag = f' <span class="tag">{html.escape(label)}</span>' if label else ''
             what = html.escape(e['what'])
             if (e.get('link') or '').startswith(('http://', 'https://')):
                 what = f'<a href="{html.escape(e["link"])}" target="_blank" rel="noopener">{what}</a>'
-            find = ' '.join([d.strftime('%B %b'), str(d.day), y, e['what'], label]).lower()   # what the search box matches
+            find = ev.search_text(e)
             mv = ''.join(f' data-{k}="{e[k]}"' for k in ('day', 'month') if e.get(k) is not None)
             rows.append(f'<tr data-s="{html.escape(find)}"{mv}><td class="d">{d.strftime("%b")} {d.day}</td><td>{what}{tag}</td>'
                         f'<td class="n">{pct(e.get("day"))}</td><td class="n">{pct(e.get("month"))}</td></tr>')
@@ -142,26 +142,30 @@ day, else from MarketWatch or Google News (named in brackets); Fed rate changes 
 or 1 month column, and events without that figure yet drop out while it's on. Information only: the plan doesn't use it.</p>
 </details>
 <script>
+{ev.MATCH_JS}
 (function () {{
   var q = document.getElementById('q'), per = document.getElementById('per'), dir = document.getElementById('dir'),
       min = document.getElementById('min'), clear = document.getElementById('clear'), count = document.getElementById('count'),
       none = document.getElementById('none'), secs = document.querySelectorAll('section.yr'), total = {len(evs)};
+  // a link from the scanner page's events search arrives as #q=...&per=...&dir=...&min=...
+  try {{
+    var h = new URLSearchParams(location.hash.slice(1));
+    if (h.get('q')) q.value = h.get('q');
+    if (h.get('per') === 'month') per.value = 'month';
+    if (['up', 'down'].indexOf(h.get('dir')) >= 0) dir.value = h.get('dir');
+    if (h.get('min')) min.value = h.get('min');
+  }} catch (e) {{}}
   function apply() {{
-    var words = q.value.toLowerCase().split(/\\s+/).filter(Boolean), m = parseFloat(min.value),
-        lim = isNaN(m) ? 0 : Math.abs(m) / 100, way = dir.value, moved = lim > 0 || way !== 'any', shown = 0;
+    var f = evFilter(q, per, dir, min), shown = 0;
     secs.forEach(function (sec) {{
       var n = 0;
       sec.querySelectorAll('tbody tr').forEach(function (tr) {{
-        var ok = words.every(function (w) {{ return tr.dataset.s.indexOf(w) >= 0; }});
-        if (ok && moved) {{
-          var v = tr.dataset[per.value];
-          ok = v !== undefined && Math.abs(+v) >= lim - 1e-9 && (way === 'any' || (way === 'up' ? +v > 0 : +v < 0));
-        }}
+        var ok = evMatch(tr.dataset.s, tr.dataset.day, tr.dataset.month, f);
         tr.hidden = !ok; n += ok ? 1 : 0;
       }});
       sec.hidden = !n; shown += n;
     }});
-    var on = words.length > 0 || moved;
+    var on = evOn(f);
     clear.hidden = !on; none.hidden = shown > 0;
     count.textContent = on ? 'Showing ' + shown + ' of ' + total + ' events' : '';
   }}
