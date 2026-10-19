@@ -563,3 +563,20 @@ def test_last_closed_session_in_winter_expects_the_days_close():
     # the 22:20 UTC run is 5:20 pm EST: Friday's close is due, so a missing Friday bar gets flagged
     assert ms.last_closed_session(datetime(2027, 1, 15, 22, 20, tzinfo=timezone.utc)) == '2027-01-15'
     assert ms.last_closed_session(datetime(2027, 1, 15, 21, 0, tzinfo=timezone.utc)) == '2027-01-14'   # 4:00 pm EST
+
+
+def test_strategy_lab_runs_the_live_plans_own_rules():
+    import importlib.util, os
+    here = os.path.dirname(__file__)
+    spec = importlib.util.spec_from_file_location('momentum_scan', os.path.join(here, '..', 'scripts', 'momentum_scan.py'))
+    ms = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ms)
+    cal = ['2026-10-14', '2026-10-15', '2026-10-16']
+    prices = {'SPY': {d: 100.0 for d in cal}, 'A': {d: 10.0 for d in cal}}
+    assert set(ms.plan_exits(prices, {}, cal)) == {'hold_exit', 'buy_when', 'buy_max_rank'}
+    assert set(ms.plan_exits(prices, {}, cal, fade=False)) == {'hold_exit'}     # the list the whipsaw counts sales on
+    with open(os.path.join(here, '..', 'scripts', 'backtest_strategies.py')) as f:
+        src = f.read()
+    assert 'plan_overlay(' in src and 'plan_exits(' in src
+    for own_copy in ('rotation_modes(', 'apply_lowerhigh(', 'apply_narrow(', 'apply_rebound(', 'no_bills(', 'whip_halves('):
+        assert own_copy not in src                                                 # a copy of a rule would drift from the live plan

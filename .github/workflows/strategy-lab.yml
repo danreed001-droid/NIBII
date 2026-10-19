@@ -1,0 +1,64 @@
+name: Strategy lab refresh
+
+# Reruns the dashboard's Strategy lab (scripts/backtest_strategies.py -> data/strategy_backtest.json): new ideas run
+# inside the live plan's own rules (the scanner's plan_exits and plan_overlay), from 2000, 2010 and 2020 to the last
+# close. The nightly scanner run redraws the page with it. Runs every 3 months, the day after the track record refresh,
+# and from Run workflow. A failure keeps the previous table and opens an issue.
+
+on:
+  schedule:
+    # 13:17 UTC on Jan 6, Apr 6, Jul 6 and Oct 6
+    - cron: '17 13 6 1,4,7,10 *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: strategy-lab
+  cancel-in-progress: false
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - run: pip install -r requirements.txt
+
+      - name: Rerun the Strategy lab
+        run: python scripts/backtest_strategies.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/strategy_backtest.json
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+            exit 0
+          fi
+          git commit -m "Strategy lab: quarterly rerun"
+          # The dashboard and other workflows push to main too; replay on top.
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin main && git push && exit 0
+            sleep 10
+          done
+          exit 1
+
+      - name: Open an issue if the rerun stopped
+        if: ${{ failure() || cancelled() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          bash scripts/report_failure.sh "Strategy lab rerun stopped $(date -u +%Y-%m-%d)" \
+            "scripts/backtest_strategies.py failed or timed out, so the dashboard's Strategy lab still shows its previous run (its date is in the section title). The log says why." lab

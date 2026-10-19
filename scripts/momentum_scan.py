@@ -402,6 +402,56 @@ def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
                 log=switch_log(modes, why))
 
 
+def plan_exits(prices, volumes, cal_, fade=True):
+    """The default plan's stock part on top of the Boost list (scripts/backtest_strategies.py runs the same): the
+    blow-off exit (a holding whose last month's gain is more than BLOWOFF times the 5 months before it is sold and
+    barred for 4 weeks, only while SPY is below its BLOWOFF_MA-session average), the surge exit (a 5%+ up close on
+    4x+ its 50-day volume -> sold a week later), and with `fade` the fading-energy filter (mtl/fade.py, since Oct 16,
+    2026: a top-5 stock whose volume and daily swings have both faded isn't bought; its slot stays in cash until it
+    leaves the top 5 or stops fading). fade=False is the list the whipsaw half-switch counts sales on."""
+    blow_, surge_ = blowoff_exit(prices, cal_, BLOWOFF, market='SPY', ma=BLOWOFF_MA), surge_exit(prices, volumes, cal_, SURGE_UP, SURGE_VOL, SURGE_DELAY)
+    out = dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e))
+    if fade:
+        out.update(buy_when=fade_buy_ok(prices, volumes, cal_), buy_max_rank=TOP_N)
+    return out
+
+
+def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, start, rate_px, rsp_px, vix_px):
+    """Every rule of the default plan above its stock list, in the order the live plan applies them (the scanner and
+    scripts/backtest_strategies.py both run this). Returns the day-by-day modes, why, half-switch and what the
+    page shows of each rule."""
+    # the rotation: out of stocks into TLT / GLD when the swing structure says so (mtl/rotation.py); decided at any
+    # close, traded at the next close
+    rot_bars = {'SPY': spy_bars, **{t: asset_bars[t] for t in ROT_ASSETS if asset_bars.get(t)}}
+    modes, why, read, state = rotation_modes(rot_bars, calendar, start)
+    # ... plus the lower-high exit: when SPY's weekly swings make a lower high (or an early one with the
+    # daily chart already turned down), two weeks in the stronger of TLT / GLD (T-bills if neither is
+    # rising), then back to the plan (mtl/lowerhigh.py)
+    lh_cash, lh_log = lowerhigh_cash(spy_bars, calendar, start, modes, dest=lambda d_: read.steepest(d_) or 'BIL')
+    modes, why = apply_lowerhigh(modes, why, lh_cash, calendar)
+    # ... plus the whipsaw half-switch: when most of the Boost list's recent sales were losers, half
+    # goes into whichever of TLT / GLD / SPY is up most over 3 months (skipping weekly downtrends)
+    whip_on = whipsaw(picks_whip, prices, calendar, start, open_end=True)
+    # ... except while the 10-year yield and gold are both up over 3 months (reflation): then it stays in the Boost list
+    regime = reflation(rate_px, whip_px.get('GLD') or {}, calendar)
+    half = whip_halves(modes, whip_on, read, whip_px, calendar, skip=regime)
+    # ... and the narrow-market cash week: a week after SPY sits near its high on a calm VIX while the
+    # equal-weight S&P lags it, the whole account holds T-bills for a week (mtl/narrow.py)
+    narrow_warn = narrow_warnings(prices['SPY'], rsp_px, vix_px, calendar) if rsp_px and vix_px else []
+    narrow_cash = narrow_cash_days(narrow_warn, calendar)
+    modes, why = apply_narrow(modes, why, {d_ for d_ in narrow_cash if d_ >= start}, calendar)
+    # ... and the rebound rule: while SPY is 12%+ under its 3-month high, gold or bonds is up 2%+ since that high
+    # and SPY's daily chart has made a higher low, the plan holds the Boost list whatever the rules above say
+    # (mtl/rebound.py)
+    reb_days = rebound_days(spy_bars, whip_px, calendar, start)
+    modes, why, half, reb_held = apply_rebound(modes, why, half, reb_days, calendar)
+    # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
+    # stronger of TLT / GLD over 3 months if it is up, else cash (mtl/rotation.py no_bills)
+    modes, why, half = no_bills(modes, why, half, whip_px, calendar)
+    return dict(modes=modes, why=why, half=half, read=read, state=state, lh_cash=lh_cash, lh_log=lh_log,
+                whip_on=whip_on, regime=regime, narrow_warn=narrow_warn, narrow_cash=narrow_cash, reb_held=reb_held)
+
+
 def last_closed_session(now=None):
     """The latest NYSE session whose closing prices should be in by `now` (default: the clock), New York time:
     today once the close has printed (16:15, as for the paper record) on a trading day, else the session before.
@@ -618,27 +668,15 @@ def main():
         return rr, held, after
     rb, hold_b, after_b = boost_run()
     picks_b = rb['picks']
-    # Boost 100% and Boost + cushion: the Boost list with the blow-off exit (a holding whose last
-    # month's gain is more than BLOWOFF times the 5 months before it is sold and barred for 4 weeks),
-    # switched on only in a weak market (SPY below its BLOWOFF_MA-session average)
-    # ... plus the surge exit: a holding that closes 5%+ up on 4x+ its 50-day volume is sold a week (5 sessions) later
-    # ... plus the fading-energy filter (mtl/fade.py, since Oct 16, 2026): a top-5 stock whose volume and daily swings
-    # have both faded isn't bought; its slot stays in cash (buy_max_rank) until it leaves the top 5 or stops fading
-    def bx_exit(cal_):
-        blow_, surge_ = blowoff_exit(prices, cal_, BLOWOFF, market='SPY', ma=BLOWOFF_MA), surge_exit(prices, volumes, cal_, SURGE_UP, SURGE_VOL, SURGE_DELAY)
-        return dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e),
-                    buy_when=fade_buy_ok(prices, volumes, cal_), buy_max_rank=TOP_N)
-    rbx, hold_bx, after_bx = boost_run(bx_exit)
+    # Boost 100% and Boost + cushion: the Boost list with the blow-off and surge exits and the fading-energy
+    # filter (plan_exits)
+    rbx, hold_bx, after_bx = boost_run(lambda cal_: plan_exits(prices, volumes, cal_))
     picks_bx = rbx['picks']
     # the whipsaw half-switch reads the same list with the fading-energy filter off (since Oct 16, 2026): a stock the filter
     # skipped counts as if it had been bought and later sold, so the filter changes which stocks are bought, never when
     # half the account steps out (an empty slot is not a sale)
-    def bx_shadow(cal_):
-        e_ = bx_exit(cal_)
-        e_.pop('buy_when', None)
-        e_.pop('buy_max_rank', None)
-        return e_
-    picks_whip = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), **boost_kw, **bx_shadow(calendar))['picks']
+    picks_whip = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), **boost_kw,
+                              **plan_exits(prices, volumes, calendar, fade=False))['picks']
 
     strat = [[d, v] for d, v, _ in r['curve']]
     strat_b = [[d, v] for d, v, _ in rb['curve']]
@@ -729,36 +767,14 @@ def main():
              'cushion': plan_curve_dynamic(strat_bx, sl_curve, calendar, cushion_split),
              'steps': plan_curve_dynamic(strat, sl_curve, calendar, steps_split),
              'guard': plan_curve_mix({'top5': strat, 'sleeve': sl_curve, 'spy': spy_curve}, calendar, guard_weights)}
-    # Boost + rotation (the default): the Boost 100% list, out of stocks into TLT / GLD when the
-    # swing structure says so (mtl/rotation.py); decided at any close, traded at the next close
-    rot_bars = {'SPY': bench['SPY'], **{t: asset_bars[t] for t in ROT_ASSETS if asset_bars.get(t)}}
-    rot_modes, rot_why, rot_read, rot_state = rotation_modes(rot_bars, calendar, START)
-    # ... plus the lower-high exit: when SPY's weekly swings make a lower high (or an early one with the
-    # daily chart already turned down), two weeks in the stronger of TLT / GLD (T-bills if neither is
-    # rising), then back to the plan (mtl/lowerhigh.py)
-    lh_cash, lh_log = lowerhigh_cash(bench['SPY'], calendar, START, rot_modes, dest=lambda d_: rot_read.steepest(d_) or 'BIL')
-    rot_modes, rot_why = apply_lowerhigh(rot_modes, rot_why, lh_cash, calendar)
-    # ... plus the whipsaw half-switch: when most of the Boost list's recent sales were losers, half
-    # goes into whichever of TLT / GLD / SPY is up most over 3 months (skipping weekly downtrends)
+    # Boost + rotation (the default): the Boost 100% list with every rule above it (plan_overlay): the rotation,
+    # the lower-high exit, the whipsaw half-switch, the narrow-market cash week, the rebound rule and no T-bills
     whip_px = {**filled(sleeve_px, calendar), 'SPY': prices['SPY']}
-    whip_on = whipsaw(picks_whip, prices, calendar, START, open_end=True)
-    # ... except while the 10-year yield and gold are both up over 3 months (reflation): then it stays in the Boost list
-    regime = reflation(rate_px, whip_px.get('GLD') or {}, calendar)
-    whip_half = whip_halves(rot_modes, whip_on, rot_read, whip_px, calendar, skip=regime)
-    # ... and the narrow-market cash week: a week after SPY sits near its high on a calm VIX while the
-    # equal-weight S&P lags it, the whole account holds T-bills for a week (mtl/narrow.py)
     rsp_px = {b[0]: b[4] for b in bench.get('RSP') or []}
-    narrow_warn = narrow_warnings(prices['SPY'], rsp_px, vix_px, calendar) if rsp_px and vix_px else []
-    narrow_cash = narrow_cash_days(narrow_warn, calendar)
-    rot_modes, rot_why = apply_narrow(rot_modes, rot_why, {d_ for d_ in narrow_cash if d_ >= START}, calendar)
-    # ... and the rebound rule: while SPY is 12%+ under its 3-month high, gold or bonds is up 2%+ since that high
-    # and SPY's daily chart has made a higher low, the plan holds the Boost list whatever the rules above say
-    # (mtl/rebound.py)
-    reb_days = rebound_days(bench['SPY'], whip_px, calendar, START)
-    rot_modes, rot_why, whip_half, reb_held = apply_rebound(rot_modes, rot_why, whip_half, reb_days, calendar)
-    # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
-    # stronger of TLT / GLD over 3 months if it is up, else cash (mtl/rotation.py no_bills)
-    rot_modes, rot_why, whip_half = no_bills(rot_modes, rot_why, whip_half, whip_px, calendar)
+    ov = plan_overlay(bench['SPY'], asset_bars, whip_px, picks_whip, prices, calendar, START, rate_px, rsp_px, vix_px)
+    rot_modes, rot_why, whip_half, rot_read, rot_state = ov['modes'], ov['why'], ov['half'], ov['read'], ov['state']
+    lh_cash, lh_log, whip_on, regime = ov['lh_cash'], ov['lh_log'], ov['whip_on'], ov['regime']
+    narrow_warn, narrow_cash, reb_held = ov['narrow_warn'], ov['narrow_cash'], ov['reb_held']
     plans['rotation'] = rotation_curve(strat_bx, whip_px, calendar, rot_modes, half=whip_half)
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
@@ -1045,7 +1061,11 @@ def main():
     sl_val, bil = dict(sl_curve), {d_: 1.0 for d_, v_ in f['BIL'].items() if v_}
     strat_b_val = dict((d_, v) for d_, v in strat_b)
     strat_bx_val = dict((d_, v) for d_, v in strat_bx)
-    human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_]), round(strat_b_val.get(d_, v), 6), round(strat_bx_val.get(d_, v), 6)] for d_, v in strat
+    # ... then the default plan's value and the GLD / TLT closes, for the whole-account calls ('rotation', 'gold', 'bonds')
+    rot_val = {d_: v for d_, v in plans['rotation']}
+    whole = {'rotation': rot_val, 'gold': whip_px.get('GLD') or {}, 'bonds': whip_px.get('TLT') or {}}
+    human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_]), round(strat_b_val.get(d_, v), 6), round(strat_bx_val.get(d_, v), 6),
+                   round(rot_val[d_], 6) if rot_val.get(d_) else None, r4(whole['gold'].get(d_)), r4(whole['bonds'].get(d_))] for d_, v in strat
                   if d_ >= HUMAN_FROM and d_ in sl_val and bil.get(d_)]
     nxt = {calendar[i]: calendar[i + 1] for i in range(len(calendar) - 1)}
     coming_trade = next_session(week_end_session(today))
@@ -1073,7 +1093,7 @@ def main():
         wk = [tuple(w) for w in human_weeks]
         args = (my_calls, calendar, wk, lambda d_: pick_at.get(d_, []), ranks_at, prices, sl_val, bil)
         pick_at_bx = {d_: h for d_, h in picks_bx}
-        kw = dict(boost_picks_at=lambda d_: pick_at_b.get(d_, []), boostx_picks_at=lambda d_: pick_at_bx.get(d_, []))
+        kw = dict(boost_picks_at=lambda d_: pick_at_b.get(d_, []), boostx_picks_at=lambda d_: pick_at_bx.get(d_, []), whole=whole)
         scored, base = score_calls(*args, **kw), score_calls(*args, apply_picks=False, **kw)
         if scored:
             mine = dict(sig=signature(my_calls), curve=scored['curve'], base=base['curve'], weeks=scored['weeks'][-60:])

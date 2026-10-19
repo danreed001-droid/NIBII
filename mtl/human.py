@@ -1,7 +1,9 @@
 """Scores the viewer's own weekly calls ("Mine", the human model) on real prices.
 
 A call is keyed by its signal Friday and carries forward until the next one:
-  m       'auto' | 'boost' | 'boost100' | 'steps' | 'cash' | 'custom' ('del' = removed);
+  m       'rotation' | 'gold' | 'bonds' | 'auto' | 'boost' | 'boost100' | 'steps' | 'cash' | 'custom'
+          ('del' = removed); 'rotation' follows the default plan (Boost + rotation) whatever it
+          holds, trading when it trades; 'gold' / 'bonds' hold 100% GLD / TLT for the week;
           'boost' follows the News-boost list (its own five stocks) with its Auto mix,
           'boost100' the same list always 100% in the stocks, 'cushion' the same list
           with 25% in the sleeve while SPY's 6-month return is negative
@@ -17,7 +19,8 @@ still holds the stock it replaced and the replacement still ranks in the top
 Pure and network-free.
 """
 SWAP_RANK = 10
-LIVE = ('auto', 'boost', 'boost100', 'cushion', 'steps', 'cash', 'custom')
+LIVE = ('rotation', 'gold', 'bonds', 'auto', 'boost', 'boost100', 'cushion', 'steps', 'cash', 'custom')
+WHOLE = ('rotation', 'gold', 'bonds')   # the whole account in one value series (score's `whole`), no stocks / sleeve / cash
 
 
 def live_calls(calls):
@@ -39,6 +42,8 @@ def call_for(calls, friday):
 def mix_of(call, auto_share, steps_share, boost_share=None, cushion_share=None):
     """(stocks, sleeve, cash) fractions for a call."""
     m = call['m']
+    if m in WHOLE:
+        return 0.0, 0.0, 0.0
     if m == 'auto':
         return auto_share, 1 - auto_share, 0.0
     if m == 'boost100':
@@ -76,13 +81,15 @@ def slots_for(model, call, ranks):
 
 
 def score(calls, calendar, weeks, picks_at, ranks_at, closes, sleeve, cash, slots_n=5, apply_picks=True,
-          boost_picks_at=None, boostx_picks_at=None):
+          boost_picks_at=None, boostx_picks_at=None, whole=None):
     """weeks: [(signal_friday, trade_day, auto_share, steps_share[, boost_share[, cushion_share]])], oldest first;
     picks_at(trade_day) -> the model's holdings traded that day (boost_picks_at: the
     News-boost list's, used for 'boost' calls; boostx_picks_at: that list with the blow-off
     exit, used for 'boost100' and 'cushion' calls - boost_picks_at when not given); ranks_at(friday)
     -> {ticker: rank}; closes {ticker: {date: close}}; sleeve / cash {date: value}.
     apply_picks=False ignores swaps and drops (same mixes, the model's own stocks).
+    whole: {'rotation' | 'gold' | 'bonds': {date: value}} - the default plan's value and the GLD / TLT closes; a
+    week with one of those calls holds the whole account in that series (a missing day keeps the last value).
     Returns dict(curve=[[date, nav]], weeks=[[friday, trade_day, slots, [s, v, c]]]) or None."""
     calls = live_calls(calls)
     if not calls:
@@ -102,12 +109,15 @@ def score(calls, calendar, weeks, picks_at, ranks_at, closes, sleeve, cash, slot
         return last_px.get(t)
 
     nav, sh, sl_units, cash_units = 1.0, {}, 0.0, 0.0
+    w_ser, w_units, w_last = None, 0.0, None   # a whole-account call: its series, units held, last value seen
     curve, out_weeks, prev = [], [], None
     for d in calendar:
         if d < start:
             continue
+        if w_ser is not None:
+            w_last = w_ser.get(d) or w_last
         if prev is not None:
-            nav = sum(n * px(t, d) for t, n in sh.items()) + sl_units * sleeve[d] + cash_units * cash[d]
+            nav = sum(n * px(t, d) for t, n in sh.items()) + sl_units * sleeve[d] + cash_units * cash[d] + w_units * (w_last or 0.0)
         for t in list(sh):   # keep last prices current even on quiet days
             px(t, d)
         if d in trade:
@@ -116,6 +126,18 @@ def score(calls, calendar, weeks, picks_at, ranks_at, closes, sleeve, cash, slot
             c_sh = trade[d][5] if len(trade[d]) > 5 else None
             call = call_for(calls, f)
             s, v, c = mix_of(call, a_sh, s_sh, b_sh, c_sh)
+            ser = (whole or {}).get(call['m']) if call['m'] in WHOLE else None
+            val = (ser.get(d) or (w_last if w_ser is ser else None)) if ser else None
+            if val:
+                w_ser, w_last = ser, val
+                sh, sl_units, cash_units, w_units = {}, 0.0, 0.0, nav / val
+                out_weeks.append([f, d, None, [0.0, 0.0, 0.0]])
+                curve.append([d, round(nav, 6)])
+                prev = d
+                continue
+            if call['m'] in WHOLE:   # no data for it: the week sits in cash
+                s, v, c = 0.0, 0.0, 1.0
+            w_ser, w_units, w_last = None, 0.0, None
             if call['m'] in ('boost100', 'cushion') and (boostx_picks_at or boost_picks_at):
                 model = list((boostx_picks_at or boost_picks_at)(d))
             else:
