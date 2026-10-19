@@ -700,7 +700,8 @@ VARIANTS = {
     'NBmx': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='cash', other='gb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBbl': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='bil', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBrv': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='gb', other='cash'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
-    'NBup': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026)
+    'NBup': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026); the no-T-bills pick by 3-month change (Oct 19, 2026)
+    'NBb6': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the 3-month no-T-bills pick (Oct 19, 2026)
     'NBg0': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the count restart (Oct 19, 2026)
     'NBhalf': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the previous default: half the account in the whipsaw switch's asset
     'NBnf': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default before the fading-energy filter (Oct 14-16, 2026)
@@ -5279,8 +5280,9 @@ def main():
             sc = ws_
             nb_ = leg_.get('nobil')
             if nb_:
+                nbn_ = leg_.get('nobil_n', 126)   # the pick's lookback in sessions (63 in the default since Oct 19, 2026)
                 # no T-bills: wherever the plan would hold T-bills, hold instead 'gb' = the stronger of TLT / GLD by
-                # 6-month % change (even if both are falling), or 'cash' = uninvested cash at 0%; a dict
+                # 6-month (nobil_n) % change (even if both are falling), or 'cash' = uninvested cash at 0%; a dict
                 # {'narrow': .., 'other': ..} treats the narrow-market cash week apart from everything else
                 if 'CASH0' not in px_all:
                     px_all['CASH0'] = {d_: 1.0 for d_ in cal}
@@ -5296,14 +5298,14 @@ def main():
                         return 'CASH0'
                     if kind_ == 'bil':
                         return 'BIL'
-                    a_, b_ = pchg('TLTX', f_, 126), pchg('GLDX', f_, 126)
+                    a_, b_ = pchg('TLTX', f_, nbn_), pchg('GLDX', f_, nbn_)
                     if isinstance(kind_, str) and kind_.startswith('gb:'):
                         # the strongest of the listed assets over 6 months if it is up, else cash at 0%
-                        up_ = [(v_, t_) for t_ in kind_[3:].split(',') for v_ in (pchg(t_, f_, 126),) if v_ is not None and v_ > 0]
+                        up_ = [(v_, t_) for t_ in kind_[3:].split(',') for v_ in (pchg(t_, f_, nbn_),) if v_ is not None and v_ > 0]
                         return max(up_)[1] if up_ else 'CASH0'
                     if kind_ == 'gbuu':
                         # the strongest of TLT / GLD / the dollar (UUP) over 6 months if it is up, else cash at 0%
-                        c_ = pchg('UUPX', f_, 126)
+                        c_ = pchg('UUPX', f_, nbn_)
                         up_ = [(v_, t_) for v_, t_ in ((a_, 'TLTX'), (b_, 'GLDX'), (c_, 'UUPX')) if v_ is not None and v_ > 0]
                         return max(up_)[1] if up_ else 'CASH0'
                     if isinstance(kind_, str) and kind_.startswith('ts:'):
@@ -5325,7 +5327,7 @@ def main():
                             hph_ = [x for x in swh_ if x['type'] == 'high' and x['i'] < lsh_[-1]['i']]
                             if not hph_ or (len(bsh_) - 1 - lsh_[-1]['i']) <= (lsh_[-1]['i'] - hph_[-1]['i']):
                                 continue
-                            c_ = pchg(t_, f_, 126)
+                            c_ = pchg(t_, f_, nbn_)
                             if hvh_ == 'tu' and (c_ is None or c_ <= 0):
                                 continue
                             okh_.append((c_ if c_ is not None else -9, t_))

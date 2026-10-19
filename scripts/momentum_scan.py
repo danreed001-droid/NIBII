@@ -55,7 +55,7 @@ from mtl import health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
 from mtl.fade import SWING_TH as FADE_SWING, VOL_TH as FADE_VOL, buy_ok as fade_buy_ok, fading as fade_check, ratios as fade_ratios  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
-from mtl.rotation import CONFIRM as ROT_CONFIRM, CONFIRM_GAP as ROT_CONFIRM_GAP, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, WHIP_SHARE, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, CASH, bills_pick, no_bills  # noqa: E402
+from mtl.rotation import CONFIRM as ROT_CONFIRM, CONFIRM_GAP as ROT_CONFIRM_GAP, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, WHIP_SHARE, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, BILLS_LOOK, CASH, bills_pick, no_bills  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -757,7 +757,7 @@ def main():
     reb_days = rebound_days(bench['SPY'], whip_px, calendar, START)
     rot_modes, rot_why, whip_half, reb_held = apply_rebound(rot_modes, rot_why, whip_half, reb_days, calendar)
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
-    # stronger of TLT / GLD over 6 months if it is up, else cash (mtl/rotation.py no_bills)
+    # stronger of TLT / GLD over 3 months if it is up, else cash (mtl/rotation.py no_bills)
     rot_modes, rot_why, whip_half = no_bills(rot_modes, rot_why, whip_half, whip_px, calendar)
     plans['rotation'] = rotation_curve(strat_bx, whip_px, calendar, rot_modes, half=whip_half)
     for x in PLAN_SPLITS:
@@ -1026,9 +1026,9 @@ def main():
     auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_whip, prices, held=picks_bx)
     if auto['rotation']['whip']['pick'] == 'BIL':   # nothing up over 3 months: the no-T-bills swap
         auto['rotation']['whip']['pick'] = bills_pick(whip_px, calendar, K)
-    auto['rotation']['noBills'] = dict(look=PICK_LOOK, assets=list(ROT_ASSETS), pick=bills_pick(whip_px, calendar, K),
-                                       pct={t: r4(whip_px[t][calendar[K]] / whip_px[t][calendar[K - PICK_LOOK]] - 1)
-                                            if whip_px.get(t, {}).get(calendar[K]) and whip_px.get(t, {}).get(calendar[K - PICK_LOOK]) else None
+    auto['rotation']['noBills'] = dict(look=BILLS_LOOK, assets=list(ROT_ASSETS), pick=bills_pick(whip_px, calendar, K),
+                                       pct={t: r4(whip_px[t][calendar[K]] / whip_px[t][calendar[K - BILLS_LOOK]] - 1)
+                                            if whip_px.get(t, {}).get(calendar[K]) and whip_px.get(t, {}).get(calendar[K - BILLS_LOOK]) else None
                                             for t in ROT_ASSETS},
                                        days=sum(1 for d_, m_ in rot_modes.items() if m_ == CASH))
     auto['rotation']['whip']['regime'] = regime_block(regime, rate_px, whip_px.get('GLD') or {}, calendar, K)

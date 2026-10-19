@@ -86,8 +86,8 @@ picked on that same history.
 8. No T-bills (default from Oct 13, 2026; T-bills can't be held in the account): wherever the rules above
    would hold T-bills (the downtrend or lower-high exit with neither TLT nor GLD rising, the whipsaw half
    with nothing up, the narrow-market cash week), the plan holds instead whichever of TLT / GLD is up more
-   over PICK_LOOK sessions if it is up at all, else plain cash earning nothing (no_bills below, applied
-   last in scripts/momentum_scan.py). Audit (Oct 13, 2026): from 2000 37.0% a year before tax (23.4%
+   over BILLS_LOOK sessions (3 months; 6 months, PICK_LOOK, until Oct 19, 2026) if it is up at all, else
+   plain cash earning nothing (no_bills below, applied last in scripts/momentum_scan.py). Audit (Oct 13, 2026): from 2000 37.0% a year before tax (23.4%
    after) vs 34.9% (22.1%) with T-bills and 34.5% (21.8%) with plain cash, worst drop -31% vs -29%;
    from 2010 38.0% vs 35.9% (-25% both); from 2016 47.0% vs 43.9% (-23% both); from 2020 67.6% vs 64.7%
    (-27% both). Since 2000 it replaced 948 T-bill days: 447 in gold, 295 in bonds, 206 in cash. Holding
@@ -95,6 +95,14 @@ picked on that same history.
    -26% from 2016), as did cash in the cash week with gold or bonds elsewhere (35.2%, 35.1%, 41.9%,
    61.1%). The gain is lumpy: mostly bonds in late 2008 and gold in the 2024-2025 cash weeks, while gold
    cost about 40 points of 2026's gain, so count on it doing about as well as T-bills.
+   The 3-month look (default from Oct 19, 2026; only this pick, the rotation and the exits still read 6
+   months): 42.4% a year from 2000 vs 41.0% (26.7% vs 25.9% after tax, worst drop -34% both), ahead from
+   all seven start years tested (2000, 2005, 2008, 2010, 2013, 2016, 2020) by 1.3 to 2.8 points; ahead in
+   232 of 285 rolling 3-year windows (45 behind) and 238 of 261 5-year ones; 2000-2011 38.5% vs 37.3%,
+   2013-2025 about level (40.9% vs 40.8%), so 2026 carries much of the recent gain. Worst drop from 2008
+   -30% vs -26%, from 2005 -29% vs -33%. Replayed abroad: Japan 18.6% vs 18.1% a year, UK 12.6% vs 12.1%,
+   Germany 5.0% vs 4.9%. 4 months did about as well, 5 months about level, 2 months worse; moving the
+   rotation's own pick to 3 months as well did worse.
 
    The dip add (buying the Boost list back on a sharp dip while in the havens) was removed
    on Oct 13, 2026: on corrected data the plan did slightly better without it, 30.6% a year
@@ -124,7 +132,8 @@ WHIP_PCT = 63         # sessions of % change used to pick the whipsaw switch's a
 WHIP_SHARE = 1.0      # the account's share in that asset while the switch is on (0.5 until Oct 16, 2026)
 WHIP_ASSETS = ('TLT', 'GLD', 'SPY')
 REGIME_LOOK = 63      # sessions over which the 10-year yield and gold must both be up to skip the half-switch
-PICK_LOOK = 126       # sessions of % change that pick between TLT and GLD
+PICK_LOOK = 126       # sessions of % change that pick between TLT and GLD (rotation, downtrend and lower-high exits)
+BILLS_LOOK = 63       # sessions of % change for the no-T-bills pick (no_bills; PICK_LOOK until Oct 19, 2026)
 CASH = 'CASH'         # uninvested cash (no interest), held instead of T-bills when neither TLT nor GLD is up
 
 
@@ -493,7 +502,7 @@ def rotation_curve(boost_curve, asset_px, calendar, modes, cost=SWITCH_COST, hal
     return out
 
 
-def bills_pick(closes, calendar, k, look=PICK_LOOK, assets=ROT_ASSETS):
+def bills_pick(closes, calendar, k, look=BILLS_LOOK, assets=ROT_ASSETS):
     """What no_bills holds instead of T-bills at calendar[k]: the asset up most over `look` sessions if
     any is up, else CASH."""
     best, bv = CASH, 0.0
@@ -505,7 +514,7 @@ def bills_pick(closes, calendar, k, look=PICK_LOOK, assets=ROT_ASSETS):
     return best
 
 
-def no_bills(modes, why, half, closes, calendar, look=PICK_LOOK, assets=ROT_ASSETS):
+def no_bills(modes, why, half, closes, calendar, look=BILLS_LOOK, assets=ROT_ASSETS):
     """No T-bills (see item 8 above): wherever the plan would hold T-bills ('BIL' in modes, or as the
     whipsaw half in half), hold instead whichever of `assets` is up most over `look` sessions to that
     close if it is up at all, else cash ('CASH', earning nothing). Picked again at every close.
