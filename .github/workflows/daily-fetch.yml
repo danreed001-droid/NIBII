@@ -169,8 +169,9 @@ jobs:
           fi
 
       - name: Open an issue if this run failed
-        # one issue a day at most (the title carries the date); also added to the scanner page's issues list
-        if: ${{ failure() || cancelled() }}
+        # one issue a day at most (the title carries the date); also added to the scanner page's issues list.
+        # A push run cancelled by a newer push (the concurrency group above) was replaced, not failed: not reported.
+        if: ${{ failure() || (cancelled() && github.event_name != 'push') }}
         env:
           GH_TOKEN: ${{ github.token }}
           OWNER: ${{ github.repository_owner }}
