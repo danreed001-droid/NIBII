@@ -126,6 +126,12 @@ def test_problems_report_gaps_reruns_and_replay_differences():
     out = ' '.join(paper.problems(dict(entries=ent), blk, dict(d='2026-10-16', mode='boost', half=None, list=['A']), '2026-10-16', cal))
     assert 'no decision for 2026-10-13, 2026-10-15' in out
     assert 'reads 2026-10-16 differently' in out and 'no longer replays the same' in out
+    # logged under earlier rules (a listed update since): a different reading tonight is expected, no warning
+    ent[-1]['fp'] = 'old'
+    out = ' '.join(paper.problems(dict(entries=ent), dict(blk, fpNow='new'), dict(d='2026-10-16', mode='GLD', half=None, list=[]), '2026-10-16', cal))
+    assert 'reads 2026-10-16 differently' not in out and 'no longer replays the same' in out
+    out = ' '.join(paper.problems(dict(entries=ent), dict(blk, fpNow='old'), dict(d='2026-10-16', mode='GLD', half=None, list=[]), '2026-10-16', cal))
+    assert 'reads 2026-10-16 differently' in out
 
 
 def test_status_checks_every_horizon_reached():
