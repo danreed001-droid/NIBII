@@ -68,3 +68,29 @@ def test_page_shows_what_usually_followed_recent_events():
     assert page.count('class="pat"') == 1                                  # only the recent one
     assert 'S&amp;P higher 3 months later in 80%' in page and 'with the S&amp;P below its 200-day average, all outside shocks: 91% higher' in page
     assert page.count('href="#t-war-terror"') >= 3 and 'id="t-war-terror"' in page and 'Tech (70%' in page
+
+
+def test_scorecard_saves_odds_once_and_scores_after_three_months(tmp_path):
+    from scripts import event_patterns as ep
+    q = lambda up: dict(n=12, up=up, avg=0.01, held=False)
+    pats = dict(baseline={'S&P 500': {'63': dict(up=0.69, avg=0.02, n=100)}},
+                types={'War / terror': dict(group='Outside shock', assets={'S&P 500': dict(quarter=q(0.8))})},
+                groups={'Tightening': dict(assets={'S&P 500': dict(quarter=q(0.4))})})
+    cal = [f'2026-{m:02d}-{d:02d}' for m in range(10, 13) for d in range(1, 29)] + [f'2027-{m:02d}-{d:02d}' for m in range(1, 6) for d in range(1, 29)]
+    spy = [100 + i * 0.1 for i in range(len(cal))]
+    doc = dict(events=[dict(d='2026-10-20', what='Strike on a port', src='auto: big move', type='War / terror'),
+                       dict(d='2026-10-21', what='Hot CPI', src='curated', type='Inflation / yields'),    # falls back to its group
+                       dict(d='2026-10-22', what='Top', src='curated', type='Turning point'),             # no odds
+                       dict(d='2026-09-01', what='Before the scorecard', src='curated', type='War / terror')])
+    path = str(tmp_path / 'f.json')
+    log = ep.update_forecasts(doc, pats, cal[:40], spy[:40], '2026-10-22', path)
+    assert [(x['d'], x['basis'], x['up'], x['spy_q']) for x in log['entries']] == \
+        [('2026-10-20', 'War / terror', 0.8, None), ('2026-10-21', 'Tightening', 0.4, None)]
+    pats['types']['War / terror']['assets']['S&P 500']['quarter'] = q(0.1)      # later weeks don't rewrite saved odds
+    log = ep.update_forecasts(doc, pats, cal, spy, '2027-02-01', path)
+    assert [x['up'] for x in log['entries']] == [0.8, 0.4] and all(x['spy_q'] > 0 for x in log['entries'])
+    r = ep.record(log)
+    assert (r['n'], r['calls'], r['right'], r['normal_right']) == (2, 2, 1, 2)
+    from scripts.major_events import record_card
+    card = record_card(log, pats)
+    assert 'came true in <b>1 of 2</b>' in card and 'Strike on a port' in card
