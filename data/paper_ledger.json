@@ -144,13 +144,13 @@
   },
   {
    "since": "2026-10-19",
-   "fingerprint": "097c0bf55928c30a",
+   "fingerprint": "1780af550790b71f",
    "files": {
     "mtl/momentum.py": "30434b62e1e5",
-    "mtl/rotation.py": "ab66cf117271",
+    "mtl/rotation.py": "aa9ceb02f62b",
     "mtl/rebound.py": "c54c8da0dce7",
-    "mtl/narrow.py": "ffd9c01fc5a8",
-    "mtl/lowerhigh.py": "9e700c7f7779",
+    "mtl/narrow.py": "ecce556d1bc5",
+    "mtl/lowerhigh.py": "956cdc084278",
     "mtl/news.py": "a361de45badc",
     "mtl/structure.py": "2ac3bad9c866",
     "mtl/universe.py": "93bbda358364",
@@ -158,7 +158,7 @@
     "mtl/calendar_nyse.py": "f968ab11e45a",
     "scripts/momentum_scan.py (settings)": "c10bba062f81"
    },
-   "what": "picks from S&P 500 members only (the Nasdaq-100 names outside it dropped); a Monday-Thursday run no longer re-ranks the stock list or re-checks the whipsaw switch (only a blow-off or surge sale trades mid-week); NYSE holidays (from the exchange\u2019s rules, any year) set the week\u2019s last session and the trade date; the whipsaw switch's 15-session count of TLT/GLD leading starts over once SPY has been out of its downtrend for more than 10 sessions in a row"
+   "what": "picks from S&P 500 members only (the Nasdaq-100 names outside it dropped); a Monday-Thursday run no longer re-ranks the stock list or re-checks the whipsaw switch (only a blow-off or surge sale trades mid-week); NYSE holidays (from the exchange\u2019s rules, any year) set the week\u2019s last session and the trade date; the whipsaw switch's 15-session count of TLT/GLD leading starts over once SPY has been out of its downtrend for more than 10 sessions in a row; wherever the rules would hold T-bills, the no-T-bills pick takes the stronger of TLT / GLD over 3 months (63 sessions) instead of 6, if it is up, else cash (the rotation and the exits still pick by 6 months)"
   }
  ]
 }

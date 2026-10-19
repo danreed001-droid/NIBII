@@ -193,6 +193,24 @@ def test_no_bills_holds_the_stronger_rising_asset_else_cash():
     assert m[cal[0]] == 'boost' and modes[cal[4]] == 'BIL' and half[cal[2]] == 'BIL'
 
 
+def test_no_bills_picks_by_3_months_while_the_rotation_keeps_6():
+    from mtl.rotation import BILLS_LOOK, CASH, PICK_LOOK, bills_pick, no_bills
+    assert (BILLS_LOOK, PICK_LOOK) == (63, 126)
+    cal = days(130)
+    # GLD up 30% over 6 months but down 5% over the last 3; TLT flat for 3 months, then up 4% over the last 3
+    gld = [100.0] * 4 + [130.0 + i * 0.1 for i in range(63)] + [130.0 + 62 * 0.1 - i * 0.1 for i in range(63)]
+    tlt = [100.0] * 67 + [100.0 + i * 0.065 for i in range(63)]
+    closes = {'TLT': dict(zip(cal, tlt)), 'GLD': dict(zip(cal, gld))}
+    k = len(cal) - 1
+    assert gld[k] / gld[k - 126] - 1 > tlt[k] / tlt[k - 126] - 1          # the 6-month look would take gold
+    assert bills_pick(closes, cal, k) == 'TLT'                             # the 3-month look takes bonds
+    assert bills_pick(closes, cal, k, look=PICK_LOOK) == 'GLD'
+    m, _, _ = no_bills({cal[k]: 'BIL'}, {}, None, closes, cal)
+    assert m[cal[k]] == 'TLT'
+    falling = {'TLT': dict(zip(cal, tlt[::-1])), 'GLD': dict(zip(cal, gld[:67] + [gld[66] * 0.9] * 63))}
+    assert bills_pick(falling, cal, k) == CASH                             # neither up over 3 months: cash
+
+
 def test_curve_earns_nothing_in_cash():
     from mtl.rotation import CASH
     cal = days(5)

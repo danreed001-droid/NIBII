@@ -51,6 +51,11 @@ refresh after the filter moved the default by about 2.7 points (published with *
 lot** ticked); the engine fix moved it by about 0.2 and the whole-account switch moves it by about 0.7. The checks are
 in `research/validation/README.md`.
 
+Since Oct 19, 2026 the default (`NBup`) picks gold, bonds or cash wherever it would hold T-bills by the 3-month change
+instead of the 6-month one (the `nobil_n=63` option; the rotation and the exits still pick by 6 months). `NBb6` keeps the
+6-month pick. The audit data gives 42.4% a year from 2000 (worst drop −34%) vs 41.0%, 44.7% vs 43.3% from 2010, 53.2% vs
+50.8% from 2016 and 77.9% vs 75.0% from 2020, so the first refresh after it moves the default by about 1.3 points.
+
 ## Run it by hand
 
 ```
