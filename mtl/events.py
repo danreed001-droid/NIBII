@@ -17,6 +17,7 @@ import re
 from bisect import bisect_left
 from datetime import date
 
+from mtl.event_types import TYPES, classify
 from mtl.phase import market_phase
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -59,9 +60,9 @@ def tag(e):
 
 
 def search_text(e):
-    """What the search box matches: the date (month name, day, year), the event text and its tag, lower case."""
+    """What the search box matches: the date (month name, day, year), the event text, its tag and type, lower case."""
     d = date.fromisoformat(e['d'])
-    return ' '.join([d.strftime('%B %b'), str(d.day), str(d.year), e['what'], tag(e)]).lower()
+    return ' '.join(x for x in (d.strftime('%B %b'), str(d.day), str(d.year), e['what'], tag(e), e.get('type')) if x).lower()
 
 
 def load(path=PATH):
@@ -80,7 +81,9 @@ def add(events, d, what, src):
     """Add an event unless one from the same rule is already on that day. Returns True when added."""
     if any(e['d'] == d and e['src'] == src for e in events):
         return False
-    events.append(dict(d=d, what=what, src=src, day=None, month=None))
+    e = dict(d=d, what=what, src=src, day=None, month=None)
+    e['type'] = classify(e)
+    events.append(e)
     return True
 
 
@@ -102,6 +105,7 @@ def sync_mine(events, mine):
         if e is None:
             e = dict(d=m['d'], what=m['what'], src=MINE_SRC, day=None, month=None)
             events.append(e)
+        e['type'] = m['type'] if m.get('type') in TYPES else classify(e)
         e.pop('link', None)
         if m.get('link'):
             e['link'] = m['link']
@@ -143,6 +147,7 @@ def auto(events, cal, spy, vix, news, since=AUTO_SINCE, headlines=(), fed=()):
             old = next((e for e in events if e['d'] == d and e['src'] == 'auto: big move'), None)
             if old and h and ':' not in old['what']:
                 old['what'] = txt   # a headline that arrived after the first run
+                old['type'] = classify(old)
             elif add(events, d, txt, 'auto: big move'):
                 new.append(d)
         v = vix.get(d)
@@ -176,10 +181,13 @@ def auto(events, cal, spy, vix, news, since=AUTO_SINCE, headlines=(), fed=()):
 
 
 def reactions(events, cal, spy):
-    """SPY's move on each event's first session and over the next 21 sessions (left empty until they exist)."""
+    """SPY's move on each event's first session and over the next 21 sessions (left empty until they exist), and
+    whether SPY was above its 200-day average the close before ('trend'), which the page's patterns split on."""
     for e in events:
         k = bisect_left(cal, e['d'])
         if k == 0 or k >= len(cal):
             continue
         e['day'] = round(spy[k] / spy[k - 1] - 1, 4)
         e['month'] = round(spy[k + 21] / spy[k - 1] - 1, 4) if k + 21 < len(cal) else None
+        if k > 200:
+            e['trend'] = 'above' if spy[k - 1] > sum(spy[k - 200:k]) / 200 else 'below'

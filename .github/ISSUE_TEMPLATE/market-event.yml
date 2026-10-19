@@ -30,6 +30,13 @@ body:
       description: Optional, a page about it.
       placeholder: https://...
   - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      description: Optional. The page then shows what usually followed past events of this type.
+      options: ["Not sure", "Fed hike / hawkish", "Inflation / yields", "Fed cut", "Emergency Fed cut", "QE / backstop", "Rescue / fiscal", "Trade relief", "Bank / credit failure", "Debt crisis / shutdown", "War / terror", "Trade war / China", "Pandemic / disaster", "Oil shock", "Crash / glitch", "Good news"]
+      default: 0
+  - type: dropdown
     id: action
     attributes:
       label: Add or remove

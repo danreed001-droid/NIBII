@@ -59,5 +59,14 @@ def test_page_rows_carry_search_text_and_moves_for_the_filters():
         dict(d='2026-10-16', what='My <note>', src='added by you', day=None, month=None)]))
     rows = re.findall(r'<tr data-s="([^"]*)"([^>]*)>', page)
     assert rows[0] == ('october oct 16 2026 my &lt;note&gt; added by you', '')
-    assert rows[1] == ('march mar 16 2020 fed cuts to zero + qe ', ' data-day="-0.1094" data-month="0.037"')
+    assert rows[1] == ('march mar 16 2020 fed cuts to zero + qe', ' data-day="-0.1094" data-month="0.037"')
     assert 'id="q" type="search"' in page and 'id="min"' in page and page.count('<section class="yr">') == 2
+
+
+def test_type_from_the_form_is_kept_when_known():
+    doc = dict(events=[])
+    b = body().replace('### Add or remove', '### Type\n\nOil shock\n\n### Add or remove')
+    assert apply(parse_issue_form(b), doc, 3, TODAY).endswith('(Oil shock)') and doc['events'][0]['type'] == 'Oil shock'
+    doc = dict(events=[])
+    apply(parse_issue_form(body().replace('### Add or remove', '### Type\n\nNot sure\n\n### Add or remove')), doc, 4, TODAY)
+    assert 'type' not in doc['events'][0]

@@ -223,6 +223,6 @@ def test_events_search_embeds_the_events_safely(tmp_path):
     blob = sec[sec.index('id="ev-data">') + len('id="ev-data">'):sec.index('</script>')]
     rows = json.loads(blob)
     assert rows[0][1].startswith('</script>') and rows[0][2] == 'added by you' and rows[0][6] == ''
-    assert rows[1][5] == 'september sep 15 2008 lehman bankruptcy ' and rows[1][6] == 'https://x.test/a'
+    assert rows[1][5] == 'september sep 15 2008 lehman bankruptcy' and rows[1][6] == 'https://x.test/a'
     page = render_scanner.render(SCAN)
     assert page.index('id="events-find"') < page.index('Your plan') and '__EVENTS__' not in page
