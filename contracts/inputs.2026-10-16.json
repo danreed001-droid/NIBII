@@ -10,26 +10,26 @@
  ],
  "assets": {
   "equities": {
-   "name": "TODO: fill in before publish",
+   "name": "S&P 500",
    "instrument": "ES=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 7704.25,
    "sigma": 19.989999771118164,
    "sigmaSource": "^VIX close 19.989999771118164 on 2026-10-16",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "ES=F fell 1.09% to 7704.25 on 16 October (cash S&P 500 -1.09% to 7,659.44, Nasdaq -2.14%) in a tech-led, AI-bubble-fear selloff as WTI jumped to $99.02, a one-month high; VIX rose to 19.99, RSI 44.3, 1H and weekly structure both choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -1811,30 +1811,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 16 October, so crowd is 0."
    ]
   },
   "bonds": {
-   "name": "TODO: fill in before publish",
+   "name": "10-Year Treasury Note",
    "instrument": "ZN=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = note price up, yields down",
    "close": 105.453125,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 15,
+   "sigmaSource": "TLT 30-day option implied volatility 15 carried from the 25 September Market Rebellion Pre-Market IV Report; no newer print was obtainable, so the value is 15 sessions stale (carried again)",
+   "driverNote": "ZN=F eased 0.01% to 105.453 on 16 October with the 10-year yield about 5.097%, after a hot import-price and industrial-output print kept the sticky-inflation story alive; RSI 50.4, below both the 50-day (106.63) and 200-day (109.75) averages, 1H choppy, weekly downtrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -4190,30 +4191,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 16 October, so crowd is 0."
    ]
   },
   "gold": {
-   "name": "TODO: fill in before publish",
+   "name": "Gold",
    "instrument": "GC=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = gold higher",
    "close": 4181.10009765625,
    "sigma": 22.579999923706055,
    "sigmaSource": "^GVZ close 22.579999923706055 on 2026-10-16",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "GC=F rose 0.13% to 4181.10 on 16 October, still below the 50-day (4374.4) and 200-day (4540.7) averages with RSI 43.5; 1H structure is an uptrend inside a weekly downtrend; GVZ 22.58.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -6023,30 +6025,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 16 October, so crowd is 0."
    ]
   },
   "dollar": {
-   "name": "TODO: fill in before publish",
+   "name": "US Dollar Index",
    "instrument": "DX-Y.NYB close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = stronger dollar",
    "close": 101.83999633789062,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 4.72,
+   "sigmaSource": "EUR/USD 1-month ATM implied volatility 4.72 carried unchanged from 21 September; no newer print was obtainable, so the value is 19 sessions stale (carried again)",
+   "driverNote": "DX-Y.NYB slipped 0.21% to 101.84 on 16 October (the news log called the dollar mixed) while sitting above its 50-day (100.35) and 200-day (99.47) averages, RSI 56.3; both 1H and weekly structure choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -7933,30 +7936,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 16 October, so crowd is 0."
    ]
   },
   "iwm": {
-   "name": "TODO: fill in before publish",
+   "name": "Russell 2000",
    "instrument": "RTY=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 2735.5,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 19.97,
+   "sigmaSource": "RVX 19.97 carried from the 23 September YCharts close (now 17 sessions stale); no newer print was obtainable (carried again)",
+   "driverNote": "RTY=F fell 1.67% to 2735.5 on 16 October (Russell 2000 cash -1.66%), RSI 31.6, below both the 50-day (2918.1) and 200-day (2804.5) averages; structure.hourly and structure.weekly both still read uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -9591,30 +9595,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 16 October, so crowd is 0."
    ]
   },
   "qqq": {
-   "name": "TODO: fill in before publish",
+   "name": "Nasdaq-100",
    "instrument": "NQ=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 29391.5,
    "sigma": 27.1299991607666,
    "sigmaSource": "^VXN close 27.1299991607666 on 2026-10-16",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "NQ=F fell 2.25% to 29391.5 on 16 October (Nasdaq Composite -2.14%) as AI-bubble fears hit CoreWeave and the semiconductor index fell an 8th straight session; VXN rose to 27.13, RSI 35.5, below the 50-day (30006) but above the 200-day (27868); 1H and weekly structure choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -11333,7 +11338,8 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 16 October, so crowd is 0."
    ]
   }
  },
@@ -11420,7 +11426,11 @@
    }
   },
   "dataNotes": [
-   "TODO: fill in before publish"
+   "Run timing: this cycle ran the morning of 19 October 2026 after the GitHub Actions fetch job drafted contracts/*.2026-10-16.json from Friday 16 October's close. Every figure used is dated at or before the 2026-10-16 close; documents/live.json and news-log entries dated 19 October were NOT used.",
+   "Bonds, dollar and IWM sigma are not auto-fetched and were carried stale from the prior board (bonds TLT IV 15, 25 September; dollar EUR/USD 1M IV 4.72, 21 September; IWM RVX 19.97, 23 September). No newer prints were obtained.",
+   "News-log entries for 2026-10-16 (six) were confirmed identical to those in the Artifact database; no hand-entered issue entries were dated 16 October. Percentage changes are computed from the drafted 15 and 16 October closes. Cash-index levels, yields, oil and data surprises come from the news log as written; no separate web search was run, to keep the blindness rule clean.",
+   "The news log carries two fed-pricing statements that sit awkwardly together: October hike odds near 50/50 after CPI/PPI (15 October entry) and Fed-on-hold odds of about 85% on CME FedWatch (16 October entry); the Fed-path votes cite the hot data and flag the discrepancy rather than pick a side on pricing.",
+   "No 16 October high-yield OAS, MOVE, breadth count, positioning print, sentiment survey or seasonal statistic was obtained; those category votes are neutral."
   ]
  }
 }
