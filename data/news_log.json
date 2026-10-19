@@ -3197,5 +3197,65 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-19-3-sp500-nasdaq-close-tech-ai-rally",
+    "data": {
+      "addedAt": "2026-10-19",
+      "category": "Market",
+      "date": "2026-10-19",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "US stocks closed higher as tech/AI names rebounded from last week's sell-off; Dow lagged. Analyst upgrades lifted Amazon, CoreWeave, Intel, Datadog and Western Digital.",
+      "impact": "High",
+      "numbers": "S&P 500 +0.4% to 7,690.73; Nasdaq Composite +1.1% to 26,430.89; Dow -0.1% to 51,966.03; 10-yr Treasury yield 5.14%",
+      "order": 3,
+      "reaction": "Nasdaq led gains on AI-stock rebound; Dow held back by non-tech laggards (Mosaic, NRG, Ameriprise).",
+      "region": "US",
+      "source": "https://bnnbloomberg.ca/markets/dow-jones/2026/10/19/european-stocks-slip-led-by-france-and-oil-falls-on-trumps-russian-sanctions-waiver",
+      "tickers": "SPY, QQQ, DIA, AMZN, CRWV, INTC, DDOG, WDC, NVDA",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-19-4-feds-warsh-tempers-rate-hike-bets",
+    "data": {
+      "addedAt": "2026-10-19",
+      "category": "Fed",
+      "date": "2026-10-19",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Fed Chair Warsh declined to prejudge the October FOMC meeting, which markets read as lowering the odds of a near-term rate hike, though risk of a December move remains. The Fed is in its pre-meeting communications blackout; last week's CPI/PPI ran warm, with PPI showing broader input-cost pressure. Warsh also said AI investment is currently a demand impulse rather than disinflationary.",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 4,
+      "reaction": "Treasuries firmed on reduced hike odds; equities took it as a modestly supportive signal for risk assets.",
+      "region": "US",
+      "source": "https://www.tickmill.com/blog/daily-market-outlook-october-19-2026",
+      "tickers": "TLT, SPY, DXY",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-19-5-france-protests-rattle-european-stocks",
+    "data": {
+      "addedAt": "2026-10-19",
+      "category": "Geopolitics",
+      "date": "2026-10-19",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Violent protests across France over cost-of-living and school-funding conditions pushed European equity indexes down more than 1%; French government bond yields rose sharply versus German Bunds on worry the unrest will force more fiscal spending. Macron called for \"calm and order.\" Separately, Trump's waiver of some Russia sanctions after a diesel-export deal added to oil-price volatility (Brent swung $107-$110, settling at $109.55, -0.3%).",
+      "impact": "Medium",
+      "numbers": "European equities -1%+; Brent $109.55 (-0.3%)",
+      "order": 5,
+      "reaction": "French bond yields widened vs. Bunds; European equities underperformed US peers.",
+      "region": "Europe",
+      "source": "https://bnnbloomberg.ca/markets/dow-jones/2026/10/19/european-stocks-slip-led-by-france-and-oil-falls-on-trumps-russian-sanctions-waiver",
+      "tickers": "CAC40, FEZ, VGK, BNO",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
