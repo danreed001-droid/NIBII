@@ -124,6 +124,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .section-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600;
   margin: 34px 0 12px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .section-label .hint { text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 0.8rem; }
+.section-label .hint a { color: var(--accent); text-decoration: none; }
 
 /* rebalance banner */
 .banner { margin-top: 18px; display: flex; gap: 10px 16px; align-items: center; flex-wrap: wrap; background: var(--surface);
@@ -3279,7 +3280,8 @@ def issues_html(scan, entries=None, today=None, show=ISSUES_SHOW):
         body = f'<ul>{items}</ul>{more}'
     else:
         body = '<p class="note"><span class="ok">✓ No issues in the last 2 weeks.</span> Every nightly run finished and its data checked out.</p>'
-    return ('<section id="issues"><p class="section-label">Issues <span class="hint">last 2 weeks</span></p>'
+    return ('<section id="issues"><p class="section-label">Issues <span class="hint">last 2 weeks · '
+            '<a href="issues.html">issues page →</a></span></p>'
             '<div class="card issues-card">' + body +
             f'<p class="note">Data problems and failed runs were also sent to you as {src} when they happened. Data problems '
             'are listed by the close they were found on, a failed run by the day it ran; older ones drop off after 14 days.</p>'

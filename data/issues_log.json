@@ -1,11 +1,4 @@
 {
  "about": "Issues found by the scanner and its workflows (mtl/health.py); the page shows the last 14 days.",
- "entries": [
-  {
-   "d": "2026-10-19",
-   "src": "daily-fetch",
-   "text": "The Market Tape Ledger's data fetch failed (it never affects the Top 5 plan); its page may be out of date until a later run works.",
-   "at": "2026-10-19T13:29:34+00:00"
-  }
- ]
+ "entries": []
 }
