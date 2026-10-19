@@ -49,3 +49,15 @@ def test_page_links_your_item_and_has_the_add_button():
     assert '<a href="https://news.test/a?b=1&amp;c=2" target="_blank" rel="noopener">Bank &lt;fails&gt;</a>' in page
     assert 'javascript:' not in page
     assert f'href="{ADD_URL}"' in page and '<span class="tag">added by you</span>' in page
+
+
+def test_page_rows_carry_search_text_and_moves_for_the_filters():
+    import re
+    from scripts.major_events import render
+    page = render(dict(updated='2026-10-18', events=[
+        dict(d='2020-03-16', what='Fed cuts to zero + QE', src='curated', day=-0.1094, month=0.037),
+        dict(d='2026-10-16', what='My <note>', src='added by you', day=None, month=None)]))
+    rows = re.findall(r'<tr data-s="([^"]*)"([^>]*)>', page)
+    assert rows[0] == ('october oct 16 2026 my &lt;note&gt; added by you', '')
+    assert rows[1] == ('march mar 16 2020 fed cuts to zero + qe ', ' data-day="-0.1094" data-month="0.037"')
+    assert 'id="q" type="search"' in page and 'id="min"' in page and page.count('<section class="yr">') == 2

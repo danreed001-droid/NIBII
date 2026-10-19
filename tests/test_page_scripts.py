@@ -27,7 +27,7 @@ def _check(html):
 
 
 @pytest.mark.skipif(NODE is None, reason='node is not installed')
-@pytest.mark.parametrize('page', ['scanner.html', 'backtest.html', 'index.html'])
+@pytest.mark.parametrize('page', ['scanner.html', 'backtest.html', 'index.html', 'events.html'])
 def test_published_page_scripts_parse(page):
     path = os.path.join(ROOT, 'docs', page)
     if not os.path.exists(path):
