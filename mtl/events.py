@@ -217,3 +217,18 @@ def side_moves(events, cal, side):
             if k == 0 or k >= len(cal):
                 continue
             e[name] = dict(day=move(k - 1, k), month=move(k - 1, k + 21))
+
+
+def plan_moves(events, cal, vals):
+    """What the plan made over the same windows (vals: {date: its value after that close}). A window it can't fill
+    tonight (a figure not there yet, or tonight's paper account missing) keeps its saved figure."""
+    for e in events:
+        k = bisect_left(cal, e['d'])
+        if k == 0 or k >= len(cal):
+            continue
+        a = vals.get(cal[k - 1])
+        mv = lambda i: round(vals[cal[i]] / a - 1, 4) if a and i < len(cal) and vals.get(cal[i]) else None
+        old = e.get('plan') or {}
+        new = {h: x if x is not None else old.get(h) for h, x in (('day', mv(k)), ('month', mv(k + 21)))}
+        if any(x is not None for x in new.values()):
+            e['plan'] = new
