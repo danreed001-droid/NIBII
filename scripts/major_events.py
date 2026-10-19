@@ -64,7 +64,7 @@ def signed(x):
     return f"{x * 100:+.1f}%".replace('-', '−')
 
 
-HELD = '<span class="held" title="held in both 2000–2012 and 2013 on">✓</span>'
+HELD = '<span class="held" title="held in both halves of the history">✓</span>'
 
 
 def odds(c):
@@ -98,7 +98,36 @@ def follow(e, pats):
     return f'<div class="pat">{out}. <a href="#t-{et.slug(t)}">More</a></div>'
 
 
-def type_cards(pats):
+def record_card(log, pats):
+    """The live scorecard: each new event's odds as shown the day it appeared, checked 3 months later."""
+    r = ep.record(log)
+    since = date.fromisoformat((log or {}).get('since', ev.AUTO_SINCE))
+    head = f'<div class="tcard" id="t-live"><h3>Live record since {since.strftime("%b")} {since.day}, {since.year}</h3>'
+    intro = ('<p class="note">Each new event\'s odds are saved the day it appears and checked 3 months later, so you can see '
+             'whether these patterns keep working on events they haven\'t seen.')
+    if not r['n']:
+        due = ''
+        pend = [x for x in (log or {}).get('entries', []) if x.get('spy_q') is None]
+        if pend:
+            first = date.fromisoformat(min(x['d'] for x in pend)) + timedelta(days=92)
+            due = f" {len(pend)} waiting; the first check is due around {first.strftime('%b')} {first.day}, {first.year}."
+        return head + intro + f' Nothing scored yet.{due}</p></div>'
+    norm = share(pats['baseline']['S&P 500']['63']['up']) if pats else 'the any-day'
+    out = (head + intro + f" {r['n']} scored ({r['pending']} waiting): the more likely side came true in <b>{r['right']} of "
+           f"{r['calls']}</b>; always going with the any-day odds (higher {norm} of the time) would have got {r['normal_right']} "
+           f"of {r['n']}. Average miss (0 = perfect, 0.25 = a coin toss): {r['brier']:.2f} vs {r['brier_normal']:.2f}.</p>")
+    rows = []
+    for x in sorted((x for x in log['entries'] if x.get('spy_q') is not None), key=lambda x: x['d'], reverse=True)[:10]:
+        d = date.fromisoformat(x['d'])
+        ok = (x['spy_q'] > 0) == (x['up'] > 0.5) if x['up'] != 0.5 else None
+        mark = '' if ok is None else ('<span class="held">✓</span>' if ok else '<span class="neg">✗</span>')
+        rows.append(f'<tr><td class="d">{d.strftime("%b")} {d.day} {d.year}</td><td>{html.escape(x["what"])}</td>'
+                    f'<td class="n">{share(x["up"])}</td><td class="n">{pct(x["spy_q"])} {mark}</td></tr>')
+    return out + ('<table class="pt"><thead><tr><th>Date</th><th>Event</th><th class="n">Said higher</th><th class="n">S&amp;P 3 months</th>'
+                  f'</tr></thead><tbody>{"".join(rows)}</tbody></table></div>')
+
+
+def type_cards(pats, log=None):
     """The fold with every type's table: how often each asset was higher after it, and the average move."""
     if not pats:
         return ''
@@ -117,7 +146,7 @@ def type_cards(pats):
         return (f'<table class="pt"><thead><tr><th></th>{"".join(f"<th>{x}</th>" for _, x in labels)}</tr></thead>'
                 f'<tbody>{"".join(rows)}</tbody></table>')
     base = {a: {lab: v[str(h)] for lab, h in ep.H.items()} for a, v in pats['baseline'].items()}
-    cards = [f'<div class="tcard"><h3>Any day (for comparison)</h3>{table(base)}</div>']
+    cards = [record_card(log, pats), f'<div class="tcard"><h3>Any day (for comparison)</h3>{table(base)}</div>']
     for t, (g, desc) in et.TYPES.items():
         T = pats['types'].get(t)
         if not T:
@@ -147,15 +176,19 @@ def type_cards(pats):
                      f'{table(T["assets"])}{sline}{gline}</div>')
     return ('<details class="types" id="types"><summary>What usually followed each type of event</summary>'
             '<p class="note">How often each was higher on the event day, a month and 3 months later (bold), with the average '
-            'move. ✓ = it held in both 2000–2012 and 2013 on. Bonds = long Treasuries, gold = gold ETF (futures before 2005), '
+            f'move. ✓ = it held in both halves of the history (before and after {html.escape(pats.get("split", "")[:4])}), so it '
+            'keeps working as the years add up. Bonds = long Treasuries, gold = gold ETF (futures before 2005), '
             'oil = US crude. Small samples swing a lot: treat these as history, not forecasts. Big days, VIX spikes and market '
             'phases count every time the rule would have fired since 2000; the news types come from the list above. '
-            f'Updated {html.escape(pats["updated"][:10])}.</p>' + ''.join(cards) + '</details>')
+            f'It is a running calculation: rebuilt every week from every event so far, so new events join their type once '
+            f'their 3 months have passed. Updated {html.escape(pats["updated"][:10])}.</p>' + ''.join(cards) + '</details>')
 
 
-def render(doc, pats=None):
+def render(doc, pats=None, log=None):
     if pats is None:
         pats = ep.load()
+    if log is None:
+        log = ep.load_forecasts()
     evs = sorted(doc['events'], key=lambda e: e['d'], reverse=True)
     upd0 = (doc.get('updated') or datetime.now(timezone.utc).isoformat())[:10]
     recent = (date.fromisoformat(upd0) - timedelta(days=92)).isoformat()   # outcomes still to come
@@ -251,7 +284,7 @@ table.pt tbody th {{ color: var(--ink); font-weight: 500; }}
   <button id="clear" type="button" hidden>Clear</button>
 </div>
 <p class="count" id="count" aria-live="polite"></p>
-{type_cards(pats)}
+{type_cards(pats, log)}
 {"".join(parts)}
 <p class="note" id="none" hidden>No events match. Try fewer words or a smaller move.</p>
 <details class="how"><summary>How this list works</summary>
@@ -351,14 +384,23 @@ def main(argv):
         ev.reactions(doc['events'], cal, spy)
         if '--patterns' in argv or ep.stale():
             try:
-                ep.save(ep.compute(doc, ep.fetch()))
+                epx = ep.fetch()
+                ep.save(ep.compute(doc, epx))
                 print('event patterns rebuilt')
+                if epx['_missing']:
+                    log = health.load()
+                    health.add(log, today, 'events', f"No prices for {', '.join(epx['_missing'])} in this week's event-patterns "
+                               'refresh, so those columns are blank (it never affects the plan).')
+                    health.save(log)
             except Exception as e:   # noqa: BLE001 - the page still renders with last week's patterns
                 print(f"event patterns failed: {type(e).__name__}: {e}")
                 log = health.load()
                 health.add(log, today, 'events', 'The weekly event-patterns refresh failed, so the events page shows last '
                            "week's figures (it never affects the plan).")
                 health.save(log)
+        pats_now = ep.load()
+        if pats_now:
+            ep.update_forecasts(doc, pats_now, cal, spy, today)   # the live scorecard: save new odds, score old ones
         doc['updated'] = datetime.now(timezone.utc).isoformat(timespec='seconds')
         print(f"events: {len(doc['events'])}, added tonight: {', '.join(new) or 'none'}")
     ev.save(doc)
