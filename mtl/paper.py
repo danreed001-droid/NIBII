@@ -161,6 +161,8 @@ def problems(ledger, blk, tonight, as_of, calendar):
         out.append(f"The paper record has no decision for {', '.join(miss)} (a run failed, was late or had stale "
                    f"data); it carries the previous holdings across.")
     logged = next((e for e in ent if e['d'] == as_of), None)
+    if logged and blk.get('fpNow') and logged.get('fp') and logged['fp'] != blk['fpNow']:
+        logged = None       # logged under earlier rules (a listed update since): a different reading is expected
     if logged and tonight and not same(logged, tonight):
         out.append(f"Tonight's run reads {as_of} differently from the decision logged for it ({logged['mode']} logged, "
                    f"{tonight['mode']} now): the logged one stands; check the data.")
