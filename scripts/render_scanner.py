@@ -109,6 +109,8 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .issues-card li:first-child { border-top: 0; }
 .issues-card .when { color: var(--muted); font-size: 0.74rem; margin-right: 6px; white-space: nowrap; }
 .issues-card .ok { color: var(--pos); font-weight: 600; }
+.issues-card .clamp { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.issues-card .more { font-size: 0.82rem; margin: 6px 0 0; }
 .meta b.pos { color: var(--pos); } .meta b.neg { color: var(--neg); } .meta b.warn { color: var(--gold); }
 .meta .market-signs { flex-basis: 100%; font-size: 0.8rem; line-height: 1.4; color: var(--muted); }
 .meta .data-issues { flex-basis: 100%; border: 1px solid var(--neg); border-radius: 8px; padding: 8px 11px; font-size: 0.82rem; line-height: 1.4; color: var(--masthead-ink); background: rgba(220, 60, 60, 0.14); }
@@ -3235,9 +3237,13 @@ def events_html(path=None, show=5):
             .replace('__MATCH__', ev.MATCH_JS, 1).replace('__ROWS__', data, 1))
 
 
-def issues_html(scan, entries=None, today=None):
-    """The "Issues (last 2 weeks)" card at the bottom of the page: every data problem and failed run in the
-    issues log (mtl/health.py) from the last 14 days, newest first, plus a stale side scan or track record."""
+ISSUES_PATH = os.path.join(ROOT, 'docs', 'issues.html')
+ISSUES_SHOW = 5   # the scanner page lists this many; the rest are on docs/issues.html
+
+
+def issue_rows(scan, entries=None, today=None):
+    """[(date, text)]: every data problem and failed run in the issues log (mtl/health.py) from the last 14 days,
+    newest first, plus a stale side scan or track record."""
     from datetime import datetime
     from zoneinfo import ZoneInfo
     sys.path.insert(0, ROOT)
@@ -3258,10 +3264,19 @@ def issues_html(scan, entries=None, today=None):
         rows.insert(0, (scan['asOf'], f"The Next big thing scan is from {ig or 'no date'}, not {scan['asOf']}: tonight's scan failed or was skipped (it never affects the plan)."))
     if not scan.get('track'):
         rows.insert(0, (scan.get('asOf') or '', 'The point-in-time track record (data/track_record.json) is missing, so the growth chart shows the replay on today\'s index members, which flatters every year.'))
+    return rows
+
+
+def issues_html(scan, entries=None, today=None, show=ISSUES_SHOW):
+    """The "Issues (last 2 weeks)" card at the bottom of the page: the newest `show` issues, each cut to two lines,
+    so the card's height has a fixed ceiling; the full list is on docs/issues.html."""
+    rows = issue_rows(scan, entries, today)
     src = '<a href="https://github.com/danreed001-droid/NIBII/issues" target="_blank" rel="noopener">GitHub issues</a>'
     if rows:
-        items = ''.join(f'<li><span class="when">{_e(d_)}</span>{_e(t_)}</li>' for d_, t_ in rows)
-        body = f'<ul>{items}</ul>'
+        items = ''.join(f'<li><div class="clamp"><span class="when">{_e(d_)}</span>{_e(t_)}</div></li>' for d_, t_ in rows[:show])
+        more = (f'<p class="more"><a href="issues.html">+ {len(rows) - show} more · see all →</a></p>'
+                if len(rows) > show else '')
+        body = f'<ul>{items}</ul>{more}'
     else:
         body = '<p class="note"><span class="ok">✓ No issues in the last 2 weeks.</span> Every nightly run finished and its data checked out.</p>'
     return ('<section id="issues"><p class="section-label">Issues <span class="hint">last 2 weeks</span></p>'
@@ -3271,15 +3286,47 @@ def issues_html(scan, entries=None, today=None):
             '</div></section>\n')
 
 
+def issues_page(scan, entries=None, today=None):
+    """docs/issues.html: every issue from the last 2 weeks, in full (the scanner page shows the newest few)."""
+    rows = issue_rows(scan, entries, today)
+    items = ''.join(f'<li><span class="when">{_e(d_)}</span>{_e(t_)}</li>' for d_, t_ in rows) or \
+        '<li><span class="ok">✓ No issues in the last 2 weeks.</span></li>'
+    return f'''<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Scanner Issues</title>
+<style>
+:root {{ --bg: #fbfaf7; --ink: #1d1c1a; --muted: #6f6d67; --line: #e1e0d9; --pos: #0a8f0a; }}
+@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ --bg: #161615; --ink: #ecebe6; --muted: #98968f; --line: #2c2c2a; --pos: #3fbf5f; }} }}
+:root[data-theme="dark"] {{ --bg: #161615; --ink: #ecebe6; --muted: #98968f; --line: #2c2c2a; --pos: #3fbf5f; }}
+body {{ margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 -apple-system, system-ui, "Segoe UI", sans-serif; }}
+.wrap {{ max-width: 760px; margin: 0 auto; padding: 18px 16px 48px; }}
+.nav a {{ color: var(--muted); text-decoration: none; font-size: 0.85rem; }}
+h1 {{ font-size: 1.6rem; margin: 10px 0 6px; }} p.note {{ color: var(--muted); font-size: 0.86rem; }}
+ul {{ list-style: none; padding: 0; margin: 12px 0 0; }}
+li {{ padding: 9px 0; border-top: 1px solid var(--line); font-size: 0.9rem; }} li:first-child {{ border-top: 0; }}
+.when {{ color: var(--muted); font-size: 0.78rem; margin-right: 8px; white-space: nowrap; }} .ok {{ color: var(--pos); font-weight: 600; }}
+</style></head><body><div class="wrap">
+<div class="nav"><a href="scanner.html">← Top 5 Strongest</a></div>
+<h1>Issues, last 2 weeks</h1>
+<p class="note">{f"{len(rows)} issue{'' if len(rows) == 1 else 's'}, newest first: " if rows else ''}data problems are listed by the close they were
+found on, a failed run by the day it ran. Older ones drop off after 14 days.</p>
+<ul>{items}</ul>
+</div></body></html>
+'''
+
+
 def main():
     if not os.path.exists(DATA_PATH):
         sys.exit(f"{DATA_PATH} not found - run: python scripts/momentum_scan.py")
     with open(DATA_PATH) as f:
-        page = render(json.load(f))
+        scan = json.load(f)
+    page = render(scan)
     os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
     with open(OUT_PATH, 'w') as f:
         f.write(page)
-    print(f"wrote {OUT_PATH}")
+    with open(ISSUES_PATH, 'w') as f:
+        f.write(issues_page(with_track_record(scan)))   # the same rows the scanner page's card lists
+    print(f"wrote {OUT_PATH} and {ISSUES_PATH}")
 
 
 if __name__ == '__main__':
