@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-10-19T01:24:01+00:00",
+ "updated": "2026-10-19T03:03:00+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -8,7 +8,15 @@
    "src": "curated",
    "day": -0.0053,
    "month": 0.0735,
-   "type": "Turning point"
+   "type": "Turning point",
+   "gold": {
+    "day": null,
+    "month": null
+   },
+   "bonds": {
+    "day": -0.004,
+    "month": 0.0475
+   }
   },
   {
    "d": "2000-04-14",
@@ -17,7 +25,15 @@
    "day": -0.0572,
    "month": 0.0169,
    "type": "Crash / glitch",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": null,
+    "month": null
+   },
+   "bonds": {
+    "day": 0.0019,
+    "month": -0.0319
+   }
   },
   {
    "d": "2000-05-16",
@@ -26,7 +42,15 @@
    "day": 0.0097,
    "month": 0.0198,
    "type": "Fed hike / hawkish",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": null,
+    "month": null
+   },
+   "bonds": {
+    "day": 0.0041,
+    "month": 0.036
+   }
   },
   {
    "d": "2001-01-03",
@@ -35,7 +59,15 @@
    "day": 0.048,
    "month": 0.0465,
    "type": "Emergency Fed cut",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0015,
+    "month": -0.0048
+   },
+   "bonds": {
+    "day": -0.0145,
+    "month": -0.008
+   }
   },
   {
    "d": "2001-04-18",
@@ -44,7 +76,15 @@
    "day": 0.0397,
    "month": 0.0829,
    "type": "Emergency Fed cut",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0008,
+    "month": 0.0479
+   },
+   "bonds": {
+    "day": 0.0028,
+    "month": -0.0093
+   }
   },
   {
    "d": "2001-09-17",
@@ -53,7 +93,15 @@
    "day": -0.0522,
    "month": 0.0032,
    "type": "War / terror",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.067,
+    "month": 0.0394
+   },
+   "bonds": {
+    "day": 0.0082,
+    "month": 0.0198
+   }
   },
   {
    "d": "2001-12-03",
@@ -62,7 +110,15 @@
    "day": -0.006,
    "month": 0.028,
    "type": "Bank / credit failure",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.011,
+    "month": 0.0157
+   },
+   "bonds": {
+    "day": 0.0036,
+    "month": -0.0272
+   }
   },
   {
    "d": "2002-07-22",
@@ -71,7 +127,15 @@
    "day": -0.0296,
    "month": 0.1143,
    "type": "Bank / credit failure",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0009,
+    "month": -0.0469
+   },
+   "bonds": {
+    "day": 0.0081,
+    "month": 0.0433
+   }
   },
   {
    "d": "2002-10-09",
@@ -80,7 +144,15 @@
    "day": -0.0282,
    "month": 0.1293,
    "type": "Turning point",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0044,
+    "month": 0.0072
+   },
+   "bonds": {
+    "day": 0.0051,
+    "month": -0.0174
+   }
   },
   {
    "d": "2003-03-20",
@@ -89,7 +161,15 @@
    "day": 0.0022,
    "month": 0.0233,
    "type": "War / terror",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0095,
+    "month": -0.0077
+   },
+   "bonds": {
+    "day": -0.0016,
+    "month": 0.009
+   }
   },
   {
    "d": "2003-06-25",
@@ -98,7 +178,15 @@
    "day": -0.01,
    "month": 0.0174,
    "type": "Fed cut",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0087,
+    "month": 0.0474
+   },
+   "bonds": {
+    "day": -0.016,
+    "month": -0.0976
+   }
   },
   {
    "d": "2004-06-30",
@@ -107,7 +195,15 @@
    "day": 0.0054,
    "month": -0.027,
    "type": "Fed hike / hawkish",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0003,
+    "month": -0.0038
+   },
+   "bonds": {
+    "day": 0.0103,
+    "month": 0.0257
+   }
   },
   {
    "d": "2005-08-29",
@@ -116,7 +212,15 @@
    "day": 0.0077,
    "month": 0.0118,
    "type": "Pandemic / disaster",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0009,
+    "month": 0.0731
+   },
+   "bonds": {
+    "day": 0.0013,
+    "month": -0.0128
+   }
   },
   {
    "d": "2006-06-29",
@@ -125,7 +229,15 @@
    "day": 0.0202,
    "month": 0.0248,
    "type": "Fed hike / hawkish",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0344,
+    "month": 0.0977
+   },
+   "bonds": {
+    "day": 0.0034,
+    "month": 0.035
+   }
   },
   {
    "d": "2007-02-27",
@@ -134,7 +246,15 @@
    "day": -0.0391,
    "month": -0.0192,
    "type": "Crash / glitch",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0395,
+    "month": -0.0301
+   },
+   "bonds": {
+    "day": 0.0126,
+    "month": -0.0058
+   }
   },
   {
    "d": "2007-07-17",
@@ -143,7 +263,15 @@
    "day": -0.0005,
    "month": -0.0891,
    "type": "Bank / credit failure",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0011,
+    "month": 0.0047
+   },
+   "bonds": {
+    "day": -0.0021,
+    "month": 0.0178
+   }
   },
   {
    "d": "2007-08-09",
@@ -152,7 +280,15 @@
    "day": -0.0296,
    "month": -0.027,
    "type": "Bank / credit failure",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0196,
+    "month": 0.0427
+   },
+   "bonds": {
+    "day": 0.0014,
+    "month": 0.0605
+   }
   },
   {
    "d": "2007-08-17",
@@ -161,7 +297,15 @@
    "day": 0.0184,
    "month": 0.0729,
    "type": "Emergency Fed cut",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0051,
+    "month": 0.1085
+   },
+   "bonds": {
+    "day": -0.004,
+    "month": 0.0331
+   }
   },
   {
    "d": "2007-09-18",
@@ -170,7 +314,15 @@
    "day": 0.0294,
    "month": 0.0465,
    "type": "Fed cut",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0103,
+    "month": 0.0497
+   },
+   "bonds": {
+    "day": -0.0075,
+    "month": -0.015
+   }
   },
   {
    "d": "2007-10-09",
@@ -179,7 +331,15 @@
    "day": 0.0094,
    "month": -0.0459,
    "type": "Turning point",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0077,
+    "month": 0.1339
+   },
+   "bonds": {
+    "day": -0.0012,
+    "month": 0.033
+   }
   },
   {
    "d": "2008-01-22",
@@ -188,7 +348,15 @@
    "day": -0.0101,
    "month": 0.0207,
    "type": "Emergency Fed cut",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0086,
+    "month": 0.0667
+   },
+   "bonds": {
+    "day": 0.0107,
+    "month": -0.0274
+   }
   },
   {
    "d": "2008-03-14",
@@ -197,7 +365,15 @@
    "day": -0.0155,
    "month": 0.0171,
    "type": "Bank / credit failure",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0038,
+    "month": -0.0679
+   },
+   "bonds": {
+    "day": 0.0124,
+    "month": 0.0052
+   }
   },
   {
    "d": "2008-07-11",
@@ -206,7 +382,15 @@
    "day": -0.0117,
    "month": 0.0432,
    "type": "Bank / credit failure",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0174,
+    "month": -0.1326
+   },
+   "bonds": {
+    "day": -0.0142,
+    "month": -0.0218
+   }
   },
   {
    "d": "2008-07-13",
@@ -215,7 +399,15 @@
    "day": -0.009,
    "month": 0.0445,
    "type": "Rescue / fiscal",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0079,
+    "month": -0.1538
+   },
+   "bonds": {
+    "day": 0.0088,
+    "month": 0.0016
+   }
   },
   {
    "d": "2008-09-08",
@@ -224,7 +416,15 @@
    "day": 0.0207,
    "month": -0.1914,
    "type": "Bank / credit failure",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0015,
+    "month": 0.105
+   },
+   "bonds": {
+    "day": 0.0042,
+    "month": 0.0387
+   }
   },
   {
    "d": "2008-09-15",
@@ -233,7 +433,15 @@
    "day": -0.0476,
    "month": -0.2035,
    "type": "Bank / credit failure",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0266,
+    "month": 0.088
+   },
+   "bonds": {
+    "day": 0.0324,
+    "month": -0.0057
+   }
   },
   {
    "d": "2008-09-16",
@@ -242,7 +450,15 @@
    "day": 0.0167,
    "month": -0.2461,
    "type": "Bank / credit failure",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0099,
+    "month": 0.0741
+   },
+   "bonds": {
+    "day": -0.0002,
+    "month": -0.0277
+   }
   },
   {
    "d": "2008-09-19",
@@ -251,7 +467,15 @@
    "day": 0.0397,
    "month": -0.1723,
    "type": "Rescue / fiscal",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0384,
+    "month": -0.0519
+   },
+   "bonds": {
+    "day": -0.0317,
+    "month": -0.022
+   }
   },
   {
    "d": "2008-09-25",
@@ -260,7 +484,15 @@
    "day": 0.0156,
    "month": -0.2681,
    "type": "Bank / credit failure",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.003,
+    "month": -0.1672
+   },
+   "bonds": {
+    "day": -0.002,
+    "month": 0.0321
+   }
   },
   {
    "d": "2008-09-29",
@@ -269,7 +501,15 @@
    "day": -0.0784,
    "month": -0.2242,
    "type": "Debt crisis / shutdown",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0338,
+    "month": -0.1483
+   },
+   "bonds": {
+    "day": 0.0291,
+    "month": 0.0125
+   }
   },
   {
    "d": "2008-10-03",
@@ -278,7 +518,15 @@
    "day": -0.0135,
    "month": -0.1318,
    "type": "Rescue / fiscal",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0032,
+    "month": -0.1364
+   },
+   "bonds": {
+    "day": 0.0088,
+    "month": -0.0359
+   }
   },
   {
    "d": "2008-10-08",
@@ -287,7 +535,15 @@
    "day": -0.0252,
    "month": -0.0917,
    "type": "Emergency Fed cut",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0246,
+    "month": -0.1725
+   },
+   "bonds": {
+    "day": -0.0144,
+    "month": -0.0365
+   }
   },
   {
    "d": "2008-10-13",
@@ -296,7 +552,15 @@
    "day": 0.1452,
    "month": 0.0144,
    "type": "Rescue / fiscal",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0148,
+    "month": -0.1342
+   },
+   "bonds": {
+    "day": -0.0128,
+    "month": -0.0059
+   }
   },
   {
    "d": "2008-11-25",
@@ -305,7 +569,15 @@
    "day": 0.0074,
    "month": 0.0334,
    "type": "QE / backstop",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0005,
+    "month": 0.058
+   },
+   "bonds": {
+    "day": 0.0294,
+    "month": 0.2013
+   }
   },
   {
    "d": "2008-12-16",
@@ -314,7 +586,15 @@
    "day": 0.0471,
    "month": -0.0228,
    "type": "Fed cut",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0225,
+    "month": 0.0013
+   },
+   "bonds": {
+    "day": 0.0247,
+    "month": 0.0091
+   }
   },
   {
    "d": "2009-02-17",
@@ -323,7 +603,15 @@
    "day": -0.0428,
    "month": -0.0342,
    "type": "Rescue / fiscal",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0313,
+    "month": 0.0058
+   },
+   "bonds": {
+    "day": 0.0311,
+    "month": 0.022
+   }
   },
   {
    "d": "2009-03-09",
@@ -332,7 +620,15 @@
    "day": -0.0118,
    "month": 0.1932,
    "type": "Turning point",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0186,
+    "month": -0.0601
+   },
+   "bonds": {
+    "day": -0.0059,
+    "month": -0.0118
+   }
   },
   {
    "d": "2009-03-18",
@@ -341,7 +637,15 @@
    "day": 0.0224,
    "month": 0.1218,
    "type": "QE / backstop",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0339,
+    "month": -0.0535
+   },
+   "bonds": {
+    "day": 0.0379,
+    "month": 0.0142
+   }
   },
   {
    "d": "2009-03-23",
@@ -350,7 +654,15 @@
    "day": 0.0718,
    "month": 0.1021,
    "type": "Rescue / fiscal",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0161,
+    "month": -0.0664
+   },
+   "bonds": {
+    "day": -0.0087,
+    "month": -0.0195
+   }
   },
   {
    "d": "2009-05-07",
@@ -359,7 +671,15 @@
    "day": -0.0139,
    "month": 0.0219,
    "type": "Rescue / fiscal",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0011,
+    "month": 0.0449
+   },
+   "bonds": {
+    "day": -0.0244,
+    "month": -0.0739
+   }
   },
   {
    "d": "2010-04-27",
@@ -368,7 +688,15 @@
    "day": -0.0237,
    "month": -0.1169,
    "type": "Debt crisis / shutdown",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0167,
+    "month": 0.0507
+   },
+   "bonds": {
+    "day": 0.0141,
+    "month": 0.0934
+   }
   },
   {
    "d": "2010-05-06",
@@ -377,7 +705,15 @@
    "day": -0.0332,
    "month": -0.097,
    "type": "Crash / glitch",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0295,
+    "month": 0.0556
+   },
+   "bonds": {
+    "day": 0.0309,
+    "month": 0.0531
+   }
   },
   {
    "d": "2010-05-10",
@@ -386,7 +722,15 @@
    "day": 0.044,
    "month": -0.0468,
    "type": "Rescue / fiscal",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0059,
+    "month": 0.0194
+   },
+   "bonds": {
+    "day": -0.0207,
+    "month": 0.0282
+   }
   },
   {
    "d": "2010-07-21",
@@ -395,7 +739,15 @@
    "day": -0.013,
    "month": -0.0055,
    "type": "Rescue / fiscal",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0069,
+    "month": 0.0321
+   },
+   "bonds": {
+    "day": 0.0169,
+    "month": 0.0615
+   }
   },
   {
    "d": "2010-08-27",
@@ -404,7 +756,15 @@
    "day": 0.0155,
    "month": 0.0955,
    "type": "QE / backstop",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0004,
+    "month": 0.057
+   },
+   "bonds": {
+    "day": -0.0283,
+    "month": -0.0192
+   }
   },
   {
    "d": "2010-11-03",
@@ -413,7 +773,15 @@
    "day": 0.004,
    "month": 0.0286,
    "type": "QE / backstop",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0069,
+    "month": 0.0421
+   },
+   "bonds": {
+    "day": -0.0204,
+    "month": -0.0571
+   }
   },
   {
    "d": "2011-03-11",
@@ -422,7 +790,15 @@
    "day": 0.0069,
    "month": 0.0238,
    "type": "Pandemic / disaster",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0033,
+    "month": 0.0353
+   },
+   "bonds": {
+    "day": -0.0056,
+    "month": -0.0188
+   }
   },
   {
    "d": "2011-08-02",
@@ -431,7 +807,15 @@
    "day": -0.0255,
    "month": -0.0509,
    "type": "Rescue / fiscal",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0241,
+    "month": 0.1268
+   },
+   "bonds": {
+    "day": 0.03,
+    "month": 0.0857
+   }
   },
   {
    "d": "2011-08-04",
@@ -440,7 +824,15 @@
    "day": -0.0468,
    "month": -0.0659,
    "type": "Debt crisis / shutdown",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0053,
+    "month": 0.1347
+   },
+   "bonds": {
+    "day": 0.0356,
+    "month": 0.1092
+   }
   },
   {
    "d": "2011-08-08",
@@ -449,7 +841,15 @@
    "day": -0.0651,
    "month": 0.0017,
    "type": "Debt crisis / shutdown",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0332,
+    "month": 0.0948
+   },
+   "bonds": {
+    "day": 0.0316,
+    "month": 0.0931
+   }
   },
   {
    "d": "2011-09-21",
@@ -458,7 +858,15 @@
    "day": -0.0295,
    "month": 0.0124,
    "type": "QE / backstop",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0125,
+    "month": -0.1025
+   },
+   "bonds": {
+    "day": 0.0331,
+    "month": -0.002
+   }
   },
   {
    "d": "2011-11-01",
@@ -467,7 +875,15 @@
    "day": -0.0279,
    "month": -0.0042,
    "type": "Debt crisis / shutdown",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0002,
+    "month": 0.0137
+   },
+   "bonds": {
+    "day": 0.0335,
+    "month": 0.0148
+   }
   },
   {
    "d": "2011-11-30",
@@ -476,7 +892,15 @@
    "day": 0.0411,
    "month": 0.052,
    "type": "QE / backstop",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0195,
+    "month": -0.0892
+   },
+   "bonds": {
+    "day": -0.0156,
+    "month": 0.0183
+   }
   },
   {
    "d": "2012-05-07",
@@ -485,7 +909,15 @@
    "day": 0.0007,
    "month": -0.0367,
    "type": "Debt crisis / shutdown",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0024,
+    "month": -0.0142
+   },
+   "bonds": {
+    "day": 0.0002,
+    "month": 0.0607
+   }
   },
   {
    "d": "2012-07-26",
@@ -494,7 +926,15 @@
    "day": 0.0165,
    "month": 0.0564,
    "type": "QE / backstop",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0071,
+    "month": 0.0405
+   },
+   "bonds": {
+    "day": -0.0092,
+    "month": -0.0536
+   }
   },
   {
    "d": "2012-09-06",
@@ -503,7 +943,15 @@
    "day": 0.0203,
    "month": 0.0427,
    "type": "QE / backstop",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0035,
+    "month": 0.0506
+   },
+   "bonds": {
+    "day": -0.0167,
+    "month": -0.042
+   }
   },
   {
    "d": "2012-09-13",
@@ -512,7 +960,15 @@
    "day": 0.0152,
    "month": -0.0051,
    "type": "QE / backstop",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0202,
+    "month": 0.0127
+   },
+   "bonds": {
+    "day": -0.0039,
+    "month": 0.0182
+   }
   },
   {
    "d": "2012-12-12",
@@ -521,7 +977,15 @@
    "day": 0.0005,
    "month": 0.0319,
    "type": "QE / backstop",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0007,
+    "month": -0.0248
+   },
+   "bonds": {
+    "day": -0.0116,
+    "month": -0.0342
+   }
   },
   {
    "d": "2013-01-02",
@@ -530,7 +994,15 @@
    "day": 0.0256,
    "month": 0.062,
    "type": "Rescue / fiscal",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0071,
+    "month": -0.0035
+   },
+   "bonds": {
+    "day": -0.0134,
+    "month": -0.0444
+   }
   },
   {
    "d": "2013-03-18",
@@ -539,7 +1011,15 @@
    "day": -0.0055,
    "month": -0.0046,
    "type": "Bank / credit failure",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.009,
+    "month": -0.1372
+   },
+   "bonds": {
+    "day": 0.0076,
+    "month": 0.063
+   }
   },
   {
    "d": "2013-05-22",
@@ -548,7 +1028,15 @@
    "day": -0.0074,
    "month": -0.0434,
    "type": "Fed hike / hawkish",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0071,
+    "month": -0.0589
+   },
+   "bonds": {
+    "day": -0.0149,
+    "month": -0.0779
+   }
   },
   {
    "d": "2013-10-01",
@@ -557,7 +1045,15 @@
    "day": 0.0079,
    "month": 0.0493,
    "type": "Debt crisis / shutdown",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.028,
+    "month": 0.0111
+   },
+   "bonds": {
+    "day": -0.003,
+    "month": 0.0121
+   }
   },
   {
    "d": "2013-12-18",
@@ -566,7 +1062,15 @@
    "day": 0.0171,
    "month": 0.0366,
    "type": "Fed hike / hawkish",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0088,
+    "month": 0.0088
+   },
+   "bonds": {
+    "day": -0.005,
+    "month": 0.0253
+   }
   },
   {
    "d": "2014-09-30",
@@ -575,7 +1079,15 @@
    "day": -0.0026,
    "month": 0.0029,
    "type": "Pandemic / disaster",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.007,
+    "month": -0.0053
+   },
+   "bonds": {
+    "day": -0.0056,
+    "month": 0.0242
+   }
   },
   {
    "d": "2014-10-15",
@@ -584,7 +1096,15 @@
    "day": -0.0068,
    "month": 0.0879,
    "type": "Crash / glitch",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0034,
+    "month": -0.0584
+   },
+   "bonds": {
+    "day": 0.0079,
+    "month": -0.0195
+   }
   },
   {
    "d": "2014-11-28",
@@ -593,7 +1113,15 @@
    "day": -0.0021,
    "month": 0.0053,
    "type": "Oil shock",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0265,
+    "month": 0.0003
+   },
+   "bonds": {
+    "day": 0.0079,
+    "month": 0.0387
+   }
   },
   {
    "d": "2015-01-15",
@@ -602,7 +1130,15 @@
    "day": -0.0092,
    "month": 0.0461,
    "type": "Crash / glitch",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0252,
+    "month": -0.0166
+   },
+   "bonds": {
+    "day": 0.0157,
+    "month": -0.0475
+   }
   },
   {
    "d": "2015-01-22",
@@ -611,7 +1147,15 @@
    "day": 0.0149,
    "month": 0.04,
    "type": "QE / backstop",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.008,
+    "month": -0.0708
+   },
+   "bonds": {
+    "day": -0.0036,
+    "month": -0.0386
+   }
   },
   {
    "d": "2015-06-29",
@@ -620,7 +1164,15 @@
    "day": -0.021,
    "month": 0.0045,
    "type": "Debt crisis / shutdown",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0045,
+    "month": -0.0657
+   },
+   "bonds": {
+    "day": 0.0265,
+    "month": 0.0498
+   }
   },
   {
    "d": "2015-07-13",
@@ -629,7 +1181,15 @@
    "day": 0.011,
    "month": 0.0057,
    "type": "Rescue / fiscal",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0045,
+    "month": -0.0469
+   },
+   "bonds": {
+    "day": -0.0031,
+    "month": 0.0773
+   }
   },
   {
    "d": "2015-08-11",
@@ -638,7 +1198,15 @@
    "day": -0.009,
    "month": -0.0699,
    "type": "Trade war / China",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0051,
+    "month": 0.0062
+   },
+   "bonds": {
+    "day": 0.0159,
+    "month": -0.0155
+   }
   },
   {
    "d": "2015-08-24",
@@ -647,7 +1215,15 @@
    "day": -0.0421,
    "month": -0.0163,
    "type": "Crash / glitch",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0054,
+    "month": -0.0262
+   },
+   "bonds": {
+    "day": -0.0003,
+    "month": -0.0345
+   }
   },
   {
    "d": "2015-12-16",
@@ -656,7 +1232,15 @@
    "day": 0.0146,
    "month": -0.0773,
    "type": "Fed hike / hawkish",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0121,
+    "month": 0.0242
+   },
+   "bonds": {
+    "day": -0.0021,
+    "month": 0.0344
+   }
   },
   {
    "d": "2016-01-07",
@@ -665,7 +1249,15 @@
    "day": -0.024,
    "month": -0.0674,
    "type": "Trade war / China",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0141,
+    "month": 0.0875
+   },
+   "bonds": {
+    "day": 0.0018,
+    "month": 0.0746
+   }
   },
   {
    "d": "2016-01-29",
@@ -674,7 +1266,15 @@
    "day": 0.0244,
    "month": 0.0476,
    "type": "QE / backstop",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0038,
+    "month": 0.1054
+   },
+   "bonds": {
+    "day": 0.0085,
+    "month": 0.0213
+   }
   },
   {
    "d": "2016-02-11",
@@ -683,7 +1283,15 @@
    "day": -0.013,
    "month": 0.093,
    "type": "Oil shock",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0402,
+    "month": 0.0298
+   },
+   "bonds": {
+    "day": 0.007,
+    "month": -0.0361
+   }
   },
   {
    "d": "2016-06-24",
@@ -692,7 +1300,15 @@
    "day": -0.0359,
    "month": 0.0282,
    "type": "Debt crisis / shutdown",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.049,
+    "month": 0.049
+   },
+   "bonds": {
+    "day": 0.0268,
+    "month": 0.0525
+   }
   },
   {
    "d": "2016-11-09",
@@ -701,7 +1317,15 @@
    "day": 0.0106,
    "month": 0.0579,
    "type": "Good news",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0007,
+    "month": -0.0924
+   },
+   "bonds": {
+    "day": -0.0424,
+    "month": -0.0949
+   }
   },
   {
    "d": "2017-08-08",
@@ -710,7 +1334,15 @@
    "day": -0.0025,
    "month": -0.004,
    "type": "War / terror",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0029,
+    "month": 0.0721
+   },
+   "bonds": {
+    "day": -0.0036,
+    "month": 0.0358
+   }
   },
   {
    "d": "2017-12-22",
@@ -719,7 +1351,15 @@
    "day": -0.0003,
    "month": 0.0587,
    "type": "Rescue / fiscal",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0052,
+    "month": 0.0637
+   },
+   "bonds": {
+    "day": 0.0014,
+    "month": -0.0044
+   }
   },
   {
    "d": "2018-02-05",
@@ -728,7 +1368,15 @@
    "day": -0.0418,
    "month": -0.0097,
    "type": "Crash / glitch",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0025,
+    "month": -0.0053
+   },
+   "bonds": {
+    "day": 0.0094,
+    "month": -0.0111
+   }
   },
   {
    "d": "2018-03-22",
@@ -737,7 +1385,15 @@
    "day": -0.025,
    "month": -0.0143,
    "type": "Trade war / China",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.004,
+    "month": -0.0068
+   },
+   "bonds": {
+    "day": 0.0099,
+    "month": -0.0028
+   }
   },
   {
    "d": "2018-10-03",
@@ -746,7 +1402,15 @@
    "day": 0.0005,
    "month": -0.0619,
    "type": "Fed hike / hawkish",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.004,
+    "month": 0.0242
+   },
+   "bonds": {
+    "day": -0.0174,
+    "month": -0.0272
+   }
   },
   {
    "d": "2018-12-24",
@@ -755,7 +1419,15 @@
    "day": -0.0264,
    "month": 0.1042,
    "type": "Debt crisis / shutdown",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.011,
+    "month": 0.0349
+   },
+   "bonds": {
+    "day": 0.005,
+    "month": -0.0016
+   }
   },
   {
    "d": "2019-01-04",
@@ -764,7 +1436,15 @@
    "day": 0.0335,
    "month": 0.1183,
    "type": "Fed cut",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0081,
+    "month": 0.0151
+   },
+   "bonds": {
+    "day": -0.0116,
+    "month": -0.0186
+   }
   },
   {
    "d": "2019-05-06",
@@ -773,7 +1453,15 @@
    "day": -0.0041,
    "month": -0.0376,
    "type": "Trade war / China",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0013,
+    "month": 0.04
+   },
+   "bonds": {
+    "day": 0.0027,
+    "month": 0.055
+   }
   },
   {
    "d": "2019-06-04",
@@ -782,7 +1470,15 @@
    "day": 0.0217,
    "month": 0.0935,
    "type": "Fed cut",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0003,
+    "month": 0.0681
+   },
+   "bonds": {
+    "day": -0.0114,
+    "month": 0.0154
+   }
   },
   {
    "d": "2019-07-31",
@@ -791,7 +1487,15 @@
    "day": -0.0109,
    "month": -0.0271,
    "type": "Fed cut",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0131,
+    "month": 0.0677
+   },
+   "bonds": {
+    "day": 0.008,
+    "month": 0.1191
+   }
   },
   {
    "d": "2019-08-01",
@@ -800,7 +1504,15 @@
    "day": -0.0087,
    "month": -0.0167,
    "type": "Trade war / China",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.024,
+    "month": 0.0791
+   },
+   "bonds": {
+    "day": 0.0199,
+    "month": 0.1105
+   }
   },
   {
    "d": "2019-08-05",
@@ -809,7 +1521,15 @@
    "day": -0.0301,
    "month": 0.0049,
    "type": "Trade war / China",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.014,
+    "month": 0.0793
+   },
+   "bonds": {
+    "day": 0.0173,
+    "month": 0.0819
+   }
   },
   {
    "d": "2019-09-17",
@@ -818,7 +1538,15 @@
    "day": 0.0025,
    "month": -0.0013,
    "type": "QE / backstop",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.002,
+    "month": -0.0064
+   },
+   "bonds": {
+    "day": 0.0054,
+    "month": 0.0136
+   }
   },
   {
    "d": "2020-01-03",
@@ -827,7 +1555,15 @@
    "day": -0.0076,
    "month": 0.0129,
    "type": "War / terror",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0133,
+    "month": 0.0172
+   },
+   "bonds": {
+    "day": 0.0154,
+    "month": 0.0497
+   }
   },
   {
    "d": "2020-01-23",
@@ -836,7 +1572,15 @@
    "day": 0.0011,
    "month": -0.0269,
    "type": "Pandemic / disaster",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0022,
+    "month": 0.0634
+   },
+   "bonds": {
+    "day": 0.007,
+    "month": 0.0753
+   }
   },
   {
    "d": "2020-02-19",
@@ -845,7 +1589,15 @@
    "day": 0.0048,
    "month": -0.2857,
    "type": "Turning point",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0058,
+    "month": -0.0853
+   },
+   "bonds": {
+    "day": -0.0001,
+    "month": 0.0203
+   }
   },
   {
    "d": "2020-02-24",
@@ -854,7 +1606,15 @@
    "day": -0.0332,
    "month": -0.2666,
    "type": "Pandemic / disaster",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.009,
+    "month": -0.0084
+   },
+   "bonds": {
+    "day": 0.0149,
+    "month": 0.1021
+   }
   },
   {
    "d": "2020-03-03",
@@ -863,7 +1623,15 @@
    "day": -0.0286,
    "month": -0.1989,
    "type": "Emergency Fed cut",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0314,
+    "month": 0.0017
+   },
+   "bonds": {
+    "day": 0.0155,
+    "month": 0.0867
+   }
   },
   {
    "d": "2020-03-09",
@@ -872,7 +1640,15 @@
    "day": -0.0781,
    "month": -0.1034,
    "type": "Oil shock",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0017,
+    "month": -0.0096
+   },
+   "bonds": {
+    "day": 0.0271,
+    "month": -0.0014
+   }
   },
   {
    "d": "2020-03-12",
@@ -881,7 +1657,15 @@
    "day": -0.0957,
    "month": 0.0106,
    "type": "Pandemic / disaster",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0399,
+    "month": 0.0486
+   },
+   "bonds": {
+    "day": 0.0062,
+    "month": 0.0485
+   }
   },
   {
    "d": "2020-03-16",
@@ -890,7 +1674,15 @@
    "day": -0.1094,
    "month": 0.0374,
    "type": "Emergency Fed cut",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0114,
+    "month": 0.1296
+   },
+   "bonds": {
+    "day": 0.0648,
+    "month": 0.0941
+   }
   },
   {
    "d": "2020-03-23",
@@ -899,7 +1691,15 @@
    "day": -0.0256,
    "month": 0.2198,
    "type": "QE / backstop",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0442,
+    "month": 0.1543
+   },
+   "bonds": {
+    "day": 0.0412,
+    "month": 0.0649
+   }
   },
   {
    "d": "2020-03-26",
@@ -908,7 +1708,15 @@
    "day": 0.0584,
    "month": 0.1631,
    "type": "Rescue / fiscal",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0128,
+    "month": 0.0678
+   },
+   "bonds": {
+    "day": 0.0049,
+    "month": 0.033
+   }
   },
   {
    "d": "2020-04-09",
@@ -917,7 +1725,15 @@
    "day": 0.0152,
    "month": 0.0674,
    "type": "QE / backstop",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0261,
+    "month": 0.0308
+   },
+   "bonds": {
+    "day": 0.0018,
+    "month": -0.0132
+   }
   },
   {
    "d": "2020-04-20",
@@ -926,7 +1742,15 @@
    "day": -0.0176,
    "month": 0.0186,
    "type": "Oil shock",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0071,
+    "month": 0.0359
+   },
+   "bonds": {
+    "day": 0.008,
+    "month": -0.0235
+   }
   },
   {
    "d": "2020-11-09",
@@ -935,7 +1759,15 @@
    "day": 0.0126,
    "month": 0.0477,
    "type": "Good news",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0443,
+    "month": -0.0584
+   },
+   "bonds": {
+    "day": -0.021,
+    "month": -0.0152
+   }
   },
   {
    "d": "2021-01-27",
@@ -944,7 +1776,15 @@
    "day": -0.0244,
    "month": -0.0089,
    "type": "Crash / glitch",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0063,
+    "month": -0.068
+   },
+   "bonds": {
+    "day": 0.0025,
+    "month": -0.0658
+   }
   },
   {
    "d": "2021-03-26",
@@ -953,7 +1793,15 @@
    "day": 0.0161,
    "month": 0.0714,
    "type": "Bank / credit failure",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0028,
+    "month": 0.0287
+   },
+   "bonds": {
+    "day": -0.0035,
+    "month": 0.0123
+   }
   },
   {
    "d": "2021-09-20",
@@ -962,7 +1810,15 @@
    "day": -0.0167,
    "month": 0.0209,
    "type": "Bank / credit failure",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0071,
+    "month": 0.0103
+   },
+   "bonds": {
+    "day": 0.0124,
+    "month": -0.0354
+   }
   },
   {
    "d": "2021-11-26",
@@ -971,7 +1827,15 @@
    "day": -0.0223,
    "month": 0.0194,
    "type": "Pandemic / disaster",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0016,
+    "month": 0.0091
+   },
+   "bonds": {
+    "day": 0.0253,
+    "month": 0.0124
+   }
   },
   {
    "d": "2021-11-30",
@@ -980,7 +1844,15 @@
    "day": -0.0195,
    "month": 0.0285,
    "type": "Fed hike / hawkish",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0067,
+    "month": 0.0191
+   },
+   "bonds": {
+    "day": 0.0152,
+    "month": -0.0072
+   }
   },
   {
    "d": "2022-02-24",
@@ -989,7 +1861,15 @@
    "day": 0.015,
    "month": 0.0762,
    "type": "War / terror",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0065,
+    "month": 0.0229
+   },
+   "bonds": {
+    "day": 0.0007,
+    "month": -0.0574
+   }
   },
   {
    "d": "2022-03-16",
@@ -998,7 +1878,15 @@
    "day": 0.0222,
    "month": 0.0305,
    "type": "Fed hike / hawkish",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0063,
+    "month": 0.0288
+   },
+   "bonds": {
+    "day": 0.0098,
+    "month": -0.0806
+   }
   },
   {
    "d": "2022-06-10",
@@ -1007,7 +1895,15 @@
    "day": -0.029,
    "month": -0.0522,
    "type": "Inflation / yields",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0134,
+    "month": -0.0617
+   },
+   "bonds": {
+    "day": -0.0062,
+    "month": 0.0191
+   }
   },
   {
    "d": "2022-06-15",
@@ -1016,7 +1912,15 @@
    "day": 0.0143,
    "month": 0.026,
    "type": "Fed hike / hawkish",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0131,
+    "month": -0.0558
+   },
+   "bonds": {
+    "day": 0.0187,
+    "month": 0.0583
+   }
   },
   {
    "d": "2022-08-26",
@@ -1025,7 +1929,15 @@
    "day": -0.0338,
    "month": -0.1302,
    "type": "Fed hike / hawkish",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0122,
+    "month": -0.0746
+   },
+   "bonds": {
+    "day": 0.0075,
+    "month": -0.1029
+   }
   },
   {
    "d": "2022-09-23",
@@ -1034,7 +1946,15 @@
    "day": -0.0168,
    "month": 0.0124,
    "type": "Bank / credit failure",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0173,
+    "month": -0.0132
+   },
+   "bonds": {
+    "day": 0.0041,
+    "month": -0.1202
+   }
   },
   {
    "d": "2022-10-12",
@@ -1043,7 +1963,15 @@
    "day": -0.0033,
    "month": 0.1033,
    "type": "Turning point",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0053,
+    "month": 0.0536
+   },
+   "bonds": {
+    "day": 0.0049,
+    "month": -0.0137
+   }
   },
   {
    "d": "2022-11-10",
@@ -1052,7 +1980,15 @@
    "day": 0.055,
    "month": 0.0663,
    "type": "Inflation / yields",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0304,
+    "month": 0.0443
+   },
+   "bonds": {
+    "day": 0.0385,
+    "month": 0.1302
+   }
   },
   {
    "d": "2022-11-11",
@@ -1061,7 +1997,15 @@
    "day": 0.0097,
    "month": 0.0184,
    "type": "Bank / credit failure",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0066,
+    "month": 0.0308
+   },
+   "bonds": {
+    "day": -0.0037,
+    "month": 0.0988
+   }
   },
   {
    "d": "2022-11-30",
@@ -1070,7 +2014,15 @@
    "day": 0.0315,
    "month": -0.0279,
    "type": "Good news",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0128,
+    "month": 0.0425
+   },
+   "bonds": {
+    "day": 0.0074,
+    "month": -0.019
+   }
   },
   {
    "d": "2023-03-10",
@@ -1079,7 +2031,15 @@
    "day": -0.0144,
    "month": 0.0504,
    "type": "Bank / credit failure",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0216,
+    "month": 0.0945
+   },
+   "bonds": {
+    "day": 0.0345,
+    "month": 0.051
+   }
   },
   {
    "d": "2023-03-13",
@@ -1088,7 +2048,15 @@
    "day": -0.0014,
    "month": 0.0614,
    "type": "QE / backstop",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0229,
+    "month": 0.0766
+   },
+   "bonds": {
+    "day": 0.0023,
+    "month": 0.0149
+   }
   },
   {
    "d": "2023-03-20",
@@ -1097,7 +2065,15 @@
    "day": 0.0096,
    "month": 0.0619,
    "type": "Bank / credit failure",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0004,
+    "month": 0.0087
+   },
+   "bonds": {
+    "day": -0.0088,
+    "month": -0.0233
+   }
   },
   {
    "d": "2023-05-01",
@@ -1106,7 +2082,15 @@
    "day": -0.001,
    "month": 0.0046,
    "type": "Bank / credit failure",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0045,
+    "month": -0.0134
+   },
+   "bonds": {
+    "day": -0.0288,
+    "month": -0.0302
+   }
   },
   {
    "d": "2023-05-24",
@@ -1115,7 +2099,15 @@
    "day": -0.0072,
    "month": 0.0458,
    "type": "Good news",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0081,
+    "month": -0.0268
+   },
+   "bonds": {
+    "day": -0.0049,
+    "month": 0.0266
+   }
   },
   {
    "d": "2023-06-03",
@@ -1124,7 +2116,15 @@
    "day": -0.0019,
    "month": 0.0313,
    "type": "Rescue / fiscal",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.006,
+    "month": -0.0207
+   },
+   "bonds": {
+    "day": -0.0019,
+    "month": -0.02
+   }
   },
   {
    "d": "2023-07-26",
@@ -1133,7 +2133,15 @@
    "day": 0.0002,
    "month": -0.0407,
    "type": "Fed hike / hawkish",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0049,
+    "month": -0.025
+   },
+   "bonds": {
+    "day": 0.001,
+    "month": -0.0593
+   }
   },
   {
    "d": "2023-08-02",
@@ -1142,7 +2150,15 @@
    "day": -0.0139,
    "month": -0.0134,
    "type": "Debt crisis / shutdown",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0048,
+    "month": -0.0024
+   },
+   "bonds": {
+    "day": -0.0107,
+    "month": -0.0153
+   }
   },
   {
    "d": "2023-10-09",
@@ -1151,7 +2167,15 @@
    "day": 0.0064,
    "month": 0.0172,
    "type": "War / terror",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0184,
+    "month": 0.076
+   },
+   "bonds": {
+    "day": 0.0235,
+    "month": 0.0421
+   }
   },
   {
    "d": "2023-12-13",
@@ -1160,7 +2184,15 @@
    "day": 0.0138,
    "month": 0.0275,
    "type": "Fed cut",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0226,
+    "month": 0.0241
+   },
+   "bonds": {
+    "day": 0.0235,
+    "month": 0.0053
+   }
   },
   {
    "d": "2024-04-15",
@@ -1169,7 +2201,15 @@
    "day": -0.0125,
    "month": 0.0244,
    "type": "War / terror",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0187,
+    "month": 0.0055
+   },
+   "bonds": {
+    "day": -0.0155,
+    "month": 0.0098
+   }
   },
   {
    "d": "2024-08-05",
@@ -1178,7 +2218,15 @@
    "day": -0.0291,
    "month": 0.0339,
    "type": "Crash / glitch",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0127,
+    "month": 0.0226
+   },
+   "bonds": {
+    "day": 0.0053,
+    "month": 0.0107
+   }
   },
   {
    "d": "2024-09-18",
@@ -1187,7 +2235,15 @@
    "day": -0.003,
    "month": 0.0374,
    "type": "Fed cut",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0077,
+    "month": 0.0476
+   },
+   "bonds": {
+    "day": -0.0124,
+    "month": -0.0668
+   }
   },
   {
    "d": "2024-11-06",
@@ -1196,7 +2252,15 @@
    "day": 0.0249,
    "month": 0.0539,
    "type": "Good news",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0304,
+    "month": -0.0412
+   },
+   "bonds": {
+    "day": -0.0274,
+    "month": 0.0213
+   }
   },
   {
    "d": "2024-12-18",
@@ -1205,7 +2269,15 @@
    "day": -0.0298,
    "month": 0.0069,
    "type": "Fed hike / hawkish",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0192,
+    "month": 0.043
+   },
+   "bonds": {
+    "day": -0.0125,
+    "month": -0.0308
+   }
   },
   {
    "d": "2025-01-27",
@@ -1214,7 +2286,15 @@
    "day": -0.0141,
    "month": -0.0221,
    "type": "Crash / glitch",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0104,
+    "month": 0.0523
+   },
+   "bonds": {
+    "day": 0.0118,
+    "month": 0.0581
+   }
   },
   {
    "d": "2025-02-19",
@@ -1223,7 +2303,15 @@
    "day": 0.0024,
    "month": -0.0752,
    "type": "Turning point",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0006,
+    "month": 0.0371
+   },
+   "bonds": {
+    "day": 0.0012,
+    "month": 0.0389
+   }
   },
   {
    "d": "2025-03-10",
@@ -1232,7 +2320,15 @@
    "day": -0.0266,
    "month": -0.1353,
    "type": "Trade war / China",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0088,
+    "month": 0.0254
+   },
+   "bonds": {
+    "day": 0.0104,
+    "month": -0.016
+   }
   },
   {
    "d": "2025-04-03",
@@ -1241,7 +2337,15 @@
    "day": -0.0493,
    "month": -0.0018,
    "type": "Trade war / China",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.006,
+    "month": 0.065
+   },
+   "bonds": {
+    "day": 0.0046,
+    "month": -0.0423
+   }
   },
   {
    "d": "2025-04-09",
@@ -1250,7 +2354,15 @@
    "day": 0.105,
    "month": 0.1367,
    "type": "Trade relief",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.037,
+    "month": 0.115
+   },
+   "bonds": {
+    "day": 0.0059,
+    "month": -0.0111
+   }
   },
   {
    "d": "2025-05-12",
@@ -1259,7 +2371,15 @@
    "day": 0.033,
    "month": 0.0656,
    "type": "Trade relief",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": -0.0282,
+    "month": 0.005
+   },
+   "bonds": {
+    "day": -0.0093,
+    "month": -0.0068
+   }
   },
   {
    "d": "2025-06-13",
@@ -1268,7 +2388,15 @@
    "day": -0.0112,
    "month": 0.037,
    "type": "War / terror",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0131,
+    "month": -0.0126
+   },
+   "bonds": {
+    "day": -0.0096,
+    "month": -0.0198
+   }
   },
   {
    "d": "2025-06-23",
@@ -1277,7 +2405,15 @@
    "day": 0.0099,
    "month": 0.0672,
    "type": "War / terror",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0031,
+    "month": 0.0066
+   },
+   "bonds": {
+    "day": 0.0032,
+    "month": -0.0015
+   }
   },
   {
    "d": "2025-07-04",
@@ -1286,7 +2422,15 @@
    "day": -0.0075,
    "month": 0.0042,
    "type": "Rescue / fiscal",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0007,
+    "month": 0.0131
+   },
+   "bonds": {
+    "day": -0.0095,
+    "month": 0.0195
+   }
   },
   {
    "d": "2025-09-17",
@@ -1295,7 +2439,15 @@
    "day": -0.0012,
    "month": 0.0037,
    "type": "Fed cut",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0077,
+    "month": 0.1674
+   },
+   "bonds": {
+    "day": -0.0025,
+    "month": 0.0145
+   }
   },
   {
    "d": "2025-10-01",
@@ -1304,7 +2456,15 @@
    "day": 0.0034,
    "month": 0.0205,
    "type": "Debt crisis / shutdown",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0016,
+    "month": 0.0412
+   },
+   "bonds": {
+    "day": 0.0026,
+    "month": 0.0168
+   }
   },
   {
    "d": "2025-10-10",
@@ -1313,7 +2473,15 @@
    "day": -0.027,
    "month": 0.0153,
    "type": "Trade war / China",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.0101,
+    "month": 0.0354
+   },
+   "bonds": {
+    "day": 0.0161,
+    "month": 0.0078
+   }
   },
   {
    "d": "2026-03-27",
@@ -1322,7 +2490,15 @@
    "day": -0.0171,
    "month": 0.1032,
    "type": "Fear spike",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0351,
+    "month": 0.0531
+   },
+   "bonds": {
+    "day": -0.0055,
+    "month": 0.007
+   }
   },
   {
    "d": "2026-03-31",
@@ -1331,7 +2507,15 @@
    "day": 0.0291,
    "month": 0.1372,
    "type": "Big up day",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0379,
+    "month": 0.0219
+   },
+   "bonds": {
+    "day": -0.001,
+    "month": -0.0094
+   }
   },
   {
    "d": "2026-04-08",
@@ -1340,7 +2524,15 @@
    "day": 0.0255,
    "month": 0.1098,
    "type": "Big up day",
-   "trend": "below"
+   "trend": "below",
+   "gold": {
+    "day": 0.0063,
+    "month": -0.0003
+   },
+   "bonds": {
+    "day": 0.0032,
+    "month": -0.0078
+   }
   },
   {
    "d": "2026-06-05",
@@ -1349,7 +2541,15 @@
    "day": -0.0258,
    "month": -0.0129,
    "type": "Big down day",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0365,
+    "month": -0.0895
+   },
+   "bonds": {
+    "day": -0.0051,
+    "month": -0.0097
+   }
   },
   {
    "d": "2026-08-28",
@@ -1358,7 +2558,15 @@
    "day": -0.0023,
    "month": -0.0065,
    "type": "Fed hike / hawkish",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0324,
+    "month": -0.094
+   },
+   "bonds": {
+    "day": -0.003,
+    "month": -0.0553
+   }
   },
   {
    "d": "2026-09-14",
@@ -1367,7 +2575,15 @@
    "day": -0.0045,
    "month": 0.0205,
    "type": "Oil shock",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0149,
+    "month": -0.0429
+   },
+   "bonds": {
+    "day": 0.0007,
+    "month": -0.027
+   }
   },
   {
    "d": "2026-09-16",
@@ -1376,7 +2592,15 @@
    "day": -0.0044,
    "month": 0.0215,
    "type": "Fed hike / hawkish",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0061,
+    "month": -0.029
+   },
+   "bonds": {
+    "day": 0.0021,
+    "month": -0.0052
+   }
   },
   {
    "d": "2026-10-01",
@@ -1385,7 +2609,15 @@
    "day": 0.0018,
    "month": null,
    "type": "Inflation / yields",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": 0.005,
+    "month": null
+   },
+   "bonds": {
+    "day": 0.0031,
+    "month": null
+   }
   },
   {
    "d": "2026-10-14",
@@ -1394,7 +2626,15 @@
    "day": -0.0108,
    "month": null,
    "type": "Inflation / yields",
-   "trend": "above"
+   "trend": "above",
+   "gold": {
+    "day": -0.0149,
+    "month": null
+   },
+   "bonds": {
+    "day": 0.0066,
+    "month": null
+   }
   }
  ],
  "fed": []

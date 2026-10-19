@@ -10,7 +10,10 @@ import html
 import json
 import os
 import sys
+from bisect import bisect_left
 from datetime import date, datetime, timedelta, timezone
+
+import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -20,17 +23,51 @@ from scripts import event_patterns as ep  # noqa: E402
 OUT = os.path.join(ROOT, 'docs', 'events.html')
 
 
+SIDE_TICKERS = ('GLD', 'GC=F', 'TLT', 'VUSTX')   # the plan's gold and bond funds, and what stands in before they started
+TLT_FROM = '2002-07-30'                          # long Treasuries: TLT from here, Vanguard's long-term Treasury fund before
+
+
 def fetch():
+    """SPY and the VIX (the page can't run without SPY), plus gold and long Treasuries for their moves under each event:
+    one of those failing leaves its figures as they were and is listed in '_missing'."""
     import yfinance as yf
-    out = {}
-    for t in ('SPY', '^VIX'):
-        df = yf.download(t, start='1999-06-01', auto_adjust=True, progress=False)
-        c = df['Close']
-        c = c[t] if hasattr(c, 'columns') else c
-        out[t] = {d.date().isoformat(): float(v) for d, v in c.dropna().items()}
+    out, missing = {}, []
+    for t in ('SPY', '^VIX') + SIDE_TICKERS:
+        try:
+            df = yf.download(t, start='1999-06-01', auto_adjust=True, progress=False)
+            c = df['Close']
+            c = c[t] if hasattr(c, 'columns') else c
+            out[t] = {d.date().isoformat(): float(v) for d, v in c.dropna().items()}
+        except Exception:   # noqa: BLE001 - checked below
+            out[t] = {}
+        if t in SIDE_TICKERS and len(out[t]) < 250:
+            missing.append(t)
     if len(out['SPY']) < 5000:
         raise SystemExit(f"SPY history came back short ({len(out['SPY'])} closes)")
+    out['_missing'] = missing
     return out
+
+
+def side_closes(px, cal):
+    """Gold and long Treasuries on SPY's calendar as ev.side_moves takes them: the funds the plan holds (GLD, TLT) and,
+    for windows starting before those existed, gold futures (before Nov 19, 2004) and the long-term Treasury fund
+    (before Jul 30, 2002)."""
+    al = lambda t: [None if np.isnan(x) else float(x) for x in ep.align(px.get(t, {}), cal)]
+    return dict(gold=[(0, al('GC=F')), (bisect_left(cal, ep.GOLD_ETF_FROM), al('GLD'))],
+                bonds=[(0, al('VUSTX')), (bisect_left(cal, TLT_FROM), al('TLT'))])
+
+
+def all_moves(doc, px, cal, today=None):
+    """SPY's, gold's and bonds' moves for every event; a missing gold or bond feed goes in the issues list."""
+    ev.reactions(doc['events'], cal, [px['SPY'][d] for d in cal])
+    ev.side_moves(doc['events'], cal, side_closes(px, cal))
+    if px.get('_missing'):
+        print(f"no prices for {', '.join(px['_missing'])}: those moves stay as they were")
+        log = health.load()
+        health.add(log, today or datetime.now(nf.NY).date().isoformat(), 'events',
+                   f"No prices for {', '.join(px['_missing'])} tonight, so new events' gold or bond moves fill in later "
+                   '(it never affects the plan).')
+        health.save(log)
 
 
 def update_fed(doc, heads, today, get=nf.fetch):
@@ -62,6 +99,16 @@ def share(x):
 
 def signed(x):
     return f"{x * 100:+.1f}%".replace('-', '−')
+
+
+SIDE_NAME = {'gold': 'Gold', 'bonds': 'Bonds'}
+
+
+def nums(e, h):
+    """An event's 'day' or 'month' cell: the S&P's move, then gold's and bonds' under it, each with its dot."""
+    sub = ''.join(f'<span class="sd" title="{SIDE_NAME[a]}"><i class="dot k-{a}"></i>{pct(x)}</span>'
+                  for a in ev.SIDE for x in [(e.get(a) or {}).get(h)] if x is not None)
+    return ('<i class="dot k-stocks"></i>' if sub else '') + pct(e.get(h)) + sub
 
 
 HELD = '<span class="held" title="held in both halves of the history">✓</span>'
@@ -254,7 +301,7 @@ def render(doc, pats=None, log=None, plan=None):
             mv = ''.join(f' data-{k}="{e[k]}"' for k in ('day', 'month') if e.get(k) is not None)
             cls = ' class="haspat"' if pat else ''
             rows.append(f'<tr data-s="{html.escape(find)}"{mv}{cls}><td class="d">{d.strftime("%b")} {d.day}</td><td>{what}{tag}{plan_line(plan, e["d"])}</td>'
-                        f'<td class="n">{pct(e.get("day"))}</td><td class="n">{pct(e.get("month"))}</td></tr>')
+                        f'<td class="n">{nums(e, "day")}</td><td class="n">{nums(e, "month")}</td></tr>')
             if pat:   # its own full-width row, so it isn't squeezed into the event column on a phone
                 rows.append(f'<tr class="pr"><td></td><td colspan="3">{pat}</td></tr>')
         parts.append(f'<section class="yr"><h2>{y}</h2><table><thead><tr><th>Date</th><th>Event</th><th class="n">Day</th>'
@@ -315,6 +362,9 @@ details.types {{ margin: 12px 0 0; }} details.types > summary {{ font-weight: 60
 table.pt {{ font-size: 0.8rem; margin-top: 6px; }} table.pt th, table.pt td {{ padding: 4px; white-space: nowrap; }}
 @media (max-width: 520px) {{ table.pt td .muted {{ display: block; font-size: 0.74rem; }} table.pt td {{ width: 27%; }} }}
 table.pt tbody th {{ color: var(--ink); font-weight: 500; }}
+.sd {{ display: block; font-size: 0.78rem; margin-top: 1px; }}
+@media (max-width: 380px) {{ td .tag {{ white-space: normal; }} td.n {{ font-size: 0.8rem; }} td.n .dot {{ width: 6px; height: 6px; margin-right: 2px; }}
+  td, th {{ padding: 6px 2px; }} }}
 .pl {{ font-size: 0.76rem; color: var(--muted); margin-top: 2px; }}
 .dot {{ display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin: 0 4px 1px 0; vertical-align: middle; }}
 .k-stocks {{ background: var(--k-stocks); }} .k-gold {{ background: var(--k-gold); }} .k-bonds {{ background: var(--k-bonds); }}
@@ -324,7 +374,8 @@ p.now {{ font-size: 0.9rem; margin: 8px 0; }}
 </style></head><body><div class="wrap">
 <div class="nav"><a href="scanner.html">← Top 5 Strongest</a></div>
 <h1>Market events since 2000</h1>
-<p class="note">Major events and how the S&amp;P 500 (SPY) moved on the first day it could react (Day) and over the next month
+<p class="note">Major events and how the <i class="dot k-stocks"></i>S&amp;P 500, <i class="dot k-gold"></i>gold and
+<i class="dot k-bonds"></i>long-term Treasury bonds moved on the first day the market could react (Day) and over the next month
 (1 month, 21 trading days). <span class="nw">Updated {html.escape(upd[:10])}</span> · {len(evs)} events.</p>
 {plan_now(plan, asof)}<p class="acts"><a class="add" href="{ev.ADD_URL}" target="_blank" rel="noopener">＋ Add news</a>
 <span class="note">Opens a short form in the repo. Press Submit and it shows here in a few minutes, tagged
@@ -351,7 +402,9 @@ was through that day (stocks, gold, bonds or cash; a share when part of it sat e
 month after. Before Oct 2026 it is the backtest of today's rules on the stocks in the S&amp;P 500 at the time (rerun with the
 track record, so it shifts if the rules change); from then on it is the plan's live paper record, logged each night and never
 rewritten, so new events get their line automatically and the move fills in as the month goes by. Search matches the event text, its date or year, its tag and
-type; the move filter uses the Day or 1 month column, and events without that figure yet drop out while it's on. Information only:
+type; the move filter uses the S&amp;P's Day or 1 month figure, and events without that figure yet drop out while it's on.
+Under each S&amp;P figure are gold's and long-term Treasury bonds' over the same days, as the plan holds them (the GLD and TLT
+funds; before those started, gold futures until Nov 2004 and a long-term Treasury mutual fund until Jul 2002). Information only:
 the plan doesn't use it.</p>
 </details>
 <script>
@@ -403,8 +456,7 @@ the plan doesn't use it.</p>
 
 def moves(doc):
     px = fetch()
-    cal = sorted(px['SPY'])
-    ev.reactions(doc['events'], cal, [px['SPY'][d] for d in cal])
+    all_moves(doc, px, sorted(px['SPY']))
 
 
 def main(argv):
@@ -438,7 +490,7 @@ def main(argv):
                        "The events page still runs; big-move days may lack a headline.")
             health.save(log)
         new = ev.auto(doc['events'], cal, spy, px['^VIX'], news, headlines=heads['items'], fed=doc['fed'])
-        ev.reactions(doc['events'], cal, spy)
+        all_moves(doc, px, cal, today)
         if '--patterns' in argv or ep.stale():
             try:
                 epx = ep.fetch()

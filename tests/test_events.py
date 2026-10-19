@@ -98,3 +98,19 @@ console.log(JSON.stringify([
   evOn(f('', 'day', 'any', '')), evOn(f('', 'day', 'up', ''))]));"""
     out = subprocess.run([node, '-e', js], capture_output=True, text=True, check=True).stdout
     assert json.loads(out) == [True, False, True, False, False, False, False, True]
+
+
+def test_gold_and_bonds_moves_use_one_source_per_window():
+    cal = [f'2004-11-{d:02d}' for d in range(1, 29)] + [f'2004-12-{d:02d}' for d in range(1, 29)]
+    k = cal.index('2004-11-19')
+    fut = [100.0 + i for i in range(len(cal))]
+    etf = [None] * k + [40.0 + i * 0.4 for i in range(len(cal) - k)]       # starts on the switch day, another price level
+    evs = [dict(d='2004-11-10', what='before'), dict(d='2004-11-22', what='after'), dict(d='2004-12-20', what='recent')]
+    ev.side_moves(evs, cal, dict(gold=[(0, fut), (k, etf)], bonds=[(0, [None] * len(cal))]))
+    assert evs[0]['gold'] == dict(day=round(109 / 108 - 1, 4), month=round(130 / 108 - 1, 4))   # futures at both ends
+    assert evs[1]['gold']['day'] == round(41.2 / 40.8 - 1, 4)                                 # the ETF once it exists
+    assert evs[2]['gold']['month'] is None                                                    # not a month yet
+    assert 'bonds' not in evs[0]                                                              # no prices: left as saved
+    evs[0]['bonds'] = dict(day=0.01, month=0.02)
+    ev.side_moves(evs, cal, dict(bonds=[(0, fut), (k, [])]))                                  # one source failed tonight
+    assert evs[0]['bonds'] == dict(day=0.01, month=0.02)
