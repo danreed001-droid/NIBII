@@ -61,3 +61,15 @@ def test_events_page_shows_the_plan_under_each_event():
     assert 'title="stocks 80%, cash 20%"><i class="dot k-stocks"></i>Plan: stocks 80%</div>' in page
     assert page.count('class="pl"') == 2                              # none before the history starts
     assert 'The plan now: <b>cash</b>, since the Sep 30 close.' in page
+
+
+def test_events_page_lists_gold_and_bonds_under_the_sp():
+    from scripts.major_events import render
+    doc = dict(updated='2026-10-16T23:30:00+00:00', events=[
+        dict(d='2026-02-20', what='Bank fails', src='curated', type='Bank / credit failure', day=-0.03, month=None,
+             gold=dict(day=0.012, month=None), bonds=dict(day=-0.004, month=None))])
+    page = render(doc, pats={}, log={}, plan=[])
+    assert ('<i class="dot k-stocks"></i><span class="neg">−3.0%</span><span class="sd" title="Gold"><i class="dot k-gold"></i>'
+            '<span class="pos">+1.2%</span></span><span class="sd" title="Bonds"><i class="dot k-bonds"></i>'
+            '<span class="neg">−0.4%</span></span></td>') in page
+    assert '<td class="n"><span class="muted">–</span></td></tr>' in page          # no month yet: one dash, no dots

@@ -191,3 +191,29 @@ def reactions(events, cal, spy):
         e['month'] = round(spy[k + 21] / spy[k - 1] - 1, 4) if k + 21 < len(cal) else None
         if k > 200:
             e['trend'] = 'above' if spy[k - 1] > sum(spy[k - 200:k]) / 200 else 'below'
+
+
+
+SIDE = ('gold', 'bonds')
+
+
+def side_moves(events, cal, side):
+    """Gold's and long Treasuries' moves over the same windows as SPY's. side = {'gold': [(0, futures), (k, etf)], ...}:
+    each a list of sources, (first index on cal, closes on cal with None where missing); a window uses the source in
+    force at its start for both ends, so a switch of source never shows as a move. Each event gets
+    e[name] = {'day': .., 'month': ..} (month None until it exists). When any source came back empty tonight, that
+    asset is left as saved."""
+    for name, srcs in side.items():
+        if not srcs or not all(a and any(a) for _, a in srcs):
+            continue
+
+        def move(i0, i1):
+            a = [s_ for k0, s_ in srcs if k0 <= i0][-1:]
+            if i0 < 0 or not a or i1 >= len(a[0]) or not a[0][i0] or not a[0][i1]:
+                return None
+            return round(a[0][i1] / a[0][i0] - 1, 4)
+        for e in events:
+            k = bisect_left(cal, e['d'])
+            if k == 0 or k >= len(cal):
+                continue
+            e[name] = dict(day=move(k - 1, k), month=move(k - 1, k + 21))
