@@ -4,16 +4,18 @@ only; the plan doesn't read it. A feed that hasn't worked for three days goes in
 
     python scripts/major_events.py            # fetch SPY, the VIX and the feeds, update data/major_events.json, render
     python scripts/major_events.py --moves    # after the "Add news" form: your items and SPY's moves, no feeds
-    python scripts/major_events.py --render   # just redraw the page from the saved list"""
+    python scripts/major_events.py --render   # just redraw the page from the saved list
+    python scripts/major_events.py --patterns # also rebuild what usually followed each type (otherwise weekly)"""
 import html
 import json
 import os
 import sys
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
-from mtl import events as ev, health, news_feeds as nf  # noqa: E402
+from mtl import events as ev, event_types as et, health, news_feeds as nf  # noqa: E402
+from scripts import event_patterns as ep  # noqa: E402
 
 OUT = os.path.join(ROOT, 'docs', 'events.html')
 
@@ -54,8 +56,109 @@ def pct(x):
     return f'<span class="{"pos" if x > 0 else "neg" if x < 0 else ""}">{s}</span>'
 
 
-def render(doc):
+def share(x):
+    return f"{round(x * 100)}%"
+
+
+def signed(x):
+    return f"{x * 100:+.1f}%".replace('-', '−')
+
+
+HELD = '<span class="held" title="held in both 2000–2012 and 2013 on">✓</span>'
+
+
+def odds(c):
+    """'31%', or '4 of 4' for a small sample so it doesn't read as more certain than it is."""
+    return f"{round(c['up'] * c['n'])} of {c['n']}" if c['n'] < 10 else share(c['up'])
+
+
+def follow(e, pats):
+    """The "what usually followed" line under a recent event: its type's history (or its group's, when the type has
+    too few complete 3-month windows), and the group's split by the S&P's trend at the time."""
+    t = e.get('type')
+    pats = pats or {}
+    T = pats.get('types', {}).get(t)
+    g = et.group(t) if t else None
+    G = pats.get('groups', {}).get(g)
+    src, who = T, f"{html.escape(t)}, {T['n']} before" if T else ''
+    if not (T and T['assets']['S&P 500']['quarter']) and G:
+        src, who = G, f"{et.GROUP_SHORT[g][0].upper() + et.GROUP_SHORT[g][1:]}, {G['n']} before"
+    if not src or not src['assets']['S&P 500']['quarter']:
+        return ''
+    q, bd, gd = (src['assets'][a][h] for a, h in (('S&P 500', 'quarter'), ('Bonds', 'day'), ('Gold', 'day')))
+    norm = pats['baseline']['S&P 500']['63']['up']
+    out = f"{who}: S&amp;P higher 3 months later in {odds(q)} (avg {signed(q['avg'])}{HELD if q['held'] else ''}, normally {share(norm)})"
+    if bd and gd:
+        out += f" · on the day bonds rose in {odds(bd)}{HELD if bd['held'] else ''}, gold in {odds(gd)}{HELD if gd['held'] else ''}"
+    trend = e.get('trend')
+    if G and trend:
+        c = G.get(f'{trend}200', {}).get('quarter')
+        if c and c['n'] >= 5:
+            out += f" · with the S&amp;P {trend} its 200-day average, all {et.GROUP_SHORT[g]}: {odds(c)} higher ({signed(c['avg'])})"
+    return f'<div class="pat">{out}. <a href="#t-{et.slug(t)}">More</a></div>'
+
+
+def type_cards(pats):
+    """The fold with every type's table: how often each asset was higher after it, and the average move."""
+    if not pats:
+        return ''
+    labels = (('day', 'Day'), ('month', '1 month'), ('quarter', '3 months'))
+    def table(assets):
+        rows = []
+        for a, cells in assets.items():
+            tds = []
+            for lab, _ in labels:
+                c = cells.get(lab) if isinstance(cells, dict) else None
+                if c and 'up' in c:
+                    tds.append(f'<td><b>{share(c["up"])}</b> <span class="muted">{signed(c["avg"])}</span>{HELD if c.get("held") else ""}</td>')
+                else:
+                    tds.append('<td class="muted">–</td>')
+            rows.append(f'<tr><th>{html.escape(a)}</th>{"".join(tds)}</tr>')
+        return (f'<table class="pt"><thead><tr><th></th>{"".join(f"<th>{x}</th>" for _, x in labels)}</tr></thead>'
+                f'<tbody>{"".join(rows)}</tbody></table>')
+    base = {a: {lab: v[str(h)] for lab, h in ep.H.items()} for a, v in pats['baseline'].items()}
+    cards = [f'<div class="tcard"><h3>Any day (for comparison)</h3>{table(base)}</div>']
+    for t, (g, desc) in et.TYPES.items():
+        T = pats['types'].get(t)
+        if not T:
+            continue
+        sect = T.get('sectors') or []
+        good = [x for x in sect if x['beat'] >= 0.6][:2]
+        bad = [x for x in sect[::-1] if x['beat'] <= 0.4][:2]
+        sline = ''
+        if good or bad:
+            f = lambda x: f"{x['name']} ({share(x['beat'])}{HELD if x['held'] else ''})"
+            sline = ('<p class="note">Next 3 months vs the S&amp;P 500: ' +
+                     (f"usually beat it: {', '.join(f(x) for x in good)}" if good else '') + ('; ' if good and bad else '') +
+                     (f"usually lagged: {', '.join(f(x) for x in bad)}" if bad else '') + '.</p>')
+        gline = ''
+        G = pats['groups'].get(g)
+        if G and g in et.GROUP_NAME:
+            parts = []
+            for lab, word in (('above200', 'above'), ('below200', 'below')):
+                c = G[lab]['quarter']
+                if c:
+                    parts.append(f"{word} its 200-day average {share(c['up'])} ({signed(c['avg'])}, {c['n']})")
+            q = G['assets']['S&P 500']['quarter']
+            gline = (f'<p class="note">All {et.GROUP_NAME[g]}, {G["n"]} events: higher 3 months later {share(q["up"])} '
+                     f'(avg {signed(q["avg"])}); with the S&amp;P {"; ".join(parts)}.</p>')
+        cards.append(f'<div class="tcard" id="t-{et.slug(t)}"><h3>{html.escape(t)}</h3><p class="note">{html.escape(desc)} · '
+                     f'{T["n"]} events ({T["clusters"]} separate episodes), {T["first"][:4]}–{T["last"][:4]}</p>'
+                     f'{table(T["assets"])}{sline}{gline}</div>')
+    return ('<details class="types" id="types"><summary>What usually followed each type of event</summary>'
+            '<p class="note">How often each was higher on the event day, a month and 3 months later (bold), with the average '
+            'move. ✓ = it held in both 2000–2012 and 2013 on. Bonds = long Treasuries, gold = gold ETF (futures before 2005), '
+            'oil = US crude. Small samples swing a lot: treat these as history, not forecasts. Big days, VIX spikes and market '
+            'phases count every time the rule would have fired since 2000; the news types come from the list above. '
+            f'Updated {html.escape(pats["updated"][:10])}.</p>' + ''.join(cards) + '</details>')
+
+
+def render(doc, pats=None):
+    if pats is None:
+        pats = ep.load()
     evs = sorted(doc['events'], key=lambda e: e['d'], reverse=True)
+    upd0 = (doc.get('updated') or datetime.now(timezone.utc).isoformat())[:10]
+    recent = (date.fromisoformat(upd0) - timedelta(days=92)).isoformat()   # outcomes still to come
     years = {}
     for e in evs:
         years.setdefault(e['d'][:4], []).append(e)
@@ -66,13 +169,20 @@ def render(doc):
             d = date.fromisoformat(e['d'])
             label = ev.tag(e)
             tag = f' <span class="tag">{html.escape(label)}</span>' if label else ''
+            t = e.get('type')
+            if t and t != 'Other':
+                tag += f' <a class="tag ty" href="#t-{et.slug(t)}">{html.escape(t)}</a>'
+            pat = follow(e, pats) if (e['d'] >= recent or e['src'] == ev.MINE_SRC) else ''
             what = html.escape(e['what'])
             if (e.get('link') or '').startswith(('http://', 'https://')):
                 what = f'<a href="{html.escape(e["link"])}" target="_blank" rel="noopener">{what}</a>'
             find = ev.search_text(e)
             mv = ''.join(f' data-{k}="{e[k]}"' for k in ('day', 'month') if e.get(k) is not None)
-            rows.append(f'<tr data-s="{html.escape(find)}"{mv}><td class="d">{d.strftime("%b")} {d.day}</td><td>{what}{tag}</td>'
+            cls = ' class="haspat"' if pat else ''
+            rows.append(f'<tr data-s="{html.escape(find)}"{mv}{cls}><td class="d">{d.strftime("%b")} {d.day}</td><td>{what}{tag}</td>'
                         f'<td class="n">{pct(e.get("day"))}</td><td class="n">{pct(e.get("month"))}</td></tr>')
+            if pat:   # its own full-width row, so it isn't squeezed into the event column on a phone
+                rows.append(f'<tr class="pr"><td></td><td colspan="3">{pat}</td></tr>')
         parts.append(f'<section class="yr"><h2>{y}</h2><table><thead><tr><th>Date</th><th>Event</th><th class="n">Day</th>'
                      f'<th class="n">1 month</th></tr></thead><tbody>{"".join(rows)}</tbody></table></section>')
     upd = doc.get('updated') or ''
@@ -114,6 +224,16 @@ details.how {{ margin: 28px 0 0; }} details.how summary {{ color: var(--muted); 
 .find button {{ font: inherit; font-size: 0.86rem; color: var(--muted); background: none; border: 0; padding: 7px 4px; cursor: pointer;
   text-decoration: underline; text-underline-offset: 2px; }}
 p.count {{ color: var(--muted); font-size: 0.86rem; margin: 6px 0 0; }}
+a.ty {{ text-decoration: none; }}
+.pat {{ font-size: 0.78rem; color: var(--muted); line-height: 1.4; }} tr.haspat td {{ border-bottom: 0; padding-bottom: 2px; }}
+tr.pr td {{ padding-top: 0; }} .pat a {{ color: var(--muted); }}
+.held {{ color: var(--pos); font-weight: 600; margin-left: 2px; }}
+details.types {{ margin: 12px 0 0; }} details.types > summary {{ font-weight: 600; font-size: 0.92rem; cursor: pointer; }}
+.tcard {{ border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 10px 0; scroll-margin-top: 12px; }}
+.tcard h3 {{ font-size: 0.95rem; margin: 0 0 2px; }}
+table.pt {{ font-size: 0.8rem; margin-top: 6px; }} table.pt th, table.pt td {{ padding: 4px; white-space: nowrap; }}
+@media (max-width: 520px) {{ table.pt td .muted {{ display: block; font-size: 0.74rem; }} table.pt td {{ width: 27%; }} }}
+table.pt tbody th {{ color: var(--ink); font-weight: 500; }}
 .tag {{ font-size: 0.68rem; background: var(--tag); color: var(--muted); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }}
 </style></head><body><div class="wrap">
 <div class="nav"><a href="scanner.html">← Top 5 Strongest</a></div>
@@ -131,6 +251,7 @@ p.count {{ color: var(--muted); font-size: 0.86rem; margin: 6px 0 0; }}
   <button id="clear" type="button" hidden>Clear</button>
 </div>
 <p class="count" id="count" aria-live="polite"></p>
+{type_cards(pats)}
 {"".join(parts)}
 <p class="note" id="none" hidden>No events match. Try fewer words or a smaller move.</p>
 <details class="how"><summary>How this list works</summary>
@@ -138,8 +259,10 @@ p.count {{ color: var(--muted); font-size: 0.86rem; margin: 6px 0 0; }}
 rates, the VIX closes above 30 for the first time in three months, or the market enters a correction, a bear market or a new bull
 run; those carry an <span class="tag">auto</span> tag. A big day's headline comes from the daily news log when it has one for that
 day, else from MarketWatch or Google News (named in brackets); Fed rate changes are read from the Fed's own FOMC statements. The
-1-month figure fills in a month later. Search matches the event text, its date or year, and its tag; the move filter uses the Day
-or 1 month column, and events without that figure yet drop out while it's on. Information only: the plan doesn't use it.</p>
+1-month figure fills in a month later. Each event has a type (tap it for that type's history), and events from the last 3 months,
+plus your own, show what usually followed past events of the same type. Search matches the event text, its date or year, its tag and
+type; the move filter uses the Day or 1 month column, and events without that figure yet drop out while it's on. Information only:
+the plan doesn't use it.</p>
 </details>
 <script>
 {ev.MATCH_JS}
@@ -159,9 +282,11 @@ or 1 month column, and events without that figure yet drop out while it's on. In
     var f = evFilter(q, per, dir, min), shown = 0;
     secs.forEach(function (sec) {{
       var n = 0;
+      var last = true;
       sec.querySelectorAll('tbody tr').forEach(function (tr) {{
+        if (tr.classList.contains('pr')) {{ tr.hidden = !last; return; }}   // an event's pattern row goes with it
         var ok = evMatch(tr.dataset.s, tr.dataset.day, tr.dataset.month, f);
-        tr.hidden = !ok; n += ok ? 1 : 0;
+        tr.hidden = !ok; last = ok; n += ok ? 1 : 0;
       }});
       sec.hidden = !n; shown += n;
     }});
@@ -173,6 +298,13 @@ or 1 month column, and events without that figure yet drop out while it's on. In
   [per, dir].forEach(function (el) {{ el.addEventListener('change', apply); }});
   clear.addEventListener('click', function () {{ q.value = ''; min.value = ''; dir.value = 'any'; per.value = 'day'; apply(); q.focus(); }});
   apply();
+  // a type tag (#t-...) opens the patterns fold at that type's card
+  function openType() {{
+    var id = location.hash.slice(1), el = id.indexOf('t-') === 0 && document.getElementById(id);
+    if (el) {{ document.getElementById('types').open = true; el.scrollIntoView(); }}
+  }}
+  window.addEventListener('hashchange', openType);
+  openType();
 }})();
 </script>
 </div></body></html>
@@ -217,6 +349,16 @@ def main(argv):
             health.save(log)
         new = ev.auto(doc['events'], cal, spy, px['^VIX'], news, headlines=heads['items'], fed=doc['fed'])
         ev.reactions(doc['events'], cal, spy)
+        if '--patterns' in argv or ep.stale():
+            try:
+                ep.save(ep.compute(doc, ep.fetch()))
+                print('event patterns rebuilt')
+            except Exception as e:   # noqa: BLE001 - the page still renders with last week's patterns
+                print(f"event patterns failed: {type(e).__name__}: {e}")
+                log = health.load()
+                health.add(log, today, 'events', 'The weekly event-patterns refresh failed, so the events page shows last '
+                           "week's figures (it never affects the plan).")
+                health.save(log)
         doc['updated'] = datetime.now(timezone.utc).isoformat(timespec='seconds')
         print(f"events: {len(doc['events'])}, added tonight: {', '.join(new) or 'none'}")
     ev.save(doc)

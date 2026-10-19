@@ -16,8 +16,10 @@ from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+from mtl.event_types import TYPES  # noqa: E402
 PATH = os.path.join(ROOT, 'data', 'my_events.json')
-FIELDS = {'Date': 'date', 'What happened': 'what', 'Link': 'link', 'Add or remove': 'action'}
+FIELDS = {'Date': 'date', 'What happened': 'what', 'Link': 'link', 'Type': 'type', 'Add or remove': 'action'}
 NO_RESPONSE = '_No response_'
 MAX_LEN = 300
 
@@ -82,8 +84,9 @@ def apply(form, doc, issue, today):
         return f'removed {d}: {what}'
     if any(e['d'] == d and same(e['what'], what) for e in evs):
         raise ValueError(f'"{what}" is already on {d}')
-    evs.append(dict(d=d, what=what, **({'link': link} if link else {}), issue=issue))
-    return f'added {d}: {what}'
+    kind = (form.get('type') or '').strip()
+    evs.append(dict(d=d, what=what, **({'link': link} if link else {}), **({'type': kind} if kind in TYPES else {}), issue=issue))
+    return f'added {d}: {what}' + (f' ({kind})' if kind in TYPES else '')
 
 
 def main():
