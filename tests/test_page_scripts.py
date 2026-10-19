@@ -43,3 +43,18 @@ def test_rendered_scanner_scripts_parse():
     spec.loader.exec_module(mod)
     scan = dict(generatedAt='2026-10-03T03:22:15+00:00', asOf='2026-10-02', holdings=[], table=[], trades=[], curves={}, years={}, stats={})
     assert _check(mod.render(scan)) == []
+
+
+@pytest.mark.parametrize('page, button, key', [('events.html', 'id="theme"', "localStorage.getItem('mtl-theme')"),
+                                               ('backtest.html', 'id="theme-toggle"', "localStorage.getItem('mtl-theme')")])
+def test_theme_button_on_events_and_backtest_pages(page, button, key):
+    """A labelled dark/light button, the choice saved under the same key as the scanner page's (so it carries across),
+    applied in the head before the page draws, and icons hidden by attribute (an SVG ignores .hidden = ...)."""
+    path = os.path.join(ROOT, 'docs', page)
+    if not os.path.exists(path):
+        pytest.skip(f'{page} not built')
+    html = open(path).read()
+    head = html[:html.index('<style>')]
+    assert button in html and key in head
+    assert "toggleAttribute('hidden'" in html and 'svg[hidden] { display: none; }' in html
+    assert re.search(r'<span[^>]*>(Light|Dark)</span>\s*</button>', html)
