@@ -1061,7 +1061,11 @@ def main():
     sl_val, bil = dict(sl_curve), {d_: 1.0 for d_, v_ in f['BIL'].items() if v_}
     strat_b_val = dict((d_, v) for d_, v in strat_b)
     strat_bx_val = dict((d_, v) for d_, v in strat_bx)
-    human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_]), round(strat_b_val.get(d_, v), 6), round(strat_bx_val.get(d_, v), 6)] for d_, v in strat
+    # ... then the default plan's value and the GLD / TLT closes, for the whole-account calls ('rotation', 'gold', 'bonds')
+    rot_val = {d_: v for d_, v in plans['rotation']}
+    whole = {'rotation': rot_val, 'gold': whip_px.get('GLD') or {}, 'bonds': whip_px.get('TLT') or {}}
+    human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_]), round(strat_b_val.get(d_, v), 6), round(strat_bx_val.get(d_, v), 6),
+                   round(rot_val[d_], 6) if rot_val.get(d_) else None, r4(whole['gold'].get(d_)), r4(whole['bonds'].get(d_))] for d_, v in strat
                   if d_ >= HUMAN_FROM and d_ in sl_val and bil.get(d_)]
     nxt = {calendar[i]: calendar[i + 1] for i in range(len(calendar) - 1)}
     coming_trade = next_session(week_end_session(today))
@@ -1089,7 +1093,7 @@ def main():
         wk = [tuple(w) for w in human_weeks]
         args = (my_calls, calendar, wk, lambda d_: pick_at.get(d_, []), ranks_at, prices, sl_val, bil)
         pick_at_bx = {d_: h for d_, h in picks_bx}
-        kw = dict(boost_picks_at=lambda d_: pick_at_b.get(d_, []), boostx_picks_at=lambda d_: pick_at_bx.get(d_, []))
+        kw = dict(boost_picks_at=lambda d_: pick_at_b.get(d_, []), boostx_picks_at=lambda d_: pick_at_bx.get(d_, []), whole=whole)
         scored, base = score_calls(*args, **kw), score_calls(*args, apply_picks=False, **kw)
         if scored:
             mine = dict(sig=signature(my_calls), curve=scored['curve'], base=base['curve'], weeks=scored['weeks'][-60:])

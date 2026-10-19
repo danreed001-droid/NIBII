@@ -1370,7 +1370,8 @@ __ISSUES__
     // token) and are cached in localStorage; a removed call is kept as {m:'del'} so removals sync too
     var CK = 'nibii-calls-v1', TK = 'nibii-gh-token', calls = {}, act = {};
     var GH = { owner: 'danreed001-droid', repo: 'NIBII', path: 'docs/my_calls.json', branch: 'main' };
-    var MODES = ['auto', 'boost', 'boost100', 'cushion', 'steps', 'cash', 'custom', 'del'];
+    var MODES = ['rotation', 'gold', 'bonds', 'auto', 'boost', 'boost100', 'cushion', 'steps', 'cash', 'custom', 'del'];
+    var WHOLE = { rotation: 5, gold: 6, bonds: 7 };   // whole-account calls: the default plan, 100% GLD, 100% TLT (their slot in a mix)
     function clean(c) {
       if (!c || MODES.indexOf(c.m) < 0) return null;
       var cc = { m: c.m, note: String(c.note || '').slice(0, 300), at: String(c.at || '') };
@@ -1378,8 +1379,8 @@ __ISSUES__
       var TKR = /^[A-Z][A-Z0-9.\-]{0,9}$/;
       var sw = (Array.isArray(c.swaps) ? c.swaps : []).filter(function (x) { return Array.isArray(x) && TKR.test(x[0]) && TKR.test(x[1]); }).slice(0, 5).map(function (x) { return [x[0], x[1]]; });
       var dr = (Array.isArray(c.drops) ? c.drops : []).filter(function (x) { return TKR.test(x); }).slice(0, 5);
-      if (sw.length) cc.swaps = sw;
-      if (dr.length) cc.drops = dr;
+      if (sw.length && !(c.m in WHOLE)) cc.swaps = sw;
+      if (dr.length && !(c.m in WHOLE)) cc.drops = dr;
       return cc;
     }
     // swap / drop helpers: candidates are ranks 6-10 that the model doesn't hold
@@ -1490,9 +1491,10 @@ __ISSUES__
       });
     }
     function share(txt) { return +String(txt).split('/')[0] / 100; }
-    function mixOf(c, fri) {   // -> [stocks, sleeve, cash] or null
+    function mixOf(c, fri) {   // -> [stocks, sleeve, cash, boost list, boost 100% list, default plan, GLD, TLT] or null
       if (!c) return null;
       var w = WK[fri];
+      if (c.m in WHOLE) { var mw = [0, 0, 0, 0, 0, 0, 0, 0]; mw[WHOLE[c.m]] = 1; return mw; }
       if (c.m === 'auto') { var s1 = w ? w[2] : A ? share(A.split) : 1; return [s1, 1 - s1, 0]; }
       if (c.m === 'boost100') return [0, 0, 0, 0, 1];
       if (c.m === 'cushion') { var s5 = w && w[5] != null ? w[5] : A && A.cushion ? share(A.cushion.split) : 1; return [0, 1 - s5, 0, 0, s5]; }
@@ -1503,13 +1505,13 @@ __ISSUES__
     }
     function callLabel(c) {
       if (!c) return '—';
-      var b = c.m === 'auto' ? 'Follow Auto' : c.m === 'boost' ? 'Follow Boost' : c.m === 'boost100' ? 'Follow Boost 100%' : c.m === 'cushion' ? 'Follow Boost + cushion' : c.m === 'steps' ? 'Follow Steps' : c.m === 'cash' ? 'No trade (cash)' : 'Custom';
+      var b = c.m === 'rotation' ? 'Follow the default plan' : c.m === 'gold' ? 'Gold (GLD)' : c.m === 'bonds' ? 'Bonds (TLT)' : c.m === 'auto' ? 'Follow Auto' : c.m === 'boost' ? 'Follow Boost' : c.m === 'boost100' ? 'Follow Boost 100%' : c.m === 'cushion' ? 'Follow Boost + cushion' : c.m === 'steps' ? 'Follow Steps' : c.m === 'cash' ? 'No trade (cash)' : 'Custom';
       var x = [];
       (c.swaps || []).forEach(function (s2) { x.push(s2[0] + '→' + s2[1]); });
       (c.drops || []).forEach(function (d2) { x.push('drop ' + d2); });
-      return b + (c.m !== 'cash' && x.length ? ' · ' + x.join(', ') : '');
+      return b + (c.m !== 'cash' && !(c.m in WHOLE) && x.length ? ' · ' + x.join(', ') : '');
     }
-    function mixTxt(m) { return Math.round((m[0] + (m[3] || 0) + (m[4] || 0)) * 100) + '/' + Math.round(m[1] * 100) + (m[2] ? '/' + Math.round(m[2] * 100) : ''); }
+    function mixTxt(m) { if (m[5]) return 'default plan'; if (m[6]) return '100% gold'; if (m[7]) return '100% bonds'; return Math.round((m[0] + (m[3] || 0) + (m[4] || 0)) * 100) + '/' + Math.round(m[1] * 100) + (m[2] ? '/' + Math.round(m[2] * 100) : ''); }
     var inForce = A ? A.decided : D.asOf;   // the signal Friday whose trades are (or will be) held now
 
     var mix = P['default'], acct = 10000;
@@ -1520,36 +1522,40 @@ __ISSUES__
     var name = {}; SL.assets.forEach(function (a) { name[a.t] = a; });
     function draw() {
       document.querySelectorAll('#mix-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mix)); });
-      var m, mine = null, RT = A && A.rotation, RA = mix === 'rotation' && RT && RT.mode !== 'boost' ? RT.mode : null;
-      var WH = mix === 'rotation' && !RA && RT && RT.whip && RT.whip.half ? RT.whip.half : null;   // whipsaw switch asset
+      // your call in force ('Mine'): following the default plan shows the plan itself; gold / bonds show that fund
+      var mine = mix === 'mine' ? callFor(inForce) : null, MX = mine && mine.m === 'rotation' ? 'rotation' : mix;
+      var HV = mine && (mine.m === 'gold' || mine.m === 'bonds') ? (mine.m === 'gold' ? 'GLD' : 'TLT') : null;
+      var m, RT = A && A.rotation, RA = MX === 'rotation' && RT && RT.mode !== 'boost' ? RT.mode : null;
+      var WH = MX === 'rotation' && !RA && RT && RT.whip && RT.whip.half ? RT.whip.half : null;   // whipsaw switch asset
       var WP = RT && RT.whip && RT.whip.part != null ? RT.whip.part : 0.5;                          // its share of the account
-      if (mix === 'mine') { mine = callFor(inForce); m = mixOf(mine, inForce) || [A ? share(A.split) : 1, A ? 1 - share(A.split) : 0, 0]; }
-      else if (mix === 'auto' && A) m = [share(A.split), 1 - share(A.split), 0];
-      else if (mix === 'guard' && A && A.guard) m = [A.guard.weights[0], A.guard.weights[1], 0, A.guard.weights[2]];
-      else if (mix === 'boost' && A && A.boost) m = [share(A.boost.split), 1 - share(A.boost.split), 0];
-      else if (mix === 'boost100') m = [1, 0, 0];
-      else if (mix === 'rotation') m = RA ? [0, 0, 0] : WH ? [1 - WP, 0, 0] : [1, 0, 0];
-      else if (mix === 'cushion' && A && A.cushion) m = [share(A.cushion.split), 1 - share(A.cushion.split), 0];
-      else if (mix === 'steps' && A) m = [share(A.steps.split), 1 - share(A.steps.split), 0];
-      else m = [share(mix), 1 - share(mix), 0];
-      var mineBoost = mix === 'mine' && mine && (mine.m === 'boost' || mine.m === 'boost100' || mine.m === 'cushion');
+      if (HV) m = [0, 0, 0];
+      else if (MX === 'mine') { m = mixOf(mine, inForce) || [A ? share(A.split) : 1, A ? 1 - share(A.split) : 0, 0]; }
+      else if (MX === 'auto' && A) m = [share(A.split), 1 - share(A.split), 0];
+      else if (MX === 'guard' && A && A.guard) m = [A.guard.weights[0], A.guard.weights[1], 0, A.guard.weights[2]];
+      else if (MX === 'boost' && A && A.boost) m = [share(A.boost.split), 1 - share(A.boost.split), 0];
+      else if (MX === 'boost100') m = [1, 0, 0];
+      else if (MX === 'rotation') m = RA ? [0, 0, 0] : WH ? [1 - WP, 0, 0] : [1, 0, 0];
+      else if (MX === 'cushion' && A && A.cushion) m = [share(A.cushion.split), 1 - share(A.cushion.split), 0];
+      else if (MX === 'steps' && A) m = [share(A.steps.split), 1 - share(A.steps.split), 0];
+      else m = [share(MX), 1 - share(MX), 0];
+      var mineBoost = MX === 'mine' && mine && (mine.m === 'boost' || mine.m === 'boost100' || mine.m === 'cushion');
       if (mineBoost) m = [(m[3] || 0) + (m[4] || 0), m[1], m[2]];
       var spyAmt = acct * (m[3] || 0);
       var stocks = acct * m[0], sleeve = acct * m[1], cash = acct * m[2], per = stocks / D.rule.topN;
-      $('plan-hint').textContent = mix === 'rotation' ? (RA ? 'boost + rotation: out of stocks, 100% ' + RA + ' · decided at any close, traded at the next close' : WH ? (WP >= 1 ? 'boost + rotation: whipsaw switch on, 100% ' + WH : 'boost + rotation: whipsaw switch on, ' + Math.round((1 - WP) * 100) + '% the Boost list, ' + Math.round(WP * 100) + '% ' + WH) + ' · decided at any close, traded at the next close' : 'boost + rotation: the Boost 100% list, 100% stocks · decided at any close, traded at the next close') : (mix === 'auto' ? 'auto mix this week: ' : mix === 'boost' ? 'auto + news boost this week: ' : mix === 'boost100' ? 'news boost, always fully in stocks: ' : mix === 'cushion' ? 'boost + cushion this week: ' : mix === 'guard' ? 'auto + guard this week: ' : mix === 'steps' ? 'steps mix this week: ' : mix === 'mine' ? 'your call: ' : '') +
+      $('plan-hint').textContent = HV ? 'your call: 100% ' + HV + ' (' + (HV === 'GLD' ? 'gold' : 'long Treasuries') + ') · held until you change your call' : MX === 'rotation' ? (RA ? 'boost + rotation: out of stocks, 100% ' + RA + ' · decided at any close, traded at the next close' : WH ? (WP >= 1 ? 'boost + rotation: whipsaw switch on, 100% ' + WH : 'boost + rotation: whipsaw switch on, ' + Math.round((1 - WP) * 100) + '% the Boost list, ' + Math.round(WP * 100) + '% ' + WH) + ' · decided at any close, traded at the next close' : 'boost + rotation: the Boost 100% list, 100% stocks · decided at any close, traded at the next close') : (MX === 'auto' ? 'auto mix this week: ' : MX === 'boost' ? 'auto + news boost this week: ' : MX === 'boost100' ? 'news boost, always fully in stocks: ' : MX === 'cushion' ? 'boost + cushion this week: ' : MX === 'guard' ? 'auto + guard this week: ' : MX === 'steps' ? 'steps mix this week: ' : MX === 'mine' ? 'your call: ' : '') +
         Math.round(m[0] * 100) + '% top 5 · ' + Math.round(m[1] * 100) + '% sleeve' + (m[3] ? ' · ' + Math.round(m[3] * 100) + '% SPY' : '') + (m[2] ? ' · ' + Math.round(m[2] * 100) + '% cash' : '') + ' · no leverage · trade & reset Mondays';
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
       var sp = name[SL.held] || {};
       function sh(v, px) { if (!px) return ''; var n = v / px; return '≈' + n.toFixed(n < 10 ? 2 : 0) + ' sh'; }
-      var useX = mix === 'boost100' || mix === 'cushion' || mix === 'rotation' || (mineBoost && (mine.m === 'boost100' || mine.m === 'cushion'));
-      var BS = (mix === 'boost' || mix === 'boost100' || mix === 'cushion' || mix === 'rotation' || mineBoost) && A && A.boost ? (useX && A.boostx ? A.boostx : A.boost) : null;
+      var useX = MX === 'boost100' || MX === 'cushion' || MX === 'rotation' || (mineBoost && (mine.m === 'boost100' || mine.m === 'cushion'));
+      var BS = (MX === 'boost' || MX === 'boost100' || MX === 'cushion' || MX === 'rotation' || mineBoost) && A && A.boost ? (useX && A.boostx ? A.boostx : A.boost) : null;
       if (BS) {   // the boosted list: model holdings it keeps first, boosted names in the slots they took
         BS.rows.forEach(function (r) { if (!TBL[r.t]) TBL[r.t] = r; });
         var keepB = hs.filter(function (h) { return BS.holdings.indexOf(h.t) >= 0; }), inB = BS.holdings.filter(function (t) { return !hs.some(function (h) { return h.t === t; }); });
         hs = keepB.concat(hs.filter(function (h) { return BS.holdings.indexOf(h.t) < 0; }));
       }
       var shown = BS ? hs.map(function (h, i) { return i < keepB.length ? h.t : inB[i - keepB.length] || h.t; })
-        : mix === 'mine' && mine ? slotsFor(hs.map(function (h) { return h.t; }), mine) : hs.map(function (h) { return h.t; });
+        : MX === 'mine' && mine ? slotsFor(hs.map(function (h) { return h.t; }), mine) : hs.map(function (h) { return h.t; });
       if (mineBoost) { var sb = slotsFor(shown, mine); hs = shown.map(function (t) { return TBL[t] || { t: t }; }); shown = sb; }
       var gapOf = {}; if (BS) BS.gaps.forEach(function (g) { gapOf[g.t] = g.d; });
       var rows = stocks > 0 ? shown.map(function (t, i) {
@@ -1565,19 +1571,20 @@ __ISSUES__
       if (cash > 0) rows += '<tr><td><span class="sw" style="--c:var(--muted)"></span><b>Cash</b> <span class="muted nm2">T-bills or money market</span></td><td class="r">' + usd(cash) + '</td><td></td></tr>';
       if (WH) rows += '<tr><td><span class="sw" style="--c:var(--s-rot)"></span><b>' + esc(WH) + '</b> <span class="muted nm2">' + esc(ROTN[WH] || WH) + ' · whipsaw switch</span></td><td class="r">' + usd(acct * WP) + '</td><td class="r muted">' + sh(acct * WP, WH === 'SPY' ? (A.guard && A.guard.spyClose) : RT.px[WH]) + '</td></tr>';
       if (RA) rows = '<tr><td><span class="sw" style="--c:var(--s-rot)"></span><b>' + esc(RA) + '</b> <span class="muted nm2">' + esc(ROTN[RA] || '') + ' · Boost + rotation is out of stocks</span></td><td class="r">' + usd(acct) + '</td><td class="r muted">' + sh(acct, RT.px[RA]) + '</td></tr>';
+      if (HV) rows = '<tr><td><span class="sw" style="--c:var(--s-rot)"></span><b>' + HV + '</b> <span class="muted nm2">' + esc(ROTN[HV] || '') + ' · your call</span></td><td class="r">' + usd(acct) + '</td><td class="r muted">' + sh(acct, RT && RT.px ? RT.px[HV] : null) + '</td></tr>';
       rows += '<tr class="sum"><td>Total</td><td class="r">' + usd(acct) + '</td><td></td></tr>';
       $('alloc').innerHTML = '<tbody>' + rows + '</tbody>';
-      var bk = { rotation: 'rotation', boost100: 'boost100' }[mix], bs = bk ? bt(bk) : null, t5b = bt('strategy');
+      var bk = { rotation: 'rotation', boost100: 'boost100' }[MX], bs = bk ? bt(bk) : null, t5b = bt('strategy');
       $('plan-stats').innerHTML = (bs ? '<span>Backtest since ' + TSINCE + ' (stocks in the S&amp;P 500 at the time): <b class="pos">' + pct(bs.annual, 1) + '</b> a year, worst drop <b class="neg">' + pct(bs.maxDD, 0) + '</b></span>'
-          : mix === 'mine' ? '<span>Your record is scored below, from your first call.</span>'
+          : MX === 'mine' ? '<span>Your record is scored below, from your first call.</span>'
           : '<span>No point-in-time backtest of this mix, so no track record is shown for it (a replay with today’s index members would flatter it).</span>') +
         (t5b ? '<span class="muted">Top 5 basic rule, same backtest: ' + pct(t5b.annual, 1) + ' a year, worst drop ' + pct(t5b.maxDD, 0) + '</span>' : '');
-      if (mix === 'mine') {
+      if (MX === 'mine') {
         $('auto-note').innerHTML = mine ? '<b>Mine:</b> your call in force — ' + callLabel(mine) + ' → <b>' + mixTxt(m) + '</b>' + (mine.note ? ' · “' + esc(mine.note) + '”' : '') + '. Change it under Your calls.'
           : '<b>Mine:</b> no call yet, so this shows Auto. Make one under Your calls.';
-      } else if (A && mix === 'rotation' && RT) {
-        $('auto-note').innerHTML = rotNote(RT, P) + warnNote(RT) + bxNote(A) + fadeNote(A);
-      } else if (A && mix === 'cushion' && A.cushion) {
+      } else if (A && MX === 'rotation' && RT) {
+        $('auto-note').innerHTML = (mix === 'mine' ? '<b>Mine:</b> your call in force — Follow the default plan' + (mine.note ? ' · “' + esc(mine.note) + '”' : '') + '. Change it under Your calls.<br>' : '') + rotNote(RT, P) + warnNote(RT) + bxNote(A) + fadeNote(A);
+      } else if (A && MX === 'cushion' && A.cushion) {
         var CU = A.cushion;
         var crOk = CU.credit == null || CU.credit < 0, crTxt = function (v) { return v == null ? 'no data' : pct(v); };
         $('auto-note').innerHTML = '<b>Boost + cushion:</b> the Boost stock list, fully in stocks unless two things agree at the Friday close: SPY is below its ' + CU.ma + '-day average <i>and</i> junk bonds (HYG) have lagged quality bonds (LQD) over the last ' + CU.creditLook + ' sessions. Then ' + Math.round((1 - CU.share) * 100) + '% sits in the sleeve (' + esc(SL.held) + ') and ' + Math.round(CU.share * 100) + '% in the stocks. ' +
@@ -1587,12 +1594,12 @@ __ISSUES__
           ' The cushion was on in ' + CU.weeksLow + ' of ' + CU.weeks + ' weeks since ' + SINCE + (CU.weeksSpyLow != null ? ' (SPY alone was below its average in ' + CU.weeksSpyLow + ')' : '') + '. ' +
           'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $4.49M after tax (worst drop −59% before tax), vs $5.17M and −63% for Boost 100% (both with the surge exit; $3.80M and $4.36M before it) and $3.62M for the old SPY-only cushion (corrected data); from 2020 it made 54.2% a year vs 53.3% for Boost 100%, worst drop −34% vs −39%. There is no HYG data before 2007, so before then it is the SPY-only rule.' +
           cushionLog(CU) + bxNote(A);
-      } else if (A && mix === 'boost100' && A.boost) {
+      } else if (A && MX === 'boost100' && A.boost) {
         $('auto-note').innerHTML = '<b>Boost 100%:</b> the Boost stock list (top 5 + news gaps) with the blow-off and surge exits, always fully in the stocks: no Auto steps into the sleeve when holdings turn down. ' +
           (bt('boost100') ? 'Backtest since ' + TSINCE + ' (stocks in the S&amp;P 500 at the time): ' + pct(bt('boost100').annual, 1) + ' a year, worst drop ' + pct(bt('boost100').maxDD, 0) + '. ' : '') +
           'In the 2000–2026 audit (stocks in the S&amp;P 500 at the time, 0.15% slippage, 37%/20% tax) $100,000 grew to about $5.17M after tax with the blow-off and surge exits ($4.36M before the surge exit, $3.87M with neither; corrected data); ' +
           'the cost is deeper drops: about −66% at the worst after tax. Only follow it if you would hold through a drop like that.' + bxNote(A);
-      } else if (A && mix === 'boost' && A.boost) {
+      } else if (A && MX === 'boost' && A.boost) {
         var B = A.boost, gl = B.gaps.length ? B.gaps.map(function (g) { return '<b>' + esc(g.t) + '</b> ' + fmtDate(g.d, md) + (g.held ? ' (held)' : ''); }).join(', ') : 'none';
         $('auto-note').innerHTML = '<b>Auto + News boost:</b> the same top 5, but any stock that gapped up ' + Math.round(B.gap * 100) + '%+ on news (opened and closed ' + Math.round(B.gap * 100) +
           '%+ up, near the day’s high — usually earnings) in the last 4 weeks replaces the weakest holding, even if it isn’t in the top 5 yet; then the Auto mix on top. ' +
@@ -1601,22 +1608,22 @@ __ISSUES__
           (D.signalDay ? 'Auto mix ' + B.split + (B.split !== B.prevSplit ? ' (was ' + B.prevSplit + ')' : '') + '. ' : '') +
           'Tested 2000–2026 about +32% a year vs +25%, worst drop −62% vs −73%, and it caught the 2009 rebound (+35% vs −27%). ' +
           'Its list differed from the plain top 5 in ' + B.weeksDiff + ' of ' + A.weeks + ' weeks. Expect fewer real gains than the test: it only knows today’s index members.';
-      } else if (A && mix === 'guard' && A.guard) {
+      } else if (A && MX === 'guard' && A.guard) {
         var G = A.guard;
         $('auto-note').innerHTML = '<b>Auto + Guard:</b> the Auto mix, plus a bear-market guard: while SPY closes below its level a year earlier, ' + Math.round(G.share * 100) +
           '% of the stock part sits in SPY instead of the top 5. ' + (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + 'SPY ' + (G.spyNow != null ? G.spyNow.toFixed(2) : '–') + ' vs ' +
           (G.spyYearAgo != null ? G.spyYearAgo.toFixed(2) : '–') + ' a year ago → guard <b>' + (G.bear ? 'ON' : 'off') + '</b>' +
           (D.signalDay && G.bear !== G.prevBear ? ' (changed — trade it Monday)' : '') + '.' + (!D.signalDay && G.previewBear != null && G.previewBear !== G.bear ? ' If Friday were today the guard would turn ' + (G.previewBear ? 'ON' : 'off') + '.' : '') +
           ' It costs a little in good years and pays off in long bear markets: tested 2000–2026, about the same +25% a year with a worst drop near −63% instead of −73%, and 2009 about −5% instead of −27%. On ' + G.weeksBear + ' weeks since ' + SINCE + '.';
-      } else if (A && mix === 'steps' && A.steps) {
+      } else if (A && MX === 'steps' && A.steps) {
         var dn2 = A.down.length, lst2 = dn2 ? ' (' + A.down.map(esc).join(', ') + ')' : '', S2 = A.steps;
         $('auto-note').innerHTML = '<b>Steps:</b> 100% top 5 when no holding is in a daily lower-low downtrend at Friday’s close; 1 down → 80/20, 2 down → 60/40, 3 or more → 40/60 (Auto and Boost use these same tiers). ' +
           (D.signalDay ? 'This Friday: ' : 'Last Friday: ') + dn2 + ' of ' + A.checked.length + ' in a downtrend' + lst2 + ' → <b>' + S2.split + '</b>' +
           (D.signalDay && S2.split !== S2.prevSplit ? ' (was ' + S2.prevSplit + ' — change it Monday)' : '') + '.' +
           (!D.signalDay && S2.preview ? ' If Friday were today: ' + A.previewDown.length + ' in a downtrend → ' + S2.preview + '.' : '') +
           ' Since ' + SINCE + ' it was below 100% in ' + S2.weeksLow + ' of ' + A.weeks + ' weeks.';
-      } else if (A && mix !== 'auto') {
-        $('auto-note').innerHTML = 'Fixed mix: reset to ' + mix + ' every Monday whatever the charts say. Auto and Steps adjust it to how many holdings are in a downtrend.';
+      } else if (A && MX !== 'auto') {
+        $('auto-note').innerHTML = 'Fixed mix: reset to ' + MX + ' every Monday whatever the charts say. Auto and Steps adjust it to how many holdings are in a downtrend.';
       } else if (A) {
         var dn = A.down.length, lst = dn ? ' (' + A.down.map(esc).join(', ') + ')' : '';
         $('auto-note').innerHTML = '<b>Auto:</b> 100% top 5; for each holding in a daily lower-low downtrend at Friday’s close, 20% moves to the sleeve for the week (1 → 80/20, 2 → 60/40, 3+ → 40/60). ' +
@@ -1643,7 +1650,14 @@ __ISSUES__
       var pv = A && (kind === 'auto' ? A.preview : kind === 'boost' ? A.boost && A.boost.split : kind === 'cushion' ? A.cushion && A.cushion.previewSplit : A.steps && A.steps.preview);
       return 'set Friday' + (pv ? ' (now ' + pv + ')' : '');
     }
-    var OPTS = [['boost100', 'Follow Boost 100%', 'Boost list + blow-off exit in weak markets + surge exit, always 100% stocks'], ['cushion', 'Follow Boost + cushion', autoNow('cushion')], ['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
+    function planNow() {   // what the default plan holds now (it trades at any close, not just Mondays)
+      var R = A && A.rotation;
+      if (!R) return 'whatever the default plan holds, trading when it trades';
+      var h = R.mode !== 'boost' ? '100% ' + R.mode : R.whip && R.whip.half ? (R.whip.part >= 1 ? '100% ' : Math.round(R.whip.part * 100) + '% ') + R.whip.half : 'the Boost list, 100% stocks';
+      return 'now ' + h + ' · trades when the plan does (watch the alerts)';
+    }
+    var OPTS = [['rotation', 'Follow the default plan', planNow()], ['gold', 'Gold (GLD)', '100% gold this week, whatever the plan holds'], ['bonds', 'Bonds (TLT)', '100% long Treasuries this week, whatever the plan holds'],
+                ['boost100', 'Follow Boost 100%', 'Boost list + blow-off exit in weak markets + surge exit, always 100% stocks'], ['cushion', 'Follow Boost + cushion', autoNow('cushion')], ['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
                 ['cash', 'No trade', 'sit in cash this week'], ['custom', 'Custom', 'your own stocks / sleeve / cash']];
     $('choices').innerHTML = OPTS.map(function (o) { return '<button type="button" class="choice" role="radio" aria-checked="false" data-m="' + o[0] + '"><b>' + o[1] + '</b><span>' + o[2] + '</span></button>'; }).join('');
     function cuSync() {
@@ -1655,7 +1669,7 @@ __ISSUES__
       pick = mm;
       document.querySelectorAll('#choices .choice').forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-m') === mm)); });
       $('custom').hidden = mm !== 'custom';
-      if ($('picks')) { $('picks').hidden = mm === 'cash'; if (pickList !== modelFor(mm)) drawPicks(curCall && curCall.m === mm ? curCall : null); }
+      if ($('picks')) { $('picks').hidden = mm === 'cash' || mm in WHOLE; if (pickList !== modelFor(mm)) drawPicks(curCall && curCall.m === mm ? curCall : null); }
     }
     var pickList = null, curCall = null;
     $('choices').onclick = function (e) { var b = e.target.closest('.choice'); if (b) choose(b.getAttribute('data-m')); };
@@ -1689,7 +1703,7 @@ __ISSUES__
       var own = act[FRI], carried = callFor(FRI);
       var c = own || carried;
       curCall = c;
-      choose(c ? c.m : 'boost100');
+      choose(c ? c.m : 'rotation');
       drawPicks(c);
       if (c && c.m === 'custom') { $('cu-s').value = c.s; $('cu-v').value = c.v; }
       cuSync();
@@ -1746,14 +1760,18 @@ __ISSUES__
 
 
     // ---- your record: your calls vs following Auto / Steps from your first call
+    // HU.days rows: [date, top 5, sleeve, cash, boost list, boost 100% list, default plan, GLD, TLT]; a mix puts the
+    // money in those eight series (a missing value falls back as below, so an older build still adds up)
+    var FB = [[1], [2], [3], [4, 1], [5, 4, 1], [6, 3], [7, 3], [8, 3]];
+    function hv(x, j) { var ch = FB[j]; for (var i = 0; i < ch.length; i++) if (x[ch[i]]) return x[ch[i]]; return 1; }
     function simulate(mixAt, startTrade) {
       var tradeFri = {}; HU.weeks.forEach(function (w) { tradeFri[w[1]] = w[0]; });
-      var out = [], a = 0, b = 0, c = 0, bb = 0, bx = 0, prev = null;
+      var out = [], u = [0, 0, 0, 0, 0, 0, 0, 0], prev = null;
       HU.days.forEach(function (x) {
         if (x[0] < startTrade) return;
-        if (prev) { a *= x[1] / prev[1]; b *= x[2] / prev[2]; c *= x[3] / prev[3]; bb *= (x[4] || x[1]) / (prev[4] || prev[1]); bx *= (x[5] || x[4] || x[1]) / (prev[5] || prev[4] || prev[1]); }
-        var nav = prev ? a + b + c + bb + bx : 1;
-        if (x[0] in tradeFri) { var mm = mixAt(tradeFri[x[0]]) || [1, 0, 0]; a = nav * mm[0]; b = nav * mm[1]; c = nav * mm[2]; bb = nav * (mm[3] || 0); bx = nav * (mm[4] || 0); }
+        if (prev) for (var j = 0; j < 8; j++) u[j] *= hv(x, j) / hv(prev, j);
+        var nav = prev ? u.reduce(function (s, v) { return s + v; }, 0) : 1;
+        if (x[0] in tradeFri) { var mm = mixAt(tradeFri[x[0]]) || [1, 0, 0]; for (var k = 0; k < 8; k++) u[k] = nav * (mm[k] || 0); }
         out.push([x[0], nav]); prev = x;
       });
       return out;
@@ -1767,7 +1785,7 @@ __ISSUES__
       var box = $('rec'), keys = Object.keys(act).sort();
       $('rec-range').hidden = true;
       if (!HU || !HU.days.length) { box.innerHTML = '<p class="muted">Record data is not available in this build.</p>'; return; }
-      if (!keys.length) { box.innerHTML = '<p class="swnote">No calls yet. Make your first call on the left — your record starts at that week’s Monday trade and is compared with simply following Auto or Steps over the same weeks.</p>'; return; }
+      if (!keys.length) { box.innerHTML = '<p class="swnote">No calls yet. Make your first call on the left — your record starts at that week’s Monday trade and is compared with simply following the default plan, Auto or Steps over the same weeks.</p>'; return; }
       var w0 = HU.weeks.filter(function (w) { return w[0] >= keys[0]; })[0];
       var f0 = keys[0], start = w0 ? w0[1] : D.tradeDate, lastDay = HU.days[HU.days.length - 1][0];
       if (start > lastDay) { box.innerHTML = '<p class="swnote">Your record starts at the close of <b>Mon ' + fmtDate(start, md) + '</b>, when your first call (' + esc(callLabel(act[f0])) + ') is traded. Check back after that close.</p>'; return; }
@@ -1783,6 +1801,7 @@ __ISSUES__
       var bst = simulate(function (f) { var w = WK[f]; return w && w[4] != null ? [0, 1 - w[4], 0, w[4]] : null; }, start);
       var b100 = simulate(function (f) { var w = WK[f]; return w && w[4] != null ? [0, 0, 0, 0, 1] : null; }, start);
       var cu = simulate(function (f) { var w = WK[f]; return w && w[5] != null ? [0, 1 - w[5], 0, 0, w[5]] : null; }, start);
+      var dfl = HU.days.length && HU.days[HU.days.length - 1].length > 6 ? simulate(function () { return [0, 0, 0, 0, 0, 1, 0, 0]; }, start) : null;
       // optional From/To filter inside the record
       $('rec-range').hidden = false;
       var ra = RR.a && RR.a > start ? RR.a : start, rb = RR.b && RR.b < lastDay ? RR.b : lastDay;
@@ -1790,11 +1809,11 @@ __ISSUES__
       $('rr-from').min = $('rr-to').min = start; $('rr-from').max = $('rr-to').max = lastDay;
       $('rr-from').value = ra; $('rr-to').value = rb;
       function cut(c) { return c.filter(function (p) { return p[0] >= ra && p[0] <= rb; }); }
-      me = cut(me); au = cut(au); stp = cut(stp); bst = cut(bst); b100 = cut(b100); cu = cut(cu); if (baseC) baseC = cut(baseC);
+      me = cut(me); au = cut(au); stp = cut(stp); bst = cut(bst); b100 = cut(b100); cu = cut(cu); if (baseC) baseC = cut(baseC); if (dfl) dfl = cut(dfl);
       if (me.length < 2) { box.innerHTML = '<p class="swnote">Pick a range with at least two trading days between ' + fmtDate(start, md) + ' and ' + fmtDate(lastDay, md) + '.</p>'; return; }
       function tot(c) { return c[c.length - 1][1] / c[0][1] - 1; }
       function dd(c) { var pk = c[0][1], m = 0; c.forEach(function (p) { pk = Math.max(pk, p[1]); m = Math.min(m, p[1] / pk - 1); }); return m; }
-      var SER2 = [['You', me, 'var(--gold)'], ['Boost', bst, 'var(--s-boost)'], ['Boost 100%', b100, 'var(--s-b100)'], ['Cushion', cu, 'var(--s-cush)'], ['Auto', au, 'var(--s-plan)'], ['Steps', stp, 'var(--ink-2)']];
+      var SER2 = [['You', me, 'var(--gold)']].concat(dfl && dfl.length === me.length ? [['Default plan', dfl, 'var(--s-rot)']] : []).concat([['Boost', bst, 'var(--s-boost)'], ['Boost 100%', b100, 'var(--s-b100)'], ['Cushion', cu, 'var(--s-cush)'], ['Auto', au, 'var(--s-plan)'], ['Steps', stp, 'var(--ink-2)']]);
       var pickNote = scored && hasPicks && baseC && baseC.length > 1
         ? '<p class="swnote" style="margin:4px 0 0">Your swaps & drops: <b class="' + tone(tot(me) - tot(baseC)) + '">' + pct(tot(me) - tot(baseC)) + '</b> vs the same mixes with the model’s own five stocks.</p>'
         : hasPicks && !scored ? '<p class="swnote" style="margin:4px 0 0">Swaps and drops are scored on real prices by the next daily update (after 5:20pm ET) once your calls are synced to the repo — until then “You” uses the model’s stocks.</p>' : '';

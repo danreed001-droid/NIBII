@@ -21,7 +21,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PATH = os.path.join(ROOT, 'docs', 'my_calls.json')
-MODES = ('auto', 'boost', 'boost100', 'cushion', 'steps', 'cash', 'custom', 'del')
+MODES = ('rotation', 'gold', 'bonds', 'auto', 'boost', 'boost100', 'cushion', 'steps', 'cash', 'custom', 'del')
 DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 TICKER = re.compile(r'^[A-Z][A-Z0-9.\-]{0,9}$')
 STAMP = re.compile(r'^[0-9T:.\-+Z]{0,40}$')
@@ -36,7 +36,7 @@ def clean(c):
         s = max(0, min(100, int(round(float(c.get('s') or 0)))))
         v = max(0, min(100 - s, int(round(float(c.get('v') or 0)))))
         out.update(s=s, v=v, c=100 - s - v)
-    if c['m'] not in ('cash', 'del'):
+    if c['m'] not in ('cash', 'del', 'rotation', 'gold', 'bonds'):   # whole-account calls hold no stocks to swap
         swaps = [[a, b] for a, b in (x for x in (c.get('swaps') or []) if isinstance(x, list) and len(x) == 2)
                  if isinstance(a, str) and isinstance(b, str) and TICKER.match(a) and TICKER.match(b)][:5]
         drops = [t for t in (c.get('drops') or []) if isinstance(t, str) and TICKER.match(t)][:5]

@@ -88,3 +88,18 @@ def test_cushion_call_uses_the_boost_list_and_the_cushion_share():
     r = score({'2024-01-05': {'m': 'cushion'}}, cal, weeks, lambda d: ['A'], lambda f: {}, closes, flat, flat,
               slots_n=1, boost_picks_at=lambda d: ['B'])
     assert r['weeks'][0][2] == ['B'] and abs(r['curve'][-1][1] - (0.75 * 1.2 + 0.25)) < 1e-9
+
+
+def test_whole_account_calls_follow_the_default_plan_gold_or_bonds():
+    px = closes({'A': 1.01, 'B': 1.01, 'C': 1.01, 'D': 1.01, 'E': 1.01})
+    plan = {d: 100 * 1.02 ** i for i, d in enumerate(CAL)}            # the default plan's value, +2% a session
+    gld = {d: 50 * 1.03 ** i for i, d in enumerate(CAL)}
+    whole = {'rotation': plan, 'gold': gld, 'bonds': {}}
+    r = score({'2026-01-02': {'m': 'rotation'}}, CAL, WEEKS, picks, lambda f: {}, px, FLAT, FLAT, whole=whole)
+    assert abs(r['curve'][-1][1] - 1.02 ** 4) < 1e-6                # traded Jan 5, held through Jan 13
+    assert r['weeks'][0][2] is None and mix_of({'m': 'gold'}, 1, 1) == (0.0, 0.0, 0.0)
+    g = score({'2026-01-02': {'m': 'gold'}, '2026-01-09': {'m': 'custom', 's': 100, 'v': 0}}, CAL, WEEKS, picks,
+              lambda f: {}, px, FLAT, FLAT, whole=whole)
+    assert abs(g['curve'][-1][1] - 1.03 ** 3 * 1.01) < 1e-6        # gold Jan 5-12, then the stocks for a session
+    b = score({'2026-01-02': {'m': 'bonds'}}, CAL, WEEKS, picks, lambda f: {}, px, FLAT, FLAT, whole=whole)
+    assert b['curve'][-1][1] == 1.0                                 # no bond prices: the week sits in cash
