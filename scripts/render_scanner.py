@@ -3308,7 +3308,7 @@ li {{ padding: 9px 0; border-top: 1px solid var(--line); font-size: 0.9rem; }} l
 </style></head><body><div class="wrap">
 <div class="nav"><a href="scanner.html">← Top 5 Strongest</a></div>
 <h1>Issues, last 2 weeks</h1>
-<p class="note">{f"{len(rows)} issue{'' if len(rows) == 1 else 's'}, newest first: " if rows else ''}data problems are listed by the close they were
+<p class="note">{f"{len(rows)} issue{'' if len(rows) == 1 else 's'}, newest first: d" if rows else 'D'}ata problems are listed by the close they were
 found on, a failed run by the day it ran. Older ones drop off after 14 days.</p>
 <ul>{items}</ul>
 </div></body></html>
