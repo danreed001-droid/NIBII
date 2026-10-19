@@ -41,10 +41,19 @@ def test_rejected(kw, msg):
 
 
 def test_page_links_your_item_and_has_the_add_button():
-    from scripts.major_events import ADD_URL, render
+    from mtl.events import ADD_URL
+    from scripts.major_events import render
     page = render(dict(updated='2026-10-18', events=[
         dict(d='2026-10-16', what='Bank <fails>', src='added by you', link='https://news.test/a?b=1&c=2', day=-0.031, month=None),
         dict(d='2026-10-15', what='Bad link', src='added by you', link='javascript:alert(1)', day=None, month=None)]))
     assert '<a href="https://news.test/a?b=1&amp;c=2" target="_blank" rel="noopener">Bank &lt;fails&gt;</a>' in page
     assert 'javascript:' not in page
     assert f'href="{ADD_URL}"' in page and '<span class="tag">added by you</span>' in page
+
+
+def test_scanner_page_has_the_add_news_button():
+    import json
+    from mtl.events import ADD_URL
+    from scripts.render_scanner import DATA_PATH, render
+    page = render(json.load(open(DATA_PATH)))
+    assert f'<a class="bt add" href="{ADD_URL}" target="_blank"' in page and '__ADD_URL__' not in page

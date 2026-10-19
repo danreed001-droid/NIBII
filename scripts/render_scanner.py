@@ -74,7 +74,8 @@ a { color: var(--accent); }
 .nav a { color: var(--masthead-ink-2); text-decoration: none; }
 .nav a:hover { color: var(--gold); }
 .nav .bt { color: var(--gold); font-weight: 600; }
-.nav-r { display: flex; gap: 14px; }
+.nav-r { display: flex; align-items: center; gap: 14px; }
+.nav .add { border: 1px solid var(--gold); border-radius: 999px; padding: 1px 9px; }
 .eyebrow { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 16px 0 6px; }
 .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 h1 { font-size: 2.4rem; font-weight: 600; }
@@ -393,7 +394,7 @@ footer li { margin-bottom: 6px; }
 </style>
 
 <div class="masthead"><div class="masthead-inner">
-  <div class="nav"><a href="index.html">← Market Tape Ledger</a><span class="nav-r"><a class="bt" href="events.html">Events →</a><a class="bt" href="backtest.html">Backtests →</a></span></div>
+  <div class="nav"><a href="index.html">← Market Tape Ledger</a><span class="nav-r"><a class="bt add" href="__ADD_URL__" target="_blank" rel="noopener" title="Add your own news to the market events page">＋ Add news</a><a class="bt" href="events.html">Events →</a><a class="bt" href="backtest.html">Backtests →</a></span></div>
   <p class="eyebrow">NIBII · Momentum</p>
   <div class="top"><h1>Top 5 Strongest</h1>
     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark/light theme">
@@ -3111,6 +3112,9 @@ def render(scan, growth=None):
     page = page.replace('__WALLST__', wallst_html(), 1)
     page = page.replace('__RESEARCH__', ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
+    sys.path.insert(0, ROOT)
+    from mtl.events import ADD_URL   # the events page's "Add news" form
+    page = page.replace('__ADD_URL__', ADD_URL, 1)
     return page.replace('__DATA__', json.dumps(scan, separators=(',', ':')).replace('</', '<\\/'))
 
 

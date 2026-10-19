@@ -23,6 +23,7 @@ PATH = os.path.join(ROOT, 'data', 'major_events.json')
 NEWS = os.path.join(ROOT, 'data', 'news_log.json')
 MINE = os.path.join(ROOT, 'data', 'my_events.json')
 MINE_SRC = 'added by you'
+ADD_URL = 'https://github.com/danreed001-droid/NIBII/issues/new?template=market-event.yml'   # the "Add news" form
 AUTO_SINCE = '2026-10-19'
 BIG_MOVE, VIX_SPIKE = 0.025, 30.0
 FED = re.compile(r'^\s*(the\s+)?(Fed|Federal Reserve|FOMC)\b[^.;]{0,40}?\b(raises|cuts|hikes|lowers)\b', re.I)   # a decision, not odds or talk
