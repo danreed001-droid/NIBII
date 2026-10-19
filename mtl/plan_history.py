@@ -1,8 +1,9 @@
 """Where the default plan was: its shares of stocks, gold, bonds and cash after each close, for the market events page.
 
-Up to its end, data/plan_history.json: the point-in-time backtest of today's rules, rebuilt with the track record
-(research/backtest/build_plan_history.py), so a rule change redraws the past too. After that, the paper record's live
-decisions (data/paper_ledger.json), each filling at the next session's close. Information only; pure apart from load."""
+Before the paper record starts, data/plan_history.json: the point-in-time backtest of today's rules, rebuilt with the
+track record (research/backtest/build_plan_history.py), so a rule change redraws those years. From the paper record's
+first fill on, its live decisions (data/paper_ledger.json, append-only), each filling at the next session's close: what
+the plan actually did, which a later backtest rerun never rewrites. Information only; pure apart from load."""
 import json
 import os
 
@@ -33,14 +34,13 @@ def shares(w):
 
 
 def timeline(hist, ledger):
-    """[(from close of, (stocks, gold, bonds, cash))] in date order: the backtest through its end, then each live
-    decision from the session it fills at."""
+    """[(from close of, (stocks, gold, bonds, cash))] in date order: the backtest until the paper record's first fill,
+    then each live decision from the session it fills at."""
     rows = [(r[0], tuple(r[1:5])) for r in (hist or {}).get('held', [])]
-    end = (hist or {}).get('end') or ''
-    for e in sorted((ledger or {}).get('entries', []), key=lambda e: e['d']):
-        fill = next_trading_day(e['d']).isoformat()
-        if fill > end and e.get('w'):
-            rows.append((fill, shares(e['w'])))
+    live = [(next_trading_day(e['d']).isoformat(), shares(e['w'])) for e in (ledger or {}).get('entries', []) if e.get('w')]
+    if live:
+        first = min(f for f, _ in live)
+        rows = [r for r in rows if r[0] < first] + live
     out = []
     for d, sh in sorted(rows, key=lambda r: r[0]):
         if not out or out[-1][1] != sh:

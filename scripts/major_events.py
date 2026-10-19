@@ -348,8 +348,9 @@ day, else from MarketWatch or Google News (named in brackets); Fed rate changes 
 1-month figure fills in a month later. Each event has a type (tap it for that type's history), and events from the last 3 months,
 plus your own, show what usually followed past events of the same type. The Plan line under each event is where today's plan
 was through that day (stocks, gold, bonds or cash; a share when part of it sat elsewhere) and, after an arrow, its first move in the
-month after: the backtest of today's rules on the stocks in the S&amp;P 500 at the time, so it shifts if the rules change, then the
-plan's live paper record once the backtest ends (it is rerun with the track record). Search matches the event text, its date or year, its tag and
+month after. Before Oct 2026 it is the backtest of today's rules on the stocks in the S&amp;P 500 at the time (rerun with the
+track record, so it shifts if the rules change); from then on it is the plan's live paper record, logged each night and never
+rewritten, so new events get their line automatically and the move fills in as the month goes by. Search matches the event text, its date or year, its tag and
 type; the move filter uses the Day or 1 month column, and events without that figure yet drop out while it's on. Information only:
 the plan doesn't use it.</p>
 </details>

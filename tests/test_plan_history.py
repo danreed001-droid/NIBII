@@ -20,15 +20,18 @@ def test_backtest_dump_keeps_only_the_changes():
     assert out['start'] == '2026-01-02' and out['end'] == '2026-01-30'
 
 
-def test_live_decisions_fill_at_the_next_close_after_the_backtest_ends():
-    ledger = dict(entries=[dict(d='2026-10-15', w={'CASH': 1.0}),            # inside the backtest: the backtest wins
+def test_live_decisions_take_over_from_the_first_fill_and_fill_at_the_next_close():
+    hist = dict(HIST, held=HIST['held'] + [['2026-10-16', 1.0, 0.0, 0.0, 0.0]])   # a rerun that disagrees with the live plan
+    ledger = dict(entries=[dict(d='2026-10-14', w={'CASH': 1.0}),            # fills Oct 15: live from here on
                            dict(d='2026-10-16', w={'GLD': 1.0}),             # a Friday: fills Monday
                            dict(d='2026-10-19', w={'GLD': 1.0}),             # no change
                            dict(d='2026-10-20', w={'TLT': 0.5, 'SPY': 0.5})])
-    tl = ph.timeline(HIST, ledger)
+    tl = ph.timeline(hist, ledger)
     assert tl[-3:] == [('2026-09-30', (0.0, 0.0, 0.0, 1.0)), ('2026-10-19', (0.0, 1.0, 0.0, 0.0)),
                        ('2026-10-21', (0.5, 0.0, 0.5, 0.0))]
+    assert ph.during(tl, '2026-10-19') == (0.0, 0.0, 0.0, 1.0)       # what the live plan held, not the rerun's stocks
     assert ph.timeline(None, None) == []
+    assert ph.timeline(None, ledger)[0] == ('2026-10-15', (0.0, 0.0, 0.0, 1.0))
 
 
 def test_where_the_plan_was_through_a_day_and_its_next_move():
