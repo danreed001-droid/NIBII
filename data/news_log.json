@@ -3157,5 +3157,45 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-19-1-us-iran-deal-hopes-pull-oil-lower",
+    "data": {
+      "addedAt": "2026-10-19",
+      "category": "Geopolitics",
+      "date": "2026-10-19",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Oil slipped from ~$110/bbl on reports (Al-Arabiya) that a US-Iran negotiations breakthrough could be announced this week; Iran's proposal to reopen the Strait of Hormuz within seven days reportedly stays on the table, conditional on relief from the US blockade and oil sanctions. Sticking point is sequencing: Washington wants nuclear concessions first, Tehran wants immediate relief. Tanker-attack risk in the region persists after weekend mine strikes.",
+      "impact": "High",
+      "numbers": "Dec WTI $98.20 (-0.83%); Brent ~$107-109 (down ~1.5-2.5%) per early reports; gold $4,169.73 (+0.10%)",
+      "order": 1,
+      "reaction": "Lower oil eased the energy risk premium and pulled Treasury yields down ~2bp; US equity futures mostly higher, led by Nasdaq.",
+      "region": "Middle East / Global",
+      "source": "https://investinglive.com/technical-analysis/morning-kickstart-dollar-mixed-as-us-iran-hopes-weigh-on-oil-nasdaq-futures-rise/",
+      "tickers": "SPY, QQQ, USO, XLE, GLD",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-19-2-nasdaq-futures-rebound-yields-ease",
+    "data": {
+      "addedAt": "2026-10-19",
+      "category": "Market",
+      "date": "2026-10-19",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "US equity futures point to a tech-led rebound after last week's sell-off, with Nasdaq 100 futures well ahead while Dow futures lag; Treasury yields edge lower and the dollar is mixed. Investors face a busy week of major corporate earnings amid AI-spending and valuation worries.",
+      "impact": "Medium",
+      "numbers": "Nasdaq 100 fut +282 pts; S&P 500 fut +30.6 pts; Dow fut -160 pts; 10Y 5.077% (-2.1bp), 2Y 4.715%, 30Y 5.422%; EURUSD 1.1228, USDJPY 158.11",
+      "order": 2,
+      "reaction": "Growth/tech outperforming in pre-market; long yields still above 5% cap valuations.",
+      "region": "US",
+      "source": "https://investinglive.com/technical-analysis/morning-kickstart-dollar-mixed-as-us-iran-hopes-weigh-on-oil-nasdaq-futures-rise/",
+      "tickers": "SPY, QQQ, TLT, 10Y, yield, DXY",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
