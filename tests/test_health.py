@@ -64,3 +64,21 @@ def test_watchdog_reads_the_last_closed_session():
     assert cf.last_closed(datetime(2026, 10, 20, 13, 31, tzinfo=timezone.utc)) == '2026-10-19'   # Tue morning
     assert cf.last_closed(datetime(2026, 10, 19, 13, 31, tzinfo=timezone.utc)) == '2026-10-16'   # Mon morning
     assert cf.last_closed(datetime(2026, 10, 20, 2, 20, tzinfo=timezone.utc)) == '2026-10-19'    # backup run Mon evening
+
+
+def test_issues_card_shows_the_newest_five_and_links_the_rest():
+    import importlib.util, os
+    spec = importlib.util.spec_from_file_location(
+        'render_scanner', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'render_scanner.py'))
+    rs = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rs)
+    rs.IGNITION_PATH = '/nonexistent'
+    scan = dict(asOf='2026-10-16', track=dict(end='2026-10-16'))   # adds the stale side-scan line on top
+    e = [dict(d=f'2026-10-{d:02d}', src='scan', text=f'problem <{d}>', at='') for d in range(6, 19)]
+    card = rs.issues_html(scan, e, today=date(2026, 10, 19))
+    assert card.count('<li>') == 5 and 'problem &lt;18&gt;' in card and 'problem &lt;14&gt;' not in card
+    assert '+ 9 more · see all' in card and 'href="issues.html"' in card and 'class="clamp"' in card
+    page = rs.issues_page(scan, e, today=date(2026, 10, 19))
+    assert page.count('<li>') == 14 and 'problem &lt;6&gt;' in page and '14 issues' in page
+    few = rs.issues_html(scan, e[-2:], today=date(2026, 10, 19))
+    assert few.count('<li>') == 3 and 'see all' not in few
