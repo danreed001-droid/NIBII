@@ -119,7 +119,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .theme-toggle { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--masthead-ink-2); cursor: pointer; }
 .theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
-.theme-toggle svg { width: 15px; height: 15px; }
+.theme-toggle svg { width: 15px; height: 15px; } .theme-toggle svg[hidden] { display: none; }
 
 .section-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600;
   margin: 34px 0 12px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
@@ -2501,7 +2501,7 @@ __ISSUES__
 })();
 (function () {
   var root = document.documentElement, sun = document.getElementById('icon-sun'), moon = document.getElementById('icon-moon');
-  function apply(t) { if (t) root.setAttribute('data-mtl-theme', t); else root.removeAttribute('data-mtl-theme'); var dark = t !== 'light'; sun.hidden = dark; moon.hidden = !dark; }
+  function apply(t) { if (t) root.setAttribute('data-mtl-theme', t); else root.removeAttribute('data-mtl-theme'); var dark = t !== 'light'; sun.toggleAttribute('hidden', dark); moon.toggleAttribute('hidden', !dark); }
   var saved = null; try { saved = localStorage.getItem('mtl-theme'); } catch (e) {}
   apply(saved);
   document.getElementById('theme-toggle').addEventListener('click', function () {

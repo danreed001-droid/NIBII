@@ -23,6 +23,7 @@ PAGE = r'''<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Scanner Backtest</title>
+<script>try { if (localStorage.getItem('mtl-theme') === 'light') document.documentElement.setAttribute('data-mtl-theme', 'light'); } catch (e) {}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
@@ -58,10 +59,12 @@ a { color: var(--accent); }
 .eyebrow { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 14px 0 6px; }
 .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .subtitle { color: var(--masthead-ink-2); margin: 8px 0 0; font-size: 0.92rem; max-width: 780px; }
-.theme-toggle { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--masthead-ink-2); cursor: pointer; }
+.theme-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 32px; padding: 0 12px;
+  border-radius: 999px; border: 1px solid rgba(255,255,255,0.28); background: transparent; color: var(--masthead-ink);
+  font: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; align-self: center; }
 .theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
-.theme-toggle svg { width: 15px; height: 15px; }
+.theme-toggle svg { width: 15px; height: 15px; } .theme-toggle svg[hidden] { display: none; }
+@media (max-width: 560px) { .theme-toggle { height: 36px; padding: 0 14px; } }
 
 .controls { position: sticky; top: 0; z-index: 5; background: var(--bg); display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center;
   padding: 14px 0 12px; border-bottom: 1px solid var(--hairline); }
@@ -150,9 +153,10 @@ tr:last-child td { border-bottom: 0; }
   <a class="back" href="scanner.html">← Top 5 Strongest</a><a class="back" href="index.html">Market Tape Ledger</a>
   <p class="eyebrow">NIBII · Backtest</p>
   <div class="top"><h1>Scanner Backtest</h1>
-    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark/light theme">
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light theme">
       <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
       <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+      <span id="theme-label">Light</span>
     </button></div>
   <p class="subtitle" id="subtitle"></p>
 </div></div>
@@ -449,8 +453,14 @@ tr:last-child td { border-bottom: 0; }
   renderAll();
 })();
 (function () {
-  var root = document.documentElement, sun = document.getElementById('icon-sun'), moon = document.getElementById('icon-moon');
-  function apply(t) { if (t) root.setAttribute('data-mtl-theme', t); else root.removeAttribute('data-mtl-theme'); var dark = t !== 'light'; sun.hidden = dark; moon.hidden = !dark; }
+  var root = document.documentElement, sun = document.getElementById('icon-sun'), moon = document.getElementById('icon-moon'),
+      btn = document.getElementById('theme-toggle'), label = document.getElementById('theme-label');
+  // the button names the theme it switches to: a sun and "Light" while dark, a moon and "Dark" while light
+  function apply(t) {
+    if (t) root.setAttribute('data-mtl-theme', t); else root.removeAttribute('data-mtl-theme');
+    var dark = t !== 'light'; sun.toggleAttribute('hidden', !dark); moon.toggleAttribute('hidden', dark); label.textContent = dark ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
   var saved = null; try { saved = localStorage.getItem('mtl-theme'); } catch (e) {}
   apply(saved);
   document.getElementById('theme-toggle').addEventListener('click', function () {

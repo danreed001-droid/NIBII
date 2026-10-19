@@ -315,16 +315,22 @@ def render(doc, pats=None, log=None, plan=None):
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex"><title>Market Events</title>
+<script>try {{ var t = localStorage.getItem('mtl-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); }} catch (e) {{}}</script>
 <style>
 :root {{ --bg: #fbfaf7; --ink: #1d1c1a; --muted: #6f6d67; --line: #e1e0d9; --pos: #0a8f0a; --neg: #c43232; --tag: #eeece6;
-  --k-stocks: #2a6fdb; --k-gold: #c08a00; --k-bonds: #12968a; --k-cash: #9a978f; }}
+  --k-stocks: #2a6fdb; --k-gold: #c08a00; --k-bonds: #12968a; --k-cash: #9a978f; color-scheme: light; }}
 @media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ --bg: #161615; --ink: #ecebe6; --muted: #98968f; --line: #2c2c2a; --pos: #3fbf5f; --neg: #e5605a; --tag: #262624;
-  --k-stocks: #5b95ee; --k-gold: #e0ac2e; --k-bonds: #35bfb1; --k-cash: #8d8b84; }} }}
+  --k-stocks: #5b95ee; --k-gold: #e0ac2e; --k-bonds: #35bfb1; --k-cash: #8d8b84; color-scheme: dark; }} }}
 :root[data-theme="dark"] {{ --bg: #161615; --ink: #ecebe6; --muted: #98968f; --line: #2c2c2a; --pos: #3fbf5f; --neg: #e5605a; --tag: #262624;
-  --k-stocks: #5b95ee; --k-gold: #e0ac2e; --k-bonds: #35bfb1; --k-cash: #8d8b84; }}
+  --k-stocks: #5b95ee; --k-gold: #e0ac2e; --k-bonds: #35bfb1; --k-cash: #8d8b84; color-scheme: dark; }}
 body {{ margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, system-ui, "Segoe UI", sans-serif; }}
 .wrap {{ max-width: 920px; margin: 0 auto; padding: 18px 16px 48px; }}
+.nav {{ display: flex; justify-content: space-between; align-items: center; gap: 12px; }}
 .nav a {{ color: var(--muted); text-decoration: none; font-size: 0.85rem; }}
+.theme {{ display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line);
+  background: transparent; color: var(--ink); font: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; }}
+.theme:hover {{ border-color: var(--muted); }} .theme svg {{ width: 15px; height: 15px; }} .theme svg[hidden] {{ display: none; }}
+@media (max-width: 520px) {{ .theme {{ height: 36px; padding: 0 14px; }} }}
 h1 {{ font-size: 1.6rem; margin: 10px 0 6px; }} h2 {{ font-size: 1.05rem; margin: 26px 0 6px; }}
 p.note {{ color: var(--muted); font-size: 0.86rem; margin: 6px 0; }}
 table {{ width: 100%; border-collapse: collapse; font-size: 0.88rem; }}
@@ -373,7 +379,11 @@ table.pt tbody th {{ color: var(--ink); font-weight: 500; }}
 p.now {{ font-size: 0.9rem; margin: 8px 0; }}
 .tag {{ font-size: 0.68rem; background: var(--tag); color: var(--muted); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }}
 </style></head><body><div class="wrap">
-<div class="nav"><a href="scanner.html">← Top 5 Strongest</a></div>
+<div class="nav"><a href="scanner.html">← Top 5 Strongest</a>
+<button id="theme" class="theme" type="button" aria-label="Switch to dark theme">
+<svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+<svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<span>Dark</span></button></div>
 <h1>Market events since 2000</h1>
 <p class="note">Major events and how the <i class="dot k-stocks"></i>S&amp;P 500, <i class="dot k-gold"></i>gold,
 <i class="dot k-bonds"></i>long-term Treasury bonds and <i class="dot k-plan"></i>the plan did on the first day the market could
@@ -411,6 +421,26 @@ funds; before those started, gold futures until Nov 2004 and a long-term Treasur
 the plan doesn't use it.</p>
 </details>
 <script>
+// the theme button: the saved choice (shared with the scanner and backtest pages) or else the phone/computer's setting;
+// it names the theme it switches to
+(function () {{
+  var root = document.documentElement, b = document.getElementById('theme');
+  function cur() {{ return root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }}
+  function show() {{
+    var dark = cur() === 'dark';
+    b.querySelector('.sun').toggleAttribute('hidden', !dark); b.querySelector('.moon').toggleAttribute('hidden', dark);
+    b.querySelector('span').textContent = dark ? 'Light' : 'Dark';
+    b.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  }}
+  b.addEventListener('click', function () {{
+    var next = cur() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try {{ localStorage.setItem('mtl-theme', next); }} catch (e) {{}}
+    show();
+  }});
+  try {{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', show); }} catch (e) {{}}
+  show();
+}})();
 {ev.MATCH_JS}
 (function () {{
   var q = document.getElementById('q'), per = document.getElementById('per'), dir = document.getElementById('dir'),
