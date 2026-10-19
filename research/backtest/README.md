@@ -25,7 +25,8 @@ the workflow on GitHub (tap **Run workflow**). A run takes about 15 minutes:
    moved more than 3 points, or its worst drop more than 5, it stops without publishing, because that means
    something changed in the data or the engine. Run it with **Publish even if the numbers moved a lot** ticked
    to publish anyway.
-3. Rank today's stocks, render `docs/scanner.html`, and push it with `data/track_record.json` to main.
+3. Rank today's stocks, render `docs/scanner.html` and `docs/events.html`, and push them with
+   `data/track_record.json` and `data/plan_history.json` to main.
 
 Since Oct 14, 2026 the narrow-market warning is read from the equal-weight index's full history (2003 on),
 so the backtest includes the three cash weeks of 2006–07 that the original audit missed. That took about half
@@ -69,6 +70,8 @@ python -m pytest -q
 5. Runs the backtest for the default plan (`NBup`), Boost 100% (`B1S`) and the plain top 5 (`N1`), from 2000 to
    the last close. Then it writes `data/track_record.json` with `build_track.py` and prints each line's return a
    year and worst drop.
+6. Writes `data/plan_history.json` with `build_plan_history.py`: what the default plan held after each close
+   (shares of stocks, gold, bonds and cash, only where they change). The market events page shows it under each event.
 
 ## Files
 
@@ -78,6 +81,7 @@ python -m pytest -q
 | `side_data.py` | side series from Yahoo Finance (`xasset.json`, `vix_irx.json`, `rates/tnx.json`, `spliced.json`) |
 | `volume_data.py` | daily volumes (`stock_volume.npz`, `spy_volume.json`) |
 | `build_track.py` | the engine's curve dump → `data/track_record.json` |
+| `build_plan_history.py` | the engine's schedule dump of the default plan → `data/plan_history.json` |
 | `compare_track.py` | the published vs the rebuilt track record; exits 1 when the default moved too much |
 | `overlay/scripts/improve.py` | the engine's rule variants (`NBup` is the default plan) |
 | `overlay/scripts/chan_lines.py` | trendline and channel finders the trendline variants use |
