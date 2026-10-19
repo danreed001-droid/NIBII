@@ -203,3 +203,9 @@ def test_wall_street_tests_show_back_to_the_peak_and_the_deflated_sharpe():
     assert '1.3% below its high of Sep 2026' in h
     assert 'Typical longest wait for a new high' in h and 'Deflated Sharpe ratio (1,081 versions)' in h
     assert render_scanner.recovery_html({}) == ''
+
+
+def test_add_news_button_opens_the_events_form():
+    from mtl.events import ADD_URL
+    page = render_scanner.render(SCAN)
+    assert f'<a class="bt add" href="{ADD_URL}" target="_blank"' in page and '__ADD_URL__' not in page

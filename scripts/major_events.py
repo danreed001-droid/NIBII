@@ -16,7 +16,6 @@ sys.path.insert(0, ROOT)
 from mtl import events as ev, health, news_feeds as nf  # noqa: E402
 
 OUT = os.path.join(ROOT, 'docs', 'events.html')
-ADD_URL = 'https://github.com/danreed001-droid/NIBII/issues/new?template=market-event.yml'
 
 
 def fetch():
@@ -99,7 +98,7 @@ a.add {{ display: inline-block; margin: 8px 0 2px; padding: 7px 14px; border-rad
 </style></head><body><div class="wrap">
 <div class="nav"><a href="scanner.html">← Top 5 Strongest</a></div>
 <h1>Market events since 2000</h1>
-<p><a class="add" href="{ADD_URL}" target="_blank" rel="noopener">＋ Add news</a></p>
+<p><a class="add" href="{ev.ADD_URL}" target="_blank" rel="noopener">＋ Add news</a></p>
 <p class="note">Opens a short form in the repo (date, what happened, a link if you have one). Press Submit and it shows here in
 a few minutes, tagged <span class="tag">added by you</span>, with the day's move. To remove one, send it again with Remove.</p>
 <p class="note">Major events and how the S&amp;P 500 (SPY) moved: on the first day it could react, and over the next month
