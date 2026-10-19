@@ -394,8 +394,8 @@
        null
       ]
      ],
-     "maturityClose": 7740.25,
-     "ret": 0.004673,
+     "maturityClose": 7742.0,
+     "ret": 0.0049,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2464,8 +2464,8 @@
        null
       ]
      ],
-     "maturityClose": 105.421875,
-     "ret": -0.000296,
+     "maturityClose": 105.171875,
+     "ret": -0.002667,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5108,8 +5108,8 @@
        false
       ]
      ],
-     "maturityClose": 4181.2001953125,
-     "ret": 2.4e-05,
+     "maturityClose": 4157.89990234375,
+     "ret": -0.005549,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7168,7 +7168,7 @@
       [
        "bull",
        "September import prices (+1.1% vs +0.8% expected) and industrial production (+0.7% vs +0.4%) topped forecasts on top of 3.7% y/y CPI and 6.3% y/y PPI (news log); the log also quotes ~85% CME odds of an on-hold Fed, so the hawkish read rests on the data, not on hike pricing, supportive of the dollar",
-       false
+       true
       ],
       [
        "neu",
@@ -7206,8 +7206,8 @@
        null
       ]
      ],
-     "maturityClose": 101.84500122070312,
-     "ret": 4.9e-05,
+     "maturityClose": 101.99700164794922,
+     "ret": 0.001542,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9381,8 +9381,8 @@
        false
       ]
      ],
-     "maturityClose": 2748.800048828125,
-     "ret": 0.004862,
+     "maturityClose": 2742.300048828125,
+     "ret": 0.002486,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11304,8 +11304,8 @@
        null
       ]
      ],
-     "maturityClose": 29757.75,
-     "ret": 0.012461,
+     "maturityClose": 29784.75,
+     "ret": 0.01338,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
