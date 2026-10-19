@@ -82,3 +82,4 @@ def test_issues_card_shows_the_newest_five_and_links_the_rest():
     assert page.count('<li>') == 14 and 'problem &lt;6&gt;' in page and '14 issues' in page
     few = rs.issues_html(scan, e[-2:], today=date(2026, 10, 19))
     assert few.count('<li>') == 3 and 'see all' not in few
+    assert 'href="issues.html">issues page →' in few and 'href="issues.html">issues page →' in rs.issues_html(dict(asOf='2026-10-16', track={}), [], today=date(2026, 10, 19))
