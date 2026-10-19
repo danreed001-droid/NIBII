@@ -1,6 +1,6 @@
 """Nightly: save the day's headlines from the free feeds (mtl/news_feeds.py), read any new FOMC statement, add new
-major market events by the automatic rules (mtl/events.py), fill in SPY's moves, and draw docs/events.html. Information
-only; the plan doesn't read it. A feed that hasn't worked for three days goes in the scanner page's issues list.
+major market events by the automatic rules (mtl/events.py), fill in SPY's moves, and draw docs/events.html with where
+the plan was on each event (mtl/plan_history.py). Information only; the plan doesn't read it. A feed that hasn't worked for three days goes in the scanner page's issues list.
 
     python scripts/major_events.py            # fetch SPY, the VIX and the feeds, update data/major_events.json, render
     python scripts/major_events.py --moves    # after the "Add news" form: your items and SPY's moves, no feeds
@@ -14,7 +14,7 @@ from datetime import date, datetime, timedelta, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
-from mtl import events as ev, event_types as et, health, news_feeds as nf  # noqa: E402
+from mtl import events as ev, event_types as et, health, news_feeds as nf, plan_history as ph  # noqa: E402
 from scripts import event_patterns as ep  # noqa: E402
 
 OUT = os.path.join(ROOT, 'docs', 'events.html')
@@ -96,6 +96,45 @@ def follow(e, pats):
         if c and c['n'] >= 5:
             out += f" · with the S&amp;P {trend} its 200-day average, all {et.GROUP_SHORT[g]}: {odds(c)} higher ({signed(c['avg'])})"
     return f'<div class="pat">{out}. <a href="#t-{et.slug(t)}">More</a></div>'
+
+
+def _md(d):
+    d = date.fromisoformat(d)
+    return f"{d.strftime('%b')} {d.day}"
+
+
+def where(sh):
+    """'gold', or 'stocks 80%' when the rest is elsewhere."""
+    k = ph.main(sh)
+    x = sh[ph.ORDER.index(k)]
+    return k + (f' {share(x)}' if x < 0.99 else '')
+
+
+def plan_line(tl, d):
+    """Under an event: what the plan held through that day, and its first move in the month after, if any."""
+    sh = ph.during(tl, d)
+    if sh is None:
+        return ''
+    k = ph.main(sh)
+    full = ', '.join(f'{w} {share(x)}' for w, x in zip(ph.ORDER, sh) if x >= 0.01)
+    out = f'<div class="pl" title="{full}"><i class="dot k-{k}"></i>Plan: {where(sh)}'
+    sw = ph.switch(tl, d)
+    if sw:
+        out += f' <span class="nw">→ <i class="dot k-{sw[1]}"></i>{sw[1]} {_md(sw[0])}</span>'
+    return out + '</div>'
+
+
+def plan_now(tl, asof):
+    """The line at the top: where the plan is after the latest close, and its next decided move."""
+    got = ph.now(tl, asof)
+    if not got:
+        return ''
+    sh, start, nxt = got
+    k = ph.main(sh)
+    out = (f'<p class="now"><i class="dot k-{k}"></i>The plan now: <b>{where(sh)}</b>, since the {_md(start)} close')
+    if nxt:
+        out += f'; it moves to <i class="dot k-{nxt[1]}"></i>{nxt[1]} at the {_md(nxt[0])} close'
+    return out + '.</p>'
 
 
 def record_card(log, pats):
@@ -184,11 +223,13 @@ def type_cards(pats, log=None):
             f'their 3 months have passed. Updated {html.escape(pats["updated"][:10])}.</p>' + ''.join(cards) + '</details>')
 
 
-def render(doc, pats=None, log=None):
+def render(doc, pats=None, log=None, plan=None):
     if pats is None:
         pats = ep.load()
     if log is None:
         log = ep.load_forecasts()
+    if plan is None:
+        plan = ph.load()
     evs = sorted(doc['events'], key=lambda e: e['d'], reverse=True)
     upd0 = (doc.get('updated') or datetime.now(timezone.utc).isoformat())[:10]
     recent = (date.fromisoformat(upd0) - timedelta(days=92)).isoformat()   # outcomes still to come
@@ -212,20 +253,27 @@ def render(doc, pats=None, log=None):
             find = ev.search_text(e)
             mv = ''.join(f' data-{k}="{e[k]}"' for k in ('day', 'month') if e.get(k) is not None)
             cls = ' class="haspat"' if pat else ''
-            rows.append(f'<tr data-s="{html.escape(find)}"{mv}{cls}><td class="d">{d.strftime("%b")} {d.day}</td><td>{what}{tag}</td>'
+            rows.append(f'<tr data-s="{html.escape(find)}"{mv}{cls}><td class="d">{d.strftime("%b")} {d.day}</td><td>{what}{tag}{plan_line(plan, e["d"])}</td>'
                         f'<td class="n">{pct(e.get("day"))}</td><td class="n">{pct(e.get("month"))}</td></tr>')
             if pat:   # its own full-width row, so it isn't squeezed into the event column on a phone
                 rows.append(f'<tr class="pr"><td></td><td colspan="3">{pat}</td></tr>')
         parts.append(f'<section class="yr"><h2>{y}</h2><table><thead><tr><th>Date</th><th>Event</th><th class="n">Day</th>'
                      f'<th class="n">1 month</th></tr></thead><tbody>{"".join(rows)}</tbody></table></section>')
     upd = doc.get('updated') or ''
+    try:
+        asof = datetime.fromisoformat(upd).astimezone(nf.NY).date().isoformat()
+    except ValueError:
+        asof = upd0
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex"><title>Market Events</title>
 <style>
-:root {{ --bg: #fbfaf7; --ink: #1d1c1a; --muted: #6f6d67; --line: #e1e0d9; --pos: #0a8f0a; --neg: #c43232; --tag: #eeece6; }}
-@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ --bg: #161615; --ink: #ecebe6; --muted: #98968f; --line: #2c2c2a; --pos: #3fbf5f; --neg: #e5605a; --tag: #262624; }} }}
-:root[data-theme="dark"] {{ --bg: #161615; --ink: #ecebe6; --muted: #98968f; --line: #2c2c2a; --pos: #3fbf5f; --neg: #e5605a; --tag: #262624; }}
+:root {{ --bg: #fbfaf7; --ink: #1d1c1a; --muted: #6f6d67; --line: #e1e0d9; --pos: #0a8f0a; --neg: #c43232; --tag: #eeece6;
+  --k-stocks: #2a6fdb; --k-gold: #c08a00; --k-bonds: #12968a; --k-cash: #9a978f; }}
+@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ --bg: #161615; --ink: #ecebe6; --muted: #98968f; --line: #2c2c2a; --pos: #3fbf5f; --neg: #e5605a; --tag: #262624;
+  --k-stocks: #5b95ee; --k-gold: #e0ac2e; --k-bonds: #35bfb1; --k-cash: #8d8b84; }} }}
+:root[data-theme="dark"] {{ --bg: #161615; --ink: #ecebe6; --muted: #98968f; --line: #2c2c2a; --pos: #3fbf5f; --neg: #e5605a; --tag: #262624;
+  --k-stocks: #5b95ee; --k-gold: #e0ac2e; --k-bonds: #35bfb1; --k-cash: #8d8b84; }}
 body {{ margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, system-ui, "Segoe UI", sans-serif; }}
 .wrap {{ max-width: 920px; margin: 0 auto; padding: 18px 16px 48px; }}
 .nav a {{ color: var(--muted); text-decoration: none; font-size: 0.85rem; }}
@@ -267,13 +315,18 @@ details.types {{ margin: 12px 0 0; }} details.types > summary {{ font-weight: 60
 table.pt {{ font-size: 0.8rem; margin-top: 6px; }} table.pt th, table.pt td {{ padding: 4px; white-space: nowrap; }}
 @media (max-width: 520px) {{ table.pt td .muted {{ display: block; font-size: 0.74rem; }} table.pt td {{ width: 27%; }} }}
 table.pt tbody th {{ color: var(--ink); font-weight: 500; }}
+.pl {{ font-size: 0.76rem; color: var(--muted); margin-top: 2px; }}
+.dot {{ display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin: 0 4px 1px 0; vertical-align: middle; }}
+.k-stocks {{ background: var(--k-stocks); }} .k-gold {{ background: var(--k-gold); }} .k-bonds {{ background: var(--k-bonds); }}
+.k-cash {{ background: var(--k-cash); }}
+p.now {{ font-size: 0.9rem; margin: 8px 0; }}
 .tag {{ font-size: 0.68rem; background: var(--tag); color: var(--muted); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }}
 </style></head><body><div class="wrap">
 <div class="nav"><a href="scanner.html">← Top 5 Strongest</a></div>
 <h1>Market events since 2000</h1>
 <p class="note">Major events and how the S&amp;P 500 (SPY) moved on the first day it could react (Day) and over the next month
 (1 month, 21 trading days). <span class="nw">Updated {html.escape(upd[:10])}</span> · {len(evs)} events.</p>
-<p class="acts"><a class="add" href="{ev.ADD_URL}" target="_blank" rel="noopener">＋ Add news</a>
+{plan_now(plan, asof)}<p class="acts"><a class="add" href="{ev.ADD_URL}" target="_blank" rel="noopener">＋ Add news</a>
 <span class="note">Opens a short form in the repo. Press Submit and it shows here in a few minutes, tagged
 <span class="tag">added by you</span>. To remove one, send it again with Remove.</span></p>
 <div class="find" role="search">
@@ -293,7 +346,11 @@ rates, the VIX closes above 30 for the first time in three months, or the market
 run; those carry an <span class="tag">auto</span> tag. A big day's headline comes from the daily news log when it has one for that
 day, else from MarketWatch or Google News (named in brackets); Fed rate changes are read from the Fed's own FOMC statements. The
 1-month figure fills in a month later. Each event has a type (tap it for that type's history), and events from the last 3 months,
-plus your own, show what usually followed past events of the same type. Search matches the event text, its date or year, its tag and
+plus your own, show what usually followed past events of the same type. The Plan line under each event is where today's plan
+was through that day (stocks, gold, bonds or cash; a share when part of it sat elsewhere) and, after an arrow, its first move in the
+month after. Before Oct 2026 it is the backtest of today's rules on the stocks in the S&amp;P 500 at the time (rerun with the
+track record, so it shifts if the rules change); from then on it is the plan's live paper record, logged each night and never
+rewritten, so new events get their line automatically and the move fills in as the month goes by. Search matches the event text, its date or year, its tag and
 type; the move filter uses the Day or 1 month column, and events without that figure yet drop out while it's on. Information only:
 the plan doesn't use it.</p>
 </details>

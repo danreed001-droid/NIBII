@@ -2,7 +2,8 @@ name: Track record refresh
 
 # Reruns the point-in-time backtest (research/backtest/refresh.sh) and rebuilds
 # data/track_record.json, the growth chart and year table on the Top 5 Strongest
-# dashboard, then renders docs/scanner.html with it. Runs every 3 months and from
+# dashboard, then renders docs/scanner.html with it. It also rebuilds
+# data/plan_history.json (where the plan was each day) and redraws docs/events.html. Runs every 3 months and from
 # the "Refresh now" button at the bottom of the dashboard (Run workflow).
 # It stops without publishing when the default plan's return a year moves more
 # than 3 points or its worst drop more than 5 (research/backtest/compare_track.py);
@@ -77,12 +78,13 @@ jobs:
         run: |
           python scripts/momentum_scan.py
           python scripts/render_scanner.py
+          python scripts/major_events.py --render
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/track_record.json docs/scanner.html docs/issues.html
+          git add data/track_record.json data/plan_history.json docs/scanner.html docs/issues.html docs/events.html
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0
