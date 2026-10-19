@@ -12,6 +12,8 @@ from mtl.calendar_nyse import add_trading_days, next_trading_day
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PATH = os.path.join(ROOT, 'data', 'plan_history.json')
 LEDGER = os.path.join(ROOT, 'data', 'paper_ledger.json')
+TRACK = os.path.join(ROOT, 'data', 'track_record.json')     # its 'rotation' line: the backtest of today's rules
+SCAN = os.path.join(ROOT, 'data', 'momentum_scan.json')     # tonight's scan (not kept in git): the live paper account
 ORDER = ('stocks', 'gold', 'bonds', 'cash')
 LIVE_KIND = {'GLD': 'gold', 'TLT': 'bonds', 'CASH': 'cash'}   # anything else in a live decision is stocks (the list or SPY)
 MONTH = 21
@@ -96,3 +98,25 @@ def now(tl, asof):
         start = f
     nxt = next(((f, main(s)) for f, s in tl if f > asof and main(s) != kind), None)
     return sh, start, nxt
+
+
+def values(track, ledger, live):
+    """{date: the plan's value after that close}: the backtest of today's rules (the track record's default line) up to
+    the paper record's first fill, then the live paper account chained on from there (what the plan actually made).
+    Without tonight's paper account (live empty) the days after the first fill are left out, so they are never filled
+    from the backtest."""
+    bt = dict((d, v) for d, v in ((track or {}).get('series') or {}).get('rotation') or [])
+    ents = (ledger or {}).get('entries') or []
+    if not ents:
+        return bt
+    first = next_trading_day(min(e['d'] for e in ents)).isoformat()
+    out = {d: v for d, v in bt.items() if d <= first}
+    if live and live[0][0] == first and out.get(first) and live[0][1]:
+        k = out[first] / live[0][1]
+        out.update((d, v * k) for d, v in live if d > first)
+    return out
+
+
+def load_values(track=TRACK, ledger=LEDGER, scan=SCAN):
+    live = ((((_load(scan) or {}).get('plan') or {}).get('paper') or {}).get('curve')) or []
+    return values(_load(track), _load(ledger), live)

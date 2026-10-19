@@ -73,3 +73,35 @@ def test_events_page_lists_gold_and_bonds_under_the_sp():
             '<span class="pos">+1.2%</span></span><span class="sd" title="Bonds"><i class="dot k-bonds"></i>'
             '<span class="neg">−0.4%</span></span></td>') in page
     assert '<td class="n"><span class="muted">–</span></td></tr>' in page          # no month yet: one dash, no dots
+
+
+def test_plan_value_is_the_backtest_then_the_live_paper_account():
+    track = dict(series=dict(rotation=[['2026-10-13', 100.0], ['2026-10-14', 101.0], ['2026-10-15', 102.0],
+                                       ['2026-10-16', 150.0]]))                 # the backtest after the first fill is never used
+    ledger = dict(entries=[dict(d='2026-10-14', w={'CASH': 1.0})])                # first fill: Oct 15
+    live = [['2026-10-15', 0.998], ['2026-10-16', 1.0978]]
+    v = ph.values(track, ledger, live)
+    assert v['2026-10-14'] == 101.0 and v['2026-10-15'] == 102.0 and abs(v['2026-10-16'] - 102.0 * 1.0978 / 0.998) < 1e-9
+    assert '2026-10-16' not in ph.values(track, ledger, [])                       # no paper account tonight: left out
+    assert ph.values(track, None, [])['2026-10-16'] == 150.0                      # no paper record yet: the backtest
+
+
+def test_plan_moves_fill_from_the_value_and_keep_saved_figures():
+    from mtl import events as ev
+    cal = [f'2026-09-{d:02d}' for d in range(1, 31)] + [f'2026-10-{d:02d}' for d in range(1, 31)]
+    vals = {d: 100.0 + i for i, d in enumerate(cal[:40])}
+    evs = [dict(d=cal[5], what='a'), dict(d=cal[30], what='b', plan=dict(day=0.5, month=0.25)), dict(d='2026-08-01', what='c')]
+    ev.plan_moves(evs, cal, vals)
+    assert evs[0]['plan'] == dict(day=round(105 / 104 - 1, 4), month=round(126 / 104 - 1, 4))
+    assert evs[1]['plan'] == dict(day=round(130 / 129 - 1, 4), month=0.25)      # past the values: the saved month stays
+    assert 'plan' not in evs[2]
+
+
+def test_events_page_lists_the_plan_after_bonds():
+    from scripts.major_events import render
+    doc = dict(updated='2026-10-16T23:30:00+00:00', events=[
+        dict(d='2026-02-20', what='Bank fails', src='curated', type='Bank / credit failure', day=-0.03, month=None,
+             bonds=dict(day=0.01, month=None), plan=dict(day=0.0098, month=None))])
+    page = render(doc, pats={}, log={}, plan=[])
+    assert ('<span class="sd" title="Bonds"><i class="dot k-bonds"></i><span class="pos">+1.0%</span></span>'
+            '<span class="sd" title="The plan"><i class="dot k-plan"></i><span class="pos">+1.0%</span></span></td>') in page

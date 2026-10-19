@@ -61,6 +61,7 @@ def all_moves(doc, px, cal, today=None):
     """SPY's, gold's and bonds' moves for every event; a missing gold or bond feed goes in the issues list."""
     ev.reactions(doc['events'], cal, [px['SPY'][d] for d in cal])
     ev.side_moves(doc['events'], cal, side_closes(px, cal))
+    ev.plan_moves(doc['events'], cal, ph.load_values())
     if px.get('_missing'):
         print(f"no prices for {', '.join(px['_missing'])}: those moves stay as they were")
         log = health.load()
@@ -101,13 +102,13 @@ def signed(x):
     return f"{x * 100:+.1f}%".replace('-', '−')
 
 
-SIDE_NAME = {'gold': 'Gold', 'bonds': 'Bonds'}
+SIDE_NAME = {'gold': 'Gold', 'bonds': 'Bonds', 'plan': 'The plan'}
 
 
 def nums(e, h):
-    """An event's 'day' or 'month' cell: the S&P's move, then gold's and bonds' under it, each with its dot."""
+    """An event's 'day' or 'month' cell: the S&P's move, then gold's, bonds' and the plan's under it, each with its dot."""
     sub = ''.join(f'<span class="sd" title="{SIDE_NAME[a]}"><i class="dot k-{a}"></i>{pct(x)}</span>'
-                  for a in ev.SIDE for x in [(e.get(a) or {}).get(h)] if x is not None)
+                  for a in ev.SIDE + ('plan',) for x in [(e.get(a) or {}).get(h)] if x is not None)
     return ('<i class="dot k-stocks"></i>' if sub else '') + pct(e.get(h)) + sub
 
 
@@ -368,15 +369,15 @@ table.pt tbody th {{ color: var(--ink); font-weight: 500; }}
 .pl {{ font-size: 0.76rem; color: var(--muted); margin-top: 2px; }}
 .dot {{ display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin: 0 4px 1px 0; vertical-align: middle; }}
 .k-stocks {{ background: var(--k-stocks); }} .k-gold {{ background: var(--k-gold); }} .k-bonds {{ background: var(--k-bonds); }}
-.k-cash {{ background: var(--k-cash); }}
+.k-cash {{ background: var(--k-cash); }} .k-plan {{ background: transparent; border: 1.5px solid var(--ink); box-sizing: border-box; }}
 p.now {{ font-size: 0.9rem; margin: 8px 0; }}
 .tag {{ font-size: 0.68rem; background: var(--tag); color: var(--muted); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }}
 </style></head><body><div class="wrap">
 <div class="nav"><a href="scanner.html">← Top 5 Strongest</a></div>
 <h1>Market events since 2000</h1>
-<p class="note">Major events and how the <i class="dot k-stocks"></i>S&amp;P 500, <i class="dot k-gold"></i>gold and
-<i class="dot k-bonds"></i>long-term Treasury bonds moved on the first day the market could react (Day) and over the next month
-(1 month, 21 trading days). <span class="nw">Updated {html.escape(upd[:10])}</span> · {len(evs)} events.</p>
+<p class="note">Major events and how the <i class="dot k-stocks"></i>S&amp;P 500, <i class="dot k-gold"></i>gold,
+<i class="dot k-bonds"></i>long-term Treasury bonds and <i class="dot k-plan"></i>the plan did on the first day the market could
+react (Day) and over the next month (1 month, 21 trading days). <span class="nw">Updated {html.escape(upd[:10])}</span> · {len(evs)} events.</p>
 {plan_now(plan, asof)}<p class="acts"><a class="add" href="{ev.ADD_URL}" target="_blank" rel="noopener">＋ Add news</a>
 <span class="note">Opens a short form in the repo. Press Submit and it shows here in a few minutes, tagged
 <span class="tag">added by you</span>. To remove one, send it again with Remove.</span></p>
@@ -404,7 +405,9 @@ track record, so it shifts if the rules change); from then on it is the plan's l
 rewritten, so new events get their line automatically and the move fills in as the month goes by. Search matches the event text, its date or year, its tag and
 type; the move filter uses the S&amp;P's Day or 1 month figure, and events without that figure yet drop out while it's on.
 Under each S&amp;P figure are gold's and long-term Treasury bonds' over the same days, as the plan holds them (the GLD and TLT
-funds; before those started, gold futures until Nov 2004 and a long-term Treasury mutual fund until Jul 2002). Information only:
+funds; before those started, gold futures until Nov 2004 and a long-term Treasury mutual fund until Jul 2002). The plan's figure
+(the open circle) is what it made over the same days on whatever it held (its stock picks, gold, bonds or cash), before tax and after
+0.15% a trade: the backtest of today's rules until Oct 15, 2026, then the live paper account. Information only:
 the plan doesn't use it.</p>
 </details>
 <script>
