@@ -3,7 +3,8 @@ name: Track record refresh
 # Reruns the point-in-time backtest (research/backtest/refresh.sh) and rebuilds
 # data/track_record.json, the growth chart and year table on the Top 5 Strongest
 # dashboard, then renders docs/scanner.html with it. It also rebuilds
-# data/plan_history.json (where the plan was each day) and redraws docs/events.html. Runs every 3 months and from
+# data/plan_history.json (where the plan was each day), redraws docs/events.html and reruns the dashboard's
+# Strategy lab (data/strategy_backtest.json, scripts/backtest_strategies.py). Runs every 3 months and from
 # the "Refresh now" button at the bottom of the dashboard (Run workflow).
 # It stops without publishing when the default plan's return a year moves more
 # than 3 points or its worst drop more than 5 (research/backtest/compare_track.py);
@@ -74,6 +75,14 @@ jobs:
           python research/backtest/compare_track.py "$RUNNER_TEMP/published.json" data/track_record.json \
             || [ "${{ inputs.force }}" = "true" ]
 
+      - name: Rerun the Strategy lab
+        # the dashboard's Strategy lab (new ideas inside the live plan's own rules); a failure keeps the old table
+        # and an issue says so
+        id: lab
+        continue-on-error: true
+        timeout-minutes: 60
+        run: python scripts/backtest_strategies.py
+
       - name: Rank today's stocks and render the dashboard
         run: |
           python scripts/momentum_scan.py
@@ -84,7 +93,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/track_record.json data/plan_history.json docs/scanner.html docs/issues.html docs/events.html
+          git add data/track_record.json data/plan_history.json data/strategy_backtest.json docs/scanner.html docs/issues.html docs/events.html
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0
@@ -107,6 +116,15 @@ jobs:
         run: |
           bash scripts/report_failure.sh "Track record refresh stopped $(date -u +%Y-%m-%d)" \
             "The track record refresh stopped without publishing: a step failed or timed out, or the default plan's numbers moved more than 3 points a year (or its worst drop more than 5). The log says which; to publish moved numbers anyway, run it again with \"Publish even if the numbers moved a lot\" ticked." track
+
+      - name: Open an issue if the Strategy lab didn't rerun
+        if: ${{ !cancelled() && steps.lab.outcome == 'failure' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          bash scripts/report_failure.sh "Strategy lab rerun failed $(date -u +%Y-%m-%d)" \
+            "scripts/backtest_strategies.py failed or timed out during the track record refresh, so the dashboard's Strategy lab still shows its previous run (its date is in the section title). The log says why." track
 
       - name: Open an issue if the engine is behind the live rules
         if: ${{ !cancelled() && steps.sync.outcome == 'failure' }}

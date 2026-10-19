@@ -4,14 +4,15 @@ tested exactly like the dashboard's Top 5 rule and compared with it from
 2000, 2010 and 2020 to today. Writes data/strategy_backtest.json for the
 "Strategy lab" section of docs/scanner.html.
 
-Every strategy: S&P 500 + Nasdaq-100 (today's lists; an S&P stock only from
-the day it joined), ranked by 6-1 month strength, must beat SPY, top 5 in
-equal weight, keep while top 10, signal at the week's last close, trade the
-next session's close, 0.05% cost. All but the last row then run inside the
-dashboard's default plan: the rotation into TLT / GLD, the lower-high exit, the
-whipsaw half-switch, the narrow-market cash week, and no T-bills (gold or bonds
-if up over 6 months, else cash). They differ only in which stocks may be
-bought (or jump the queue):
+Every strategy: S&P 500 members (today's list, each stock only from the day it joined),
+ranked by 6-1 month strength, must beat SPY, top 5 in equal weight, keep while top 10,
+signal at the week's last close, trade the next session's close, 0.05% cost. All but the
+last row then run inside the dashboard's default plan, through the same code the live scan
+runs (scripts/momentum_scan.py plan_exits and plan_overlay): the blow-off and surge exits,
+the fading-energy filter, the rotation into TLT / GLD, the lower-high exit, the whipsaw
+half-switch (counting sales with the fading-energy filter off), the narrow-market cash week,
+the rebound rule, and no T-bills (gold or bonds if up over 3 months, else cash). They differ
+only in which stocks may be bought (or jump the queue):
 
 - Current: Top 5            - the dashboard rule.
 - Current + news boost      - the dashboard's Boost list: a 12%+ news gap in the last
@@ -35,6 +36,7 @@ further back the start.
 
 Usage:
     python scripts/backtest_strategies.py           # downloads ~26 years once (cached in data/.strategy_hist.pkl)
+    python scripts/backtest_strategies.py --refresh # downloads again (to today's close)
 """
 import json
 import os
@@ -47,15 +49,12 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from momentum_scan import blocked_dates, fetch  # noqa: E402
+from momentum_scan import blocked_dates, fetch, plan_exits, plan_overlay  # noqa: E402
 from mtl import ignition as ig  # noqa: E402
 from mtl.backtest import curve_stats  # noqa: E402
-from mtl.momentum import blowoff_exit, run_momentum, surge_exit  # noqa: E402
-from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash  # noqa: E402
-from mtl.narrow import apply_narrow, narrow_cash_days, narrow_warnings  # noqa: E402
-from mtl.rotation import ROT_ASSETS, no_bills, reflation, rotation_curve, rotation_modes, whip_halves, whipsaw  # noqa: E402
+from mtl.momentum import run_momentum  # noqa: E402
+from mtl.rotation import rotation_curve  # noqa: E402
 from mtl.sleeve import ASSETS, filled  # noqa: E402
-from momentum_scan import BLOWOFF, BLOWOFF_MA, SURGE_DELAY, SURGE_UP, SURGE_VOL  # noqa: E402
 from mtl.news import booster, news_gap_days  # noqa: E402
 from mtl.universe import load_added, load_ndx, load_sp500, momentum_universe  # noqa: E402
 
@@ -93,8 +92,8 @@ def rotation_data():
     return dict(assets=assets, rate=rate, rsp=rsp, vix=vix)
 
 
-def load():
-    if os.path.exists(CACHE):
+def load(refresh=False):
+    if os.path.exists(CACHE) and not refresh:
         with open(CACHE, 'rb') as f:
             data = pickle.load(f)
         if 'rsp' not in data:               # older cache without the rotation's assets or the cash week's data
@@ -146,7 +145,7 @@ def count_in(days, k, n):
 
 
 def main():
-    D = load()
+    D = load(refresh='--refresh' in sys.argv)
     names, bars, bench = D['names'], D['bars'], D['bench']
     cal = [b[0] for b in bench['SPY']]
     from zoneinfo import ZoneInfo
@@ -181,9 +180,7 @@ def main():
     def base_ok(t, d):
         if d in blocked.get(t, ()):
             return False
-        if t in sp:
-            return added.get(t, '0000') <= d
-        return t in names        # Nasdaq-100-only names: no join dates (a little hindsight)
+        return t in sp and added.get(t, '0000') <= d     # S&P 500 members only, as the live plan (since Oct 19, 2026)
 
     def ok_ign(t, d):
         return base_ok(t, d) and count_in(ign.get(t, []), pos[d], IGN_RECENT) > 0
@@ -199,11 +196,9 @@ def main():
 
     news = booster({t: news_gap_days(bs) for t, bs in bars.items() if bs}, cal)
     ign_boost = booster({t: [cal[i] for i in ds] for t, ds in ign.items()}, cal, window=BOOST_WINDOW)
-    force = dict(prefer_mode='force', prefer_rank=None, prefer_pool='all')
+    force = dict(prefer_mode='force', prefer_rank=None, prefer_pool='all', open_end=True)
     universe = {t: p for t, p in prices.items() if t in names or t in wl or t == 'SPY'}
-    blow = blowoff_exit(universe, cal, BLOWOFF, market='SPY', ma=BLOWOFF_MA)
-    surge = surge_exit(universe, D['vols'], cal, SURGE_UP, SURGE_VOL, SURGE_DELAY)
-    exits = dict(hold_exit=lambda t, k, e=None: blow(t, k, e) or surge(t, k, e))
+    exits = plan_exits(universe, D['vols'], cal)
 
     spy_c = [prices['SPY'].get(d) for d in cal]
     above = {}
@@ -219,8 +214,8 @@ def main():
         return base_ok(t, d) and news(t, pos[d])
 
     def inside(ok):
-        """The current system's stock part (Boost list + blow-off / surge exits) with only
-        stocks passing `ok` allowed - news-gap boosts included."""
+        """The current system's stock part (Boost list + blow-off / surge exits + fading-energy filter) with
+        only stocks passing `ok` allowed - news-gap boosts included."""
         return dict(eligible=ok, prefer=lambda t, k: news(t, k) and ok(t, cal[k]), **force, **exits)
     strategies = {
         'Current system': dict(eligible=base_ok, prefer=news, **force, **exits),
@@ -238,21 +233,14 @@ def main():
         'News gappers, cash when SPY down': dict(inside(ok_news), risk_on=spy_up, _norot=True),
     }
 
-    # the rotation overlay, exactly as the dashboard's default plan (scripts/momentum_scan.py): the rotation,
-    # the lower-high exit, the whipsaw half-switch, the narrow-market cash week, and no T-bills
+    # everything above the stock list, exactly as the dashboard's default plan (scripts/momentum_scan.py plan_overlay):
+    # the rotation, the lower-high exit, the whipsaw half-switch, the narrow-market cash week, the rebound rule and no T-bills
     A = D['assets']
-    sleeve_px = {t: {b[0]: b[4] for b in bs} for t, bs in A.items() if bs}
-    rot_bars = {'SPY': bench['SPY'], **{t: A[t] for t in ROT_ASSETS if A.get(t)}}
-    whip_px = {**filled(sleeve_px, cal), 'SPY': prices['SPY']}
-    regime = reflation(D['rate'], whip_px.get('GLD') or {}, cal)
-    narrow = narrow_cash_days(narrow_warnings(prices['SPY'], D['rsp'], D['vix'], cal), cal) if D['rsp'] and D['vix'] else set()
+    whip_px = {**filled({t: {b[0]: b[4] for b in bs} for t, bs in A.items() if bs}, cal), 'SPY': prices['SPY']}
+    shadow = plan_exits(universe, D['vols'], cal, fade=False)    # the whipsaw counts sales with the fading-energy filter off
 
     out = {}
     for label, start in STARTS.items():
-        modes, _why, read, _state = rotation_modes(rot_bars, cal, start)
-        lh, _ = lowerhigh_cash(bench['SPY'], cal, start, modes, dest=lambda d, read=read: read.steepest(d) or 'BIL')
-        modes, _why = apply_lowerhigh(modes, _why, lh, cal)
-        modes, _why = apply_narrow(modes, _why, {d for d in narrow if d >= start}, cal)
         rows = {}
         for name, kw in strategies.items():
             kw = dict(kw)
@@ -262,12 +250,15 @@ def main():
             if norot:
                 curve = stock
             else:
-                half = whip_halves(modes, whipsaw(r['picks'], universe, cal, start), read, whip_px, cal, skip=regime)
-                m, _w, half = no_bills(modes, _why, half, whip_px, cal)
-                curve = rotation_curve(stock, whip_px, cal, m, half=half)
+                kw.update(shadow)
+                kw.pop('buy_when', None)
+                kw.pop('buy_max_rank', None)
+                whip = run_momentum(universe, cal, start, look=126, skip=21, top_n=5, exec_next='close', **kw)['picks']
+                ov = plan_overlay(bench['SPY'], A, whip_px, whip, universe, cal, start, D['rate'], D['rsp'], D['vix'])
+                curve = rotation_curve(stock, whip_px, cal, ov['modes'], half=ov['half'])
             rows[name] = summary(curve, holds=r['picks'][-1][1] if r.get('picks') else [])
             log(f"{label} {name:26} {rows[name]['annual']:+6.1%}/yr  after tax {rows[name]['afterTax']:+6.1%}  maxDD {rows[name]['maxDD']:6.0%}")
-        r = run_momentum(universe, cal, start, look=126, skip=21, top_n=5, exec_next='close', eligible=base_ok)
+        r = run_momentum(universe, cal, start, look=126, skip=21, top_n=5, exec_next='close', eligible=base_ok, open_end=True)
         rows['Top 5 alone'] = dict(summary([[d, v] for d, v, _ in r['curve']]), ref=True)
         for b in ('SPY', 'QQQ'):
             rows[b] = dict(summary([[x[0], x[4]] for x in bench[b] if start <= x[0] <= cal[-1]], buy_hold=True), bench=True)

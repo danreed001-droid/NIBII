@@ -2988,7 +2988,7 @@ def wallst_html(ws=None):
 
 LAB_PATH = os.path.join(ROOT, 'data', 'strategy_backtest.json')
 LAB_NOTES = {
-    'Current system': 'what the dashboard trades: Boost list + exits + rotation + whipsaw + cash week + lower-high exit, no T-bills',
+    'Current system': 'what the dashboard trades: S&P 500 picks, Boost list + exits + fading-energy filter + rotation + whipsaw + cash week + lower-high exit + rebound rule, no T-bills',
     '+ Ignition boost': 'an Ignition in the last 4 weeks also jumps the queue',
     'Top 2 sectors': 'only stocks from the 2 strongest sectors',
     'Top 3 industries': 'only stocks from the 3 strongest industries',
@@ -3046,7 +3046,7 @@ def lab_html(lab=None):
     tax = lab.get('taxRate')
     return ('<style>#lab tr.bench td { color: var(--muted); } #lab td.w { min-width: 210px; } #lab td .sub { max-width: 260px; white-space: normal; }</style>'
             '<section id="lab"><p class="section-label">Strategy lab <span class="hint">new ideas inside the current system '
-            '(same Boost list, exits, rotation, whipsaw, narrow-market cash week, lower-high exit and no-T-bills swap; only which stocks may be bought changes) · weekly, 0.05% cost · '
+            '(the live plan\'s own rules: S&P 500 members, Boost list, exits, fading-energy filter, rotation, whipsaw, narrow-market cash week, lower-high exit, rebound rule and no-T-bills swap; only which stocks may be bought changes) · weekly, 0.05% cost · '
             f'to {_e(lab.get("asOf"))}</span></p>'
             '<div class="tablebox"><table><thead><tr><th class="l">Strategy</th>' + head + '</tr></thead><tbody>'
             + ''.join(body) + '</tbody></table></div>'
