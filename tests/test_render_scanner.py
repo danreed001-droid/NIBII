@@ -219,6 +219,7 @@ def test_events_search_embeds_the_events_safely(tmp_path):
         dict(d='2008-09-15', what='Lehman bankruptcy', src='curated', day=-0.048, month=-0.203, link='https://x.test/a')])))
     sec = render_scanner.events_html(str(p))
     assert '<script>alert' not in sec and '__DATA__' not in sec and 'id="ev-q"' in sec
+    assert 'SHOW = 5;' in sec and "w.className = 'clamp'" in sec   # a fixed ceiling: 5 hits, two lines each
     blob = sec[sec.index('id="ev-data">') + len('id="ev-data">'):sec.index('</script>')]
     rows = json.loads(blob)
     assert rows[0][1].startswith('</script>') and rows[0][2] == 'added by you' and rows[0][6] == ''

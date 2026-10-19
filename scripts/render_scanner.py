@@ -88,7 +88,9 @@ h1 { font-size: 2.4rem; font-weight: 600; }
   border-radius: 8px; padding: 7px 10px; min-width: 0; }
 .evf select { padding: 7px 4px; }
 .evf .evf-mv { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 8px; color: var(--muted); font-size: 0.86rem; }
-.evf .evf-mv input { width: 3.4em; padding: 7px 6px; }
+.evf .evf-mv input { width: 3em; padding: 7px 5px; }
+.evf .evf-n { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+@media (max-width: 520px) { .evf { padding: 12px; } .evf .evf-mv { gap: 5px; } }
 .evf button { font: inherit; font-size: 0.86rem; color: var(--muted); background: none; border: 0; padding: 7px 4px; cursor: pointer;
   text-decoration: underline; text-underline-offset: 2px; }
 .evf .evf-count { color: var(--muted); font-size: 0.82rem; margin: 8px 0 0; }
@@ -99,6 +101,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .evf td.d { white-space: nowrap; color: var(--muted); width: 3.6em; } .evf td.d small { display: block; font-size: 0.72rem; }
 .evf .n { text-align: right; white-space: nowrap; }
 .evf .tag { font-size: 0.68rem; background: var(--surface-2); color: var(--muted); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }
+.evf .clamp { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .evf td a { color: inherit; text-decoration-color: var(--muted); text-underline-offset: 2px; }
 .evf .evf-more { font-size: 0.82rem; margin: 8px 0 0; }
 .issues-card ul { margin: 6px 0 0; padding-left: 0; list-style: none; }
@@ -3144,7 +3147,7 @@ EVENTS_SECTION = r'''<section id="events-find"><p class="section-label">Market e
     <input class="evf-q" id="ev-q" type="search" placeholder="Search events (Fed, COVID, 2008…)" aria-label="Search market events" autocomplete="off">
     <div class="evf-mv"><select id="ev-per" aria-label="Which move"><option value="day">Day</option><option value="month">1 month</option></select>
       <select id="ev-dir" aria-label="Direction"><option value="any">up/down</option><option value="up">up</option><option value="down">down</option></select>
-      <span aria-hidden="true">≥</span><input id="ev-min" type="number" inputmode="decimal" min="0" step="0.5" placeholder="0" aria-label="Moved at least this many percent"><span>%</span>
+      <span class="evf-n"><span aria-hidden="true">≥</span><input id="ev-min" type="number" inputmode="decimal" min="0" step="0.5" placeholder="0" aria-label="Moved at least this many percent"><span>%</span></span>
       <button id="ev-clear" type="button" hidden>Clear</button></div>
     <p class="evf-count" id="ev-count" aria-live="polite" hidden></p>
     <table id="ev-res" hidden><thead><tr><th>Date</th><th>Event</th><th class="n">Day</th><th class="n">1 month</th></tr></thead><tbody></tbody></table>
@@ -3172,10 +3175,12 @@ __MATCH__
     if (!on) { table.hidden = true; more.hidden = true; return; }
     var hits = rows.filter(function (r) { return evMatch(r[5], r[3], r[4], f); });
     count.textContent = hits.length ? 'Found ' + hits.length + ' of ' + rows.length + ' events' +
-      (hits.length > SHOW ? ', newest ' + SHOW + ' shown' : '') : 'No events match. Try fewer words or a smaller move.';
+      (hits.length > SHOW ? ' · newest ' + SHOW + ' shown here' : '') : 'No events match. Try fewer words or a smaller move.';
     hits.slice(0, SHOW).forEach(function (r) {
       // built with text nodes, never innerHTML: "added by you" items are free text from the form
-      var tr = document.createElement('tr'), d = document.createElement('td'), w = document.createElement('td'), p = r[0].split('-');
+      var tr = document.createElement('tr'), d = document.createElement('td'), td = document.createElement('td'), p = r[0].split('-');
+      var w = document.createElement('div');   // the event, cut to two lines (full text on the events page)
+      w.className = 'clamp'; td.appendChild(w);
       d.className = 'd';
       var y = document.createElement('small');
       d.textContent = MON[+p[1] - 1] + ' ' + (+p[2]); y.textContent = p[0]; d.appendChild(y);
@@ -3189,11 +3194,12 @@ __MATCH__
         t.className = 'tag'; t.textContent = r[2];
         w.appendChild(document.createTextNode(' ')); w.appendChild(t);
       }
-      tr.appendChild(d); tr.appendChild(w); tr.appendChild(pct(r[3])); tr.appendChild(pct(r[4]));
+      tr.appendChild(d); tr.appendChild(td); tr.appendChild(pct(r[3])); tr.appendChild(pct(r[4]));
       body.appendChild(tr);
     });
     table.hidden = !hits.length;
     more.hidden = hits.length <= SHOW;
+    $('ev-all').textContent = 'See all ' + hits.length + ' on the events page →';
     var h = new URLSearchParams();
     if (q.value.trim()) h.set('q', q.value.trim());
     if (per.value !== 'day') h.set('per', per.value);
@@ -3210,9 +3216,10 @@ __MATCH__
 '''
 
 
-def events_html(path=None, show=15):
-    """The market events search: the events page's search box and move filter (same matching, mtl/events.py), with up
-    to `show` hits listed here, newest first, and a link to the events page with the same search filled in."""
+def events_html(path=None, show=5):
+    """The market events search: the events page's search box and move filter (same matching, mtl/events.py). It
+    searches every event but lists at most `show` hits here, newest first, each cut to two lines, so the card's height
+    has a fixed ceiling; the rest are a link away on the events page, with the same search filled in."""
     sys.path.insert(0, ROOT)
     from mtl import events as ev
     try:
