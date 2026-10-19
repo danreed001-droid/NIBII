@@ -1,0 +1,38 @@
+name: Market event
+description: Add your own news to the market events page (or remove one you added).
+title: "Event: "
+labels: ["market-event"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Press Submit and it shows on the market events page with the S&P 500's move that day, in a few minutes.
+        The next-month move fills in a month later. Information only: the plan doesn't use it.
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      description: >-
+        The day the market could first react (YYYY-MM-DD). News after the 4pm close goes on the next trading day.
+        Leave it empty for today.
+      placeholder: "2026-10-16"
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: One short line, as it should read on the page.
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Link
+      description: Optional, a page about it.
+      placeholder: https://...
+  - type: dropdown
+    id: action
+    attributes:
+      label: Add or remove
+      description: To remove one you added, send the same date and words with Remove.
+      options: [Add, Remove]
+      default: 0

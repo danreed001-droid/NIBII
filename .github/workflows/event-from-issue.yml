@@ -1,0 +1,104 @@
+name: Market event from issue form
+
+# The market events page's "Add news" button opens the Market event issue form
+# (.github/ISSUE_TEMPLATE/market-event.yml). This adds (or removes) the item in
+# data/my_events.json, works out SPY's move, redraws docs/events.html and closes
+# the issue. Only the repository owner's submissions are accepted.
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: event-from-issue
+  cancel-in-progress: false
+
+jobs:
+  add:
+    if: >-
+      contains(github.event.issue.body, '### What happened') &&
+      contains(github.event.issue.body, '### Add or remove') &&
+      github.event.issue.user.login == github.repository_owner
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Read the form
+        id: add
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set +e
+          out=$(python scripts/add_event_from_issue.py)
+          code=$?
+          echo "$out"
+          {
+            echo "result<<EOF"
+            echo "$out"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          exit $code
+
+      - run: pip install -r requirements.txt
+
+      - name: Publish
+        # Re-applied on a fresh main each try, so a nightly push in between never loses it. SPY's move needs
+        # Yahoo; if that fails the item still goes up and its move fills in on the nightly run.
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3; do
+            git fetch origin main && git reset --hard origin/main
+            python scripts/add_event_from_issue.py
+            python scripts/major_events.py --moves || python scripts/major_events.py --render
+            git add data/my_events.json data/major_events.json docs/events.html
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Events page: your item from #$ISSUE_NUMBER"
+            git push && exit 0
+            sleep 10
+          done
+          exit 1
+
+      - name: Confirm and close the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ steps.add.outputs.result }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" \
+            --body "Done: $RESULT. It shows on the market events page in a minute or two."
+          gh issue close "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --reason completed
+
+      - name: Say so on the issue if a later step failed
+        if: ${{ (failure() || cancelled()) && steps.add.outcome == 'success' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" \
+            --body "The form was read but the page wasn't updated: a later step failed. Run log: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
+      - name: Report a rejected submission
+        if: failure() && steps.add.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ steps.add.outputs.result }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" \
+            --body "Not added: $RESULT. Fix it and send the form again."
