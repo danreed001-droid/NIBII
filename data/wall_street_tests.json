@@ -1,86 +1,86 @@
 {
  "asOf": "2026-10-16",
  "period": "Jan 2000 – Oct 2026",
- "plan": "Boost + rotation (surge exit, whipsaw switch (the whole account into TLT, GLD or SPY) with the rate/gold regime, TLT / GLD by 6-month gain, narrow-market cash week read from the equal-weight index’s full history, lower-high exit into gold or bonds on both its triggers, no T-bills: gold or bonds if up over 6 months, else cash; rebound rule: stays in stocks after a 12%+ drop with gold or bonds up 2%+ and a daily higher low; fading-energy filter: a top-5 stock whose volume and daily swings have both faded isn’t bought, its slot stays in cash; the whipsaw check counts the list with the filter off)",
- "previous": "the same plan with only half the account in the whipsaw switch’s asset (default until Oct 16, 2026)",
+ "plan": "Boost + rotation (surge exit, whipsaw switch (the whole account into TLT, GLD or SPY) with the rate/gold regime, TLT / GLD by 6-month gain, narrow-market cash week read from the equal-weight index’s full history, lower-high exit into gold or bonds on both its triggers, no T-bills: gold or bonds if up over 3 months, else cash; rebound rule: stays in stocks after a 12%+ drop with gold or bonds up 2%+ and a daily higher low; fading-energy filter: a top-5 stock whose volume and daily swings have both faded isn’t bought, its slot stays in cash; the whipsaw check counts the list with the filter off)",
+ "previous": "the same plan with gold or bonds picked by their 6-month gain wherever it would hold T-bills (default until Oct 19, 2026)",
  "source": "From the audit’s daily curves (prices downloaded Oct 6, 2026; the track record above is a later download and can differ by about half a point): stocks in the S&P 500 at the time, 0.15% slippage, 37%/20% tax; Sharpe and Sortino net of a 2% cash rate. EP and CPWR are left out (their tickers were reused by later companies)",
  "scorecard": [
   {
    "k": "return",
-   "plan": "41.0% (26.0%)",
-   "prev": "40.3% (25.6%)",
+   "plan": "42.3% (27.0%)",
+   "prev": "41.1% (26.0%)",
    "spy": "8.4%"
   },
   {
    "k": "sharpe",
-   "plan": "1.27",
-   "prev": "1.25",
+   "plan": "1.30",
+   "prev": "1.27",
    "spy": "0.41"
   },
   {
    "k": "sortino",
-   "plan": "1.93",
-   "prev": "1.90",
+   "plan": "1.98",
+   "prev": "1.93",
    "spy": "0.58"
   },
   {
    "k": "maxdd",
    "plan": "−34%",
-   "prev": "−33%",
+   "prev": "−34%",
    "spy": "−55%"
   },
   {
    "k": "calmar",
-   "plan": "1.22",
-   "prev": "1.21",
+   "plan": "1.24",
+   "prev": "1.22",
    "spy": "0.15"
   },
   {
    "k": "ulcer",
-   "plan": "10.9%",
-   "prev": "10.8%",
+   "plan": "10.5%",
+   "prev": "10.9%",
    "spy": "16.1%"
   },
   {
    "k": "omega",
-   "plan": "3.14",
-   "prev": "3.08",
+   "plan": "3.29",
+   "prev": "3.14",
    "spy": "1.44"
   },
   {
    "k": "capture",
-   "plan": "138% / -21%",
-   "prev": "140% / -13%",
+   "plan": "139% / -25%",
+   "prev": "138% / -21%",
    "spy": "100% / 100%"
   },
   {
    "k": "var",
-   "plan": "−7.1% / −9.2%",
-   "prev": "−6.8% / −9.1%",
+   "plan": "−7.1% / −9.3%",
+   "prev": "−7.1% / −9.2%",
    "spy": "−7.5% / −9.5%"
   },
   {
    "k": "worst3",
-   "plan": "1.6% a year",
-   "prev": "1.8% a year",
+   "plan": "2.3% a year",
+   "prev": "1.6% a year",
    "spy": "−16.3% a year"
   },
   {
    "k": "under",
    "plan": "24 months",
-   "prev": "24 months",
-   "spy": "79 months"
+   "prev": "22 months",
+   "spy": "74 months"
   },
   {
    "k": "alpha",
-   "plan": "30.8% (t 4.9)",
-   "prev": "29.8% (t 4.8)",
+   "plan": "32.8% (t 5.2)",
+   "prev": "30.8% (t 4.9)",
    "spy": "–"
   },
   {
    "k": "alphadec",
-   "plan": "45.0% / 11.0% / 48.6%",
-   "prev": "45.2% / 9.4% / 48.1%",
+   "plan": "46.0% / 11.7% / 54.7%",
+   "prev": "45.0% / 11.0% / 48.9%",
    "spy": "–"
   }
  ],
@@ -95,17 +95,17 @@
    {
     "k": "typical",
     "v": [
-     "40.3% (25.6%)",
-     "40.5% (25.8%)",
-     "41.0% (26.0%)"
+     "41.5% (26.5%)",
+     "41.8% (26.7%)",
+     "42.3% (27.0%)"
     ]
    },
    {
     "k": "bad",
     "v": [
-     "14.0%",
-     "21.0%",
-     "26.4%"
+     "15.0%",
+     "22.3%",
+     "27.5%"
     ]
    },
    {
@@ -127,33 +127,33 @@
    {
     "k": "beatSpyTax",
     "v": [
-     "93%",
-     "98%",
+     "95%",
+     "99%",
      "100%"
     ]
    },
    {
     "k": "beatSpyHalf",
     "v": [
-     "82%",
-     "91%",
-     "97%"
+     "83%",
+     "92%",
+     "98%"
     ]
    },
    {
     "k": "beatPrev",
     "v": [
-     "63%",
-     "73%",
-     "85%"
+     "71%",
+     "80%",
+     "88%"
     ]
    },
    {
     "k": "dd",
     "v": [
      "−17%",
-     "−21%",
-     "−26%"
+     "−20%",
+     "−23%"
     ]
    },
    {
@@ -168,16 +168,16 @@
     "k": "dd50Half",
     "v": [
      "2%",
-     "6%",
-     "13%"
+     "5%",
+     "12%"
     ]
    },
    {
     "k": "under",
     "v": [
-     "11 months",
-     "15 months",
-     "21 months"
+     "10 months",
+     "14 months",
+     "22 months"
     ]
    },
    {
@@ -191,9 +191,9 @@
    {
     "k": "under2y",
     "v": [
-     "6%",
+     "5%",
      "14%",
-     "31%"
+     "29%"
     ]
    },
    {
@@ -209,40 +209,44 @@
  "other": [
   {
    "k": "pbo",
-   "v": "1.4%",
-   "n": 1081
+   "v": "2.2%",
+   "n": 1353
   },
   {
    "k": "dsr",
-   "v": "99.94%",
-   "n": 1081,
-   "luck": "0.64",
-   "sharpe": "1.27"
+   "v": "99.70%",
+   "n": 1353,
+   "luck": "0.77",
+   "sharpe": "1.30"
   },
   {
    "k": "walk",
-   "v": "30.1%",
-   "typical": "21.6%"
+   "v": "33.1%",
+   "typical": "23.4%"
   },
   {
    "k": "cashT",
-   "v": "about 1.6 points a year (t-stat 0.9 on monthly returns); since 2012 the plan lost about 39% over its cash days, and random cash weeks of the same lengths did as well in only 0.14% of 20,000 draws; on 2006–07, before the years it was found on, it fired three times and helped once (the October 2007 top)"
+   "v": "about 2.4 points a year (t-stat 1.4 on monthly returns); since 2012 the plan lost about 39% over its cash days, and random cash weeks of the same lengths did as well in only 0.14% of 20,000 draws; on 2006–07, before the years it was found on, it fired three times and helped once (the October 2007 top)"
   },
   {
    "k": "reboundT",
-   "v": "about 1.4 points a year (t-stat 1.1 on monthly returns): 41.0% a year from 2000 vs 39.2% without it, the same worst drop; it overrode the other rules on 70 sessions since 2000"
+   "v": "about 1.4 points a year (t-stat 1.1 on monthly returns): 42.4% a year from 2000 vs 40.5% without it, worst drop −34% vs −32%; it overrode the other rules on 70 sessions since 2000"
   },
   {
    "k": "fadeT",
-   "v": "about 1.7 points a year from 2000 (t-stat 2.2 on monthly returns, 1.2 on the dashboard’s own stocks, where about 3 is needed after the ~55 versions tried that day); 43.2% vs 40.9% from 2010, 50.7% vs 47.9% from 2016 and 74.8% vs 71.8% from 2020, with about the same worst drops (the whipsaw switch counts a stock the filter skipped as if it had been bought); better in 7 of 10 separate test periods; it did nothing in Japan, the UK, Germany, India and Hong Kong"
+   "v": "about 1.6 points a year from 2000 (t-stat 2.0 on monthly returns, 1.2 on the dashboard’s own stocks, where about 3 is needed after the ~55 versions tried that day); 44.7% vs 42.5% from 2010, 53.2% vs 50.4% from 2016 and 77.9% vs 74.9% from 2020, with about the same worst drops (the whipsaw switch counts a stock the filter skipped as if it had been bought); better in 7 of 10 separate test periods; it did nothing in Japan, the UK, Germany, India and Hong Kong"
   },
   {
    "k": "lowerT",
-   "v": "about 1.7 points a year (t-stat 0.9 on monthly returns), but the worst drop falls from −35% to −34% and the worst three years from −1.9% to 1.6% a year; it beat the plan without it in 67–79% of the simulated futures"
+   "v": "about 1.5 points a year (t-stat 0.8 on monthly returns), but the worst drop falls from −35% to −34% and the worst three years from 2.1% to 2.3% a year; it beat the plan without it in 66–77% of the simulated futures"
   },
   {
    "k": "billsT",
-   "v": "about 1.8 points a year over T-bills (t-stat 1.6 on monthly returns) and about 2.1 over plain cash; it beat the T-bills version in 70/77/86% of simulated 5 / 10 / 20-year futures and plain cash in 73/82/91%"
+   "v": "about 2.7 points a year over T-bills (t-stat 2.7 on monthly returns) and about 3.0 over plain cash; it beat the T-bills version in 85/94/99% of simulated 5 / 10 / 20-year futures and plain cash in 89/97/100%"
+  },
+  {
+   "k": "bills3T",
+   "v": "about 0.9 points a year over the 6-month pick (t-stat 1.2 on monthly returns): 42.4% a year from 2000 vs 41.0%, ahead from all seven start years tested (by 1.3 to 2.8 points) and in 232 of 285 rolling 3-year windows; it beat the 6-month version in 71/80/88% of simulated 5 / 10 / 20-year futures; 2013–2025 about level, so 2026 carries much of the recent gain; in Japan, the UK and Germany it was about half a point a year better"
   },
   {
    "k": "pickT",
@@ -267,111 +271,51 @@
  ],
  "recovery": {
   "cut": 0.15,
-  "end": "2026-10-06",
-  "count": 20,
-  "years": 26.7,
-  "median": 5.8,
-  "medianDown": 3.7,
-  "medianUp": 2.5,
-  "newHighs": 802,
-  "gapMedianDays": 2,
-  "gap90Days": 19,
-  "now": {
-   "below": -0.0133,
-   "since": "2026-09-25"
-  },
-  "longest": {
-   "plan": {
-    "months": 24,
-    "peak": "2001-05-21",
-    "back": "2003-05-14",
-    "depth": -0.3358
-   },
-   "spy": {
-    "months": 79,
-    "peak": "2000-03-24",
-    "back": "2006-10-26",
-    "depth": -0.4751
-   },
-   "qqq": {
-    "months": 179,
-    "peak": "2000-03-27",
-    "back": "2015-02-20",
-    "depth": -0.8296
-   }
-  },
   "drops": [
+   {
+    "peak": "2014-07-16",
+    "low": "2015-12-16",
+    "back": "2016-08-15",
+    "depth": -0.1899,
+    "down": 17.0,
+    "up": 8.0,
+    "total": 25.0
+   },
    {
     "peak": "2001-05-21",
     "low": "2002-06-13",
-    "back": "2003-05-14",
-    "depth": -0.3358,
+    "back": "2003-05-12",
+    "depth": -0.341,
     "down": 12.7,
-    "up": 11.0,
-    "total": 23.8
-   },
-   {
-    "peak": "2014-07-16",
-    "low": "2015-12-03",
-    "back": "2016-03-03",
-    "depth": -0.1802,
-    "down": 16.6,
-    "up": 3.0,
-    "total": 19.6
+    "up": 10.9,
+    "total": 23.7
    },
    {
     "peak": "2006-05-10",
     "low": "2006-10-27",
-    "back": "2007-09-18",
-    "depth": -0.3333,
+    "back": "2007-07-09",
+    "depth": -0.2932,
     "down": 5.6,
-    "up": 10.7,
-    "total": 16.3
+    "up": 8.4,
+    "total": 14.0
    },
    {
     "peak": "2007-11-06",
-    "low": "2008-03-10",
-    "back": "2008-10-30",
-    "depth": -0.2223,
-    "down": 4.1,
-    "up": 7.7,
-    "total": 11.8
+    "low": "2008-07-15",
+    "back": "2008-11-04",
+    "depth": -0.2262,
+    "down": 8.3,
+    "up": 3.7,
+    "total": 12.0
    },
    {
     "peak": "2018-06-01",
     "low": "2018-10-29",
     "back": "2019-03-18",
-    "depth": -0.1961,
+    "depth": -0.1892,
     "down": 4.9,
     "up": 4.6,
     "total": 9.5
-   },
-   {
-    "peak": "2022-04-18",
-    "low": "2022-09-06",
-    "back": "2022-12-02",
-    "depth": -0.1617,
-    "down": 4.6,
-    "up": 2.9,
-    "total": 7.5
-   },
-   {
-    "peak": "2021-08-12",
-    "low": "2022-01-27",
-    "back": "2022-03-23",
-    "depth": -0.2018,
-    "down": 5.5,
-    "up": 1.8,
-    "total": 7.3
-   },
-   {
-    "peak": "2017-02-21",
-    "low": "2017-06-16",
-    "back": "2017-09-18",
-    "depth": -0.1562,
-    "down": 3.8,
-    "up": 3.1,
-    "total": 6.9
    },
    {
     "peak": "2000-10-19",
@@ -394,11 +338,11 @@
    {
     "peak": "2010-04-26",
     "low": "2010-07-02",
-    "back": "2010-10-06",
+    "back": "2010-10-01",
     "depth": -0.2405,
     "down": 2.2,
-    "up": 3.2,
-    "total": 5.4
+    "up": 3.0,
+    "total": 5.2
    },
    {
     "peak": "2012-03-15",
@@ -408,15 +352,6 @@
     "down": 2.7,
     "up": 2.1,
     "total": 4.8
-   },
-   {
-    "peak": "2009-01-12",
-    "low": "2009-05-01",
-    "back": "2009-05-29",
-    "depth": -0.1795,
-    "down": 3.6,
-    "up": 0.9,
-    "total": 4.5
    },
    {
     "peak": "2004-06-30",
@@ -437,6 +372,15 @@
     "total": 3.7
    },
    {
+    "peak": "2021-11-29",
+    "low": "2022-01-27",
+    "back": "2022-03-21",
+    "depth": -0.1802,
+    "down": 1.9,
+    "up": 1.7,
+    "total": 3.7
+   },
+   {
     "peak": "2003-06-05",
     "low": "2003-08-08",
     "back": "2003-09-19",
@@ -448,10 +392,10 @@
    {
     "peak": "2023-08-31",
     "low": "2023-10-27",
-    "back": "2023-11-15",
-    "depth": -0.1688,
+    "back": "2023-11-16",
+    "depth": -0.1779,
     "down": 1.9,
-    "up": 0.6,
+    "up": 0.7,
     "total": 2.5
    },
    {
@@ -481,6 +425,45 @@
     "up": 0.7,
     "total": 1.0
    }
-  ]
+  ],
+  "count": 17,
+  "years": 26.7,
+  "median": 4.8,
+  "medianDown": 2.2,
+  "medianUp": 2.2,
+  "longest": {
+   "plan": {
+    "months": 25,
+    "peak": "2014-07-16",
+    "back": "2016-08-15",
+    "depth": -0.1899
+   },
+   "prev": {
+    "months": 24,
+    "peak": "2001-05-21",
+    "back": "2003-05-14",
+    "depth": -0.3358
+   },
+   "spy": {
+    "months": 79,
+    "peak": "2000-03-24",
+    "back": "2006-10-26",
+    "depth": -0.4751
+   },
+   "qqq": {
+    "months": 179,
+    "peak": "2000-03-27",
+    "back": "2015-02-20",
+    "depth": -0.8296
+   }
+  },
+  "newHighs": 800,
+  "gapMedianDays": 2,
+  "gap90Days": 19,
+  "now": {
+   "below": -0.0225,
+   "since": "2026-09-25"
+  },
+  "end": "2026-10-06"
  }
 }

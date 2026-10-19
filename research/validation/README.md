@@ -129,6 +129,38 @@ points in 2015; the monthly difference is far from significant; abroad it helped
 all within about a point; and the share of the account was chosen on this history. It went in on probation, and the
 paper record lists it as an update.
 
+## No-T-bills pick by the 3-month change (default since Oct 19, 2026)
+
+Wherever the rules would hold T-bills (the downtrend or lower-high exit with neither TLT nor GLD rising, the whipsaw
+switch with nothing up, the narrow-market cash week), the plan now holds whichever of TLT / GLD is up more over 63
+sessions, if it is up at all, else cash (`BILLS_LOOK` in `mtl/rotation.py`; engine `NBup` has `nobil_n=63`, `NBb6`
+keeps 126). The rotation and the exits still pick by 6 months: moving them to 3 months as well did worse. Every
+comparison in the audit (au7) was rebuilt on the new default with the same single change as before.
+
+| Check | 6 months (until Oct 19) | 3 months |
+|---|---|---|
+| From 2000, a year before tax (after tax) | 41.0% (25.9%) | 42.4% (26.7%) |
+| Worst drop from 2000 / from 2020 | −34% / −23% | −34% / −23% |
+| From 2010 / 2016 / 2020 | 43.3% / 50.8% / 75.0% | 44.7% / 53.2% / 77.9% |
+| Seven start years (2000, 2005, 2008, 2010, 2013, 2016, 2020) | | ahead in all seven, by 1.3 to 2.8 points |
+| Look of 2 / 4 / 5 months instead, points vs 6 months | | −0.2 to −2.1 / +0.9 to +5.1 / −0.2 to +0.5 |
+| Rolling windows from 2000: 3-year / 5-year ahead–behind | | 232–45 of 285 / 238–22 of 261 |
+| 2000–2011 / 2013–2025 | 37.3% / 40.8% | 38.5% / 40.9% |
+| Ten separate periods | | better in 6, about the same in 2, worse in 2 (2013–2015, 2018–2021) |
+| Deflated Sharpe, 1,353 versions counted | 99.49% | 99.70% |
+| Probability of backtest overfitting (CSCV), 1,353 versions | 2.2% | 2.2% |
+| Monthly difference | | +0.9 points a year, t-statistic 1.2 (155 of 321 months differ) |
+| Monte Carlo: beats the 6-month pick over 5 / 10 / 20 years | | 71% / 80% / 88% |
+| Longest stretch below a peak | 24 months (2001–2003) | 25 months (Jul 2014 – Aug 2016) |
+| Abroad (Japan, UK, Germany) | 18.1 / 12.1 / 4.9% | 18.6 / 12.6 / 5.0% |
+
+The live code agrees with the engine: on all 252 days the 2000 run held plain cash, the live pick (`bills_pick`) also
+gives cash, and the committed engine reproduces the test runs exactly from 2000, 2010, 2016 and 2020.
+
+Limits, stated plainly: the gain swings by year (+26 points in 2026, +14 in 2009, +11 in 2017; −15 in 2025, −7 in
+2008), 2013–2025 is about level, the monthly difference is not significant, and the look was chosen on this history
+(4 months did as well). It went in on probation, and the paper record lists it in its Oct 19 update.
+
 ## Paper record: the live forward test
 
 `mtl/paper.py` keeps a frozen, time-stamped paper record of the default plan in `data/paper_ledger.json`, starting
