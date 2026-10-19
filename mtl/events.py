@@ -15,6 +15,7 @@ import json
 import os
 import re
 from bisect import bisect_left
+from datetime import date
 
 from mtl.phase import market_phase
 
@@ -31,6 +32,36 @@ PHASE_TEXT = {'correction': 'S&P 500 enters a correction (10%+ below its high)',
               'bear market': 'S&P 500 enters a bear market (20%+ below its high)',
               'new bull run': 'New bull run: S&P 500 up 20% from its bear-market low',
               'bull run': 'S&P 500 back in a bull run (new high after a bear market)'}
+
+
+# The events search, shared by docs/events.html and the scanner page so both find the same events: every typed word
+# must appear in the event's search text, and the move filter keeps events whose Day (or 1 month) move is at least
+# `lim` up, down or either way; an event without that figure yet drops out while the filter is on.
+MATCH_JS = r"""function evFilter(q, per, dir, min) {
+  var m = parseFloat(min.value);
+  return {words: q.value.toLowerCase().split(/\s+/).filter(Boolean), per: per.value, way: dir.value,
+          lim: isNaN(m) ? 0 : Math.abs(m) / 100};
+}
+function evOn(f) { return f.words.length > 0 || f.lim > 0 || f.way !== 'any'; }
+function evMatch(s, day, month, f) {
+  for (var i = 0; i < f.words.length; i++) if (s.indexOf(f.words[i]) < 0) return false;
+  if (!(f.lim > 0) && f.way === 'any') return true;
+  var v = f.per === 'month' ? month : day;
+  if (v === undefined || v === null || v === '') return false;
+  v = +v;
+  return Math.abs(v) >= f.lim - 1e-9 && (f.way === 'any' || (f.way === 'up' ? v > 0 : v < 0));
+}"""
+
+
+def tag(e):
+    """The event's tag as shown on the page ('' for the curated list)."""
+    return '' if e['src'] == 'curated' else e['src'].replace('auto: ', 'auto · ')
+
+
+def search_text(e):
+    """What the search box matches: the date (month name, day, year), the event text and its tag, lower case."""
+    d = date.fromisoformat(e['d'])
+    return ' '.join([d.strftime('%B %b'), str(d.day), str(d.year), e['what'], tag(e)]).lower()
 
 
 def load(path=PATH):

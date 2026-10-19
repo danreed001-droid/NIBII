@@ -83,6 +83,24 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .meta span { border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; padding: 4px 11px; font-size: 0.76rem; color: var(--masthead-ink-2); }
 .meta b { color: var(--masthead-ink); font-weight: 600; }
+.evf .evf-q { width: 100%; }
+.evf input, .evf select { font: inherit; font-size: 16px; color: var(--ink); background: var(--surface-2); border: 1px solid var(--hairline);
+  border-radius: 8px; padding: 7px 10px; min-width: 0; }
+.evf select { padding: 7px 4px; }
+.evf .evf-mv { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 8px; color: var(--muted); font-size: 0.86rem; }
+.evf .evf-mv input { width: 3.4em; padding: 7px 6px; }
+.evf button { font: inherit; font-size: 0.86rem; color: var(--muted); background: none; border: 0; padding: 7px 4px; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 2px; }
+.evf .evf-count { color: var(--muted); font-size: 0.82rem; margin: 8px 0 0; }
+.evf table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin-top: 6px; }
+.evf th { text-align: left; color: var(--muted); font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid var(--hairline); padding: 4px;
+  text-transform: none; letter-spacing: 0; background: none; white-space: nowrap; }
+.evf td { border-bottom: 1px solid var(--hairline); padding: 6px 4px; vertical-align: top; text-align: left; white-space: normal; }
+.evf td.d { white-space: nowrap; color: var(--muted); width: 3.6em; } .evf td.d small { display: block; font-size: 0.72rem; }
+.evf .n { text-align: right; white-space: nowrap; }
+.evf .tag { font-size: 0.68rem; background: var(--surface-2); color: var(--muted); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }
+.evf td a { color: inherit; text-decoration-color: var(--muted); text-underline-offset: 2px; }
+.evf .evf-more { font-size: 0.82rem; margin: 8px 0 0; }
 .issues-card ul { margin: 6px 0 0; padding-left: 0; list-style: none; }
 .issues-card li { padding: 7px 0; border-top: 1px solid var(--hairline); font-size: 0.84rem; line-height: 1.45; }
 .issues-card li:first-child { border-top: 0; }
@@ -414,6 +432,7 @@ footer li { margin-bottom: 6px; }
   <div class="card optcheck" id="optcheck" hidden></div>
   <div class="card swpanel" id="swpanel" hidden></div>
 
+__EVENTS__
   <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
   <div class="plan">
     <div class="card">
@@ -3112,10 +3131,101 @@ def render(scan, growth=None):
     page = page.replace('__WALLST__', wallst_html(), 1)
     page = page.replace('__RESEARCH__', ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
+    page = page.replace('__EVENTS__', events_html(), 1)
     sys.path.insert(0, ROOT)
     from mtl.events import ADD_URL   # the events page's "Add news" form
     page = page.replace('__ADD_URL__', ADD_URL, 1)
     return page.replace('__DATA__', json.dumps(scan, separators=(',', ':')).replace('</', '<\\/'))
+
+
+EVENTS_SECTION = r'''<section id="events-find"><p class="section-label">Market events <span class="hint">search __N__ events since 2000
+    and how the S&amp;P 500 moved · <a href="events.html">all events →</a></span></p>
+  <div class="card evf" role="search">
+    <input class="evf-q" id="ev-q" type="search" placeholder="Search events (Fed, COVID, 2008…)" aria-label="Search market events" autocomplete="off">
+    <div class="evf-mv"><select id="ev-per" aria-label="Which move"><option value="day">Day</option><option value="month">1 month</option></select>
+      <select id="ev-dir" aria-label="Direction"><option value="any">up/down</option><option value="up">up</option><option value="down">down</option></select>
+      <span aria-hidden="true">≥</span><input id="ev-min" type="number" inputmode="decimal" min="0" step="0.5" placeholder="0" aria-label="Moved at least this many percent"><span>%</span>
+      <button id="ev-clear" type="button" hidden>Clear</button></div>
+    <p class="evf-count" id="ev-count" aria-live="polite" hidden></p>
+    <table id="ev-res" hidden><thead><tr><th>Date</th><th>Event</th><th class="n">Day</th><th class="n">1 month</th></tr></thead><tbody></tbody></table>
+    <p class="evf-more" id="ev-more" hidden><a id="ev-all" href="events.html">See them all on the events page →</a></p>
+  </div>
+<script type="application/json" id="ev-data">__ROWS__</script>
+<script>
+__MATCH__
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var rows = JSON.parse($('ev-data').textContent), q = $('ev-q'), per = $('ev-per'), dir = $('ev-dir'), min = $('ev-min'),
+      clear = $('ev-clear'), count = $('ev-count'), table = $('ev-res'), body = table.tBodies[0], more = $('ev-more'), SHOW = __SHOW__;
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function pct(x) {
+    var td = document.createElement('td');
+    td.className = 'n';
+    if (x === null || x === undefined) { td.textContent = '–'; td.classList.add('muted'); return td; }
+    td.textContent = (x > 0 ? '+' : '') + (x * 100).toFixed(1).replace('-', '−') + '%';
+    if (x) td.classList.add(x > 0 ? 'pos' : 'neg');
+    return td;
+  }
+  function apply() {
+    var f = evFilter(q, per, dir, min), on = evOn(f);
+    clear.hidden = !on; count.hidden = !on; body.textContent = '';
+    if (!on) { table.hidden = true; more.hidden = true; return; }
+    var hits = rows.filter(function (r) { return evMatch(r[5], r[3], r[4], f); });
+    count.textContent = hits.length ? 'Found ' + hits.length + ' of ' + rows.length + ' events' +
+      (hits.length > SHOW ? ', newest ' + SHOW + ' shown' : '') : 'No events match. Try fewer words or a smaller move.';
+    hits.slice(0, SHOW).forEach(function (r) {
+      // built with text nodes, never innerHTML: "added by you" items are free text from the form
+      var tr = document.createElement('tr'), d = document.createElement('td'), w = document.createElement('td'), p = r[0].split('-');
+      d.className = 'd';
+      var y = document.createElement('small');
+      d.textContent = MON[+p[1] - 1] + ' ' + (+p[2]); y.textContent = p[0]; d.appendChild(y);
+      if (r[6]) {
+        var a = document.createElement('a');
+        a.href = r[6]; a.target = '_blank'; a.rel = 'noopener'; a.textContent = r[1];
+        w.appendChild(a);
+      } else w.textContent = r[1];
+      if (r[2]) {
+        var t = document.createElement('span');
+        t.className = 'tag'; t.textContent = r[2];
+        w.appendChild(document.createTextNode(' ')); w.appendChild(t);
+      }
+      tr.appendChild(d); tr.appendChild(w); tr.appendChild(pct(r[3])); tr.appendChild(pct(r[4]));
+      body.appendChild(tr);
+    });
+    table.hidden = !hits.length;
+    more.hidden = hits.length <= SHOW;
+    var h = new URLSearchParams();
+    if (q.value.trim()) h.set('q', q.value.trim());
+    if (per.value !== 'day') h.set('per', per.value);
+    if (dir.value !== 'any') h.set('dir', dir.value);
+    if (min.value) h.set('min', min.value);
+    $('ev-all').href = 'events.html#' + h.toString();
+  }
+  [q, min].forEach(function (el) { el.addEventListener('input', apply); });
+  [per, dir].forEach(function (el) { el.addEventListener('change', apply); });
+  clear.addEventListener('click', function () { q.value = ''; min.value = ''; dir.value = 'any'; per.value = 'day'; apply(); q.focus(); });
+  apply();
+})();
+</script></section>
+'''
+
+
+def events_html(path=None, show=15):
+    """The market events search: the events page's search box and move filter (same matching, mtl/events.py), with up
+    to `show` hits listed here, newest first, and a link to the events page with the same search filled in."""
+    sys.path.insert(0, ROOT)
+    from mtl import events as ev
+    try:
+        doc = ev.load(path) if path else ev.load()
+    except (OSError, ValueError):
+        return ''
+    evs = sorted(doc['events'], key=lambda e: e['d'], reverse=True)
+    rows = [[e['d'], e['what'], ev.tag(e), e.get('day'), e.get('month'), ev.search_text(e),
+             e['link'] if (e.get('link') or '').startswith(('http://', 'https://')) else ''] for e in evs]
+    # every '<' and '__' escaped, so form text can't end the script block or hit the page's __PLACEHOLDERS__
+    data = json.dumps(rows, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c').replace('__', '_\\u005f')
+    return (EVENTS_SECTION.replace('__N__', str(len(rows)), 1).replace('__SHOW__', str(show), 1)
+            .replace('__MATCH__', ev.MATCH_JS, 1).replace('__ROWS__', data, 1))
 
 
 def issues_html(scan, entries=None, today=None):
