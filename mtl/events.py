@@ -3,10 +3,14 @@ no trading rule reads this. Each event has its date (the first session the marke
 it came from ('curated', or which automatic rule found it) and SPY's move that day and over the next 21 sessions.
 
 From AUTO_SINCE on, each run adds:
-  - a day SPY closes 2.5%+ up or down, with that day's main headline from the news log (data/news_log.json);
-  - a Fed rate decision the news log marks high-impact;
+  - a day SPY closes 2.5%+ up or down, with that day's main headline: from the Claude news log (data/news_log.json)
+    when it has one, else from the free feeds saved in data/headlines_log.json (MarketWatch, Google News);
+  - a Fed rate change, read from the Fed's own FOMC statement (mtl/news_feeds.py), or failing that a high-impact Fed
+    decision in the news log;
   - the VIX closing above 30 for the first time in three months;
-  - the market label (mtl/phase.py) turning to a correction, a bear market, a new bull run, or back to a bull run."""
+  - the market label (mtl/phase.py) turning to a correction, a bear market, a new bull run, or back to a bull run.
+Your own items, sent from the page's "Add news" form, live in data/my_events.json (written only by that form's
+workflow) and are copied in on every run as 'added by you'."""
 import json
 import os
 import re
@@ -17,6 +21,8 @@ from mtl.phase import market_phase
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PATH = os.path.join(ROOT, 'data', 'major_events.json')
 NEWS = os.path.join(ROOT, 'data', 'news_log.json')
+MINE = os.path.join(ROOT, 'data', 'my_events.json')
+MINE_SRC = 'added by you'
 AUTO_SINCE = '2026-10-19'
 BIG_MOVE, VIX_SPIKE = 0.025, 30.0
 FED = re.compile(r'^\s*(the\s+)?(Fed|Federal Reserve|FOMC)\b[^.;]{0,40}?\b(raises|cuts|hikes|lowers)\b', re.I)   # a decision, not odds or talk
@@ -46,6 +52,29 @@ def add(events, d, what, src):
     return True
 
 
+def load_mine(path=MINE):
+    try:
+        with open(path) as fh:
+            return json.load(fh)['events']
+    except FileNotFoundError:
+        return []
+
+
+def sync_mine(events, mine):
+    """Make the 'added by you' events match data/my_events.json, keeping the moves already worked out."""
+    want = {(m['d'], m['what']): m for m in mine}
+    events[:] = [e for e in events if e['src'] != MINE_SRC or (e['d'], e['what']) in want]
+    have = {(e['d'], e['what']): e for e in events if e['src'] == MINE_SRC}
+    for key, m in want.items():
+        e = have.get(key)
+        if e is None:
+            e = dict(d=m['d'], what=m['what'], src=MINE_SRC, day=None, month=None)
+            events.append(e)
+        e.pop('link', None)
+        if m.get('link'):
+            e['link'] = m['link']
+
+
 def headline(news, d, sign):
     """The day's main headline in the news log: high impact first, then the one leaning the same way as the move."""
     day = [r for r in news if r.get('date') == d]
@@ -56,16 +85,33 @@ def headline(news, d, sign):
     return day[0]['event'].split(';')[0].strip()
 
 
-def auto(events, cal, spy, vix, news, since=AUTO_SINCE):
-    """Apply the automatic rules to every session from `since` (re-running is safe). Returns the events added."""
+def day_headline(news, headlines, d, sign):
+    """(headline, where it came from) for a big-move day: the Claude news log first, then the free feeds."""
+    from mtl.news_feeds import pick
+    h = headline(news, d, sign)
+    if h:
+        return h, 'news log'
+    x = pick(headlines, d, sign)
+    if x:
+        return x['t'], x['src'] if x['src'] == x['feed'] else f"{x['src']} via {x['feed']}"
+    return None, None
+
+
+def auto(events, cal, spy, vix, news, since=AUTO_SINCE, headlines=(), fed=()):
+    """Apply the automatic rules to every session from `since` (re-running is safe). `headlines` are the saved feed
+    items, `fed` the Fed's decisions [{d, action, lo, hi}]. Returns the events added."""
+    from mtl.news_feeds import fmt_rate
     new, idx = [], {d: k for k, d in enumerate(cal)}
     for k in range(max(1, bisect_left(cal, since)), len(cal)):
         d = cal[k]
         r = spy[k] / spy[k - 1] - 1
         if abs(r) >= BIG_MOVE:
-            h = headline(news, d, r)
-            txt = f"S&P 500 {r * 100:+.1f}% in a day" + (f": {h}" if h else '')
-            if add(events, d, txt.replace('-', '−', 1) if r < 0 else txt, 'auto: big move'):
+            h, via = day_headline(news, headlines, d, r)
+            txt = (f"S&P 500 {r * 100:+.1f}% in a day" + (f": {h} ({via})" if h else '')).replace('-', '−', 1 if r < 0 else 0)
+            old = next((e for e in events if e['d'] == d and e['src'] == 'auto: big move'), None)
+            if old and h and ':' not in old['what']:
+                old['what'] = txt   # a headline that arrived after the first run
+            elif add(events, d, txt, 'auto: big move'):
                 new.append(d)
         v = vix.get(d)
         prior = [vix[x] for x in cal[max(0, k - 63):k] if vix.get(x) is not None]
@@ -79,6 +125,13 @@ def auto(events, cal, spy, vix, news, since=AUTO_SINCE):
                 and not (a['phase'] == 'correction' and b['phase'] == 'bull run'):
             if add(events, d, PHASE_TEXT[b['phase']], 'auto: market phase'):
                 new.append(d)
+    for f in fed:
+        k = bisect_left(cal, f['d'])
+        if f['d'] >= since and f['action'] in ('raise', 'lower') and k < len(cal) \
+                and not any(x['d'] == cal[k] and 'Fed' in x['what'] for x in events):
+            verb = 'raises' if f['action'] == 'raise' else 'cuts'
+            if add(events, cal[k], f"Fed {verb} rates to {fmt_rate(f['lo'])}–{fmt_rate(f['hi'])}% (FOMC statement)", 'auto: Fed'):
+                new.append(cal[k])
     for r_ in news:
         d = r_.get('date') or ''
         if d >= since and r_.get('impact') == 'High' and (r_.get('category') or '') in ('Fed', 'Central bank') \
