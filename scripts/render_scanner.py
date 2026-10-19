@@ -3055,7 +3055,7 @@ def lab_html(lab=None):
             '(losses carried forward; buy-and-hold rows taxed once at 20%) - in an IRA / Roth use the before-tax column; '
             'worst = biggest peak-to-trough drop. Bold = best per start, ignoring the watchlist and reference rows. '
             '<b>Caveats:</b> stocks that left the indexes or went bust are missing, which flatters every row, more so from 2000. '
-            'The Semis &amp; AI watchlist was picked in 2026 knowing AI won, so its row is hindsight. Rebuilt by '
+            'The Semis &amp; AI watchlist was picked in 2026 knowing AI won, so its row is hindsight. Rebuilt every 3 months by '
             '<code>scripts/backtest_strategies.py</code>. Not investment advice.</p></section>')
 
 
