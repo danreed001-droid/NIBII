@@ -529,7 +529,7 @@
       [
        "bear",
        "Nvidia, Apple and Microsoft now exceed 21% of S&P 500 weight, a record concentration (news log, Yahoo Finance 6 October), so index strength rests on few names",
-       true
+       false
       ],
       [
        "neu",
@@ -544,7 +544,7 @@
       [
        "bear",
        "The 10-year at about 5.26% and the 30-year at a 2002 high a day earlier are restrictive levels for equity valuations over ten sessions (news log)",
-       true
+       false
       ],
       [
        "neu",
@@ -587,8 +587,8 @@
        null
       ]
      ],
-     "maturityClose": 7725.0,
-     "ret": -0.019857,
+     "maturityClose": 7764.5,
+     "ret": -0.014845,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2713,8 +2713,8 @@
        null
       ]
      ],
-     "maturityClose": 105.390625,
-     "ret": 0.010487,
+     "maturityClose": 105.296875,
+     "ret": 0.009588,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5473,8 +5473,8 @@
        false
       ]
      ],
-     "maturityClose": 4141.7998046875,
-     "ret": -0.009068,
+     "maturityClose": 4142.0,
+     "ret": -0.00902,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7592,8 +7592,8 @@
        null
       ]
      ],
-     "maturityClose": 101.73699951171875,
-     "ret": -0.002275,
+     "maturityClose": 101.70899963378906,
+     "ret": -0.00255,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9787,7 +9787,7 @@
       [
        "bear",
        "A 10-year near 5.3% and the 30-year at a 2002 high a day earlier weigh on rate-sensitive, floating-rate-exposed small caps over ten days (news log)",
-       true
+       false
       ],
       [
        "neu",
@@ -9830,8 +9830,8 @@
        false
       ]
      ],
-     "maturityClose": 2745.300048828125,
-     "ret": -0.034874,
+     "maturityClose": 2788.5,
+     "ret": -0.019687,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11849,8 +11849,8 @@
        null
       ]
      ],
-     "maturityClose": 29605.25,
-     "ret": -0.059942,
+     "maturityClose": 29762.5,
+     "ret": -0.054949,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
