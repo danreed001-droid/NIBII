@@ -313,62 +313,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for ES=F on 19 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for ES=F on 19 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VIX closed 18.44 on 19 October (19.99 on 16 October), naming no percentile, record or multi-year extreme, so neutral"
+       "VIX closed 18.44 on 19 October (19.99 on 16 October), naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October, and long yields above 5% still cap valuations, but the move is small and premarket yields were lower, so neutral"
+       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October, and long yields above 5% still cap valuations, but the move is small and premarket yields were lower, so neutral",
+       null
       ],
       [
        "neu",
-       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral"
+       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bull",
-       "Tech/AI names rebounded on analyst upgrades (Amazon, CoreWeave, Intel, Datadog, Western Digital) and the S&P 500 closed +0.4% (news log), a 1-day tailwind; the heavy earnings week ahead is unresolved"
+       "Tech/AI names rebounded on analyst upgrades (Amazon, CoreWeave, Intel, Datadog, Western Digital) and the S&P 500 closed +0.4% (news log), a 1-day tailwind; the heavy earnings week ahead is unresolved",
+       false
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bull",
-       "Oil is the dominant 21-session driver (corr -0.5) and WTI slipped to about $98.20 (-0.83%) on US-Iran deal hopes while Brent settled $109.55 (-0.3%) (news log), a modest 1-day tailwind"
+       "Oil is the dominant 21-session driver (corr -0.5) and WTI slipped to about $98.20 (-0.83%) on US-Iran deal hopes while Brent settled $109.55 (-0.3%) (news log), a modest 1-day tailwind",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7727.5,
+     "ret": -0.001712,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -2396,62 +2411,77 @@
      "votes": [
       [
        "bear",
-       "structure.hourly reads downtrend for ZN=F on 19 October - last labeled swings LH/LH/LL/LH"
+       "structure.hourly reads downtrend for ZN=F on 19 October - last labeled swings LH/LH/LL/LH",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated implied-volatility print for 19 October was obtained (the figure is carried stale), so neutral"
+       "No dated implied-volatility print for 19 October was obtained (the figure is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October, a modest rise that weighs on ZN (-0.15%)"
+       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October, a modest rise that weighs on ZN (-0.15%)",
+       false
       ],
       [
        "neu",
-       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral"
+       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings season is busy this week amid AI-spending and valuation worries (news log), but there is no clear dated read-through for this asset beyond 19 October, so neutral"
+       "Earnings season is busy this week amid AI-spending and valuation worries (news log), but there is no clear dated read-through for this asset beyond 19 October, so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "The 10-year yield (dominant driver, corr -0.963) closed at 5.14% versus about 5.10% on 16 October (news log), pushing against bond prices"
+       "The 10-year yield (dominant driver, corr -0.963) closed at 5.14% versus about 5.10% on 16 October (news log), pushing against bond prices",
+       false
       ],
       [
        "bear",
-       "1H structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "1H structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 105.390625,
+     "ret": 0.00089,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -5039,62 +5069,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for GC=F on 19 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for GC=F on 19 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "GVZ closed 22.23 on 19 October, naming no percentile, record or multi-year extreme, so neutral"
+       "GVZ closed 22.23 on 19 October, naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October, a modest rise that weighs on ZN (-0.15%); gold fell 0.94%"
+       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October, a modest rise that weighs on ZN (-0.15%); gold fell 0.94%",
+       false
       ],
       [
        "neu",
-       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral"
+       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings season is busy this week amid AI-spending and valuation worries (news log), but there is no clear dated read-through for this asset beyond 19 October, so neutral"
+       "Earnings season is busy this week amid AI-spending and valuation worries (news log), but there is no clear dated read-through for this asset beyond 19 October, so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "The 10-year yield (dominant driver, corr -0.48) rose to 5.14% (news log) and gold fell 0.94%, a headwind"
+       "The 10-year yield (dominant driver, corr -0.48) rose to 5.14% (news log) and gold fell 0.94%, a headwind",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4139.10009765625,
+     "ret": -0.000676,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -7142,62 +7187,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for DX-Y.NYB on 19 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for DX-Y.NYB on 19 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated implied-volatility print for 19 October was obtained (the figure is carried stale), so neutral"
+       "No dated implied-volatility print for 19 October was obtained (the figure is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October; the 21-session dollar driver read is not dominant, so neutral"
+       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October; the 21-session dollar driver read is not dominant, so neutral",
+       null
       ],
       [
        "neu",
-       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral"
+       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings season is busy this week amid AI-spending and valuation worries (news log), but there is no clear dated read-through for this asset beyond 19 October, so neutral"
+       "Earnings season is busy this week amid AI-spending and valuation worries (news log), but there is no clear dated read-through for this asset beyond 19 October, so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No dominant cross-asset driver in the 21-session regime read for this asset, so neutral"
+       "No dominant cross-asset driver in the 21-session regime read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 101.73400115966797,
+     "ret": -0.001952,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 5,
@@ -9323,62 +9383,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for RTY=F on 19 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for RTY=F on 19 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated implied-volatility print for 19 October was obtained (the figure is carried stale), so neutral"
+       "No dated implied-volatility print for 19 October was obtained (the figure is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October, and long yields above 5% still cap valuations, but the move is small and premarket yields were lower, so neutral"
+       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October, and long yields above 5% still cap valuations, but the move is small and premarket yields were lower, so neutral",
+       null
       ],
       [
        "neu",
-       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral"
+       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings season is busy this week amid AI-spending and valuation worries (news log), but there is no clear dated read-through for this asset beyond 19 October, so neutral"
+       "Earnings season is busy this week amid AI-spending and valuation worries (news log), but there is no clear dated read-through for this asset beyond 19 October, so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No dominant cross-asset driver in the 21-session regime read for this asset, so neutral"
+       "No dominant cross-asset driver in the 21-session regime read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2745.60009765625,
+     "ret": 0.00051,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -11245,62 +11320,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for NQ=F on 19 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.hourly reads choppy for NQ=F on 19 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VXN closed 25.56 on 19 October (27.13 on 16 October), naming no percentile, record or multi-year extreme, so neutral"
+       "VXN closed 25.56 on 19 October (27.13 on 16 October), naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October, and long yields above 5% still cap valuations, but the move is small and premarket yields were lower, so neutral"
+       "The 10-year yield closed at 5.14% on 19 October (news log) versus about 5.10% on 16 October, and long yields above 5% still cap valuations, but the move is small and premarket yields were lower, so neutral",
+       null
       ],
       [
        "neu",
-       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral"
+       "Fed Chair Warsh declined to prejudge the October FOMC, read as lowering near-term hike odds, but December risk remains and last week's CPI/PPI ran warm (news log); the signals conflict, so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bull",
-       "Nasdaq Composite +1.1% on the AI rebound and analyst upgrades to Amazon, CoreWeave, Intel and others (news log), a 1-day tailwind; the heavy earnings week ahead is unresolved"
+       "Nasdaq Composite +1.1% on the AI rebound and analyst upgrades to Amazon, CoreWeave, Intel and others (news log), a 1-day tailwind; the heavy earnings week ahead is unresolved",
+       false
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 19 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bull",
-       "Oil is the dominant 21-session driver (corr -0.639) and WTI slipped to about $98.20 (-0.83%) on US-Iran deal hopes while Brent settled $109.55 (-0.3%) (news log), a modest 1-day tailwind"
+       "Oil is the dominant 21-session driver (corr -0.639) and WTI slipped to about $98.20 (-0.83%) on US-Iran deal hopes while Brent settled $109.55 (-0.3%) (news log), a modest 1-day tailwind",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 29621.75,
+     "ret": -0.001534,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 5,
