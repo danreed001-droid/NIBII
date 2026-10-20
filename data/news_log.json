@@ -3257,5 +3257,25 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-20-1-european-stocks-fall-french-spread-widens",
+    "data": {
+      "addedAt": "2026-10-20",
+      "category": "Market",
+      "date": "2026-10-20",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "European equities opened lower for a second session as French unrest and fiscal worries widened the France-Germany 10-year spread to about 147bp; US 10-year Treasury yield held near 5.12% and US equity futures were flat to mixed ahead of another heavy earnings week (Netflix reports today).",
+      "impact": "Medium",
+      "numbers": "Euro Stoxx 50 -0.7%, DAX -0.7%, CAC 40 -0.3%, FTSE 100 -0.3%; FR-DE 10Y spread ~147bp; UST 10Y ~5.12%; S&P fut +0.1%, Nasdaq fut -0.2%",
+      "order": 1,
+      "reaction": "Risk-off tone in Europe; US futures roughly flat with tech slightly weaker; long yields stay elevated near 5.1%.",
+      "region": "Europe",
+      "source": "https://investinglive.com/stocks/european-stock-market-open-equities-retreat-as-bond-yields-and-fiscal-risks-weigh/",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
