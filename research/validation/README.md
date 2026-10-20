@@ -161,6 +161,46 @@ Limits, stated plainly: the gain swings by year (+26 points in 2026, +14 in 2009
 2008), 2013–2025 is about level, the monthly difference is not significant, and the look was chosen on this history
 (4 months did as well). It went in on probation, and the paper record lists it in its Oct 19 update.
 
+## Managed futures instead of cash (default since Oct 20, 2026)
+
+Where the no-T-bills pick finds neither TLT nor GLD up over 3 months, the plan now holds DBMF, a fund that follows trends
+in stock, bond, currency and commodity futures, instead of plain cash earning nothing (`CASH_FUND` in
+`mtl/rotation.py`; engine `NBup` has `nobil_fb='DBMF'`, `NBc3` keeps plain cash). It applies only from the fund's first
+close (May 8, 2019); before that the plan holds cash as before, so every gain below is from 2019 on. The fund's fees are
+in its prices. Every comparison in the audit (aumf) was rebuilt on the new default with the same single change as before.
+
+| Check | Plain cash (until Oct 20) | DBMF |
+|---|---|---|
+| From 2000, a year before tax (after tax) | 42.4% (26.7%) | 42.9% (27.0%) |
+| Worst drop from 2000 / from 2020 | −34% / −23% | −34% / −23% |
+| From 2010 / 2016 / 2020 | 44.7% / 53.2% / 77.9% | 45.6% / 54.6% / 80.5% |
+| Strategy lab path from 2000 / 2010 / 2020 | 42.9% / 51.0% / 77.5% | 43.5% / 52.0% / 80.3% |
+| Since May 2019, a year | 72.9% | 75.3% |
+| Days held instead of cash since 2000 | | 194 (58 cash days before the fund began) |
+| Years it changed (2019, 2022, 2023, 2024, 2025, 2026) | | better in all six: +0.4, +1.7, +4.3, +1.1, +2.6, +8.1 points |
+| Rolling windows from 2000 that differ: 3-year / 5-year ahead–behind | | 80–3 / 80–3 |
+| Monthly difference | | +0.4 points a year, t-statistic 1.2 (21 of 321 months differ: 14 better, 7 worse) |
+| Monte Carlo: beats plain cash over 5 / 10 / 20 years | | 69% / 87% / 96% |
+| Sharpe / Sortino | 1.30 / 1.98 | 1.31 / 2.00 |
+| Deflated Sharpe, 1,388 versions counted | 99.63% | 99.69% |
+| Probability of backtest overfitting (CSCV), 1,388 versions | 2.3% | 2.3% |
+
+**Before the fund existed.** A trend-following stand-in rebuilt back to 2000 (12 markets: four stock indexes, long
+Treasuries, gold, crude oil and six currencies; direction from 1-, 3- and 12-month returns, equal risk per group, scaled to
+12% a year of volatility, cash earning T-bills; monthly correlation with DBMF 0.65) added 2.2 points a year from 2000 on
+the Strategy lab path, worst drop −32% vs −36%. In place of cash abroad (each market's own stocks, the stand-in in local
+currency) it was ahead in seven of nine markets: Japan 17.5% vs 16.7%, UK 14.6% vs 13.7%, Switzerland 11.7% vs 10.9%,
+Brazil 22.0% vs 21.7%, Taiwan 39.4% vs 39.1%, India 33.8% vs 33.6%, Germany 5.8% vs 5.7%; behind in Korea (23.5% vs
+23.6%) and Hong Kong (26.4% vs 26.8%); +0.3 a year on average. In place of gold and bonds as well it did worse, and an
+inverse S&P fund in the cash week helped in the US only, so only the cash slot changed.
+
+The live code agrees with the engine: on all 78 decisions since 2000 where the engine's default held its fallback (21 in
+plain cash before May 2019, 57 in DBMF after), the live pick (`bills_pick`) gives the same.
+
+Limits, stated plainly: the gain rests on about 200 days since 2019, more than half of it in 2023 and 2026; the monthly
+difference is not significant; the years before 2019 rest on a stand-in, which is a model of such funds, not the fund. It
+went in on probation, and the paper record lists it in its Oct 20 update.
+
 ## Paper record: the live forward test
 
 `mtl/paper.py` keeps a frozen, time-stamped paper record of the default plan in `data/paper_ledger.json`, starting
