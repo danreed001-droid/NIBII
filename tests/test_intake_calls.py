@@ -44,3 +44,11 @@ def test_warning_calls_are_parsed_and_kept_beside_the_week_calls(tmp_path, monke
     import json
     doc = json.loads(p.read_text())
     assert doc['calls']['2026-10-02']['m'] == 'steps' and doc['warn']['2026-10-09']['c'] == 'out'
+
+
+def test_whole_account_calls_keep_no_swaps():
+    body = ('```json\n{"calls": {"2026-10-16": {"m": "mf", "swaps": [["DELL", "HUM"]], "drops": ["AMD"]},'
+            ' "2026-10-09": {"m": "gold"}}}\n```')
+    calls = intake.parse(body)
+    assert calls['2026-10-16']['m'] == 'mf' and 'swaps' not in calls['2026-10-16'] and 'drops' not in calls['2026-10-16']
+    assert calls['2026-10-09']['m'] == 'gold'

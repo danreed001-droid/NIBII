@@ -87,7 +87,7 @@ picked on that same history.
    would hold T-bills (the downtrend or lower-high exit with neither TLT nor GLD rising, the whipsaw half
    with nothing up, the narrow-market cash week), the plan holds instead whichever of TLT / GLD is up more
    over BILLS_LOOK sessions (3 months; 6 months, PICK_LOOK, until Oct 19, 2026) if it is up at all, else
-   plain cash earning nothing (no_bills below, applied last in scripts/momentum_scan.py). Audit (Oct 13, 2026): from 2000 37.0% a year before tax (23.4%
+   managed futures (CASH_FUND; plain cash earning nothing until Oct 20, 2026) (no_bills below, applied last in scripts/momentum_scan.py). Audit (Oct 13, 2026): from 2000 37.0% a year before tax (23.4%
    after) vs 34.9% (22.1%) with T-bills and 34.5% (21.8%) with plain cash, worst drop -31% vs -29%;
    from 2010 38.0% vs 35.9% (-25% both); from 2016 47.0% vs 43.9% (-23% both); from 2020 67.6% vs 64.7%
    (-27% both). Since 2000 it replaced 948 T-bill days: 447 in gold, 295 in bonds, 206 in cash. Holding
@@ -103,6 +103,15 @@ picked on that same history.
    -30% vs -26%, from 2005 -29% vs -33%. Replayed abroad: Japan 18.6% vs 18.1% a year, UK 12.6% vs 12.1%,
    Germany 5.0% vs 4.9%. 4 months did about as well, 5 months about level, 2 months worse; moving the
    rotation's own pick to 3 months as well did worse.
+   Managed futures instead of cash (default from Oct 20, 2026): where this pick finds neither TLT nor GLD up,
+   the plan holds CASH_FUND (DBMF, a fund that follows the trends of stock, bond, currency and commodity
+   futures; the plan sat in plain cash on 7% of days since 2000) instead of plain cash, from DBMF's start
+   (May 2019; cash before). Audit (engine NBup vs NBc3, plain cash): 42.9% a year from 2000 vs 42.4%, 45.6%
+   vs 44.7% from 2010, 54.6% vs 53.2% from 2016, 80.5% vs 77.9% from 2020, same worst drops; Strategy lab
+   path 43.5% vs 42.9% from 2000, 52.0% vs 51.0% from 2010, 80.3% vs 77.5% from 2020. A trend-following
+   stand-in rebuilt back to 2000 (12 markets, equal risk per group) added 2.2 points a year from 2000 with
+   the worst drop -32% vs -36%, and in place of cash abroad it was ahead in seven of nine markets (+0.3 a
+   year on average). In place of gold and bonds as well it did worse, so it only replaces cash.
 
    The dip add (buying the Boost list back on a sharp dip while in the havens) was removed
    on Oct 13, 2026: on corrected data the plan did slightly better without it, 30.6% a year
@@ -134,7 +143,8 @@ WHIP_ASSETS = ('TLT', 'GLD', 'SPY')
 REGIME_LOOK = 63      # sessions over which the 10-year yield and gold must both be up to skip the half-switch
 PICK_LOOK = 126       # sessions of % change that pick between TLT and GLD (rotation, downtrend and lower-high exits)
 BILLS_LOOK = 63       # sessions of % change for the no-T-bills pick (no_bills; PICK_LOOK until Oct 19, 2026)
-CASH = 'CASH'         # uninvested cash (no interest), held instead of T-bills when neither TLT nor GLD is up
+CASH = 'CASH'         # uninvested cash (no interest): the no-T-bills fallback before CASH_FUND began
+CASH_FUND = 'DBMF'   # managed futures, held instead of plain cash when neither TLT nor GLD is up (from Oct 20, 2026)
 
 
 def weekly(daily):
@@ -502,27 +512,30 @@ def rotation_curve(boost_curve, asset_px, calendar, modes, cost=SWITCH_COST, hal
     return out
 
 
-def bills_pick(closes, calendar, k, look=BILLS_LOOK, assets=ROT_ASSETS):
+def bills_pick(closes, calendar, k, look=BILLS_LOOK, assets=ROT_ASSETS, fallback=CASH_FUND):
     """What no_bills holds instead of T-bills at calendar[k]: the asset up most over `look` sessions if
-    any is up, else CASH."""
+    any is up, else `fallback` (managed futures) when `closes` has its price that day, else CASH."""
     best, bv = CASH, 0.0
     if k >= look:
         for t in assets:
             a, b = (closes.get(t) or {}).get(calendar[k - look]), (closes.get(t) or {}).get(calendar[k])
             if a and b and b / a - 1 > bv:
                 best, bv = t, b / a - 1
+    if best == CASH and fallback and (closes.get(fallback) or {}).get(calendar[k]):
+        best = fallback
     return best
 
 
-def no_bills(modes, why, half, closes, calendar, look=BILLS_LOOK, assets=ROT_ASSETS):
+def no_bills(modes, why, half, closes, calendar, look=BILLS_LOOK, assets=ROT_ASSETS, fallback=CASH_FUND):
     """No T-bills (see item 8 above): wherever the plan would hold T-bills ('BIL' in modes, or as the
     whipsaw half in half), hold instead whichever of `assets` is up most over `look` sessions to that
-    close if it is up at all, else cash ('CASH', earning nothing). Picked again at every close.
+    close if it is up at all, else managed futures (`fallback`, DBMF) where `closes` has its price, else
+    cash ('CASH', earning nothing). Picked again at every close.
     closes: {asset: {date: close}} (filled). Returns new (modes, why, half); a change of holding that
     only this swap makes gets the reason 'nobills'."""
     kidx = {d: i for i, d in enumerate(calendar)}
-    m = {d: bills_pick(closes, calendar, kidx[d], look, assets) if v == 'BIL' else v for d, v in modes.items()}
-    h = {d: bills_pick(closes, calendar, kidx[d], look, assets) if v == 'BIL' else v for d, v in (half or {}).items()}
+    m = {d: bills_pick(closes, calendar, kidx[d], look, assets, fallback) if v == 'BIL' else v for d, v in modes.items()}
+    h = {d: bills_pick(closes, calendar, kidx[d], look, assets, fallback) if v == 'BIL' else v for d, v in (half or {}).items()}
     w, prev = dict(why), 'boost'
     for d in sorted(m):
         if m[d] != prev and d not in w:

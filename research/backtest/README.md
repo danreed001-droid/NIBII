@@ -56,6 +56,12 @@ instead of the 6-month one (the `nobil_n=63` option; the rotation and the exits 
 6-month pick. The audit data gives 42.4% a year from 2000 (worst drop −34%) vs 41.0%, 44.7% vs 43.3% from 2010, 53.2% vs
 50.8% from 2016 and 77.9% vs 75.0% from 2020, so the first refresh after it moves the default by about 1.3 points.
 
+Since Oct 20, 2026, where that pick finds neither gold nor bonds up, the default holds DBMF (a managed-futures fund)
+instead of plain cash: the `nobil_fb='DBMF'` option, on any day after the fund's first close (May 2019; plain cash
+before, as live). `side_data.py` writes DBMF's own prices into `spliced.json` (no stand-in). `NBc3` keeps plain cash.
+The audit data gives 42.9% a year from 2000 vs 42.4% (worst drop −34% either way), 45.6% vs 44.7% from 2010, 54.6% vs
+53.2% from 2016 and 80.5% vs 77.9% from 2020, so the first refresh after it moves the default by about half a point.
+
 ## Run it by hand
 
 ```

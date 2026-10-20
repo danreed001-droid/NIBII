@@ -11,8 +11,9 @@ last row then run inside the dashboard's default plan, through the same code the
 runs (scripts/momentum_scan.py plan_exits and plan_overlay): the blow-off and surge exits,
 the fading-energy filter, the rotation into TLT / GLD, the lower-high exit, the whipsaw
 half-switch (counting sales with the fading-energy filter off), the narrow-market cash week,
-the rebound rule, and no T-bills (gold or bonds if up over 3 months, else cash). They differ
-only in which stocks may be bought (or jump the queue):
+the rebound rule, and no T-bills (gold or bonds if up over 3 months, else DBMF managed futures
+from its start in May 2019, plain cash before). They differ only in which stocks may be
+bought (or jump the queue):
 
 - Current: Top 5            - the dashboard rule.
 - Current + news boost      - the dashboard's Boost list: a 12%+ news gap in the last
@@ -53,7 +54,7 @@ from momentum_scan import blocked_dates, fetch, plan_exits, plan_overlay  # noqa
 from mtl import ignition as ig  # noqa: E402
 from mtl.backtest import curve_stats  # noqa: E402
 from mtl.momentum import run_momentum  # noqa: E402
-from mtl.rotation import rotation_curve  # noqa: E402
+from mtl.rotation import CASH_FUND, rotation_curve  # noqa: E402
 from mtl.sleeve import ASSETS, filled  # noqa: E402
 from mtl.news import booster, news_gap_days  # noqa: E402
 from mtl.universe import load_added, load_ndx, load_sp500, momentum_universe  # noqa: E402
@@ -85,7 +86,7 @@ def watchlist():
 def rotation_data():
     """OHLC of the sleeve / rotation ETFs, the 10-year yield (the whipsaw's regime check), and the
     equal-weight S&P 500 (RSP) and VIX closes (the narrow-market cash week)."""
-    assets = fetch(ASSETS, start=FROM, adjusted=True)
+    assets = fetch(ASSETS + [CASH_FUND], start=FROM, adjusted=True)   # + managed futures (no_bills' fallback for cash)
     rate = {b[0]: b[4] for b in (fetch(['^TNX'], start=FROM).get('^TNX') or []) if b[4]}
     rsp = {b[0]: b[4] for b in (fetch(['RSP'], start=FROM, adjusted=True).get('RSP') or []) if b[4]}
     vix = {b[0]: b[4] for b in (fetch(['^VIX'], start=FROM).get('^VIX') or []) if b[4]}
@@ -96,7 +97,7 @@ def load(refresh=False):
     if os.path.exists(CACHE) and not refresh:
         with open(CACHE, 'rb') as f:
             data = pickle.load(f)
-        if 'rsp' not in data:               # older cache without the rotation's assets or the cash week's data
+        if 'rsp' not in data or CASH_FUND not in (data.get('assets') or {}):   # older cache without the rotation's assets, the cash week's data or DBMF
             data.update(rotation_data())
             with open(CACHE, 'wb') as f:
                 pickle.dump(data, f)

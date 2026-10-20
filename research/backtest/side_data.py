@@ -6,7 +6,8 @@ rates/tnx.json {'^TNX': [[date, o, h, l, c], ...]}  10-year Treasury yield
 spliced.json   {name: [[date, o, h, l, c], ...]}    funds extended back with an older stand-in, scaled to meet the fund
                on its first day: TLTX = Vanguard long Treasury fund (VUSTX) then TLT; GLDX = gold futures then GLD;
                UUPX = dollar index then UUP; FXYX = 1 / USDJPY then FXY; DBCX = S&P GSCI then DBC; USOX = crude
-               futures then USO.
+               futures then USO. DBMF = the managed-futures fund alone, from May 2019 (no stand-in: the default plan
+               holds it instead of cash only on days it has a price, as live).
 narrow_warn.json [date, ...]                        the narrow-market warning days (mtl/narrow.py) from SPY, the
                equal-weight S&P 500 (RSP) and the VIX over their full history (RSP from May 2003), so the
                warning also fires in 2006-07, as it would have live. The Oct 2026 audit read them from 2007 on and
@@ -70,7 +71,8 @@ def main(out):
     json.dump(nw, open(os.path.join(out, 'narrow_warn.json'), 'w'))
     sp = {'TLTX': splice(bars('VUSTX'), bars('TLT')), 'GLDX': splice(bars('GC=F'), bars('GLD')),
           'UUPX': splice(bars('DX-Y.NYB'), bars('UUP')), 'FXYX': inverse(bars('JPY=X'), bars('FXY')),
-          'DBCX': splice(bars('^SPGSCI'), bars('DBC')), 'USOX': splice(bars('CL=F'), bars('USO'))}
+          'DBCX': splice(bars('^SPGSCI'), bars('DBC')), 'USOX': splice(bars('CL=F'), bars('USO')),
+          'DBMF': [b[:5] for b in bars('DBMF')]}
     json.dump(sp, open(os.path.join(out, 'spliced.json'), 'w'))
     for k, v in sp.items():
         print(k, v[0][0], v[-1][0], len(v))

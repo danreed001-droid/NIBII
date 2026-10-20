@@ -41,20 +41,21 @@ ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and
            'steeper': "SPY's daily higher lows are steeper than TLT's and GLD's",
            'narrow': "narrow-market cash week: a week ago SPY sat within 2% of its 52-week high on a calm VIX while the "
                      "equal-weight S&P lagged it by more than 1.5% over 3 months; out of stocks for a week ({to}: the stronger of TLT / GLD "
-                     "if it is up over 3 months, else cash), then back to the plan",
+                     "if it is up over 3 months, else DBMF managed futures), then back to the plan",
            'narrow-end': 'the narrow-market cash week is over: back to what the plan holds',
            'lowerhigh': "lower-high exit: SPY's weekly chart made a lower high (or an early one with the daily chart already "
                         "turned down) and SPY closed below it; {to} for two weeks (the stronger of TLT / GLD; if neither is rising, "
-                        "the one up more over 3 months if it is up, else cash), then back to the plan",
+                        "the one up more over 3 months if it is up, else DBMF managed futures), then back to the plan",
            'lowerhigh-end': 'the two weeks out after the lower high are over: back to what the plan holds',
-           'nobills': 'no T-bills: {to} is now the stronger of TLT / GLD over 3 months (cash when neither is up)',
+           'nobills': 'no T-bills: {to} is now the stronger of TLT / GLD over 3 months (DBMF managed futures when neither is up)',
            'rebound': "rebound rule: SPY is 12%+ under its 3-month high, gold or bonds is up 2%+ since that high and SPY's "
                       "daily chart has made a higher low, so the plan holds the Boost list whatever the other rules say",
            'rebound-end': 'the rebound rule no longer holds: back to what the plan holds'}
 
 
 def rot_name(m):
-    return 'the Boost 100% stock list' if m == 'boost' else 'cash (no T-bills)' if m == 'CASH' else m
+    return ('the Boost 100% stock list' if m == 'boost' else 'cash (no T-bills)' if m == 'CASH'
+            else 'DBMF (managed futures)' if m == 'DBMF' else m)
 
 
 def rotation_line(rt, as_of):

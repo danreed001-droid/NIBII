@@ -173,7 +173,7 @@ def test_rebalance_banner_explains_the_call():
     assert 'function callWhy(pm)' in page and 'callWhy(pm)' in page and 'callWhy(pm2)' in page
     assert '.banner .why' in page
     for s in ('narrow-market cash week', 'No stock swaps', 'Closest to the edge', 'blow-off exit: its last month',
-              'surge exit: it closed', 'news boost: it gapped up', 'best-ranked stock not held', 'Cash, not gold or bonds'):
+              'surge exit: it closed', 'news boost: it gapped up', 'best-ranked stock not held', 'not gold or bonds, because over 3 months', 'otherwise DBMF'):
         assert s in page
 
 
