@@ -3277,5 +3277,85 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-20-2-stocks-close-dow-leads-nasdaq-flat",
+    "data": {
+      "addedAt": "2026-10-20",
+      "category": "Market",
+      "date": "2026-10-20",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "US stocks closed broadly higher led by the Dow as healthcare shares hit record highs; the Nasdaq slipped marginally on AI/debt-financing worries and ahead of this week's FOMC meeting. The 10-year Treasury yield held above 5.1%.",
+      "impact": "High",
+      "numbers": "Dow 52,497 (+531.39, +1.02%); S&P 500 7,712 (+22.17, +0.29%); Nasdaq Composite 26,424 (-6.07, -0.02%); UST 10Y 5.116% (-1.9bp); WTI $101.79 (-1.8%); Brent $108.79 (-0.7%)",
+      "order": 2,
+      "reaction": "Healthcare (XLV) hit an all-time high led by Eli Lilly; tech underperformed on AI/debt/high-rate worries (CoreWeave slid on data-center debt concerns, Meta fell a 5th straight session into earnings); major Asian indexes sold off led by Korea's Kospi.",
+      "region": "US",
+      "source": "https://investrade.com/market-review-october-20-2026",
+      "tickers": "DIA, SPY, QQQ, TLT, USO",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-20-3-netflix-q3-beats-cuts-ad-fcf-guidance",
+    "data": {
+      "addedAt": "2026-10-20",
+      "category": "Earnings",
+      "date": "2026-10-20",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "Netflix reported Q3 2026 results after the close: revenue was in line with its own forecast and operating margin beat on expense timing, but shares fell after the company cut full-year advertising-revenue and free-cash-flow guidance.",
+      "impact": "High",
+      "numbers": "Revenue $12.87B (+12% YoY); operating income $4.46B (+37%); operating margin 34.6% vs 28.2% y/y; net income $3.66B (+44%); diluted EPS $0.87 vs $0.59 y/y; buybacks $4.8B for 63.9M shares (largest quarter ever)",
+      "order": 3,
+      "reaction": "Shares fell about 4.7% in after-hours/next-day trading to around $65 on the lowered ad and FCF guidance, overshadowing the margin beat and record buyback quarter.",
+      "region": "US",
+      "source": "https://www.stocktitan.net/news/NFLX/netflix-q3-2026-earnings-revenue-12-billion-35pct-margin.html",
+      "tickers": "NFLX",
+      "time": "After-hours",
+      "vsExp": "Revenue in line with Netflix's internal forecast; operating margin came in above forecast; FY ad-revenue guidance cut to ~$2.7B from ~$3B and FY free cash flow cut to ~$12.0B from ~$12.5B"
+    }
+  },
+  {
+    "id": "2026-10-20-4-gm-q3-beats-shares-fall-on-guidance",
+    "data": {
+      "addedAt": "2026-10-20",
+      "category": "Earnings",
+      "date": "2026-10-20",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "General Motors beat Q3 profit estimates and announced a new $20B multi-year share buyback authorization, but shares fell as the company narrowed rather than raised its full-year profit outlook, which investors read as cautious.",
+      "impact": "Medium",
+      "numbers": "Revenue $50.0B (+2.9%); net income $3.3B vs $1.3B y/y; diluted EPS $3.73 vs $1.35 y/y; adjusted EPS $3.70 vs $2.80 y/y; EBIT-adjusted $4.1B (+21.6%); FY26 EBIT-adjusted guidance narrowed to $14.5-15.5B from $14.0-16.0B",
+      "order": 4,
+      "reaction": "Shares fell about 7.8% intraday despite the earnings beat and new $20B buyback, as the narrowed (rather than raised) guidance range was taken as a cautious signal.",
+      "region": "US",
+      "source": "https://www.sec.gov/Archives/edgar/data/0001467858/000146785826000056/gmq32026pressreleaseandfin.htm",
+      "tickers": "GM",
+      "time": "Market hours",
+      "vsExp": "n/a (press release did not cite consensus estimates)"
+    }
+  },
+  {
+    "id": "2026-10-20-5-housing-starts-fall-to-4-month-low",
+    "data": {
+      "addedAt": "2026-10-20",
+      "category": "Macro",
+      "date": "2026-10-20",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "September housing starts fell to a four-month low and missed expectations, while pending home sales also declined, as elevated mortgage rates continued to weigh on the housing market.",
+      "impact": "Medium",
+      "numbers": "Housing starts 1.221M SAAR (-5.9% m/m) vs 1.305M expected; pending home sales -7.3%",
+      "order": 5,
+      "reaction": "Added to growth concerns alongside still-elevated mortgage rates; contributed to a cautious tone in rate-sensitive sectors ahead of the FOMC meeting.",
+      "region": "US",
+      "source": "https://investrade.com/market-review-october-20-2026",
+      "tickers": "XHB, ITB, TLT",
+      "time": "Pre-market",
+      "vsExp": "Miss: 1.221M actual vs 1.305M expected"
+    }
   }
 ]
