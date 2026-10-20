@@ -1,4 +1,11 @@
 {
  "about": "Issues found by the scanner and its workflows (mtl/health.py); the page shows the last 14 days.",
- "entries": []
+ "entries": [
+  {
+   "d": "2026-10-16",
+   "src": "scan",
+   "text": "Prices stop on 2026-10-16, but 2026-10-19's close should be in: a data delay (the next run usually catches up), or a market closure the calendar doesn't know (add it to EXTRA_CLOSURES in mtl/calendar_nyse.py). Tonight's decision is from 2026-10-16's close.",
+   "at": "2026-10-20T00:05:50+00:00"
+  }
+ ]
 }
