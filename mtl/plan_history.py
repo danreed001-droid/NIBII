@@ -1,4 +1,5 @@
-"""Where the default plan was: its shares of stocks, gold, bonds and cash after each close, for the market events page.
+"""Where the default plan was: its shares of stocks, gold, bonds, cash and managed futures after each close, for the market
+events page.
 
 Before the paper record starts, data/plan_history.json: the point-in-time backtest of today's rules, rebuilt with the
 track record (research/backtest/build_plan_history.py), so a rule change redraws those years. From the paper record's
@@ -14,8 +15,9 @@ PATH = os.path.join(ROOT, 'data', 'plan_history.json')
 LEDGER = os.path.join(ROOT, 'data', 'paper_ledger.json')
 TRACK = os.path.join(ROOT, 'data', 'track_record.json')     # its 'rotation' line: the backtest of today's rules
 SCAN = os.path.join(ROOT, 'data', 'momentum_scan.json')     # tonight's scan (not kept in git): the live paper account
-ORDER = ('stocks', 'gold', 'bonds', 'cash')
-LIVE_KIND = {'GLD': 'gold', 'TLT': 'bonds', 'CASH': 'cash'}   # anything else in a live decision is stocks (the list or SPY)
+ORDER = ('stocks', 'gold', 'bonds', 'cash', 'futures')     # futures: DBMF, held instead of cash from Oct 20, 2026
+NAME = {'futures': 'managed futures'}                        # how the events page writes a kind (the kind itself otherwise)
+LIVE_KIND = {'GLD': 'gold', 'TLT': 'bonds', 'CASH': 'cash', 'DBMF': 'futures'}   # anything else in a live decision is stocks (the list or SPY)
 MONTH = 21
 
 
@@ -38,7 +40,7 @@ def shares(w):
 def timeline(hist, ledger):
     """[(from close of, (stocks, gold, bonds, cash))] in date order: the backtest until the paper record's first fill,
     then each live decision from the session it fills at."""
-    rows = [(r[0], tuple(r[1:5])) for r in (hist or {}).get('held', [])]
+    rows = [(r[0], tuple((list(r[1:]) + [0.0] * len(ORDER))[:len(ORDER)])) for r in (hist or {}).get('held', [])]   # older files: no futures column
     live = [(next_trading_day(e['d']).isoformat(), shares(e['w'])) for e in (ledger or {}).get('entries', []) if e.get('w')]
     if live:
         first = min(f for f, _ in live)
@@ -55,7 +57,7 @@ def load(path=PATH, ledger=LEDGER):
 
 
 def main(sh):
-    """The biggest part: 'stocks', 'gold', 'bonds' or 'cash'."""
+    """The biggest part: 'stocks', 'gold', 'bonds', 'cash' or 'futures'."""
     return ORDER[max(range(len(ORDER)), key=lambda i: sh[i])]
 
 

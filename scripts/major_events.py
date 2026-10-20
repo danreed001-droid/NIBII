@@ -155,7 +155,7 @@ def where(sh):
     """'gold', or 'stocks 80%' when the rest is elsewhere."""
     k = ph.main(sh)
     x = sh[ph.ORDER.index(k)]
-    return k + (f' {share(x)}' if x < 0.99 else '')
+    return ph.NAME.get(k, k) + (f' {share(x)}' if x < 0.99 else '')
 
 
 def plan_line(tl, d):
@@ -164,11 +164,11 @@ def plan_line(tl, d):
     if sh is None:
         return ''
     k = ph.main(sh)
-    full = ', '.join(f'{w} {share(x)}' for w, x in zip(ph.ORDER, sh) if x >= 0.01)
+    full = ', '.join(f'{ph.NAME.get(w, w)} {share(x)}' for w, x in zip(ph.ORDER, sh) if x >= 0.01)
     out = f'<div class="pl" title="{full}"><i class="dot k-{k}"></i>Plan: {where(sh)}'
     sw = ph.switch(tl, d)
     if sw:
-        out += f' <span class="nw">→ <i class="dot k-{sw[1]}"></i>{sw[1]} {_md(sw[0])}</span>'
+        out += f' <span class="nw">→ <i class="dot k-{sw[1]}"></i>{ph.NAME.get(sw[1], sw[1])} {_md(sw[0])}</span>'
     return out + '</div>'
 
 
@@ -181,7 +181,7 @@ def plan_now(tl, asof):
     k = ph.main(sh)
     out = (f'<p class="now"><i class="dot k-{k}"></i>The plan now: <b>{where(sh)}</b>, since the {_md(start)} close')
     if nxt:
-        out += f'; it moves to <i class="dot k-{nxt[1]}"></i>{nxt[1]} at the {_md(nxt[0])} close'
+        out += f'; it moves to <i class="dot k-{nxt[1]}"></i>{ph.NAME.get(nxt[1], nxt[1])} at the {_md(nxt[0])} close'
     return out + '.</p>'
 
 
@@ -318,11 +318,11 @@ def render(doc, pats=None, log=None, plan=None):
 <script>try {{ var t = localStorage.getItem('mtl-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); }} catch (e) {{}}</script>
 <style>
 :root {{ --bg: #fbfaf7; --ink: #1d1c1a; --muted: #6f6d67; --line: #e1e0d9; --pos: #0a8f0a; --neg: #c43232; --tag: #eeece6;
-  --k-stocks: #2a6fdb; --k-gold: #c08a00; --k-bonds: #12968a; --k-cash: #9a978f; color-scheme: light; }}
+  --k-stocks: #2a6fdb; --k-gold: #c08a00; --k-bonds: #12968a; --k-cash: #9a978f; --k-futures: #8a4fc9; color-scheme: light; }}
 @media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ --bg: #161615; --ink: #ecebe6; --muted: #98968f; --line: #2c2c2a; --pos: #3fbf5f; --neg: #e5605a; --tag: #262624;
-  --k-stocks: #5b95ee; --k-gold: #e0ac2e; --k-bonds: #35bfb1; --k-cash: #8d8b84; color-scheme: dark; }} }}
+  --k-stocks: #5b95ee; --k-gold: #e0ac2e; --k-bonds: #35bfb1; --k-cash: #8d8b84; --k-futures: #b48ae8; color-scheme: dark; }} }}
 :root[data-theme="dark"] {{ --bg: #161615; --ink: #ecebe6; --muted: #98968f; --line: #2c2c2a; --pos: #3fbf5f; --neg: #e5605a; --tag: #262624;
-  --k-stocks: #5b95ee; --k-gold: #e0ac2e; --k-bonds: #35bfb1; --k-cash: #8d8b84; color-scheme: dark; }}
+  --k-stocks: #5b95ee; --k-gold: #e0ac2e; --k-bonds: #35bfb1; --k-cash: #8d8b84; --k-futures: #b48ae8; color-scheme: dark; }}
 body {{ margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, system-ui, "Segoe UI", sans-serif; }}
 .wrap {{ max-width: 920px; margin: 0 auto; padding: 18px 16px 48px; }}
 .nav {{ display: flex; justify-content: space-between; align-items: center; gap: 12px; }}
@@ -375,7 +375,7 @@ table.pt tbody th {{ color: var(--ink); font-weight: 500; }}
 .pl {{ font-size: 0.76rem; color: var(--muted); margin-top: 2px; }}
 .dot {{ display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin: 0 4px 1px 0; vertical-align: middle; }}
 .k-stocks {{ background: var(--k-stocks); }} .k-gold {{ background: var(--k-gold); }} .k-bonds {{ background: var(--k-bonds); }}
-.k-cash {{ background: var(--k-cash); }} .k-plan {{ background: transparent; border: 1.5px solid var(--ink); box-sizing: border-box; }}
+.k-cash {{ background: var(--k-cash); }} .k-futures {{ background: var(--k-futures); }} .k-plan {{ background: transparent; border: 1.5px solid var(--ink); box-sizing: border-box; }}
 p.now {{ font-size: 0.9rem; margin: 8px 0; }}
 .tag {{ font-size: 0.68rem; background: var(--tag); color: var(--muted); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }}
 </style></head><body><div class="wrap">

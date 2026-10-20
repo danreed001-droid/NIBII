@@ -1,9 +1,10 @@
 """Scores the viewer's own weekly calls ("Mine", the human model) on real prices.
 
 A call is keyed by its signal Friday and carries forward until the next one:
-  m       'rotation' | 'gold' | 'bonds' | 'auto' | 'boost' | 'boost100' | 'steps' | 'cash' | 'custom'
+  m       'rotation' | 'gold' | 'bonds' | 'mf' | 'auto' | 'boost' | 'boost100' | 'steps' | 'cash' | 'custom'
           ('del' = removed); 'rotation' follows the default plan (Boost + rotation) whatever it
-          holds, trading when it trades; 'gold' / 'bonds' hold 100% GLD / TLT for the week;
+          holds, trading when it trades; 'gold' / 'bonds' / 'mf' hold 100% GLD / TLT / DBMF
+          (managed futures) for the week;
           'boost' follows the News-boost list (its own five stocks) with its Auto mix,
           'boost100' the same list always 100% in the stocks, 'cushion' the same list
           with 25% in the sleeve while SPY's 6-month return is negative
@@ -19,8 +20,8 @@ still holds the stock it replaced and the replacement still ranks in the top
 Pure and network-free.
 """
 SWAP_RANK = 10
-LIVE = ('rotation', 'gold', 'bonds', 'auto', 'boost', 'boost100', 'cushion', 'steps', 'cash', 'custom')
-WHOLE = ('rotation', 'gold', 'bonds')   # the whole account in one value series (score's `whole`), no stocks / sleeve / cash
+LIVE = ('rotation', 'gold', 'bonds', 'mf', 'auto', 'boost', 'boost100', 'cushion', 'steps', 'cash', 'custom')
+WHOLE = ('rotation', 'gold', 'bonds', 'mf')   # the whole account in one value series (score's `whole`), no stocks / sleeve / cash
 
 
 def live_calls(calls):
@@ -88,7 +89,7 @@ def score(calls, calendar, weeks, picks_at, ranks_at, closes, sleeve, cash, slot
     exit, used for 'boost100' and 'cushion' calls - boost_picks_at when not given); ranks_at(friday)
     -> {ticker: rank}; closes {ticker: {date: close}}; sleeve / cash {date: value}.
     apply_picks=False ignores swaps and drops (same mixes, the model's own stocks).
-    whole: {'rotation' | 'gold' | 'bonds': {date: value}} - the default plan's value and the GLD / TLT closes; a
+    whole: {'rotation' | 'gold' | 'bonds' | 'mf': {date: value}} - the default plan's value and the GLD / TLT / DBMF closes; a
     week with one of those calls holds the whole account in that series (a missing day keeps the last value).
     Returns dict(curve=[[date, nav]], weeks=[[friday, trade_day, slots, [s, v, c]]]) or None."""
     calls = live_calls(calls)

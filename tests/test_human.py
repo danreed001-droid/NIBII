@@ -103,3 +103,11 @@ def test_whole_account_calls_follow_the_default_plan_gold_or_bonds():
     assert abs(g['curve'][-1][1] - 1.03 ** 3 * 1.01) < 1e-6        # gold Jan 5-12, then the stocks for a session
     b = score({'2026-01-02': {'m': 'bonds'}}, CAL, WEEKS, picks, lambda f: {}, px, FLAT, FLAT, whole=whole)
     assert b['curve'][-1][1] == 1.0                                 # no bond prices: the week sits in cash
+
+
+def test_managed_futures_call_holds_the_whole_account_in_dbmf():
+    px = closes({'A': 1.01, 'B': 1.01, 'C': 1.01, 'D': 1.01, 'E': 1.01})
+    mf = {d: 20 * 0.99 ** i for i, d in enumerate(CAL)}              # DBMF, -1% a session
+    r = score({'2026-01-02': {'m': 'mf'}}, CAL, WEEKS, picks, lambda f: {}, px, FLAT, FLAT, whole={'mf': mf})
+    assert r['weeks'][0][2] is None and abs(r['curve'][-1][1] - 0.99 ** 4) < 1e-6
+    assert mix_of({'m': 'mf'}, 1, 1) == (0.0, 0.0, 0.0)

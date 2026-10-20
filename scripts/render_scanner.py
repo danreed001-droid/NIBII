@@ -702,8 +702,8 @@ __ISSUES__
       return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' → <b>' + (r[1] === '100/0' ? 'off' : 'on (' + r[1] + ')') + '</b> <span class="muted">(SPY ' + (r[2] == null ? '–' : pct(r[2])) + ', credit ' + (r[3] == null ? '–' : pct(r[3])) + ')</span>';
     }).join(' · ') + '. ';
   }
-  var ROTN = { TLT: 'Long Treasuries (20y+)', GLD: 'Gold', SPY: 'S&amp;P 500 ETF', BIL: 'T-bills (cash)', CASH: 'Cash (no T-bills)', boost: 'the Boost 100% stock list' };
-  function rotName(m) { return m === 'boost' ? 'the Boost list' : m === 'CASH' ? 'cash' : m; }
+  var ROTN = { TLT: 'Long Treasuries (20y+)', GLD: 'Gold', SPY: 'S&amp;P 500 ETF', BIL: 'T-bills (cash)', CASH: 'Cash (no T-bills)', DBMF: 'Managed futures (DBMF)', boost: 'the Boost 100% stock list' };
+  function rotName(m) { return m === 'boost' ? 'the Boost list' : m === 'CASH' ? 'cash' : m === 'DBMF' ? 'DBMF (managed futures)' : m; }
   function rotTag(RT) {   // the switch decided at the last close
     if (!RT.trade) return whipTag(RT);
     var X = D.plan && D.plan.auto && D.plan.auto.boostx, buy = esc(rotName(RT.mode)) + ' (rotation)';
@@ -726,7 +726,7 @@ __ISSUES__
     var A = D.plan && D.plan.auto, RT = A && A.rotation, X = A && A.boostx;
     var L = (pm === 'boost100' || pm === 'cushion' || pm === 'rotation') && X ? X : null;
     var f = function (d) { return fmtDate(d, { weekday: 'short', month: 'short', day: 'numeric' }); };
-    var nm = { TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', CASH: 'cash', BIL: 'T-bills' };
+    var nm = { TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', CASH: 'cash', DBMF: 'DBMF (managed futures)', BIL: 'T-bills' };
     var row = {}, keep = D.rule.keepRank, out = [];
     (D.table || []).forEach(function (r) { row[r.t] = r; });
     var rank = function (t) { return row[t] && row[t].rank ? '#' + row[t].rank : 'below #' + (D.table || []).length; };
@@ -749,7 +749,7 @@ __ISSUES__
         var rs = { rotate: 'SPY is in a daily downtrend and ' + esc(RT.mode) + ' has been leading', exit: 'SPY is below its 150-day average in a weekly downtrend (the downtrend exit)', 'switch': 'SPY is below its 150-day average in a weekly downtrend (the downtrend exit)' };
         out.push('<b>Your plan holds ' + esc(holds) + ', not stocks:</b> ' + (last && rs[last[3]] || 'the rotation rules are out of stocks') + '. It goes back to stocks when that ends.');
       }
-      if (RT.mode === 'CASH' && B) out.push('Cash, not gold or bonds, because over 3 months ' + B.assets.map(function (t) { return esc(t) + ' is ' + pct(B.pct[t]); }).join(' and ') + ': the plan holds one of them only if it is up.');
+      if ((RT.mode === 'CASH' || RT.mode === 'DBMF') && B) out.push((RT.mode === 'DBMF' ? 'Managed futures (DBMF)' : 'Cash') + ', not gold or bonds, because over 3 months ' + B.assets.map(function (t) { return esc(t) + ' is ' + pct(B.pct[t]); }).join(' and ') + ': the plan holds one of them only if it is up, and otherwise DBMF, a fund that follows trends in stock, bond, currency and commodity futures, instead of cash.');
       var RB2 = RT.rebound;
       if (RB2 && RB2.drop != null && RB2.drop >= RB2.drop_th && !RB2.on) {
         var miss = [];
@@ -804,7 +804,7 @@ __ISSUES__
     if (!N) return '';
     var f = function (d) { return fmtDate(d, { month: 'short', day: 'numeric', year: 'numeric' }); }, R = N.reading;
     var end = N.until || (N.cash && N.cash[1]);
-    var hn = { TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', CASH: 'cash', BIL: 'T-bills' };
+    var hn = { TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', CASH: 'cash', DBMF: 'DBMF (managed futures)', BIL: 'T-bills' };
     var st = !N.ok ? 'no reading (RSP or VIX data missing)' : N.inCash ? '<b>ON: the account holds ' + esc(hn[N.asset] || N.asset || 'cash') + '</b>' + (N.cash ? ' since the close after ' + f(N.cash[0]) : '') + (end ? ', back to the plan after the close on ' + f(end) + ' unless the warning fires again (each warning adds a week)' : '')
       : N.cash ? '<b>cash week scheduled</b>: out of stocks from the close after ' + f(N.cash[0]) + (end ? ' through ' + f(end) : '')
       : N.on ? '<b>warning fired today</b>: out of stocks at the close ' + (N.delay + 2) + ' sessions from now' : 'off';
@@ -812,7 +812,7 @@ __ISSUES__
       ' (needs below −' + (N.lag * 100).toFixed(1) + '%), VIX ' + R.vix.toFixed(1) + ' vs its 3-month low ' + R.vixLow.toFixed(1) + ' (needs within ' + N.vix + ').' : '';
     var lg = (N.log || []).slice(0, 6).map(f).join(' · ');
     return '<br><span class="' + (N.inCash || N.cash ? 'neg' : 'muted') + '"><b>4. Narrow-market cash week</b> (default since Oct 13, 2026, on probation): ' + st + '.</span>' +
-      '<span class="muted"> When SPY closes within 2% of its 52-week high, the equal-weight S&amp;P 500 has lagged it by more than 1.5% over 3 months (a few large stocks carrying the index) and the VIX sits within 2 points of its 3-month low (a calm market), the whole account moves out of stocks at the close ' + (N.delay + 2) + ' sessions later (decided the session before) for ' + N.days + ' sessions (into gold or bonds if one is up over 3 months, else cash: see 6. No T-bills), then back to whatever the plan holds.' + rd +
+      '<span class="muted"> When SPY closes within 2% of its 52-week high, the equal-weight S&amp;P 500 has lagged it by more than 1.5% over 3 months (a few large stocks carrying the index) and the VIX sits within 2 points of its 3-month low (a calm market), the whole account moves out of stocks at the close ' + (N.delay + 2) + ' sessions later (decided the session before) for ' + N.days + ' sessions (into gold or bonds if one is up over 3 months, else DBMF managed futures: see 6. No T-bills), then back to whatever the plan holds.' + rd +
       ' In the audit the plan made 42.4% a year from 2000 vs 38.7% without it (Sharpe 1.30 vs 1.17; worst drop −34% either way), 44.7% vs 38.7% from 2010 (−24% vs −29%), 53.2% vs 46.8% from 2016 (−23% vs −29%) and 77.9% vs 71.1% from 2020 (−23% vs −29%); since 2012 the plan lost about 39% over its cash days, which random cash weeks matched in only 0.14% of draws, and it held with the thresholds moved. It was found on 2012–2026. On 2006–07, which it was not built on, it fired three times: twice in 2006 it cost money (stocks kept rising and gold, held instead, fell: that year −13.1% instead of +3.0%, the plan’s worst drop), and in October 2007 it caught the top (+38.1% instead of +28.1%). Rebuilt abroad with stand-ins for the equal-weight index and the VIX, it lost in four of five markets (it fired less often there, and in Germany and Japan at the wrong times), so it looks specific to the US: treat it as on probation.' +
       (lg ? ' Last warnings: ' + lg + ' (' + N.n + ' warning days since 2012).' : '') + '</span>';
   }
@@ -822,7 +822,7 @@ __ISSUES__
     var f = function (d) { return fmtDate(d, { month: 'short', day: 'numeric', year: 'numeric' }); }, R = L.reading;
     var px = function (p) { return p[1].toFixed(2) + ' (' + f(p[0]) + ')'; };
     var end = L.until || (L.run && L.run[1]);
-    var nm = { TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', BIL: 'T-bills', CASH: 'cash' };
+    var nm = { TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', BIL: 'T-bills', CASH: 'cash', DBMF: 'DBMF (managed futures)' };
     var st = L.inCash ? '<b>ON: the account holds ' + esc(nm[L.asset] || L.asset || 'cash') + '</b>' + (L.run ? ' since the close after ' + f(L.run[0]) : '') + (end ? ', back to the plan after the close on ' + f(end) : '')
       : R && R.on ? (RT.mode !== 'boost' ? 'off: the signal is on, but the plan is already out of stocks' : 'off: the signal is on, but this lower high has already had its two weeks (only a new one fires again)')
       : 'off';
@@ -836,16 +836,16 @@ __ISSUES__
     }
     var lg = (L.log || []).slice(0, 6).map(function (r) { return f(r[0]) + ' <span class="muted">(' + esc(r[1]) + ')</span>'; }).join(' · ');
     return '<br><span class="' + (L.inCash ? 'neg' : 'muted') + '"><b>5. Lower-high exit</b> (default since Oct 13, 2026, on probation): ' + st + '.</span>' +
-      '<span class="muted"> When SPY’s weekly chart (swings ' + L.swing + ' weeks either side) makes a lower high and SPY closes below it — or, without waiting for that high to be confirmed, the latest weekly peak sits below the last swing high while the daily chart has already made a lower high and SPY closes below both — the whole account moves into the stronger of TLT / GLD (the one in a daily uptrend with the steepest gradient, picked again each day; when neither is rising, the one up more over 3 months if it is up, else cash) for ' + L.days + ' sessions (two weeks), then back to whatever the plan holds. An early signal and the later confirmation of the same high each get their two weeks; the signal that just fired can’t fire again right away. It acts only while the plan holds the Boost list, so a lower high still in place when the plan comes back into stocks fires then.' + rd +
+      '<span class="muted"> When SPY’s weekly chart (swings ' + L.swing + ' weeks either side) makes a lower high and SPY closes below it — or, without waiting for that high to be confirmed, the latest weekly peak sits below the last swing high while the daily chart has already made a lower high and SPY closes below both — the whole account moves into the stronger of TLT / GLD (the one in a daily uptrend with the steepest gradient, picked again each day; when neither is rising, the one up more over 3 months if it is up, else DBMF managed futures) for ' + L.days + ' sessions (two weeks), then back to whatever the plan holds. An early signal and the later confirmation of the same high each get their two weeks; the signal that just fired can’t fire again right away. It acts only while the plan holds the Boost list, so a lower high still in place when the plan comes back into stocks fires then.' + rd +
       ' In the audit the plan made 42.4% a year from 2000 vs 40.0% without it, worst drop −34% vs −35% (after tax 26.7% vs 25.3%); 44.7% vs 40.7% from 2010 (−24% vs −35%); 53.2% vs 51.4% from 2016 and 77.9% vs 75.4% from 2020 (same worst drops). In the T-bills version of the plan (38.8% from 2000), one stretch per lower high (no second two weeks on confirmation) made 37.9% and T-bills instead of gold or bonds in the exit 37.5% (gold and bonds helped most in 2008 and 2011). The extra return depends on the exact timing (with T-bills, 12 sessions or acting a day late beat the plan from only one of four starts), but the smaller drops held in every variant. Staying out until SPY’s downtrend ended instead of two weeks cut the drops but cost 2–8 points a year, because the momentum stocks rebound before SPY confirms. It fired about once a year and was designed after looking at the 2007–2011 and 2022 drops, so treat it as on probation.' +
       (lg ? ' Last signals: ' + lg + ' (' + L.n + ' since ' + SINCE + ').' : '') + '</span>';
   }
   function noBillsNote(RT) {   // no T-bills: what the plan holds wherever it would have held T-bills
     var B = RT && RT.noBills;
     if (!B) return '';
-    var nm = { TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', CASH: 'cash' };
+    var nm = { TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', CASH: 'cash', DBMF: 'DBMF (managed futures)' };
     var chg = B.assets.map(function (t) { return esc(t) + ' ' + (B.pct[t] == null ? '–' : pct(B.pct[t])); }).join(' · ');
-    return '<br><span class="muted"><b>6. No T-bills</b> (default since Oct 13, 2026): wherever the rules above would hold T-bills — the narrow-market cash week, the downtrend or lower-high exit with neither TLT nor GLD rising, the whipsaw switch with nothing up — the plan holds instead whichever of TLT / GLD is up more over the last ' + B.look + ' sessions (3 months; 6 months until Oct 19, 2026) if it is up at all, else plain cash earning nothing, picked again at each close. ' +
+    return '<br><span class="muted"><b>6. No T-bills</b> (default since Oct 13, 2026): wherever the rules above would hold T-bills — the narrow-market cash week, the downtrend or lower-high exit with neither TLT nor GLD rising, the whipsaw switch with nothing up — the plan holds instead whichever of TLT / GLD is up more over the last ' + B.look + ' sessions (3 months; 6 months until Oct 19, 2026) if it is up at all, else DBMF, a managed-futures fund that follows trends in stock, bond, currency and commodity futures (plain cash earning nothing until Oct 20, 2026), picked again at each close. ' +
       'Now: 3-month change ' + chg + ' → it would hold <b>' + esc(nm[B.pick] || B.pick) + '</b>. ' +
       'The 3-month look (Oct 19, 2026) made 42.4% a year from 2000 vs 41.0% with the 6-month one (after tax 26.7% vs 25.9%; worst drop −34% either way), 44.7% vs 43.3% from 2010, 53.2% vs 50.8% from 2016 and 77.9% vs 75.0% from 2020; ahead from all seven start years tested (2000 to 2020, by 1.3 to 2.8 points), in 232 of 285 rolling 3-year windows (45 behind) and in Japan, the UK and Germany; 2013–2025 about level, so 2026 carries much of the recent gain; month by month the gain is not proven (t 1.2). ' +
       'In the audit the plan made 42.4% a year from 2000 vs 38.8% with T-bills and 38.3% with plain cash (after tax 26.7% vs 24.5%; worst drop −34% vs −32%), 44.7% vs 41.2% from 2010, 53.2% vs 47.9% from 2016 and 77.9% vs 72.6% from 2020 (same worst drops). Since 2000 it replaced 945 T-bill days: 371 in gold, 354 in bonds, 220 in cash. ' +
@@ -869,7 +869,7 @@ __ISSUES__
     var W = RT && RT.whip;
     if (!W) return '';
     var full = (W.part == null ? 0.5 : W.part) >= 1;
-    var nm = { TLT: 'Treasuries', GLD: 'gold', SPY: 'SPY', BIL: 'T-bills', CASH: 'cash' };
+    var nm = { TLT: 'Treasuries', GLD: 'gold', SPY: 'SPY', BIL: 'T-bills', CASH: 'cash', DBMF: 'DBMF (managed futures)' };
     var chg = W.assets.map(function (t) { return esc(t) + ' ' + (W.chg[t] == null ? '–' : pct(W.chg[t])) + (W.weekly[t] === 'down' ? ' <span class="muted">(weekly downtrend, skipped)</span>' : ''); }).join(' · ');
     var lg = (W.log || []).map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + (r[1] !== r[0] ? '–' + fmtDate(r[1], { month: 'short', day: 'numeric', year: 'numeric' }) : '') + (r[2] ? ' (' + esc(r[2]) + ')' : ''); }).join(' · ');
     var sl = (W.sales || []).slice(0, 8).map(function (r) { return esc(r[1]) + ' <span class="' + (r[4] < 0 ? 'neg' : 'pos') + '">' + (r[4] == null ? '–' : pct(r[4])) + '</span>' + (r[5] ? ' <span class="muted">(skipped by the filter, counted)</span>' : ''); }).join(' · ');
@@ -963,7 +963,7 @@ __ISSUES__
     var now = RT.mode === 'boost' ? 'in the <b>Boost 100% stock list</b>' : 'out of stocks, in <b>' + esc(RT.mode) + '</b> (' + esc(ROTN[RT.mode] || '') + ')';
     return '<b>Boost + rotation (the default):</b> the Boost 100% stock list (with its blow-off and surge exits), moved out of stocks when the charts say so; decided at any close and traded at the next close. ' +
       '<b>1. Rotation:</b> while SPY’s daily chart makes lower highs and lower lows, if TLT or GLD makes higher highs and higher lows with a steeper gradient than SPY (the line through its last two higher lows, scaled by its volatility), switch into whichever of them is up more over the last 6 months once it has led on more than ' + RT.confirm + ' of SPY’s downtrend sessions (counted only while SPY is in its downtrend; the count starts over once SPY has been out of its downtrend for more than ' + (RT.confirmGap || 10) + ' sessions); back to stocks the day its uptrend breaks. ' +
-      '<b>2. Downtrend exit:</b> out of stocks when SPY’s weekly chart is in a downtrend whose last lower high sat below the ' + RT.ma + '-day average, SPY is below the average too, and the line through its last two weekly lower lows falls slowly (a grinding bear market, not a crash); then hold whichever of TLT / GLD is in an uptrend and up more over the last 6 months (if neither, the one up more over 3 months if it is up at all, else cash). The exit ends when SPY closes above its ' + RT.ma + '-day average, or SPY’s daily higher lows are steeper than TLT’s and GLD’s; then back to what rotation holds (usually stocks). ' +
+      '<b>2. Downtrend exit:</b> out of stocks when SPY’s weekly chart is in a downtrend whose last lower high sat below the ' + RT.ma + '-day average, SPY is below the average too, and the line through its last two weekly lower lows falls slowly (a grinding bear market, not a crash); then hold whichever of TLT / GLD is in an uptrend and up more over the last 6 months (if neither, the one up more over 3 months if it is up at all, else T-bills, which rule 6 swaps for gold, bonds or DBMF). The exit ends when SPY closes above its ' + RT.ma + '-day average, or SPY’s daily higher lows are steeper than TLT’s and GLD’s; then back to what rotation holds (usually stocks). ' +
       '<br><b>Now:</b> ' + now + (RT.trade ? ' — <b>switch at the close on ' + fmtDate(RT.trade, { weekday: 'short', month: 'short', day: 'numeric' }) + '</b> (from ' + esc(rotName(RT.held)) + ')' : '') + '. ' +
       'SPY daily ' + arw(S.daily) + gr(S.daily) + ', weekly ' + arw(S.weekly) + ', ' + pct(S.gap) + ' vs its ' + RT.ma + '-day average' +
       (LH ? '; last weekly swing high ' + LH.px.toFixed(2) + ' (' + esc(LH.label || '') + ', ' + fmtDate(LH.d) + (LH.ma ? ', average then ' + LH.ma.toFixed(2) : '') + ')' : '') + '. ' +
@@ -1113,7 +1113,7 @@ __ISSUES__
   (function () {
     if (!$('you2')) return;
     var Y = D.plan && D.plan.you2, inp = $('y2-in'), sub = $('y2-submit');
-    var hn = { stocks: 'your stocks', cash: 'cash', CASH: 'cash', TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', BIL: 'T-bills' };
+    var hn = { stocks: 'your stocks', cash: 'cash', CASH: 'cash', DBMF: 'DBMF (managed futures)', TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', BIL: 'T-bills' };
     function hname(h) { if (!h) return '–'; if (h.indexOf('stocks+') === 0) return 'half your stocks, half ' + (hn[h.slice(7)] || h.slice(7)); return hn[h] || h; }
     function today() { try { return new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); } catch (e) { return new Date().toISOString().slice(0, 10); } }
     function tickers() { return (inp.value || '').toUpperCase().split(/[\s,;]+/).filter(function (t) { return /^[A-Z][A-Z0-9.\-]{0,9}$/.test(t); }).filter(function (t, i, a) { return a.indexOf(t) === i; }).slice(0, 10); }
@@ -1162,7 +1162,7 @@ __ISSUES__
     var P = D.plan && D.plan.paper;
     if (!P || !$('paper')) return;
     var md = { month: 'short', day: 'numeric', year: 'numeric' };
-    var hn = { CASH: 'cash', TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', SPY: 'SPY', BIL: 'T-bills' };
+    var hn = { CASH: 'cash', DBMF: 'DBMF (managed futures)', TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', SPY: 'SPY', BIL: 'T-bills' };
     function what(e) {
       if (!e) return '–';
       if (e.mode !== 'boost') return hn[e.mode] || e.mode;
@@ -1370,8 +1370,8 @@ __ISSUES__
     // token) and are cached in localStorage; a removed call is kept as {m:'del'} so removals sync too
     var CK = 'nibii-calls-v1', TK = 'nibii-gh-token', calls = {}, act = {};
     var GH = { owner: 'danreed001-droid', repo: 'NIBII', path: 'docs/my_calls.json', branch: 'main' };
-    var MODES = ['rotation', 'gold', 'bonds', 'auto', 'boost', 'boost100', 'cushion', 'steps', 'cash', 'custom', 'del'];
-    var WHOLE = { rotation: 5, gold: 6, bonds: 7 };   // whole-account calls: the default plan, 100% GLD, 100% TLT (their slot in a mix)
+    var MODES = ['rotation', 'gold', 'bonds', 'mf', 'auto', 'boost', 'boost100', 'cushion', 'steps', 'cash', 'custom', 'del'];
+    var WHOLE = { rotation: 5, gold: 6, bonds: 7, mf: 8 };   // whole-account calls: the default plan, 100% GLD, 100% TLT, 100% DBMF (their slot in a mix)
     function clean(c) {
       if (!c || MODES.indexOf(c.m) < 0) return null;
       var cc = { m: c.m, note: String(c.note || '').slice(0, 300), at: String(c.at || '') };
@@ -1491,10 +1491,10 @@ __ISSUES__
       });
     }
     function share(txt) { return +String(txt).split('/')[0] / 100; }
-    function mixOf(c, fri) {   // -> [stocks, sleeve, cash, boost list, boost 100% list, default plan, GLD, TLT] or null
+    function mixOf(c, fri) {   // -> [stocks, sleeve, cash, boost list, boost 100% list, default plan, GLD, TLT, DBMF] or null
       if (!c) return null;
       var w = WK[fri];
-      if (c.m in WHOLE) { var mw = [0, 0, 0, 0, 0, 0, 0, 0]; mw[WHOLE[c.m]] = 1; return mw; }
+      if (c.m in WHOLE) { var mw = [0, 0, 0, 0, 0, 0, 0, 0, 0]; mw[WHOLE[c.m]] = 1; return mw; }
       if (c.m === 'auto') { var s1 = w ? w[2] : A ? share(A.split) : 1; return [s1, 1 - s1, 0]; }
       if (c.m === 'boost100') return [0, 0, 0, 0, 1];
       if (c.m === 'cushion') { var s5 = w && w[5] != null ? w[5] : A && A.cushion ? share(A.cushion.split) : 1; return [0, 1 - s5, 0, 0, s5]; }
@@ -1505,13 +1505,13 @@ __ISSUES__
     }
     function callLabel(c) {
       if (!c) return '—';
-      var b = c.m === 'rotation' ? 'Follow the default plan' : c.m === 'gold' ? 'Gold (GLD)' : c.m === 'bonds' ? 'Bonds (TLT)' : c.m === 'auto' ? 'Follow Auto' : c.m === 'boost' ? 'Follow Boost' : c.m === 'boost100' ? 'Follow Boost 100%' : c.m === 'cushion' ? 'Follow Boost + cushion' : c.m === 'steps' ? 'Follow Steps' : c.m === 'cash' ? 'No trade (cash)' : 'Custom';
+      var b = c.m === 'rotation' ? 'Follow the default plan' : c.m === 'gold' ? 'Gold (GLD)' : c.m === 'bonds' ? 'Bonds (TLT)' : c.m === 'mf' ? 'Managed futures (DBMF)' : c.m === 'auto' ? 'Follow Auto' : c.m === 'boost' ? 'Follow Boost' : c.m === 'boost100' ? 'Follow Boost 100%' : c.m === 'cushion' ? 'Follow Boost + cushion' : c.m === 'steps' ? 'Follow Steps' : c.m === 'cash' ? 'No trade (cash)' : 'Custom';
       var x = [];
       (c.swaps || []).forEach(function (s2) { x.push(s2[0] + '→' + s2[1]); });
       (c.drops || []).forEach(function (d2) { x.push('drop ' + d2); });
       return b + (c.m !== 'cash' && !(c.m in WHOLE) && x.length ? ' · ' + x.join(', ') : '');
     }
-    function mixTxt(m) { if (m[5]) return 'default plan'; if (m[6]) return '100% gold'; if (m[7]) return '100% bonds'; return Math.round((m[0] + (m[3] || 0) + (m[4] || 0)) * 100) + '/' + Math.round(m[1] * 100) + (m[2] ? '/' + Math.round(m[2] * 100) : ''); }
+    function mixTxt(m) { if (m[5]) return 'default plan'; if (m[6]) return '100% gold'; if (m[7]) return '100% bonds'; if (m[8]) return '100% managed futures'; return Math.round((m[0] + (m[3] || 0) + (m[4] || 0)) * 100) + '/' + Math.round(m[1] * 100) + (m[2] ? '/' + Math.round(m[2] * 100) : ''); }
     var inForce = A ? A.decided : D.asOf;   // the signal Friday whose trades are (or will be) held now
 
     var mix = P['default'], acct = 10000;
@@ -1524,7 +1524,7 @@ __ISSUES__
       document.querySelectorAll('#mix-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === mix)); });
       // your call in force ('Mine'): following the default plan shows the plan itself; gold / bonds show that fund
       var mine = mix === 'mine' ? callFor(inForce) : null, MX = mine && mine.m === 'rotation' ? 'rotation' : mix;
-      var HV = mine && (mine.m === 'gold' || mine.m === 'bonds') ? (mine.m === 'gold' ? 'GLD' : 'TLT') : null;
+      var HV = mine && (mine.m === 'gold' || mine.m === 'bonds' || mine.m === 'mf') ? { gold: 'GLD', bonds: 'TLT', mf: 'DBMF' }[mine.m] : null;
       var m, RT = A && A.rotation, RA = MX === 'rotation' && RT && RT.mode !== 'boost' ? RT.mode : null;
       var WH = MX === 'rotation' && !RA && RT && RT.whip && RT.whip.half ? RT.whip.half : null;   // whipsaw switch asset
       var WP = RT && RT.whip && RT.whip.part != null ? RT.whip.part : 0.5;                          // its share of the account
@@ -1542,7 +1542,7 @@ __ISSUES__
       if (mineBoost) m = [(m[3] || 0) + (m[4] || 0), m[1], m[2]];
       var spyAmt = acct * (m[3] || 0);
       var stocks = acct * m[0], sleeve = acct * m[1], cash = acct * m[2], per = stocks / D.rule.topN;
-      $('plan-hint').textContent = HV ? 'your call: 100% ' + HV + ' (' + (HV === 'GLD' ? 'gold' : 'long Treasuries') + ') · held until you change your call' : MX === 'rotation' ? (RA ? 'boost + rotation: out of stocks, 100% ' + RA + ' · decided at any close, traded at the next close' : WH ? (WP >= 1 ? 'boost + rotation: whipsaw switch on, 100% ' + WH : 'boost + rotation: whipsaw switch on, ' + Math.round((1 - WP) * 100) + '% the Boost list, ' + Math.round(WP * 100) + '% ' + WH) + ' · decided at any close, traded at the next close' : 'boost + rotation: the Boost 100% list, 100% stocks · decided at any close, traded at the next close') : (MX === 'auto' ? 'auto mix this week: ' : MX === 'boost' ? 'auto + news boost this week: ' : MX === 'boost100' ? 'news boost, always fully in stocks: ' : MX === 'cushion' ? 'boost + cushion this week: ' : MX === 'guard' ? 'auto + guard this week: ' : MX === 'steps' ? 'steps mix this week: ' : MX === 'mine' ? 'your call: ' : '') +
+      $('plan-hint').textContent = HV ? 'your call: 100% ' + HV + ' (' + (HV === 'GLD' ? 'gold' : HV === 'TLT' ? 'long Treasuries' : 'managed futures') + ') · held until you change your call' : MX === 'rotation' ? (RA ? 'boost + rotation: out of stocks, 100% ' + RA + ' · decided at any close, traded at the next close' : WH ? (WP >= 1 ? 'boost + rotation: whipsaw switch on, 100% ' + WH : 'boost + rotation: whipsaw switch on, ' + Math.round((1 - WP) * 100) + '% the Boost list, ' + Math.round(WP * 100) + '% ' + WH) + ' · decided at any close, traded at the next close' : 'boost + rotation: the Boost 100% list, 100% stocks · decided at any close, traded at the next close') : (MX === 'auto' ? 'auto mix this week: ' : MX === 'boost' ? 'auto + news boost this week: ' : MX === 'boost100' ? 'news boost, always fully in stocks: ' : MX === 'cushion' ? 'boost + cushion this week: ' : MX === 'guard' ? 'auto + guard this week: ' : MX === 'steps' ? 'steps mix this week: ' : MX === 'mine' ? 'your call: ' : '') +
         Math.round(m[0] * 100) + '% top 5 · ' + Math.round(m[1] * 100) + '% sleeve' + (m[3] ? ' · ' + Math.round(m[3] * 100) + '% SPY' : '') + (m[2] ? ' · ' + Math.round(m[2] * 100) + '% cash' : '') + ' · no leverage · trade & reset Mondays';
       var hs = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
       var sp = name[SL.held] || {};
@@ -1656,7 +1656,7 @@ __ISSUES__
       var h = R.mode !== 'boost' ? '100% ' + R.mode : R.whip && R.whip.half ? (R.whip.part >= 1 ? '100% ' : Math.round(R.whip.part * 100) + '% ') + R.whip.half : 'the Boost list, 100% stocks';
       return 'now ' + h + ' · trades when the plan does (watch the alerts)';
     }
-    var OPTS = [['rotation', 'Follow the default plan', planNow()], ['gold', 'Gold (GLD)', '100% gold this week, whatever the plan holds'], ['bonds', 'Bonds (TLT)', '100% long Treasuries this week, whatever the plan holds'],
+    var OPTS = [['rotation', 'Follow the default plan', planNow()], ['gold', 'Gold (GLD)', '100% gold this week, whatever the plan holds'], ['bonds', 'Bonds (TLT)', '100% long Treasuries this week, whatever the plan holds'], ['mf', 'Managed futures (DBMF)', '100% DBMF this week (a fund that follows trends in stock, bond, currency and commodity futures), whatever the plan holds'],
                 ['boost100', 'Follow Boost 100%', 'Boost list + blow-off exit in weak markets + surge exit, always 100% stocks'], ['cushion', 'Follow Boost + cushion', autoNow('cushion')], ['boost', 'Follow Boost', autoNow('boost')], ['auto', 'Follow Auto', autoNow('auto')], ['steps', 'Follow Steps', autoNow('steps')],
                 ['cash', 'No trade', 'sit in cash this week'], ['custom', 'Custom', 'your own stocks / sleeve / cash']];
     $('choices').innerHTML = OPTS.map(function (o) { return '<button type="button" class="choice" role="radio" aria-checked="false" data-m="' + o[0] + '"><b>' + o[1] + '</b><span>' + o[2] + '</span></button>'; }).join('');
@@ -1760,18 +1760,18 @@ __ISSUES__
 
 
     // ---- your record: your calls vs following Auto / Steps from your first call
-    // HU.days rows: [date, top 5, sleeve, cash, boost list, boost 100% list, default plan, GLD, TLT]; a mix puts the
-    // money in those eight series (a missing value falls back as below, so an older build still adds up)
-    var FB = [[1], [2], [3], [4, 1], [5, 4, 1], [6, 3], [7, 3], [8, 3]];
+    // HU.days rows: [date, top 5, sleeve, cash, boost list, boost 100% list, default plan, GLD, TLT, DBMF]; a mix puts the
+    // money in those nine series (a missing value falls back as below, so an older build still adds up)
+    var FB = [[1], [2], [3], [4, 1], [5, 4, 1], [6, 3], [7, 3], [8, 3], [9, 3]];
     function hv(x, j) { var ch = FB[j]; for (var i = 0; i < ch.length; i++) if (x[ch[i]]) return x[ch[i]]; return 1; }
     function simulate(mixAt, startTrade) {
       var tradeFri = {}; HU.weeks.forEach(function (w) { tradeFri[w[1]] = w[0]; });
-      var out = [], u = [0, 0, 0, 0, 0, 0, 0, 0], prev = null;
+      var out = [], u = [0, 0, 0, 0, 0, 0, 0, 0, 0], prev = null;
       HU.days.forEach(function (x) {
         if (x[0] < startTrade) return;
-        if (prev) for (var j = 0; j < 8; j++) u[j] *= hv(x, j) / hv(prev, j);
+        if (prev) for (var j = 0; j < 9; j++) u[j] *= hv(x, j) / hv(prev, j);
         var nav = prev ? u.reduce(function (s, v) { return s + v; }, 0) : 1;
-        if (x[0] in tradeFri) { var mm = mixAt(tradeFri[x[0]]) || [1, 0, 0]; for (var k = 0; k < 8; k++) u[k] = nav * (mm[k] || 0); }
+        if (x[0] in tradeFri) { var mm = mixAt(tradeFri[x[0]]) || [1, 0, 0]; for (var k = 0; k < 9; k++) u[k] = nav * (mm[k] || 0); }
         out.push([x[0], nav]); prev = x;
       });
       return out;
@@ -2926,8 +2926,9 @@ WALLST_OTHER = {
     'walk': lambda o: f'<b>Walk-forward:</b> re-picking the best version each year, using only the years before it, earned {_e(o["v"])} a year in 2005–2025 against {_e(o["typical"])} for the typical version.',
     'pickT': lambda o: f'<b>The 6-month pick on its own:</b> adds about {_e(o["v"])}; a t-stat under 2 means the gain is not proven, so it is on probation.',
     'cashT': lambda o: f'<b>The narrow-market cash week on its own:</b> {_e(o["v"])}. Month by month the gain is not proven (most months it does nothing); judged on its cash weeks against random weeks it is unlikely to be luck. It was found on 2012–2026, went 1 for 3 on the 2006–07 years it was not built on, and did not carry over abroad (below), so it is on probation.',
-    'billsT': lambda o: f'<b>No T-bills on its own</b> (gold or bonds if up over 6 months, else cash; 3 months since Oct 19, 2026): {_e(o["v"])}. The gain is lumpy (bonds in late 2008, gold in the 2024–2025 cash weeks; gold cost about 40 points of 2026\'s gain), so count on it doing about as well as T-bills.',
+    'billsT': lambda o: f'<b>No T-bills on its own</b> (gold or bonds if up over 6 months, else cash; 3 months since Oct 19, 2026; DBMF managed futures instead of cash since Oct 20, 2026): {_e(o["v"])}. The gain is lumpy (bonds in late 2008, gold in the 2024–2025 cash weeks; gold cost about 40 points of 2026\'s gain), so count on it doing about as well as T-bills.',
     'bills3T': lambda o: f'<b>The 3-month look on its own</b> (gold or bonds by their 3-month gain instead of 6, wherever the plan would hold T-bills; default since Oct 19, 2026): {_e(o["v"])}. Most of the gain is a few stretches (2026, 2009, 2017) and it cost 15 points in 2025, so it is on probation.',
+    'mfT': lambda o: f'<b>Managed futures instead of cash on its own</b> (DBMF, a fund that follows trends in stock, bond, currency and commodity futures, wherever the no-T-bills pick finds neither gold nor bonds up; default since Oct 20, 2026): {_e(o["v"])}. The fund began in May 2019, so the gain is from then on; it rests on a few stretches and is on probation.',
     'reboundT': lambda o: f'<b>The rebound rule on its own:</b> {_e(o["v"])}. Month by month the gain is not proven; it rests on a handful of bear-market bottoms (most of it late October 2008) and was picked after many timing tests, so it is on probation.',
     'lowerT': lambda o: f'<b>The lower-high exit on its own:</b> {_e(o["v"])}. Month by month the gain is not proven (most months it does nothing); the point is the smaller drops. It was designed after looking at the 2007–2011 and 2022 drops, so it is on probation.',
     'fadeT': lambda o: f'<b>The fading-energy filter on its own:</b> {_e(o["v"])}. It was found by studying the plan\'s own losing picks, so it is on probation.',
@@ -3007,7 +3008,7 @@ def wallst_html(ws=None):
 
 LAB_PATH = os.path.join(ROOT, 'data', 'strategy_backtest.json')
 LAB_NOTES = {
-    'Current system': 'what the dashboard trades: S&P 500 picks, Boost list + exits + fading-energy filter + rotation + whipsaw + cash week + lower-high exit + rebound rule, no T-bills',
+    'Current system': 'what the dashboard trades: S&P 500 picks, Boost list + exits + fading-energy filter + rotation + whipsaw + cash week + lower-high exit + rebound rule, no T-bills (managed futures instead of cash)',
     '+ Ignition boost': 'an Ignition in the last 4 weeks also jumps the queue',
     'Top 2 sectors': 'only stocks from the 2 strongest sectors',
     'Top 3 industries': 'only stocks from the 3 strongest industries',

@@ -55,7 +55,7 @@ from mtl import health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
 from mtl.fade import SWING_TH as FADE_SWING, VOL_TH as FADE_VOL, buy_ok as fade_buy_ok, fading as fade_check, ratios as fade_ratios  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
-from mtl.rotation import CONFIRM as ROT_CONFIRM, CONFIRM_GAP as ROT_CONFIRM_GAP, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, WHIP_SHARE, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, BILLS_LOOK, CASH, bills_pick, no_bills  # noqa: E402
+from mtl.rotation import CONFIRM as ROT_CONFIRM, CONFIRM_GAP as ROT_CONFIRM_GAP, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, WHIP_SHARE, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, BILLS_LOOK, CASH, CASH_FUND, bills_pick, no_bills  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -394,7 +394,7 @@ def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
                 confirm=ROT_CONFIRM, confirmGap=ROT_CONFIRM_GAP, slow=ROT_SLOW, ma=ROT_MA, assets=list(ROT_ASSETS),
                 spy=dict(daily=leg('SPY'), weekly=leg('SPY', 'w'), gap=r4(spy_gap(as_of)), lastHigh=lh,
                          lows=[[x['ts'][:10], r4(x['price']), x['label']] for x in los[-2:]]),
-                legs={t: leg(t) for t in ROT_ASSETS}, px={t: r4((px.get(t) or {}).get(as_of)) for t in ROT_ASSETS + ('BIL',)},
+                legs={t: leg(t) for t in ROT_ASSETS}, px={t: r4((px.get(t) or {}).get(as_of)) for t in ROT_ASSETS + ('BIL', CASH_FUND)},
                 pick=PICK_LOOK, pickPct={t: r4(read.pct(t, as_of)) for t in ROT_ASSETS},
                 rot=state['rot'], streak=state['streak'], cand=state['cand'], out=state['out'],
                 daysOut=sum(1 for d_ in days if modes[d_] != 'boost'), days=len(days),
@@ -446,7 +446,7 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     reb_days = rebound_days(spy_bars, whip_px, calendar, start)
     modes, why, half, reb_held = apply_rebound(modes, why, half, reb_days, calendar)
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
-    # stronger of TLT / GLD over 3 months if it is up, else cash (mtl/rotation.py no_bills)
+    # stronger of TLT / GLD over 3 months if it is up, else DBMF managed futures (mtl/rotation.py no_bills)
     modes, why, half = no_bills(modes, why, half, whip_px, calendar)
     return dict(modes=modes, why=why, half=half, read=read, state=state, lh_cash=lh_cash, lh_log=lh_log,
                 whip_on=whip_on, regime=regime, narrow_warn=narrow_warn, narrow_cash=narrow_cash, reb_held=reb_held)
@@ -465,7 +465,7 @@ def last_closed_session(now=None):
 
 
 def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, held, logged, expected=None,
-                  watch=(), volumes=None):
+                  watch=(), volumes=None, fund_px=None):
     """Plain-language problems with tonight's data that change (or stop) a rule: prices that stop before the
     last close that should be in (`expected`), a series a rule needs missing or behind, a stock the plan holds
     (or one near the top of the ranking, `watch`) with no price or no recent volume, a held stock out of the
@@ -486,7 +486,9 @@ def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp,
             ('the VIX', vix_px, "the narrow-market rule can't run", as_of),
             ('RSP (equal-weight S&P 500)', {b[0]: 1 for b in bench.get('RSP') or []}, "the narrow-market rule can't run", as_of),
             ('TLT', {b[0]: 1 for b in asset_bars.get('TLT') or []}, "the bond haven can't be read", as_of),
-            ('GLD', {b[0]: 1 for b in asset_bars.get('GLD') or []}, "the gold haven can't be read", as_of)):
+            ('GLD', {b[0]: 1 for b in asset_bars.get('GLD') or []}, "the gold haven can't be read", as_of),
+            *([(f'{CASH_FUND} (managed futures)', fund_px, f"where neither gold nor bonds is up the plan falls back to plain cash instead of {CASH_FUND}", as_of)]
+              if fund_px is not None else [])):
         ld = last(ser)
         if ld is None:
             out.append(f"No data for {name}: {what}.")
@@ -530,6 +532,11 @@ def main():
     bars = fetch(tickers, volumes=volumes)
     bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD', 'RSP'], adjusted=True, volumes=volumes)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check; RSP: equal-weight S&P 500 (narrow-market warning)
     asset_bars = fetch(ASSETS, adjusted=True)   # OHLC: Boost + rotation reads TLT's and GLD's swing structure
+    try:   # managed futures (DBMF): held instead of plain cash when neither TLT nor GLD is up (mtl/rotation.py no_bills)
+        fund_px = {b[0]: b[4] for b in (fetch([CASH_FUND], adjusted=True).get(CASH_FUND) or []) if b[4]}
+    except Exception as e:
+        print(f"  {CASH_FUND} fetch failed: {e}", file=sys.stderr)
+        fund_px = {}
     try:   # the 10-year Treasury yield, for the rate/gold regime that can stand the half-switch aside
         rate_px = {b[0]: b[4] for b in (fetch(['^TNX']).get('^TNX') or []) if b[4]}
     except Exception as e:
@@ -769,7 +776,7 @@ def main():
              'guard': plan_curve_mix({'top5': strat, 'sleeve': sl_curve, 'spy': spy_curve}, calendar, guard_weights)}
     # Boost + rotation (the default): the Boost 100% list with every rule above it (plan_overlay): the rotation,
     # the lower-high exit, the whipsaw half-switch, the narrow-market cash week, the rebound rule and no T-bills
-    whip_px = {**filled(sleeve_px, calendar), 'SPY': prices['SPY']}
+    whip_px = {**filled({**sleeve_px, CASH_FUND: fund_px}, calendar), 'SPY': prices['SPY']}
     rsp_px = {b[0]: b[4] for b in bench.get('RSP') or []}
     ov = plan_overlay(bench['SPY'], asset_bars, whip_px, picks_whip, prices, calendar, START, rate_px, rsp_px, vix_px)
     rot_modes, rot_why, whip_half, rot_read, rot_state = ov['modes'], ov['why'], ov['half'], ov['read'], ov['state']
@@ -995,7 +1002,7 @@ def main():
                            creditLook=CREDIT_LOOK, credit=r4(credit_gap(sig_d)), previewCredit=r4(credit_gap(as_of)),
                            weeksSpyLow=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and (spy_gap(f_) or 0) < 0),
                            log=cushion_log(calendar, last_sessions_of_weeks(calendar), START, cushion_split, spy_gap, credit_gap))
-    auto['rotation'] = rotation_block(rot_modes, rot_why, rot_read, rot_state, calendar, K, spy_gap, sleeve_px)
+    auto['rotation'] = rotation_block(rot_modes, rot_why, rot_read, rot_state, calendar, K, spy_gap, {**sleeve_px, CASH_FUND: fund_px})
     nr_ = narrow_reading(prices['SPY'], rsp_px, vix_px, calendar, K) if rsp_px and vix_px else None
     auto['rotation']['narrow'] = dict(narrow_state(narrow_warn, narrow_cash, calendar, K),
                                       reading=None if nr_ is None else {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in nr_.items()},
@@ -1046,7 +1053,7 @@ def main():
                                        pct={t: r4(whip_px[t][calendar[K]] / whip_px[t][calendar[K - BILLS_LOOK]] - 1)
                                             if whip_px.get(t, {}).get(calendar[K]) and whip_px.get(t, {}).get(calendar[K - BILLS_LOOK]) else None
                                             for t in ROT_ASSETS},
-                                       days=sum(1 for d_, m_ in rot_modes.items() if m_ == CASH))
+                                       fund=CASH_FUND, days=sum(1 for d_, m_ in rot_modes.items() if m_ in (CASH, CASH_FUND)))
     auto['rotation']['whip']['regime'] = regime_block(regime, rate_px, whip_px.get('GLD') or {}, calendar, K)
     if not signal_day:   # mid-week preview with today's charts
         auto['previewDown'] = [t for t in holdings if in_downtrend(t, as_of)]
@@ -1061,11 +1068,11 @@ def main():
     sl_val, bil = dict(sl_curve), {d_: 1.0 for d_, v_ in f['BIL'].items() if v_}
     strat_b_val = dict((d_, v) for d_, v in strat_b)
     strat_bx_val = dict((d_, v) for d_, v in strat_bx)
-    # ... then the default plan's value and the GLD / TLT closes, for the whole-account calls ('rotation', 'gold', 'bonds')
+    # ... then the default plan's value and the GLD / TLT / DBMF closes, for the whole-account calls ('rotation', 'gold', 'bonds', 'mf')
     rot_val = {d_: v for d_, v in plans['rotation']}
-    whole = {'rotation': rot_val, 'gold': whip_px.get('GLD') or {}, 'bonds': whip_px.get('TLT') or {}}
+    whole = {'rotation': rot_val, 'gold': whip_px.get('GLD') or {}, 'bonds': whip_px.get('TLT') or {}, 'mf': whip_px.get(CASH_FUND) or {}}
     human_days = [[d_, round(v, 6), round(sl_val[d_], 6), r4(bil[d_]), round(strat_b_val.get(d_, v), 6), round(strat_bx_val.get(d_, v), 6),
-                   round(rot_val[d_], 6) if rot_val.get(d_) else None, r4(whole['gold'].get(d_)), r4(whole['bonds'].get(d_))] for d_, v in strat
+                   round(rot_val[d_], 6) if rot_val.get(d_) else None, r4(whole['gold'].get(d_)), r4(whole['bonds'].get(d_)), r4(whole['mf'].get(d_))] for d_, v in strat
                   if d_ >= HUMAN_FROM and d_ in sl_val and bil.get(d_)]
     nxt = {calendar[i]: calendar[i + 1] for i in range(len(calendar) - 1)}
     coming_trade = next_session(week_end_session(today))
@@ -1123,7 +1130,7 @@ def main():
     top_prev = [t for t, _, _ in score_table(prices, calendar, K - 1, LOOK, SKIP, WIN, 'rank', eligible)[:10]]
     data_issues = data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, hold_bx,
                                 ((ledger.get('entries') or [{}])[-1].get('list') or []), expected=last_closed_session(),
-                                watch=top_prev, volumes=volumes)
+                                watch=top_prev, volumes=volumes, fund_px=fund_px)
     p_idx = {d_: i for i, d_ in enumerate(calendar)}
     p_days = [p_[0] for p_ in picks_bx]
 

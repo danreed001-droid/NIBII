@@ -211,6 +211,28 @@ def test_no_bills_picks_by_3_months_while_the_rotation_keeps_6():
     assert bills_pick(falling, cal, k) == CASH                             # neither up over 3 months: cash
 
 
+def test_no_bills_holds_managed_futures_instead_of_cash_once_the_fund_has_prices():
+    from mtl.rotation import CASH, CASH_FUND, bills_pick, no_bills, rotation_curve
+    assert CASH_FUND == 'DBMF'
+    cal = days(12)
+    tlt = [100, 100, 100, 100, 110, 110, 110, 110, 110, 110, 90, 90]
+    gld = [100, 100, 100, 100, 100, 100, 100, 100, 120, 120, 80, 80]
+    fund = [None] * 9 + [50.0, 51.0, 52.0]   # the fund starts trading on day 9 (DBMF: May 2019)
+    closes = {'TLT': dict(zip(cal, tlt)), 'GLD': dict(zip(cal, gld)), CASH_FUND: dict(zip(cal, fund))}
+    assert bills_pick(closes, cal, 4, look=4) == 'TLT'                   # gold or bonds up: unchanged
+    assert bills_pick(closes, cal, 11, look=4) == CASH_FUND              # both down: managed futures
+    assert bills_pick(closes, cal, 3, look=4) == CASH                    # no fund price yet: cash
+    assert bills_pick(closes, cal, 11, look=4, fallback=None) == CASH    # the old rule
+    assert bills_pick({k: v for k, v in closes.items() if k != CASH_FUND}, cal, 11, look=4) == CASH   # fund data missing: cash
+    modes = {d: ('BIL' if 4 <= i <= 11 else 'boost') for i, d in enumerate(cal)}
+    m, w, h = no_bills(modes, {}, {cal[11]: 'BIL'}, closes, cal, look=4)
+    assert [m[d] for d in cal[4:]] == ['TLT'] * 4 + ['GLD'] * 2 + [CASH_FUND] * 2
+    assert h == {cal[11]: CASH_FUND} and w[cal[10]] == 'nobills'
+    # the account earns the fund's return while it holds it (decided at a close, traded at the next)
+    curve = rotation_curve([[d, 1.0] for d in cal], closes, cal, {cal[9]: CASH_FUND, cal[10]: CASH_FUND}, cost=0.0)
+    assert abs(curve[-1][1] - 52.0 / 51.0) < 1e-9
+
+
 def test_curve_earns_nothing_in_cash():
     from mtl.rotation import CASH
     cal = days(5)

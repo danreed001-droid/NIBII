@@ -15,37 +15,37 @@ def test_backtest_dump_keeps_only_the_changes():
              ['2026-01-12', {'GLDX': 1.0}], ['2026-01-20', {'TLTX': 1.0}],
              ['2026-01-27', {'AMD': 0.2, 'MU': 0.2, 'HPE': 0.2, 'CASH0': 0.4}]]
     out = bph.build(sched, '2026-01-30')
-    assert out['held'] == [['2026-01-02', 1.0, 0.0, 0.0, 0.0], ['2026-01-12', 0.0, 1.0, 0.0, 0.0],
-                           ['2026-01-20', 0.0, 0.0, 1.0, 0.0], ['2026-01-27', 0.6, 0.0, 0.0, 0.4]]
+    assert out['held'] == [['2026-01-02', 1.0, 0.0, 0.0, 0.0, 0.0], ['2026-01-12', 0.0, 1.0, 0.0, 0.0, 0.0],
+                           ['2026-01-20', 0.0, 0.0, 1.0, 0.0, 0.0], ['2026-01-27', 0.6, 0.0, 0.0, 0.4, 0.0]]
     assert out['start'] == '2026-01-02' and out['end'] == '2026-01-30'
 
 
 def test_live_decisions_take_over_from_the_first_fill_and_fill_at_the_next_close():
-    hist = dict(HIST, held=HIST['held'] + [['2026-10-16', 1.0, 0.0, 0.0, 0.0]])   # a rerun that disagrees with the live plan
+    hist = dict(HIST, held=HIST['held'] + [['2026-10-16', 1.0, 0.0, 0.0, 0.0, 0.0]])   # a rerun that disagrees with the live plan
     ledger = dict(entries=[dict(d='2026-10-14', w={'CASH': 1.0}),            # fills Oct 15: live from here on
                            dict(d='2026-10-16', w={'GLD': 1.0}),             # a Friday: fills Monday
                            dict(d='2026-10-19', w={'GLD': 1.0}),             # no change
                            dict(d='2026-10-20', w={'TLT': 0.5, 'SPY': 0.5})])
     tl = ph.timeline(hist, ledger)
-    assert tl[-3:] == [('2026-09-30', (0.0, 0.0, 0.0, 1.0)), ('2026-10-19', (0.0, 1.0, 0.0, 0.0)),
-                       ('2026-10-21', (0.5, 0.0, 0.5, 0.0))]
-    assert ph.during(tl, '2026-10-19') == (0.0, 0.0, 0.0, 1.0)       # what the live plan held, not the rerun's stocks
+    assert tl[-3:] == [('2026-09-30', (0.0, 0.0, 0.0, 1.0, 0.0)), ('2026-10-19', (0.0, 1.0, 0.0, 0.0, 0.0)),
+                       ('2026-10-21', (0.5, 0.0, 0.5, 0.0, 0.0))]
+    assert ph.during(tl, '2026-10-19') == (0.0, 0.0, 0.0, 1.0, 0.0)       # what the live plan held, not the rerun's stocks
     assert ph.timeline(None, None) == []
-    assert ph.timeline(None, ledger)[0] == ('2026-10-15', (0.0, 0.0, 0.0, 1.0))
+    assert ph.timeline(None, ledger)[0] == ('2026-10-15', (0.0, 0.0, 0.0, 1.0, 0.0))
 
 
 def test_where_the_plan_was_through_a_day_and_its_next_move():
     tl = ph.timeline(HIST, None)
     assert ph.during(tl, '2026-01-02') is None                       # bought at that close: nothing held through it
-    assert ph.during(tl, '2026-03-10') == (1.0, 0.0, 0.0, 0.0)       # the switch is at that day's close
-    assert ph.during(tl, '2026-03-11') == (0.0, 1.0, 0.0, 0.0)
+    assert ph.during(tl, '2026-03-10') == (1.0, 0.0, 0.0, 0.0, 0.0)       # the switch is at that day's close
+    assert ph.during(tl, '2026-03-11') == (0.0, 1.0, 0.0, 0.0, 0.0)
     assert ph.switch(tl, '2026-03-10') == ('2026-03-10', 'gold')     # moved at the event day's own close
     assert ph.switch(tl, '2026-02-20') == ('2026-03-10', 'gold')     # 13 sessions later
     assert ph.switch(tl, '2026-02-01') is None                       # more than a month later
     assert ph.switch(tl, '2026-04-20') is None                       # stocks 80% to stocks 80%: no move
-    assert ph.now(tl, '2026-10-16') == ((0.0, 0.0, 0.0, 1.0), '2026-09-30', None)
+    assert ph.now(tl, '2026-10-16') == ((0.0, 0.0, 0.0, 1.0, 0.0), '2026-09-30', None)
     tl = ph.timeline(HIST, dict(entries=[dict(d='2026-10-16', w={'AMD': 0.2, 'MU': 0.2})]))
-    assert ph.now(tl, '2026-10-16') == ((0.0, 0.0, 0.0, 1.0), '2026-09-30', ('2026-10-19', 'stocks'))
+    assert ph.now(tl, '2026-10-16') == ((0.0, 0.0, 0.0, 1.0, 0.0), '2026-09-30', ('2026-10-19', 'stocks'))
     assert ph.now(tl, '2025-12-31') is None
 
 
@@ -105,3 +105,13 @@ def test_events_page_lists_the_plan_after_bonds():
     page = render(doc, pats={}, log={}, plan=[])
     assert ('<span class="sd" title="Bonds"><i class="dot k-bonds"></i><span class="pos">+1.0%</span></span>'
             '<span class="sd" title="The plan"><i class="dot k-plan"></i><span class="pos">+1.0%</span></span></td>') in page
+
+
+def test_managed_futures_is_its_own_kind_in_the_backtest_the_ledger_and_the_events_page():
+    out = bph.build([['2026-01-02', {'MFX': 1.0}], ['2026-01-09', {'AMD': 0.5, 'DBMF': 0.5}]], '2026-01-12')
+    assert out['held'] == [['2026-01-02', 0.0, 0.0, 0.0, 0.0, 1.0], ['2026-01-09', 0.5, 0.0, 0.0, 0.0, 0.5]]
+    tl = ph.timeline(HIST, dict(entries=[dict(d='2026-10-14', w={'DBMF': 1.0})]))
+    assert tl[-1] == ('2026-10-15', (0.0, 0.0, 0.0, 0.0, 1.0)) and ph.main(tl[-1][1]) == 'futures'
+    from scripts.major_events import plan_now, where
+    assert where((0.0, 0.0, 0.0, 0.0, 1.0)) == 'managed futures'
+    assert 'k-futures"></i>The plan now: <b>managed futures</b>' in plan_now(tl, '2026-10-16')

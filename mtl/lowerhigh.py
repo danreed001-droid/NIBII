@@ -13,7 +13,7 @@ to be confirmed:
 On a fresh signal, while the plan would hold the Boost list, the whole account moves for LH_DAYS (10)
 sessions into the stronger of TLT / GLD (the one in a daily uptrend with the steepest gradient, picked again
 each day; T-bills when neither is rising, which the plan's no-T-bills swap turns into the one up more over
-3 months if it is up, else cash: mtl/rotation.py no_bills), then goes back to whatever the plan holds. Both triggers count:
+3 months if it is up, else managed futures, DBMF: mtl/rotation.py no_bills), then goes back to whatever the plan holds. Both triggers count:
 an early signal gets its two weeks, and when that same high is later confirmed (with SPY still below it)
 it gets two more; otherwise the same lower high cannot fire again, only a new one can. While the plan holds TLT,
 GLD or T-bills it is left alone. Like every rotation decision it is made at a close and traded at the next
