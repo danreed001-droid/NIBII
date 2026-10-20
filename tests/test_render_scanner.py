@@ -97,6 +97,13 @@ def test_rotation_explains_the_whipsaw_switch():
     assert 'whipsaw switch' in page and 'whipTag(RT)' in page and 'Until Oct 16, 2026 only half the account moved' in page
 
 
+def test_page_flags_the_choppy_market_watch():
+    page = render_scanner.render(SCAN)
+    assert 'function chopNote(C)' in page and 'trendNote(RT.trendWatch) + chopNote(RT.chop)' in page
+    assert 'Choppy-market watch' in page and 'choppy-market watch ON: the plan moved' in page
+    assert 'choppy market: the plan is whipsawing (info only)' in page
+
+
 def test_warning_shows_breadth_and_scores_calls_against_the_plan():
     page = render_scanner.render(SCAN)
     assert 'function breadthNote(RT)' in page and 'breadthNote(RT) + warnCallNote(RT)' in page

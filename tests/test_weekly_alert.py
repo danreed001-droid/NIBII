@@ -178,6 +178,54 @@ def test_trendline_warning_alert_on_its_first_day():
     assert alert.build(s) is None
 
 
+def chop(**kw):
+    c = dict(on=True, prevOn=False, n=3, look=40, need=3, since='2026-10-07',
+             moves=[['2026-09-02', 'boost', 'GLD'], ['2026-09-24', 'GLD', 'boost'], ['2026-10-07', 'boost', 'DBMF']])
+    c.update(kw)
+    return c
+
+
+def test_choppy_watch_rides_along_with_the_trade_that_turns_it_on():
+    s = scan(signalDay=False, asOf='2026-10-07')
+    s['plan']['auto']['rotation'] = rot(mode='DBMF', held='boost', trade='2026-10-08', log=[['2026-10-07', 'boost', 'DBMF', 'nobills']], chop=chop())
+    title, body = alert.build(s)
+    assert title == 'Trade Thu Oct 8: Boost + rotation → DBMF (managed futures); choppy-market watch on'
+    assert '**Choppy-market watch ON (information only):**' in body and '3 times in the last 40 sessions' in body
+    assert 'Wed Sep 2 stocks → GLD; Thu Sep 24 GLD → stocks; Wed Oct 7 stocks → DBMF (managed futures)' in body
+    assert 'not a trade' in body
+    s['plan']['auto']['rotation']['chop']['prevOn'] = True         # already on: the trade goes out without it
+    title, body = alert.build(s)
+    assert 'choppy' not in title and 'Choppy-market watch' not in body
+
+
+def test_choppy_watch_on_its_own_is_a_heads_up_and_off_is_not_an_alert():
+    s = scan(signalDay=False, asOf='2026-10-07')
+    s['plan']['auto']['rotation'] = rot(chop=chop())
+    title, body = alert.build(s)
+    assert title == 'Warning Wed Oct 7: choppy market, the plan is whipsawing' and 'not a signal' in body
+    s['plan']['auto']['rotation'] = rot(chop=chop(on=False, prevOn=True, n=2))
+    assert alert.build(s) is None
+    s = scan()
+    s['plan']['auto']['rotation'] = rot(chop=chop(on=False, prevOn=True, n=2))
+    assert alert.build(s) is None                                   # Friday too: turning off rides along only
+    s = scan(changes={'sell': ['MRVL'], 'buy': ['MU']})
+    s['plan']['auto']['rotation'] = rot(chop=chop(on=False, prevOn=True, n=2))
+    title, body = alert.build(s)
+    assert 'choppy' not in title and '**Choppy-market watch OFF (information only):**' in body and '2 times in the last 40' in body
+
+
+def test_choppy_watch_still_on_is_listed_after_friday_trades():
+    s = scan(changes={'sell': ['MRVL'], 'buy': ['MU']})
+    s['plan']['auto']['rotation'] = rot(chop=chop(prevOn=True, n=4))
+    title, body = alert.build(s)
+    assert 'choppy' not in title
+    assert '**Choppy-market watch still ON (information only):** 4 whole-account moves in the last 40 sessions, on since Wed Oct 7' in body
+    s = scan(changes={'sell': ['MRVL'], 'buy': ['MU']})
+    s['plan']['auto']['rotation'] = rot(whip=whip(part=1.0), chop=chop(since='2026-10-02'))
+    title, body = alert.build(s)
+    assert 'whipsaw → GLD' in title and 'choppy-market watch on' in title and 'Choppy-market watch ON' in body
+
+
 def test_midweek_surge_sale_names_the_surge_exit():
     s = scan(signalDay=False, asOf='2026-10-06')
     s['plan']['auto']['boostx'] = dict(mult=2.0, ma=150, surge=dict(up=0.05, vol=4.0, delay=5),

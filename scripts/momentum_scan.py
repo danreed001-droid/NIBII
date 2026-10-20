@@ -56,6 +56,7 @@ from mtl.phase import market_phase  # noqa: E402
 from mtl.fade import SWING_TH as FADE_SWING, VOL_TH as FADE_VOL, buy_ok as fade_buy_ok, fading as fade_check, ratios as fade_ratios  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
 from mtl.rotation import CONFIRM as ROT_CONFIRM, CONFIRM_GAP as ROT_CONFIRM_GAP, MA as ROT_MA, ROT_ASSETS, SLOW as ROT_SLOW, WHIP_ASSETS, WHIP_LOOK, WHIP_LOSS, WHIP_MIN, WHIP_PCT, WHIP_SHARE, rotation_curve, rotation_modes, sales, switch_log, warning_log, warnings, whip_halves, whip_log, whip_pick, whipsaw, reflation, REGIME_LOOK, PICK_LOOK, BILLS_LOOK, CASH, CASH_FUND, bills_pick, no_bills  # noqa: E402
+from mtl.chop import watch as chop_watch  # noqa: E402
 from mtl.news import NEWS_GAP, NEWS_WINDOW, booster, news_gap_days, recent_gaps  # noqa: E402
 from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan_curve_mix,  # noqa: E402
                         plan_curve_scheduled, six_month, sleeve_curve)
@@ -1047,6 +1048,8 @@ def main():
     auto['rotation']['breadth'] = dict(down=r4(br_now), prev=r4(br_prev), n=br_n, cut=BROAD_DOWN, broad=BROAD_SHARE,
                                        hist=[[calendar[k_], r4(breadth(prices, calendar, k_)[0])] for k_ in range(K - 20, K + 1)])
     auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_whip, prices, held=picks_bx)
+    # choppy-market watch (information only): the plan moved the whole account 3+ times in the last 40 sessions (mtl/chop.py)
+    auto['rotation']['chop'] = chop_watch(rot_modes, whip_half, calendar, K)
     if auto['rotation']['whip']['pick'] == 'BIL':   # nothing up over 3 months: the no-T-bills swap
         auto['rotation']['whip']['pick'] = bills_pick(whip_px, calendar, K)
     auto['rotation']['noBills'] = dict(look=BILLS_LOOK, assets=list(ROT_ASSETS), pick=bills_pick(whip_px, calendar, K),
