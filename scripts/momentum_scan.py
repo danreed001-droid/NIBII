@@ -62,6 +62,7 @@ from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan
                         plan_curve_scheduled, six_month, sleeve_curve)
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
+from mtl.widenet import WIDE_NET, scan as wide_net_scan  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'data', 'momentum_scan.json')
@@ -548,10 +549,15 @@ def main():
     except Exception as e:
         print(f"  VIX fetch failed: {e}", file=sys.stderr)
         vix_px = {}
+    try:   # the wide-net watch (information only): about 40 assets the plan never holds (mtl/widenet.py)
+        wide_bars = fetch(list(WIDE_NET), adjusted=True)
+    except Exception as e:
+        print(f"  wide-net fetch failed: {e}", file=sys.stderr)
+        wide_bars = {}
     # a run before the close (by hand during the day, or the quarterly track refresh in the morning) must not read
     # the session still trading: keep only closes up to the last session that has closed
     cut_ = last_closed_session()
-    for src_ in (bars, bench, asset_bars):
+    for src_ in (bars, bench, asset_bars, wide_bars):
         for t_ in src_:
             src_[t_] = [b_ for b_ in src_[t_] or [] if b_[0] <= cut_]
     rate_px = {d_: v_ for d_, v_ in rate_px.items() if d_ <= cut_}
@@ -1050,6 +1056,9 @@ def main():
     auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_whip, prices, held=picks_bx)
     # choppy-market watch (information only): the plan moved the whole account 3+ times in the last 40 sessions (mtl/chop.py)
     auto['rotation']['chop'] = chop_watch(rot_modes, whip_half, calendar, K)
+    # wide-net watch (information only): the strongest of about 40 assets the plan never holds (mtl/widenet.py)
+    auto['wideNet'] = wide_net_scan({t_: {b_[0]: b_[4] for b_ in bs_ if b_[4]} for t_, bs_ in wide_bars.items()},
+                                    prices['SPY'], calendar, K) if wide_bars else None
     if auto['rotation']['whip']['pick'] == 'BIL':   # nothing up over 3 months: the no-T-bills swap
         auto['rotation']['whip']['pick'] = bills_pick(whip_px, calendar, K)
     auto['rotation']['noBills'] = dict(look=BILLS_LOOK, assets=list(ROT_ASSETS), pick=bills_pick(whip_px, calendar, K),
@@ -1155,6 +1164,8 @@ def main():
     paper = paper_rec.block(ledger, {**whip_px, **prices}, calendar, K, prices['SPY'], p_replay, paper_fp)
     paper['tonight'] = p_now
     data_issues += paper_rec.problems(ledger, paper, p_now, as_of, calendar)
+    if not wide_bars:
+        data_issues.append('The wide-net watch prices could not be downloaded, so that list is missing tonight (it never affects the plan).')
     # every problem also goes into the dated issues log behind the page's "Issues (last 2 weeks)" section
     issue_log = health.load()
     for x_ in data_issues:

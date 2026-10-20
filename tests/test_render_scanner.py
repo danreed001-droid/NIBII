@@ -233,3 +233,16 @@ def test_events_search_embeds_the_events_safely(tmp_path):
     assert rows[1][5] == 'september sep 15 2008 lehman bankruptcy' and rows[1][6] == 'https://x.test/a'
     page = render_scanner.render(SCAN)
     assert page.index('id="events-find"') < page.index('Your plan') and '__EVENTS__' not in page
+
+
+def test_wide_net_watch_lists_the_strongest_assets_and_breakouts():
+    W = dict(asOf='2026-10-19', spyScore=0.05, n=40,
+             rows=[dict(t='SLV', name='silver', score=0.42, beats=True, r1m=0.08, offHigh=0.0, nearHigh=True, breakout='2026-10-17'),
+                   dict(t='EWZ', name='Brazil', score=0.21, beats=True, r1m=-0.02, offHigh=-0.06, nearHigh=False, breakout=None)],
+             breakouts=[dict(t='SLV', name='silver', score=0.42, breakout='2026-10-17'),
+                        dict(t='URA', name='uranium', score=0.03, breakout='2026-10-16')])
+    html = render_scanner.widenet_html(dict(plan=dict(auto=dict(wideNet=W))))
+    assert 'id="widenet"' in html and 'Wide net' in html and 'the strongest of 40 assets the plan never holds' in html
+    assert 'Breakout after a base' in html and '<b>SLV</b>' in html and '+42%' in html
+    assert 'Also breaking out after a base:</b> URA (uranium, +3%)' in html
+    assert render_scanner.widenet_html(dict(plan=dict(auto=dict(wideNet=None)))) == ''
