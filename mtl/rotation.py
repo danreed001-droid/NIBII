@@ -105,9 +105,10 @@ picked on that same history.
    rotation's own pick to 3 months as well did worse.
    Managed futures instead of cash (default from Oct 20, 2026): where this pick finds neither TLT nor GLD up,
    the plan holds CASH_FUND (DBMF, a fund that follows the trends of stock, bond, currency and commodity
-   futures; it held 7% of days since 2000 as cash) instead of plain cash, from DBMF's start (May 2019; cash
-   before). Strategy lab path: 43.5% a year from 2000 vs 42.9%, 51.4% vs 50.6% from 2007, 56.0% vs 54.8%
-   from 2011, 66.2% vs 64.5% from 2016, 89.3% vs 86.3% from 2020, same worst drops. A trend-following
+   futures; the plan sat in plain cash on 7% of days since 2000) instead of plain cash, from DBMF's start
+   (May 2019; cash before). Audit (engine NBup vs NBc3, plain cash): 42.9% a year from 2000 vs 42.4%, 45.6%
+   vs 44.7% from 2010, 54.6% vs 53.2% from 2016, 80.5% vs 77.9% from 2020, same worst drops; Strategy lab
+   path 43.5% vs 42.9% from 2000, 52.0% vs 51.0% from 2010, 80.3% vs 77.5% from 2020. A trend-following
    stand-in rebuilt back to 2000 (12 markets, equal risk per group) added 2.2 points a year from 2000 with
    the worst drop -32% vs -36%, and in place of cash abroad it was ahead in seven of nine markets (+0.3 a
    year on average). In place of gold and bonds as well it did worse, so it only replaces cash.
