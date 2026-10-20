@@ -10,26 +10,26 @@
  ],
  "assets": {
   "equities": {
-   "name": "TODO: fill in before publish",
+   "name": "S&P 500",
    "instrument": "ES=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 7740.75,
    "sigma": 18.440000534057617,
    "sigmaSource": "^VIX close 18.440000534057617 on 2026-10-19",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "ES=F rose 0.47% to 7740.75 on 19 October (cash S&P 500 +0.4% to 7,690.73) as tech/AI names rebounded; VIX eased to 18.44, RSI 47.9, 1H structure choppy and weekly uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -1839,30 +1839,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 19 October, so crowd is 0."
    ]
   },
   "bonds": {
-   "name": "TODO: fill in before publish",
+   "name": "10-Year Treasury Note",
    "instrument": "ZN=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = note price up, yields down",
    "close": 105.296875,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 15,
+   "sigmaSource": "TLT 30-day option implied volatility 15 carried from the 25 September Market Rebellion Pre-Market IV Report; no newer print was obtainable, so the value is 16 sessions stale (carried again)",
+   "driverNote": "ZN=F slipped 0.15% to 105.297 as the 10-year yield closed at 5.14% (news log); RSI 48.0, 1H and weekly structure both downtrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -4232,30 +4233,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 19 October, so crowd is 0."
    ]
   },
   "gold": {
-   "name": "TODO: fill in before publish",
+   "name": "Gold",
    "instrument": "GC=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = gold higher",
    "close": 4141.89990234375,
    "sigma": 22.229999542236328,
    "sigmaSource": "^GVZ close 22.229999542236328 on 2026-10-19",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "GC=F fell 0.94% to 4141.90 as yields rose despite US-Iran deal hopes; RSI 40.3, below both the 50- and 200-day averages, 1H and weekly structure choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -6085,30 +6087,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 19 October, so crowd is 0."
    ]
   },
   "dollar": {
-   "name": "TODO: fill in before publish",
+   "name": "US Dollar Index",
    "instrument": "DX-Y.NYB close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = stronger dollar",
    "close": 101.93299865722656,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 4.72,
+   "sigmaSource": "EUR/USD 1-month ATM implied volatility 4.72 carried unchanged from 21 September; no newer print was obtainable, so the value is 20 sessions stale (carried again)",
+   "driverNote": "DX-Y.NYB edged up 0.09% to 101.933 (EURUSD 1.1228 and USDJPY 158.11 premarket per news log); RSI 57.4, 1H and weekly structure choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -8016,30 +8019,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 19 October, so crowd is 0."
    ]
   },
   "iwm": {
-   "name": "TODO: fill in before publish",
+   "name": "Russell 2000",
    "instrument": "RTY=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 2744.199951171875,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 19.97,
+   "sigmaSource": "RVX 19.97 carried from the 23 September YCharts close (now 18 sessions stale); no newer print was obtainable (carried again)",
+   "driverNote": "RTY=F rose 0.32% to 2744.20, lagging the Nasdaq; RSI 33.6, below its 50- and 200-day averages, 1H structure choppy and weekly uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -9688,30 +9692,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 19 October, so crowd is 0."
    ]
   },
   "qqq": {
-   "name": "TODO: fill in before publish",
+   "name": "Nasdaq-100",
    "instrument": "NQ=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 29667.25,
    "sigma": 25.559999465942383,
    "sigmaSource": "^VXN close 25.559999465942383 on 2026-10-19",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "NQ=F rose 0.94% to 29667.25 (Nasdaq Composite +1.1%) on the AI-stock rebound; VXN eased to 25.56, RSI 40.3, 1H and weekly structure choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -11423,7 +11428,8 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0.",
+    "No positioning or sentiment source naming an extreme was obtained for 19 October, so crowd is 0."
    ]
   }
  },
@@ -11510,7 +11516,11 @@
    }
   },
   "dataNotes": [
-   "TODO: fill in before publish"
+   "Run timing: this cycle ran the morning of 20 October 2026 after the GitHub Actions fetch job drafted contracts/*.2026-10-19.json from Monday 19 October's close. Every figure used is dated at or before the 2026-10-19 close; the 2026-10-20 news-log entry was NOT used.",
+   "Bonds, dollar and IWM sigma are not auto-fetched and were carried stale from the prior board (bonds TLT IV 15, 25 September; dollar EUR/USD 1M IV 4.72, 21 September; IWM RVX 19.97, 23 September). No newer prints were obtained.",
+   "News-log entries for 2026-10-19 (five) were confirmed identical to those in the Artifact database; no hand-entered issue entries were dated 19 October. Percentage changes are computed from the drafted 16 and 19 October closes. Cash-index levels, yields and oil come from the news log as written; no separate web search was run, to keep the blindness rule clean.",
+   "The 19 October oil figures are early-session reports (Dec WTI $98.20, -0.83%); Brent's settle of $109.55 is the only closing oil print in the log. The 10-year yield close of 5.14% is rounded to two decimals in the source, so the day's change from about 5.10% is approximate.",
+   "No 19 October high-yield OAS, MOVE, breadth count, positioning print, sentiment survey or seasonal statistic was obtained; those category votes are neutral."
   ]
  }
 }
