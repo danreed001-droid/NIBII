@@ -33,14 +33,15 @@ SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (set
 CLOSE_ET = time(16, 15)             # a decision is logged only after the close it is read from
 
 # The 2000-2026 backtest of the default plan (with the fading-energy filter, its whipsaw shadow count, the whole-account
-# whipsaw switch since Oct 16, 2026 and the 3-month no-T-bills pick since Oct 19, 2026) on S&P 500 members at each date -
-# the stocks the live plan picks from since Oct 19, 2026 (engine NBup, 42.4% a year) - 0.15% per side, every window of that
+# whipsaw switch since Oct 16, 2026, the 3-month no-T-bills pick since Oct 19, 2026 and DBMF instead of plain cash since
+# Oct 20, 2026) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026 (engine NBup,
+# 42.9% a year) - 0.15% per side, every window of that
 # length: return percentiles, share ahead of SPY, the 1-in-10 shortfall against SPY, and the worst drop inside the window
 # (typical, and the 1-in-20 worst).
 BANDS = {
-    63: dict(label='3 months', p5=-0.091, p25=-0.003, p50=0.079, p75=0.166, p95=0.357, ahead=0.69, lag10=-0.067, dd50=-0.095, dd95=-0.19),
-    126: dict(label='6 months', p5=-0.089, p25=0.032, p50=0.150, p75=0.335, p95=0.758, ahead=0.79, lag10=-0.061, dd50=-0.125, dd95=-0.24),
-    252: dict(label='12 months', p5=-0.075, p25=0.126, p50=0.333, p75=0.660, p95=1.566, ahead=0.84, lag10=-0.049, dd50=-0.160, dd95=-0.28),
+    63: dict(label='3 months', p5=-0.092, p25=-0.002, p50=0.081, p75=0.167, p95=0.360, ahead=0.70, lag10=-0.067, dd50=-0.095, dd95=-0.19),
+    126: dict(label='6 months', p5=-0.089, p25=0.032, p50=0.153, p75=0.336, p95=0.764, ahead=0.79, lag10=-0.060, dd50=-0.126, dd95=-0.24),
+    252: dict(label='12 months', p5=-0.075, p25=0.128, p50=0.341, p75=0.669, p95=1.601, ahead=0.84, lag10=-0.047, dd50=-0.160, dd95=-0.28),
 }
 WORST_DD = -0.34                # the backtest's worst drop, 2000-2026
 
