@@ -897,7 +897,7 @@ __ISSUES__
     var lg = (RT.warnLog || []).map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + (r[1] !== r[0] ? '–' + fmtDate(r[1], { month: 'short', day: 'numeric' }) : '') + ' (' + esc(r[2]) + ')'; }).join(' · ');
     return '<br><span class="' + (RT.warn ? 'neg' : 'muted') + '"><b>Downtrend warning ' + (RT.warn ? 'ON' : 'off') + '</b></span><span class="muted"> (information only, not traded): SPY’s daily chart in a downtrend (lower highs, lower lows), SPY below its ' + RT.ma + '-day average, and TLT or GLD rising' +
       (RT.warn ? ' — now: <b>' + esc(RT.warn) + '</b> is rising (up most over 6 months). The rule itself waits for its 15-session confirmation before switching; stepping aside earlier is your call.' : '.') +
-      ' Tested as an automatic switch (straight into the rising asset) it fixed late 2018 (−3% instead of −15%) but cost about 2 points a year over 2000–2026, because most of these warnings were short dips. On ' + RT.warnDays + ' sessions since ' + SINCE + (lg ? '. Recent: ' + lg : '') + '.</span>' + breadthNote(RT) + warnCallNote(RT) + rsiNote(RT.rsiWarn) + trendNote(RT.trendWatch);
+      ' Tested as an automatic switch (straight into the rising asset) it fixed late 2018 (−3% instead of −15%) but cost about 2 points a year over 2000–2026, because most of these warnings were short dips. On ' + RT.warnDays + ' sessions since ' + SINCE + (lg ? '. Recent: ' + lg : '') + '.</span>' + breadthNote(RT) + warnCallNote(RT) + rsiNote(RT.rsiWarn) + trendNote(RT.trendWatch) + chopNote(RT.chop);
   }
   var WC_KEY = 'nibii-warncalls';
   function wcLoad() { try { return JSON.parse(localStorage.getItem(WC_KEY) || '{}') || {}; } catch (e) { return {}; } }
@@ -944,6 +944,15 @@ __ISSUES__
     return '<br><span class="' + (W.on ? 'neg' : 'muted') + '"><b>RSI support-line warning ' + (W.on ? 'ON' : 'off') + '</b></span><span class="muted"> (information only): SPY’s 14-day RSI closed below a support line drawn through its swing lows (at least 4 touching it, none clearly below) in the last 20 sessions, with SPY below or within 2% of its 150-day average' +
       (W.on ? ' — broke on ' + fmtDate(W.date, { month: 'short', day: 'numeric' }) + ' (line ' + W.line + ', RSI now ' + W.rsi + ', SPY ' + pct(W.gap) + ' vs its 150-day)' : (W.date ? '; last break ' + fmtDate(W.date, { month: 'short', day: 'numeric', year: 'numeric' }) : '')) +
       '. It fired before the August 2015 and October 2018 drops; as an automatic exit it made about 2 points a year less from 2000 (2018 −7% instead of −15%, but 2015 −15% instead of −6%), so it is a heads-up, not a trade.' + (lg ? ' Recent breaks: ' + lg + '.' : '') + '</span>';
+  }
+  function chopNote(C) {   // choppy-market watch: the plan moved the whole account 3+ times in the last 40 sessions (information only)
+    if (!C) return '';
+    var f = function (d) { return fmtDate(d, { month: 'short', day: 'numeric', year: 'numeric' }); };
+    var nm = function (h) { return h === 'boost' ? 'stocks' : h; };
+    var mv = (C.moves || []).map(function (m) { return f(m[0]) + ' ' + esc(nm(m[1])) + '→' + esc(nm(m[2])); }).join(' · ');
+    var sp = (C.spells || []).filter(function (s) { return s[1]; }).slice(-3).map(function (s) { return f(s[0]) + '–' + f(s[1]); }).join(' · ');
+    return '<br><span class="' + (C.on ? 'neg' : 'muted') + '"><b>Choppy-market watch ' + (C.on ? 'ON' : 'off') + '</b></span><span class="muted"> (information only' + (C.on && C.since ? ', since ' + f(C.since) : '') + '): the default plan moved the whole account ' + C.n + ' time' + (C.n === 1 ? '' : 's') + ' in the last ' + C.look + ' sessions (on at ' + C.need + ')' + (mv ? ': ' + mv : '') + '.' +
+      ' Flipping like this is how the plan loses in a sideways market: in late 2015 it made 17 moves in four months and lost 12% while SPY rose 7%. Tested as rules (Oct 20, 2026): holding at least 5 to 15 sessions after a move, holding the strongest of SPY, gold or bonds, holding the stocks, or sitting in cash or DBMF while all three move little; none beat simply following the plan, because the same flipping also starts real crashes (2008, 2020, 2022). So the plan keeps following its rules; this tells you when a run of small losses is likely. In the 2000–2026 backtest it was on about 30% of sessions; here, ' + C.daysOn + ' of ' + C.days + ' sessions since ' + SINCE + '.' + (sp ? ' Recent spells: ' + sp + '.' : '') + '</span>';
   }
   function trendNote(T) {   // SPY trendline watch: a rising weekly line touched 3 or 4 times about evenly (information only)
     if (!T) return '';
@@ -1094,6 +1103,7 @@ __ISSUES__
     if (pm === 'rotation' && RTb && (RTb.trade || (RTb.whip && RTb.whip.trade))) mixTag = rotTag(RTb);
     if (RTb && RTb.rsiWarn && RTb.rsiWarn.on) mixTag += '<span class="tag sell">RSI support-line break (info only)</span>';
     if (RTb && RTb.trendWatch && RTb.trendWatch.on) mixTag += '<span class="tag sell">SPY broke its trendline (info only)</span>';
+    if (RTb && RTb.chop && RTb.chop.on) mixTag += '<span class="tag sell">choppy market: the plan is whipsawing (info only)</span>';
     if ((pm === 'boost100' || pm === 'cushion' || pm === 'rotation') && BXb && BXb.surge && !(pm === 'rotation' && RTb && RTb.mode !== 'boost'))
       (BXb.surge.pending || []).forEach(function (e) { mixTag += '<span class="tag sell">' + esc(e.t) + ' sells ' + fmtDate(e.sell, { weekday: 'short', month: 'short', day: 'numeric' }) + ' (surge exit)</span>'; });
     if (RTb && RTb.warn) mixTag += '<span class="tag sell">downtrend warning: SPY below its 150-day, ' + esc(RTb.warn) + ' rising (info only)</span>';
@@ -1105,7 +1115,7 @@ __ISSUES__
   } else {
     var RTm = D.plan && D.plan.auto && D.plan.auto.rotation, pm2 = (D.plan && D.plan['default']) || 'auto';
     try { pm2 = localStorage.getItem('nibii-plan-mix5') || pm2; } catch (e) {}
-    $('banner').innerHTML = (RTm && RTm.rsiWarn && RTm.rsiWarn.on ? '<span class="tag sell">RSI support-line break, SPY near or below its 150-day (info only)</span>' : '') + (RTm && RTm.trendWatch && RTm.trendWatch.on ? '<span class="tag sell">SPY closed under its rising trendline (info only)</span>' : '') + (RTm && RTm.warn ? '<span class="tag sell">downtrend warning: SPY below its 150-day in a daily downtrend, ' + esc(RTm.warn) + ' rising (info only)</span>' : '') + (pm2 === 'rotation' && RTm && (RTm.trade || (RTm.whip && RTm.whip.trade)) ? '<b>Boost + rotation — trade at the close ' + fmtDate(RTm.trade || RTm.whip.trade, wd) + ':</b>' + rotTag(RTm) + '<br>' : '') + (tags ? '<b>Preview — if Friday’s signal were ' + fmtDate(D.asOf, wd) + '’s close:</b>' + tags
+    $('banner').innerHTML = (RTm && RTm.rsiWarn && RTm.rsiWarn.on ? '<span class="tag sell">RSI support-line break, SPY near or below its 150-day (info only)</span>' : '') + (RTm && RTm.trendWatch && RTm.trendWatch.on ? '<span class="tag sell">SPY closed under its rising trendline (info only)</span>' : '') + (RTm && RTm.chop && RTm.chop.on ? '<span class="tag sell">choppy-market watch ON: the plan moved ' + RTm.chop.n + ' times in ' + RTm.chop.look + ' sessions (info only)</span>' : '') + (RTm && RTm.warn ? '<span class="tag sell">downtrend warning: SPY below its 150-day in a daily downtrend, ' + esc(RTm.warn) + ' rising (info only)</span>' : '') + (pm2 === 'rotation' && RTm && (RTm.trade || (RTm.whip && RTm.whip.trade)) ? '<b>Boost + rotation — trade at the close ' + fmtDate(RTm.trade || RTm.whip.trade, wd) + ':</b>' + rotTag(RTm) + '<br>' : '') + (tags ? '<b>Preview — if Friday’s signal were ' + fmtDate(D.asOf, wd) + '’s close:</b>' + tags
         : '<b>No changes so far</b><span class="muted">At ' + fmtDate(D.asOf, wd) + '’s close all five holdings still rank in the top ' + D.rule.keepRank + '.</span>') +
       '<span class="muted">Signal Fri ' + fmtDate(D.signalDate, md) + ' → trade Mon ' + fmtDate(D.tradeDate, md) + ' before the close.</span>' + callWhy(pm2);
   }

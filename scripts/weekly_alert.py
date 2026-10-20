@@ -4,7 +4,8 @@ stock swaps (also the News boost list's), a sleeve switch, or a change in the Au
 mix (including the bear guard turning on or off). Signals come from the week's last NYSE session (usually
 Friday's close) and trade at the next session's close (usually Monday). The title leads with the default
 plan (Boost + rotation). Midweek, an alert goes out when Boost + rotation switches, its whipsaw switch
-moves, or the blow-off or surge exit sells a stock: all trade at the next session's close. Data problems
+moves, or the blow-off or surge exit sells a stock: all trade at the next session's close. Information-only
+warnings (downtrend, RSI support line, SPY trendline, choppy-market watch) go out the evening they turn on. Data problems
 found by the scan are added to the alert, or sent on their own.
 
 Reads data/momentum_scan.json (written by scripts/momentum_scan.py). When nothing changes it writes
@@ -104,6 +105,33 @@ def trend_line(rt):
             f"(line {b['level']:.2f}, close {b['close']:.2f}; drawn through the {fmt(b['a'][0])} and {fmt(b['b'][0])} lows and touched "
             f"{len(b.get('touches') or [])} times about evenly). It caught October 2014 but cost 2000 and 2018; as a two-week exit it made "
             "about the same as Boost + rotation over 2000-2026 (37.4% vs 37.8% a year), so it is a heads-up, not a trade.")
+
+
+def chop_line(rt):
+    """Information only: the choppy-market watch (mtl/chop.py) - ON when the default plan moved the whole account
+    3+ times in the last 40 sessions, OFF when that count drops back under 3 (None while it stays as it was)."""
+    c = (rt or {}).get('chop') or {}
+    if c.get('on') == c.get('prevOn'):
+        return None
+    if not c.get('on'):
+        return (f"**Choppy-market watch OFF (information only):** the default plan moved the whole account {c.get('n', 0)} "
+                f"time{'' if c.get('n') == 1 else 's'} in the last {c.get('look', 40)} sessions, under the {c.get('need', 3)} that turn it on.")
+    mv = '; '.join(f"{fmt(d)} {rot_name(a) if a != 'boost' else 'stocks'} → {rot_name(b) if b != 'boost' else 'stocks'}"
+                   for d, a, b in c.get('moves') or [])
+    return (f"**Choppy-market watch ON (information only):** the default plan has now moved the whole account {c.get('n')} times "
+            f"in the last {c.get('look', 40)} sessions ({mv}). That is how late 2015 looked (17 moves in four months; the plan lost "
+            "12% while SPY rose 7%). Keep following the plan: holding still, holding the stocks, holding the strongest of "
+            "SPY / gold / bonds or parking in cash or DBMF in these spells all made less from every start year since 2000, "
+            "because the same flipping also starts real crashes (2008, 2020, 2022). It is a heads-up, not a trade.")
+
+
+def chop_now(rt):
+    """The watch's standing line while it stays on (None otherwise)."""
+    c = (rt or {}).get('chop') or {}
+    if not (c.get('on') and c.get('prevOn')):
+        return None
+    return (f"- **Choppy-market watch still ON (information only):** {c.get('n')} whole-account moves in the last "
+            f"{c.get('look', 40)} sessions" + (f", on since {fmt(c['since'])}" if c.get('since') else '') + "; keep following the plan.")
 
 
 def whip_line(rt):
@@ -228,6 +256,13 @@ def build_trades(scan, owner=None):
     if tl_ and not ((rt.get('trendWatch') or {}).get('prevOn')):
         items.append(tl_)
         tags.append("SPY trendline warning")
+    ch_ = chop_line(rt)
+    if ch_ and (rt.get('chop') or {}).get('on'):
+        items.append(ch_)
+        tags.append("choppy-market watch on")
+    elif ch_:
+        items.append(ch_)
+        standing.add(ch_)       # turning off rides along with a trade, it is not an alert on its own
     if sells or buys:
         items.append('**Stocks:** ' + ', '.join([f"sell {t}" for t in sells] + [f"buy {t}" for t in buys]))
         tags.append(', '.join([f"sell {t}" for t in sells] + [f"buy {t}" for t in buys]))
@@ -306,6 +341,7 @@ def build_trades(scan, owner=None):
              *([f"- {wl}"] if wl and rt.get('prevWarn') else []),
              *([f"- {rl_}"] if rl_ and (rt.get('rsiWarn') or {}).get('prevOn') else []),
              *([f"- {tl_}"] if tl_ and (rt.get('trendWatch') or {}).get('prevOn') else []),
+             *([chop_now(rt)] if chop_now(rt) else []),
              f"- **Sleeve pick:** {sl.get('held')}" + (f" ({sl.get('n')})" if sl.get('n') else ''),
              *([cushion_check(cush)] if cush.get('split') else []), '',
              '| Mix | Top 5 | Sleeve | SPY | Calls |', '|---|---|---|---|---|',
@@ -417,28 +453,37 @@ def midweek(scan, owner=None):
                  "Decided at today's close; the rest of the plans (Auto, Boost, Steps, Boost 100%, cushion) have nothing to do"
                  + (" except the blow-off sale below." if mw and (mw.get('sell') or mw.get('buy')) else "."), '',
                  rotation_now(rt)]
+        ch_ = chop_line(rt)
+        if ch_:
+            lines += ['', ch_]
         if mw and (mw.get('sell') or mw.get('buy')):
             lines += ['', f"**Boost 100% / cushion exit, same close:** "
                       + ', '.join([f"sell {t}" for t in mw.get('sell') or []] + [f"buy {t}" for t in mw.get('buy') or []])]
         lines += ['', f"Details: {PAGE}", '',
                   (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
-        title = f"Trade {fmt(rt['trade'])}: Boost + rotation → {rot_name(rt['mode']) if rt['mode'] != 'boost' else 'back into stocks'}"
+        title = (f"Trade {fmt(rt['trade'])}: Boost + rotation → {rot_name(rt['mode']) if rt['mode'] != 'boost' else 'back into stocks'}"
+                 + ("; choppy-market watch on" if ch_ and rt['chop'].get('on') else ''))
         return title[:240], '\n'.join(lines) + '\n'
     wh = whip_line(rt)
     if wh and not (mw and (mw.get('sell') or mw.get('buy'))):
         w = rt['whip']
+        ch_ = chop_line(rt)
         lines = [f"**Trade at the close on {fmt(w['trade'])}:** {wh}.", '',
-                 "Decided at today's close; the other plans have nothing to do.", '', rotation_now(rt), '', f"Details: {PAGE}", '',
+                 "Decided at today's close; the other plans have nothing to do.", '', rotation_now(rt),
+                 *(['', ch_] if ch_ else []), '', f"Details: {PAGE}", '',
                  (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update. Close this issue once you've traded."]
-        return f"Trade {fmt(w['trade'])}: Boost + rotation {whip_tag(rt)}"[:240], '\n'.join(lines) + '\n'
+        return (f"Trade {fmt(w['trade'])}: Boost + rotation {whip_tag(rt)}"
+                + ("; choppy-market watch on" if ch_ and rt['chop'].get('on') else ''))[:240], '\n'.join(lines) + '\n'
     if not mw or not (mw.get('sell') or mw.get('buy')):
         wl = warn_line(rt) if not rt.get('prevWarn') else None
         rl_ = rsi_line(rt) if not ((rt.get('rsiWarn') or {}).get('prevOn')) else None
         tl_ = trend_line(rt) if not ((rt.get('trendWatch') or {}).get('prevOn')) else None
-        if wl or rl_ or tl_:
-            lines = [x for x in (wl, rl_, tl_) if x] + ['', "Nothing to trade under any plan: this is a heads-up, not a signal.", '', f"Details: {PAGE}", '',
+        cl_ = chop_line(rt) if (rt.get('chop') or {}).get('on') else None
+        if wl or rl_ or tl_ or cl_:
+            lines = [x for x in (wl, rl_, tl_, cl_) if x] + ['', "Nothing to trade under any plan: this is a heads-up, not a signal.", '', f"Details: {PAGE}", '',
                      (f"@{owner} " if owner else '') + "- sent automatically by the Top 5 Strongest update."]
-            what = f"SPY downtrend below its 150-day, {rt['warn']} rising" if wl else "SPY RSI broke its support line" if rl_ else "SPY closed under its rising trendline"
+            what = (f"SPY downtrend below its 150-day, {rt['warn']} rising" if wl else "SPY RSI broke its support line" if rl_
+                    else "SPY closed under its rising trendline" if tl_ else "choppy market, the plan is whipsawing")
             return f"Warning {fmt(scan['asOf'])}: {what}"[:240], '\n'.join(lines) + '\n'
         return None
     blown, surged = set(mw.get('blown') or []), set(mw.get('surged') or [])
@@ -458,6 +503,7 @@ def midweek(scan, owner=None):
              ' '.join(why) + " Swap the same dollar amount; the rest of the account stays as it is.",
              *(['', call_line(bx, mw.get('buy') or [], mw.get('sell') or [])] if call_line(bx, mw.get('buy') or [], mw.get('sell') or []) else []),
              *(['', whip_line(rt)] if whip_line(rt) else []),
+             *(['', chop_line(rt)] if chop_line(rt) else []),
              '', "Auto, Boost and Steps: nothing to do." + (f" Boost + rotation is out of stocks ({rt['mode']}): nothing to do." if rt.get('mode') and rt['mode'] != 'boost'
                                                            else " Boost + rotation (in the Boost list): make the same swap" + (f" with its half in the stocks ({rt['whip']['half']} is the other half)." if (rt.get('whip') or {}).get('half') and ((rt.get('whip') or {}).get('part') or 0.5) < 1 else ".")), '',
              f"Details: {PAGE}", '',
