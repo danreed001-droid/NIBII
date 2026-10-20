@@ -529,7 +529,7 @@
       [
        "bear",
        "Nvidia, Apple and Microsoft now exceed 21% of S&P 500 weight, a record concentration (news log, Yahoo Finance 6 October), so index strength rests on few names",
-       false
+       true
       ],
       [
        "neu",
@@ -544,7 +544,7 @@
       [
        "bear",
        "The 10-year at about 5.26% and the 30-year at a 2002 high a day earlier are restrictive levels for equity valuations over ten sessions (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -587,8 +587,8 @@
        null
       ]
      ],
-     "maturityClose": 7764.5,
-     "ret": -0.014845,
+     "maturityClose": 7760.25,
+     "ret": -0.015384,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5473,8 +5473,8 @@
        false
       ]
      ],
-     "maturityClose": 4143.7998046875,
-     "ret": -0.008589,
+     "maturityClose": 4143.89990234375,
+     "ret": -0.008565,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7592,8 +7592,8 @@
        null
       ]
      ],
-     "maturityClose": 101.72100067138672,
-     "ret": -0.002432,
+     "maturityClose": 101.71099853515625,
+     "ret": -0.00253,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9830,8 +9830,8 @@
        false
       ]
      ],
-     "maturityClose": 2791.39990234375,
-     "ret": -0.018668,
+     "maturityClose": 2788.300048828125,
+     "ret": -0.019757,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11849,8 +11849,8 @@
        null
       ]
      ],
-     "maturityClose": 29764.75,
-     "ret": -0.054877,
+     "maturityClose": 29744.25,
+     "ret": -0.055528,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
