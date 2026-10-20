@@ -3168,7 +3168,7 @@ def render(scan, growth=None):
     # Escape "</" so a company name can never close the <script> block early.
     page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth).replace('__OVLIB__', overlay_lib(), 1)
     page = page.replace('__WALLST__', wallst_html(), 1)
-    page = page.replace('__RESEARCH__', ignition_html() + lab_html() + research_html(), 1)
+    page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
     sys.path.insert(0, ROOT)
@@ -3299,6 +3299,42 @@ def issue_rows(scan, entries=None, today=None):
     if not scan.get('track'):
         rows.insert(0, (scan.get('asOf') or '', 'The point-in-time track record (data/track_record.json) is missing, so the growth chart shows the replay on today\'s index members, which flatters every year.'))
     return rows
+
+
+def widenet_html(scan):
+    """The "Wide net" watch (information only, mtl/widenet.py): the strongest of about 40 assets the plan never holds,
+    scored like the plan scores stocks, with a flag for a fresh breakout after a base. '' when the scan has none."""
+    W = ((scan.get('plan') or {}).get('auto') or {}).get('wideNet')
+    if not W or not W.get('rows'):
+        return ''
+
+    def flags(r):
+        return ((' <span class="tag buy">Breakout after a base</span>' if r.get('breakout') else '')
+                + (' <span class="tag">Near 52w high</span>' if r.get('nearHigh') and not r.get('breakout') else ''))
+    rows = ''.join(
+        f'<tr><td class="num">{i}</td><td class="l"><b>{_e(r["t"])}</b> <span class="muted">{_e(r["name"])}</span>{flags(r)}</td>'
+        f'<td class="num {_tone(r["score"])}">{_p(r["score"], 0)}</td>'
+        f'<td class="num">{"yes" if r.get("beats") else "no"}</td>'
+        f'<td class="num hide-sm {_tone(r.get("r1m"))}">{_p(r.get("r1m"), 1)}</td>'
+        f'<td class="num">{_p(r.get("offHigh"), 1)}</td></tr>'
+        for i, r in enumerate(W['rows'], 1))
+    shown = {r['t'] for r in W['rows']}
+    extra = [r for r in W.get('breakouts') or [] if r['t'] not in shown]
+    brk = ('<p class="note"><b>Also breaking out after a base:</b> '
+           + ' · '.join(f'{_e(r["t"])} ({_e(r["name"])}, {_p(r["score"], 0)})' for r in extra) + '</p>') if extra else ''
+    return ('<section id="widenet"><p class="section-label">Wide net <span class="hint">information only · the strongest of '
+            f'{W.get("n", 0)} assets the plan never holds · close of {_e(W.get("asOf"))}</span></p>'
+            '<div class="tablebox"><table><thead><tr><th>#</th><th class="l">Asset</th>'
+            '<th title="Gain from 6 months ago to 1 month ago, the score the plan uses for stocks">6m score</th>'
+            f'<th title="Score above SPY\'s ({_p(W.get("spyScore"), 0)}) and above zero">Beats SPY</th>'
+            '<th class="hide-sm">Last month</th><th>Off 52w high</th>'
+            f'</tr></thead><tbody>{rows}</tbody></table></div>' + brk +
+            '<p class="note">Metals, energy, farm goods, sector and theme funds, country funds, currencies, real estate and bitcoin '
+            '(IBIT), ranked the way the plan ranks stocks. <b>Breakout after a base</b> = its first new 52-week closing high after '
+            'at least 3 months without one, in the last week: the kind of start big runs share. The plan never buys these. '
+            'As a "wild card" fifth slot (20% in the strongest each week) it made 42.3% a year from 2000 against 44.4% for the plan, '
+            'with a smaller worst drop (−27% against −32%); the best version only beat it on risk thanks to bitcoin in 2017. '
+            'So this is a list to look at, not a trade.</p></section>\n')
 
 
 def issues_html(scan, entries=None, today=None, show=ISSUES_SHOW):
