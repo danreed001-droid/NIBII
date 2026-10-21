@@ -3357,5 +3357,65 @@
       "time": "Pre-market",
       "vsExp": "Miss: 1.221M actual vs 1.305M expected"
     }
+  },
+  {
+    "id": "2026-10-21-1-brent-back-above-111-wti-near-100",
+    "data": {
+      "addedAt": "2026-10-21",
+      "category": "Energy",
+      "date": "2026-10-21",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Oil extended Tuesday's spike in pre-market trading, with Brent back above $111 and WTI near $100 ahead of weekly DOE inventory data; the 10-year Treasury yield eased slightly to about 5.12%.",
+      "impact": "High",
+      "numbers": "Brent +$2.39 to $111.18; Nymex crude +$2.49 to $100.31; 10Y yield -0.02 to 5.12%; S&P futures +0.18% to 7,769",
+      "order": 1,
+      "reaction": "Elevated energy prices remain the main macro risk for inflation and yields, though index futures were modestly higher on tech and earnings strength.",
+      "region": "Global",
+      "source": "https://investrade.com/morning-preview-october-21-2026/",
+      "tickers": "SPY, S&P, TLT, 10Y, yield, Treasury, XLE",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-21-2-spacex-q3-beat-tesla-merger-committees",
+    "data": {
+      "addedAt": "2026-10-21",
+      "category": "Earnings",
+      "date": "2026-10-21",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "SpaceX (SPCX) shares rose more than 8% overnight after Q3 results beat estimates, and Musk said SpaceX and Tesla have formed special committees to discuss a possible merger.",
+      "impact": "High",
+      "numbers": "Q3 EPS $0.37 vs $0.16 expected; revenue $14.6B (+161% y/y) vs $12.7B expected",
+      "reaction": "Lifted Nasdaq futures (about +0.5% to +0.6%) and space-related names (RKLB, FLY, LUNR, SATS) pre-market; Tesla reports after the close.",
+      "region": "US",
+      "source": "https://investrade.com/morning-preview-october-21-2026/",
+      "tickers": "QQQ, Nasdaq, SPY, S&P, SPCX, TSLA",
+      "time": "Pre-market",
+      "vsExp": "Beat: EPS $0.37 vs $0.16; revenue $14.6B vs $12.7B",
+      "order": 2
+    }
+  },
+  {
+    "id": "2026-10-21-3-netflix-falls-on-weak-q4-guidance",
+    "data": {
+      "addedAt": "2026-10-21",
+      "category": "Earnings",
+      "date": "2026-10-21",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Netflix (NFLX) fell about 6% pre-market after Q4 revenue and EPS guidance missed estimates and its FY26 ad revenue outlook was cut to about $2.7B from about $3B.",
+      "impact": "Medium",
+      "numbers": "NFLX about -6% pre-market; FY26 ad revenue ~$2.7B vs ~$3B prior",
+      "reaction": "Weighed on large-cap tech/communication names, partly offset by Super Micro (+~10% on raised guidance) and strong bank/insurer results (Capital One, Elevance).",
+      "region": "US",
+      "source": "https://investrade.com/morning-preview-october-21-2026/",
+      "tickers": "NFLX, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "Miss: Q4 revenue and EPS guidance below consensus",
+      "order": 3
+    }
   }
 ]
