@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-10-20T03:11:42+00:00",
+ "updated": "2026-10-21T00:53:54+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -229,7 +229,7 @@
    },
    "plan": {
     "day": 0.0167,
-    "month": 0.0306
+    "month": 0.0305
    }
   },
   {
@@ -279,7 +279,7 @@
    "what": "Fed's last hike of the cycle, to 5.25%",
    "src": "curated",
    "day": 0.0202,
-   "month": 0.0248,
+   "month": 0.0249,
    "type": "Fed hike / hawkish",
    "trend": "below",
    "gold": {
@@ -586,7 +586,7 @@
    },
    "plan": {
     "day": -0.0317,
-    "month": -0.022
+    "month": -0.0221
    }
   },
   {
@@ -749,7 +749,7 @@
     "month": 0.0058
    },
    "bonds": {
-    "day": 0.0312,
+    "day": 0.0311,
     "month": 0.022
    },
    "plan": {
@@ -1170,7 +1170,7 @@
    },
    "bonds": {
     "day": -0.0167,
-    "month": -0.042
+    "month": -0.0419
    },
    "plan": {
     "day": 0.0299,
@@ -2349,8 +2349,8 @@
     "month": 0.0191
    },
    "plan": {
-    "day": 0.0,
-    "month": 0.0062
+    "day": 0.0021,
+    "month": 0.0032
    }
   },
   {
@@ -2371,7 +2371,7 @@
    },
    "plan": {
     "day": 0.0131,
-    "month": 0.0092
+    "month": -0.0024
    }
   },
   {
@@ -2392,7 +2392,7 @@
    },
    "plan": {
     "day": -0.0319,
-    "month": -0.0685
+    "month": -0.0236
    }
   },
   {
@@ -2412,8 +2412,8 @@
     "month": -0.1202
    },
    "plan": {
-    "day": 0.0,
-    "month": 0.0019
+    "day": 0.0111,
+    "month": 0.0436
    }
   },
   {
@@ -2433,8 +2433,8 @@
     "month": -0.0137
    },
    "plan": {
-    "day": 0.0,
-    "month": 0.108
+    "day": -0.0023,
+    "month": 0.1084
    }
   },
   {
@@ -2455,7 +2455,7 @@
    },
    "plan": {
     "day": 0.0934,
-    "month": 0.1551
+    "month": 0.1377
    }
   },
   {
@@ -2475,8 +2475,8 @@
     "month": 0.0988
    },
    "plan": {
-    "day": -0.003,
-    "month": 0.0701
+    "day": -0.018,
+    "month": 0.0539
    }
   },
   {
@@ -2602,7 +2602,7 @@
    },
    "plan": {
     "day": -0.0079,
-    "month": 0.0374
+    "month": 0.0485
    }
   },
   {
@@ -2623,7 +2623,7 @@
    },
    "plan": {
     "day": 0.006,
-    "month": -0.0102
+    "month": 0.0066
    }
   },
   {
@@ -2643,8 +2643,8 @@
     "month": -0.0593
    },
    "plan": {
-    "day": 0.0,
-    "month": 0.0359
+    "day": 0.0015,
+    "month": 0.0518
    }
   },
   {
@@ -2664,8 +2664,8 @@
     "month": -0.0153
    },
    "plan": {
-    "day": 0.0,
-    "month": 0.0974
+    "day": 0.0004,
+    "month": 0.1018
    }
   },
   {
@@ -2812,7 +2812,7 @@
    },
    "plan": {
     "day": -0.0192,
-    "month": 0.0692
+    "month": 0.0922
    }
   },
   {
@@ -3001,7 +3001,7 @@
    },
    "plan": {
     "day": 0.0007,
-    "month": -0.0201
+    "month": -0.0213
    }
   },
   {
@@ -3127,7 +3127,7 @@
    },
    "plan": {
     "day": 0.0807,
-    "month": 0.2751
+    "month": 0.2793
    }
   },
   {
@@ -3147,8 +3147,8 @@
     "month": -0.0097
    },
    "plan": {
-    "day": 0.0,
-    "month": 0.0123
+    "day": -0.0201,
+    "month": 0.0105
    }
   },
   {
@@ -3190,7 +3190,7 @@
    },
    "plan": {
     "day": -0.0527,
-    "month": 0.1105
+    "month": 0.1156
    }
   },
   {
@@ -3211,7 +3211,7 @@
    },
    "plan": {
     "day": 0.0158,
-    "month": 0.169
+    "month": 0.1744
    }
   },
   {
