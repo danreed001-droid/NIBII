@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-10-21T00:53:54+00:00",
+ "updated": "2026-10-21T08:00:28+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -279,7 +279,7 @@
    "what": "Fed's last hike of the cycle, to 5.25%",
    "src": "curated",
    "day": 0.0202,
-   "month": 0.0249,
+   "month": 0.0248,
    "type": "Fed hike / hawkish",
    "trend": "below",
    "gold": {
@@ -678,7 +678,7 @@
    "what": "Bank recapitalisation plans",
    "src": "curated",
    "day": 0.1452,
-   "month": 0.0143,
+   "month": 0.0144,
    "type": "Rescue / fiscal",
    "trend": "below",
    "gold": {
@@ -708,7 +708,7 @@
    },
    "bonds": {
     "day": 0.0294,
-    "month": 0.2013
+    "month": 0.2014
    },
    "plan": {
     "day": 0.0294,
@@ -749,7 +749,7 @@
     "month": 0.0058
    },
    "bonds": {
-    "day": 0.0311,
+    "day": 0.0312,
     "month": 0.022
    },
    "plan": {
