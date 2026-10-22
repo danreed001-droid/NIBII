@@ -120,16 +120,57 @@ def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False, volumes=None):
         print(f"  prices {k + len(part)}/{len(tickers)}", file=sys.stderr, flush=True)
         df = yf.download(part, interval='1d', start=start, group_by='ticker', auto_adjust=adjusted,
                          threads=True, progress=False)
+        blank = {}   # ticker -> the latest day, when Yahoo's daily bar for it has no prices yet
         for t in part:
             try:
                 d = df[t].dropna(subset=['Close'])
+                raw = df[t]
             except KeyError:
                 continue
             out[t] = [(ts.date().isoformat(), float(o), float(h), float(l), float(c))
                       for ts, o, h, l, c in zip(d.index, d['Open'], d['High'], d['Low'], d['Close'])]
-            if volumes is not None and 'Volume' in d:
-                volumes[t] = {ts.date().isoformat(): int(v) for ts, v in zip(d.index, d['Volume']) if v == v}
+            if volumes is not None and 'Volume' in raw:
+                volumes[t] = {ts.date().isoformat(): int(v) for ts, v in zip(raw.index, raw['Volume']) if v == v}
+            if len(raw) and raw['Close'].iloc[-1] != raw['Close'].iloc[-1]:
+                blank[t] = raw.index[-1].date().isoformat()
+        if blank:
+            fill_from_minutes(out, blank, adjusted)
     return out
+
+
+def minute_bar(day, rows):
+    """One day's (date, open, high, low, close) from its 1-minute (New York time, open, high, low, close) rows,
+    regular session only (9:30 to 16:00); None without any. The close is the last minute's, which can differ
+    from the official closing print by a cent or two."""
+    rows = [r for r in rows if r[0].date().isoformat() == day and (9, 30) <= (r[0].hour, r[0].minute) < (16, 0)
+            and r[4] == r[4]]
+    if not rows:
+        return None
+    return (day, float(rows[0][1]), float(max(r[2] for r in rows)), float(min(r[3] for r in rows)), float(rows[-1][4]))
+
+
+def fill_from_minutes(out, blank, adjusted=False):
+    """In the evening Yahoo's daily bar for the session just closed can come back with no prices (only volume) for
+    hours (seen Oct 19-21, 2026), and the scan fell a day behind. Rebuild that day from its 1-minute bars; the next
+    run reads the official daily bar again."""
+    import yfinance as yf
+    from zoneinfo import ZoneInfo
+    try:
+        df = yf.download(sorted(blank), interval='1m', period='5d', group_by='ticker', auto_adjust=adjusted,
+                         prepost=False, threads=True, progress=False)
+    except Exception as e:
+        print(f"  1-minute fill failed: {e}", file=sys.stderr)
+        return
+    ny = ZoneInfo('America/New_York')
+    for t, day in blank.items():
+        try:
+            m = df[t] if len(blank) > 1 or t in df.columns.get_level_values(0) else df
+        except (KeyError, AttributeError):
+            continue
+        rows = [(ts.astimezone(ny), o, h, l, c) for ts, o, h, l, c in zip(m.index, m['Open'], m['High'], m['Low'], m['Close'])]
+        bar = minute_bar(day, rows)
+        if bar and (not out.get(t) or out[t][-1][0] < day):
+            out.setdefault(t, []).append(bar)
 
 
 def blocked_dates(bars):
