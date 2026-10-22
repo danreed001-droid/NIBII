@@ -18,6 +18,12 @@
    "src": "scan",
    "text": "Prices stop on 2026-10-20, but 2026-10-21's close should be in: a data delay (the next run usually catches up), or a market closure the calendar doesn't know (add it to EXTRA_CLOSURES in mtl/calendar_nyse.py). Tonight's decision is from 2026-10-20's close.",
    "at": "2026-10-22T00:43:39+00:00"
+  },
+  {
+   "d": "2026-10-21",
+   "src": "daily-fetch",
+   "text": "The Market Tape Ledger's data fetch failed (it never affects the Top 5 plan); its page may be out of date until a later run works.",
+   "at": "2026-10-22T01:26:52+00:00"
   }
  ]
 }
