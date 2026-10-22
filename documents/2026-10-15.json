@@ -437,7 +437,7 @@
       [
        "bear",
        "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for equities",
-       true
+       false
       ],
       [
        "neu",
@@ -467,7 +467,7 @@
       [
        "bear",
        "WTI $95.21 and Brent $104.60 on 15 October with a large geopolitical premium and a reported US MOAB strike plan for Iran (news log); oil is this asset's dominant 21-session driver (corr -0.44), and strike risk is unresolved, a headwind",
-       true
+       false
       ],
       [
        "neu",
@@ -475,8 +475,8 @@
        null
       ]
      ],
-     "maturityClose": 7685.5,
-     "ret": -0.013351,
+     "maturityClose": 7705.75,
+     "ret": -0.010752,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2580,8 +2580,8 @@
        false
       ]
      ],
-     "maturityClose": 106.40625,
-     "ret": 0.008889,
+     "maturityClose": 106.265625,
+     "ret": 0.007556,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5252,8 +5252,8 @@
        true
       ]
      ],
-     "maturityClose": 4051.5,
-     "ret": -0.02972,
+     "maturityClose": 4040.10009765625,
+     "ret": -0.03245,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7364,8 +7364,8 @@
        null
       ]
      ],
-     "maturityClose": 101.60600280761719,
-     "ret": -0.004439,
+     "maturityClose": 101.66000366210938,
+     "ret": -0.003909,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9553,8 +9553,8 @@
        false
       ]
      ],
-     "maturityClose": 2787.0,
-     "ret": 0.001833,
+     "maturityClose": 2794.0,
+     "ret": 0.00435,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11511,8 +11511,8 @@
        null
       ]
      ],
-     "maturityClose": 29105.25,
-     "ret": -0.032003,
+     "maturityClose": 29143.75,
+     "ret": -0.030723,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
