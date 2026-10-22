@@ -395,7 +395,7 @@ tbody tr:last-child td { border-bottom: 0; }
 #trk-card { margin-top: 28px; }
 #trk-card .btn { text-decoration: none; display: inline-block; }
 #y2-in { width: 100%; font: 0.9rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 8px 10px; margin: 4px 0 8px; box-sizing: border-box; }
-#y2-chart svg { width: 100%; height: auto; display: block; }
+#y2-chart svg, #pp-chart svg { width: 100%; height: auto; display: block; }
 #y2-log { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
 #sync-token { flex: 1 1 180px; min-width: 0; font: 0.84rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 6px 8px; }
 .sync code { font-size: 0.74rem; }
@@ -1120,6 +1120,36 @@ __ISSUES__
       '<span class="muted">Signal Fri ' + fmtDate(D.signalDate, md) + ' → trade Mon ' + fmtDate(D.tradeDate, md) + ' before the close.</span>' + callWhy(pm2);
   }
 
+  // a small line chart for the You-2 and paper records: every line ends in a label (a colour swatch, its name and its value in $)
+  // and the labels are pushed apart so none overprint, with room on the right for the longest; a dashed line marks the $100 start
+  function miniLines(ser, label) {
+    var all = []; ser.forEach(function (x) { x[1].forEach(function (p) { all.push(p[1]); }); });
+    var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all), W = 600, H = 200, R = 210, FS = 13;
+    if (hi - lo < 0.004) { lo -= 0.002; hi += 0.002; }
+    var xs = function (i, len) { return (i / Math.max(1, len - 1)) * (W - R - 8) + 4; }, ys = function (v) { return H - 20 - (v - lo) / ((hi - lo) || 1) * (H - 40); };
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(label) + '">', labs = [];
+    if (lo <= 1 && hi >= 1) svg += '<line x1="4" x2="' + (W - R - 4) + '" y1="' + ys(1).toFixed(1) + '" y2="' + ys(1).toFixed(1) + '" style="stroke:var(--muted);stroke-width:1;stroke-dasharray:3 4;opacity:.6"/>' +
+      '<text x="4" y="' + (ys(1) - 4).toFixed(1) + '" font-size="11" style="fill:var(--muted)">$100</text>';
+    // drawn back to front: the first line (yours) sits on top as a thin line, the others are wider and fainter underneath so a line that
+    // matches yours exactly (You-2 and the default plan hold the same stocks) still shows
+    ser.slice().reverse().forEach(function (x, ri) {
+      if (!x[1].length) return;
+      var top = ri === ser.length - 1;
+      svg += '<polyline style="fill:none;stroke:' + x[2] + ';stroke-width:' + (top ? 2 : 4.5) + ';opacity:' + (top ? 1 : 0.55) + '" points="' + x[1].map(function (p, i) { return xs(i, x[1].length).toFixed(1) + ',' + ys(p[1]).toFixed(1); }).join(' ') + '"/>';
+      var lp = x[1][x[1].length - 1], ex = xs(x[1].length - 1, x[1].length);
+      svg += '<circle cx="' + ex.toFixed(1) + '" cy="' + ys(lp[1]).toFixed(1) + '" r="3.5" style="fill:' + x[2] + '"/>';
+      labs.push({ y: ys(lp[1]), x: ex, name: x[0], v: '$' + (lp[1] * 100).toFixed(1), c: x[2] });
+    });
+    labs.sort(function (a, b) { return a.y - b.y; });
+    for (var i = 0; i < labs.length; i++) { labs[i].y = Math.max(labs[i].y, FS); if (i && labs[i].y - labs[i - 1].y < FS + 3) labs[i].y = labs[i - 1].y + FS + 3; }
+    for (var j = labs.length - 1; j >= 0; j--) { labs[j].y = Math.min(labs[j].y, H - 4 - (labs.length - 1 - j) * (FS + 3)); }
+    labs.forEach(function (l) {
+      svg += '<rect x="' + (l.x + 9).toFixed(1) + '" y="' + (l.y - 8).toFixed(1) + '" width="10" height="4" rx="2" style="fill:' + l.c + '"/>' +
+        '<text x="' + (l.x + 24).toFixed(1) + '" y="' + (l.y + 1).toFixed(1) + '" font-size="' + FS + '" style="fill:var(--ink)"><tspan>' + esc(l.name) + '</tspan><tspan dx="6" font-weight="600">' + l.v + '</tspan></text>';
+    });
+    return svg + '</svg>';
+  }
+
   // You-2: your stocks, the default plan's timing (mtl/you2.py; docs/my_calls.json "you2")
   (function () {
     if (!$('you2')) return;
@@ -1149,18 +1179,7 @@ __ISSUES__
       var C = Y.curve || [];
       if (C.length < 2) $('y2-chart').innerHTML = '<p class="note">The chart starts after the first closes.</p>';
       else {
-        var ser = [['You-2', C, 'var(--s-ccalls)'], ['Default plan', Y.plan || [], 'var(--s-rot)'], ['SPY', Y.spy || [], 'var(--s-spy)']];
-        var all = []; ser.forEach(function (x) { x[1].forEach(function (p) { all.push(p[1]); }); });
-        var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all), W = 560, H = 180, n0 = C.length;
-        var xs = function (i, len) { return (i / Math.max(1, len - 1)) * (W - 70) + 4; }, ys = function (v) { return H - 18 - (v - lo) / ((hi - lo) || 1) * (H - 30); };
-        var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="You-2 vs the default plan and SPY since the start">';
-        ser.forEach(function (x) {
-          if (!x[1].length) return;
-          svg += '<polyline style="fill:none;stroke:' + x[2] + ';stroke-width:2" points="' + x[1].map(function (p, i) { return xs(i, x[1].length).toFixed(1) + ',' + ys(p[1]).toFixed(1); }).join(' ') + '"/>';
-          var lp = x[1][x[1].length - 1];
-          svg += '<text x="' + (xs(x[1].length - 1, x[1].length) + 6).toFixed(1) + '" y="' + (ys(lp[1]) + 4).toFixed(1) + '" font-size="11" style="fill:var(--ink-2)">' + esc(x[0]) + ' $' + Math.round(lp[1] * 100) + '</text>';
-        });
-        $('y2-chart').innerHTML = svg + '</svg>';
+        $('y2-chart').innerHTML = miniLines([['You-2', C, 'var(--s-ccalls)'], ['Default plan', Y.plan || [], 'var(--s-rot)'], ['SPY', Y.spy || [], 'var(--s-spy)']], 'You-2 vs the default plan and SPY since the start');
       }
       $('y2-log').innerHTML = 'Your lists: ' + (Y.entries || []).map(function (e) { return fmtDate(e[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ': ' + esc(e[1].join(', ')); }).join(' · ');
     }
@@ -1199,18 +1218,7 @@ __ISSUES__
     var C = P.curve || [], Sp = P.spy || [];
     if (C.length < 2) $('pp-chart').innerHTML = '<p class="note">The chart starts after the first closes.</p>';
     else {
-      var ser = [['Paper record', C, 'var(--s-rot)'], ['SPY', Sp, 'var(--s-spy)']];
-      var all = []; ser.forEach(function (x) { x[1].forEach(function (p) { all.push(p[1]); }); });
-      var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all), W = 560, H = 180;
-      var xs = function (i, len) { return (i / Math.max(1, len - 1)) * (W - 90) + 4; }, ys = function (v) { return H - 18 - (v - lo) / ((hi - lo) || 1) * (H - 30); };
-      var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Paper record vs SPY since the start">';
-      ser.forEach(function (x) {
-        if (!x[1].length) return;
-        svg += '<polyline style="fill:none;stroke:' + x[2] + ';stroke-width:2" points="' + x[1].map(function (p, i) { return xs(i, x[1].length).toFixed(1) + ',' + ys(p[1]).toFixed(1); }).join(' ') + '"/>';
-        var lp = x[1][x[1].length - 1];
-        svg += '<text x="' + (xs(x[1].length - 1, x[1].length) + 6).toFixed(1) + '" y="' + (ys(lp[1]) + 4).toFixed(1) + '" font-size="11" style="fill:var(--ink-2)">' + esc(x[0]) + ' $' + Math.round(lp[1] * 100) + '</text>';
-      });
-      $('pp-chart').innerHTML = svg + '</svg>';
+      $('pp-chart').innerHTML = miniLines([['Paper record', C, 'var(--s-rot)'], ['SPY', Sp, 'var(--s-spy)']], 'Paper record vs SPY since the start');
     }
     var B = P.bands || {}, rows = '<thead><tr><th class="l">After</th><th>1 in 20 bad</th><th>Typical</th><th>Beat SPY</th><th>Typical drop</th></tr></thead><tbody>';
     Object.keys(B).sort(function (a, b) { return a - b; }).forEach(function (h) {
