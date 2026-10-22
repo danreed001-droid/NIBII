@@ -3477,5 +3477,65 @@
       "time": "After-hours",
       "vsExp": "Beat on EPS, revenue and Q4 guide"
     }
+  },
+  {
+    "id": "2026-10-22-4-sp500-nasdaq-slide-ai-jitters",
+    "data": {
+      "addedAt": "2026-10-22",
+      "category": "Market",
+      "date": "2026-10-22",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "US stocks closed broadly lower as AI-spending/cost-of-capital worries, a Middle East oil shock and mixed Big Tech earnings weighed on sentiment; the Dow eked out a gain while the S&P 500 and Nasdaq slid, led down by chip and AI-infrastructure names.",
+      "impact": "High",
+      "numbers": "S&P 500 7,663.43 (-1.21%); Dow 52,867.98 (+0.02%); Nasdaq Composite 26,008.86 (-2.60%); 10-year Treasury yield 4.953% (-0.193pt)",
+      "order": 4,
+      "reaction": "Lam Research led chip-sector declines and CoreWeave fell 10%; VIX rose 14.1% to 19.03. Investors rotated into bonds, pulling Treasury yields lower; gold fell 2.66% to $4,039.60 and bitcoin dropped below $82,000 as risk assets sold off.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/article/stock-market-today-thursday-october-22-dow-sp-500-nasdaq-tesla-meta-112217857.html",
+      "tickers": "SPY, DIA, QQQ, TNX, LRCX, CRWV",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-22-5-tesla-falls-despite-q3-beat",
+    "data": {
+      "addedAt": "2026-10-22",
+      "category": "Earnings",
+      "date": "2026-10-22",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Tesla (TSLA) beat Q3 estimates, but shares fell as investors weighed lower planned 2026 capex against guidance for sharply higher spending in 2027 and 2028.",
+      "impact": "High",
+      "numbers": "Shares closed -3.08% to $374.58",
+      "order": 5,
+      "reaction": "Stock declined through the session despite the earnings beat as capex guidance overshadowed results.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/article/stock-market-today-thursday-october-22-dow-sp-500-nasdaq-tesla-meta-112217857.html",
+      "tickers": "TSLA",
+      "time": "Market hours",
+      "vsExp": "Beat consensus on the quarter; capex trajectory into 2027-28 weighed on the stock"
+    }
+  },
+  {
+    "id": "2026-10-22-6-ibm-drops-on-q4-slowdown-fears",
+    "data": {
+      "addedAt": "2026-10-22",
+      "category": "Earnings",
+      "date": "2026-10-22",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "IBM reported solid Q3 results (revenue +6% at constant currency, software revenue +9%), but shares dropped nearly 5% pre-market on investor concerns about a potential Q4 slowdown.",
+      "impact": "Medium",
+      "numbers": "Revenue +6% cc; software revenue +9%; shares ~$251.46, pre-market -5%",
+      "order": 6,
+      "reaction": "CEO Arvind Krishna said performance may normalize into Q4; analysts echoed slowdown concerns, pressuring shares despite the beat-like quarter.",
+      "region": "US",
+      "source": "https://www.gurufocus.com/news/9136571/ibm-shares-drop-nearly-5-premarket-despite-solid-q3-earnings-ibm",
+      "tickers": "IBM",
+      "time": "Pre-market",
+      "vsExp": "Results characterized as solid; no specific consensus figures given, but Q4 outlook concerns dominated reaction"
+    }
   }
 ]
