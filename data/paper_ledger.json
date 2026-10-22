@@ -107,6 +107,24 @@
    "at": "2026-10-21T07:50:52+00:00",
    "fp": "d27462eaa6d0442f",
    "src": "scanner run"
+  },
+  {
+   "d": "2026-10-21",
+   "mode": "GLD",
+   "half": null,
+   "list": [
+    "AMD",
+    "DELL",
+    "HPE",
+    "MRNA",
+    "MU"
+   ],
+   "w": {
+    "GLD": 1.0
+   },
+   "at": "2026-10-22T01:18:35+00:00",
+   "fp": "d27462eaa6d0442f",
+   "src": "scanner run"
   }
  ],
  "updates": [
