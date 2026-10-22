@@ -3417,5 +3417,65 @@
       "vsExp": "Miss: Q4 revenue and EPS guidance below consensus",
       "order": 3
     }
+  },
+  {
+    "id": "2026-10-22-1-oil-spikes-on-middle-east-escalation-asia",
+    "data": {
+      "addedAt": "2026-10-22",
+      "category": "Geopolitics",
+      "date": "2026-10-22",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Oil spiked and global equities sold off as Middle East escalation fears grew (NYT report of renewed US/Israeli strike plans on Iran after the midterms; Houthi attacks in Saudi Arabia). Brent hit its highest since May and Asian markets fell sharply.",
+      "impact": "High",
+      "numbers": "Brent ~$111.88 (+2.8%); WTI ~$99.48 (+2.4%); Nikkei -2.65%; Hang Seng -3%+; Kospi -3.7%; DAX -275 pts; S&P 500 futures -0.96%; Nasdaq futures -1.61%; 10Y ~5.07%; gold ~$4,107 (-$43)",
+      "order": 1,
+      "reaction": "US futures faded early earnings gains on oil-driven inflation and rate worries; Treasury yields dipped to ~5.07% while gold and the dollar-yen slipped.",
+      "region": "Global",
+      "source": "https://investrade.com/morning-preview-october-22-2026/",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, 10Y, yield, Treasury, GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-22-2-meta-q3-eps-miss-on-989b-legal-charge",
+    "data": {
+      "addedAt": "2026-10-22",
+      "category": "Earnings",
+      "date": "2026-10-22",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Meta (META) Q3 EPS missed on a $9.89B legal charge while revenue beat; Q4 revenue guided to $73B-76B, FY capex $135B-145B, with new non-voting Class C shares and a 2-for-1 split effective January 2027. Shares fell.",
+      "impact": "High",
+      "numbers": "EPS $3.83 vs $6.54 est.; revenue $64.601B vs $63.368B est.; Q4 rev $73B-76B; capex $135B-145B",
+      "order": 2,
+      "reaction": "Shares fell pre-market, adding to pressure on Nasdaq futures (-1.6%).",
+      "region": "US",
+      "source": "https://investrade.com/morning-preview-october-22-2026/",
+      "tickers": "META, QQQ, Nasdaq",
+      "time": "After-hours",
+      "vsExp": "EPS miss (legal charge); revenue beat"
+    }
+  },
+  {
+    "id": "2026-10-22-3-texas-instruments-beats-guides-q4-above",
+    "data": {
+      "addedAt": "2026-10-22",
+      "category": "Earnings",
+      "date": "2026-10-22",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "Texas Instruments (TXN) beat Q3 estimates with revenue up 28% y/y and guided Q4 EPS above consensus.",
+      "impact": "Medium",
+      "numbers": "EPS $2.62 vs $2.44 est.; revenue $6.055B vs $5.92B est.; Q4 EPS guide $2.45-2.79 vs $2.30 est.",
+      "order": 3,
+      "reaction": "Early semiconductor gains faded as oil and rate worries dominated.",
+      "region": "US",
+      "source": "https://investrade.com/morning-preview-october-22-2026/",
+      "tickers": "TXN, QQQ, Nasdaq",
+      "time": "After-hours",
+      "vsExp": "Beat on EPS, revenue and Q4 guide"
+    }
   }
 ]
