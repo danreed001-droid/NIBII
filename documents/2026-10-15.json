@@ -2580,8 +2580,8 @@
        false
       ]
      ],
-     "maturityClose": 105.53125,
-     "ret": 0.000593,
+     "maturityClose": 105.875,
+     "ret": 0.003852,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5189,7 +5189,7 @@
       [
        "bear",
        "structure.weekly reads downtrend for GC=F on 15 October",
-       false
+       true
       ],
       [
        "neu",
@@ -5214,7 +5214,7 @@
       [
        "bear",
        "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for non-yielding gold",
-       false
+       true
       ],
       [
        "neu",
@@ -5249,11 +5249,11 @@
       [
        "bear",
        "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 4115.0,
-     "ret": -0.014513,
+     "maturityClose": 4095.39990234375,
+     "ret": -0.019207,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7364,8 +7364,8 @@
        null
       ]
      ],
-     "maturityClose": 101.49099731445312,
-     "ret": -0.005565,
+     "maturityClose": 101.78800201416016,
+     "ret": -0.002655,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9553,8 +9553,8 @@
        false
       ]
      ],
-     "maturityClose": 2772.300048828125,
-     "ret": -0.003451,
+     "maturityClose": 2777.60009765625,
+     "ret": -0.001546,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11511,8 +11511,8 @@
        null
       ]
      ],
-     "maturityClose": 29488.75,
-     "ret": -0.019248,
+     "maturityClose": 29465.75,
+     "ret": -0.020013,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

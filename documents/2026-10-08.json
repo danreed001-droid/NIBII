@@ -2690,8 +2690,8 @@
        null
       ]
      ],
-     "maturityClose": 105.53125,
-     "ret": 0.007158,
+     "maturityClose": 105.875,
+     "ret": 0.010438,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5327,7 +5327,7 @@
       [
        "bear",
        "Weekly structure is a downtrend (structure.weekly: latest swings LL 3955 then LH 4755); gold (GC=F) +0.99% on 8 October",
-       false
+       true
       ],
       [
        "neu",
@@ -5347,12 +5347,12 @@
       [
        "bear",
        "The 10-year yield stays near 5.23%, close to its highest since 2002, and 30-year near 5.67% (news log, 8 October), a real-yield headwind for non-yielding gold",
-       false
+       true
       ],
       [
        "bear",
        "September FOMC minutes (released 7 October): most participants said a further rate increase 'would likely be appropriate by year end'; markets priced roughly 17-20% odds of an October hike (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -5387,11 +5387,11 @@
       [
        "bear",
        "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 4115.0,
-     "ret": -0.019841,
+     "maturityClose": 4095.39990234375,
+     "ret": -0.02451,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7502,8 +7502,8 @@
        null
       ]
      ],
-     "maturityClose": 101.49099731445312,
-     "ret": -0.004863,
+     "maturityClose": 101.78800201416016,
+     "ret": -0.001951,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9711,8 +9711,8 @@
        false
       ]
      ],
-     "maturityClose": 2772.300048828125,
-     "ret": -0.016112,
+     "maturityClose": 2777.60009765625,
+     "ret": -0.014231,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -11701,8 +11701,8 @@
        null
       ]
      ],
-     "maturityClose": 29488.75,
-     "ret": -0.050481,
+     "maturityClose": 29465.75,
+     "ret": -0.051221,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
