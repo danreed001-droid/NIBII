@@ -411,62 +411,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for ES=F on 15 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.weekly reads choppy for ES=F on 15 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VIX closed 16.46 on 15 October (16.87 the day before), naming no percentile, record or multi-year extreme, so neutral"
+       "VIX closed 16.46 on 15 October (16.87 the day before), naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral"
+       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral",
+       null
       ],
       [
        "bear",
-       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for equities"
+       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for equities",
+       false
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Bank-earnings strength and chip weakness offset each other over this horizon, so neutral"
+       "Bank-earnings strength and chip weakness offset each other over this horizon, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "WTI $95.21 and Brent $104.60 on 15 October with a large geopolitical premium and a reported US MOAB strike plan for Iran (news log); oil is this asset's dominant 21-session driver (corr -0.44), and strike risk is unresolved, a headwind"
+       "WTI $95.21 and Brent $104.60 on 15 October with a large geopolitical premium and a reported US MOAB strike plan for Iran (news log); oil is this asset's dominant 21-session driver (corr -0.44), and strike risk is unresolved, a headwind",
+       false
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7723.0,
+     "ret": -0.008537,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -2501,62 +2516,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for ZN=F on 15 October"
+       "structure.weekly reads downtrend for ZN=F on 15 October",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "The only implied-vol figure is a stale TLT IV of 15 carried from 25 September, naming no percentile, record or multi-year extreme, so neutral"
+       "The only implied-vol figure is a stale TLT IV of 15 carried from 25 September, naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral"
+       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral",
+       null
       ],
       [
        "bear",
-       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for bond prices"
+       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for bond prices",
+       false
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Equity earnings catalysts (bank beats, TSMC) have no clear direct read-through for this asset on 15 October, so neutral"
+       "Equity earnings catalysts (bank beats, TSMC) have no clear direct read-through for this asset on 15 October, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield is the dominant 21-session driver (corr -0.967); it fell 10.5bp on 15 October while oil is elevated and equities mixed, so cross-asset signals are two-sided"
+       "The 10-year yield is the dominant 21-session driver (corr -0.967); it fell 10.5bp on 15 October while oil is elevated and equities mixed, so cross-asset signals are two-sided",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 105.53125,
+     "ret": 0.000593,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -5158,62 +5188,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for GC=F on 15 October"
+       "structure.weekly reads downtrend for GC=F on 15 October",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "GVZ closed 22.34 on 15 October (22.78 the day before), naming no percentile, record or multi-year extreme, so neutral"
+       "GVZ closed 22.34 on 15 October (22.78 the day before), naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral"
+       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral",
+       null
       ],
       [
        "bear",
-       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for non-yielding gold"
+       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for non-yielding gold",
+       false
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Equity earnings catalysts (bank beats, TSMC) have no clear direct read-through for this asset on 15 October, so neutral"
+       "Equity earnings catalysts (bank beats, TSMC) have no clear direct read-through for this asset on 15 October, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals (hike odds up, yield lower, oil elevated) are two-sided over this horizon, so neutral"
+       "Cross-asset signals (hike odds up, yield lower, oil elevated) are two-sided over this horizon, so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4115.0,
+     "ret": -0.014513,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -7255,62 +7300,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for DX-Y.NYB on 15 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.weekly reads choppy for DX-Y.NYB on 15 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "The only implied-vol figure is a stale EUR/USD 1M IV of 4.72 carried from 21 September, naming no percentile, record or multi-year extreme, so neutral"
+       "The only implied-vol figure is a stale EUR/USD 1M IV of 4.72 carried from 21 September, naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral"
+       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral",
+       null
       ],
       [
        "bull",
-       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), supportive for the dollar"
+       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), supportive for the dollar",
+       false
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Equity earnings catalysts (bank beats, TSMC) have no clear direct read-through for this asset on 15 October, so neutral"
+       "Equity earnings catalysts (bank beats, TSMC) have no clear direct read-through for this asset on 15 October, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 2-year yield is the dominant 21-session driver (corr -0.432); no dated 2-year move for 15 October is in the news log, while the 10-year fell 10.5bp, so cross-asset signals are two-sided"
+       "The 2-year yield is the dominant 21-session driver (corr -0.432); no dated 2-year move for 15 October is in the news log, while the 10-year fell 10.5bp, so cross-asset signals are two-sided",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 101.49099731445312,
+     "ret": -0.005565,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 10,
@@ -9429,62 +9489,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for RTY=F on 15 October"
+       "structure.weekly reads uptrend for RTY=F on 15 October",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "The only implied-vol figure is a stale RVX of 19.97 carried from 23 September, naming no percentile, record or multi-year extreme, so neutral"
+       "The only implied-vol figure is a stale RVX of 19.97 carried from 23 September, naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral"
+       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral",
+       null
       ],
       [
        "bear",
-       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for rate-sensitive small caps"
+       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for rate-sensitive small caps",
+       false
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The cyclical rotation is a one-day reaction; no dated source extends it over this horizon, so neutral"
+       "The cyclical rotation is a one-day reaction; no dated source extends it over this horizon, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals (hike odds up, yield lower, oil elevated) are two-sided over this horizon, so neutral"
+       "Cross-asset signals (hike odds up, yield lower, oil elevated) are two-sided over this horizon, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2772.300048828125,
+     "ret": -0.003451,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -11372,62 +11447,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for NQ=F on 15 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.weekly reads choppy for NQ=F on 15 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VXN closed 22.89 on 15 October (22.70 the day before), naming no percentile, record or multi-year extreme, so neutral"
+       "VXN closed 22.89 on 15 October (22.70 the day before), naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral"
+       "The 10-year yield eased 10.5bp to 5.085% on 15 October (news log), but 5.09% is still an elevated level and one day does not set a multi-day direction for this asset, so neutral",
+       null
       ],
       [
        "bear",
-       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for long-duration tech"
+       "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for long-duration tech",
+       true
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The TSMC-led chip selloff is a one-day reaction; whether it persists over this horizon is not established by any dated source, so neutral"
+       "The TSMC-led chip selloff is a one-day reaction; whether it persists over this horizon is not established by any dated source, so neutral",
+       null
       ],
       [
        "neu",
-       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral"
+       "September CPI and PPI are already out at the 15 October close; the next dated check is the 27-28 October FOMC, whose outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 15 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "WTI $95.21 and Brent $104.60 on 15 October with a large geopolitical premium and a reported US MOAB strike plan for Iran (news log); oil is this asset's dominant 21-session driver (corr -0.574), and strike risk is unresolved, a headwind"
+       "WTI $95.21 and Brent $104.60 on 15 October with a large geopolitical premium and a reported US MOAB strike plan for Iran (news log); oil is this asset's dominant 21-session driver (corr -0.574), and strike risk is unresolved, a headwind",
+       true
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 29488.75,
+     "ret": -0.019248,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 10,
