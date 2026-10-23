@@ -3597,5 +3597,105 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-23-4-market-closes-lower-sp-dow-nasdaq",
+    "data": {
+      "addedAt": "2026-10-23",
+      "category": "Market",
+      "date": "2026-10-23",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "US stocks close lower to end a volatile week: S&P 500 and Nasdaq post a second straight weekly loss while the Dow still finished the week higher; tech/AI selloff from Thursday weighs alongside surging oil prices.",
+      "impact": "High",
+      "numbers": "S&P 500 7,623.68 (-39.75, -0.52%); Dow 52,215.16 (-652.82, -1.23%); Nasdaq 25,955.34 (-53.52, -0.21%); Russell 2000 2,775.90 (-0.29%); 10Y Treasury yield 4.988% (+0.71%); VIX 19.45 (+2.2%)",
+      "order": 4,
+      "reaction": "Broad-based decline led by the Dow; bond yields rebounded off Thursday's flight-to-safety lows.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-23-dow-sp-500-nasdaq-tesla-meta-093000521.html",
+      "tickers": "SPY, DIA, QQQ, ^GSPC, ^DJI, ^IXIC, TLT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-23-5-oil-surges-6-month-high-iran-risk",
+    "data": {
+      "addedAt": "2026-10-23",
+      "category": "Geopolitics",
+      "date": "2026-10-23",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Oil extends its rally to a six-month high on escalating Middle East risk; reports the US and Israel are weighing further strikes on Iran, plus Strait of Hormuz tensions, drive crude higher. Trump suggested the US could let Iran's position \"wither,\" and a US UN ambassador said the war could last another year; Iran threatened to strike Gulf energy and data infrastructure if attacked again. Airlines fell on higher fuel costs.",
+      "impact": "High",
+      "numbers": "Brent $116.72/bbl (3rd straight weekly gain); WTI ~$103 (+~3.8%); United, Delta, American each down >4%",
+      "order": 5,
+      "reaction": "Energy-led inflation fears resurface, pressuring airlines and reinforcing a higher-for-longer rate narrative.",
+      "region": "Global",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-23-dow-sp-500-nasdaq-tesla-meta-093000521.html",
+      "tickers": "USO, BNO, UAL, DAL, AAL",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-23-6-fed-hike-odds-fall-oct28-meeting",
+    "data": {
+      "addedAt": "2026-10-23",
+      "category": "Fed",
+      "date": "2026-10-23",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "Odds of an October rate hike fade into next week's Oct. 27-28 FOMC meeting even as oil-driven inflation concerns linger; markets instead focus on December, with the Fed's preferred inflation gauge (PCE) due Oct. 29.",
+      "impact": "Medium",
+      "numbers": "CME FedWatch: ~92% probability Fed holds on Oct 28 (hike odds ~5-8%, down from 15% earlier in the week and 37% at end of September); December hike probability ~83%",
+      "order": 6,
+      "reaction": "Reduced near-term hike risk is modestly dovish, but elevated oil keeps a higher-for-longer rate debate alive.",
+      "region": "US",
+      "source": "https://www.marketscreener.com/news/gold-set-for-second-weekly-loss-as-oil-fuelled-inflation-concerns-bolster-fed-hike-outlook-ce785cdfda89f020",
+      "tickers": "TLT, ^TNX, DXY",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-23-7-umich-sentiment-near-record-low",
+    "data": {
+      "addedAt": "2026-10-23",
+      "category": "Macro",
+      "date": "2026-10-23",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "University of Michigan consumer sentiment index slips to near a record low, while both short- and long-run inflation expectations rise, a stagflation-leaning signal for consumers.",
+      "impact": "Medium",
+      "numbers": "UMich sentiment 48.0 (near record low); 1-yr inflation expectations 4.7%; 5-yr inflation expectations 3.5%",
+      "order": 7,
+      "reaction": "Adds to concerns that elevated energy prices are feeding into household inflation expectations.",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-23-2026",
+      "tickers": "n/a",
+      "time": "Market hours",
+      "vsExp": "Below prior reading; near series record low"
+    }
+  },
+  {
+    "id": "2026-10-23-8-amex-meta-spacex-earnings-capex",
+    "data": {
+      "addedAt": "2026-10-23",
+      "category": "Earnings",
+      "date": "2026-10-23",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "American Express Q3 results miss on revenue and the company announces ~3,500 job cuts (~5% of workforce) plus a $336M restructuring charge; shares fall. Elsewhere, AI capex remains the focus of the week: Meta raised its 2026 capex guidance to $135-145B after a Q3 beat (shares fell ~7% Thursday, pared losses Friday), while SpaceX beat Q3 estimates (Connectivity revenue +69% to $5.2B) and guided Q4 capex to $35-40B; Apple briefly overtook Nvidia as the most valuable US company near $5.1T.",
+      "impact": "Medium",
+      "numbers": "AXP revenue $14.5B (+9% y/y), adj. EPS $4.68, shares -3%; META 2026 capex guide $135-145B; SPCX Connectivity revenue +69% to $5.2B, shares +1.89%",
+      "order": 8,
+      "reaction": "Mixed reaction to earnings: cost-cutting at AmEx contrasts with resilient Big Tech AI spending plans.",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-23-2026",
+      "tickers": "AXP, META, SPCX, AAPL, NVDA",
+      "time": "Pre-market",
+      "vsExp": "AXP revenue narrowly missed Street estimates"
+    }
   }
 ]
