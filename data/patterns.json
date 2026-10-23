@@ -1,12 +1,12 @@
 {
  "minSamples": 15,
- "settledHorizons": 264,
+ "settledHorizons": 282,
  "byAsset": {
   "equities": {
    "Earnings": {
-    "n": 20,
+    "n": 23,
     "agree": 4,
-    "rate": 0.2,
+    "rate": 0.174,
     "reliable": true
    },
    "Rates": {
@@ -16,21 +16,21 @@
     "reliable": true
    },
    "Market": {
-    "n": 249,
-    "agree": 44,
-    "rate": 0.177,
+    "n": 264,
+    "agree": 51,
+    "rate": 0.193,
     "reliable": true
    },
    "Macro": {
-    "n": 57,
-    "agree": 13,
-    "rate": 0.228,
+    "n": 58,
+    "agree": 14,
+    "rate": 0.241,
     "reliable": true
    },
    "Geopolitics": {
-    "n": 48,
-    "agree": 4,
-    "rate": 0.083,
+    "n": 58,
+    "agree": 9,
+    "rate": 0.155,
     "reliable": true
    },
    "Deals": {
@@ -40,23 +40,23 @@
     "reliable": false
    },
    "Fed": {
-    "n": 28,
+    "n": 30,
     "agree": 3,
-    "rate": 0.107,
+    "rate": 0.1,
     "reliable": true
    },
    "Energy": {
-    "n": 21,
-    "agree": 1,
-    "rate": 0.048,
+    "n": 24,
+    "agree": 3,
+    "rate": 0.125,
     "reliable": true
    }
   },
   "bonds": {
    "Macro": {
-    "n": 66,
+    "n": 69,
     "agree": 6,
-    "rate": 0.091,
+    "rate": 0.087,
     "reliable": true
    },
    "Policy": {
@@ -72,27 +72,27 @@
     "reliable": true
    },
    "Market": {
-    "n": 220,
-    "agree": 7,
-    "rate": 0.032,
+    "n": 232,
+    "agree": 11,
+    "rate": 0.047,
     "reliable": true
    },
    "Fed": {
-    "n": 54,
-    "agree": 2,
-    "rate": 0.037,
+    "n": 59,
+    "agree": 3,
+    "rate": 0.051,
     "reliable": true
    },
    "Energy": {
-    "n": 21,
+    "n": 24,
     "agree": 1,
-    "rate": 0.048,
+    "rate": 0.042,
     "reliable": true
    },
    "Geopolitics": {
-    "n": 26,
+    "n": 32,
     "agree": 1,
-    "rate": 0.038,
+    "rate": 0.031,
     "reliable": true
    }
   },
@@ -122,8 +122,8 @@
     "reliable": true
    },
    "Geopolitics": {
-    "n": 8,
-    "agree": 0,
+    "n": 13,
+    "agree": 3,
     "rate": null,
     "reliable": false
    }
@@ -136,19 +136,19 @@
     "reliable": true
    },
    "Macro": {
-    "n": 14,
+    "n": 15,
     "agree": 6,
-    "rate": null,
-    "reliable": false
+    "rate": 0.4,
+    "reliable": true
    },
    "Fed": {
-    "n": 34,
-    "agree": 13,
-    "rate": 0.382,
+    "n": 39,
+    "agree": 14,
+    "rate": 0.359,
     "reliable": true
    },
    "Market": {
-    "n": 8,
+    "n": 10,
     "agree": 0,
     "rate": null,
     "reliable": false
@@ -162,9 +162,9 @@
     "reliable": true
    },
    "Market": {
-    "n": 41,
+    "n": 45,
     "agree": 12,
-    "rate": 0.293,
+    "rate": 0.267,
     "reliable": true
    }
   },
@@ -176,21 +176,21 @@
     "reliable": false
    },
    "Market": {
-    "n": 249,
-    "agree": 93,
-    "rate": 0.373,
+    "n": 264,
+    "agree": 102,
+    "rate": 0.386,
     "reliable": true
    },
    "Macro": {
-    "n": 41,
-    "agree": 19,
-    "rate": 0.463,
+    "n": 42,
+    "agree": 20,
+    "rate": 0.476,
     "reliable": true
    },
    "Earnings": {
-    "n": 32,
-    "agree": 15,
-    "rate": 0.469,
+    "n": 46,
+    "agree": 23,
+    "rate": 0.5,
     "reliable": true
    },
    "Rates": {
@@ -200,20 +200,20 @@
     "reliable": true
    },
    "Fed": {
+    "n": 14,
+    "agree": 12,
+    "rate": null,
+    "reliable": false
+   },
+   "Tech": {
     "n": 12,
     "agree": 10,
     "rate": null,
     "reliable": false
    },
-   "Tech": {
-    "n": 10,
-    "agree": 8,
-    "rate": null,
-    "reliable": false
-   },
    "Geopolitics": {
-    "n": 8,
-    "agree": 1,
+    "n": 13,
+    "agree": 4,
     "rate": null,
     "reliable": false
    }
