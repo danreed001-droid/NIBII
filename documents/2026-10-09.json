@@ -567,8 +567,8 @@
        null
       ]
      ],
-     "maturityClose": 7669.25,
-     "ret": -0.025013,
+     "maturityClose": 7667.5,
+     "ret": -0.025235,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5380,8 +5380,8 @@
        true
       ]
      ],
-     "maturityClose": 4042.199951171875,
-     "ret": -0.042201,
+     "maturityClose": 4042.5,
+     "ret": -0.04213,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -7478,8 +7478,8 @@
        null
       ]
      ],
-     "maturityClose": 101.6719970703125,
-     "ret": -0.005468,
+     "maturityClose": 101.6989974975586,
+     "ret": -0.005204,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9693,8 +9693,8 @@
        false
       ]
      ],
-     "maturityClose": 2779.10009765625,
-     "ret": -0.015725,
+     "maturityClose": 2777.39990234375,
+     "ret": -0.016327,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -11672,8 +11672,8 @@
        null
       ]
      ],
-     "maturityClose": 29061.0,
-     "ret": -0.066261,
+     "maturityClose": 29051.25,
+     "ret": -0.066574,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
