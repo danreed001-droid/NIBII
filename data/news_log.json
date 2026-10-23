@@ -3537,5 +3537,65 @@
       "time": "Pre-market",
       "vsExp": "Results characterized as solid; no specific consensus figures given, but Q4 outlook concerns dominated reaction"
     }
+  },
+  {
+    "id": "2026-10-23-1-ai-tech-selloff-carries-into-futures",
+    "data": {
+      "addedAt": "2026-10-23",
+      "category": "Market",
+      "date": "2026-10-23",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Thursday's sharp AI-driven tech selloff (Nasdaq reportedly -2.6%, chips leading; Meta hit after raising AI spending forecast) carries into Friday: US equity futures lower pre-market.",
+      "impact": "High",
+      "numbers": "Nasdaq Thu ~-2.6%; S&P 500 futures ~-0.2%, Nasdaq futures ~-0.1% (European morning); Dow futures were down as much as ~0.9% earlier per CNBC",
+      "order": 1,
+      "reaction": "Risk-off tone persists into the open; AI/semiconductor names in focus.",
+      "region": "US",
+      "source": "https://investinglive.com/news/investinglive-european-session-wrap-equities-cautious-as-treasury-yields-rebound-oil-holds-firm/",
+      "tickers": "SPY, QQQ, S&P, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-23-2-treasury-10y-yield-rebounds-to-5-pct",
+    "data": {
+      "addedAt": "2026-10-23",
+      "category": "Rates",
+      "date": "2026-10-23",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "US 10-year Treasury yield rebounds about 5 bps to ~5.00% as the recent bid for bonds fades; ECB/BoE hike uncertainty and sticky inflation worries keep global yields firm.",
+      "impact": "High",
+      "numbers": "10Y ~5.00% (+5 bps); USD/JPY ~157.00; EUR/USD ~1.1200",
+      "order": 2,
+      "reaction": "Higher yields pressure bonds and rate-sensitive equities; dollar firmer.",
+      "region": "US",
+      "source": "https://investinglive.com/news/investinglive-european-session-wrap-equities-cautious-as-treasury-yields-rebound-oil-holds-firm/",
+      "tickers": "TLT, 10Y, yield, Treasury, DXY, USD, dollar, IWM, Russell",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-23-3-oil-holds-above-100-gold-tests-4000",
+    "data": {
+      "addedAt": "2026-10-23",
+      "category": "Energy",
+      "date": "2026-10-23",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Oil holds firm above $100 on Middle East/US-Iran tensions while gold briefly dipped below $4,000 for the first time in three months, headed for a weekly loss of over 3%.",
+      "impact": "Medium",
+      "numbers": "WTI ~$101 (+1.4-1.6%); gold ~$4,029 (+0.1%), briefly <$4,000",
+      "order": 3,
+      "reaction": "Elevated crude sustains inflation concerns and the rate-hike narrative, weighing on gold.",
+      "region": "Global",
+      "source": "https://investinglive.com/news/investinglive-european-session-wrap-equities-cautious-as-treasury-yields-rebound-oil-holds-firm/",
+      "tickers": "GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
