@@ -447,11 +447,11 @@ def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
                 log=switch_log(modes, why))
 
 
-def plan_rules(spy_bars, bars, calendar, start):
-    """The two-scale buy rules (mtl/fractal.py, since Oct 24, 2026): the buy-freeze and green-light windows (calendar
-    indices) read from SPY, their signal log, and the stock lower-high check."""
+def plan_rules(spy_bars, calendar, start):
+    """The two-scale buy rules (mtl/fractal.py, since Oct 26, 2026): the buy-freeze and green-light windows (calendar
+    indices) read from SPY, and their signal log."""
     frozen, green, log = fractal.spy_windows(spy_bars, calendar, start)
-    return dict(frozen=frozen, green=green, log=log, lower_high=fractal.stock_lower_highs(bars))
+    return dict(frozen=frozen, green=green, log=log)
 
 
 def plan_exits(prices, volumes, cal_, fade=True, rules=None):
@@ -461,14 +461,13 @@ def plan_exits(prices, volumes, cal_, fade=True, rules=None):
     4x+ its 50-day volume -> sold a week later), and with `fade` the fading-energy filter (mtl/fade.py, since Oct 16,
     2026: a top-5 stock whose volume and daily swings have both faded isn't bought; its slot stays in cash until it
     leaves the top 5 or stops fading), and with `rules` (plan_rules) the two-scale buy rules on top of it: no new buys
-    in a buy freeze unless the green light is on, and never a stock with weekly and daily lower highs (mtl/fractal.py,
-    since Oct 24, 2026). fade=False is the list the whipsaw half-switch counts sales on."""
+    in a buy freeze, and the green light setting the filters aside (mtl/fractal.py, since Oct 26, 2026). fade=False is the list the whipsaw half-switch counts sales on."""
     blow_, surge_ = blowoff_exit(prices, cal_, BLOWOFF, market='SPY', ma=BLOWOFF_MA), surge_exit(prices, volumes, cal_, SURGE_UP, SURGE_VOL, SURGE_DELAY)
     out = dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e))
     if fade:
         bw = fade_buy_ok(prices, volumes, cal_)
         if rules:
-            bw = fractal.buy_rule(bw, rules['frozen'], rules['green'], rules['lower_high'], cal_)
+            bw = fractal.buy_rule(bw, rules['frozen'], rules['green'])
         out.update(buy_when=bw, buy_max_rank=TOP_N)
     return out
 
@@ -747,9 +746,8 @@ def main():
     picks_b = rb['picks']
     # Boost 100% and Boost + cushion: the Boost list with the blow-off and surge exits and the fading-energy
     # filter (plan_exits)
-    # ... and the two-scale buy rules (mtl/fractal.py, since Oct 24, 2026): the buy freeze, the green light and no stock
-    # with weekly and daily lower highs
-    fz_rules = plan_rules(bench['SPY'], bars, calendar, START)
+    # ... and the two-scale buy rules (mtl/fractal.py, since Oct 26, 2026): the buy freeze and the green light
+    fz_rules = plan_rules(bench['SPY'], calendar, START)
     rbx, hold_bx, after_bx = boost_run(lambda cal_: plan_exits(prices, volumes, cal_, rules=fz_rules))
     picks_bx = rbx['picks']
     # the whipsaw half-switch reads the same list with the fading-energy filter off (since Oct 16, 2026): a stock the filter
@@ -1111,12 +1109,8 @@ def main():
     rb_ = rebound_state(bench['SPY'], whip_px, calendar, K, reb_held)
     auto['rotation']['rebound'] = {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in rb_.items()}
     auto['rotation']['pricebreak'] = pricebreak_state(prices['SPY'], calendar, K, pb_held)
-    # the two-scale buy rules (mtl/fractal.py): SPY's weekly + daily reading, the freeze / green light now, and which of
-    # tonight's top 10 a weekly + daily lower high keeps out
-    fz_ = fractal.state(bench['SPY'], calendar, K, fz_rules['frozen'], fz_rules['green'], fz_rules['log'])
-    top_now = [t for t, _, _ in score_table(prices, calendar, K, LOOK, SKIP, WIN, 'rank', eligible)[:10]]
-    fz_['blocked'] = [t for t in top_now if fz_rules['lower_high'](t, as_of)]
-    auto['rotation']['fractal'] = fz_
+    # the two-scale buy rules (mtl/fractal.py): SPY's weekly + daily reading and the freeze / green light now
+    auto['rotation']['fractal'] = fractal.state(bench['SPY'], calendar, K, fz_rules['frozen'], fz_rules['green'], fz_rules['log'])
     # SPY trendline watch (information only): a rising weekly line touched 3 or 4 times about evenly (mtl/trendline.py)
     tw_ = trendline_state(bench['SPY'][:K + 1])
     tw_['prevOn'] = bool(tw_['last']) and 1 <= tw_['last']['ago'] <= TL_DAYS

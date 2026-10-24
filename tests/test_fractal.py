@@ -1,4 +1,4 @@
-"""mtl/fractal.py - the default plan's two-scale buy rules: buy freeze, green light and stock lower highs."""
+"""mtl/fractal.py - the default plan's two-scale buy rules: buy freeze and green light."""
 import numpy as np
 import pandas as pd
 
@@ -47,27 +47,12 @@ def test_freeze_needs_the_daily_lower_high_too():
 
 def test_buy_rule_order():
     base = lambda t, k: t != 'FADED'
-    lh = lambda t, d: t == 'LOWER'
-    ok = fz.buy_rule(base, frozen={5}, green={7}, lower_high=lh, calendar=CAL)
+    ok = fz.buy_rule(base, frozen={5}, green={7})
     assert ok('A', 4) and not ok('FADED', 4)                  # outside both: the fading filter decides
     assert not ok('A', 5)                                       # buy freeze: no new stock
     assert ok('FADED', 7)                                       # green light: the fading filter stands aside
-    assert not ok('LOWER', 4) and not ok('LOWER', 7)            # lower highs on both charts: never bought
-    both = fz.buy_rule(base, frozen={9}, green={9}, lower_high=lh, calendar=CAL)
-    assert both('A', 9)                                         # the green light overrides a freeze
-    assert ok('A', len(CAL) + 3)                                # a session past the calendar (Friday's flat day) reads the last date
-
-
-def test_stock_lower_highs_needs_both_charts():
-    up = [(d, 50 + i * 0.1, 50 + i * 0.1 + 0.2, 50 + i * 0.1 - 0.2, 50 + i * 0.1) for i, d in enumerate(CAL)]
-    f = fz.stock_lower_highs({'UP': up, 'W': walk(11)})
-    assert not f('UP', CAL[-1]) and not f('MISSING', CAL[-1])
-    R = Reader({'W': walk(11)})
-    for d in CAL[300::25]:
-        wh = [x for x in R.labels('W', d, 'w') if x['type'] == 'high']
-        dh = [x for x in R.labels('W', d) if x['type'] == 'high']
-        both = len(wh) >= 2 and wh[-1]['price'] < wh[-2]['price'] and len(dh) >= 2 and dh[-1]['price'] < dh[-2]['price']
-        assert f('W', d) == both
+    assert fz.buy_rule(base, frozen={9}, green={9})('A', 9)     # the green light overrides a freeze
+    assert fz.buy_rule(None, frozen=set(), green=set())('A', 3)
 
 
 def test_slot_haven_holds_the_pick_only_for_slots_emptied_in_a_freeze():
