@@ -51,7 +51,11 @@ ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and
            'nobills': 'no T-bills: {to} is now the stronger of TLT / GLD over 3 months (DBMF managed futures when neither is up)',
            'rebound': "rebound rule: SPY is 12%+ under its 3-month high, gold or bonds is up 2%+ since that high and SPY's "
                       "daily chart has made a higher low, so the plan holds the Boost list whatever the other rules say",
-           'rebound-end': 'the rebound rule no longer holds: back to what the plan holds'}
+           'rebound-end': 'the rebound rule no longer holds: back to what the plan holds',
+           'pricebreak': "price-break rule: SPY closed under its 100-day average (first time) while that average and its 7-day "
+                         "average were both lower than 5 sessions ago; {to} for 10 sessions (the stronger of TLT / GLD over 3 months if it is up, "
+                         "else DBMF managed futures)",
+           'pricebreak-end': 'the price-break stay is over: back to what the plan holds'}
 
 
 def rot_name(m):

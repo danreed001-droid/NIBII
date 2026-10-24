@@ -186,8 +186,14 @@ def test_rebalance_banner_explains_the_call():
 
 def test_rotation_explains_the_rebound_rule():
     page = render_scanner.render(SCAN)
-    assert 'function reboundNote(RT)' in page and 'reboundNote(RT);' in page and '7. Rebound rule' in page
+    assert 'function reboundNote(RT)' in page and 'reboundNote(RT) + pricebreakNote(RT);' in page and '7. Rebound rule' in page
     assert 'In stocks because of the rebound rule' in page and "rebound: 'rebound rule: back in stocks'" in page
+
+
+def test_rotation_explains_the_price_break_rule():
+    page = render_scanner.render(SCAN)
+    assert 'function pricebreakNote(RT)' in page and '8. Price-break rule' in page
+    assert "pricebreak: 'price-break rule: SPY broke its 100-day average'" in page and "'pricebreak-end': 'price-break stay over'" in page
 
 
 def test_your_record_shows_recent_weeks_and_counts_cash_as_earning_nothing():
