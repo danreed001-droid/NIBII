@@ -26,7 +26,7 @@ from mtl.rotation import WHIP_SHARE
 START = '2026-10-14'            # the day the current default plan (with the rebound rule) went live
 SLIP = 0.0015                   # per side, as in the backtest
 CASH = 'CASH'
-RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/pricebreak.py', 'mtl/narrow.py', 'mtl/lowerhigh.py',
+RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/pricebreak.py', 'mtl/fractal.py', 'mtl/narrow.py', 'mtl/lowerhigh.py',
               'mtl/news.py', 'mtl/structure.py', 'mtl/universe.py', 'mtl/fade.py', 'mtl/calendar_nyse.py')
 SLOTS = 5                       # the Boost list's slots: each stock is a fifth, an empty slot (fading filter) is cash
 SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (settings, not page code)
@@ -67,10 +67,11 @@ def fingerprint(root):
     return hashlib.sha256(b'\0'.join(parts)).hexdigest()[:16], files
 
 
-def weights(mode, half, stocks):
+def weights(mode, half, stocks, slot=None):
     """Target weights after the next close: a fifth per Boost-list stock while the mode is 'boost' (an empty
-    slot, e.g. a stock the fading filter skipped, is cash; WHIP_SHARE of the account in `half` during the whipsaw
-    switch, all of it since Oct 16, 2026), otherwise all in the mode's asset (or cash)."""
+    slot, e.g. a stock the fading filter skipped, is cash, or `slot` - the haven pick a buy freeze puts there,
+    mtl/fractal.py since Oct 24, 2026; WHIP_SHARE of the account in `half` during the whipsaw switch, all of it since
+    Oct 16, 2026), otherwise all in the mode's asset (or cash)."""
     if mode != 'boost':
         return {mode or CASH: 1.0}
     if half and WHIP_SHARE >= 1:
@@ -82,16 +83,16 @@ def weights(mode, half, stocks):
     each = part / max(SLOTS, len(stocks))
     w = {t: each for t in stocks}
     if part - each * len(stocks) > 1e-12:
-        w[CASH] = part - each * len(stocks)
+        w[slot or CASH] = part - each * len(stocks)
     if half:
         w[half] = w.get(half, 0.0) + WHIP_SHARE
     return w
 
 
-def decision(day, mode, half, stocks):
+def decision(day, mode, half, stocks, slot=None):
     mode = mode or 'boost'
     half = half if mode == 'boost' else None
-    return dict(d=day, mode=mode, half=half, list=sorted(stocks or []), w={k: round(v, 6) for k, v in weights(mode, half, stocks).items()})
+    return dict(d=day, mode=mode, half=half, list=sorted(stocks or []), w={k: round(v, 6) for k, v in weights(mode, half, stocks, slot).items()})
 
 
 def after_close(day, now=None):

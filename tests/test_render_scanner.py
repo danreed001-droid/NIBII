@@ -186,7 +186,7 @@ def test_rebalance_banner_explains_the_call():
 
 def test_rotation_explains_the_rebound_rule():
     page = render_scanner.render(SCAN)
-    assert 'function reboundNote(RT)' in page and 'reboundNote(RT) + pricebreakNote(RT);' in page and '7. Rebound rule' in page
+    assert 'function reboundNote(RT)' in page and 'reboundNote(RT) + pricebreakNote(RT)' in page and '7. Rebound rule' in page
     assert 'In stocks because of the rebound rule' in page and "rebound: 'rebound rule: back in stocks'" in page
 
 
@@ -252,3 +252,9 @@ def test_wide_net_watch_lists_the_strongest_assets_and_breakouts():
     assert 'Breakout after a base' in html and '<b>SLV</b>' in html and '+42%' in html
     assert 'Also breaking out after a base:</b> URA (uranium, +3%)' in html
     assert render_scanner.widenet_html(dict(plan=dict(auto=dict(wideNet=None)))) == ''
+
+
+def test_rotation_explains_the_two_scale_buy_rules():
+    page = render_scanner.render(SCAN)
+    assert 'function fractalNote(RT)' in page and 'pricebreakNote(RT) + fractalNote(RT);' in page and '9. Two-scale buy rules' in page
+    assert '<b>Buy freeze</b> for the next' in page and '<b>Green light</b> for the next' in page
