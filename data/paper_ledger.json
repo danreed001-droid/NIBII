@@ -143,6 +143,24 @@
    "at": "2026-10-23T00:43:49+00:00",
    "fp": "d27462eaa6d0442f",
    "src": "scanner run"
+  },
+  {
+   "d": "2026-10-23",
+   "mode": "DBMF",
+   "half": null,
+   "list": [
+    "CRWD",
+    "DELL",
+    "HPE",
+    "MRNA",
+    "MU"
+   ],
+   "w": {
+    "DBMF": 1.0
+   },
+   "at": "2026-10-24T00:46:09+00:00",
+   "fp": "d27462eaa6d0442f",
+   "src": "scanner run"
   }
  ],
  "updates": [
