@@ -49,6 +49,7 @@ from mtl.revisions import fetch_revisions, log_revisions  # noqa: E402
 from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
 from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash, lowerhigh_state, LH_DAYS  # noqa: E402
 from mtl.trendline import TL_DAYS, trendline_state  # noqa: E402
+from mtl.pricebreak import apply_pricebreak, break_days, hold_days, pricebreak_state  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import health, paper as paper_rec  # noqa: E402
@@ -491,8 +492,13 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
     # stronger of TLT / GLD over 3 months if it is up, else DBMF managed futures (mtl/rotation.py no_bills)
     modes, why, half = no_bills(modes, why, half, whip_px, calendar)
+    # ... and the price-break haven rule: the day SPY closes under its 100-day average with that average and its 7-day
+    # average both lower than 5 sessions ago, the haven pick (as above) for the next 10 sessions wherever the plan would
+    # hold stocks (mtl/pricebreak.py)
+    pb_breaks = break_days(prices['SPY'], calendar, start)
+    modes, why, half, pb_held = apply_pricebreak(modes, why, half, hold_days(pb_breaks, calendar, start), whip_px, calendar)
     return dict(modes=modes, why=why, half=half, read=read, state=state, lh_cash=lh_cash, lh_log=lh_log,
-                whip_on=whip_on, regime=regime, narrow_warn=narrow_warn, narrow_cash=narrow_cash, reb_held=reb_held)
+                whip_on=whip_on, regime=regime, narrow_warn=narrow_warn, narrow_cash=narrow_cash, reb_held=reb_held, pb_breaks=pb_breaks, pb_held=pb_held)
 
 
 def last_closed_session(now=None):
@@ -830,6 +836,7 @@ def main():
     rot_modes, rot_why, whip_half, rot_read, rot_state = ov['modes'], ov['why'], ov['half'], ov['read'], ov['state']
     lh_cash, lh_log, whip_on, regime = ov['lh_cash'], ov['lh_log'], ov['whip_on'], ov['regime']
     narrow_warn, narrow_cash, reb_held = ov['narrow_warn'], ov['narrow_cash'], ov['reb_held']
+    pb_held = ov['pb_held']
     plans['rotation'] = rotation_curve(strat_bx, whip_px, calendar, rot_modes, half=whip_half)
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
@@ -1079,6 +1086,7 @@ def main():
     auto['rotation']['lowerhigh'] = lh_
     rb_ = rebound_state(bench['SPY'], whip_px, calendar, K, reb_held)
     auto['rotation']['rebound'] = {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in rb_.items()}
+    auto['rotation']['pricebreak'] = pricebreak_state(prices['SPY'], calendar, K, pb_held)
     # SPY trendline watch (information only): a rising weekly line touched 3 or 4 times about evenly (mtl/trendline.py)
     tw_ = trendline_state(bench['SPY'][:K + 1])
     tw_['prevOn'] = bool(tw_['last']) and 1 <= tw_['last']['ago'] <= TL_DAYS
