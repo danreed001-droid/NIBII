@@ -11,8 +11,9 @@ last row then run inside the dashboard's default plan, through the same code the
 runs (scripts/momentum_scan.py plan_exits and plan_overlay): the blow-off and surge exits,
 the fading-energy filter, the rotation into TLT / GLD, the lower-high exit, the whipsaw
 half-switch (counting sales with the fading-energy filter off), the narrow-market cash week,
-the rebound rule, and no T-bills (gold or bonds if up over 3 months, else DBMF managed futures
-from its start in May 2019, plain cash before). They differ only in which stocks may be
+the rebound rule, no T-bills (gold or bonds if up over 3 months, else DBMF managed futures
+from its start in May 2019, plain cash before), the price-break rule and the two-scale buy rules
+(buy freeze, green light, no stock with weekly and daily lower highs; mtl/fractal.py). They differ only in which stocks may be
 bought (or jump the queue):
 
 - Current: Top 5            - the dashboard rule.
@@ -50,11 +51,12 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from momentum_scan import blocked_dates, fetch, plan_exits, plan_overlay  # noqa: E402
+from momentum_scan import blocked_dates, fetch, plan_exits, plan_overlay, plan_rules  # noqa: E402
+from mtl import fractal  # noqa: E402
 from mtl import ignition as ig  # noqa: E402
 from mtl.backtest import curve_stats  # noqa: E402
 from mtl.momentum import run_momentum  # noqa: E402
-from mtl.rotation import CASH_FUND, rotation_curve  # noqa: E402
+from mtl.rotation import CASH_FUND, bills_pick, rotation_curve  # noqa: E402
 from mtl.sleeve import ASSETS, filled  # noqa: E402
 from mtl.news import booster, news_gap_days  # noqa: E402
 from mtl.universe import load_added, load_ndx, load_sp500, momentum_universe  # noqa: E402
@@ -199,7 +201,8 @@ def main():
     ign_boost = booster({t: [cal[i] for i in ds] for t, ds in ign.items()}, cal, window=BOOST_WINDOW)
     force = dict(prefer_mode='force', prefer_rank=None, prefer_pool='all', open_end=True)
     universe = {t: p for t, p in prices.items() if t in names or t in wl or t == 'SPY'}
-    exits = plan_exits(universe, D['vols'], cal)
+    rules = plan_rules(bench['SPY'], bars, cal, min(STARTS.values()))   # the two-scale buy rules (mtl/fractal.py, Oct 24, 2026)
+    exits = plan_exits(universe, D['vols'], cal, rules=rules)
 
     spy_c = [prices['SPY'].get(d) for d in cal]
     above = {}
@@ -255,7 +258,10 @@ def main():
                 kw.pop('buy_when', None)
                 kw.pop('buy_max_rank', None)
                 whip = run_momentum(universe, cal, start, look=126, skip=21, top_n=5, exec_next='close', **kw)['picks']
-                ov = plan_overlay(bench['SPY'], A, whip_px, whip, universe, cal, start, D['rate'], D['rsp'], D['vix'])
+                ov = plan_overlay(bench['SPY'], A, whip_px, whip, universe, cal, start, D['rate'], D['rsp'], D['vix'],
+                                  green=rules['green'])
+                stock = fractal.slot_haven(stock, r['picks'], rules['frozen'], whip_px, cal, start,
+                                           lambda k_: bills_pick(whip_px, cal, k_))   # empty slots inside a buy freeze: the haven pick
                 curve = rotation_curve(stock, whip_px, cal, ov['modes'], half=ov['half'])
             rows[name] = summary(curve, holds=r['picks'][-1][1] if r.get('picks') else [])
             log(f"{label} {name:26} {rows[name]['annual']:+6.1%}/yr  after tax {rows[name]['afterTax']:+6.1%}  maxDD {rows[name]['maxDD']:6.0%}")

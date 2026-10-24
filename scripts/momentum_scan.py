@@ -50,6 +50,7 @@ from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
 from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash, lowerhigh_state, LH_DAYS  # noqa: E402
 from mtl.trendline import TL_DAYS, trendline_state  # noqa: E402
 from mtl.pricebreak import apply_pricebreak, break_days, hold_days, pricebreak_state  # noqa: E402
+from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import health, paper as paper_rec  # noqa: E402
@@ -446,21 +447,33 @@ def rotation_block(modes, why, read, state, calendar, K, spy_gap, px):
                 log=switch_log(modes, why))
 
 
-def plan_exits(prices, volumes, cal_, fade=True):
+def plan_rules(spy_bars, bars, calendar, start):
+    """The two-scale buy rules (mtl/fractal.py, since Oct 24, 2026): the buy-freeze and green-light windows (calendar
+    indices) read from SPY, their signal log, and the stock lower-high check."""
+    frozen, green, log = fractal.spy_windows(spy_bars, calendar, start)
+    return dict(frozen=frozen, green=green, log=log, lower_high=fractal.stock_lower_highs(bars))
+
+
+def plan_exits(prices, volumes, cal_, fade=True, rules=None):
     """The default plan's stock part on top of the Boost list (scripts/backtest_strategies.py runs the same): the
     blow-off exit (a holding whose last month's gain is more than BLOWOFF times the 5 months before it is sold and
     barred for 4 weeks, only while SPY is below its BLOWOFF_MA-session average), the surge exit (a 5%+ up close on
     4x+ its 50-day volume -> sold a week later), and with `fade` the fading-energy filter (mtl/fade.py, since Oct 16,
     2026: a top-5 stock whose volume and daily swings have both faded isn't bought; its slot stays in cash until it
-    leaves the top 5 or stops fading). fade=False is the list the whipsaw half-switch counts sales on."""
+    leaves the top 5 or stops fading), and with `rules` (plan_rules) the two-scale buy rules on top of it: no new buys
+    in a buy freeze unless the green light is on, and never a stock with weekly and daily lower highs (mtl/fractal.py,
+    since Oct 24, 2026). fade=False is the list the whipsaw half-switch counts sales on."""
     blow_, surge_ = blowoff_exit(prices, cal_, BLOWOFF, market='SPY', ma=BLOWOFF_MA), surge_exit(prices, volumes, cal_, SURGE_UP, SURGE_VOL, SURGE_DELAY)
     out = dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e))
     if fade:
-        out.update(buy_when=fade_buy_ok(prices, volumes, cal_), buy_max_rank=TOP_N)
+        bw = fade_buy_ok(prices, volumes, cal_)
+        if rules:
+            bw = fractal.buy_rule(bw, rules['frozen'], rules['green'], rules['lower_high'], cal_)
+        out.update(buy_when=bw, buy_max_rank=TOP_N)
     return out
 
 
-def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, start, rate_px, rsp_px, vix_px):
+def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, start, rate_px, rsp_px, vix_px, green=None):
     """Every rule of the default plan above its stock list, in the order the live plan applies them (the scanner and
     scripts/backtest_strategies.py both run this). Returns the day-by-day modes, why, half-switch and what the
     page shows of each rule."""
@@ -483,6 +496,9 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # equal-weight S&P lags it, the whole account holds T-bills for a week (mtl/narrow.py)
     narrow_warn = narrow_warnings(prices['SPY'], rsp_px, vix_px, calendar) if rsp_px and vix_px else []
     narrow_cash = narrow_cash_days(narrow_warn, calendar)
+    if green:   # ... except under the two-scale green light (mtl/fractal.py, since Oct 24, 2026)
+        kidx = {d_: i for i, d_ in enumerate(calendar)}
+        narrow_cash = {d_ for d_ in narrow_cash if kidx.get(d_) not in green}
     modes, why = apply_narrow(modes, why, {d_ for d_ in narrow_cash if d_ >= start}, calendar)
     # ... and the rebound rule: while SPY is 12%+ under its 3-month high, gold or bonds is up 2%+ since that high
     # and SPY's daily chart has made a higher low, the plan holds the Boost list whatever the rules above say
@@ -731,7 +747,10 @@ def main():
     picks_b = rb['picks']
     # Boost 100% and Boost + cushion: the Boost list with the blow-off and surge exits and the fading-energy
     # filter (plan_exits)
-    rbx, hold_bx, after_bx = boost_run(lambda cal_: plan_exits(prices, volumes, cal_))
+    # ... and the two-scale buy rules (mtl/fractal.py, since Oct 24, 2026): the buy freeze, the green light and no stock
+    # with weekly and daily lower highs
+    fz_rules = plan_rules(bench['SPY'], bars, calendar, START)
+    rbx, hold_bx, after_bx = boost_run(lambda cal_: plan_exits(prices, volumes, cal_, rules=fz_rules))
     picks_bx = rbx['picks']
     # the whipsaw half-switch reads the same list with the fading-energy filter off (since Oct 16, 2026): a stock the filter
     # skipped counts as if it had been bought and later sold, so the filter changes which stocks are bought, never when
@@ -832,12 +851,17 @@ def main():
     # the lower-high exit, the whipsaw half-switch, the narrow-market cash week, the rebound rule and no T-bills
     whip_px = {**filled({**sleeve_px, CASH_FUND: fund_px}, calendar), 'SPY': prices['SPY']}
     rsp_px = {b[0]: b[4] for b in bench.get('RSP') or []}
-    ov = plan_overlay(bench['SPY'], asset_bars, whip_px, picks_whip, prices, calendar, START, rate_px, rsp_px, vix_px)
+    ov = plan_overlay(bench['SPY'], asset_bars, whip_px, picks_whip, prices, calendar, START, rate_px, rsp_px, vix_px,
+                      green=fz_rules['green'])
     rot_modes, rot_why, whip_half, rot_read, rot_state = ov['modes'], ov['why'], ov['half'], ov['read'], ov['state']
     lh_cash, lh_log, whip_on, regime = ov['lh_cash'], ov['lh_log'], ov['whip_on'], ov['regime']
     narrow_warn, narrow_cash, reb_held = ov['narrow_warn'], ov['narrow_cash'], ov['reb_held']
     pb_held = ov['pb_held']
-    plans['rotation'] = rotation_curve(strat_bx, whip_px, calendar, rot_modes, half=whip_half)
+    # a slot left empty at a trade inside a buy freeze holds the haven pick until the next trade (mtl/fractal.py)
+    fz_pick = lambda k_: bills_pick(whip_px, calendar, k_)
+    fz_fill = fractal.slot_fill(picks_bx, fz_rules['frozen'], calendar, START, fz_pick)
+    strat_rot = fractal.slot_haven(strat_bx, picks_bx, fz_rules['frozen'], whip_px, calendar, START, fz_pick)
+    plans['rotation'] = rotation_curve(strat_rot, whip_px, calendar, rot_modes, half=whip_half)
     for x in PLAN_SPLITS:
         plans[split_key(x)] = plan_curve_dynamic(strat, sl_curve, calendar, lambda d_, x=x: x)
     curves['plan'] = growth(plans['auto'])
@@ -1087,6 +1111,12 @@ def main():
     rb_ = rebound_state(bench['SPY'], whip_px, calendar, K, reb_held)
     auto['rotation']['rebound'] = {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in rb_.items()}
     auto['rotation']['pricebreak'] = pricebreak_state(prices['SPY'], calendar, K, pb_held)
+    # the two-scale buy rules (mtl/fractal.py): SPY's weekly + daily reading, the freeze / green light now, and which of
+    # tonight's top 10 a weekly + daily lower high keeps out
+    fz_ = fractal.state(bench['SPY'], calendar, K, fz_rules['frozen'], fz_rules['green'], fz_rules['log'])
+    top_now = [t for t, _, _ in score_table(prices, calendar, K, LOOK, SKIP, WIN, 'rank', eligible)[:10]]
+    fz_['blocked'] = [t for t in top_now if fz_rules['lower_high'](t, as_of)]
+    auto['rotation']['fractal'] = fz_
     # SPY trendline watch (information only): a rising weekly line touched 3 or 4 times about evenly (mtl/trendline.py)
     tw_ = trendline_state(bench['SPY'][:K + 1])
     tw_['prevOn'] = bool(tw_['last']) and 1 <= tw_['last']['ago'] <= TL_DAYS
@@ -1203,9 +1233,14 @@ def main():
         i_ = p_idx.get(d_)
         if i_ is None or i_ + 1 >= len(calendar):
             return None
-        return paper_rec.decision(d_, rot_modes.get(d_, 'boost'), whip_half.get(d_), p_list(calendar[i_ + 1]))
-    p_now = paper_rec.decision(as_of, rot_modes.get(as_of, 'boost'), whip_half.get(as_of),
-                               after_bx if signal_day else (list(pend_bx) if pend_bx is not None else hold_bx))
+        return paper_rec.decision(d_, rot_modes.get(d_, 'boost'), whip_half.get(d_), p_list(calendar[i_ + 1]),
+                                  slot=(fz_fill.get(calendar[i_ + 1]) or (None,))[0])
+    p_stocks = after_bx if signal_day else (list(pend_bx) if pend_bx is not None else hold_bx)
+    # tonight's empty slots: the haven pick when the next trade falls inside a buy freeze, else what the last trade put there
+    p_slot = (fz_pick(K) if K + 1 in fz_rules['frozen'] else (fz_fill.get(as_of) or (None,))[0]) if len(p_stocks) < TOP_N else None
+    p_now = paper_rec.decision(as_of, rot_modes.get(as_of, 'boost'), whip_half.get(as_of), p_stocks,
+                               slot=p_slot if p_slot != CASH else None)
+    auto['rotation']['fractal']['slot'] = p_slot if p_slot != CASH else None
     if os.environ.get('PAPER_LEDGER_WRITE') == '1' and paper_rec.after_close(as_of):
         if paper_rec.record(ledger, p_now, datetime.now(timezone.utc).isoformat(timespec='seconds'), paper_fp):
             paper_rec.save(PAPER_PATH, ledger)

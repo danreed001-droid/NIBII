@@ -312,6 +312,22 @@ def build_trades(scan, owner=None):
         items.append(f"**Cash slot (fading-energy filter):** {sk} {'is' if len(fd['skipped']) == 1 else 'are'} in the top 5 but not bought. "
                      f"Keep {'its' if len(fd['skipped']) == 1 else 'their'} {20 * len(fd['skipped'])}% in cash until it drops out of the top 5 or picks up again")
         tags.append('cash slot: ' + ', '.join(s['t'] for s in fd['skipped']))
+    fz = rt.get('fractal') or {}   # the two-scale buy rules (mtl/fractal.py, since Oct 24, 2026)
+    if fz and rt.get('mode', 'boost') == 'boost':
+        if fz.get('green'):
+            items.append(f"**Green light** for the next {fz.get('greenFor')} sessions: SPY's weekly and daily charts both show a higher low, "
+                         "so empty slots fill at once (the fading filter and any buy freeze stand aside) and a narrow-market cash week is skipped")
+            tags.append('green light')
+        elif fz.get('frozen'):
+            items.append(f"**Buy freeze** for the next {fz.get('frozenFor')} sessions: SPY is near a lower high on both its weekly and daily charts, "
+                         "so the plan buys no new stocks; keep what you hold"
+                         + (f", and put any empty slot in {fz['slot']} (the haven pick) instead of cash" if fz.get('slot') else ''))
+            tags.append('buy freeze')
+        held_ = set(bx.get('holdings') or [])
+        bl = [t for t in fz.get('blocked') or [] if t not in held_]
+        if bl:
+            items.append(f"**Not bought (weekly + daily lower highs):** {', '.join(bl)} - in the top 10, but both charts show a lower high, "
+                         "so a slot it would fill waits instead")
     if bx and 'armedAt' in bx and bx.get('armedAt') != bx.get('prevArmed'):
         on = bx['armedAt']
         items.append(f"**Blow-off exit {'ON' if on else 'OFF'}** (Boost 100% and Boost + cushion): "
