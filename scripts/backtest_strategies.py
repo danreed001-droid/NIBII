@@ -13,7 +13,7 @@ the fading-energy filter, the rotation into TLT / GLD, the lower-high exit, the 
 half-switch (counting sales with the fading-energy filter off), the narrow-market cash week,
 the rebound rule, no T-bills (gold or bonds if up over 3 months, else DBMF managed futures
 from its start in May 2019, plain cash before), the price-break rule and the two-scale buy rules
-(buy freeze, green light, no stock with weekly and daily lower highs; mtl/fractal.py). They differ only in which stocks may be
+(buy freeze and green light; mtl/fractal.py). They differ only in which stocks may be
 bought (or jump the queue):
 
 - Current: Top 5            - the dashboard rule.
@@ -201,7 +201,7 @@ def main():
     ign_boost = booster({t: [cal[i] for i in ds] for t, ds in ign.items()}, cal, window=BOOST_WINDOW)
     force = dict(prefer_mode='force', prefer_rank=None, prefer_pool='all', open_end=True)
     universe = {t: p for t, p in prices.items() if t in names or t in wl or t == 'SPY'}
-    rules = plan_rules(bench['SPY'], bars, cal, min(STARTS.values()))   # the two-scale buy rules (mtl/fractal.py, Oct 24, 2026)
+    rules = plan_rules(bench['SPY'], cal, min(STARTS.values()))   # the two-scale buy rules (mtl/fractal.py, Oct 24, 2026)
     exits = plan_exits(universe, D['vols'], cal, rules=rules)
 
     spy_c = [prices['SPY'].get(d) for d in cal]

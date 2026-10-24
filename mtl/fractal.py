@@ -1,7 +1,7 @@
-"""Two-scale (fractal) buy rules of Boost + rotation (the default plan, since Oct 24, 2026, on probation).
+"""Two-scale (fractal) buy rules of Boost + rotation (the default plan, since Oct 26, 2026, on probation).
 
-The same chart pattern has to show on two time scales before a rule acts: SPY's (or a stock's) weekly swings and
-its daily swings (mtl.rotation.Reader: 2-bar weekly swings, 3-bar daily swings).
+The same chart pattern has to show on two time scales before a rule acts: SPY's weekly swings and its daily swings
+(mtl.rotation.Reader: 2-bar weekly swings, 3-bar daily swings).
 
 1. Buy freeze. At a week's last close, SPY is within FZ_NEAR (1%) of its latest weekly swing high, that high is lower
    than the weekly swing high before it, and SPY's daily chart also shows a lower high (its last daily swing high
@@ -12,21 +12,19 @@ its daily swings (mtl.rotation.Reader: 2-bar weekly swings, 3-bar daily swings).
    within GL_NEAR (3%) above that last weekly low, and its daily chart also shows a higher low. For the next GL_DAYS
    (10) sessions the narrow-market cash week is skipped and the buy filters (the fading-energy filter and the buy
    freeze) stand aside, so empty slots fill at once.
-3. Stock lower highs. A stock whose weekly and daily charts both show a lower high (each one's last swing high below
-   the one before) is not bought; its slot stays empty (cash, or the haven pick inside a buy freeze) like a stock the
-   fading filter skips. Held stocks are not sold for it.
 
-All three are decided at a close and act from the next close, like the rest of the plan.
+Both are decided at a close and act from the next close, like the rest of the plan.
 
-Backtest (Oct 24, 2026, S&P 500 members at each date, 0.05% per side, on top of the price-break rule): 48.0% a year
-from 2000 vs 45.9% without them, 55.3% vs 52.6% from 2010, 67.7% vs 66.4% from 2016, 92.6% vs 90.5% from 2020; worst
-drop -29% vs -28%. Each part alone: the freeze 46.8% / 53.8% / 67.7% / 92.8% (the haven slot added about 0.2 points a
-year over cash), the green light 46.8% / 53.6% / 67.1% / 90.9%, stock lower highs 46.5% / 53.7% / 66.9% / 92.1%; ahead
-in both halves (2000-12 and 2013-26). From 2024 on they trailed (171.9% vs 191.6% a year). Abroad (10 markets plus
-China, local-currency havens) the three together were about level: +0.09 points a year on average, ahead in 5 markets
-and behind in 6 (Korea +4.0, Canada +1.7; Taiwan -1.9, Japan -1.1, Brazil -1.1). Weekly lower highs alone (without
-the daily confirmation) froze buys 294 times and lost 1-14 points a year, so the second scale is what makes it work.
-Picked after many tests on the same history: treat it as on probation."""
+Backtests (Oct 24, 2026). On today's S&P 500 members (0.05% per side) the two made 47.8% a year from 2000 vs 45.9%
+without them, 55.1% vs 52.6% from 2010, 68.4% vs 66.4% from 2016 and 93.2% vs 90.5% from 2020, worst drop -28% either
+way. On the members at each date, including companies that later left the index (the track-record engine, 0.15% per
+side), they were about level: 44.5% vs 44.8% from 2000, 47.1% vs 46.8% from 2010, 54.6% vs 55.0% from 2016, 83.2% vs
+81.8% from 2020, worst drop -29% either way. Abroad (10 markets plus China) the freeze alone was about level (+0.07
+points a year, ahead in 6 and behind in 5). Weekly lower highs alone, without the daily confirmation, froze buys 294
+times and lost 1-14 points a year. A third rule tested with them, no new buy of a stock whose own weekly and daily
+charts both show a lower high, was live for no sessions: it cost 1-3 points a year on the members at each date and
+was dropped before Oct 26. Picked after many tests on the same history and no better than level on the stricter
+test: treat it as on probation."""
 from datetime import date
 
 from mtl.calendar_nyse import week_ended
@@ -83,30 +81,10 @@ def spy_windows(spy_bars, calendar, start):
     return frozen, green, log
 
 
-def stock_lower_highs(bars):
-    """f(t, d) -> True when stock t's weekly and daily charts both show a lower high at close d (bars: {ticker:
-    [(date, open, high, low, close), ...]})."""
-    R = Reader({t: [tuple(b) for b in bs] for t, bs in bars.items() if bs})
-
-    def f(t, d):
-        if t not in R.bars:
-            return False
-        wh = _swings(R, t, d, 'w', 'high')
-        if not (len(wh) >= 2 and wh[-1]['price'] < wh[-2]['price']):
-            return False
-        dh = _swings(R, t, d, 'd', 'high')
-        return len(dh) >= 2 and dh[-1]['price'] < dh[-2]['price']
-    return f
-
-
-def buy_rule(base, frozen, green, lower_high, calendar):
-    """run_momentum's buy_when for the plan: (the green light, or the base filter (fading energy) outside a buy freeze),
-    and never a stock with weekly and daily lower highs. `calendar` maps k to a date for the stock check (a k past
-    its end, the flat session a Friday run appends, reads the last date)."""
+def buy_rule(base, frozen, green):
+    """run_momentum's buy_when for the plan: the green light, or the base filter (fading energy) outside a buy freeze."""
     def ok(t, k):
-        if not (k in green or ((base(t, k) if base else True) and k not in frozen)):
-            return False
-        return not lower_high(t, calendar[min(k, len(calendar) - 1)])
+        return k in green or ((base(t, k) if base else True) and k not in frozen)
     return ok
 
 

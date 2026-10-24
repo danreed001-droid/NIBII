@@ -700,7 +700,8 @@ VARIANTS = {
     'NBmx': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='cash', other='gb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBbl': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='bil', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBrv': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='gb', other='cash'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
-    'NBup': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026); the no-T-bills pick by 3-month change (Oct 19, 2026); DBMF (managed futures) instead of cash where neither is up (Oct 20, 2026); the price-break haven rule (Oct 24, 2026)
+    'NBup': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026); the no-T-bills pick by 3-month change (Oct 19, 2026); DBMF (managed futures) instead of cash where neither is up (Oct 20, 2026); the price-break haven rule (Oct 24, 2026); the two-scale buy rules: buy freeze and green light (Oct 26, 2026; the stock lower-high part, parts 's', was dropped: -1 to -3 points a year here)
+    'NBpb': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the two-scale buy rules (Oct 24, 2026)
     'NBc3': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default before managed futures replaced cash (Oct 19-20, 2026)
     'NBb6': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the 3-month no-T-bills pick (Oct 19, 2026)
     'NBg0': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the count restart (Oct 19, 2026)
@@ -1424,6 +1425,68 @@ VARIANTS = {
     'n12m_ra': (dict(top_n=12, monthly=True, risk_adj=True), None),
     'v2': (dict(top_n=12, monthly=True, risk_adj=True, vol_target=0.20, vol_window=126), None),
 }
+
+
+def _fz_weekly(daily):
+    """ISO-week bars dated by the week's last session (as mtl/rotation.py weekly in the live repo)."""
+    out, key = [], None
+    for b in daily:
+        k = date.fromisoformat(b[0][:10]).isocalendar()[:2]
+        if k != key:
+            key = k
+            out.append([b[0], b[1], b[2], b[3], b[4]])
+        else:
+            w = out[-1]
+            w[0], w[2], w[3], w[4] = b[0], max(w[2], b[2]), min(w[3], b[3]), b[4]
+    return [tuple(w) for w in out]
+
+
+class _FzReader:
+    """The swing reads of the live repo's mtl/rotation.py Reader.labels: 3-bar daily swings on the last 320 daily
+    bars, 2-bar weekly swings on the weekly bars of the last 900 daily bars, labeled by mtl.structure."""
+
+    def __init__(self, bars):
+        from mtl.structure import find_swings, label_structure
+        self._fs, self._ls = find_swings, label_structure
+        self.bars = {t: [tuple([b[0][:10]] + list(b[1:5])) for b in bs] for t, bs in bars.items() if bs}
+        self.days = {t: [b[0] for b in bs] for t, bs in self.bars.items()}
+        self._lab = {}
+
+    def labels(self, t, d, tf='d'):
+        if (t, d, tf) not in self._lab:
+            from bisect import bisect_right as _b
+            j = _b(self.days[t], d)
+            daily = self.bars[t][max(0, j - (900 if tf == 'w' else 320)):j]
+            bs = _fz_weekly(daily) if tf == 'w' else daily
+            self._lab[(t, d, tf)] = self._ls(self._fs(bs, n=2 if tf == 'w' else 3))
+        return self._lab[(t, d, tf)]
+
+    def two(self, t, d, tf, kind):
+        return [x['price'] for x in self.labels(t, d, tf) if x['type'] == kind][-2:]
+
+
+def fz_windows(spy_bars, cal, start, near=0.01, days=10, gl_near=0.03, gl_days=10):
+    """The live repo's mtl/fractal.py spy_windows: (frozen, green) calendar indices. At a week's last close (the next
+    session in a later ISO week; the calendar's last day is skipped), the buy freeze when SPY is within `near` of its
+    last weekly swing high, that high is below the one before and the daily swing highs are falling too; the green light
+    when the weekly swing lows are rising, SPY is within `gl_near` above the last one and the daily swing lows rise too."""
+    Rz = _FzReader({'SPY': spy_bars})
+    px = {b[0][:10]: b[4] for b in spy_bars}
+    frozen, green = set(), set()
+    for k in range(1, len(cal) - 1):
+        d = cal[k]
+        if d < start or d not in px:
+            continue
+        if date.fromisoformat(cal[k + 1]).isocalendar()[:2] == date.fromisoformat(d).isocalendar()[:2]:
+            continue
+        c = px[d]
+        wh, dh = Rz.two('SPY', d, 'w', 'high'), Rz.two('SPY', d, 'd', 'high')
+        wl, dl = Rz.two('SPY', d, 'w', 'low'), Rz.two('SPY', d, 'd', 'low')
+        if len(wh) == 2 and wh[1] < wh[0] and c >= wh[1] * (1 - near) and len(dh) == 2 and dh[1] < dh[0]:
+            frozen.update(range(k + 1, k + 1 + days))
+        if len(wl) == 2 and wl[1] > wl[0] and c <= wl[1] * (1 + gl_near) and len(dl) == 2 and dl[1] > dl[0]:
+            green.update(range(k + 1, k + 1 + gl_days))
+    return frozen, green
 
 
 def month_ends(calendar):
@@ -2204,6 +2267,31 @@ def run_one(args):
             kw.setdefault('buy_max_rank', kw.get('top_n', 5))
         prev_pf = kw.get('buy_when')
         kw['buy_when'] = (lambda t, k: prev_pf(t, k) and pf_ok(t, k)) if prev_pf else pf_ok
+    fzr_ = kw.pop('fzr', None)
+    fz_sets = None
+    if fzr_ is not None:
+        # the two-scale buy rules (the live repo's mtl/fractal.py, default since Oct 24, 2026): no new buys in a buy
+        # freeze unless the green light is on (which also sets the fading filter aside), and never a stock whose weekly
+        # and daily swing highs are both falling. Applied after the fading filter; the whipsaw's shadow list (nopf_) keeps
+        # the buy rules from before both, as the live scanner's.
+        cal_z = P['calendar']
+        parts_ = fzr_.get('parts', 'fgs')   # f buy freeze, g green light, s stock lower highs (for checks of one part)
+        fz_sets = fz_windows(G['SPYB'], cal_z, R.START, **{k_: v_ for k_, v_ in fzr_.items() if k_ != 'parts'})
+        fz_sets = (fz_sets[0] if 'f' in parts_ else set(), fz_sets[1] if 'g' in parts_ else set())
+        frz_, grn_ = fz_sets
+        RS_ = _FzReader(G['BARS'])
+
+        def lowh_(t, d_):
+            if 's' not in parts_ or t not in RS_.bars:
+                return False
+            w_ = RS_.two(t, d_, 'w', 'high')
+            if not (len(w_) == 2 and w_[1] < w_[0]):
+                return False
+            h_ = RS_.two(t, d_, 'd', 'high')
+            return len(h_) == 2 and h_[1] < h_[0]
+        prev_fz = kw.get('buy_when')
+        kw['buy_when'] = lambda t, k: (k in grn_ or ((prev_fz(t, k) if prev_fz else True) and k not in frz_)) \
+            and not lowh_(t, cal_z[min(k, len(cal_z) - 1)])
     hhl = kw.pop('hhline', None)
     if hhl:
         # don't buy a stock sitting at (or above) a rising line drawn through its last m swing highs when that line
@@ -2809,6 +2897,8 @@ def run_one(args):
     out_ = dict(picks=r['picks'], weights=r['weights'], turnover=r['turnover'], plan=plan, curve=[[c_[0], c_[1]] for c_ in r['curve']])
     if pf_ and pf_.get('cash'):
         out_['spare_cash'] = True      # the filter's empty slot is plain cash, as the live scanner holds it
+    if fz_sets:
+        out_['fz_frozen'], out_['fz_green'] = fz_sets
     if nopf_ is not None:
         # the same list with the filter off: the whipsaw half-switch counts its sales (Oct 16, 2026, as the live scanner)
         o2_ = dict(opts)
@@ -3089,6 +3179,7 @@ def main():
     G['P'] = P
     R.G['P'] = P
     G['BARS'] = D['bars']
+    G['SPYB'] = D['bench']['SPY']
     cal = P['calendar']
     G['months'] = month_ends(cal)
     from mtl.momentum import last_sessions_of_weeks as _lsw
@@ -5020,6 +5111,8 @@ def main():
                     if d_ in W10:
                         for j_ in range(i_ + 1 + nc_['delay'], min(len(cal), i_ + 1 + nc_['delay'] + nc_['days'])):
                             on10.add(cal[j_])
+                if run.get('fz_green'):   # the two-scale green light skips the cash week (live repo, Oct 24, 2026)
+                    on10 = {d_ for d_ in on10 if idx_[d_] not in run['fz_green']}
                 for d_ in cal:
                     if d_ in on10:
                         if nc_.get('half'):
@@ -5358,6 +5451,32 @@ def main():
                 sc = out_
                 R.log(f"  {key} no-T-bills days {sum(1 for d_, w_ in sc if any(t_ in w_ for t_ in ('CASH0',)))} cash entries, "
                       f"{sum(1 for d_, w_ in sc if leg_.get('nobil_fb') and leg_['nobil_fb'] in w_)} {leg_.get('nobil_fb')} entries")
+            if run.get('fz_frozen') and run.get('spare_cash'):
+                # the two-scale buy freeze (live repo mtl/fractal.py slot_haven): a slot left empty at a trade inside a
+                # freeze holds the haven pick (the stronger of TLT / GLD over 63 sessions if it is up, else nobil_fb, else
+                # cash), read at the close before that trade, until the next trade
+                from bisect import bisect_right as _bz
+                frz3_ = run['fz_frozen']
+                pkd_ = sorted(p_[0] for p_ in run['picks'])
+                fb3_ = leg_.get('nobil_fb')
+                hvs_ = {'TLTX', 'GLDX', 'DBMF', 'CASH0', 'BIL', 'UUPX', 'SPY'}
+
+                def hpick3_(f_):
+                    a_, b_ = pchg('TLTX', f_, 63), pchg('GLDX', f_, 63)
+                    up_ = [(v_, t_) for v_, t_ in ((a_, 'TLTX'), (b_, 'GLDX')) if v_ is not None and v_ > 0]
+                    return max(up_)[1] if up_ else fb3_ if fb3_ and px_all.get(fb3_) and min(px_all[fb3_]) <= f_ else 'CASH0'
+                out3_, n_fz = [], 0
+                for d_, w_ in sc:
+                    j_ = _bz(pkd_, d_) - 1
+                    if j_ >= 0 and idx_.get(pkd_[j_]) in frz3_ and w_.get('CASH0') and any(t_ not in hvs_ for t_ in w_):
+                        tr_ = pkd_[j_]
+                        h3_ = hpick3_(cal[idx_[tr_] - 1])
+                        if h3_ != 'CASH0':
+                            w_ = dict(w_); x_ = w_.pop('CASH0'); w_[h3_] = w_.get(h3_, 0.0) + x_; n_fz += 1
+                    out3_.append((d_, w_))
+                sc = out3_
+                R.log(f"  {key} buy freeze: {len(frz3_)} frozen sessions, {len(run.get('fz_green') or ())} green-light sessions, "
+                      f"{n_fz} schedule entries with an empty slot in the haven pick")
             pb_ = leg_.get('pbreak')
             if pb_:
                 # the price-break haven rule (mtl/pricebreak.py): the day SPY closes under its slow-day average for the first time
