@@ -34,14 +34,14 @@ CLOSE_ET = time(16, 15)             # a decision is logged only after the close 
 
 # The 2000-2026 backtest of the default plan (with the fading-energy filter, its whipsaw shadow count, the whole-account
 # whipsaw switch since Oct 16, 2026, the 3-month no-T-bills pick since Oct 19, 2026 and DBMF instead of plain cash since
-# Oct 20, 2026 and the price-break rule since Oct 24, 2026) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026
-# (engine NBup, 44.8% a year) - 0.15% per side, every window of that
+# Oct 20, 2026, the price-break rule since Oct 24, 2026 and the buy freeze and green light since Oct 26, 2026) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026
+# (engine NBup, 44.5% a year) - 0.15% per side, every window of that
 # length: return percentiles, share ahead of SPY, the 1-in-10 shortfall against SPY, and the worst drop inside the window
 # (typical, and the 1-in-20 worst).
 BANDS = {
-    63: dict(label='3 months', p5=-0.089, p25=0.002, p50=0.085, p75=0.169, p95=0.362, ahead=0.71, lag10=-0.066, dd50=-0.093, dd95=-0.19),
-    126: dict(label='6 months', p5=-0.075, p25=0.041, p50=0.161, p75=0.341, p95=0.765, ahead=0.80, lag10=-0.057, dd50=-0.125, dd95=-0.23),
-    252: dict(label='12 months', p5=-0.050, p25=0.138, p50=0.358, p75=0.680, p95=1.601, ahead=0.85, lag10=-0.037, dd50=-0.168, dd95=-0.26),
+    63: dict(label='3 months', p5=-0.089, p25=0.006, p50=0.086, p75=0.169, p95=0.358, ahead=0.715, lag10=-0.066, dd50=-0.093, dd95=-0.19),
+    126: dict(label='6 months', p5=-0.077, p25=0.048, p50=0.162, p75=0.345, p95=0.741, ahead=0.80, lag10=-0.053, dd50=-0.125, dd95=-0.231),
+    252: dict(label='12 months', p5=-0.046, p25=0.135, p50=0.364, p75=0.675, p95=1.541, ahead=0.854, lag10=-0.037, dd50=-0.16, dd95=-0.258),
 }
 WORST_DD = -0.29                # the backtest's worst drop, 2000-2026
 
