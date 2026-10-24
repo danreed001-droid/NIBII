@@ -2276,7 +2276,7 @@ def run_one(args):
         # the buy rules from before both, as the live scanner's.
         cal_z = P['calendar']
         parts_ = fzr_.get('parts', 'fgs')   # f buy freeze, g green light, s stock lower highs (for checks of one part)
-        fz_sets = fz_windows(G['SPYB'], cal_z, R.START, **{k_: v_ for k_, v_ in fzr_.items() if k_ != 'parts'})
+        fz_sets = fz_windows(G['SPYB'], cal_z, R.START, **{k_: v_ for k_, v_ in fzr_.items() if k_ in ('near', 'days', 'gl_near', 'gl_days')})
         fz_sets = (fz_sets[0] if 'f' in parts_ else set(), fz_sets[1] if 'g' in parts_ else set())
         frz_, grn_ = fz_sets
         RS_ = _FzReader(G['BARS'])
@@ -2290,8 +2290,12 @@ def run_one(args):
             h_ = RS_.two(t, d_, 'd', 'high')
             return len(h_) == 2 and h_[1] < h_[0]
         prev_fz = kw.get('buy_when')
-        kw['buy_when'] = lambda t, k: (k in grn_ or ((prev_fz(t, k) if prev_fz else True) and k not in frz_)) \
-            and not lowh_(t, cal_z[min(k, len(cal_z) - 1)])
+        if fzr_.get('freeze_wins'):   # precedence test: a buy freeze also holds against the green light
+            kw['buy_when'] = lambda t, k: k not in frz_ and (k in grn_ or (prev_fz(t, k) if prev_fz else True)) \
+                and not lowh_(t, cal_z[min(k, len(cal_z) - 1)])
+        else:
+            kw['buy_when'] = lambda t, k: (k in grn_ or ((prev_fz(t, k) if prev_fz else True) and k not in frz_)) \
+                and not lowh_(t, cal_z[min(k, len(cal_z) - 1)])
     hhl = kw.pop('hhline', None)
     if hhl:
         # don't buy a stock sitting at (or above) a rising line drawn through its last m swing highs when that line
@@ -2899,6 +2903,8 @@ def run_one(args):
         out_['spare_cash'] = True      # the filter's empty slot is plain cash, as the live scanner holds it
     if fz_sets:
         out_['fz_frozen'], out_['fz_green'] = fz_sets
+        if fzr_.get('cash_wins'):   # precedence test: the green light leaves the narrow-market cash week alone
+            out_['fz_green_cash'] = False
     if nopf_ is not None:
         # the same list with the filter off: the whipsaw half-switch counts its sales (Oct 16, 2026, as the live scanner)
         o2_ = dict(opts)
@@ -4433,6 +4439,8 @@ def main():
                         modes[f_] = f"WQ:{1 - wq_.get('out', 1.0)}:" + '+'.join(dst)
                         n_on += 1
                 R.log(f"  {key} warn-trade on {n_on} sessions")
+            prec_ = leg_.get('prec') or {}   # precedence tests: which rule wins a clash
+            pre_mj_modes = dict(modes)
             mj_ = leg_.get('major')
             pre_mj = dict(modes) if mj_ and os.environ.get('DUMP_MAJOR') == key else None
             if mj_:
@@ -4669,6 +4677,7 @@ def main():
                     json.dump(dict(pre=pre_mj, cash=sorted(d_ for d_ in modes if modes[d_] != pre_mj.get(d_)),
                                    assets={d_: modes[d_] for d_ in modes if modes[d_] != pre_mj.get(d_)}),
                               open(os.path.join(ROOT, 'data', f"major_{key}{os.environ.get('TAG', '')}.json"), 'w'))
+            lh_set_ = {d_ for d_, m_ in modes.items() if pre_mj_modes.get(d_, 'boost') == 'boost' and m_ != 'boost'}   # the lower-high exit's days
             wo_ = leg_.get('wkout')
             if wo_:
                 # out of stocks while SPY's weekly chart shows a lower high and a lower low (swings wo_['n'] weeks
@@ -5111,7 +5120,7 @@ def main():
                     if d_ in W10:
                         for j_ in range(i_ + 1 + nc_['delay'], min(len(cal), i_ + 1 + nc_['delay'] + nc_['days'])):
                             on10.add(cal[j_])
-                if run.get('fz_green'):   # the two-scale green light skips the cash week (live repo, Oct 24, 2026)
+                if run.get('fz_green') and run.get('fz_green_cash', True):   # the two-scale green light skips the cash week (live repo, Oct 26, 2026)
                     on10 = {d_ for d_ in on10 if idx_[d_] not in run['fz_green']}
                 for d_ in cal:
                     if d_ in on10:
@@ -5124,6 +5133,10 @@ def main():
                         else:
                             modes[d_] = 'BIL'; n_nc += 1
                 R.log(f"  {key} narrow-warning cash days {n_nc}")
+            try:
+                nc_days_ = set(on10) if nc_ else set()
+            except NameError:
+                nc_days_ = set()
             cr_ = leg_.get('crash')
             if cr_:
                 # crash exit: T-bills while a stress signal is on, only replacing stock exposure (boost or half-switch)
@@ -5292,6 +5305,8 @@ def main():
                         n_on += 1
                 R.log(f"  {key} brake days {n_on}")
             fs_ = leg_.get('fstock')
+            reb_days_ = set()
+            lh_days_ = lh_set_ if prec_.get('lh_over_reb') else set()
             if fs_:
                 # stay in (or get back into) stocks, whatever the other rules say, while SPY is a set % under its
                 # 63-session high close and gold / bonds (the better of the two, from the high's date) did a set thing:
@@ -5306,6 +5321,8 @@ def main():
                 for k_ in range(63, len(cal)):
                     f_ = cal[k_]
                     if f_ < R.START or modes.get(f_, 'boost') == 'boost' or scl_[k_] is None:
+                        continue
+                    if (prec_.get('nc_over_reb') and f_ in nc_days_) or f_ in lh_days_:
                         continue
                     w_ = [x for x in scl_[k_ - 62:k_ + 1]]
                     if None in w_:
@@ -5330,6 +5347,7 @@ def main():
                                 (cond_ == 'fell' and best_ <= -0.02):
                             modes[f_] = 'boost'
                             n_fs += 1
+                            reb_days_.add(f_)
                             break
                 R.log(f"  {key} stay-in-stocks days {n_fs}")
             if key in os.environ.get('DUMP_FMODES', '').split(','):
@@ -5518,7 +5536,7 @@ def main():
                         continue
                     f_ = cal[idx_[d_] - 1] if idx_[d_] > 0 else d_
                     w2_ = cur_w
-                    if f_ in pbh_ and idx_[f_] >= 63 and any(t_ not in hv_ for t_ in cur_w):
+                    if f_ in pbh_ and idx_[f_] >= 63 and any(t_ not in hv_ for t_ in cur_w) and not (prec_.get('reb_over_pb') and f_ in reb_days_):
                         w2_ = {hpick_(f_): 1.0}; n_pb += 1
                     if d_ in scm2_ or w2_ != last_out:
                         out_.append((d_, w2_)); last_out = w2_
