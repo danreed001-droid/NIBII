@@ -700,7 +700,7 @@ VARIANTS = {
     'NBmx': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='cash', other='gb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBbl': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='bil', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBrv': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='gb', other='cash'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
-    'NBup': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026); the no-T-bills pick by 3-month change (Oct 19, 2026); DBMF (managed futures) instead of cash where neither is up (Oct 20, 2026)
+    'NBup': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026); the no-T-bills pick by 3-month change (Oct 19, 2026); DBMF (managed futures) instead of cash where neither is up (Oct 20, 2026); the price-break haven rule (Oct 24, 2026)
     'NBc3': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default before managed futures replaced cash (Oct 19-20, 2026)
     'NBb6': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the 3-month no-T-bills pick (Oct 19, 2026)
     'NBg0': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the count restart (Oct 19, 2026)
@@ -5358,6 +5358,53 @@ def main():
                 sc = out_
                 R.log(f"  {key} no-T-bills days {sum(1 for d_, w_ in sc if any(t_ in w_ for t_ in ('CASH0',)))} cash entries, "
                       f"{sum(1 for d_, w_ in sc if leg_.get('nobil_fb') and leg_['nobil_fb'] in w_)} {leg_.get('nobil_fb')} entries")
+            pb_ = leg_.get('pbreak')
+            if pb_:
+                # the price-break haven rule (mtl/pricebreak.py): the day SPY closes under its slow-day average for the first time
+                # while that average and its fast-day average are both lower than `slope` sessions earlier, the haven pick (the
+                # stronger of TLT / GLD over nobil_n sessions if it is up, else nobil_fb) for the break day and `hold` sessions
+                # after it, wherever the plan would hold stocks. Decided at that close, traded at the next, like the rest.
+                sl_, fa_, sp_n, ho_ = pb_['slow'], pb_['fast'], pb_['slope'], pb_['hold']
+                cl_ = [px_all['SPY'].get(d_) for d_ in cal]
+
+                def avg_(k_, n_):
+                    w_ = cl_[k_ - n_ + 1:k_ + 1] if k_ >= n_ - 1 else []
+                    return sum(w_) / n_ if len(w_) == n_ and None not in w_ else None
+                brk_days = []
+                for k_ in range(sl_ + sp_n, len(cal)):
+                    if cl_[k_] is None or cl_[k_ - 1] is None:
+                        continue
+                    s0, s1, s5 = avg_(k_, sl_), avg_(k_ - 1, sl_), avg_(k_ - sp_n, sl_)
+                    f0, f5 = avg_(k_, fa_), avg_(k_ - sp_n, fa_)
+                    if None in (s0, s1, s5, f0, f5):
+                        continue
+                    if cl_[k_] < s0 and cl_[k_ - 1] >= s1 and s0 < s5 and f0 < f5:
+                        brk_days.append(k_)
+                pbh_ = {cal[j_] for k_ in brk_days for j_ in range(k_, min(len(cal), k_ + ho_ + 1))}
+                nbn2_ = leg_.get('nobil_n', 126)
+                hv_ = {'TLTX', 'GLDX', 'DBMF', 'CASH0', 'BIL', 'UUPX'}
+                fb2_ = leg_.get('nobil_fb')
+
+                def hpick_(f_):
+                    a_, b_ = pchg('TLTX', f_, nbn2_), pchg('GLDX', f_, nbn2_)
+                    up_ = [(v_, t_) for v_, t_ in ((a_, 'TLTX'), (b_, 'GLDX')) if v_ is not None and v_ > 0]
+                    return max(up_)[1] if up_ else fb2_ if fb2_ and px_all.get(fb2_) and min(px_all[fb2_]) <= f_ else 'CASH0'
+                scm2_, out_, cur_w, last_out, n_pb = dict(sc), [], None, None, 0
+                for d_ in cal:
+                    if d_ < sc[0][0]:
+                        continue
+                    if d_ in scm2_:
+                        cur_w = scm2_[d_]
+                    if cur_w is None:
+                        continue
+                    f_ = cal[idx_[d_] - 1] if idx_[d_] > 0 else d_
+                    w2_ = cur_w
+                    if f_ in pbh_ and idx_[f_] >= 63 and any(t_ not in hv_ for t_ in cur_w):
+                        w2_ = {hpick_(f_): 1.0}; n_pb += 1
+                    if d_ in scm2_ or w2_ != last_out:
+                        out_.append((d_, w2_)); last_out = w2_
+                sc = out_
+                R.log(f"  {key} price-break rule: {len(brk_days)} breaks, {n_pb} days in a haven instead of stocks")
             dp_ = leg_.get('dip')
             if dp_:
                 # a held Boost stock that closed down dp_['th'] or more on the day: buy the dip at the next close,
