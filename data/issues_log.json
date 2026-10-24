@@ -24,6 +24,12 @@
    "src": "daily-fetch",
    "text": "The Market Tape Ledger's data fetch failed (it never affects the Top 5 plan); its page may be out of date until a later run works.",
    "at": "2026-10-22T01:26:52+00:00"
+  },
+  {
+   "d": "2026-10-23",
+   "src": "track",
+   "text": "A live rule changed since the backtest engine (research/backtest/overlay) was last synced, so the refreshed track record may not be the live plan's. Sync the engine's NBup variant, then run research/backtest/check_sync.py --update.",
+   "at": "2026-10-24T03:11:57+00:00"
   }
  ]
 }
