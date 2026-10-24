@@ -3697,5 +3697,65 @@
       "time": "Pre-market",
       "vsExp": "AXP revenue narrowly missed Street estimates"
     }
+  },
+  {
+    "id": "2026-10-24-1-us-israel-weekend-strike-speculation",
+    "data": {
+      "addedAt": "2026-10-24",
+      "category": "Geopolitics",
+      "date": "2026-10-24",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Speculation builds that the US and Israel could strike Iran as soon as this weekend. US envoy Tom Barrack said a strike was \"absolutely\" possible, and the USS George Washington is reportedly being rearmed with bunker-buster bombs suited to underground nuclear sites. NYT reports US/Israeli planners have readied a 3-5 day operation, though Trump has signaled action is more likely after the Nov. 3 US midterms; Israel holds elections Oct. 27.",
+      "impact": "High",
+      "numbers": "USS George Washington rearming w/ GBU-57-class bunker-busters; NYT: 3-5 day strike plan readied; Israeli election Oct 27; US midterms Nov 3; US naval blockade of Iranian ports at ~day 100",
+      "order": 1,
+      "reaction": "Elevated geopolitical risk premium heading into Monday's open; markets bracing for weekend headline risk on any actual strike.",
+      "region": "Middle East",
+      "source": "https://twz.com/news-features/on-the-brink-of-epic-fury-round-two",
+      "tickers": "LMT, RTX, NOC, USO, BNO, XLE",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-24-2-houthi-strikes-saudi-hormuz-tanker-claims",
+    "data": {
+      "addedAt": "2026-10-24",
+      "category": "Geopolitics",
+      "date": "2026-10-24",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Houthi missiles/drones targeted Saudi Arabia (Riyadh, Taif, Yanbu intercepted; debris fell near Mecca/Medina), prompting Saudi Aramco to evacuate its Dhahran HQ. Iran's IRGC Navy separately claimed seven tankers were damaged/disabled near the Strait of Hormuz, including two supertankers hit by mines; AP could not independently verify the claim, and Trump has accused Iran of fabricating tanker incidents to push oil prices higher ahead of the midterms.",
+      "impact": "High",
+      "numbers": "IRGC claim: 7 tankers damaged/disabled near Hormuz (unverified); 2 supertankers (~4.5M+ combined bbls) reportedly mined/disabled; Saudi Aramco evacuates Dhahran HQ",
+      "order": 2,
+      "reaction": "Adds to Gulf supply-disruption fears and energy-led inflation concerns; unverified claims warrant caution pending confirmation.",
+      "region": "Middle East",
+      "source": "https://gulfnews.com/world/mena/middle-east-war-houthi-missile-targets-riyadh-tankers-hit-mines-near-hormuz-1.500721804",
+      "tickers": "USO, BNO, UAL, DAL, AAL, 2222.SE",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-24-3-oil-6-month-high-fomc-week-ahead",
+    "data": {
+      "addedAt": "2026-10-24",
+      "category": "Energy",
+      "date": "2026-10-24",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Crude settled at a six-month high into the weekend on Gulf escalation (Houthi strikes on Saudi energy infrastructure, Hormuz tanker claims); the DOE approved an emergency SPR exchange of up to 400,000 bbls to supply Phillips 66's Lake Charles refinery. Crude futures reopen Sunday evening as the first test of weekend headlines, with the FOMC decision due Wednesday Oct. 28 adding to next week's event risk.",
+      "impact": "High",
+      "numbers": "Brent $116.72 (+$3.55, +3.1%, highest settle since Apr 29); WTI $103.27 (+$3.80, +3.8%); US crude inventories ~3% below 5-yr seasonal avg; FOMC Oct 27-28, fed funds 3.75-4.00%, futures pricing ~90% hold / ~10% hike for Oct 28",
+      "order": 3,
+      "reaction": "Energy-led inflation concerns reinforce a higher-for-longer rate narrative; watch Sunday evening crude reopen and Wednesday's FOMC statement.",
+      "region": "Global",
+      "source": "https://financefeeds.com/wti-crude-tops-103-and-brent-settles-at-116-72-after-houthi-strikes-on-saudi-arabia-the-oil-setup-for-fed-week/",
+      "tickers": "USO, BNO, XLE, UAL, DAL, AAL, TLT, DXY",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
