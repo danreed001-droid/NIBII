@@ -99,8 +99,9 @@ def load(refresh=False):
     if os.path.exists(CACHE) and not refresh:
         with open(CACHE, 'rb') as f:
             data = pickle.load(f)
-        if 'rsp' not in data or CASH_FUND not in (data.get('assets') or {}):   # older cache without the rotation's assets, the cash week's data or DBMF
+        if 'rsp' not in data or CASH_FUND not in (data.get('assets') or {}) or 'SPY' not in data['vols']:   # older cache without the rotation's assets, the cash week's data, DBMF or SPY's volume
             data.update(rotation_data())
+            fetch(['SPY'], start=FROM, adjusted=True, volumes=data['vols'])
             with open(CACHE, 'wb') as f:
                 pickle.dump(data, f)
         return data
@@ -108,7 +109,7 @@ def load(refresh=False):
     tick = sorted(set(names) | watchlist())
     vols = {}
     bars = fetch(tick, start=FROM, volumes=vols)
-    bench = fetch(['SPY', 'QQQ'], start=FROM, adjusted=True)
+    bench = fetch(['SPY', 'QQQ'], start=FROM, adjusted=True, volumes=vols)   # SPY's volume: the break re-entry rule
     data = dict(names=names, bars=bars, vols=vols, bench=bench, **rotation_data())
     with open(CACHE, 'wb') as f:
         pickle.dump(data, f)
@@ -238,7 +239,8 @@ def main():
     }
 
     # everything above the stock list, exactly as the dashboard's default plan (scripts/momentum_scan.py plan_overlay):
-    # the rotation, the lower-high exit, the whipsaw half-switch, the narrow-market cash week, the rebound rule and no T-bills
+    # the rotation, the lower-high exit, the whipsaw half-switch, the narrow-market cash week, the rebound rule, the break
+    # re-entry rule, no T-bills and the price-break rule
     A = D['assets']
     whip_px = {**filled({t: {b[0]: b[4] for b in bs} for t, bs in A.items() if bs}, cal), 'SPY': prices['SPY']}
     shadow = plan_exits(universe, D['vols'], cal, fade=False)    # the whipsaw counts sales with the fading-energy filter off
@@ -259,7 +261,7 @@ def main():
                 kw.pop('buy_max_rank', None)
                 whip = run_momentum(universe, cal, start, look=126, skip=21, top_n=5, exec_next='close', **kw)['picks']
                 ov = plan_overlay(bench['SPY'], A, whip_px, whip, universe, cal, start, D['rate'], D['rsp'], D['vix'],
-                                  green=rules['green'])
+                                  green=rules['green'], spy_vol=D['vols'].get('SPY'))
                 stock = fractal.slot_haven(stock, r['picks'], rules['frozen'], whip_px, cal, start,
                                            lambda k_: bills_pick(whip_px, cal, k_))   # empty slots inside a buy freeze: the haven pick
                 curve = rotation_curve(stock, whip_px, cal, ov['modes'], half=ov['half'])

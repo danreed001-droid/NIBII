@@ -52,6 +52,7 @@ from mtl.trendline import TL_DAYS, trendline_state  # noqa: E402
 from mtl.pricebreak import apply_pricebreak, break_days, hold_days, pricebreak_state  # noqa: E402
 from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
+from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
@@ -472,10 +473,13 @@ def plan_exits(prices, volumes, cal_, fade=True, rules=None):
     return out
 
 
-def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, start, rate_px, rsp_px, vix_px, green=None):
+def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, start, rate_px, rsp_px, vix_px, green=None,
+                 spy_vol=None, week_closed=True):
     """Every rule of the default plan above its stock list, in the order the live plan applies them (the scanner and
     scripts/backtest_strategies.py both run this). Returns the day-by-day modes, why, half-switch and what the
-    page shows of each rule."""
+    page shows of each rule. spy_vol: SPY's {date: volume} for the break re-entry rule (without it the rule doesn't
+    run); week_closed: whether the calendar's last day closes a week (False on a live run before the week's last
+    session)."""
     # the rotation: out of stocks into TLT / GLD when the swing structure says so (mtl/rotation.py); decided at any
     # close, traded at the next close
     rot_bars = {'SPY': spy_bars, **{t: asset_bars[t] for t in ROT_ASSETS if asset_bars.get(t)}}
@@ -504,6 +508,10 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # (mtl/rebound.py)
     reb_days = rebound_days(spy_bars, whip_px, calendar, start)
     modes, why, half, reb_held = apply_rebound(modes, why, half, reb_days, calendar)
+    # ... and the break re-entry rule: after a 10% drop, SPY's weekly downtrend break and its daily break on fading
+    # volume within 21 sessions of each other -> the Boost list for 21 decision days (mtl/reentry.py, since Oct 27, 2026)
+    re_days, re_sig = reentry_days(prices['SPY'], spy_vol, calendar, start, week_closed) if spy_vol else (set(), [])
+    modes, why, half, re_held = apply_reentry(modes, why, half, re_days, calendar)
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
     # stronger of TLT / GLD over 3 months if it is up, else DBMF managed futures (mtl/rotation.py no_bills)
     modes, why, half = no_bills(modes, why, half, whip_px, calendar)
@@ -513,7 +521,8 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     pb_breaks = break_days(prices['SPY'], calendar, start)
     modes, why, half, pb_held = apply_pricebreak(modes, why, half, hold_days(pb_breaks, calendar, start), whip_px, calendar)
     return dict(modes=modes, why=why, half=half, read=read, state=state, lh_cash=lh_cash, lh_log=lh_log,
-                whip_on=whip_on, regime=regime, narrow_warn=narrow_warn, narrow_cash=narrow_cash, reb_held=reb_held, pb_breaks=pb_breaks, pb_held=pb_held)
+                whip_on=whip_on, regime=regime, narrow_warn=narrow_warn, narrow_cash=narrow_cash, reb_held=reb_held, re_held=re_held, re_sig=re_sig,
+                pb_breaks=pb_breaks, pb_held=pb_held)
 
 
 def last_closed_session(now=None):
@@ -552,7 +561,9 @@ def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp,
             ('TLT', {b[0]: 1 for b in asset_bars.get('TLT') or []}, "the bond haven can't be read", as_of),
             ('GLD', {b[0]: 1 for b in asset_bars.get('GLD') or []}, "the gold haven can't be read", as_of),
             *([(f'{CASH_FUND} (managed futures)', fund_px, f"where neither gold nor bonds is up the plan falls back to plain cash instead of {CASH_FUND}", as_of)]
-              if fund_px is not None else [])):
+              if fund_px is not None else []),
+            *([("SPY's trading volume", (volumes or {}).get('SPY') or {}, "the break re-entry rule can't run", as_of)]
+              if volumes is not None else [])):
         ld = last(ser)
         if ld is None:
             out.append(f"No data for {name}: {what}.")
@@ -850,10 +861,11 @@ def main():
     whip_px = {**filled({**sleeve_px, CASH_FUND: fund_px}, calendar), 'SPY': prices['SPY']}
     rsp_px = {b[0]: b[4] for b in bench.get('RSP') or []}
     ov = plan_overlay(bench['SPY'], asset_bars, whip_px, picks_whip, prices, calendar, START, rate_px, rsp_px, vix_px,
-                      green=fz_rules['green'])
+                      green=fz_rules['green'], spy_vol=volumes.get('SPY'), week_closed=week_ended(calendar[-1]))
     rot_modes, rot_why, whip_half, rot_read, rot_state = ov['modes'], ov['why'], ov['half'], ov['read'], ov['state']
     lh_cash, lh_log, whip_on, regime = ov['lh_cash'], ov['lh_log'], ov['whip_on'], ov['regime']
     narrow_warn, narrow_cash, reb_held = ov['narrow_warn'], ov['narrow_cash'], ov['reb_held']
+    re_held, re_sig = ov['re_held'], ov['re_sig']
     pb_held = ov['pb_held']
     # a slot left empty at a trade inside a buy freeze holds the haven pick until the next trade (mtl/fractal.py)
     fz_pick = lambda k_: bills_pick(whip_px, calendar, k_)
@@ -1109,6 +1121,9 @@ def main():
     rb_ = rebound_state(bench['SPY'], whip_px, calendar, K, reb_held)
     auto['rotation']['rebound'] = {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in rb_.items()}
     auto['rotation']['pricebreak'] = pricebreak_state(prices['SPY'], calendar, K, pb_held)
+    # the break re-entry rule (mtl/reentry.py): tonight's reading, whether it holds stocks next session, the signals
+    re_ = reentry_state(prices['SPY'], volumes.get('SPY') or {}, calendar, K, re_held, re_sig, week_ended(calendar[K]))
+    auto['rotation']['reentry'] = re_
     # the two-scale buy rules (mtl/fractal.py): SPY's weekly + daily reading and the freeze / green light now
     auto['rotation']['fractal'] = fractal.state(bench['SPY'], calendar, K, fz_rules['frozen'], fz_rules['green'], fz_rules['log'])
     # SPY trendline watch (information only): a rising weekly line touched 3 or 4 times about evenly (mtl/trendline.py)
