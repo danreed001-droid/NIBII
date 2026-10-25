@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-10-24T04:06:14+00:00",
+ "updated": "2026-10-25T04:58:44+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -586,7 +586,7 @@
    },
    "plan": {
     "day": -0.0317,
-    "month": -0.0221
+    "month": -0.022
    }
   },
   {
@@ -678,7 +678,7 @@
    "what": "Bank recapitalisation plans",
    "src": "curated",
    "day": 0.1452,
-   "month": 0.0143,
+   "month": 0.0144,
    "type": "Rescue / fiscal",
    "trend": "below",
    "gold": {
@@ -708,7 +708,7 @@
    },
    "bonds": {
     "day": 0.0294,
-    "month": 0.2013
+    "month": 0.2014
    },
    "plan": {
     "day": 0.0294,
@@ -838,7 +838,7 @@
    },
    "plan": {
     "day": -0.0501,
-    "month": 0.1539
+    "month": 0.1553
    }
   },
   {
@@ -1174,7 +1174,7 @@
    },
    "plan": {
     "day": 0.0299,
-    "month": 0.0779
+    "month": 0.0382
    }
   },
   {
@@ -1194,8 +1194,8 @@
     "month": 0.0182
    },
    "plan": {
-    "day": 0.0129,
-    "month": -0.0202
+    "day": 0.0106,
+    "month": -0.0337
    }
   },
   {
@@ -1446,8 +1446,8 @@
     "month": 0.0498
    },
    "plan": {
-    "day": -0.0218,
-    "month": 0.0358
+    "day": -0.0225,
+    "month": 0.0495
    }
   },
   {
@@ -1467,8 +1467,8 @@
     "month": 0.0773
    },
    "plan": {
-    "day": 0.0083,
-    "month": 0.063
+    "day": 0.0136,
+    "month": 0.0686
    }
   },
   {
@@ -1656,8 +1656,8 @@
     "month": 0.0358
    },
    "plan": {
-    "day": -0.0034,
-    "month": 0.0271
+    "day": -0.0026,
+    "month": -0.0229
    }
   },
   {
@@ -2182,7 +2182,7 @@
    },
    "plan": {
     "day": -0.042,
-    "month": 0.1004
+    "month": 0.106
    }
   },
   {
@@ -2391,8 +2391,8 @@
     "month": -0.1029
    },
    "plan": {
-    "day": -0.0319,
-    "month": 0.0443
+    "day": -0.0077,
+    "month": 0.0701
    }
   },
   {
@@ -2560,7 +2560,7 @@
    },
    "plan": {
     "day": 0.0116,
-    "month": 0.0427
+    "month": 0.0446
    }
   },
   {
@@ -2580,8 +2580,8 @@
     "month": -0.0302
    },
    "plan": {
-    "day": 0.0195,
-    "month": 0.0711
+    "day": 0.0156,
+    "month": 0.0629
    }
   },
   {
@@ -2601,8 +2601,8 @@
     "month": 0.0266
    },
    "plan": {
-    "day": -0.0079,
-    "month": 0.0485
+    "day": -0.0078,
+    "month": 0.0484
    }
   },
   {
@@ -3168,8 +3168,8 @@
     "month": -0.0553
    },
    "plan": {
-    "day": -0.0235,
-    "month": 0.1831
+    "day": -0.05,
+    "month": 0.1431
    }
   },
   {
