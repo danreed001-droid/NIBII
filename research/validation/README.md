@@ -105,8 +105,8 @@ of the checks, so it went in on probation. The paper record shows the change as 
 ## Whipsaw switch: the whole account (default since Oct 16, 2026)
 
 When the whipsaw check is on (65% or more of the Boost list's sales in the last 126 sessions were losers, at least 6
-sales), the plan now holds 100% of whichever of TLT, GLD and SPY is up most over 3 months (skipping weekly
-downtrends) instead of 50% of it next to the Boost list (`WHIP_SHARE` in `mtl/rotation.py`; engine `NBup` = whole
+sales), the plan now holds 100% of whichever of TLT, GLD and SPY (TLT and GLD only since Oct 28, 2026) is up most
+over 3 months (skipping weekly downtrends) instead of 50% of it next to the Boost list (`WHIP_SHARE` in `mtl/rotation.py`; engine `NBup` = whole
 account, `NBhalf` = half). It came from asking how the switch did over its own days: across its 22 stretches since 2000
 (251 sessions, about 4% of the time) the Boost list lost about 3% while the asset it picked gained about 13%.
 

@@ -38,9 +38,13 @@ picked on that same history.
    list sold in the last WHIP_LOOK sessions (at least WHIP_MIN sales), if WHIP_LOSS or more
    were sold below their buy price, momentum is whipsawing. Until the next weekly check
    finds otherwise, while the plan would hold the Boost list, WHIP_SHARE of the account goes
-   into whichever of TLT, GLD and SPY is up most over the last WHIP_PCT sessions, skipping
-   any whose weekly structure is a downtrend (T-bills if none is up), and the rest stays in
-   the Boost list. Half until Oct 16, 2026; since then the whole account (WHIP_SHARE = 1.0):
+   into whichever of TLT and GLD is up most over the last WHIP_PCT sessions, skipping
+   any whose weekly structure is a downtrend (T-bills if none is up, which no_bills turns into
+   managed futures or cash), and the rest stays in the Boost list. SPY was a third choice until
+   Oct 28, 2026; without it (on probation): 46.1% a year from 2000 vs 45.8%, 48.7% vs 48.3% from
+   2010, 58.0% vs 57.6% from 2016, 89.3% vs 88.9% from 2020, worst drops unchanged; it changed 7
+   months (2015 -5.8% vs -8.5%, 2011, 2016 better, 2012 worse), t-stat 0.46, and abroad (the local
+   index in SPY's place) +0.15 points a year, ahead in 7 of 11 markets. Half until Oct 16, 2026; since then the whole account (WHIP_SHARE = 1.0):
    41.0% a year from 2000 vs 40.3% (worst drop -34% vs -33%), 43.2% vs 42.0% from 2010, 50.7%
    vs 50.3% from 2016, 74.8% vs 73.3% from 2020 (-23% vs -27%); most of the gain is 2011 and
    2016, the month-by-month t-stat is 0.9 and abroad it was up in two markets and down in
@@ -139,7 +143,7 @@ WHIP_MIN = 6          # sales needed in that window before it can switch on
 WHIP_LOSS = 0.65      # share of those sales below their buy price that switches it on
 WHIP_PCT = 63         # sessions of % change used to pick the whipsaw switch's asset
 WHIP_SHARE = 1.0      # the account's share in that asset while the switch is on (0.5 until Oct 16, 2026)
-WHIP_ASSETS = ('TLT', 'GLD', 'SPY')
+WHIP_ASSETS = ('TLT', 'GLD')   # SPY was a third choice until Oct 28, 2026
 REGIME_LOOK = 63      # sessions over which the 10-year yield and gold must both be up to skip the half-switch
 PICK_LOOK = 126       # sessions of % change that pick between TLT and GLD (rotation, downtrend and lower-high exits)
 BILLS_LOOK = 63       # sessions of % change for the no-T-bills pick (no_bills; PICK_LOOK until Oct 19, 2026)
