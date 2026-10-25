@@ -1,26 +1,26 @@
 {
- "asOf": "2026-10-24",
+ "asOf": "2026-10-25",
  "period": "Jan 2000 – Oct 2026",
- "plan": "Boost + rotation (surge exit, whipsaw switch (the whole account into TLT, GLD or SPY) with the rate/gold regime, TLT / GLD by 6-month gain, narrow-market cash week read from the equal-weight index’s full history, lower-high exit into gold or bonds on both its triggers, no T-bills: gold or bonds if up over 3 months, else DBMF managed futures (from its start in May 2019; cash before); price-break rule: the day SPY closes under its 100-day average for the first time with that average and its 7-day average both falling, the haven pick for 10 sessions; buy freeze: no new stocks for 10 sessions after a week ends with SPY within 1% of a weekly lower high that the daily chart confirms, an empty slot in the haven pick; green light: weekly and daily higher lows lift the buy filters and skip the cash week for 10 sessions; rebound rule: stays in stocks after a 12%+ drop with gold or bonds up 2%+ and a daily higher low; fading-energy filter: a top-5 stock whose volume and daily swings have both faded isn’t bought, its slot stays in cash; the whipsaw check counts the list with the filter off)",
- "previous": "the same plan without the buy freeze and green light (default until Oct 26, 2026)",
+ "plan": "Boost + rotation (surge exit, whipsaw switch (the whole account into TLT, GLD or SPY) with the rate/gold regime, TLT / GLD by 6-month gain, narrow-market cash week read from the equal-weight index’s full history, lower-high exit into gold or bonds on both its triggers, no T-bills: gold or bonds if up over 3 months, else DBMF managed futures (from its start in May 2019; cash before); price-break rule: the day SPY closes under its 100-day average for the first time with that average and its 7-day average both falling, the haven pick for 10 sessions; buy freeze: no new stocks for 10 sessions after a week ends with SPY within 1% of a weekly lower high that the daily chart confirms, an empty slot in the haven pick; green light: weekly and daily higher lows lift the buy filters and skip the cash week for 10 sessions; rebound rule: stays in stocks after a 12%+ drop with gold or bonds up 2%+ and a daily higher low; break re-entry rule: after a 10%+ drop, a weekly and a daily downtrend break (the daily one on fading volume) within 21 sessions hold stocks for 21 sessions; fading-energy filter: a top-5 stock whose volume and daily swings have both faded isn’t bought, its slot stays in cash; the whipsaw check counts the list with the filter off)",
+ "previous": "the same plan without the break re-entry rule (default until Oct 27, 2026)",
  "source": "From the audit’s daily curves: stocks in the S&P 500 at the time, 0.15% slippage, 37%/20% tax; Sharpe and Sortino net of a 2% cash rate. EP and CPWR are left out (their tickers were reused by later companies)",
  "scorecard": [
   {
    "k": "return",
-   "plan": "44.5% (28.2%)",
-   "prev": "44.8% (28.4%)",
+   "plan": "45.8% (29.0%)",
+   "prev": "44.5% (28.2%)",
    "spy": "8.4%"
   },
   {
    "k": "sharpe",
-   "plan": "1.36",
-   "prev": "1.37",
+   "plan": "1.39",
+   "prev": "1.36",
    "spy": "0.41"
   },
   {
    "k": "sortino",
-   "plan": "2.08",
-   "prev": "2.09",
+   "plan": "2.13",
+   "prev": "2.08",
    "spy": "0.58"
   },
   {
@@ -31,56 +31,56 @@
   },
   {
    "k": "calmar",
-   "plan": "1.52",
-   "prev": "1.53",
+   "plan": "1.56",
+   "prev": "1.52",
    "spy": "0.15"
   },
   {
    "k": "ulcer",
    "plan": "8.7%",
-   "prev": "8.8%",
+   "prev": "8.7%",
    "spy": "16.1%"
   },
   {
    "k": "omega",
-   "plan": "3.57",
-   "prev": "3.51",
+   "plan": "3.67",
+   "prev": "3.57",
    "spy": "1.44"
   },
   {
    "k": "capture",
-   "plan": "137% / -37%",
-   "prev": "139% / -36%",
+   "plan": "140% / -37%",
+   "prev": "137% / -37%",
    "spy": "100% / 100%"
   },
   {
    "k": "var",
    "plan": "−6.7% / −9.0%",
-   "prev": "−6.8% / −9.0%",
+   "prev": "−6.7% / −9.0%",
    "spy": "−7.5% / −9.5%"
   },
   {
    "k": "worst3",
    "plan": "5.6% a year",
-   "prev": "3.1% a year",
+   "prev": "5.6% a year",
    "spy": "−16.3% a year"
   },
   {
    "k": "under",
-   "plan": "13 months",
-   "prev": "26 months",
+   "plan": "18 months",
+   "prev": "13 months",
    "spy": "74 months"
   },
   {
    "k": "alpha",
-   "plan": "35.2% (t 5.7)",
-   "prev": "35.2% (t 5.6)",
+   "plan": "36.0% (t 5.6)",
+   "prev": "35.2% (t 5.7)",
    "spy": "–"
   },
   {
    "k": "alphadec",
-   "plan": "43.1% / 14.0% / 61.1%",
-   "prev": "46.2% / 12.5% / 59.6%",
+   "plan": "43.0% / 13.4% / 66.6%",
+   "prev": "43.1% / 14.0% / 61.1%",
    "spy": "–"
   }
  ],
@@ -95,17 +95,17 @@
    {
     "k": "typical",
     "v": [
-     "43.9% (27.9%)",
-     "44.2% (28.0%)",
-     "44.4% (28.2%)"
+     "45.0% (28.6%)",
+     "45.4% (28.9%)",
+     "45.7% (29.0%)"
     ]
    },
    {
     "k": "bad",
     "v": [
-     "17.4%",
-     "24.7%",
-     "30.1%"
+     "18.2%",
+     "25.4%",
+     "30.9%"
     ]
    },
    {
@@ -143,9 +143,9 @@
    {
     "k": "beatPrev",
     "v": [
-     "45%",
-     "43%",
-     "39%"
+     "60%",
+     "72%",
+     "85%"
     ]
    },
    {
@@ -169,7 +169,7 @@
     "v": [
      "1%",
      "2%",
-     "5%"
+     "6%"
     ]
    }
   ]
@@ -206,11 +206,11 @@
   },
   {
    "k": "lowerT",
-   "v": "about 2.4 points a year (t-stat 1.4 on monthly returns), but the worst drop falls from −34% to −29% and the worst three years from 1.1% to 5.6% a year; it beat the plan without it in 74–91% of the simulated futures"
+   "v": "about 2.7 points a year (t-stat 1.5 on monthly returns), but the worst drop falls from −34% to −29% and the worst three years from 1.1% to 5.6% a year; it beat the plan without it in 77–94% of the simulated futures"
   },
   {
    "k": "billsT",
-   "v": "about 3.0 points a year over T-bills (t-stat 2.9 on monthly returns) and about 3.3 over plain cash; it beat the T-bills version in 90/97/100% of simulated 5 / 10 / 20-year futures and plain cash in 92/98/100%"
+   "v": "about 3.1 points a year over T-bills (t-stat 3.1 on monthly returns) and about 3.4 over plain cash; it beat the T-bills version in 91/98/100% of simulated 5 / 10 / 20-year futures and plain cash in 93/99/100%"
   },
   {
    "k": "bills3T",
@@ -247,6 +247,10 @@
   {
    "k": "fzT",
    "v": "about level with the plan without them (−0.3 points a year from 2000, t-stat −0.4 on monthly returns): 44.5% a year from 2000 vs 44.8%, 47.1% vs 46.8% from 2010, 54.6% vs 55.0% from 2016 and 83.2% vs 81.8% from 2020, worst drop −29% either way; they changed the result in 14 of 27 years, by up to 34 points (behind in 2009 and 2026, ahead in 2010 and 2022); on today’s S&P 500 members alone they looked 1.9 points a year better"
+  },
+  {
+   "k": "reT",
+   "v": "about 0.9 points a year over the plan without it (t-stat 1.4 on monthly returns): 45.8% a year from 2000 vs 44.5%, 48.3% vs 47.1% from 2010, 57.6% vs 54.6% from 2016 and 88.9% vs 83.2% from 2020, the same worst drop from every start; it fired 7 times since 2000 and beat the plan without it in 60/72/85% of simulated 5 / 10 / 20-year futures"
   }
  ],
  "recovery": {
@@ -318,11 +322,11 @@
    {
     "peak": "2010-04-26",
     "low": "2010-07-02",
-    "back": "2010-10-01",
+    "back": "2010-10-14",
     "depth": -0.2405,
     "down": 2.2,
-    "up": 3.0,
-    "total": 5.2
+    "up": 3.4,
+    "total": 5.6
    },
    {
     "peak": "2012-03-15",
@@ -343,15 +347,6 @@
     "total": 4.4
    },
    {
-    "peak": "2000-03-23",
-    "low": "2000-04-14",
-    "back": "2000-07-14",
-    "depth": -0.2806,
-    "down": 0.7,
-    "up": 3.0,
-    "total": 3.7
-   },
-   {
     "peak": "2021-11-29",
     "low": "2022-01-27",
     "back": "2022-03-21",
@@ -368,6 +363,15 @@
     "down": 2.1,
     "up": 1.4,
     "total": 3.5
+   },
+   {
+    "peak": "2000-03-23",
+    "low": "2000-04-14",
+    "back": "2000-06-08",
+    "depth": -0.2806,
+    "down": 0.7,
+    "up": 1.8,
+    "total": 2.5
    },
    {
     "peak": "2023-08-31",
@@ -419,7 +423,7 @@
   "years": 26.7,
   "median": 4.6,
   "medianDown": 2.2,
-  "medianUp": 2.0,
+  "medianUp": 1.9,
   "longest": {
    "plan": {
     "months": 24,
@@ -428,10 +432,10 @@
     "depth": -0.1802
    },
    "prev": {
-    "months": 28,
+    "months": 24,
     "peak": "2014-07-16",
-    "back": "2016-11-17",
-    "depth": -0.2077
+    "back": "2016-07-12",
+    "depth": -0.1802
    },
    "spy": {
     "months": 79,
@@ -446,7 +450,7 @@
     "depth": -0.8296
    }
   },
-  "newHighs": 834,
+  "newHighs": 852,
   "gapMedianDays": 2,
   "gap90Days": 20,
   "now": {
@@ -457,8 +461,8 @@
   "mc": {
    "under": [
     "9 months",
-    "12 months",
-    "14 months"
+    "13 months",
+    "16 months"
    ],
    "underBad": [
     "20 months",
@@ -466,9 +470,9 @@
     "32 months"
    ],
    "under2y": [
-    "2%",
+    "3%",
     "7%",
-    "14%"
+    "15%"
    ],
    "underSpy": [
     "17 months",
