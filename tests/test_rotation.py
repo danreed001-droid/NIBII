@@ -118,7 +118,10 @@ def test_whip_pick_takes_the_biggest_gain_and_skips_weekly_downtrends():
     R = Reader(bars)
     closes = {t: {b[0]: b[4] for b in bs} for t, bs in bars.items()}
     best, chg = whip_pick(R, closes, cal, len(cal) - 1, look=63)
-    assert best == 'GLD' and chg['GLD'] > chg['SPY'] > 0 > chg['TLT']
+    assert best == 'GLD' and chg['GLD'] > 0 > chg['TLT'] and 'SPY' not in chg   # TLT / GLD only since Oct 28, 2026
+    # SPY up most is never the pick
+    up = {**closes, 'SPY': {d: 100.0 * (1 + i / 1e3) for i, d in enumerate(cal)}}
+    assert whip_pick(R, up, cal, len(cal) - 1, look=63)[0] == 'GLD'
     # TLT up most but in a weekly downtrend: skipped
     closes['TLT'] = {d: 1000.0 * (1 + i / 1e4) for i, d in enumerate(cal)}
     assert whip_pick(R, closes, cal, len(cal) - 1, look=63)[0] == 'GLD'

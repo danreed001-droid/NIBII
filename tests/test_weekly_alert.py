@@ -270,10 +270,10 @@ def test_whipsaw_half_switch_on_friday():      # the half-switch it replaced (no
 
 def test_whipsaw_half_moving_midweek_sends_its_own_alert():
     s = scan(signalDay=False)
-    s['plan']['auto']['rotation'] = rot(whip=whip(held='GLD', half='SPY'))
+    s['plan']['auto']['rotation'] = rot(whip=whip(held='GLD', half='TLT'))
     title, body = alert.build(s)
-    assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw → SPY'
-    assert 'sell GLD, buy **SPY** with that half' in body
+    assert title == 'Trade Mon Oct 5: Boost + rotation whipsaw → TLT'
+    assert 'sell GLD, buy **TLT** with that half' in body
 
 
 def test_whipsaw_half_stands_aside_when_rates_and_gold_rise():

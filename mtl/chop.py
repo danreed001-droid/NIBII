@@ -1,7 +1,7 @@
 """Choppy-market watch (information only): is the default plan whipsawing?
 
-The default plan holds either the Boost list or, the whole account, one asset (TLT, GLD, SPY through the whipsaw
-switch, DBMF or cash). The watch counts the closes at which that holding changed in the last LOOK sessions and is on
+The default plan holds either the Boost list or, the whole account, one asset (TLT or GLD, through the whipsaw
+switch too since Oct 28, 2026 (SPY before), DBMF or cash). The watch counts the closes at which that holding changed in the last LOOK sessions and is on
 when there were NEED or more: the plan is flipping, as in late 2015 (17 moves in four months; the plan lost 12% while
 SPY rose 7%). It changes nothing the plan does. Tested as rules on top of the plan (Oct 20, 2026), with this signal
 and others (SPY's efficiency ratio, a choppiness index): a minimum hold of 5 to 15 sessions after any move, holding
