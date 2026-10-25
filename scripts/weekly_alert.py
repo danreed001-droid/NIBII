@@ -55,7 +55,11 @@ ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and
            'pricebreak': "price-break rule: SPY closed under its 100-day average (first time) while that average and its 7-day "
                          "average were both lower than 5 sessions ago; {to} for 10 sessions (the stronger of TLT / GLD over 3 months if it is up, "
                          "else DBMF managed futures)",
-           'pricebreak-end': 'the price-break stay is over: back to what the plan holds'}
+           'pricebreak-end': 'the price-break stay is over: back to what the plan holds',
+           'reentry': "break re-entry rule: after a 10%+ drop SPY broke its downtrend on the weekly chart and on the daily "
+                      "chart (that one on fading volume) within 21 sessions, so the plan holds the Boost list for 21 sessions "
+                      "whatever the other rules say",
+           'reentry-end': 'the break re-entry stay is over: back to what the plan holds'}
 
 
 def rot_name(m):

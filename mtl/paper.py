@@ -26,7 +26,7 @@ from mtl.rotation import WHIP_SHARE
 START = '2026-10-14'            # the day the current default plan (with the rebound rule) went live
 SLIP = 0.0015                   # per side, as in the backtest
 CASH = 'CASH'
-RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/pricebreak.py', 'mtl/fractal.py', 'mtl/narrow.py', 'mtl/lowerhigh.py',
+RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/reentry.py', 'mtl/pricebreak.py', 'mtl/fractal.py', 'mtl/narrow.py', 'mtl/lowerhigh.py',
               'mtl/news.py', 'mtl/structure.py', 'mtl/universe.py', 'mtl/fade.py', 'mtl/calendar_nyse.py')
 SLOTS = 5                       # the Boost list's slots: each stock is a fifth, an empty slot (fading filter) is cash
 SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (settings, not page code)
