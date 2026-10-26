@@ -3817,5 +3817,65 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-26-1-oil-eases-from-highs-after-houthi-spike",
+    "data": {
+      "addedAt": "2026-10-26",
+      "category": "Energy",
+      "date": "2026-10-26",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Oil eases Monday after Friday's spike on Houthi attacks on Saudi Arabia; Brent back below $110 after hitting its highest level since April.",
+      "impact": "High",
+      "numbers": "Brent < $110 (Fri settle $116.72 per Reuters via search summary); WTI Dec ~$101.20 (-2.0%)",
+      "order": 1,
+      "reaction": "Lower crude eases inflation worries and supports a modest bid in equity futures.",
+      "region": "Global",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-26-dow-sp-500-nasdaq-101153035.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, TLT, 10Y, yield",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-26-2-futures-edge-up-ahead-of-fed-and-earnings",
+    "data": {
+      "addedAt": "2026-10-26",
+      "category": "Market",
+      "date": "2026-10-26",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "US equity futures edge higher after two straight weekly losses for the S&P 500 and Nasdaq; busy week ahead with Fed decision Wed, Alphabet/Microsoft earnings Wed, and BoJ/ECB/BoC meetings.",
+      "impact": "Medium",
+      "numbers": "S&P fut 7,684.75 (+0.33%); Nasdaq fut 29,289.50 (+0.59%); Dow fut +0.41%; Russell 2000 fut 2,788.50 (+0.14%); VIX 19.16",
+      "order": 2,
+      "reaction": "Modest relief bounce; megacap tech has been weak, positioning cautious into event risk.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-26-dow-sp-500-nasdaq-101153035.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-26-3-fed-hawkish-pause-expected-10y-near-5-pct",
+    "data": {
+      "addedAt": "2026-10-26",
+      "category": "Fed",
+      "date": "2026-10-26",
+      "day": "Mon",
+      "direction": "Neutral",
+      "event": "Fed widely expected to hold Wednesday (Chair Warsh) in a 'hawkish pause' after hotter inflation; 10Y yield holds just under 5% while gold edges up.",
+      "impact": "Medium",
+      "numbers": "10Y ~4.984%; gold ~$4,030 (+0.55%); hold expected, small odds of another 25 bp hike",
+      "order": 3,
+      "reaction": "Bonds steady near multi-year-high yields; focus on Wed 2 PM ET statement and press conference.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-26-dow-sp-500-nasdaq-101153035.html",
+      "tickers": "TLT, 10Y, yield, Treasury, GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
