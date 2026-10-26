@@ -5,9 +5,14 @@ not from the scanner's replay. The replay uses today's S&P 500 and Nasdaq-100 me
 stock that later dropped out and looks better than it should. This backtest uses:
 
 - the stocks in the S&P 500 at each date that have price history (EP and CPWR are left out because their
-  tickers were reused). Free price history covers 58% of the members in 2000, 61% in 2005, 67% in 2010, 77% in
-  2015, 91% in 2020 and 98% in 2025: most companies bought out or delisted before then are missing, which likely
-  flatters the early years (results from 2020 on rest on nearly complete data);
+  tickers were reused). Since Oct 26, 2026 the member lists are the real daily ones (`data/sp500_history.csv`,
+  1996 on; `membership.py` applies them after the universe load), not the ones rebuilt from Wikipedia's change
+  table, which is close to complete only from 2007: in 2000 only 289 of the 493 rebuilt members were right, so the
+  old backtest could buy companies years before they joined. Former members Yahoo no longer carries come from
+  Tiingo (`data/sp500_delisted.json.gz`, 155 series) and renamed tickers are mapped (`data/sp500_renames.json`).
+  Priced members: 281 of 493 in 2000, 325 of 496 in 2005, 411 of 499 in 2010, 449 of 500 in 2015, 490 of 505 in
+  2020 and 499 of 503 in 2025. Most of the rest went bankrupt or were bought out before 2010 (Enron, WorldCom,
+  Lehman...), so the early years are still somewhat flattered; results from 2010 on rest on nearly complete data;
 - news gaps, and 0.15% slippage on every trade;
 - TLT and GLD extended back with a long Treasury fund and gold futures for the years before they existed.
 
