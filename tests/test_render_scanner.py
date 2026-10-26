@@ -104,6 +104,13 @@ def test_page_flags_the_choppy_market_watch():
     assert 'choppy market: the plan is whipsawing (info only)' in page
 
 
+def test_page_flags_the_credit_watch():
+    page = render_scanner.render(SCAN)
+    assert 'function creditNote(C)' in page and 'chopNote(RT.chop) + creditNote(RT.credit)' in page
+    assert 'Credit watch' in page and 'a heads-up, not a trade' in page
+    assert 'credit watch: banks and junk bonds cracking (info only)' in page
+
+
 def test_warning_shows_breadth_and_scores_calls_against_the_plan():
     page = render_scanner.render(SCAN)
     assert 'function breadthNote(RT)' in page and 'breadthNote(RT) + warnCallNote(RT)' in page

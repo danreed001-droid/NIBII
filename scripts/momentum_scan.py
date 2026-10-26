@@ -66,6 +66,7 @@ from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 from mtl.widenet import WIDE_NET, scan as wide_net_scan  # noqa: E402
+from mtl.credit import BANKS as CREDIT_BANKS, JUNK as CREDIT_JUNK, watch as credit_watch  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'data', 'momentum_scan.json')
@@ -638,10 +639,15 @@ def main():
     except Exception as e:
         print(f"  wide-net fetch failed: {e}", file=sys.stderr)
         wide_bars = {}
+    try:   # the credit watch (information only): banks and junk bonds against their 1-year highs, back to 1999
+        credit_bars = fetch([CREDIT_BANKS, CREDIT_JUNK, 'SPY'], start='1999-01-01', adjusted=True)   # (mtl/credit.py)
+    except Exception as e:
+        print(f"  credit-watch fetch failed: {e}", file=sys.stderr)
+        credit_bars = {}
     # a run before the close (by hand during the day, or the quarterly track refresh in the morning) must not read
     # the session still trading: keep only closes up to the last session that has closed
     cut_ = last_closed_session()
-    for src_ in (bars, bench, asset_bars, wide_bars):
+    for src_ in (bars, bench, asset_bars, wide_bars, credit_bars):
         for t_ in src_:
             src_[t_] = [b_ for b_ in src_[t_] or [] if b_[0] <= cut_]
     rate_px = {d_: v_ for d_, v_ in rate_px.items() if d_ <= cut_}
@@ -1155,6 +1161,9 @@ def main():
     auto['rotation']['whip'] = whip_block(rot_modes, whip_on, whip_half, rot_read, whip_px, calendar, K, picks_whip, prices, held=picks_bx)
     # choppy-market watch (information only): the plan moved the whole account 3+ times in the last 40 sessions (mtl/chop.py)
     auto['rotation']['chop'] = chop_watch(rot_modes, whip_half, calendar, K)
+    # credit watch (information only): banks and junk bonds cracking before SPY (mtl/credit.py)
+    cr_ = {t_: {b_[0]: b_[4] for b_ in credit_bars.get(t_) or [] if b_[4]} for t_ in (CREDIT_BANKS, CREDIT_JUNK, 'SPY')}
+    auto['rotation']['credit'] = credit_watch(cr_[CREDIT_BANKS], cr_[CREDIT_JUNK], cr_['SPY']) if all(cr_.values()) else None
     # wide-net watch (information only): the strongest of about 40 assets the plan never holds (mtl/widenet.py)
     auto['wideNet'] = wide_net_scan({t_: {b_[0]: b_[4] for b_ in bs_ if b_[4]} for t_, bs_ in wide_bars.items()},
                                     prices['SPY'], calendar, K) if wide_bars else None
