@@ -3239,12 +3239,13 @@ def _week_key(d):
     return y, w
 
 
-def plan_chart_data(scan, path=PLAN_HIST_PATH, timeline=None, live_from=None, plan_values=None):
+def plan_chart_data(scan, path=PLAN_HIST_PATH, timeline=None, live_from=None, plan_values=None, top5=None):
     """The "Where the plan was" chart's data: SPY, gold and bond closes from 2000 (the backtest's own lines in
     data/plan_history.json, carried on after the backtest ends with the scan's last 300 sessions, matched at the last
     day both have), where the default plan was (mtl/plan_history.py: the backtest of today's rules, then the paper
     record's live decisions) and the plan's own value (the same split: the track record's default line, then the live
-    paper account). Daily for the last PC_DAILY_YEARS years, one close a week (the week's last) before that.
+    paper account) and Boost 100% (the plan's stock list always fully invested, no haven timing: the scan's curve,
+    the backtest's line carried on with the live replay by with_track_record). Daily for the last PC_DAILY_YEARS years, one close a week (the week's last) before that.
     None when the file has no closes yet (made before the track refresh wrote them)."""
     try:
         with open(path) as f:
@@ -3284,15 +3285,18 @@ def plan_chart_data(scan, path=PLAN_HIST_PATH, timeline=None, live_from=None, pl
         from mtl import plan_history as ph
         paper = (((scan.get('plan') or {}).get('paper') or {}).get('curve')) or []
         plan_values = ph.values(ph._load(ph.TRACK), ph._load(ph.LEDGER), paper)
+    if top5 is None:
+        top5 = dict((scan.get('curves') or {}).get('boost100') or [])
     first = dates[keep[0]]
     tl = [[f, *sh] for f, sh in timeline]
     start = max([i for i, r in enumerate(tl) if r[0] <= first] or [0])
     return dict(d=[dates[i] for i in keep], s=[cols['SPY'][i] for i in keep], g=[cols['gold'][i] for i in keep],
                 b=[cols['bonds'][i] for i in keep], p=[_r4(plan_values.get(dates[i])) for i in keep],
+                k=[_r4(top5.get(dates[i])) for i in keep],
                 h=tl[start:], bt=H.get('end'), live=live_from)
 
 
-PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where the plan was <span class="hint">the default plan, SPY, gold and bonds since 2000, shaded by what the plan held</span></p>
+PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where the plan was <span class="hint">the default plan, its stocks alone (Boost 100%), SPY, gold and bonds since 2000, shaded by what the plan held</span></p>
 <div class="card pc">
   <div class="pc-bar">
     <span class="seg" id="pc-pre" role="group" aria-label="Range"><button type="button" data-y="1">1Y</button><button type="button" data-y="3">3Y</button><button type="button" data-y="5">5Y</button><button type="button" data-y="10">10Y</button><button type="button" data-y="all">All</button></span>
@@ -3318,6 +3322,9 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
 #planwhere .pl { fill: none; stroke-width: 2; stroke-linejoin: round; }
 #planwhere .pl.spy { stroke-width: 2.2; }
 #planwhere .pl.plan { stroke-width: 2.8; }
+#planwhere .pl.top5 { stroke-width: 1.8; stroke-dasharray: 6 4; }
+#planwhere .pc-legend i.ln.dash { background: repeating-linear-gradient(90deg, var(--c) 0 6px, transparent 6px 9px); }
+#planwhere .tip .row i.dash { background: repeating-linear-gradient(90deg, var(--c) 0 4px, transparent 4px 6px); }
 #planwhere .pc-legend i.ln.thick { height: 4px; }
 #planwhere .tip .held { margin-top: 5px; padding-top: 5px; border-top: 1px solid color-mix(in srgb, var(--bg) 30%, transparent); white-space: normal; max-width: 220px; }
 #planwhere .tip .row i.bd { width: 10px; height: 10px; border-radius: 2px; }
@@ -3328,7 +3335,7 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
   var $ = function (id) { return document.getElementById(id); }, NS = 'http://www.w3.org/2000/svg';
   var P = JSON.parse($('pc-data').textContent), DAY = 864e5;
   var T = P.d.map(function (d) { return Date.parse(d + 'T12:00:00Z'); });
-  var LINES = [['p', 'Plan', 'var(--ink)', 'plan'], ['s', 'SPY', 'var(--pc-stocks)', 'spy'], ['g', 'Gold', 'var(--pc-gold)', 'gold'], ['b', 'Bonds', 'var(--pc-bonds)', 'bonds']];
+  var LINES = [['p', 'Plan', 'var(--ink)', 'plan'], ['k', 'Boost 100% (Top 5)', 'var(--ink-2)', 'top5'], ['s', 'SPY', 'var(--pc-stocks)', 'spy'], ['g', 'Gold', 'var(--pc-gold)', 'gold'], ['b', 'Bonds', 'var(--pc-bonds)', 'bonds']];
   var HIDE = {};
   try { HIDE = JSON.parse(localStorage.getItem('nibii-pc-hide') || '{}') || {}; } catch (e) {}
   var KINDS = ['stocks', 'gold', 'bonds', 'cash', 'futures'], KNAME = { stocks: 'Stocks', gold: 'Gold', bonds: 'Bonds', cash: 'Cash', futures: 'Managed futures' };
@@ -3350,7 +3357,7 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
     try { localStorage.setItem('nibii-pc-range', p); } catch (e) {}
   }
   function legend() {
-    var h = LINES.map(function (l) { return '<button type="button" class="lg" data-k="' + l[0] + '" aria-pressed="' + String(!HIDE[l[0]]) + '"><i class="ln' + (l[0] === 'p' ? ' thick' : '') + '" style="--c:' + l[2] + '"></i>' + l[1] + '</button>'; }).join('') + '<span class="sep" aria-hidden="true"></span><span class="muted">Plan held:</span>' +
+    var h = LINES.map(function (l) { return '<button type="button" class="lg" data-k="' + l[0] + '" aria-pressed="' + String(!HIDE[l[0]]) + '"><i class="ln' + (l[0] === 'p' ? ' thick' : l[0] === 'k' ? ' dash' : '') + '" style="--c:' + l[2] + '"></i>' + l[1] + '</button>'; }).join('') + '<span class="sep" aria-hidden="true"></span><span class="muted">Plan held:</span>' +
       KINDS.map(function (k) { return '<span><i class="bd" style="--c:var(--pc-' + k + ')"></i>' + KNAME[k] + '</span>'; }).join('');
     $('pc-legend').innerHTML = h;
   }
@@ -3419,7 +3426,7 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
       tip.textContent = ''; var hd = document.createElement('div'); hd.textContent = fmt(tt); hd.style.marginBottom = '4px'; tip.appendChild(hd);
       ser.forEach(function (s, j) {
         var p = at(s, tt), row = document.createElement('div'); row.className = 'row';
-        var key = document.createElement('i'); key.style.setProperty('--c', s.k === 'p' ? 'var(--bg)' : s.c); row.appendChild(key);   // the plan's line is ink: on the ink tooltip its key is the background colour
+        var key = document.createElement('i'); key.style.setProperty('--c', s.k === 'p' || s.k === 'k' ? 'var(--bg)' : s.c); if (s.k === 'k') key.className = 'dash'; row.appendChild(key);   // the plan's line is ink: on the ink tooltip its key is the background colour
         var b = document.createElement('b'); b.textContent = p ? chg(p[1]) : '–'; row.appendChild(b);
         row.appendChild(document.createTextNode(' ' + s.name)); tip.appendChild(row);
         if (p) { dots[j].setAttribute('cx', X(p[0])); dots[j].setAttribute('cy', Y(p[1])); dots[j].setAttribute('visibility', 'visible'); } else dots[j].setAttribute('visibility', 'hidden');
@@ -3458,7 +3465,7 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
   }
   $('pc-from').onchange = years; $('pc-to').onchange = years;
   var LIVE = P.live ? Date.parse(P.live + 'T12:00:00Z') : null;
-  $('pc-note').textContent = 'Lines: the plan\'s value and daily closes as % change from the start of the range (×3 and up as a multiple; one close a week before ' + (yN - __DAILY_YEARS__) + '). Gold before Nov 2004 and bonds before Jul 2002 are the gold futures and Treasury fund the backtest used. Shading: what the default plan held after each close' +
+  $('pc-note').textContent = 'Lines: the plan\'s value, Boost 100% (dashed: the same stock list always fully invested, never in a haven) and daily closes as % change from the start of the range (×3 and up as a multiple; one close a week before ' + (yN - __DAILY_YEARS__) + '). Gold before Nov 2004 and bonds before Jul 2002 are the gold futures and Treasury fund the backtest used. Shading: what the default plan held after each close' +
     (LIVE ? ', the backtest of today\'s rules until ' + fmt(LIVE) + ', then the paper record\'s live decisions' : ', from the backtest of today\'s rules') + '. Hover or tap for the day; long ranges scroll sideways.';
   legend(); setPreset(pre === '' ? '3' : pre); draw();
   var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(draw, 150); });
