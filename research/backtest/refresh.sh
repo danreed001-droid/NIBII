@@ -28,6 +28,7 @@ echo "2/6 point-in-time S&P 500 universe and prices"
 (cd "$WORK/engine" && python -c "import sys; sys.path[:0] = ['scripts', '.']; import robustness; robustness.load_data()" \
     > "$WORK/universe.log" 2>&1) || { tail -30 "$WORK/universe.log"; exit 1; }
 grep -E "universe:" "$WORK/universe.log" || true
+python "$REPO/research/backtest/membership.py" "$WORK/engine/data/.robust_$FROM.pkl"
 echo "3/6 daily volumes"
 python "$REPO/research/backtest/volume_data.py" "$WORK/engine/data/.robust_$FROM.pkl" "$HARNESS_SIDE" > "$WORK/volume.log" 2>&1 \
     || { tail -30 "$WORK/volume.log"; exit 1; }

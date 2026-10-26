@@ -42,8 +42,11 @@ def volumes(tickers):
 
 def main(dataset, side):
     os.makedirs(side, exist_ok=True)
-    tickers = sorted(pickle.load(open(dataset, 'rb'))['bars'])
-    V = volumes(tickers)
+    data = pickle.load(open(dataset, 'rb'))
+    tickers = sorted(data['bars'])
+    extra = data.get('extra_vol', {})   # members Yahoo no longer carries (membership.py)
+    V = volumes([t for t in tickers if t not in extra])
+    V.update({t: v for t, v in extra.items() if v})
     dates = sorted({d for v in V.values() for d in v})
     di = {d: j for j, d in enumerate(dates)}
     M = np.full((len(tickers), len(dates)), np.nan, dtype=np.float32)
