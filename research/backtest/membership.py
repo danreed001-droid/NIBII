@@ -78,6 +78,11 @@ def apply(D, lists, renames, delisted, start=FROM):
             k = next((c for c in cands if c in first and first[c] <= s2[:8] + '31' and last[c] >= e2[:7]), None)
             if k is None:   # listed after the span began (an IPO or spin-off added within its first months)
                 k = next((c for c in cands if c in first and first[c] <= s2[:4] + '-12-31' and last[c] >= e2[:7]), None)
+            if k is None and t in renames:   # a renamed company whose series begins later in the span (CBS's prices start
+                c = renames[t]                # at its 2005 split): the rest of it; never another company's series
+                k = c if c in first and s2 < first[c] < e2 and last[c] >= e2[:7] else None
+                if k is not None:
+                    s = first[k]
             if k is None:
                 missing.append((t, s, e))
                 continue

@@ -37,6 +37,17 @@ def test_apply_maps_renames_reused_tickers_and_leaves_unpriced_out():
     assert priced == 3 and D2['added'] == {} and D2['extra_vol']['XYZ_T'] == {'1998-01-02': 100}
 
 
+def test_renamed_company_priced_from_its_series_start():
+    lists = [('1998-06-01', {'OLD', 'AAA'}), ('2010-01-04', {'AAA'})]
+    D = dict(bars={'NEW': bars('2005-12-05', '2026-10-01'), 'AAA': bars('1998-01-02', '2026-10-01'),
+                   'OTHER': bars('2003-01-02', '2026-10-01')},
+             bench={'SPY': bars('1998-01-02', '2026-10-01')}, names=[], changes=[])
+    D2, priced, missing = M.apply(D, lists, {'OLD': 'NEW'}, {})
+    assert D2['iv']['NEW'] == [['2005-12-05', '2010-01-04']]   # the renamed series covers the rest of the stretch
+    D3, _, missing3 = M.apply(D, [('1998-06-01', {'OTHER', 'AAA'})], {}, {})
+    assert 'OTHER' not in D3['iv'] and missing3 == [('OTHER', '1998-06-01', None)]   # never a later company's series
+
+
 def test_repo_lists_load():
     lists = M.member_lists()
     assert lists[0][0] == '1996-01-02' and all(450 < len(s) < 520 for _, s in lists[::200])
