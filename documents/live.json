@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-10-26T21:32:07Z",
+ "fetchedAt": "2026-10-26T21:32:43Z",
  "prices": {
   "equities": {
    "ticker": "ES=F",
@@ -7613,11 +7613,11 @@
   },
   "dollar": {
    "ticker": "DX-Y.NYB",
-   "price": 102.00299835205078,
+   "price": 102.00399780273438,
    "barTs": "2026-10-26T17:00:00-04:00",
    "ma50": 100.5873,
    "ma200": 99.5708,
-   "rsi14": 57.42,
+   "rsi14": 57.43,
    "hourly": {
     "state": "choppy",
     "lastBreak": null,
