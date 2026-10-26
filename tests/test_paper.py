@@ -92,7 +92,7 @@ def test_status_flags_only_against_the_ranges():
     flat = [[d, 1.0] for d in CAL]
     s = paper.status(flat, PX['SPY'])
     assert s['band'] is None and s['flags'] == [] and s['sessions'] == len(CAL) - 1
-    crash = [[d, 1.0 if i < 5 else 0.6] for i, d in enumerate(CAL)]
+    crash = [[d, 1.0 if i < 5 else 0.5] for i, d in enumerate(CAL)]
     assert any('deeper than' in f for f in paper.status(crash, PX['SPY'])['flags'])
 
 
