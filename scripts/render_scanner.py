@@ -14,6 +14,7 @@ import html
 import json
 import os
 import sys
+from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_PATH = os.path.join(ROOT, 'data', 'momentum_scan.json')
@@ -47,6 +48,7 @@ PAGE = r'''<!doctype html>
   --masthead-bg: #17181a; --masthead-ink: #ffffff; --masthead-ink-2: #a9adba;
   --pos: #3fbf5f; --neg: #e5605a; --grid: #2c2c2a;
   --s-strat: #3987e5; --s-spy: #c98500; --s-qqq: #d55181; --s-spmo: #9aa86a; --s-calls: #e0a43a; --s-ccalls: #d98ad0; --s-plan: #3fb8a0; --s-boost: #a989f5; --s-b100: #4fd1e8; --s-rot: #f2d03b; --s-cush: #e6a14a; --s-mon: #f08c4a; --s-monb: #8fbf3a;
+  --pc-stocks: #4a8ee0; --pc-gold: #b88a2c; --pc-bonds: #2f9e8a; --pc-futures: #9277e6; --pc-cash: #8b8a85;
   color-scheme: dark;
 }
 :root[data-mtl-theme="light"] {
@@ -55,6 +57,7 @@ PAGE = r'''<!doctype html>
   --masthead-bg: #10141c; --masthead-ink: #f4f3ef; --masthead-ink-2: #a9adba;
   --pos: #0a8f0a; --neg: #c43232; --grid: #e1e0d9;
   --s-strat: #2a78d6; --s-spy: #eda100; --s-qqq: #e87ba4; --s-spmo: #6b7a33; --s-calls: #b7791f; --s-ccalls: #a1459a; --s-plan: #13866f; --s-boost: #6d44d4; --s-b100: #0a8aa3; --s-rot: #8a6d00; --s-cush: #b4600b; --s-mon: #c4561a; --s-monb: #5f8a12;
+  --pc-stocks: #2a78d6; --pc-gold: #a8760f; --pc-bonds: #0e8a72; --pc-futures: #6d44d4; --pc-cash: #898781;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -562,6 +565,7 @@ __EVENTS__
     </div>
   </div>
 
+__PLANCHART__
 __WALLST__
   <div class="two" style="margin-top:0">
     <div>
@@ -3222,10 +3226,236 @@ def with_track_record(scan, path=TRACK_PATH):
     return out
 
 
+PLAN_HIST_PATH = os.path.join(ROOT, 'data', 'plan_history.json')
+PC_DAILY_YEARS = 5   # older than this the chart keeps one close a week (the page stays small; 27 years daily is ~250 KB)
+
+
+def _week_key(d):
+    y, w, _ = date.fromisoformat(d).isocalendar()
+    return y, w
+
+
+def plan_chart_data(scan, path=PLAN_HIST_PATH, timeline=None, live_from=None):
+    """The "Where the plan was" chart's data: SPY, gold and bond closes from 2000 (the backtest's own lines in
+    data/plan_history.json, carried on after the backtest ends with the scan's last 300 sessions, matched at the last
+    day both have) and where the default plan was (mtl/plan_history.py: the backtest of today's rules, then the paper
+    record's live decisions). Daily for the last PC_DAILY_YEARS years, one close a week (the week's last) before that.
+    None when the file has no closes yet (made before the track refresh wrote them)."""
+    try:
+        with open(path) as f:
+            H = json.load(f)
+    except (OSError, ValueError):
+        return None
+    P = H.get('prices') or {}
+    dates = list(P.get('dates') or [])
+    if not dates:
+        return None
+    cols = {k: list(P.get(k) or [None] * len(dates)) for k in ('SPY', 'gold', 'bonds')}
+    hv = scan.get('havens') or {}
+    hd = hv.get('dates') or []
+    if hd and hd[-1] > dates[-1]:
+        last = dates[-1]
+        for k, t in (('SPY', 'SPY'), ('gold', 'GLD'), ('bonds', 'TLT')):
+            live = dict(zip(hd, hv.get(t) or []))
+            bt = dict(zip(dates, cols[k]))
+            ref = next((d for d in reversed(dates) if bt.get(d) and live.get(d)), None)
+            k_ = bt[ref] / live[ref] if ref else None
+            cols[k] += [round(live[d] * k_, 4) if (k_ and live.get(d)) else None for d in hd if d > last]
+        dates += [d for d in hd if d > last]
+    cut = f'{int(dates[-1][:4]) - PC_DAILY_YEARS}{dates[-1][4:]}'
+    keep = []
+    for i, d in enumerate(dates):
+        if d >= cut or i + 1 == len(dates) or _week_key(dates[i + 1]) != _week_key(d):
+            keep.append(i)
+    if timeline is None:
+        sys.path.insert(0, ROOT)
+        from mtl import plan_history as ph
+        from mtl.calendar_nyse import next_trading_day
+        timeline = ph.load()
+        ents = [e for e in (ph._load(ph.LEDGER) or {}).get('entries') or [] if e.get('w')]
+        live_from = next_trading_day(min(e['d'] for e in ents)).isoformat() if ents else None   # the paper record's first fill
+    first = dates[keep[0]]
+    tl = [[f, *sh] for f, sh in timeline]
+    start = max([i for i, r in enumerate(tl) if r[0] <= first] or [0])
+    return dict(d=[dates[i] for i in keep], s=[cols['SPY'][i] for i in keep], g=[cols['gold'][i] for i in keep],
+                b=[cols['bonds'][i] for i in keep], h=tl[start:], bt=H.get('end'), live=live_from)
+
+
+PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where the plan was <span class="hint">SPY, gold and bonds since 2000, shaded by what the default plan held</span></p>
+<div class="card pc">
+  <div class="pc-bar">
+    <span class="seg" id="pc-pre" role="group" aria-label="Range"><button type="button" data-y="1">1Y</button><button type="button" data-y="3">3Y</button><button type="button" data-y="5">5Y</button><button type="button" data-y="10">10Y</button><button type="button" data-y="all">All</button></span>
+    <label>Years <select id="pc-from" aria-label="From year"></select></label><label>to <select id="pc-to" aria-label="To year"></select></label>
+    <span class="seg" id="pc-scale" role="group" aria-label="Scale"><button type="button" data-v="linear">Linear</button><button type="button" data-v="log">Log</button></span>
+  </div>
+  <div class="legend pc-legend" id="pc-legend"></div>
+  <div class="pc-wrap"><svg class="pc-axis" id="pc-axis" aria-hidden="true"></svg><div class="pc-scroll" id="pc-scroll"><div class="chart" id="pc-chart"></div></div></div>
+  <p class="chart-sub" id="pc-note"></p>
+</div>
+<style>
+#planwhere .pc-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-size: 0.8rem; color: var(--ink-2); margin-bottom: 6px; }
+#planwhere select { font: inherit; padding: 3px 6px; border-radius: 8px; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink); }
+#planwhere .pc-legend i.ln { width: 16px; height: 3px; border-radius: 2px; background: var(--c); display: inline-block; }
+#planwhere .pc-legend i.bd { width: 12px; height: 12px; border-radius: 3px; background: color-mix(in srgb, var(--c) 28%, transparent); border: 1px solid color-mix(in srgb, var(--c) 60%, transparent); display: inline-block; }
+#planwhere .pc-legend .sep { width: 1px; height: 14px; background: var(--hairline); }
+#planwhere .pc-wrap { display: grid; grid-template-columns: 50px 1fr; position: relative; }
+#planwhere .pc-axis { width: 50px; display: block; overflow: visible; }
+#planwhere .pc-axis text, #planwhere .pc-x text { font-size: 11px; fill: var(--muted); font-family: ui-monospace, monospace; }
+#planwhere .pc-scroll { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+#planwhere .pc-scroll .chart svg { width: auto; max-width: none; }
+#planwhere .band { stroke: none; }
+#planwhere .pl { fill: none; stroke-width: 2; stroke-linejoin: round; }
+#planwhere .pl.spy { stroke-width: 2.4; }
+#planwhere .tip .held { margin-top: 5px; padding-top: 5px; border-top: 1px solid color-mix(in srgb, var(--bg) 30%, transparent); white-space: normal; max-width: 220px; }
+#planwhere .tip .row i.bd { width: 10px; height: 10px; border-radius: 2px; }
+</style>
+<script type="application/json" id="pc-data">__PCDATA__</script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); }, NS = 'http://www.w3.org/2000/svg';
+  var P = JSON.parse($('pc-data').textContent), DAY = 864e5;
+  var T = P.d.map(function (d) { return Date.parse(d + 'T12:00:00Z'); });
+  var LINES = [['s', 'SPY', 'var(--pc-stocks)', 'spy'], ['g', 'Gold', 'var(--pc-gold)', 'gold'], ['b', 'Bonds', 'var(--pc-bonds)', 'bonds']];
+  var KINDS = ['stocks', 'gold', 'bonds', 'cash', 'futures'], KNAME = { stocks: 'Stocks', gold: 'Gold', bonds: 'Bonds', cash: 'Cash', futures: 'Managed futures' };
+  var HT = P.h.map(function (r) { return Date.parse(r[0] + 'T12:00:00Z'); });
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var pre = '3', scale = 'linear', from = null, to = null;
+  try { pre = localStorage.getItem('nibii-pc-range') || '3'; scale = localStorage.getItem('nibii-pc-scale') || 'linear'; } catch (e) {}
+  function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+  function fmt(t) { var d = new Date(t); return MON[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear(); }
+  function pct(v) { if (Math.abs(v) < 0.05) return '0%'; return (v > 0 ? '+' : '−') + Math.abs(v).toFixed(v > -10 && v < 10 ? 1 : 0) + '%'; }
+  function mainKind(r) { var k = 0; for (var i = 1; i < 6; i++) if (r[i] > r[k + 1]) k = i - 1; return KINDS[k]; }
+  function heldAt(t) { var lo = -1, hi = HT.length - 1; while (lo < hi) { var m = (lo + hi + 1) >> 1; if (HT[m] < t) lo = m; else hi = m - 1; } return lo >= 0 ? P.h[lo] : null; }
+  var y0 = new Date(T[0]).getUTCFullYear(), yN = new Date(T[T.length - 1]).getUTCFullYear();
+  ['pc-from', 'pc-to'].forEach(function (id) { for (var y = y0; y <= yN; y++) { var o = document.createElement('option'); o.value = o.textContent = y; $(id).appendChild(o); } });
+  function setPreset(p) {
+    pre = p; to = T[T.length - 1];
+    from = p === 'all' ? T[0] : Math.max(T[0], to - (+p) * 365.25 * DAY);
+    try { localStorage.setItem('nibii-pc-range', p); } catch (e) {}
+  }
+  function legend() {
+    var h = LINES.map(function (l) { return '<span><i class="ln" style="--c:' + l[2] + '"></i>' + l[1] + '</span>'; }).join('') + '<span class="sep" aria-hidden="true"></span><span class="muted">Plan held:</span>' +
+      KINDS.map(function (k) { return '<span><i class="bd" style="--c:var(--pc-' + k + ')"></i>' + KNAME[k] + '</span>'; }).join('');
+    $('pc-legend').innerHTML = h;
+  }
+  function draw() {
+    document.querySelectorAll('#pc-pre button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-y') === pre)); });
+    document.querySelectorAll('#pc-scale button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === scale)); });
+    $('pc-from').value = new Date(from).getUTCFullYear(); $('pc-to').value = new Date(to).getUTCFullYear();
+    var i0 = 0, i1 = T.length - 1;
+    while (i0 < T.length - 1 && T[i0] < from) i0++;
+    while (i1 > 0 && T[i1] > to) i1--;
+    if (i1 <= i0) return;
+    var box = $('pc-chart'), scr = $('pc-scroll'); box.innerHTML = '';
+    var span = (T[i1] - T[i0]) / (365.25 * DAY), vw = Math.max(280, scr.clientWidth);
+    var W = Math.round(Math.max(vw, span > 3 ? span * 110 : 0)), H = Math.round(Math.min(360, Math.max(230, vw * 0.48))), m = { t: 10, b: 24, r: 10 };
+    // each line as % change from its first close in the range
+    var ser = LINES.map(function (l) {
+      var a = P[l[0]], base = null, pts = [];
+      for (var i = i0; i <= i1; i++) { if (a[i] == null) continue; if (base === null) base = a[i]; pts.push([T[i], a[i] / base * 100, i]); }
+      return { k: l[0], name: l[1], c: l[2], cls: l[3], pts: pts };
+    }).filter(function (s) { return s.pts.length; });
+    var lo = Infinity, hi = -Infinity;
+    ser.forEach(function (s) { s.pts.forEach(function (p) { lo = Math.min(lo, p[1]); hi = Math.max(hi, p[1]); }); });
+    var log = scale === 'log', f = log ? Math.log : function (v) { return v; };
+    var ticks = [];
+    if (log) { [10, 20, 30, 50, 70, 100, 150, 200, 300, 500, 700, 1000, 1500, 2000, 3000, 5000].forEach(function (v) { if (v >= lo * 0.92 && v <= hi * 1.08) ticks.push(v); }); }
+    if (!log || ticks.length < 3) { ticks = []; var st = Math.pow(10, Math.floor(Math.log10((hi - lo) / 4 || 1))); st = (hi - lo) / st > 20 ? st * 5 : (hi - lo) / st > 8 ? st * 2 : st; for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) ticks.push(v); }
+    var ya = f(Math.min(lo, ticks[0])), yb = f(Math.max(hi, ticks[ticks.length - 1]));
+    function X(t) { return (t - T[i0]) / (T[i1] - T[i0] || 1) * (W - m.r) ; }
+    function Y(v) { return m.t + (1 - (f(v) - ya) / (yb - ya || 1)) * (H - m.t - m.b); }
+    var svg = el('svg', { width: W, height: H, viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'SPY, gold and bonds from ' + fmt(T[i0]) + ' to ' + fmt(T[i1]) + ', shaded by what the default plan held' });
+    // bands: what the plan held after each close, until its next change
+    var bands = el('g', {});
+    P.h.forEach(function (r, k) {
+      var a = Math.max(HT[k], T[i0]), b = Math.min(k + 1 < HT.length ? HT[k + 1] : T[i1], T[i1]);
+      if (b <= a) return;
+      var kind = mainKind(r);
+      bands.appendChild(el('rect', { class: 'band', x: X(a).toFixed(1), y: m.t, width: Math.max(0.5, X(b) - X(a)).toFixed(1), height: H - m.t - m.b, style: 'fill:var(--pc-' + kind + ');fill-opacity:' + (kind === 'stocks' ? 0.1 : 0.2) }));
+    });
+    svg.appendChild(bands);
+    var g = el('g', { class: 'grid' });
+    ticks.forEach(function (v) { g.appendChild(el('line', { x1: 0, x2: W - m.r, y1: Y(v), y2: Y(v) })); });
+    svg.appendChild(g);
+    svg.appendChild(el('line', { class: 'base', x1: 0, x2: W - m.r, y1: Y(100), y2: Y(100) }));
+    var xg = el('g', { class: 'pc-x' }), d0 = new Date(T[i0]), d1 = new Date(T[i1]);
+    if (span > 2) { for (var yr = d0.getUTCFullYear() + 1; yr <= d1.getUTCFullYear(); yr++) { var t0 = Date.UTC(yr, 0, 1), tx = el('text', { x: X(t0), y: H - 6, 'text-anchor': 'middle' }); tx.textContent = yr; xg.appendChild(tx); xg.appendChild(el('line', { x1: X(t0), x2: X(t0), y1: H - m.b, y2: H - m.b + 4, style: 'stroke:var(--muted)' })); } }
+    else { for (var mo = new Date(Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1)); mo <= d1; mo = new Date(Date.UTC(mo.getUTCFullYear(), mo.getUTCMonth() + (span > 1 ? 2 : 1), 1))) { var tm = el('text', { x: X(mo.getTime()), y: H - 6, 'text-anchor': 'middle' }); tm.textContent = MON[mo.getUTCMonth()] + (mo.getUTCMonth() === 0 ? ' ' + String(mo.getUTCFullYear()).slice(2) : ''); xg.appendChild(tm); } }
+    svg.appendChild(xg);
+    ser.slice().reverse().forEach(function (s) { svg.appendChild(el('path', { class: 'pl ' + s.cls, d: s.pts.map(function (p, j) { return (j ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join(''), style: 'stroke:' + s.c })); });
+    var cross = el('line', { class: 'cross', y1: m.t, y2: H - m.b, visibility: 'hidden' }); svg.appendChild(cross);
+    var dots = ser.map(function (s) { var c = el('circle', { class: 'dotm', r: 4, style: 'fill:' + s.c, visibility: 'hidden' }); svg.appendChild(c); return c; });
+    var tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true;
+    box.appendChild(svg); $('pc-wrap-tip') && $('pc-wrap-tip').remove(); tip.id = 'pc-wrap-tip'; document.querySelector('#planwhere .pc-wrap').appendChild(tip);
+    // the y axis stays put while the chart scrolls sideways
+    var ax = $('pc-axis'); ax.innerHTML = ''; ax.setAttribute('height', H); ax.setAttribute('viewBox', '0 0 50 ' + H);
+    ticks.forEach(function (v) { var t = el('text', { x: 44, y: Y(v) + 4, 'text-anchor': 'end' }); t.textContent = pct(v - 100); ax.appendChild(t); });
+    function at(s, t) { var a = 0, b = s.pts.length - 1; if (t < s.pts[0][0]) return null; while (a < b) { var mid = (a + b + 1) >> 1; if (s.pts[mid][0] <= t) a = mid; else b = mid - 1; } return s.pts[a]; }
+    function move(e) {
+      var r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * W, t = T[i0] + px / (W - m.r) * (T[i1] - T[i0]);
+      var k = i0; while (k < i1 && T[k + 1] <= t) k++; var tt = T[k], sx = X(tt);
+      cross.setAttribute('x1', sx); cross.setAttribute('x2', sx); cross.setAttribute('visibility', 'visible');
+      tip.textContent = ''; var hd = document.createElement('div'); hd.textContent = fmt(tt); hd.style.marginBottom = '4px'; tip.appendChild(hd);
+      ser.forEach(function (s, j) {
+        var p = at(s, tt), row = document.createElement('div'); row.className = 'row';
+        var key = document.createElement('i'); key.style.setProperty('--c', s.c); row.appendChild(key);
+        var b = document.createElement('b'); b.textContent = p ? pct(p[1] - 100) : '–'; row.appendChild(b);
+        row.appendChild(document.createTextNode(' ' + s.name)); tip.appendChild(row);
+        if (p) { dots[j].setAttribute('cx', X(p[0])); dots[j].setAttribute('cy', Y(p[1])); dots[j].setAttribute('visibility', 'visible'); } else dots[j].setAttribute('visibility', 'hidden');
+      });
+      var hr = heldAt(tt), hdv = document.createElement('div'); hdv.className = 'held';
+      if (hr) {
+        var parts = KINDS.map(function (kk, q) { return [kk, hr[q + 1]]; }).filter(function (x) { return x[1] > 0.004; });
+        var txt = parts.map(function (x) { return KNAME[x[0]].toLowerCase() + (parts.length > 1 ? ' ' + Math.round(x[1] * 100) + '%' : ''); }).join(', ');
+        hdv.textContent = 'Plan held: ' + txt.charAt(0).toUpperCase() + txt.slice(1);
+      } else hdv.textContent = 'Plan held: –';
+      tip.appendChild(hdv);
+      tip.hidden = false;
+      var wrap = document.querySelector('#planwhere .pc-wrap').getBoundingClientRect(), bx = r.left - wrap.left + sx / W * r.width, left = bx + 14;
+      if (left + tip.offsetWidth > wrap.width) left = bx - tip.offsetWidth - 14;
+      tip.style.left = Math.max(0, left) + 'px'; tip.style.top = '8px';
+    }
+    svg.addEventListener('pointermove', move);
+    svg.addEventListener('pointerleave', function () { tip.hidden = true; cross.setAttribute('visibility', 'hidden'); dots.forEach(function (d) { d.setAttribute('visibility', 'hidden'); }); });
+    scr.scrollLeft = scr.scrollWidth;
+  }
+  $('pc-pre').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; setPreset(b.getAttribute('data-y')); draw(); };
+  $('pc-scale').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; scale = b.getAttribute('data-v'); try { localStorage.setItem('nibii-pc-scale', scale); } catch (x) {} draw(); };
+  function years() {
+    var a = +$('pc-from').value, b = +$('pc-to').value;
+    if (b < a) { var c = a; a = b; b = c; }
+    pre = ''; from = Math.max(T[0], Date.UTC(a, 0, 1)); to = Math.min(T[T.length - 1], Date.UTC(b, 11, 31, 23));
+    draw();
+  }
+  $('pc-from').onchange = years; $('pc-to').onchange = years;
+  var LIVE = P.live ? Date.parse(P.live + 'T12:00:00Z') : null;
+  $('pc-note').textContent = 'Lines: daily closes as % change from the start of the range (one close a week before ' + (yN - __DAILY_YEARS__) + '). Gold before Nov 2004 and bonds before Jul 2002 are the gold futures and Treasury fund the backtest used. Shading: what the default plan held after each close' +
+    (LIVE ? ', the backtest of today\'s rules until ' + fmt(LIVE) + ', then the paper record\'s live decisions' : ', from the backtest of today\'s rules') + '. Hover or tap for the day; long ranges scroll sideways.';
+  legend(); setPreset(pre === '' ? '3' : pre); draw();
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(draw, 150); });
+})();
+</script></section>
+'''
+
+
+def plan_chart_html(scan):
+    """The "Where the plan was" card (PLANCHART_SECTION), or '' without the closes in data/plan_history.json."""
+    try:
+        data = plan_chart_data(scan)
+    except Exception as e:   # the chart is information only: a bad file must not stop the page
+        print(f'  plan chart skipped: {e}', file=sys.stderr)
+        return ''
+    if not data:
+        return ''
+    return (PLANCHART_SECTION.replace('__DAILY_YEARS__', str(PC_DAILY_YEARS))
+            .replace('__PCDATA__', json.dumps(data, separators=(',', ':')).replace('</', '<\\/')))
+
+
 def render(scan, growth=None):
     scan = with_track_record(scan)
     # Escape "</" so a company name can never close the <script> block early.
     page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth).replace('__OVLIB__', overlay_lib(), 1)
+    page = page.replace('__PLANCHART__', plan_chart_html(scan), 1)
     page = page.replace('__WALLST__', wallst_html(), 1)
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)

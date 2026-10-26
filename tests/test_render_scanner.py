@@ -264,3 +264,40 @@ def test_rotation_explains_the_break_reentry_rule():
     page = render_scanner.render(SCAN)
     assert 'function reentryNote(RT)' in page and '10. Break re-entry rule' in page
     assert 'In stocks because of the break re-entry rule' in page and "reentry: 'break re-entry rule: back in stocks'" in page
+
+
+def _plan_hist(tmp_path, dates, spy, gold, bonds, end):
+    p = tmp_path / 'plan_history.json'
+    p.write_text(json.dumps(dict(end=end, held=[], prices=dict(dates=dates, SPY=spy, gold=gold, bonds=bonds))))
+    return str(p)
+
+
+def test_plan_chart_carries_the_backtest_lines_on_with_the_live_closes(tmp_path):
+    dates = ['2026-10-12', '2026-10-13', '2026-10-14']
+    path = _plan_hist(tmp_path, dates, [100.0, 101.0, 102.0], [None, 50.0, 51.0], [20.0, 20.0, 20.5], '2026-10-14')
+    scan = dict(SCAN, havens=dict(dates=['2026-10-14', '2026-10-15', '2026-10-16'],
+                                  SPY=[204.0, 206.04, 208.08], GLD=[102.0, 104.04, None], TLT=[41.0, 41.0, 41.82]))
+    tl = [('2026-10-01', (1.0, 0.0, 0.0, 0.0, 0.0)), ('2026-10-14', (0.0, 1.0, 0.0, 0.0, 0.0))]
+    d = render_scanner.plan_chart_data(scan, path=path, timeline=tl, live_from='2026-10-15')
+    assert d['d'] == dates + ['2026-10-15', '2026-10-16']
+    assert d['s'][-2:] == [103.02, 104.04]        # live SPY scaled to the backtest's level on Oct 14
+    assert d['g'][0] is None and d['g'][-2:] == [52.02, None]
+    assert d['b'][-1] == 20.91
+    assert d['h'] == [['2026-10-01', 1.0, 0.0, 0.0, 0.0, 0.0], ['2026-10-14', 0.0, 1.0, 0.0, 0.0, 0.0]]
+    assert d['live'] == '2026-10-15'
+
+
+def test_plan_chart_keeps_one_close_a_week_before_the_last_five_years(tmp_path):
+    dates = ['2015-01-05', '2015-01-06', '2015-01-09', '2015-01-12', '2026-10-13', '2026-10-14']
+    path = _plan_hist(tmp_path, dates, [1, 2, 3, 4, 5, 6], [1] * 6, [1] * 6, '2026-10-14')
+    d = render_scanner.plan_chart_data(dict(SCAN), path=path, timeline=[('2015-01-05', (1.0, 0, 0, 0, 0))])
+    assert d['d'] == ['2015-01-09', '2015-01-12', '2026-10-13', '2026-10-14']   # Jan 5-9 2015 is one week: its last close
+    assert d['s'] == [3, 4, 5, 6]
+
+
+def test_plan_chart_is_left_out_without_closes(tmp_path):
+    p = tmp_path / 'plan_history.json'
+    p.write_text(json.dumps(dict(end='2026-10-14', held=[['2026-10-01', 1.0, 0, 0, 0, 0]])))
+    assert render_scanner.plan_chart_data(SCAN, path=str(p), timeline=[]) is None
+    page = render_scanner.render(SCAN)
+    assert '__PLANCHART__' not in page and '__PCDATA__' not in page

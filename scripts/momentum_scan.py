@@ -297,6 +297,17 @@ def growth(points):
     return [[d, round(100 * v / base, 3)] for d, v in points]
 
 
+def haven_closes(px, calendar, n=300):
+    """The last n sessions' closes of SPY, GLD and TLT, for the scanner page's "Where the plan was" chart: it draws the
+    backtest's lines (data/plan_history.json) and carries them on with these after the backtest ends."""
+    days = calendar[-n:]
+    out = dict(dates=days)
+    for t in ('SPY', 'GLD', 'TLT'):
+        c = px.get(t) or {}
+        out[t] = [r4(c[d]) if c.get(d) else None for d in days]
+    return out
+
+
 def month_ends(calendar):
     """Completed month-ends only: sessions whose next session is in another month."""
     return [d for d, n in zip(calendar, calendar[1:]) if d[:7] != n[:7]]
@@ -1309,6 +1320,7 @@ def main():
         dheat=daily_heat(prices, calendar, [t for t, _ in now[:30]] + [t for t in HEAT_EXTRA if t in prices and t not in dict(now[:30])],
                          extra=[t for t in HEAT_EXTRA if t not in dict(now[:30])], breadth=[t for t in prices if t != 'SPY']),   # top 30 + a few large caps, last 30 days
         curves={k: [[d_, round(v, 2)] for d_, v in c] for k, c in curves.items()},   # daily: the page filters by date range
+        havens=haven_closes(whip_px, calendar),   # SPY / GLD / TLT closes, last 300 sessions: the "Where the plan was" chart
         years=years,
         stats={k: dict(total=r4(s['total']), annual=r4(s['annual']), maxDD=r4(s['maxDD']), oneYear=r4(one_year[k]))
                for k, s in stats.items()},
