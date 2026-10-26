@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-10-25T17:47:12+00:00",
+ "updated": "2026-10-26T00:36:13+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -145,7 +145,7 @@
    },
    "plan": {
     "day": 0.0006,
-    "month": 0.0171
+    "month": 0.017
    }
   },
   {
@@ -607,7 +607,7 @@
    },
    "plan": {
     "day": -0.002,
-    "month": 0.0261
+    "month": 0.0262
    }
   },
   {
@@ -1090,7 +1090,7 @@
    },
    "plan": {
     "day": 0.0304,
-    "month": 0.037
+    "month": 0.0251
    }
   },
   {
@@ -1111,7 +1111,7 @@
    },
    "plan": {
     "day": -0.0156,
-    "month": -0.0252
+    "month": 0.0183
    }
   },
   {
@@ -1170,7 +1170,7 @@
    },
    "bonds": {
     "day": -0.0167,
-    "month": -0.0419
+    "month": -0.042
    },
    "plan": {
     "day": 0.0299,
@@ -2094,7 +2094,7 @@
    },
    "bonds": {
     "day": 0.0412,
-    "month": 0.0649
+    "month": 0.065
    },
    "plan": {
     "day": -0.0016,
