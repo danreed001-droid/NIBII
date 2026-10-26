@@ -3877,5 +3877,45 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-26-4-anthropic-files-ipo-under-ticker-ant",
+    "data": {
+      "addedAt": "2026-10-26",
+      "category": "Deals",
+      "date": "2026-10-26",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Anthropic filed a prospectus with the SEC to list on Nasdaq under the ticker 'ANT,' after confidentially filing in June; reports call it a potentially historic AI-sector IPO. Valuation chatter is near $1.5T, down from about $2T a week earlier.",
+      "impact": "High",
+      "numbers": "Reported target valuation ~$1.5T (down from ~$2T)",
+      "order": 4,
+      "reaction": "Added to a broadly positive tape for AI/tech names; seen as a key test of AI-sector IPO appetite.",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-26-2026",
+      "tickers": "ANT (pending), NASDAQ",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-26-5-eqt-to-acquire-range-resources-50b-allstock",
+    "data": {
+      "addedAt": "2026-10-26",
+      "category": "Deals",
+      "date": "2026-10-26",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "EQT agreed to acquire Range Resources (RRC) in an all-stock deal valued above $50 billion including debt, consolidating Appalachian natural gas production.",
+      "impact": "Medium",
+      "numbers": "Deal value >$50B incl. debt; RRC shares +16%",
+      "order": 5,
+      "reaction": "RRC jumped on the premium; largest energy M&A of the week, reinforcing consolidation theme in natural gas producers.",
+      "region": "US",
+      "source": "https://investrade.com/market-review-october-26-2026/",
+      "tickers": "EQT, RRC",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
