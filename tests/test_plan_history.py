@@ -115,3 +115,13 @@ def test_managed_futures_is_its_own_kind_in_the_backtest_the_ledger_and_the_even
     from scripts.major_events import plan_now, where
     assert where((0.0, 0.0, 0.0, 0.0, 1.0)) == 'managed futures'
     assert 'k-futures"></i>The plan now: <b>managed futures</b>' in plan_now(tl, '2026-10-16')
+
+
+def test_backtest_dump_keeps_the_spy_gold_and_bond_closes():
+    sched = [['2026-01-02', {'AMD': 1.0}], ['2026-01-06', {'GLDX': 1.0}]]
+    prices = {'SPY': {'2026-01-02': 600.123456, '2026-01-05': 601.0, '2026-01-06': 602.0, '2026-01-07': 603.0},
+              'GLDX': {'2026-01-05': 380.0, '2026-01-06': 381.5}, 'TLTX': {'2026-01-02': 88.0, '2026-01-06': 87.9}}
+    out = bph.build(sched, '2026-01-06', prices)
+    assert out['prices'] == dict(dates=['2026-01-02', '2026-01-05', '2026-01-06'], SPY=[600.12, 601.0, 602.0],
+                                 gold=[None, 380.0, 381.5], bonds=[88.0, None, 87.9])
+    assert 'prices' not in bph.build(sched, '2026-01-06')

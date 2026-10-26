@@ -82,7 +82,9 @@ python -m pytest -q
    the last close. Then it writes `data/track_record.json` with `build_track.py` and prints each line's return a
    year and worst drop.
 6. Writes `data/plan_history.json` with `build_plan_history.py`: what the default plan held after each close
-   (shares of stocks, gold, bonds and cash, only where they change). The market events page shows it under each event.
+   (shares of stocks, gold, bonds and cash, only where they change), and the daily closes of SPY and the gold and bond
+   lines the backtest used. The market events page shows the holdings under each event; the scanner page's "Where the
+   plan was" chart draws the closes shaded by the holdings.
 
 ## Files
 
