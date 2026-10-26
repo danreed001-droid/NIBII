@@ -3757,5 +3757,65 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-25-1-iran-israel-us-war-tensions-oil-117",
+    "data": {
+      "addedAt": "2026-10-25",
+      "category": "Geopolitics",
+      "date": "2026-10-25",
+      "day": "Sun",
+      "direction": "Mixed",
+      "event": "Trump weighs Iran strike vs. deal as Mideast war risk escalates; Houthi missile barrage hits Riyadh/Saudi cities, tanker and mine attacks reported near Strait of Hormuz",
+      "impact": "High",
+      "numbers": "Brent crude ~$117/bbl on Oct 23-24 (highest since March, up from under $97 at start of October)",
+      "order": 1,
+      "reaction": "Oil surged on war-risk premium; Trump said 'no strike today,' tying any action to after Nov 3 midterms; Iran warns against US ships in Gulf; safe-haven/oil-sensitive positioning likely into Monday open",
+      "region": "Middle East/US",
+      "source": "https://www.cbsnews.com/live-updates/iran-war-trump-us-oil-gas-prices-strait-of-hormuz-midterms/",
+      "tickers": "USO, XLE, CVX, XOM, UNG, DIA, SPY",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-25-2-fomc-meeting-oct-27-28-rate-decision",
+    "data": {
+      "addedAt": "2026-10-25",
+      "category": "Fed",
+      "date": "2026-10-25",
+      "day": "Sun",
+      "direction": "Neutral",
+      "event": "FOMC meets Tuesday-Wednesday Oct 27-28; rate decision due Wed at 2:00pm ET with Powell press conference at 2:30pm ET",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "Sets the tone for the week's trading; markets weighing odds of a further rate cut against Mideast-driven oil/inflation risk",
+      "region": "US",
+      "source": "https://fedratecalc.com/fomc-meeting-schedule/october-2026/",
+      "tickers": "SPY, QQQ, TLT, DXY",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-25-3-big-tech-earnings-week-msft-meta-aapl",
+    "data": {
+      "addedAt": "2026-10-25",
+      "category": "Earnings",
+      "date": "2026-10-25",
+      "day": "Sun",
+      "direction": "Neutral",
+      "event": "Big Tech earnings week ahead: Microsoft, Meta and Alphabet report Wed (Oct 28/29) after close; Apple and Amazon report Thu; PayPal, SoFi, UnitedHealth, Boeing, Visa also due",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 3,
+      "reaction": "Heavy post-earnings volatility expected around AI capex commentary; a key swing factor for Nasdaq/S&P into month-end, alongside the FOMC decision",
+      "region": "US",
+      "source": "https://benzinga.com/markets/earnings/25/10/48435381/retail-investors-top-stocks-with-earnings-this-week-sofi-apple-meta-and-more",
+      "tickers": "MSFT, META, GOOGL, AAPL, AMZN, PYPL, SOFI, UNH, BA, V",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
