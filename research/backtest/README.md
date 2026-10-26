@@ -67,6 +67,13 @@ before, as live). `side_data.py` writes DBMF's own prices into `spliced.json` (n
 The audit data gives 42.9% a year from 2000 vs 42.4% (worst drop −34% either way), 45.6% vs 44.7% from 2010, 54.6% vs
 53.2% from 2016 and 80.5% vs 77.9% from 2020, so the first refresh after it moves the default by about half a point.
 
+Since Oct 26, 2026 the backtest uses the real daily S&P 500 member lists (`membership.py`, see above). That took the
+default from 46.1% a year from 2000 (worst drop −29%) to 39.2% (25.3% after tax; worst drop −40%, Jan 2006 to Jul 2008),
+from 48.7% to 41.9% from 2010, from 58.0% to 57.4% from 2016 and from 89.3% to 66.6% from 2020; 2000–2019 alone is about
+25% a year. The refresh that day published 39.8% (a fresh Yahoo download, about half a point from the audit run). The
+previous version (`NBre`, SPY as a third whipsaw-switch choice) is level on the new data (39.2%, 42.2%, 56.6%, 66.6%).
+The rule-by-rule figures in the module notes and on the dashboard were measured on the old lists.
+
 ## Run it by hand
 
 ```
