@@ -278,7 +278,9 @@ def test_plan_chart_carries_the_backtest_lines_on_with_the_live_closes(tmp_path)
     scan = dict(SCAN, havens=dict(dates=['2026-10-14', '2026-10-15', '2026-10-16'],
                                   SPY=[204.0, 206.04, 208.08], GLD=[102.0, 104.04, None], TLT=[41.0, 41.0, 41.82]))
     tl = [('2026-10-01', (1.0, 0.0, 0.0, 0.0, 0.0)), ('2026-10-14', (0.0, 1.0, 0.0, 0.0, 0.0))]
-    d = render_scanner.plan_chart_data(scan, path=path, timeline=tl, live_from='2026-10-15')
+    vals = {'2026-10-12': 1000.0, '2026-10-13': 1010.0, '2026-10-14': 1020.123456, '2026-10-16': 1030.0}
+    d = render_scanner.plan_chart_data(scan, path=path, timeline=tl, live_from='2026-10-15', plan_values=vals)
+    assert d['p'] == [1000.0, 1010.0, 1020.1, None, 1030.0]   # the plan's own value; a day without one is a gap
     assert d['d'] == dates + ['2026-10-15', '2026-10-16']
     assert d['s'][-2:] == [103.02, 104.04]        # live SPY scaled to the backtest's level on Oct 14
     assert d['g'][0] is None and d['g'][-2:] == [52.02, None]
@@ -290,7 +292,7 @@ def test_plan_chart_carries_the_backtest_lines_on_with_the_live_closes(tmp_path)
 def test_plan_chart_keeps_one_close_a_week_before_the_last_five_years(tmp_path):
     dates = ['2015-01-05', '2015-01-06', '2015-01-09', '2015-01-12', '2026-10-13', '2026-10-14']
     path = _plan_hist(tmp_path, dates, [1, 2, 3, 4, 5, 6], [1] * 6, [1] * 6, '2026-10-14')
-    d = render_scanner.plan_chart_data(dict(SCAN), path=path, timeline=[('2015-01-05', (1.0, 0, 0, 0, 0))])
+    d = render_scanner.plan_chart_data(dict(SCAN), path=path, timeline=[('2015-01-05', (1.0, 0, 0, 0, 0))], plan_values={})
     assert d['d'] == ['2015-01-09', '2015-01-12', '2026-10-13', '2026-10-14']   # Jan 5-9 2015 is one week: its last close
     assert d['s'] == [3, 4, 5, 6]
 
@@ -298,6 +300,6 @@ def test_plan_chart_keeps_one_close_a_week_before_the_last_five_years(tmp_path):
 def test_plan_chart_is_left_out_without_closes(tmp_path):
     p = tmp_path / 'plan_history.json'
     p.write_text(json.dumps(dict(end='2026-10-14', held=[['2026-10-01', 1.0, 0, 0, 0, 0]])))
-    assert render_scanner.plan_chart_data(SCAN, path=str(p), timeline=[]) is None
+    assert render_scanner.plan_chart_data(SCAN, path=str(p), timeline=[], plan_values={}) is None
     page = render_scanner.render(SCAN)
     assert '__PLANCHART__' not in page and '__PCDATA__' not in page
