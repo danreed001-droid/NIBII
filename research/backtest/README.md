@@ -9,9 +9,10 @@ stock that later dropped out and looks better than it should. This backtest uses
   1996 on; `membership.py` applies them after the universe load), not the ones rebuilt from Wikipedia's change
   table, which is close to complete only from 2007: in 2000 only 289 of the 493 rebuilt members were right, so the
   old backtest could buy companies years before they joined. Former members Yahoo no longer carries come from
-  Tiingo (`data/sp500_delisted.json.gz`, 155 series) and renamed tickers are mapped (`data/sp500_renames.json`).
-  Priced members: 281 of 493 in 2000, 325 of 496 in 2005, 411 of 499 in 2010, 449 of 500 in 2015, 490 of 505 in
-  2020 and 499 of 503 in 2025. Most of the rest went bankrupt or were bought out before 2010 (Enron, WorldCom,
+  Tiingo (`data/sp500_delisted.json.gz`, 147 series; series that turned out to be other companies' histories are left
+  out) and renamed tickers are mapped (`data/sp500_renames.json`; a renamed company whose series starts partway through
+  its stretch in the index is priced from that start). Priced members: 275 of 493 in 2000, 321 of 496 in 2005, 410 of 499
+  in 2010, 450 of 500 in 2015, 491 of 505 in 2020 and 499 of 503 in 2025. Most of the rest went bankrupt or were bought out before 2010 (Enron, WorldCom,
   Lehman...), so the early years are still somewhat flattered; results from 2010 on rest on nearly complete data;
 - news gaps, and 0.15% slippage on every trade;
 - TLT and GLD extended back with a long Treasury fund and gold futures for the years before they existed.
@@ -67,12 +68,14 @@ before, as live). `side_data.py` writes DBMF's own prices into `spliced.json` (n
 The audit data gives 42.9% a year from 2000 vs 42.4% (worst drop −34% either way), 45.6% vs 44.7% from 2010, 54.6% vs
 53.2% from 2016 and 80.5% vs 77.9% from 2020, so the first refresh after it moves the default by about half a point.
 
-Since Oct 26, 2026 the backtest uses the real daily S&P 500 member lists (`membership.py`, see above). That took the
-default from 46.1% a year from 2000 (worst drop −29%) to 39.2% (25.3% after tax; worst drop −40%, Jan 2006 to Jul 2008),
-from 48.7% to 41.9% from 2010, from 58.0% to 57.4% from 2016 and from 89.3% to 66.6% from 2020; 2000–2019 alone is about
-25% a year. The refresh that day published 39.8% (a fresh Yahoo download, about half a point from the audit run). The
-previous version (`NBre`, SPY as a third whipsaw-switch choice) is level on the new data (39.2%, 42.2%, 56.6%, 66.6%).
-The rule-by-rule figures in the module notes and on the dashboard were measured on the old lists.
+Since Oct 26, 2026 the backtest uses the real daily S&P 500 member lists (`membership.py`, see above). The first run on
+them (PR #166) still had a few former members priced with other companies' histories (an old Paramount ticker near $90,000,
+Millipore, Kerr-McGee, Wendy's, Nicor); with those fixed (PR #167) the default made 40.4% a year from 2000 (25.5% after
+tax; worst drop −35%, during 2006), 44.3% from 2010, 59.5% from 2016 and 70.1% from 2020, against 46.1%, 48.7%, 58.0%
+and 89.3% (worst drop −29%) on the rebuilt lists; 2000–2019 alone is about 28% a year. The refresh that day published
+40.4% (worst drop −35.2%). The previous version (`NBre`, SPY as a third whipsaw-switch choice) is level (40.3%, 44.5%,
+58.7%, 70.1%). The rule-by-rule with-and-without figures on the scanner page and in `data/wall_street_tests.json` were
+rerun on the real lists; the rule notes in the `mtl/` modules were measured on the old lists.
 
 ## Run it by hand
 
