@@ -3227,6 +3227,10 @@ def with_track_record(scan, path=TRACK_PATH):
 
 
 PLAN_HIST_PATH = os.path.join(ROOT, 'data', 'plan_history.json')
+def _r4(v):
+    return float(f'{v:.5g}') if v else None
+
+
 PC_DAILY_YEARS = 5   # older than this the chart keeps one close a week (the page stays small; 27 years daily is ~250 KB)
 
 
@@ -3235,11 +3239,12 @@ def _week_key(d):
     return y, w
 
 
-def plan_chart_data(scan, path=PLAN_HIST_PATH, timeline=None, live_from=None):
+def plan_chart_data(scan, path=PLAN_HIST_PATH, timeline=None, live_from=None, plan_values=None):
     """The "Where the plan was" chart's data: SPY, gold and bond closes from 2000 (the backtest's own lines in
     data/plan_history.json, carried on after the backtest ends with the scan's last 300 sessions, matched at the last
-    day both have) and where the default plan was (mtl/plan_history.py: the backtest of today's rules, then the paper
-    record's live decisions). Daily for the last PC_DAILY_YEARS years, one close a week (the week's last) before that.
+    day both have), where the default plan was (mtl/plan_history.py: the backtest of today's rules, then the paper
+    record's live decisions) and the plan's own value (the same split: the track record's default line, then the live
+    paper account). Daily for the last PC_DAILY_YEARS years, one close a week (the week's last) before that.
     None when the file has no closes yet (made before the track refresh wrote them)."""
     try:
         with open(path) as f:
@@ -3274,14 +3279,20 @@ def plan_chart_data(scan, path=PLAN_HIST_PATH, timeline=None, live_from=None):
         timeline = ph.load()
         ents = [e for e in (ph._load(ph.LEDGER) or {}).get('entries') or [] if e.get('w')]
         live_from = next_trading_day(min(e['d'] for e in ents)).isoformat() if ents else None   # the paper record's first fill
+    if plan_values is None:
+        sys.path.insert(0, ROOT)
+        from mtl import plan_history as ph
+        paper = (((scan.get('plan') or {}).get('paper') or {}).get('curve')) or []
+        plan_values = ph.values(ph._load(ph.TRACK), ph._load(ph.LEDGER), paper)
     first = dates[keep[0]]
     tl = [[f, *sh] for f, sh in timeline]
     start = max([i for i, r in enumerate(tl) if r[0] <= first] or [0])
     return dict(d=[dates[i] for i in keep], s=[cols['SPY'][i] for i in keep], g=[cols['gold'][i] for i in keep],
-                b=[cols['bonds'][i] for i in keep], h=tl[start:], bt=H.get('end'), live=live_from)
+                b=[cols['bonds'][i] for i in keep], p=[_r4(plan_values.get(dates[i])) for i in keep],
+                h=tl[start:], bt=H.get('end'), live=live_from)
 
 
-PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where the plan was <span class="hint">SPY, gold and bonds since 2000, shaded by what the default plan held</span></p>
+PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where the plan was <span class="hint">the default plan, SPY, gold and bonds since 2000, shaded by what the plan held</span></p>
 <div class="card pc">
   <div class="pc-bar">
     <span class="seg" id="pc-pre" role="group" aria-label="Range"><button type="button" data-y="1">1Y</button><button type="button" data-y="3">3Y</button><button type="button" data-y="5">5Y</button><button type="button" data-y="10">10Y</button><button type="button" data-y="all">All</button></span>
@@ -3305,7 +3316,9 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
 #planwhere .pc-scroll .chart svg { width: auto; max-width: none; }
 #planwhere .band { stroke: none; }
 #planwhere .pl { fill: none; stroke-width: 2; stroke-linejoin: round; }
-#planwhere .pl.spy { stroke-width: 2.4; }
+#planwhere .pl.spy { stroke-width: 2.2; }
+#planwhere .pl.plan { stroke-width: 2.8; }
+#planwhere .pc-legend i.ln.thick { height: 4px; }
 #planwhere .tip .held { margin-top: 5px; padding-top: 5px; border-top: 1px solid color-mix(in srgb, var(--bg) 30%, transparent); white-space: normal; max-width: 220px; }
 #planwhere .tip .row i.bd { width: 10px; height: 10px; border-radius: 2px; }
 </style>
@@ -3315,15 +3328,18 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
   var $ = function (id) { return document.getElementById(id); }, NS = 'http://www.w3.org/2000/svg';
   var P = JSON.parse($('pc-data').textContent), DAY = 864e5;
   var T = P.d.map(function (d) { return Date.parse(d + 'T12:00:00Z'); });
-  var LINES = [['s', 'SPY', 'var(--pc-stocks)', 'spy'], ['g', 'Gold', 'var(--pc-gold)', 'gold'], ['b', 'Bonds', 'var(--pc-bonds)', 'bonds']];
+  var LINES = [['p', 'Plan', 'var(--ink)', 'plan'], ['s', 'SPY', 'var(--pc-stocks)', 'spy'], ['g', 'Gold', 'var(--pc-gold)', 'gold'], ['b', 'Bonds', 'var(--pc-bonds)', 'bonds']];
+  var HIDE = {};
+  try { HIDE = JSON.parse(localStorage.getItem('nibii-pc-hide') || '{}') || {}; } catch (e) {}
   var KINDS = ['stocks', 'gold', 'bonds', 'cash', 'futures'], KNAME = { stocks: 'Stocks', gold: 'Gold', bonds: 'Bonds', cash: 'Cash', futures: 'Managed futures' };
   var HT = P.h.map(function (r) { return Date.parse(r[0] + 'T12:00:00Z'); });
   var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  var pre = '3', scale = 'linear', from = null, to = null;
-  try { pre = localStorage.getItem('nibii-pc-range') || '3'; scale = localStorage.getItem('nibii-pc-scale') || 'linear'; } catch (e) {}
+  var pre = '3', scale = 'auto', from = null, to = null;   // auto: log over 5 years (the plan's line dwarfs the others), linear below
+  try { pre = localStorage.getItem('nibii-pc-range') || '3'; scale = localStorage.getItem('nibii-pc-scale') || 'auto'; } catch (e) {}
   function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
   function fmt(t) { var d = new Date(t); return MON[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear(); }
   function pct(v) { if (Math.abs(v) < 0.05) return '0%'; return (v > 0 ? '+' : '−') + Math.abs(v).toFixed(v > -10 && v < 10 ? 1 : 0) + '%'; }
+  function chg(ix) { var x = ix / 100; return ix >= 300 ? '×' + (x >= 100 ? Math.round(x).toLocaleString() : x.toFixed(x >= 10 ? 0 : 1).replace(/\.0$/, '')) : pct(ix - 100); }   // 3x and up as a multiple
   function mainKind(r) { var k = 0; for (var i = 1; i < 6; i++) if (r[i] > r[k + 1]) k = i - 1; return KINDS[k]; }
   function heldAt(t) { var lo = -1, hi = HT.length - 1; while (lo < hi) { var m = (lo + hi + 1) >> 1; if (HT[m] < t) lo = m; else hi = m - 1; } return lo >= 0 ? P.h[lo] : null; }
   var y0 = new Date(T[0]).getUTCFullYear(), yN = new Date(T[T.length - 1]).getUTCFullYear();
@@ -3334,13 +3350,14 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
     try { localStorage.setItem('nibii-pc-range', p); } catch (e) {}
   }
   function legend() {
-    var h = LINES.map(function (l) { return '<span><i class="ln" style="--c:' + l[2] + '"></i>' + l[1] + '</span>'; }).join('') + '<span class="sep" aria-hidden="true"></span><span class="muted">Plan held:</span>' +
+    var h = LINES.map(function (l) { return '<button type="button" class="lg" data-k="' + l[0] + '" aria-pressed="' + String(!HIDE[l[0]]) + '"><i class="ln' + (l[0] === 'p' ? ' thick' : '') + '" style="--c:' + l[2] + '"></i>' + l[1] + '</button>'; }).join('') + '<span class="sep" aria-hidden="true"></span><span class="muted">Plan held:</span>' +
       KINDS.map(function (k) { return '<span><i class="bd" style="--c:var(--pc-' + k + ')"></i>' + KNAME[k] + '</span>'; }).join('');
     $('pc-legend').innerHTML = h;
   }
   function draw() {
     document.querySelectorAll('#pc-pre button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-y') === pre)); });
-    document.querySelectorAll('#pc-scale button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === scale)); });
+    var span0 = (Math.min(to, T[T.length - 1]) - Math.max(from, T[0])) / (365.25 * DAY), eff = scale === 'auto' ? (span0 > 5 ? 'log' : 'linear') : scale;
+    document.querySelectorAll('#pc-scale button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === eff)); });
     $('pc-from').value = new Date(from).getUTCFullYear(); $('pc-to').value = new Date(to).getUTCFullYear();
     var i0 = 0, i1 = T.length - 1;
     while (i0 < T.length - 1 && T[i0] < from) i0++;
@@ -3350,16 +3367,20 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
     var span = (T[i1] - T[i0]) / (365.25 * DAY), vw = Math.max(280, scr.clientWidth);
     var W = Math.round(Math.max(vw, span > 3 ? span * 110 : 0)), H = Math.round(Math.min(360, Math.max(230, vw * 0.48))), m = { t: 10, b: 24, r: 10 };
     // each line as % change from its first close in the range
-    var ser = LINES.map(function (l) {
+    var ser = LINES.filter(function (l) { return !HIDE[l[0]] && P[l[0]]; }).map(function (l) {
       var a = P[l[0]], base = null, pts = [];
       for (var i = i0; i <= i1; i++) { if (a[i] == null) continue; if (base === null) base = a[i]; pts.push([T[i], a[i] / base * 100, i]); }
       return { k: l[0], name: l[1], c: l[2], cls: l[3], pts: pts };
     }).filter(function (s) { return s.pts.length; });
     var lo = Infinity, hi = -Infinity;
     ser.forEach(function (s) { s.pts.forEach(function (p) { lo = Math.min(lo, p[1]); hi = Math.max(hi, p[1]); }); });
-    var log = scale === 'log', f = log ? Math.log : function (v) { return v; };
+    if (!ser.length) return;
+    var log = eff === 'log', f = log ? Math.log : function (v) { return v; };
     var ticks = [];
-    if (log) { [10, 20, 30, 50, 70, 100, 150, 200, 300, 500, 700, 1000, 1500, 2000, 3000, 5000].forEach(function (v) { if (v >= lo * 0.92 && v <= hi * 1.08) ticks.push(v); }); }
+    if (log) {   // 1-2-5 steps, thinned to at most 8
+      for (var e10 = Math.floor(Math.log10(lo)); e10 <= Math.ceil(Math.log10(hi)); e10++) [1, 2, 5].forEach(function (q) { var v = q * Math.pow(10, e10); if (v >= lo * 0.92 && v <= hi * 1.08) ticks.push(v); });
+      while (ticks.length > 8) ticks = ticks.filter(function (v, j) { return j % 2 === 0; });
+    }
     if (!log || ticks.length < 3) { ticks = []; var st = Math.pow(10, Math.floor(Math.log10((hi - lo) / 4 || 1))); st = (hi - lo) / st > 20 ? st * 5 : (hi - lo) / st > 8 ? st * 2 : st; for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) ticks.push(v); }
     var ya = f(Math.min(lo, ticks[0])), yb = f(Math.max(hi, ticks[ticks.length - 1]));
     function X(t) { return (t - T[i0]) / (T[i1] - T[i0] || 1) * (W - m.r) ; }
@@ -3389,7 +3410,7 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
     box.appendChild(svg); $('pc-wrap-tip') && $('pc-wrap-tip').remove(); tip.id = 'pc-wrap-tip'; document.querySelector('#planwhere .pc-wrap').appendChild(tip);
     // the y axis stays put while the chart scrolls sideways
     var ax = $('pc-axis'); ax.innerHTML = ''; ax.setAttribute('height', H); ax.setAttribute('viewBox', '0 0 50 ' + H);
-    ticks.forEach(function (v) { var t = el('text', { x: 44, y: Y(v) + 4, 'text-anchor': 'end' }); t.textContent = pct(v - 100); ax.appendChild(t); });
+    ticks.forEach(function (v) { var t = el('text', { x: 44, y: Y(v) + 4, 'text-anchor': 'end' }); t.textContent = chg(v); ax.appendChild(t); });
     function at(s, t) { var a = 0, b = s.pts.length - 1; if (t < s.pts[0][0]) return null; while (a < b) { var mid = (a + b + 1) >> 1; if (s.pts[mid][0] <= t) a = mid; else b = mid - 1; } return s.pts[a]; }
     function move(e) {
       var r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * W, t = T[i0] + px / (W - m.r) * (T[i1] - T[i0]);
@@ -3398,8 +3419,8 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
       tip.textContent = ''; var hd = document.createElement('div'); hd.textContent = fmt(tt); hd.style.marginBottom = '4px'; tip.appendChild(hd);
       ser.forEach(function (s, j) {
         var p = at(s, tt), row = document.createElement('div'); row.className = 'row';
-        var key = document.createElement('i'); key.style.setProperty('--c', s.c); row.appendChild(key);
-        var b = document.createElement('b'); b.textContent = p ? pct(p[1] - 100) : '–'; row.appendChild(b);
+        var key = document.createElement('i'); key.style.setProperty('--c', s.k === 'p' ? 'var(--bg)' : s.c); row.appendChild(key);   // the plan's line is ink: on the ink tooltip its key is the background colour
+        var b = document.createElement('b'); b.textContent = p ? chg(p[1]) : '–'; row.appendChild(b);
         row.appendChild(document.createTextNode(' ' + s.name)); tip.appendChild(row);
         if (p) { dots[j].setAttribute('cx', X(p[0])); dots[j].setAttribute('cy', Y(p[1])); dots[j].setAttribute('visibility', 'visible'); } else dots[j].setAttribute('visibility', 'hidden');
       });
@@ -3420,6 +3441,14 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
     scr.scrollLeft = scr.scrollWidth;
   }
   $('pc-pre').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; setPreset(b.getAttribute('data-y')); draw(); };
+  $('pc-legend').onclick = function (e) {
+    var b = e.target.closest('button[data-k]'); if (!b) return;
+    var k = b.getAttribute('data-k'), shown = LINES.filter(function (l) { return !HIDE[l[0]]; }).length;
+    if (!HIDE[k] && shown <= 1) return;   // keep at least one line
+    if (HIDE[k]) delete HIDE[k]; else HIDE[k] = 1;
+    try { localStorage.setItem('nibii-pc-hide', JSON.stringify(HIDE)); } catch (x) {}
+    legend(); draw();
+  };
   $('pc-scale').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; scale = b.getAttribute('data-v'); try { localStorage.setItem('nibii-pc-scale', scale); } catch (x) {} draw(); };
   function years() {
     var a = +$('pc-from').value, b = +$('pc-to').value;
@@ -3429,7 +3458,7 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
   }
   $('pc-from').onchange = years; $('pc-to').onchange = years;
   var LIVE = P.live ? Date.parse(P.live + 'T12:00:00Z') : null;
-  $('pc-note').textContent = 'Lines: daily closes as % change from the start of the range (one close a week before ' + (yN - __DAILY_YEARS__) + '). Gold before Nov 2004 and bonds before Jul 2002 are the gold futures and Treasury fund the backtest used. Shading: what the default plan held after each close' +
+  $('pc-note').textContent = 'Lines: the plan\'s value and daily closes as % change from the start of the range (×3 and up as a multiple; one close a week before ' + (yN - __DAILY_YEARS__) + '). Gold before Nov 2004 and bonds before Jul 2002 are the gold futures and Treasury fund the backtest used. Shading: what the default plan held after each close' +
     (LIVE ? ', the backtest of today\'s rules until ' + fmt(LIVE) + ', then the paper record\'s live decisions' : ', from the backtest of today\'s rules') + '. Hover or tap for the day; long ranges scroll sideways.';
   legend(); setPreset(pre === '' ? '3' : pre); draw();
   var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(draw, 150); });
