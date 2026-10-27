@@ -29,7 +29,10 @@ MARKETS = {   # CFTC contract market code -> name shown
 }
 WINDOW = 156          # weeks: the 3-year range a reading is placed in
 CROWDED = 0.9         # top 10% of the range = crowded long; bottom 10% = crowded short
-HIST = 26             # weeks of history kept for the page's sparkline
+HIST = 156            # weeks of history kept for the page's chart (3 years)
+PRICE = {'Gold': 'GC=F', 'Silver': 'SI=F', 'Copper': 'HG=F', 'Crude oil': 'CL=F', '10-yr Treasury': 'ZN=F',
+         '30-yr Treasury': 'ZB=F', 'S&P 500 futures': 'SPY', 'Nasdaq-100 futures': 'QQQ'}   # prices drawn under each
+YEARS = 7             # yearly files read: the 3-year range for each of the last 3 years of weeks, plus this year
 URL = 'https://www.cftc.gov/files/dea/history/deacot{year}.zip'
 
 
@@ -64,7 +67,7 @@ def merge(parts):
 def reading(series, window=WINDOW, crowded=CROWDED, hist=HIST):
     """One market's gauge from {date: (net share, open interest)}, or None with under a full window of weeks:
     dict(date, net, pct (0-1 place in the 3-year range), prev (last week's pct), lo, hi, flag ('long'/'short'/None),
-    hist=[[date, pct]...] for the last `hist` weeks)."""
+    hist=[[date, pct, net]...] for the last `hist` weeks)."""
     ds = sorted(series)
     if len(ds) <= window:
         return None
@@ -80,7 +83,7 @@ def reading(series, window=WINDOW, crowded=CROWDED, hist=HIST):
     return dict(date=ds[i], net=round(nets[i], 4), pct=round(p, 3), prev=round(pct(i - 1), 3) if i - 1 >= window else None,
                 lo=round(min(w), 4), hi=round(max(w), 4),
                 flag='long' if p >= crowded else 'short' if p <= 1 - crowded else None,
-                hist=[[ds[k], round(pct(k), 3)] for k in range(max(window, i - hist + 1), i + 1)])
+                hist=[[ds[k], round(pct(k), 3), round(nets[k], 4)] for k in range(max(window, i - hist + 1), i + 1)])
 
 
 def gauge(merged, markets=MARKETS):

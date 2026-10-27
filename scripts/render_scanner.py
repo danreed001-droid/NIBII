@@ -433,7 +433,7 @@ footer li { margin-bottom: 6px; }
 </style>
 
 <div class="masthead"><div class="masthead-inner">
-  <div class="nav"><a href="index.html">← Market Tape Ledger</a><span class="nav-r"><a class="bt add" href="__ADD_URL__" target="_blank" rel="noopener" title="Add your own news to the market events page">＋ Add news</a><a class="bt" href="events.html">Events →</a><a class="bt" href="backtest.html">Backtests →</a></span></div>
+  <div class="nav"><a href="index.html">← Market Tape Ledger</a><span class="nav-r"><a class="bt add" href="__ADD_URL__" target="_blank" rel="noopener" title="Add your own news to the market events page">＋ Add news</a><a class="bt" href="stress.html" title="Market stress, dominoes, news and speculator crowding (information only)">Stress →</a><a class="bt" href="events.html">Events →</a><a class="bt" href="backtest.html">Backtests →</a></span></div>
   <p class="eyebrow">NIBII · Momentum</p>
   <div class="top"><h1>Top 5 Strongest</h1>
     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark/light theme">
@@ -3518,7 +3518,7 @@ def render(scan, growth=None):
     page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth).replace('__OVLIB__', overlay_lib(), 1)
     page = page.replace('__PLANCHART__', plan_chart_html(scan), 1)
     page = page.replace('__WALLST__', wallst_html(), 1)
-    page = page.replace('__RESEARCH__', widenet_html(scan) + crowding_html(scan) + ignition_html() + lab_html() + research_html(), 1)
+    page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
@@ -3724,6 +3724,76 @@ def issue_rows(scan, entries=None, today=None):
     return rows
 
 
+def stress_html(scan, events_path=None):
+    """The market stress card at the top of the page (information only, mtl/stress.py): where the S&P 500 sits against
+    its highs with the drop study's warning signs, how many of 12 asset classes made a sharp move (dominoes), and the
+    trigger types in the last three weeks of news with how deep past drops they set off went. '' when the scan has none."""
+    S_ = ((scan.get('plan') or {}).get('auto') or {}).get('stress')
+    if not S_ or not S_.get('warn'):
+        return ''
+    sys.path.insert(0, ROOT)
+    from mtl import stress as st
+    W, D = S_['warn'], S_.get('dominoes') or {}
+
+    def sign(on, txt):
+        return f'<span class="st-sign {"on" if on else "off"}"><i>{"●" if on else "○"}</i>{txt}</span>'
+    off = W['offHigh']
+    if W.get('mode') == 'drop':
+        g = W['signs']
+        hit, of = W['odds']
+        idx = (f'<b>In a {abs(W["drop"]) * 100:.1f}% drop</b> from its {_e(W["peak"])} high ({_p(off, 1)} from the 52-week high). '
+               f'Signs it goes on to 10%: {sign(g["below200"], "under its 200-day average")}'
+               f'{sign(g["credit"], "junk bonds 2%+ behind Treasuries this month")}{sign(g["fast"], "fell 5% within 5 sessions")}'
+               f'<br>{W["n"]} of 3 on. Of the 99 drops since 2000, {hit} of {of} with {"2 or 3" if W["n"] >= 2 else "0 or 1"} of these on went on to 10% or more.')
+    elif W.get('mode') == 'calm':
+        g, v = W['signs'], W.get('vals') or {}
+        idx = (f'<b>Near its high</b> ({_p(off, 1)} from the 52-week high). Narrow-market signs: '
+               f'{sign(g["small"], "small caps lagging (" + _p(v.get("small"), 1) + " vs the index, 3 months)")}'
+               f'{sign(g["ew"], "equal-weight index lagging (" + _p(v.get("ew"), 1) + ")")}'
+               f'{sign(g["cg"], "copper lagging gold (" + _p(v.get("cg"), 1) + ")")}'
+               f'<br>{W["n"]} of 3 on. Since 2013, a 5% fall followed within a month after {W["odds"] * 100:.1f}% of calm days with '
+               f'{W["n"]} on, against {W["base"] * 100:.1f}% for all calm days.')
+    else:
+        idx = (f'<b>{abs(off) * 100:.1f}% under its 52-week high</b>, not yet in a 5% drop from its recent high: the drop study\'s '
+               'warning signs apply near the high or once a 5% drop is under way.')
+    bars = ''
+    h = S_.get('hist') or []
+    if h:
+        w, ht, mx = 180, 28, max(4, max(n for _, n in h))
+        bw = w / len(h)
+        bars = (f'<svg width="{w}" height="{ht + 12}" viewBox="0 0 {w} {ht + 12}" role="img" aria-label="Sharp movers each day, last {len(h)} sessions">'
+                + ''.join(f'<rect x="{i * bw:.1f}" y="{ht - n / mx * ht:.1f}" width="{max(1, bw - 1):.1f}" height="{max(0.5, n / mx * ht):.1f}" '
+                          f'fill="{"var(--neg)" if n >= 3 else "var(--muted)"}"><title>{_e(d)}: {n}</title></rect>' for i, (d, n) in enumerate(h))
+                + f'<text x="0" y="{ht + 11}" font-size="9" fill="var(--muted)">last {len(h)} sessions</text></svg>')
+    mv = ' · '.join(f'{_e(m[0])} {_p(m[2], 1)}' for m in D.get('moves') or [])
+    dom = (f'<b>{D.get("n", 0)} of {D.get("of", 12)}</b> asset classes made a sharp 5-day move (over twice their normal size)'
+           + (f': {mv}.' if mv else '.') + bars +
+           '<p class="st-note">Stocks, long and medium Treasuries, gold, oil, copper, the dollar and 5 major currencies. Since 2004, 3 or more '
+           'moved together on 7% of days: a further 5% fall followed within a month 23% of the time (16% normally), but the month ahead '
+           'averaged +1.2% (+0.8% normally). Big swings both ways, often near a bottom.</p>')
+    try:
+        from mtl import events as ev
+        evs = (ev.load(events_path) if events_path else ev.load())['events']
+    except (OSError, ValueError, KeyError):
+        evs = []
+    fams = st.news_context(evs, S_['asOf'])
+    if fams:
+        news = ''.join(f'<div><b>{_e(f)} news:</b> {_e("; ".join(x))}.<br><span class="muted">Past 5%+ drops set off by this kind of news: '
+                       f'{n}, median {_p(md, 1)}, back to the old high in a median {sess} sessions.</span></div>'
+                       for f, x, n, md, sess in fams)
+    else:
+        news = 'No credit, tightening, war, tariff or oil news on the events list in the last 3 weeks.'
+    return ('<section id="stress"><p class="section-label">Market stress <span class="hint">information only · close of '
+            f'{_e(S_["asOf"])} · the plan does not trade on this</span></p>\n'
+            '  <div class="card stress">'
+            f'<div class="st-row"><div class="st-k">S&amp;P 500</div><div class="st-v">{idx}</div></div>'
+            f'<div class="st-row"><div class="st-k">Dominoes</div><div class="st-v">{dom}</div></div>'
+            f'<div class="st-row"><div class="st-k">News, 3 weeks</div><div class="st-v">{news}</div></div>'
+            '<p class="st-note">From the study of all 99 drops of 5% or more since 2000. Tested as trading rules, these signs lost money '
+            '(the plan\'s own exits already act on the drops that matter), so they are here as context only.</p>'
+            '</div></section>\n')
+
+
 def crowding_html(scan):
     """The speculator crowding gauge (information only, mtl/crowding.py): each market's speculator net long share of
     open futures contracts, placed in its own 3-year range, from the CFTC's weekly report. '' when the scan has none."""
@@ -3732,10 +3802,11 @@ def crowding_html(scan):
         return ''
 
     def spark(h):
+        h = h[-26:]
         if len(h) < 2:
             return ''
         w, ht = 90, 22
-        pts = ' '.join(f'{i * w / (len(h) - 1):.1f},{ht - 2 - v * (ht - 4):.1f}' for i, (_, v) in enumerate(h))
+        pts = ' '.join(f'{i * w / (len(h) - 1):.1f},{ht - 2 - x[1] * (ht - 4):.1f}' for i, x in enumerate(h))
         return (f'<svg width="{w}" height="{ht}" viewBox="0 0 {w} {ht}" aria-hidden="true">'
                 f'<line x1="0" x2="{w}" y1="{ht - 2 - 0.9 * (ht - 4):.1f}" y2="{ht - 2 - 0.9 * (ht - 4):.1f}" stroke="var(--grid)" stroke-dasharray="2 2"/>'
                 f'<line x1="0" x2="{w}" y1="{ht - 2 - 0.1 * (ht - 4):.1f}" y2="{ht - 2 - 0.1 * (ht - 4):.1f}" stroke="var(--grid)" stroke-dasharray="2 2"/>'
@@ -3859,6 +3930,129 @@ found on, a failed run by the day it ran. Older ones drop off after 14 days.</p>
 '''
 
 
+STRESS_PATH = os.path.join(ROOT, 'docs', 'stress.html')
+STRESS_CSS = '''.stress { display: grid; gap: 10px; margin-bottom: 18px; }
+.stress .st-row { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 10px; padding-top: 10px; border-top: 1px solid var(--hairline); }
+.stress .st-row:first-of-type { border-top: 0; padding-top: 0; }
+.stress .st-k { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); padding-top: 2px; }
+.stress .st-v { font-size: 0.9rem; color: var(--ink-2); min-width: 0; }
+.stress .st-v b { color: var(--ink); }
+.stress .st-sign { display: inline-block; margin: 2px 8px 2px 0; }
+.stress .st-sign i { font-style: normal; font-weight: 700; margin-right: 4px; }
+.stress .on { color: var(--neg); } .stress .off { color: var(--muted); }
+.stress .st-note { font-size: 0.76rem; color: var(--muted); margin: 0; }
+.stress svg { display: block; margin-top: 6px; max-width: 100%; }
+@media (max-width: 520px) { .stress .st-row { grid-template-columns: 1fr; gap: 4px; } }'''
+
+
+def crowding_charts(scan):
+    """The price-and-crowding chart under the crowding table: one market at a time, 3 years of weekly reports."""
+    G = ((scan.get('plan') or {}).get('auto') or {}).get('crowding')
+    if not G or not any(len(r.get('hist') or []) > 1 and len(r['hist'][0]) > 3 for r in G['rows']):
+        return ''
+    data = [dict(name=r['name'], hist=[h[:4] for h in r['hist']]) for r in G['rows'] if r.get('hist')]
+    return ('<div class="card cc"><div class="cc-tabs" id="cc-tabs" role="group" aria-label="Market"></div>'
+            '<div class="cc-chart" id="cc-chart"></div>'
+            '<p class="note">Top: the price at each Tuesday report (log scale). Bottom: where speculators sat in their own 3-year range '
+            '(100% = most crowded long). Red weeks: crowded long, blue: crowded short. Hover or tap for the week.</p></div>'
+            '<script type="application/json" id="cc-data">' + json.dumps(data, separators=(',', ':')).replace('</', '<\\/') + '</script>'
+            + CC_JS)
+
+
+CC_JS = r"""<script>
+(function () {
+  var D = JSON.parse(document.getElementById('cc-data').textContent), cur = 0, NS = 'http://www.w3.org/2000/svg';
+  var tabs = document.getElementById('cc-tabs'), box = document.getElementById('cc-chart'), tip = document.getElementById('cc-tip');
+  function el(t, a, p, x) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (x != null) n.textContent = x; if (p) p.appendChild(n); return n; }
+  function pc(x) { return (x >= 0 ? '+' : '−') + Math.abs(x * 100).toFixed(0) + '%'; }
+  function fp(v) { return v >= 100 ? Math.round(v).toLocaleString('en-US') : v >= 10 ? v.toFixed(1) : v.toFixed(2); }
+  D.forEach(function (m, i) { var b = document.createElement('button'); b.type = 'button'; b.textContent = m.name; b.setAttribute('aria-pressed', i === 0);
+    b.onclick = function () { cur = i; Array.prototype.forEach.call(tabs.children, function (c, j) { c.setAttribute('aria-pressed', j === i); }); draw(); }; tabs.appendChild(b); });
+  function draw() {
+    var W = D[cur].hist.filter(function (h) { return h[3] != null; }); box.innerHTML = '';
+    if (W.length < 2) { box.textContent = 'No prices for this market tonight.'; return; }
+    var Wd = Math.max(300, box.clientWidth || 900), L = 52, R = 10, T1 = 8, H1 = 190, gap = 18, H2 = 80, B = 22, H = T1 + H1 + gap + H2 + B, n = W.length;
+    var svg = el('svg', { viewBox: '0 0 ' + Wd + ' ' + H, role: 'img', 'aria-label': D[cur].name + ' price and speculator crowding' }, box);
+    var x = function (i) { return L + i / (n - 1) * (Wd - L - R); };
+    var ps = W.map(function (w) { return w[3]; }), lo = Math.log(Math.min.apply(null, ps)), hi = Math.log(Math.max.apply(null, ps)), pad = (hi - lo) * 0.06 || 0.01;
+    var yP = function (v) { return T1 + (hi + pad - Math.log(v)) / (hi - lo + 2 * pad) * H1; }, T2 = T1 + H1 + gap, yC = function (v) { return T2 + (1 - v) * H2; };
+    var bw = (Wd - L - R) / (n - 1);
+    W.forEach(function (w, i) { if (w[1] >= 0.9 || w[1] <= 0.1) el('rect', { x: x(i) - bw / 2, y: T1, width: bw + 0.5, height: H1, fill: w[1] >= 0.9 ? 'var(--cc-long)' : 'var(--cc-short)' }, svg); });
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (f) { var v = Math.exp(lo - pad + f * (hi - lo + 2 * pad)); el('line', { x1: L, x2: Wd - R, y1: yP(v), y2: yP(v), stroke: 'var(--grid)' }, svg); el('text', { x: L - 6, y: yP(v) + 4, 'text-anchor': 'end', 'font-size': 10, fill: 'var(--muted)' }, svg, fp(v)); });
+    var d = ''; W.forEach(function (w, i) { d += (i ? 'L' : 'M') + x(i).toFixed(1) + ',' + yP(w[3]).toFixed(1); });
+    el('path', { d: d, fill: 'none', stroke: 'var(--ink)', 'stroke-width': 1.4 }, svg);
+    el('rect', { x: L, y: yC(1), width: Wd - L - R, height: yC(0.9) - yC(1), fill: 'var(--cc-long)' }, svg);
+    el('rect', { x: L, y: yC(0.1), width: Wd - L - R, height: yC(0) - yC(0.1), fill: 'var(--cc-short)' }, svg);
+    [0, 0.5, 1].forEach(function (v) { el('text', { x: L - 6, y: yC(v) + 4, 'text-anchor': 'end', 'font-size': 10, fill: 'var(--muted)' }, svg, Math.round(v * 100) + '%'); });
+    var c = ''; W.forEach(function (w, i) { c += (i ? 'L' : 'M') + x(i).toFixed(1) + ',' + yC(w[1]).toFixed(1); });
+    el('path', { d: c, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 1.4 }, svg);
+    var ly = null; W.forEach(function (w, i) { var y = w[0].slice(0, 4); if (y !== ly) { if (ly !== null) { el('line', { x1: x(i), x2: x(i), y1: T1, y2: T2 + H2, stroke: 'var(--grid)' }, svg); el('text', { x: x(i), y: H - 6, 'text-anchor': 'middle', 'font-size': 10, fill: 'var(--muted)' }, svg, y); } ly = y; } });
+    var cr = el('line', { y1: T1, y2: T2 + H2, stroke: 'var(--muted)', 'stroke-dasharray': '3 3', visibility: 'hidden' }, svg);
+    var hit = el('rect', { x: L, y: T1, width: Wd - L - R, height: T2 + H2 - T1, fill: 'transparent' }, svg);
+    function show(e) { var b = svg.getBoundingClientRect(), px = (e.clientX - b.left) / b.width * Wd, i = Math.max(0, Math.min(n - 1, Math.round((px - L) / (Wd - L - R) * (n - 1)))), w = W[i];
+      cr.setAttribute('x1', x(i)); cr.setAttribute('x2', x(i)); cr.setAttribute('visibility', 'visible');
+      tip.innerHTML = '<b>' + w[0] + '</b><br>Price ' + fp(w[3]) + '<br>Speculators ' + pc(w[2]) + ' net long<br>' + Math.round(w[1] * 100) + '% of the 3-year range' + (w[1] >= 0.9 ? ' · crowded long' : w[1] <= 0.1 ? ' · crowded short' : '');
+      tip.hidden = false; var tw = tip.offsetWidth, tx = e.clientX + 12; if (tx + tw > innerWidth - 8) tx = e.clientX - tw - 12; tip.style.left = Math.max(8, tx) + 'px'; tip.style.top = (e.clientY + 12) + 'px'; }
+    hit.addEventListener('mousemove', show); hit.addEventListener('click', show);
+    hit.addEventListener('mouseleave', function () { cr.setAttribute('visibility', 'hidden'); tip.hidden = true; });
+  }
+  draw();
+  var rw = box.clientWidth; addEventListener('resize', function () { if (box.clientWidth !== rw) { rw = box.clientWidth; draw(); } });
+})();
+</script>"""
+
+
+def stress_page(scan):
+    """docs/stress.html: the market stress card and the speculator crowding gauge with its charts (information only)."""
+    body = stress_html(scan) + crowding_html(scan).replace('</section>', crowding_charts(scan) + '</section>', 1)
+    if not body:
+        body = '<p class="note">Tonight\'s scan has no market stress or crowding readings.</p>'
+    return f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex"><title>Market Stress</title>
+<style>
+:root {{ --bg: #f4f3ef; --surface: #fdfdfc; --ink: #0b0c0e; --ink-2: #52514e; --muted: #6f6d67; --hairline: #e1e0d9; --grid: #e7e6e0;
+  --accent: #2a78d6; --pos: #0a8f0a; --neg: #c43232; --cc-long: rgba(196,50,50,.14); --cc-short: rgba(42,120,214,.14); }}
+@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ --bg: #0d0d0d; --surface: #17181a; --ink: #ffffff; --ink-2: #c3c2b7;
+  --muted: #8b8a85; --hairline: #2c2c2a; --grid: #26262a; --accent: #3987e5; --pos: #3fbf5f; --neg: #e5605a; --cc-long: rgba(229,96,90,.17); --cc-short: rgba(57,135,229,.18); color-scheme: dark; }} }}
+:root[data-theme="dark"] {{ --bg: #0d0d0d; --surface: #17181a; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #8b8a85; --hairline: #2c2c2a; --grid: #26262a;
+  --accent: #3987e5; --pos: #3fbf5f; --neg: #e5605a; --cc-long: rgba(229,96,90,.17); --cc-short: rgba(57,135,229,.18); color-scheme: dark; }}
+* {{ box-sizing: border-box; }}
+body {{ margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 -apple-system, system-ui, "Segoe UI", sans-serif; }}
+.wrap {{ max-width: 920px; margin: 0 auto; padding-block: 18px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 22px; }}
+.wrap > *, section {{ min-width: 0; }}
+.nav a {{ color: var(--muted); text-decoration: none; font-size: 0.85rem; }}
+h1 {{ font-size: 1.6rem; margin: 6px 0 0; }}
+.section-label {{ font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 8px; }}
+.hint {{ font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted); margin-left: 6px; }}
+.card {{ background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px; padding: 14px; }}
+.note {{ color: var(--muted); font-size: 0.82rem; margin: 8px 0 0; }} .muted {{ color: var(--muted); }}
+.pos {{ color: var(--pos); }} .neg {{ color: var(--neg); }}
+.tablebox {{ overflow-x: auto; background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px; }}
+table {{ border-collapse: collapse; width: 100%; font-size: 0.88rem; }}
+th, td {{ padding: 8px 10px; border-bottom: 1px solid var(--hairline); text-align: right; white-space: nowrap; }}
+th {{ font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }}
+th.l, td.l {{ text-align: left; }} td.num {{ font-variant-numeric: tabular-nums; }}
+.tag {{ display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 1px 8px; border-radius: 999px; border: 1px solid currentColor; margin-top: 3px; }}
+.tag.sell {{ color: var(--neg); }} .tag.buy {{ color: var(--accent); }}
+.cc {{ margin-top: 10px; }} .cc-tabs {{ display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }}
+.cc-tabs button {{ font: inherit; font-size: 0.8rem; background: transparent; color: var(--ink-2); border: 1px solid var(--hairline); border-radius: 999px; padding: 4px 11px; cursor: pointer; }}
+.cc-tabs button[aria-pressed="true"] {{ background: var(--ink); color: var(--bg); border-color: var(--ink); }}
+.cc-tabs button:focus-visible {{ outline: 2px solid var(--accent); outline-offset: 2px; }}
+.cc-chart svg {{ display: block; width: 100%; height: auto; }}
+#cc-tip {{ position: fixed; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--hairline); border-radius: 6px; padding: 7px 9px; font-size: 0.8rem; box-shadow: 0 4px 14px rgba(0,0,0,.2); z-index: 5; }}
+@media (max-width: 600px) {{ .hide-sm {{ display: none; }} }}
+{STRESS_CSS}
+</style></head><body><div class="wrap">
+<div class="nav"><a href="scanner.html">← Top 5 Strongest</a> · <a href="events.html">Events</a></div>
+<h1>Market stress</h1>
+<p class="note" style="margin:0">Context for the market, refreshed with each nightly scan. Information only: the plan does not trade on anything here.</p>
+{body}
+<div id="cc-tip" hidden></div>
+</div></body></html>
+"""
+
+
 def main():
     if not os.path.exists(DATA_PATH):
         sys.exit(f"{DATA_PATH} not found - run: python scripts/momentum_scan.py")
@@ -3870,7 +4064,9 @@ def main():
         f.write(page)
     with open(ISSUES_PATH, 'w') as f:
         f.write(issues_page(with_track_record(scan)))   # the same rows the scanner page's card lists
-    print(f"wrote {OUT_PATH} and {ISSUES_PATH}")
+    with open(STRESS_PATH, 'w') as f:
+        f.write(stress_page(scan))
+    print(f"wrote {OUT_PATH}, {ISSUES_PATH} and {STRESS_PATH}")
 
 
 if __name__ == '__main__':
