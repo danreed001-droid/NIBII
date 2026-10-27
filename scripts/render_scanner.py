@@ -456,6 +456,7 @@ footer li { margin-bottom: 6px; }
 
 __RECENT__
 __DOMINOES__
+__CROWDING__
 __EVENTS__
   <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
   <div class="plan">
@@ -3524,6 +3525,8 @@ def render(scan, growth=None):
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
     page = page.replace('__DOMCSS__', DOM_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
+    page = page.replace('__CROWDING__', crowding_html(scan).replace(   # also on docs/stress.html, where it has its charts
+        '(published the Friday after)</span>', '(published the Friday after) · <a href="stress.html#crowding">charts →</a></span>', 1), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
     sys.path.insert(0, ROOT)
     from mtl.events import ADD_URL   # the events page's "Add news" form
