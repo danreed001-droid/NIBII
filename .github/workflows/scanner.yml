@@ -119,6 +119,19 @@ jobs:
         run: |
           python scripts/log_issue.py dominoes "Tonight's dominoes update failed, so the dominoes card shows the last good reading (it never affects the plan)."
 
+      - name: Refresh what followed speculator crowding (weekly)
+        # the crowding gauge's history table (data/crowding_history.json, information only); a failure never blocks
+        # the dashboard and keeps last week's figures
+        id: crowdhist
+        continue-on-error: true
+        timeout-minutes: 10
+        run: python scripts/crowding_history.py
+
+      - name: Log a failed crowding-history refresh
+        if: ${{ steps.crowdhist.outcome == 'failure' }}
+        run: |
+          python scripts/log_issue.py crowding "This week's crowding-history refresh failed, so the crowding gauge shows last week's what-followed figures (it never affects the plan)."
+
       - name: Render the dashboard
         # after the events step, so a news feed problem it logs shows on tonight's page
         run: python scripts/render_scanner.py
@@ -127,7 +140,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/scanner.html docs/events.html docs/issues.html docs/stress.html data/dominoes.json data/major_events.json data/event_patterns.json data/event_forecasts.json data/headlines_log.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
+          git add docs/scanner.html docs/events.html docs/issues.html docs/stress.html data/dominoes.json data/crowding_history.json data/major_events.json data/event_patterns.json data/event_forecasts.json data/headlines_log.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0

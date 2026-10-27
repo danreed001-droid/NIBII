@@ -3524,7 +3524,7 @@ def render(scan, growth=None):
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
-    page = page.replace('__DOMCSS__', DOM_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
+    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
     page = page.replace('__CROWDING__', crowding_html(scan).replace(   # also on docs/stress.html, where it has its charts
         '(published the Friday after)</span>', '(published the Friday after) · <a href="stress.html#crowding">charts →</a></span>', 1), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
@@ -3959,7 +3959,71 @@ def crowding_html(scan):
             'It does not change anything the plan does. Checked on every weekly report since 2000, the most crowded long weeks were followed by a 10%+ '
             'fall within 2 months 32.6% of the time in silver (24.4% for all weeks), 27.6% in S&amp;P 500 futures (11.2%, from only 58 weeks), '
             '6.9% in gold (6.8%) and 17.7% in copper (18.5%), and less often than normal in crude oil and Nasdaq-100 futures. It missed the May–June 2006 metals crash, whose money came largely through new '
-            'metal ETFs and index funds that this report does not count as speculators. A heads-up on positioning, not a timing signal.</p></section>\n')
+            'metal ETFs and index funds that this report does not count as speculators. A heads-up on positioning, not a timing signal.</p>'
+            + crowding_history_html(G) + '</section>\n')
+
+
+CROWD_HIST_PATH = os.path.join(ROOT, 'data', 'crowding_history.json')
+CWH_CSS = """.cwh td, .cwh th { white-space: normal; vertical-align: top; font-size: 0.8rem; }
+.cwh td small { display: block; color: var(--muted); font-size: 0.72rem; }
+.cwh td.now { background: var(--surface-2); }
+.cwh .sig { font-weight: 600; } .cwh .sig.pos { color: var(--pos); } .cwh .sig.neg { color: var(--neg); }
+@media (max-width: 520px) { .cwh { min-width: 560px; } }"""
+CWH_READS = (('long', 'While crowded long'), ('short', 'While crowded short'),
+             ('exitLong', 'After a long crowded-long spell ends'), ('exitShort', 'After a long crowded-short spell ends'))
+
+
+def crowding_history_html(G=None, path=None):
+    """Under the crowding gauge: what followed each market's crowded spells and the ends of long spells since 2000
+    (data/crowding_history.json, mtl/crowding_history.py): how many beat the market's normal move at 1 / 3 / 6 months,
+    and the typical 3-month move. Today's crowded markets are shaded. '' without the file."""
+    try:
+        with open(path or CROWD_HIST_PATH) as fh:
+            D = json.load(fh)
+    except (OSError, ValueError):
+        return ''
+    M = D.get('markets') or {}
+    if not M:
+        return ''
+    now = {r['name']: r.get('flag') for r in (G or {}).get('rows', [])}
+    sg = lambda x: '–' if x is None else '0.0%' if round(x * 100, 1) == 0 else f"{x * 100:+.1f}%".replace('-', '−')
+    passed, cells_n = [], 0
+
+    def cell(name, key, read):
+        nonlocal cells_n
+        bits = []
+        for lab in ('1', '3', '6'):
+            c = read.get(lab)
+            if not c:
+                bits.append('–')
+                continue
+            cells_n += 1
+            sig = c['p'] < 0.05
+            if sig:
+                passed.append(f"{name} {dict(CWH_READS)[key].lower()} ({lab} mo)")
+            cls = ' pos' if c['beat'] * 2 > c['n'] else ' neg' if c['beat'] * 2 < c['n'] else ''
+            bits.append(f'<span class="sig{cls}">{c["beat"]}/{c["n"]}✓</span>' if sig else f"{c['beat']}/{c['n']}")
+        c3 = read.get('3')
+        typ = f"<small>3 mo typical {sg(c3['typ'])}</small>" if c3 else ''
+        shade = ' class="now"' if (key == 'long' and now.get(name) == 'long') or (key == 'short' and now.get(name) == 'short') else ''
+        return f"<td{shade}>{' · '.join(bits)}{typ}</td>"
+
+    rows = []
+    for name, m in M.items():
+        nm = m.get('normal') or {}
+        rows.append(f'<tr><td class="l">{html.escape(name)}<small>normal 3 mo {sg(nm.get("3"))}</small></td>'
+                    + ''.join(cell(name, k, m.get(k) or {}) for k, _ in CWH_READS) + '</tr>')
+    head = ''.join(f'<th>{lab}</th>' for _, lab in CWH_READS)
+    passing = ('Passing: ' + '; '.join(passed) + '.') if passed else 'None passes.'
+    return (f'<p class="note"><b>What followed, since {D.get("since", "2000")[:4]}</b>: each crowded spell counted once (weeks less than '
+            f'9 weeks apart are one spell), and for the last two columns the second straight week back out of the zone after a spell of '
+            f'{D.get("span", 8)}+ weeks. Each cell: how many beat the market\'s normal move at 1 · 3 · 6 months, then the typical '
+            '3-month move. Shaded: where a market stands now.</p>'
+            f'<div class="tablebox"><table class="cwh"><thead><tr><th class="l">Market</th>{head}</tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
+            f'<p class="note">✓ = unlikely to be luck (sign test, p &lt; 0.05). With {cells_n} figures here, about {round(cells_n * 0.05)} '
+            f'would pass by luck alone. {passing} Crowded long has not been a reliable sell warning, and the end of a long spell adds '
+            'little: too few cases. A strict plan test of holding bonds while Treasuries are crowded short did not beat the plan '
+            '(45.6% a year from 2000 against 45.8%). Context, not a timing signal.</p>')
 
 
 def widenet_html(scan):
@@ -4182,6 +4246,7 @@ th.l, td.l {{ text-align: left; }} td.num {{ font-variant-numeric: tabular-nums;
 @media (max-width: 600px) {{ .hide-sm {{ display: none; }} }}
 {STRESS_CSS}
 {DOM_CSS}
+{CWH_CSS}
 </style></head><body><div class="wrap">
 <div class="nav"><a href="scanner.html">← Top 5 Strongest</a> · <a href="events.html">Events</a></div>
 <h1>Market stress</h1>
