@@ -90,3 +90,21 @@ def test_the_feds_slower_daily_series_still_count_a_week_late():
                fed={d: 2.0 for d in late}, oil={d: (50.0 if i < 500 else 80.0) for i, d in enumerate(late)})   # +60% in a year
     r, on = dm.readings(cal, ser)
     assert np.isfinite(r['oil'][-1]) and np.isfinite(r['fed'][-1]) and on[-1][[k for k, *_ in dm.DOMINOES].index('oil')]
+
+
+def test_what_to_expect_compares_days_like_the_last_with_all_days_at_that_distance():
+    n = 1200
+    rng = np.random.default_rng(4)
+    spx = 100 * np.cumprod(1 + rng.normal(0.0003, 0.01, n))
+    off = dm.off_high(spx)
+    score = np.where(np.arange(n) % 50 < 10, 3, 1)               # a 3-domino spell every 50 sessions
+    score[-1] = 1
+    known = np.isfinite(off)
+    E = dm.expect(spx, score, off, known, start=260, bonds=np.full(n, 100.0))
+    assert E['count'] == 1 and E['otherLabel'] == '3+' and E['hi'] <= 0 and E['lo'] == round(off[-1] - 0.05, 4)
+    S, A = E['same'], E['all']
+    assert S['days'] < A['days'] and S['stretches'] >= 1
+    six = S['6']
+    assert six['p10'] <= six['med'] <= six['p90'] and 0 <= six['fall10'] <= six['fall5'] <= 1 and six['bonds'] == 0.0
+    assert 'gold' not in six                                           # no gold series given
+    assert dm.expect(spx, score, off, np.zeros(n, bool), start=260)['same'] is None      # nothing to compare

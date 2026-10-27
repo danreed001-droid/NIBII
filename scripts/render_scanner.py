@@ -3700,6 +3700,35 @@ def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
 DOMINOES_PATH = os.path.join(ROOT, 'data', 'dominoes.json')
 
 
+def expect_html(E):
+    """The dominoes card's "what to expect" table (mtl/dominoes.expect): what followed past days with the same number of
+    dominoes down and the S&P about as far from its high, at 1, 3 and 6 months, with the comparisons under it."""
+    if not E or not E.get('same'):
+        return ''
+    S, A, O = E['same'], E.get('all') or {}, E.get('other') or {}
+    sg = lambda x: '–' if x is None else '0.0%' if round(x * 100, 1) == 0 else f"{x * 100:+.1f}%".replace('-', '−')
+    pc = lambda x: '–' if x is None else f"{round(x * 100)}%"
+    cells = lambda f: ''.join(f'<td>{f(S[h]) if S.get(h) else "–"}</td>' for h in ('1', '3', '6'))
+    rows = [('S&amp;P typical move', lambda c: sg(c['med'])),
+            ('8 in 10 ended between', lambda c: f"{sg(c['p10'])} and {sg(c['p90'])}"),
+            ('S&amp;P higher', lambda c: pc(c['up'])),
+            ('A 5% dip on the way', lambda c: pc(c['fall5'])),
+            ('A 10%+ fall on the way', lambda c: pc(c['fall10'])),
+            ('Bonds / gold typical', lambda c: f"{sg(c.get('bonds'))} / {sg(c.get('gold'))}")]
+    body = ''.join(f'<tr><td>{lab}</td>{cells(f)}</tr>' for lab, f in rows)
+    cnt = '4 or more' if E['count'] >= 4 else str(E['count'])
+    lo, hi = abs(E['lo']) * 100, abs(E['hi']) * 100
+    where = f"within {lo:.0f}% of its high" if hi < 0.05 else f"{hi:.0f}–{lo:.0f}% under its high"
+    f10 = lambda X: ' / '.join(pc((X.get(h) or {}).get('fall10')) for h in ('1', '3', '6'))
+    other = 'with 3 or more dominoes down' if E.get('otherLabel') == '3+' else 'with 0–2 down'
+    cmp_ = (f"A 10%+ fall on the way at 1 / 3 / 6 months: days like this {f10(S)}; any day this close to the high "
+            f"{f10(A)}" + (f"; {other} {f10(O)}" if O else '') + '.')
+    return (f'<p class="sub"><b>What to expect</b>: what followed past days like this ({cnt} dominoes down, S&amp;P {where}): '
+            f'{S["days"]:,} days since 1988, in {S["stretches"]} separate stretches.</p>'
+            f'<table class="exp"><thead><tr><th></th><th>1 month</th><th>3 months</th><th>6 months</th></tr></thead><tbody>{body}</tbody></table>'
+            f'<p class="sub">{cmp_} History, not a promise.</p>')
+
+
 def dominoes_html(asof=None, path=None):
     """The dominoes card (data/dominoes.json, mtl/dominoes.py): which of the eight are down now, how deep past falls went
     by dominoes down on the day the S&P first closed 5% under its top, and the closest past times with what followed.
@@ -3711,7 +3740,7 @@ def dominoes_html(asof=None, path=None):
         return ''
     if not D.get('dominoes'):
         return ''
-    sg = lambda x, d=1: f"{x * 100:+.{d}f}%".replace('-', '−')
+    sg = lambda x, d=1: f"{0:.{d}f}%" if round(x * 100, d) == 0 else f"{x * 100:+.{d}f}%".replace('-', '−')
     mo = lambda d: date.fromisoformat(d).strftime('%b %Y')
 
     def chip(x):
@@ -3736,6 +3765,7 @@ def dominoes_html(asof=None, path=None):
     infl = f" · inflation {D['infl'] * 100:.1f}%" if D.get('infl') is not None else ''
     head = (f'<p class="dom-now"><b>{D["count"]} of 8 dominoes down</b> · S&amp;P 500 {abs(D["spxOff"]) * 100:.1f}% under its '
             f'1-year high{infl} · as of {when}{stale}</p><div class="dom-chips">{"".join(chip(x) for x in D["dominoes"])}</div>')
+    exp = expect_html(D.get('expect'))
     cnt = D['count']
     rows = ''.join(f'<tr class="{"now" if (r["dominoes"] == str(cnt) or (r["dominoes"] == "4+" and cnt >= 4)) else ""}">'
                    f'<td>{r["dominoes"]}</td><td>{r["falls"]}</td><td>{r["to10"]}</td><td>{r["to20"]}</td><td>{r["to30"]}</td></tr>'
@@ -3750,7 +3780,7 @@ def dominoes_html(asof=None, path=None):
     ms = []
     for m in D.get('matches', []):
         nx = m['next']
-        b = lambda x: '–' if x is None else f'<b class="{"pos" if x > 0 else "neg" if x < 0 else ""}">{sg(x, 0)}</b>'
+        b = lambda x: '–' if x is None else f'<b class="{"pos" if round(x * 100) > 0 else "neg" if round(x * 100) < 0 else ""}">{sg(x, 0)}</b>'
         then = ('Happening then: ' + html.escape(' · '.join(m['then'])) + '. ') if m.get('then') else ''
         ms.append(f'<div class="m"><span class="when">{mo(m["d"])}</span><span class="what">dominoes down: '
                   f'{html.escape(", ".join(names.get(k, k) for k in m["on"]) or "none")} · inflation '
@@ -3775,7 +3805,7 @@ def dominoes_html(asof=None, path=None):
             'doesn\'t use this.</p>')
     return ('<section id="dominoes"><p class="section-label">Dominoes <span class="hint">what had fallen before past S&amp;P '
             'falls · past times like now · information only</span></p>\n'
-            f'  <div class="card dom">{head}{table}{past}{note}</div></section>\n')
+            f'  <div class="card dom">{head}{exp}{table}{past}{note}</div></section>\n')
 
 
 ISSUES_PATH = os.path.join(ROOT, 'docs', 'issues.html')
@@ -4033,7 +4063,9 @@ DOM_CSS = '''.dom { font-size: 0.86rem; }
 .dom .m .what, .dom .m .next { color: var(--muted); font-size: 0.78rem; line-height: 1.45; }
 .dom .m .next b { font-weight: 600; color: var(--ink); } .dom .m .next b.neg { color: var(--neg); } .dom .m .next b.pos { color: var(--pos); }
 .dom .note { color: var(--muted); font-size: 0.78rem; line-height: 1.45; border-top: 1px solid var(--hairline); padding-top: 8px; margin-top: 2px; }
-.dom th { text-transform: none; letter-spacing: 0; white-space: normal; }'''
+.dom th { text-transform: none; letter-spacing: 0; white-space: normal; }
+.dom table.exp td { white-space: normal; } .dom table.exp td:first-child { width: 34%; }
+@media (max-width: 520px) { .dom table.exp { font-size: 0.74rem; } .dom table.exp td, .dom table.exp th { padding: 4px 3px; } }'''
 STRESS_CSS = '''.stress { display: grid; gap: 10px; margin-bottom: 18px; }
 .stress .st-row { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 10px; padding-top: 10px; border-top: 1px solid var(--hairline); }
 .stress .st-row:first-of-type { border-top: 0; padding-top: 0; }
