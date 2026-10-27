@@ -22,7 +22,7 @@ from datetime import date
 
 import numpy as np
 
-from mtl.macro_events import published, yoy_monthly
+from mtl.macro_events import FRED_STALE, published, yoy_monthly
 
 LOOK, H6, H12 = 252, 126, 252
 DOMINOES = [  # key, label, how it is read, line
@@ -64,12 +64,12 @@ def ago(a, n=LOOK):
 def readings(cal, ser):
     """{key: array} of each domino's reading, and the (N x 8) on/off table (False where unknown)."""
     r = {k: off_high(line(cal, ser.get(k) or {})) for k, _, how, _ in DOMINOES if how == 'off'}
-    fed = line(cal, ser.get('fed') or {})
+    fed = line(cal, ser.get('fed') or {}, stale=FRED_STALE)          # the Fed's daily series run days behind
     r['fed'] = fed - ago(fed)
-    curve = line(cal, ser.get('curve') or {})
+    curve = line(cal, ser.get('curve') or {}, stale=FRED_STALE)
     r['curve'] = np.array([np.nanmin(curve[max(0, i - LOOK + 1):i + 1]) if np.isfinite(curve[max(0, i - LOOK + 1):i + 1]).any()
                            else np.nan for i in range(len(cal))])
-    oil = line(cal, ser.get('oil') or {})
+    oil = line(cal, ser.get('oil') or {}, stale=FRED_STALE)          # oil: often a week or more
     r['oil'] = oil / ago(oil) - 1
     on = np.column_stack([(r[k] <= -ln) if how == 'off' else (r[k] >= ln) if how in ('fed', 'oil') else (r[k] < ln)
                           for k, _, how, ln in DOMINOES])

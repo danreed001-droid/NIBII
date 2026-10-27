@@ -23,6 +23,7 @@ from datetime import date, timedelta
 
 YEAR, HALF = 252, 126
 CPI_LAG, SAHM_LAG = 14, 7           # days after the month ends: when each monthly figure is out
+FRED_STALE = 10                     # sessions: the Fed's daily oil and yield series run up to two weeks behind
 
 TYPES = {
     'Oil up 50% in a year': 'oil 50% or more above its level a year earlier',
@@ -101,7 +102,7 @@ def find(cal, ser, since):
         return []
     got = []
 
-    oil = on_cal(cal, ser.get('oil') or {})
+    oil = on_cal(cal, ser.get('oil') or {}, stale=FRED_STALE)
     yo = [_ago(oil, i) for i in range(n)]
     for i in _firsts([x is not None and x >= 0.5 for x in yo], YEAR):
         got.append((i, f"Oil up 50% in a year: ${oil[i]:.0f} against ${oil[i - YEAR]:.0f} a year earlier"))
@@ -122,7 +123,7 @@ def find(cal, ser, since):
     for i in _firsts(crack, HALF):
         got.append((i, f"Credit cracking: banks {_pct(-bo[i])} and junk bonds {_pct(-jo[i])} under their 1-year highs"))
 
-    curve = on_cal(cal, ser.get('curve') or {})
+    curve = on_cal(cal, ser.get('curve') or {}, stale=FRED_STALE)
     inv = [c is not None and c < 0 for c in curve]
     for i in _firsts(inv, YEAR):
         if not any(inv[max(0, i - HALF):i]) and i >= HALF:
