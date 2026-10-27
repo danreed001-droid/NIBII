@@ -3505,7 +3505,7 @@ def render(scan, growth=None):
     page = PAGE.replace('__GROWTH__', growth_html() if growth is None else growth).replace('__OVLIB__', overlay_lib(), 1)
     page = page.replace('__PLANCHART__', plan_chart_html(scan), 1)
     page = page.replace('__WALLST__', wallst_html(), 1)
-    page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
+    page = page.replace('__RESEARCH__', widenet_html(scan) + crowding_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
     sys.path.insert(0, ROOT)
@@ -3636,6 +3636,56 @@ def issue_rows(scan, entries=None, today=None):
     if not scan.get('track'):
         rows.insert(0, (scan.get('asOf') or '', 'The point-in-time track record (data/track_record.json) is missing, so the growth chart shows the replay on today\'s index members, which flatters every year.'))
     return rows
+
+
+def crowding_html(scan):
+    """The speculator crowding gauge (information only, mtl/crowding.py): each market's speculator net long share of
+    open futures contracts, placed in its own 3-year range, from the CFTC's weekly report. '' when the scan has none."""
+    G = ((scan.get('plan') or {}).get('auto') or {}).get('crowding')
+    if not G or not G.get('rows'):
+        return ''
+
+    def spark(h):
+        if len(h) < 2:
+            return ''
+        w, ht = 90, 22
+        pts = ' '.join(f'{i * w / (len(h) - 1):.1f},{ht - 2 - v * (ht - 4):.1f}' for i, (_, v) in enumerate(h))
+        return (f'<svg width="{w}" height="{ht}" viewBox="0 0 {w} {ht}" aria-hidden="true">'
+                f'<line x1="0" x2="{w}" y1="{ht - 2 - 0.9 * (ht - 4):.1f}" y2="{ht - 2 - 0.9 * (ht - 4):.1f}" stroke="var(--grid)" stroke-dasharray="2 2"/>'
+                f'<line x1="0" x2="{w}" y1="{ht - 2 - 0.1 * (ht - 4):.1f}" y2="{ht - 2 - 0.1 * (ht - 4):.1f}" stroke="var(--grid)" stroke-dasharray="2 2"/>'
+                f'<polyline points="{pts}" fill="none" stroke="var(--accent)" stroke-width="1.5"/></svg>')
+
+    def bar(v):
+        col = 'var(--neg)' if v >= G['crowded'] else 'var(--accent)' if v <= 1 - G['crowded'] else 'var(--muted)'
+        return (f'<span style="display:inline-block;width:48px;height:8px;border-radius:4px;background:var(--hairline);vertical-align:middle;position:relative">'
+                f'<span style="position:absolute;left:{max(0, min(1, v)) * 100:.0f}%;top:-2px;width:4px;height:12px;margin-left:-2px;border-radius:2px;background:{col}"></span></span>')
+
+    def _pc(v):
+        return '–' if v is None else f'{v * 100:.0f}%'
+
+    def flag(r):
+        return ('<br><span class="tag sell">Crowded long</span>' if r['flag'] == 'long'
+                else '<br><span class="tag buy">Crowded short</span>' if r['flag'] == 'short' else '')
+    rows = ''.join(
+        f'<tr><td class="l"><b>{_e(r["name"])}</b>{flag(r)}</td>'
+        f'<td class="num {_tone(r["net"])}">{_p(r["net"], 0)}</td>'
+        f'<td class="num">{bar(r["pct"])} {r["pct"] * 100:.0f}%</td>'
+        f'<td class="num hide-sm">{_pc(r.get("prev"))}</td>'
+        f'<td class="hide-sm">{spark(r.get("hist") or [])}</td></tr>'
+        for r in G['rows'])
+    return ('<section id="crowding"><p class="section-label">Speculator crowding <span class="hint">information only · '
+            f'CFTC futures positions as of {_e(G.get("asOf"))} (published the Friday after)</span></p>'
+            '<div class="tablebox"><table><thead><tr><th class="l">Market</th>'
+            '<th title="Speculators\u2019 long contracts minus short contracts, as a share of all open contracts">Net long</th>'
+            '<th title="Where this week sits between the most short (0%) and most long (100%) speculators have been in 3 years">3-year range</th>'
+            '<th class="hide-sm">Week before</th><th class="hide-sm">Last 26 weeks</th>'
+            f'</tr></thead><tbody>{rows}</tbody></table></div>'
+            '<p class="note">How hard hedge funds and other speculators lean one way in each futures market. '
+            f'<b>Crowded long</b> = in the top {round((1 - G["crowded"]) * 100)}% of its 3-year range, <b>crowded short</b> = the bottom {round((1 - G["crowded"]) * 100)}%. '
+            'It does not change anything the plan does. Checked on every weekly report since 1989, the most crowded long weeks were followed by a 10%+ '
+            'fall within 2 months 6.8% of the time in gold (5.1% normally), 21.6% in silver (18.3%), 14.1% in copper (14.8%) and less often than '
+            'normal in crude oil and Nasdaq-100 futures. It missed the May–June 2006 metals crash, whose money came largely through new '
+            'metal ETFs and index funds that this report does not count as speculators. A heads-up on positioning, not a timing signal.</p></section>\n')
 
 
 def widenet_html(scan):
