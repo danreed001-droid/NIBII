@@ -3826,15 +3826,15 @@
       "date": "2026-10-26",
       "day": "Mon",
       "direction": "Bullish",
-      "event": "Oil eases Monday after Friday's spike on Houthi attacks on Saudi Arabia; Brent back below $110 after hitting its highest level since April.",
+      "event": "Oil closed lower Monday as crude eased on hopes of Mideast de-escalation, even as U.S. forces reportedly could strike Iran within 96 hours of an order; Qatari mediators traveled to Tehran.",
       "impact": "High",
-      "numbers": "Brent < $110 (Fri settle $116.72 per Reuters via search summary); WTI Dec ~$101.20 (-2.0%)",
+      "numbers": "WTI $101.40 (-1.78%); Brent $115.20 (-1.34%); gold $4,025.40 (+0.44%)",
       "order": 1,
-      "reaction": "Lower crude eases inflation worries and supports a modest bid in equity futures.",
+      "reaction": "Lower crude eased inflation worries and supported risk appetite; equities closed higher across the board.",
       "region": "Global",
       "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-26-dow-sp-500-nasdaq-101153035.html",
       "tickers": "SPY, S&P, QQQ, Nasdaq, TLT, 10Y, yield",
-      "time": "Pre-market",
+      "time": "Market hours",
       "vsExp": "n/a"
     }
   },
@@ -3846,15 +3846,15 @@
       "date": "2026-10-26",
       "day": "Mon",
       "direction": "Bullish",
-      "event": "US equity futures edge higher after two straight weekly losses for the S&P 500 and Nasdaq; busy week ahead with Fed decision Wed, Alphabet/Microsoft earnings Wed, and BoJ/ECB/BoC meetings.",
+      "event": "S&P 500, Nasdaq, and Dow all closed higher as the AI trade rebounded, led by tech and industrials; Microsoft, Alphabet, and Amazon earnings plus the FOMC decision (Tue-Wed) loom this week.",
       "impact": "Medium",
-      "numbers": "S&P fut 7,684.75 (+0.33%); Nasdaq fut 29,289.50 (+0.59%); Dow fut +0.41%; Russell 2000 fut 2,788.50 (+0.14%); VIX 19.16",
+      "numbers": "S&P 500 7,676.80 (+53.12, +0.70%); Nasdaq 26,169.38 (+214.04, +0.82%); Dow 52,361.52 (+146.36, +0.28%); Russell 2000 2,787.81 (+0.43%); 10Y yield 4.984% (-0.4bp)",
       "order": 2,
-      "reaction": "Modest relief bounce; megacap tech has been weak, positioning cautious into event risk.",
+      "reaction": "Broad-based close higher; megacap tech led after a two-week losing streak, with positioning cautious into Fed and earnings risk.",
       "region": "US",
       "source": "https://finance.yahoo.com/markets/live/stock-market-today-monday-october-26-dow-sp-500-nasdaq-101153035.html",
       "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell",
-      "time": "Pre-market",
+      "time": "Market hours",
       "vsExp": "n/a"
     }
   },
@@ -3915,6 +3915,46 @@
       "source": "https://investrade.com/market-review-october-26-2026/",
       "tickers": "EQT, RRC",
       "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-27-1-fomc-begins-hold-expected-guidance-in-focus",
+    "data": {
+      "addedAt": "2026-10-27",
+      "category": "Fed",
+      "date": "2026-10-27",
+      "day": "Tue",
+      "direction": "Neutral",
+      "event": "FOMC begins its two-day meeting; a hold is widely expected, with markets focused on December guidance and hike pricing. US futures roughly flat pre-market ahead of Microsoft, Alphabet and Amazon earnings.",
+      "impact": "High",
+      "numbers": "Fed funds 3.75-4.00%; ~90% odds of hold; S&P E-minis ~+0.05%, Dow E-minis ~+0.14%",
+      "order": 1,
+      "reaction": "Muted, range-bound futures as traders wait for Wednesday's statement and guidance on further hikes.",
+      "region": "US",
+      "source": "https://www.benzinga.com/markets/equities/26/10/62610784/stock-market-today-dow-jones-sp-500-futures-trade-mixed-as-fed-begins-its-two-day-meet-nvs-hsbc-well-in-focus",
+      "tickers": "SPY, QQQ, TLT, 10Y",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-27-2-oil-near-6-month-highs-iran-decision-time",
+    "data": {
+      "addedAt": "2026-10-27",
+      "category": "Energy",
+      "date": "2026-10-27",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "Oil holds near six-month highs after slipping Monday; Trump says it is 'getting to be decision time' on an Iran deal versus resuming attacks, while Houthi strikes on Saudi infrastructure keep supply risk elevated.",
+      "impact": "High",
+      "numbers": "Brent settled $110.17 Mon (-1.4%) after $116.72 Fri (highest settle since April); WTI ~$101 per CNBC",
+      "order": 2,
+      "reaction": "Oil volatile on headline risk; elevated crude feeds inflation and hike fears, a headwind for bonds and equities.",
+      "region": "Middle East / Global",
+      "source": "https://www.economies.com/stocks/united-states-news/oil-prices-retreat-from-six-month-highs-as-iran-diplomacy-eases-supply-fears-50317",
+      "tickers": "SPY, TLT, 10Y",
+      "time": "Pre-market",
       "vsExp": "n/a"
     }
   }

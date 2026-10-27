@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-10-27T12:39:04+00:00",
+ "updated": "2026-10-27T15:32:56+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -1170,7 +1170,7 @@
    },
    "bonds": {
     "day": -0.0167,
-    "month": -0.042
+    "month": -0.0419
    },
    "plan": {
     "day": 0.0262,
@@ -2094,7 +2094,7 @@
    },
    "bonds": {
     "day": 0.0412,
-    "month": 0.0649
+    "month": 0.065
    },
    "plan": {
     "day": 0.0024,
@@ -3068,6 +3068,27 @@
    }
   },
   {
+   "d": "2026-01-26",
+   "what": "Dollar down 10% in a year: down 10%",
+   "src": "auto: signal",
+   "day": 0.0051,
+   "month": 0.0057,
+   "type": "Dollar down 10% in a year",
+   "trend": "above",
+   "gold": {
+    "day": 0.0146,
+    "month": 0.0337
+   },
+   "bonds": {
+    "day": 0.0048,
+    "month": 0.0264
+   },
+   "plan": {
+    "day": 0.012,
+    "month": 0.2932
+   }
+  },
+  {
    "d": "2026-03-27",
    "what": "Fear spike: the VIX closes at 31, its first close above 30 in three months",
    "src": "auto: VIX",
@@ -3110,6 +3131,27 @@
    }
   },
   {
+   "d": "2026-04-02",
+   "what": "Oil up 50% in a year: $113 against $72 a year earlier",
+   "src": "auto: signal",
+   "day": 0.0009,
+   "month": 0.0958,
+   "type": "Oil up 50% in a year",
+   "trend": "below",
+   "gold": {
+    "day": -0.0192,
+    "month": -0.0528
+   },
+   "bonds": {
+    "day": 0.0061,
+    "month": -0.0114
+   },
+   "plan": {
+    "day": 0.0035,
+    "month": 0.3569
+   }
+  },
+  {
    "d": "2026-04-08",
    "what": "S&P 500 +2.5% in a day",
    "src": "auto: big move",
@@ -3149,6 +3191,27 @@
    "plan": {
     "day": -0.0201,
     "month": -0.0039
+   }
+  },
+  {
+   "d": "2026-06-15",
+   "what": "Inflation tops 4%: 4.2% in May 2026",
+   "src": "auto: signal",
+   "day": 0.0176,
+   "month": 0.0147,
+   "type": "Inflation tops 4%",
+   "trend": "above",
+   "gold": {
+    "day": 0.0259,
+    "month": -0.0558
+   },
+   "bonds": {
+    "day": -0.0006,
+    "month": -0.0146
+   },
+   "plan": {
+    "day": -0.0006,
+    "month": 0.0085
    }
   },
   {
