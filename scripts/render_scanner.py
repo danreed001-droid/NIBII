@@ -3682,9 +3682,9 @@ def crowding_html(scan):
             f'</tr></thead><tbody>{rows}</tbody></table></div>'
             '<p class="note">How hard hedge funds and other speculators lean one way in each futures market. '
             f'<b>Crowded long</b> = in the top {round((1 - G["crowded"]) * 100)}% of its 3-year range, <b>crowded short</b> = the bottom {round((1 - G["crowded"]) * 100)}%. '
-            'It does not change anything the plan does. Checked on every weekly report since 1989, the most crowded long weeks were followed by a 10%+ '
-            'fall within 2 months 6.8% of the time in gold (5.1% normally), 21.6% in silver (18.3%), 14.1% in copper (14.8%) and less often than '
-            'normal in crude oil and Nasdaq-100 futures. It missed the May–June 2006 metals crash, whose money came largely through new '
+            'It does not change anything the plan does. Checked on every weekly report since 2000, the most crowded long weeks were followed by a 10%+ '
+            'fall within 2 months 32.6% of the time in silver (24.4% for all weeks), 27.6% in S&amp;P 500 futures (11.2%, from only 58 weeks), '
+            '6.9% in gold (6.8%) and 17.7% in copper (18.5%), and less often than normal in crude oil and Nasdaq-100 futures. It missed the May–June 2006 metals crash, whose money came largely through new '
             'metal ETFs and index funds that this report does not count as speculators. A heads-up on positioning, not a timing signal.</p></section>\n')
 
 
