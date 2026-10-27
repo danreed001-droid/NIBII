@@ -5,12 +5,16 @@ the Friday after. For each market the gauge takes the speculators' ("non-commerc
 all open contracts, then places this week's reading in its own range of the last 156 weeks (3 years): 100% = the most
 crowded long in 3 years, 0% = the most crowded short. Top or bottom 10% of that range counts as crowded.
 
-It changes nothing the plan does. Audit (Oct 27, 2026, every weekly reading since 1989, chance of a 10%+ fall within
-2 months of the report): gold 6.8% when most crowded long against 5.1% normally, silver 21.6% vs 18.3%, copper 14.1%
-vs 14.8%, crude oil 17.5% vs 28.4%, S&P 500 futures 25.9% vs 10.7% (58 weeks, few separate episodes), Nasdaq-100
-futures 2.5% vs 12.9%. It missed the May-June 2006 metals crash (gold at 72% of its range, silver falling and copper
-speculators net short: much of that money came through new metal ETFs and index funds, which this report does not count
-as speculators) and the April 2013 gold and April 2011 silver crashes, but was high before gold's 2008 and 2020 tops.
+It changes nothing the plan does. Audit (Oct 27, 2026, every weekly reading since 2000, when the futures price
+histories start; chance of a 10%+ fall within 2 months of the report, most crowded long vs all weeks): gold 6.9% vs
+6.8%, silver 32.6% vs 24.4% (3 months later: -0.7% on average vs +3.7%), copper 17.7% vs 18.5%, crude oil 23.3% vs
+36.8%, S&P 500 futures 27.6% vs 11.2% (58 weeks, few separate episodes), Nasdaq-100 futures 2.5% vs 13.1%. Crowded
+long Treasuries were followed by weaker 3-month returns (30-year: 37% of weeks up vs 52%). An unwind from crowded long
+(down 25+ points of the range within 4 weeks), a squeeze from crowded short and a new price high while speculators
+leave gave no consistent read (5-20 cases each, mixed signs). It missed the May-June 2006 metals crash (gold at 72% of
+its range, silver falling and copper speculators net short: much of that money came through new metal ETFs and index
+funds, which this report does not count as speculators) and the April 2013 gold and April 2011 silver crashes, but
+was high before gold's 2008 and 2020 tops.
 A heads-up on positioning, not a timing signal.
 
 Pure except fetch_years (network)."""
