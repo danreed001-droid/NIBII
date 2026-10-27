@@ -393,3 +393,14 @@ def test_dominoes_card_says_what_to_expect(tmp_path):
     assert '0.0% / +0.5%' in out and '−0.0%' not in out                       # a move that rounds to zero shows plain
     assert 'days like this 1% / 1% / 1%; any day this close to the high 1% / 1% / 16%; with 3 or more dominoes down 1% / 1% / 25%' in out
     assert render_scanner.expect_html(None) == '' and render_scanner.expect_html(dict(same=None)) == ''
+
+
+def test_scanner_page_shows_the_crowding_gauge_too():
+    G = dict(asOf='2026-10-20', window=156, crowded=0.9, rows=[dict(name='Nasdaq-100 futures', date='2026-10-20', net=0.19, pct=0.94, prev=0.91,
+             lo=0, hi=0.3, flag='long', hist=[['2026-10-13', 0.91, 0.18, 1.0], ['2026-10-20', 0.94, 0.19, 1.0]])])
+    page = render_scanner.render(dict(SCAN, plan=dict(auto=dict(crowding=G))))
+    assert page.count('id="crowding"') == 1 and 'Crowded long' in page and '__CROWDING__' not in page
+    assert '<a href="stress.html#crowding">charts →</a>' in page
+    if 'id="dominoes"' in page:
+        assert page.index('id="dominoes"') < page.index('id="crowding"')
+    assert '__CROWDING__' not in render_scanner.render(SCAN)                     # no gauge tonight: nothing shown
