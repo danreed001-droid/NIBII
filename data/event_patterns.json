@@ -1,6 +1,7 @@
 {
  "about": "What usually followed each type of market event since 2000 (scripts/event_patterns.py). Information only.",
- "updated": "2026-10-26T19:38:14+00:00",
+ "version": 2,
+ "updated": "2026-10-27T15:32:56+00:00",
  "start": "2000-01-03",
  "split": "2013-05-31",
  "missing": [],
@@ -9,85 +10,85 @@
    "0": {
     "up": 0.544,
     "avg": 0.0004,
-    "n": 6744
+    "n": 6745
    },
    "21": {
     "up": 0.646,
     "avg": 0.0079,
-    "n": 6723
+    "n": 6724
    },
    "63": {
     "up": 0.692,
     "avg": 0.0235,
-    "n": 6681
+    "n": 6682
    }
   },
   "Bonds": {
    "0": {
     "up": 0.505,
     "avg": 0.0002,
-    "n": 6744
+    "n": 6745
    },
    "21": {
     "up": 0.559,
     "avg": 0.004,
-    "n": 6723
+    "n": 6724
    },
    "63": {
     "up": 0.606,
     "avg": 0.012,
-    "n": 6681
+    "n": 6682
    }
   },
   "Gold": {
    "0": {
     "up": 0.529,
     "avg": 0.0005,
-    "n": 6575
+    "n": 6576
    },
    "21": {
     "up": 0.566,
     "avg": 0.0095,
-    "n": 6535
+    "n": 6536
    },
    "63": {
     "up": 0.634,
-    "avg": 0.0292,
-    "n": 6451
+    "avg": 0.0291,
+    "n": 6452
    }
   },
   "Oil": {
    "0": {
     "up": 0.52,
     "avg": 0.0005,
-    "n": 6561
+    "n": 6562
    },
    "21": {
     "up": 0.545,
     "avg": 0.0081,
-    "n": 6523
+    "n": 6524
    },
    "63": {
     "up": 0.571,
     "avg": 0.0292,
-    "n": 6481
+    "n": 6482
    }
   },
   "Dollar": {
    "0": {
     "up": 0.497,
     "avg": 0.0,
-    "n": 6744
+    "n": 6745
    },
    "21": {
     "up": 0.506,
-    "avg": 0.0002,
-    "n": 6723
+    "avg": 0.0003,
+    "n": 6724
    },
    "63": {
     "up": 0.505,
     "avg": 0.0005,
-    "n": 6681
+    "n": 6682
    }
   }
  },
@@ -3561,6 +3562,1496 @@
       "n": 4,
       "up": 0.5,
       "avg": -0.0071,
+      "held": false
+     }
+    }
+   },
+   "sectors": [],
+   "group": "Rule"
+  },
+  "Oil up 50% in a year": {
+   "n": 11,
+   "clusters": 11,
+   "first": "2000-05-30",
+   "last": "2026-04-02",
+   "assets": {
+    "S&P 500": {
+     "day": {
+      "n": 11,
+      "up": 0.727,
+      "avg": 0.0074,
+      "held": true
+     },
+     "month": {
+      "n": 11,
+      "up": 0.727,
+      "avg": 0.0175,
+      "held": true
+     },
+     "quarter": {
+      "n": 11,
+      "up": 0.636,
+      "avg": 0.0049,
+      "held": false
+     }
+    },
+    "Bonds": {
+     "day": {
+      "n": 11,
+      "up": 0.364,
+      "avg": -0.001,
+      "held": false
+     },
+     "month": {
+      "n": 11,
+      "up": 0.455,
+      "avg": -0.0054,
+      "held": true
+     },
+     "quarter": {
+      "n": 11,
+      "up": 0.636,
+      "avg": 0.0075,
+      "held": false
+     }
+    },
+    "Gold": {
+     "day": {
+      "n": 10,
+      "up": 0.7,
+      "avg": 0.0013,
+      "held": true
+     },
+     "month": {
+      "n": 10,
+      "up": 0.5,
+      "avg": 0.0055,
+      "held": false
+     },
+     "quarter": {
+      "n": 10,
+      "up": 0.5,
+      "avg": 0.0262,
+      "held": true
+     }
+    },
+    "Oil": {
+     "day": {
+      "n": 10,
+      "up": 0.8,
+      "avg": 0.0289,
+      "held": true
+     },
+     "month": {
+      "n": 10,
+      "up": 0.4,
+      "avg": -0.002,
+      "held": true
+     },
+     "quarter": {
+      "n": 10,
+      "up": 0.7,
+      "avg": 0.0332,
+      "held": false
+     }
+    },
+    "Dollar": {
+     "day": {
+      "n": 11,
+      "up": 0.545,
+      "avg": -0.001,
+      "held": false
+     },
+     "month": {
+      "n": 11,
+      "up": 0.455,
+      "avg": -0.0002,
+      "held": false
+     },
+     "quarter": {
+      "n": 11,
+      "up": 0.636,
+      "avg": 0.0054,
+      "held": true
+     }
+    }
+   },
+   "sectors": [
+    {
+     "name": "Tech",
+     "avg": 0.0217,
+     "beat": 0.545,
+     "n": 11,
+     "held": false
+    },
+    {
+     "name": "Utilities",
+     "avg": 0.0203,
+     "beat": 0.545,
+     "n": 11,
+     "held": false
+    },
+    {
+     "name": "Nasdaq 100",
+     "avg": 0.0196,
+     "beat": 0.727,
+     "n": 11,
+     "held": true
+    },
+    {
+     "name": "Health care",
+     "avg": 0.0088,
+     "beat": 0.545,
+     "n": 11,
+     "held": false
+    },
+    {
+     "name": "Staples",
+     "avg": 0.0047,
+     "beat": 0.545,
+     "n": 11,
+     "held": false
+    },
+    {
+     "name": "Industrials",
+     "avg": 0.0043,
+     "beat": 0.545,
+     "n": 11,
+     "held": false
+    },
+    {
+     "name": "Energy",
+     "avg": 0.0021,
+     "beat": 0.455,
+     "n": 11,
+     "held": false
+    },
+    {
+     "name": "Small caps",
+     "avg": -0.003,
+     "beat": 0.545,
+     "n": 11,
+     "held": false
+    },
+    {
+     "name": "Financials",
+     "avg": -0.0149,
+     "beat": 0.273,
+     "n": 11,
+     "held": true
+    },
+    {
+     "name": "Materials",
+     "avg": -0.017,
+     "beat": 0.455,
+     "n": 11,
+     "held": false
+    },
+    {
+     "name": "Discretionary",
+     "avg": -0.0305,
+     "beat": 0.182,
+     "n": 11,
+     "held": true
+    }
+   ],
+   "group": "Rule"
+  },
+  "Oil 40% under its high": {
+   "n": 7,
+   "clusters": 7,
+   "first": "2001-09-24",
+   "last": "2022-12-07",
+   "assets": {
+    "S&P 500": {
+     "day": {
+      "n": 7,
+      "up": 0.286,
+      "avg": -0.0171,
+      "held": false
+     },
+     "month": {
+      "n": 7,
+      "up": 0.571,
+      "avg": 0.0113,
+      "held": false
+     },
+     "quarter": {
+      "n": 7,
+      "up": 0.429,
+      "avg": 0.06,
+      "held": false
+     }
+    },
+    "Bonds": {
+     "day": {
+      "n": 7,
+      "up": 0.714,
+      "avg": 0.007,
+      "held": false
+     },
+     "month": {
+      "n": 7,
+      "up": 0.429,
+      "avg": 0.0046,
+      "held": false
+     },
+     "quarter": {
+      "n": 7,
+      "up": 0.571,
+      "avg": 0.0218,
+      "held": false
+     }
+    },
+    "Gold": {
+     "day": {
+      "n": 7,
+      "up": 0.714,
+      "avg": 0.0031,
+      "held": false
+     },
+     "month": {
+      "n": 7,
+      "up": 0.571,
+      "avg": -0.0233,
+      "held": false
+     },
+     "quarter": {
+      "n": 7,
+      "up": 0.571,
+      "avg": 0.0148,
+      "held": false
+     }
+    },
+    "Oil": {
+     "day": {
+      "n": 7,
+      "up": 0.0,
+      "avg": -0.083,
+      "held": false
+     },
+     "month": {
+      "n": 7,
+      "up": 0.286,
+      "avg": -0.1059,
+      "held": false
+     },
+     "quarter": {
+      "n": 7,
+      "up": 0.571,
+      "avg": -0.039,
+      "held": false
+     }
+    },
+    "Dollar": {
+     "day": {
+      "n": 7,
+      "up": 0.429,
+      "avg": -0.0016,
+      "held": false
+     },
+     "month": {
+      "n": 7,
+      "up": 0.714,
+      "avg": 0.0226,
+      "held": false
+     },
+     "quarter": {
+      "n": 7,
+      "up": 0.571,
+      "avg": 0.0242,
+      "held": false
+     }
+    }
+   },
+   "sectors": [
+    {
+     "name": "Tech",
+     "avg": 0.0398,
+     "beat": 0.714,
+     "n": 7,
+     "held": false
+    },
+    {
+     "name": "Discretionary",
+     "avg": 0.0392,
+     "beat": 0.857,
+     "n": 7,
+     "held": false
+    },
+    {
+     "name": "Nasdaq 100",
+     "avg": 0.0372,
+     "beat": 0.714,
+     "n": 7,
+     "held": false
+    },
+    {
+     "name": "Energy",
+     "avg": 0.0355,
+     "beat": 0.571,
+     "n": 7,
+     "held": false
+    },
+    {
+     "name": "Small caps",
+     "avg": 0.0124,
+     "beat": 0.429,
+     "n": 7,
+     "held": false
+    },
+    {
+     "name": "Industrials",
+     "avg": 0.0093,
+     "beat": 0.571,
+     "n": 7,
+     "held": false
+    },
+    {
+     "name": "Materials",
+     "avg": -0.0031,
+     "beat": 0.429,
+     "n": 7,
+     "held": false
+    },
+    {
+     "name": "Health care",
+     "avg": -0.0187,
+     "beat": 0.429,
+     "n": 7,
+     "held": false
+    },
+    {
+     "name": "Staples",
+     "avg": -0.0355,
+     "beat": 0.286,
+     "n": 7,
+     "held": false
+    },
+    {
+     "name": "Financials",
+     "avg": -0.0388,
+     "beat": 0.0,
+     "n": 7,
+     "held": false
+    },
+    {
+     "name": "Utilities",
+     "avg": -0.0388,
+     "beat": 0.286,
+     "n": 7,
+     "held": false
+    }
+   ],
+   "group": "Rule"
+  },
+  "Dollar up 10% in a year": {
+   "n": 8,
+   "clusters": 8,
+   "first": "2000-07-28",
+   "last": "2022-04-18",
+   "assets": {
+    "S&P 500": {
+     "day": {
+      "n": 8,
+      "up": 0.625,
+      "avg": -0.005,
+      "held": false
+     },
+     "month": {
+      "n": 8,
+      "up": 0.375,
+      "avg": -0.0325,
+      "held": true
+     },
+     "quarter": {
+      "n": 8,
+      "up": 0.375,
+      "avg": -0.0212,
+      "held": true
+     }
+    },
+    "Bonds": {
+     "day": {
+      "n": 8,
+      "up": 0.625,
+      "avg": 0.0046,
+      "held": true
+     },
+     "month": {
+      "n": 8,
+      "up": 0.875,
+      "avg": 0.024,
+      "held": true
+     },
+     "quarter": {
+      "n": 8,
+      "up": 0.875,
+      "avg": 0.0427,
+      "held": true
+     }
+    },
+    "Gold": {
+     "day": {
+      "n": 7,
+      "up": 0.714,
+      "avg": 0.0011,
+      "held": false
+     },
+     "month": {
+      "n": 7,
+      "up": 0.429,
+      "avg": -0.0053,
+      "held": true
+     },
+     "quarter": {
+      "n": 7,
+      "up": 0.714,
+      "avg": 0.0647,
+      "held": false
+     }
+    },
+    "Oil": {
+     "day": {
+      "n": 7,
+      "up": 0.571,
+      "avg": -0.0113,
+      "held": false
+     },
+     "month": {
+      "n": 7,
+      "up": 0.429,
+      "avg": -0.1052,
+      "held": true
+     },
+     "quarter": {
+      "n": 7,
+      "up": 0.286,
+      "avg": -0.0818,
+      "held": true
+     }
+    },
+    "Dollar": {
+     "day": {
+      "n": 8,
+      "up": 1.0,
+      "avg": 0.0064,
+      "held": true
+     },
+     "month": {
+      "n": 8,
+      "up": 0.625,
+      "avg": 0.0064,
+      "held": false
+     },
+     "quarter": {
+      "n": 8,
+      "up": 0.5,
+      "avg": 0.0184,
+      "held": false
+     }
+    }
+   },
+   "sectors": [
+    {
+     "name": "Utilities",
+     "avg": 0.0724,
+     "beat": 0.75,
+     "n": 8,
+     "held": true
+    },
+    {
+     "name": "Energy",
+     "avg": 0.0345,
+     "beat": 0.75,
+     "n": 8,
+     "held": false
+    },
+    {
+     "name": "Staples",
+     "avg": 0.0327,
+     "beat": 0.75,
+     "n": 8,
+     "held": true
+    },
+    {
+     "name": "Health care",
+     "avg": 0.0178,
+     "beat": 0.75,
+     "n": 8,
+     "held": true
+    },
+    {
+     "name": "Industrials",
+     "avg": 0.0079,
+     "beat": 0.5,
+     "n": 8,
+     "held": false
+    },
+    {
+     "name": "Materials",
+     "avg": -0.0006,
+     "beat": 0.375,
+     "n": 8,
+     "held": true
+    },
+    {
+     "name": "Small caps",
+     "avg": -0.001,
+     "beat": 0.5,
+     "n": 8,
+     "held": false
+    },
+    {
+     "name": "Tech",
+     "avg": -0.0085,
+     "beat": 0.5,
+     "n": 8,
+     "held": false
+    },
+    {
+     "name": "Nasdaq 100",
+     "avg": -0.0121,
+     "beat": 0.375,
+     "n": 8,
+     "held": true
+    },
+    {
+     "name": "Discretionary",
+     "avg": -0.019,
+     "beat": 0.25,
+     "n": 8,
+     "held": true
+    },
+    {
+     "name": "Financials",
+     "avg": -0.0418,
+     "beat": 0.25,
+     "n": 8,
+     "held": true
+    }
+   ],
+   "group": "Rule"
+  },
+  "Dollar down 10% in a year": {
+   "n": 10,
+   "clusters": 10,
+   "first": "2002-06-26",
+   "last": "2026-01-26",
+   "assets": {
+    "S&P 500": {
+     "day": {
+      "n": 10,
+      "up": 0.5,
+      "avg": -0.0031,
+      "held": false
+     },
+     "month": {
+      "n": 10,
+      "up": 0.6,
+      "avg": -0.0036,
+      "held": false
+     },
+     "quarter": {
+      "n": 10,
+      "up": 0.6,
+      "avg": 0.005,
+      "held": true
+     }
+    },
+    "Bonds": {
+     "day": {
+      "n": 10,
+      "up": 0.8,
+      "avg": 0.0027,
+      "held": true
+     },
+     "month": {
+      "n": 10,
+      "up": 0.7,
+      "avg": 0.0011,
+      "held": true
+     },
+     "quarter": {
+      "n": 10,
+      "up": 0.5,
+      "avg": 0.0131,
+      "held": true
+     }
+    },
+    "Gold": {
+     "day": {
+      "n": 10,
+      "up": 0.6,
+      "avg": 0.0013,
+      "held": false
+     },
+     "month": {
+      "n": 10,
+      "up": 0.8,
+      "avg": 0.0167,
+      "held": true
+     },
+     "quarter": {
+      "n": 9,
+      "up": 0.889,
+      "avg": 0.0279,
+      "held": true
+     }
+    },
+    "Oil": {
+     "day": {
+      "n": 10,
+      "up": 0.7,
+      "avg": 0.0107,
+      "held": true
+     },
+     "month": {
+      "n": 10,
+      "up": 0.5,
+      "avg": -0.0025,
+      "held": false
+     },
+     "quarter": {
+      "n": 10,
+      "up": 0.6,
+      "avg": 0.084,
+      "held": false
+     }
+    },
+    "Dollar": {
+     "day": {
+      "n": 10,
+      "up": 0.1,
+      "avg": -0.0038,
+      "held": true
+     },
+     "month": {
+      "n": 10,
+      "up": 0.7,
+      "avg": 0.0018,
+      "held": false
+     },
+     "quarter": {
+      "n": 10,
+      "up": 0.5,
+      "avg": -0.0111,
+      "held": false
+     }
+    }
+   },
+   "sectors": [
+    {
+     "name": "Nasdaq 100",
+     "avg": 0.0177,
+     "beat": 0.7,
+     "n": 10,
+     "held": true
+    },
+    {
+     "name": "Tech",
+     "avg": 0.0138,
+     "beat": 0.7,
+     "n": 10,
+     "held": true
+    },
+    {
+     "name": "Discretionary",
+     "avg": 0.0114,
+     "beat": 0.8,
+     "n": 10,
+     "held": false
+    },
+    {
+     "name": "Materials",
+     "avg": 0.0084,
+     "beat": 0.5,
+     "n": 10,
+     "held": false
+    },
+    {
+     "name": "Industrials",
+     "avg": 0.0071,
+     "beat": 0.6,
+     "n": 10,
+     "held": false
+    },
+    {
+     "name": "Energy",
+     "avg": 0.0009,
+     "beat": 0.6,
+     "n": 10,
+     "held": true
+    },
+    {
+     "name": "Small caps",
+     "avg": 0.0008,
+     "beat": 0.6,
+     "n": 10,
+     "held": true
+    },
+    {
+     "name": "Utilities",
+     "avg": -0.0019,
+     "beat": 0.4,
+     "n": 10,
+     "held": true
+    },
+    {
+     "name": "Staples",
+     "avg": -0.0072,
+     "beat": 0.4,
+     "n": 10,
+     "held": false
+    },
+    {
+     "name": "Health care",
+     "avg": -0.0148,
+     "beat": 0.5,
+     "n": 10,
+     "held": false
+    },
+    {
+     "name": "Financials",
+     "avg": -0.0229,
+     "beat": 0.3,
+     "n": 10,
+     "held": true
+    }
+   ],
+   "group": "Rule"
+  },
+  "Credit cracking": {
+   "n": 17,
+   "clusters": 17,
+   "first": "2000-10-17",
+   "last": "2023-10-19",
+   "assets": {
+    "S&P 500": {
+     "day": {
+      "n": 17,
+      "up": 0.176,
+      "avg": -0.0206,
+      "held": true
+     },
+     "month": {
+      "n": 17,
+      "up": 0.706,
+      "avg": 0.0195,
+      "held": false
+     },
+     "quarter": {
+      "n": 17,
+      "up": 0.706,
+      "avg": 0.0437,
+      "held": false
+     }
+    },
+    "Bonds": {
+     "day": {
+      "n": 17,
+      "up": 0.647,
+      "avg": 0.0054,
+      "held": true
+     },
+     "month": {
+      "n": 17,
+      "up": 0.471,
+      "avg": 0.0012,
+      "held": false
+     },
+     "quarter": {
+      "n": 17,
+      "up": 0.647,
+      "avg": 0.0284,
+      "held": false
+     }
+    },
+    "Gold": {
+     "day": {
+      "n": 17,
+      "up": 0.529,
+      "avg": 0.0037,
+      "held": false
+     },
+     "month": {
+      "n": 17,
+      "up": 0.647,
+      "avg": 0.0156,
+      "held": false
+     },
+     "quarter": {
+      "n": 17,
+      "up": 0.765,
+      "avg": 0.0316,
+      "held": true
+     }
+    },
+    "Oil": {
+     "day": {
+      "n": 17,
+      "up": 0.353,
+      "avg": -0.0225,
+      "held": true
+     },
+     "month": {
+      "n": 17,
+      "up": 0.588,
+      "avg": 0.034,
+      "held": false
+     },
+     "quarter": {
+      "n": 17,
+      "up": 0.765,
+      "avg": 0.1132,
+      "held": true
+     }
+    },
+    "Dollar": {
+     "day": {
+      "n": 17,
+      "up": 0.353,
+      "avg": -0.0034,
+      "held": true
+     },
+     "month": {
+      "n": 17,
+      "up": 0.706,
+      "avg": 0.0034,
+      "held": true
+     },
+     "quarter": {
+      "n": 17,
+      "up": 0.529,
+      "avg": -0.002,
+      "held": false
+     }
+    }
+   },
+   "sectors": [
+    {
+     "name": "Materials",
+     "avg": 0.0325,
+     "beat": 0.647,
+     "n": 17,
+     "held": false
+    },
+    {
+     "name": "Energy",
+     "avg": 0.0284,
+     "beat": 0.647,
+     "n": 17,
+     "held": true
+    },
+    {
+     "name": "Discretionary",
+     "avg": 0.0191,
+     "beat": 0.529,
+     "n": 17,
+     "held": false
+    },
+    {
+     "name": "Industrials",
+     "avg": 0.0144,
+     "beat": 0.706,
+     "n": 17,
+     "held": true
+    },
+    {
+     "name": "Small caps",
+     "avg": -0.0009,
+     "beat": 0.529,
+     "n": 17,
+     "held": false
+    },
+    {
+     "name": "Financials",
+     "avg": -0.0026,
+     "beat": 0.353,
+     "n": 17,
+     "held": false
+    },
+    {
+     "name": "Nasdaq 100",
+     "avg": -0.0046,
+     "beat": 0.588,
+     "n": 17,
+     "held": false
+    },
+    {
+     "name": "Tech",
+     "avg": -0.0051,
+     "beat": 0.471,
+     "n": 17,
+     "held": false
+    },
+    {
+     "name": "Health care",
+     "avg": -0.0061,
+     "beat": 0.412,
+     "n": 17,
+     "held": false
+    },
+    {
+     "name": "Utilities",
+     "avg": -0.0137,
+     "beat": 0.471,
+     "n": 17,
+     "held": false
+    },
+    {
+     "name": "Staples",
+     "avg": -0.0142,
+     "beat": 0.529,
+     "n": 17,
+     "held": false
+    }
+   ],
+   "group": "Rule"
+  },
+  "Yield curve inverts": {
+   "n": 4,
+   "clusters": 4,
+   "first": "2000-04-07",
+   "last": "2022-10-18",
+   "assets": {
+    "S&P 500": {
+     "day": {
+      "n": 4,
+      "up": 0.5,
+      "avg": -0.001,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0116,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0278,
+      "held": false
+     }
+    },
+    "Bonds": {
+     "day": {
+      "n": 4,
+      "up": 1.0,
+      "avg": 0.007,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.0126,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0265,
+      "held": false
+     }
+    },
+    "Gold": {
+     "day": {
+      "n": 3,
+      "up": 0.667,
+      "avg": 0.0004,
+      "held": false
+     },
+     "month": {
+      "n": 3,
+      "up": 0.333,
+      "avg": 0.0053,
+      "held": false
+     },
+     "quarter": {
+      "n": 3,
+      "up": 1.0,
+      "avg": 0.118,
+      "held": false
+     }
+    },
+    "Oil": {
+     "day": {
+      "n": 3,
+      "up": 0.333,
+      "avg": -0.0031,
+      "held": false
+     },
+     "month": {
+      "n": 3,
+      "up": 0.667,
+      "avg": 0.0089,
+      "held": false
+     },
+     "quarter": {
+      "n": 3,
+      "up": 0.333,
+      "avg": 0.0062,
+      "held": false
+     }
+    },
+    "Dollar": {
+     "day": {
+      "n": 4,
+      "up": 1.0,
+      "avg": 0.0028,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0046,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.0241,
+      "held": false
+     }
+    }
+   },
+   "sectors": [],
+   "group": "Rule"
+  },
+  "Yield curve un-inverts": {
+   "n": 4,
+   "clusters": 4,
+   "first": "2001-01-26",
+   "last": "2024-12-19",
+   "assets": {
+    "S&P 500": {
+     "day": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.0006,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.003,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.25,
+      "avg": 0.0016,
+      "held": false
+     }
+    },
+    "Bonds": {
+     "day": {
+      "n": 4,
+      "up": 0.0,
+      "avg": -0.0045,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.0023,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0148,
+      "held": false
+     }
+    },
+    "Gold": {
+     "day": {
+      "n": 4,
+      "up": 0.5,
+      "avg": -0.0015,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0079,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 1.0,
+      "avg": 0.0562,
+      "held": false
+     }
+    },
+    "Oil": {
+     "day": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0016,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0441,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0415,
+      "held": false
+     }
+    },
+    "Dollar": {
+     "day": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.001,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0011,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.0035,
+      "held": false
+     }
+    }
+   },
+   "sectors": [],
+   "group": "Rule"
+  },
+  "Inflation tops 4%": {
+   "n": 4,
+   "clusters": 4,
+   "first": "2005-10-14",
+   "last": "2026-06-15",
+   "assets": {
+    "S&P 500": {
+     "day": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0077,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.5,
+      "avg": -0.0015,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.02,
+      "held": false
+     }
+    },
+    "Bonds": {
+     "day": {
+      "n": 4,
+      "up": 0.25,
+      "avg": 0.0001,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0145,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0338,
+      "held": false
+     }
+    },
+    "Gold": {
+     "day": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0076,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0071,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0918,
+      "held": false
+     }
+    },
+    "Oil": {
+     "day": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.0105,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.0007,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 1.0,
+      "avg": 0.1538,
+      "held": false
+     }
+    },
+    "Dollar": {
+     "day": {
+      "n": 4,
+      "up": 0.25,
+      "avg": 0.0001,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0073,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.5,
+      "avg": -0.013,
+      "held": false
+     }
+    }
+   },
+   "sectors": [],
+   "group": "Rule"
+  },
+  "Inflation turns down": {
+   "n": 4,
+   "clusters": 4,
+   "first": "2005-12-14",
+   "last": "2024-07-15",
+   "assets": {
+    "S&P 500": {
+     "day": {
+      "n": 4,
+      "up": 0.5,
+      "avg": -0.0129,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0116,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0098,
+      "held": false
+     }
+    },
+    "Bonds": {
+     "day": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.004,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 1.0,
+      "avg": 0.0806,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0407,
+      "held": false
+     }
+    },
+    "Gold": {
+     "day": {
+      "n": 4,
+      "up": 0.75,
+      "avg": -0.001,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 1.0,
+      "avg": 0.072,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 1.0,
+      "avg": 0.1374,
+      "held": false
+     }
+    },
+    "Oil": {
+     "day": {
+      "n": 4,
+      "up": 0.0,
+      "avg": -0.0169,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.0723,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.131,
+      "held": false
+     }
+    },
+    "Dollar": {
+     "day": {
+      "n": 4,
+      "up": 0.5,
+      "avg": -0.0021,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.0,
+      "avg": -0.0286,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.25,
+      "avg": -0.0073,
+      "held": false
+     }
+    }
+   },
+   "sectors": [],
+   "group": "Rule"
+  },
+  "Recession signal": {
+   "n": 4,
+   "clusters": 4,
+   "first": "2001-07-09",
+   "last": "2024-08-07",
+   "assets": {
+    "S&P 500": {
+     "day": {
+      "n": 4,
+      "up": 0.5,
+      "avg": -0.0017,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0378,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0334,
+      "held": false
+     }
+    },
+    "Bonds": {
+     "day": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.004,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0009,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0169,
+      "held": false
+     }
+    },
+    "Gold": {
+     "day": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0019,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.75,
+      "avg": 0.0189,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 1.0,
+      "avg": 0.1043,
+      "held": false
+     }
+    },
+    "Oil": {
+     "day": {
+      "n": 3,
+      "up": 0.667,
+      "avg": 0.0065,
+      "held": false
+     },
+     "month": {
+      "n": 3,
+      "up": 0.667,
+      "avg": 0.0112,
+      "held": false
+     },
+     "quarter": {
+      "n": 3,
+      "up": 0.0,
+      "avg": -0.0791,
+      "held": false
+     }
+    },
+    "Dollar": {
+     "day": {
+      "n": 4,
+      "up": 0.5,
+      "avg": 0.0018,
+      "held": false
+     },
+     "month": {
+      "n": 4,
+      "up": 0.0,
+      "avg": -0.0233,
+      "held": false
+     },
+     "quarter": {
+      "n": 4,
+      "up": 0.5,
+      "avg": -0.0261,
       "held": false
      }
     }
