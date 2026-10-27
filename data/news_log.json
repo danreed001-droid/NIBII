@@ -3957,5 +3957,65 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-27-3-indices-close-higher-chip-rally-pre-fed",
+    "data": {
+      "addedAt": "2026-10-27",
+      "category": "Market",
+      "date": "2026-10-27",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Stocks close higher for a second day as chip stocks rally; Nasdaq leads ahead of Wednesday's Fed decision and Microsoft/Alphabet earnings.",
+      "impact": "High",
+      "numbers": "S&P 500 7,722.60 (+0.60%); Dow 52,377.57 (+0.03%); Nasdaq 26,477.81 (+1.18%); 10-yr yield 4.993% (+0.007pt)",
+      "order": 3,
+      "reaction": "Broad tech/semi rally pushed Nasdaq to the day's biggest gain; Dow roughly flat as market positions ahead of Wednesday's FOMC decision and Big Tech earnings.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-october-27-dow-sp-500-nasdaq-081901995.html",
+      "tickers": "SPY, QQQ, DIA, TLT, SMH",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-27-4-nvidia-3b-meta-investment-ai-buzz",
+    "data": {
+      "addedAt": "2026-10-27",
+      "category": "Deals",
+      "date": "2026-10-27",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Nvidia to invest $3B in Meta and expand AI-model collaboration; Meta plans to raise up to $95B in equity to fund AI buildout. Anthropic's IPO prospectus also revives AI-stock enthusiasm.",
+      "impact": "Medium",
+      "numbers": "Nvidia investment: $3B; Meta equity raise: up to $95B",
+      "order": 4,
+      "reaction": "Fed fresh AI-financing optimism, helping lift chip and AI-adjacent names into the close.",
+      "region": "US",
+      "source": "https://www.benzinga.com/markets/equities/26/10/62610784/stock-market-today-dow-jones-sp-500-futures-trade-mixed-as-fed-begins-its-two-day-meet-nvs-hsbc-well-in-focus",
+      "tickers": "NVDA, META, ORCL",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-27-5-coke-ups-robinhood-earnings-roundup",
+    "data": {
+      "addedAt": "2026-10-27",
+      "category": "Earnings",
+      "date": "2026-10-27",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "Mixed earnings slate: Coca-Cola and UPS beat and raised guidance; Robinhood revenue rose on options/event-contract trading; Whirlpool missed and cut its outlook.",
+      "impact": "Medium",
+      "numbers": "KO adj. EPS $0.91, rev $13.4B; UPS FY revenue guide raised to ~$92.6B (from ~$91.2B); HOOD revenue +12% (crypto rev -55%)",
+      "order": 5,
+      "reaction": "UPS +~2% on guidance raise; KO higher despite flat North American volume; Whirlpool fell on guidance cut.",
+      "region": "US",
+      "source": "https://vistapglobal.com/stock-market-today-october-27-2026-nasdaq-gains-1-18-as-ai-stocks-lead-ahead-of-wednesdays-fed-decision-amwl-ceg-eprx-googl-hood-ko-meta-modd-msft-nvda-orcl-rcl-ser-ups/",
+      "tickers": "KO, UPS, HOOD, WHR, RCL",
+      "time": "Pre-market",
+      "vsExp": "KO and UPS beat estimates; Whirlpool missed"
+    }
   }
 ]
