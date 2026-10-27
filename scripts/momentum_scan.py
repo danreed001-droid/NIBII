@@ -66,6 +66,7 @@ from mtl.sleeve import (ASSETS, NAMES, best_of, filled, plan_curve_dynamic, plan
 from mtl.structure import structure_signal  # noqa: E402
 from mtl.universe import load_added, load_sp500, momentum_universe  # noqa: E402
 from mtl.widenet import WIDE_NET, scan as wide_net_scan  # noqa: E402
+from mtl import crowding  # noqa: E402
 from mtl.credit import BANKS as CREDIT_BANKS, JUNK as CREDIT_JUNK, watch as credit_watch  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -639,6 +640,12 @@ def main():
     except Exception as e:
         print(f"  wide-net fetch failed: {e}", file=sys.stderr)
         wide_bars = {}
+    try:   # speculator crowding gauge (information only): CFTC weekly futures positions in their 3-year range (mtl/crowding.py)
+        y_ = date.today().year
+        crowd_gauge = crowding.gauge(crowding.fetch_years(range(y_ - 3, y_ + 1)))
+    except Exception as e:
+        print(f"  crowding-gauge fetch failed: {e}", file=sys.stderr)
+        crowd_gauge = None
     try:   # the credit watch (information only): banks and junk bonds against their 1-year highs, back to 1999
         credit_bars = fetch([CREDIT_BANKS, CREDIT_JUNK, 'SPY'], start='1999-01-01', adjusted=True)   # (mtl/credit.py)
     except Exception as e:
@@ -1165,6 +1172,7 @@ def main():
     cr_ = {t_: {b_[0]: b_[4] for b_ in credit_bars.get(t_) or [] if b_[4]} for t_ in (CREDIT_BANKS, CREDIT_JUNK, 'SPY')}
     auto['rotation']['credit'] = credit_watch(cr_[CREDIT_BANKS], cr_[CREDIT_JUNK], cr_['SPY']) if all(cr_.values()) else None
     # wide-net watch (information only): the strongest of about 40 assets the plan never holds (mtl/widenet.py)
+    auto['crowding'] = crowd_gauge
     auto['wideNet'] = wide_net_scan({t_: {b_[0]: b_[4] for b_ in bs_ if b_[4]} for t_, bs_ in wide_bars.items()},
                                     prices['SPY'], calendar, K) if wide_bars else None
     if auto['rotation']['whip']['pick'] == 'BIL':   # nothing up over 3 months: the no-T-bills swap
@@ -1279,6 +1287,8 @@ def main():
     data_issues += paper_rec.problems(ledger, paper, p_now, as_of, calendar)
     if not wide_bars:
         data_issues.append('The wide-net watch prices could not be downloaded, so that list is missing tonight (it never affects the plan).')
+    if not crowd_gauge:
+        data_issues.append('The CFTC futures positions could not be downloaded, so the crowding gauge is missing tonight (it never affects the plan).')
     # every problem also goes into the dated issues log behind the page's "Issues (last 2 weeks)" section
     issue_log = health.load()
     for x_ in data_issues:
