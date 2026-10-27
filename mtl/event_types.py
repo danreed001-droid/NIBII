@@ -2,9 +2,12 @@
 scripts/event_patterns.py). Information only: no trading rule reads this.
 
 Curated events carry the type they were given (data/major_events.json, 'type'). New ones are typed here: a Fed change
-by its direction, a big move by its headline (else as a plain big up or down day), a VIX spike and a market-phase
-change by their rule, and your own items by the type picked on the form (else by their words)."""
+by its direction, a big move by its headline (else as a plain big up or down day), a VIX spike, a market-phase
+change and a macro signal (mtl/macro_events.py) by their rule, and your own items by the type picked on the form (else
+by their words)."""
 import re
+
+from mtl.macro_events import TYPES as MACRO_TYPES
 
 # name -> (group, one-line description). Order is the page's order.
 TYPES = {
@@ -30,6 +33,7 @@ TYPES = {
     'Bear market starts': ('Rule', 'the S&P 500 closing 20% below its high'),
     'New bull run': ('Rule', 'the S&P 500 up 20% from a bear-market low'),
     'Back to bull run': ('Rule', 'a new high after a bear market'),
+    **{t: ('Rule', d) for t, d in MACRO_TYPES.items()},   # macro signals (mtl/macro_events.py)
     'Turning point': ('Hindsight', 'a market top or bottom, known only afterwards (no pattern)'),
     'Other': ('Other', 'not one of the types above'),
 }
@@ -39,7 +43,8 @@ GROUP_NAME = {'Outside shock': 'outside shocks (war, trade, pandemic, oil, crash
               'Tightening': 'tightening (Fed hikes, inflation, yields)'}
 GROUP_SHORT = {'Outside shock': 'outside shocks', 'Credit shock': 'credit shocks', 'Policy support': 'Fed and rescue moves',
                'Tightening': 'hikes and inflation scares'}
-RULE_TYPES = ('Big down day', 'Big up day', 'Fear spike', 'Correction starts', 'Bear market starts', 'New bull run', 'Back to bull run')
+RULE_TYPES = ('Big down day', 'Big up day', 'Fear spike', 'Correction starts', 'Bear market starts', 'New bull run',
+              'Back to bull run') + tuple(MACRO_TYPES)
 PHASE_TYPE = {'S&P 500 enters a correction (10%+ below its high)': 'Correction starts',
               'S&P 500 enters a bear market (20%+ below its high)': 'Bear market starts',
               'New bull run: S&P 500 up 20% from its bear-market low': 'New bull run',
@@ -65,6 +70,9 @@ def classify(e):
         return 'Fed cut' if re.search(r'\b(cuts?|lowers?)\b', what, re.I) else 'Fed hike / hawkish'
     if src == 'auto: VIX':
         return 'Fear spike'
+    if src == 'auto: signal':
+        t = what.split(':', 1)[0]
+        return t if t in MACRO_TYPES else 'Other'
     if src == 'auto: market phase':
         return PHASE_TYPE.get(what, 'Other')
     text = what.split(':', 1)[1] if src == 'auto: big move' and ':' in what else what

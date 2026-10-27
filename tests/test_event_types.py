@@ -19,6 +19,9 @@ def test_new_events_are_typed_by_rule_and_headline():
     assert c('auto: big move', 'S&P 500 +2.9% in a day') == 'Big up day'
     assert c('added by you', 'Powell signals cuts are coming') == 'Fed cut'
     assert c('added by you', 'Something odd happened') == 'Other'
+    assert c('auto: signal', 'Credit cracking: banks 11% and junk bonds 3% under their 1-year highs') == 'Credit cracking'
+    assert c('auto: signal', 'Something new: x') == 'Other'
+    assert all(t in et.RULE_TYPES and et.group(t) == 'Rule' for t in ('Oil up 50% in a year', 'Recession signal'))
     assert all(et.CURATED[d] in et.TYPES for d in et.CURATED)
 
 
@@ -94,3 +97,25 @@ def test_scorecard_saves_odds_once_and_scores_after_three_months(tmp_path):
     from scripts.major_events import record_card
     card = record_card(log, pats)
     assert 'came true in <b>1 of 2</b>' in card and 'Strike on a port' in card
+
+
+def test_patterns_read_the_fed_series_softly_and_rebuild_an_older_file(tmp_path):
+    import json
+    from scripts import event_patterns as ep
+
+    def get(sid):
+        if sid == 'T10Y3M':
+            raise OSError('FRED down')
+        return {f'2020-{m:02d}-01': 1.0 for m in range(1, 13)} | {f'2021-{m:02d}-01': 1.0 for m in range(1, 13)}
+    got, missing = ep.fetch_fred(get=get)
+    assert missing == ['T10Y3M'] and got['FRED:T10Y3M'] == {} and len(got['FRED:CPIAUCSL']) == 24
+    full = {f'd{i:05d}': 1.0 for i in range(ep.MACRO_MIN['daily'])}
+    px = dict(got, XLF=full, VWEHX={'2020-01-02': 1.0})                        # junk bonds cut short
+    ser = ep.macro_inputs(px)
+    assert ser['banks'] == full and ser['junk'] == {} and ser['curve'] == {}
+    assert ser['cpi'] == {} and ep.macro_missing(px) == ['VWEHX', 'DX-Y.NYB', 'DCOILWTICO', 'T10Y3M', 'CPIAUCSL', 'SAHMREALTIME']
+    p = tmp_path / 'pats.json'
+    p.write_text(json.dumps(dict(updated='2099-01-01T00:00:00+00:00')))
+    assert ep.stale(str(p))                                                   # no version: built before the signals
+    p.write_text(json.dumps(dict(updated='2099-01-01T00:00:00+00:00', version=ep.VERSION)))
+    assert not ep.stale(str(p))

@@ -312,3 +312,29 @@ def test_plan_chart_is_left_out_without_closes(tmp_path):
     assert render_scanner.plan_chart_data(SCAN, path=str(p), timeline=[], plan_values={}, top5={}) is None
     page = render_scanner.render(SCAN)
     assert '__PLANCHART__' not in page and '__PCDATA__' not in page
+
+
+def test_recent_events_show_what_usually_followed_each(tmp_path):
+    q = lambda up, held=False, n=12: dict(n=n, up=up, avg=0.01, held=held)
+    assets = lambda up: {a: dict(quarter=q(up, held=a == 'Gold')) for a in ('S&P 500', 'Bonds', 'Gold', 'Oil', 'Dollar')}
+    pats = dict(baseline={a: {'63': dict(up=0.6, avg=0.01, n=100)} for a in ('S&P 500', 'Bonds', 'Gold', 'Oil', 'Dollar')},
+                types={'Fed hike / hawkish': dict(n=15, assets=assets(0.31)),
+                       'Oil up 50% in a year': dict(n=11, assets=assets(0.75))},
+                groups={})
+    evs = [dict(d='2026-09-16', what='Fed hikes <0.25%>', src='curated', type='Fed hike / hawkish'),
+           dict(d='2026-04-02', what='Oil up 50% in a year: $113 against $72 a year earlier', src='auto: signal', type='Oil up 50% in a year'),
+           dict(d='2026-03-01', what='An old curated event', src='curated', type='Fed hike / hawkish'),
+           dict(d='2025-06-01', what='Oil up 50% in a year: last year', src='auto: signal', type='Oil up 50% in a year'),
+           dict(d='2026-10-20', what='A new kind of thing', src='curated', type='Other')]
+    (tmp_path / 'ev.json').write_text(json.dumps(dict(events=evs)))
+    (tmp_path / 'p.json').write_text(json.dumps(pats))
+    out = render_scanner.recent_events_html('2026-10-26', path=str(tmp_path / 'ev.json'), pats_path=str(tmp_path / 'p.json'))
+    assert 'id="events-recent"' in out and 'Fed hikes &lt;0.25%&gt;' in out                     # escaped
+    assert 'An old curated event' not in out and 'last year' not in out                       # 3 months; signals a year
+    assert out.index('A new kind of thing') < out.index('Fed hikes') < out.index('Oil up 50%')  # newest first
+    assert '<b class="neg">31%↓</b>' in out and '<b class="pos">75%↑✓</b>' in out and '(15 Fed hike / hawkish events before)' in out
+    assert 'Too few past events of this type' in out and 'Any 3 months since 2000, higher: S&amp;P 60%' in out
+    assert '<span class="tag">Oil up 50% in a year</span>' not in out                           # a signal names itself
+    assert 'Tendencies, not forecasts' in out and 'momentum' not in out.lower()
+    page = render_scanner.render(SCAN)
+    assert '__RECENT__' not in page

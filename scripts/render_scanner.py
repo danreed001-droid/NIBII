@@ -14,7 +14,7 @@ import html
 import json
 import os
 import sys
-from datetime import date
+from datetime import date, timedelta
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_PATH = os.path.join(ROOT, 'data', 'momentum_scan.json')
@@ -107,6 +107,18 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .evf .clamp { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .evf td a { color: inherit; text-decoration-color: var(--muted); text-underline-offset: 2px; }
 .evf .evf-more { font-size: 0.82rem; margin: 8px 0 0; }
+.evr { font-size: 0.86rem; }
+.evr .evr-norm, .evr .evr-note { color: var(--muted); font-size: 0.78rem; line-height: 1.45; margin: 0; }
+.evr .evr-row { border-top: 1px solid var(--hairline); padding: 8px 0; }
+.evr .evr-row:first-of-type { margin-top: 8px; }
+.evr .evr-h { display: flex; gap: 8px; align-items: baseline; }
+.evr .evr-h .when { color: var(--muted); font-size: 0.76rem; white-space: nowrap; min-width: 3.6em; }
+.evr .evr-h .clamp { flex: 1; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evr .tag { font-size: 0.68rem; background: var(--surface-2); color: var(--muted); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }
+.evr .evr-o { color: var(--muted); font-size: 0.78rem; margin: 3px 0 0 calc(3.6em + 8px); line-height: 1.45; }
+.evr .evr-o b { font-weight: 600; color: var(--ink); } .evr .evr-o b.pos { color: var(--pos); } .evr .evr-o b.neg { color: var(--neg); }
+.evr .evr-note { border-top: 1px solid var(--hairline); padding-top: 8px; }
+@media (max-width: 520px) { .evr .evr-o { margin-left: 0; } }
 .issues-card ul { margin: 6px 0 0; padding-left: 0; list-style: none; }
 .issues-card li { padding: 7px 0; border-top: 1px solid var(--hairline); font-size: 0.84rem; line-height: 1.45; }
 .issues-card li:first-child { border-top: 0; }
@@ -441,6 +453,7 @@ footer li { margin-bottom: 6px; }
   <div class="card optcheck" id="optcheck" hidden></div>
   <div class="card swpanel" id="swpanel" hidden></div>
 
+__RECENT__
 __EVENTS__
   <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
   <div class="plan">
@@ -3507,6 +3520,7 @@ def render(scan, growth=None):
     page = page.replace('__WALLST__', wallst_html(), 1)
     page = page.replace('__RESEARCH__', widenet_html(scan) + crowding_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
+    page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
     sys.path.insert(0, ROOT)
     from mtl.events import ADD_URL   # the events page's "Add news" form
@@ -3606,6 +3620,78 @@ def events_html(path=None, show=5):
     data = json.dumps(rows, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c').replace('__', '_\\u005f')
     return (EVENTS_SECTION.replace('__N__', str(len(rows)), 1).replace('__SHOW__', str(show), 1)
             .replace('__MATCH__', ev.MATCH_JS, 1).replace('__ROWS__', data, 1))
+
+
+EVR_ASSETS = (('S&P 500', 'S&amp;P'), ('Bonds', 'bonds'), ('Gold', 'gold'), ('Oil', 'oil'), ('Dollar', 'dollar'))
+EVR_NOTE = ('Tendencies, not forecasts: tested from 2000 on, calling each event only from the ones before it, event types '
+            'were right less often than simply assuming each asset keeps its recent trend. The few that held up: fear spikes '
+            '(VIX over 40) were followed by a higher S&amp;P 3 months later 7 times in 8, Fed and government rescues by a '
+            'higher S&amp;P a month later 9 in 10, and wars by lower oil a month later 7 in 10. Since 2000, bonds and gold '
+            'have cushioned falling stocks mostly while inflation was under 3%. Information only: the plan doesn\'t use this.')
+
+
+def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
+    """Recent events: everything on the events list from the last `days`, plus the macro signals (mtl/macro_events.py)
+    from the last year, newest first, each with what usually followed its type since 2000 (data/event_patterns.json):
+    how often the S&P 500, long Treasuries, gold, oil and the dollar were higher 3 months later, against any 3 months."""
+    sys.path.insert(0, ROOT)
+    from mtl import events as ev, event_types as et
+    from scripts import event_patterns as ep
+    try:
+        doc = ev.load(path) if path else ev.load()
+    except (OSError, ValueError):
+        return ''
+    pats = ep.load(pats_path) if pats_path else ep.load()
+    today = date.fromisoformat(asof) if asof else date.today()
+    cut, cut_sig = (today - timedelta(days=days)).isoformat(), (today - timedelta(days=365)).isoformat()
+    pick = [e for e in doc['events'] if e['d'] <= today.isoformat() and et.group(e.get('type')) != 'Hindsight'
+            and (e['d'] > cut or (e['src'] == ev.SIGNAL_SRC and e['d'] > cut_sig))]
+    pick.sort(key=lambda e: (e['d'], e['what']), reverse=True)
+    if not pick:
+        return ''
+    more = len(pick) - show
+    base = (pats or {}).get('baseline', {})
+    norm = {a: base.get(a, {}).get('63', {}).get('up') for a, _ in EVR_ASSETS}
+
+    def odds(c, a):
+        txt = f"{round(c['up'] * c['n'])} of {c['n']}" if c['n'] < 10 else f"{round(c['up'] * 100)}%"
+        b = norm.get(a)
+        cls, arrow = ('pos', '↑') if b is not None and c['up'] - b >= 0.10 else ('neg', '↓') if b is not None and b - c['up'] >= 0.10 else ('', '')
+        held = '✓' if c.get('held') else ''
+        return f'<b class="{cls}">{txt}{arrow}{held}</b>'
+
+    def line(e):
+        t = e.get('type')
+        T = (pats or {}).get('types', {}).get(t)
+        g = et.group(t) if t else None
+        G = (pats or {}).get('groups', {}).get(g)
+        src, who = (T, f"{T['n']} {html.escape(t)} events before") if T and T['assets']['S&P 500']['quarter'] else \
+            (G, f"all {G['n']} {et.GROUP_SHORT[g]} before") if G and G['assets']['S&P 500']['quarter'] else (None, '')
+        if not src:
+            return 'Too few past events of this type to say what usually followed.'
+        cells = []
+        for a, lab in EVR_ASSETS:
+            c = src['assets'].get(a, {}).get('quarter')
+            cells.append(f"{lab} {odds(c, a) if c else '–'}")
+        return f"Higher 3 months later: {' · '.join(cells)} <span>({who})</span>"
+
+    rows = []
+    for e in pick[:show]:
+        d = date.fromisoformat(e['d'])
+        when = d.strftime('%b %-d') + ('' if d.year == today.year else d.strftime(" '%y"))
+        t = e.get('type') or ''
+        tag = '' if not t or e['what'].startswith(t) else f'<span class="tag">{html.escape(t)}</span>'   # a signal names itself
+        rows.append(f'<div class="evr-row"><div class="evr-h"><span class="when">{when}</span>'
+                    f'<span class="clamp">{html.escape(e["what"])}</span>{tag}</div>'
+                    f'<div class="evr-o">{line(e)}</div></div>')
+    nm = ' · '.join(f"{lab} {round(norm[a] * 100)}%" for a, lab in EVR_ASSETS if norm.get(a) is not None)
+    head = (f'<p class="evr-norm">Any 3 months since 2000, higher: {nm}. ↑ ↓ 10+ points above or below that; ✓ held in both '
+            'halves of the history.</p>' if nm else '<p class="evr-norm">What usually followed each type is not built yet.</p>')
+    tail = f'<p class="evr-note">{len(pick) - show} more on the <a href="events.html">events page</a>. {EVR_NOTE}</p>' if more > 0 \
+        else f'<p class="evr-note">{EVR_NOTE}</p>'
+    return ('<section id="events-recent"><p class="section-label">Recent events <span class="hint">the last 3 months and this '
+            'year\'s macro signals · what usually followed each · <a href="events.html">all events →</a></span></p>\n'
+            f'  <div class="card evr">{head}{"".join(rows)}{tail}</div></section>\n')
 
 
 ISSUES_PATH = os.path.join(ROOT, 'docs', 'issues.html')
