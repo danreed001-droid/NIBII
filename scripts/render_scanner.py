@@ -119,24 +119,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .evr .evr-o b { font-weight: 600; color: var(--ink); } .evr .evr-o b.pos { color: var(--pos); } .evr .evr-o b.neg { color: var(--neg); }
 .evr .evr-note { border-top: 1px solid var(--hairline); padding-top: 8px; }
 @media (max-width: 520px) { .evr .evr-o { margin-left: 0; } }
-.dom { font-size: 0.86rem; }
-.dom p { margin: 0; }
-.dom .dom-now b { font-weight: 600; }
-.dom .dom-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
-.dom .chip { font-size: 0.76rem; background: var(--surface-2); color: var(--muted); border: 1px solid transparent; border-radius: 6px; padding: 2px 7px; white-space: nowrap; }
-.dom .chip.on { color: var(--ink); border-color: var(--neg); }
-.dom .chip small { opacity: 0.75; }
-.dom .sub { color: var(--muted); font-size: 0.78rem; line-height: 1.45; margin-top: 10px; }
-.dom table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 4px; }
-.dom th { text-align: right; color: var(--muted); font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid var(--hairline); padding: 3px 4px; }
-.dom td { text-align: right; border-bottom: 1px solid var(--hairline); padding: 4px; }
-.dom th:first-child, .dom td:first-child { text-align: left; }
-.dom tr.now td { font-weight: 600; color: var(--ink); background: var(--surface-2); }
-.dom .m { border-top: 1px solid var(--hairline); padding: 7px 0; }
-.dom .m .when { font-weight: 600; margin-right: 6px; }
-.dom .m .what, .dom .m .next { color: var(--muted); font-size: 0.78rem; line-height: 1.45; }
-.dom .m .next b { font-weight: 600; color: var(--ink); } .dom .m .next b.neg { color: var(--neg); } .dom .m .next b.pos { color: var(--pos); }
-.dom .note { color: var(--muted); font-size: 0.78rem; line-height: 1.45; border-top: 1px solid var(--hairline); padding-top: 8px; margin-top: 2px; }
+__DOMCSS__
 .issues-card ul { margin: 6px 0 0; padding-left: 0; list-style: none; }
 .issues-card li { padding: 7px 0; border-top: 1px solid var(--hairline); font-size: 0.84rem; line-height: 1.45; }
 .issues-card li:first-child { border-top: 0; }
@@ -3540,7 +3523,7 @@ def render(scan, growth=None):
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
-    page = page.replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)
+    page = page.replace('__DOMCSS__', DOM_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
     page = page.replace('__EVENTS__', events_html(), 1)
     sys.path.insert(0, ROOT)
     from mtl.events import ADD_URL   # the events page's "Add news" form
@@ -3717,11 +3700,12 @@ def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
 DOMINOES_PATH = os.path.join(ROOT, 'data', 'dominoes.json')
 
 
-def dominoes_html(asof=None, path=DOMINOES_PATH):
+def dominoes_html(asof=None, path=None):
     """The dominoes card (data/dominoes.json, mtl/dominoes.py): which of the eight are down now, how deep past falls went
-    by dominoes down on the day the S&P first closed 5% under its top, and the closest past times with what followed."""
+    by dominoes down on the day the S&P first closed 5% under its top, and the closest past times with what followed.
+    On the scanner page and docs/stress.html."""
     try:
-        with open(path) as fh:
+        with open(path or DOMINOES_PATH) as fh:
             D = json.load(fh)
     except (OSError, ValueError):
         return ''

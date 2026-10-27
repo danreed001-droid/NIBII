@@ -366,3 +366,17 @@ def test_dominoes_card_shows_now_past_falls_and_past_times_like_now(tmp_path):
     assert 'last good reading' in render_scanner.dominoes_html('2026-11-09', path=str(p))
     assert render_scanner.dominoes_html(path=str(tmp_path / 'missing.json')) == ''
     assert '__DOMINOES__' not in render_scanner.render(SCAN)
+
+
+def test_scanner_page_shows_the_dominoes_card_too(tmp_path, monkeypatch):
+    D = dict(asOf='2026-10-27', spxOff=-0.011, count=2, dominoes=[dict(key='oil', label='Oil shock', on=True, value=0.73, line=0.5, how='oil')],
+             table=[dict(dominoes='2', falls=12, to10=2, to20=0, to30=0)], split=dict(low=dict(falls=38, deep=0), high=dict(falls=14, deep=6)),
+             falls=52, since='1988-03-09', matches=[], test=None)
+    p = tmp_path / 'dom.json'
+    p.write_text(json.dumps(D))
+    monkeypatch.setattr(render_scanner, 'DOMINOES_PATH', str(p))
+    page = render_scanner.render(SCAN)
+    assert page.count('id="dominoes"') == 1 and '2 of 8 dominoes down' in page
+    assert page.count('.dom .chip {') == 1 and '__DOMCSS__' not in page and '__DOMINOES__' not in page   # one copy of the styles
+    if 'id="events-recent"' in page:
+        assert page.index('id="events-recent"') < page.index('id="dominoes"')
