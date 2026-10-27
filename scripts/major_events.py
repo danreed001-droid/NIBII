@@ -527,8 +527,10 @@ def main(argv):
             health.add(log, today, 'events', f"News feed not working for {nf.STALE_DAYS}+ days: {', '.join(dead)}. "
                        "The events page still runs; big-move days may lack a headline.")
             health.save(log)
-        new = ev.auto(doc['events'], cal, spy, px['^VIX'], news, headlines=heads['items'], fed=doc['fed'],
-                      macro=ep.macro_inputs(px))
+        from scripts.momentum_scan import last_closed_session
+        cut = last_closed_session()   # a daytime run must not fire a macro signal on a price that is still moving
+        macro = {k: {d: v for d, v in s_.items() if d <= cut} for k, s_ in ep.macro_inputs(px).items()}
+        new = ev.auto(doc['events'], cal, spy, px['^VIX'], news, headlines=heads['items'], fed=doc['fed'], macro=macro)
         if px.get('_macro_missing'):
             log = health.load()
             health.add(log, today, 'events', f"No data for {', '.join(px['_macro_missing'])} tonight, so those macro signals "
