@@ -74,3 +74,9 @@ def test_build_reads_now_counts_past_falls_and_lists_what_followed():
     assert D['matches'][0]['next']['gold6'] is None and D['matches'][0]['next']['bonds6'] == 0.0
     assert dm.build(cal[:500], {k: {d: v for d, v in s.items() if d <= cal[499]} if isinstance(s, dict) else s
                                 for k, s in ser.items()}) is None
+
+
+def test_a_daytime_run_reads_only_closed_sessions():
+    from scripts.dominoes import closed_only
+    ser = dict(spx={'2026-10-26': 1.0, '2026-10-27': 2.0}, cpi={'2026-09-01': 3.0}, junk=None)
+    assert closed_only(ser, '2026-10-26') == dict(spx={'2026-10-26': 1.0}, cpi={'2026-09-01': 3.0}, junk={})

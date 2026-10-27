@@ -16,6 +16,7 @@ sys.path.insert(0, ROOT)
 
 from mtl import dominoes as dm, events as ev, health, macro_events  # noqa: E402
 from scripts import event_patterns as ep  # noqa: E402
+from scripts.momentum_scan import last_closed_session  # noqa: E402
 
 OUT = os.path.join(ROOT, 'data', 'dominoes.json')
 YF = {'spx': '^GSPC', 'tech': '^IXIC', 'small': '^RUT', 'banks': 'FSRBX', 'transport': 'FSRFX', 'junk': 'VWEHX',
@@ -47,6 +48,12 @@ def fetch():
     return ser, ep.macro_inputs(px), short
 
 
+def closed_only(ser, cut):
+    """Each series up to `cut`, the last session that has closed: a run during market hours must not read today's
+    still-moving prices as a close (the scan does the same)."""
+    return {k: {d: v for d, v in (s or {}).items() if d <= cut} for k, s in ser.items()}
+
+
 def context(cal, macro):
     """[(date, text)]: the macro signals over the whole history and the hand-picked events, for "what was happening
     then" under each past match."""
@@ -62,6 +69,8 @@ def context(cal, macro):
 def main():
     today = datetime.now(timezone.utc).date().isoformat()
     ser, macro, short = fetch()
+    cut = last_closed_session()
+    ser, macro = closed_only(ser, cut), closed_only(macro, cut)
     if short:
         log = health.load()
         health.add(log, today, 'dominoes', f"No full history for {', '.join(short)} tonight, so the dominoes card shows the "
