@@ -1,7 +1,7 @@
 {
  "date": "2026-10-13",
  "basisDate": "2026-10-13",
- "scored": false,
+ "scored": true,
  "generatedAt": "2026-10-14T13:22:35Z",
  "generationLag": null,
  "schema": "multi-asset-v4",
@@ -566,13 +566,12 @@
        null
       ]
      ],
-     "maturityClose": 7765.5,
-     "ret": -0.011488,
+     "maturityClose": 7756.75,
+     "ret": -0.012602,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     }
    ],
    "structure": {
@@ -2657,13 +2656,12 @@
        false
       ]
      ],
-     "maturityClose": 106.078125,
-     "ret": 0.01283,
+     "maturityClose": 106.0,
+     "ret": 0.012084,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     }
    ],
    "structure": {
@@ -5329,13 +5327,12 @@
        true
       ]
      ],
-     "maturityClose": 4074.39990234375,
-     "ret": -0.024633,
+     "maturityClose": 4073.10009765625,
+     "ret": -0.024944,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     }
    ],
    "structure": {
@@ -7413,13 +7410,12 @@
        null
       ]
      ],
-     "maturityClose": 102.3030014038086,
-     "ret": 0.001204,
+     "maturityClose": 102.37100219726562,
+     "ret": 0.001869,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     }
    ],
    "structure": {
@@ -9588,13 +9584,12 @@
        false
       ]
      ],
-     "maturityClose": 2828.10009765625,
-     "ret": 0.01,
+     "maturityClose": 2827.800048828125,
+     "ret": 0.009892,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     }
    ],
    "structure": {
@@ -11525,13 +11520,12 @@
        null
       ]
      ],
-     "maturityClose": 29827.25,
-     "ret": -0.031315,
+     "maturityClose": 29803.0,
+     "ret": -0.032103,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     }
    ],
    "structure": {
