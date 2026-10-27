@@ -380,3 +380,16 @@ def test_scanner_page_shows_the_dominoes_card_too(tmp_path, monkeypatch):
     assert page.count('.dom .chip {') == 1 and '__DOMCSS__' not in page and '__DOMINOES__' not in page   # one copy of the styles
     if 'id="events-recent"' in page:
         assert page.index('id="events-recent"') < page.index('id="dominoes"')
+
+
+def test_dominoes_card_says_what_to_expect(tmp_path):
+    c = lambda med: dict(med=med, p10=-0.031, p90=0.048, up=0.69, fall5=0.11, fall10=0.008, bonds=-0.0004, gold=0.005)
+    E = dict(count=2, lo=-0.068, hi=0.0, otherLabel='3+', same=dict(days=1086, stretches=49, **{'1': c(0.014), '3': c(0.031), '6': c(0.062)}),
+             all=dict(days=7255, stretches=15, **{'1': c(0.012), '3': c(0.03), '6': dict(c(0.057), fall10=0.16)}),
+             other=dict(days=1048, stretches=38, **{'1': c(0.016), '3': c(0.038), '6': dict(c(0.058), fall10=0.25)}))
+    out = render_scanner.expect_html(E)
+    assert 'What to expect' in out and '2 dominoes down, S&amp;P within 7% of its high' in out and '1,086 days since 1988, in 49 separate' in out
+    assert '<table class="exp">' in out and '<td>+6.2%</td>' in out and '−3.1% and +4.8%' in out
+    assert '0.0% / +0.5%' in out and '−0.0%' not in out                       # a move that rounds to zero shows plain
+    assert 'days like this 1% / 1% / 1%; any day this close to the high 1% / 1% / 16%; with 3 or more dominoes down 1% / 1% / 25%' in out
+    assert render_scanner.expect_html(None) == '' and render_scanner.expect_html(dict(same=None)) == ''

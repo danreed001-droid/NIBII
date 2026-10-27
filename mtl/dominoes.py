@@ -12,6 +12,9 @@ A fall: the S&P 500 closing 5%+ under its highest close of the last year; it las
 depth is the lowest close in that time against the top. Research (Oct 2026), 52 falls since 1988: on the day the S&P
 first closed 5% under its top, falls with 0-2 dominoes down never went to -20% (0 of 38); with 3 or more, 6 of 14 did.
 
+What to expect: what followed past days with the same number of dominoes down and the S&P about as far from its
+high (expect()), as a typical move and a range at 1, 3 and 6 months. History, not a promise.
+
 Past times like now: the closest past days on the eight dominoes, inflation above or below 3% and the S&P's distance
 from its high (one per stretch of six months, only days whose next six months are known), and what followed. As a
 forecast these matches did no better than the normal rate; evaluate() redoes that check on every run.
@@ -150,6 +153,45 @@ def evaluate(spx, feats, off, ok, start, cal, since='2000-01-01', k=5):
                 aucCount=round(auc(r[:, 3]), 3))
 
 
+def expect(spx, score, spx_off, known, start, bonds=None, gold=None, band=0.05):
+    """What followed days like the last one: the same number of dominoes down (4+ together) and the S&P within `band`
+    of the same distance from its 1-year high. For 1, 3 and 6 months: the S&P's typical (median) move, the range 8 in
+    10 of those days fell in, how often it was higher, and how often it fell 5% / 10% at some point on the way; bonds'
+    and gold's typical moves. Also the same for every day at that distance from the high, and for the other side of
+    the 3-domino line, to compare. Overlapping days are counted, so `stretches` gives how many separate runs they make."""
+    n, t = len(spx), len(spx) - 1
+    lo, hi = spx_off[t] - band, min(0.0, spx_off[t] + band)
+    near = known & (spx_off >= lo) & (spx_off <= hi)
+    near[:start] = False
+    bucket = lambda c: np.minimum(c, 4)
+    same = near & (bucket(score) == bucket(score[t]))
+    other = near & ((score >= 3) if score[t] < 3 else (score <= 2))
+
+    def stats(mask):
+        ix = np.flatnonzero(mask[:t])
+        if len(ix) < 20:
+            return None
+        out = dict(days=int(len(ix)), stretches=int(1 + np.sum(np.diff(ix) > 21)))
+        for lab, h in (('1', 21), ('3', 63), ('6', 126)):
+            jx = ix[ix + h < n]
+            if len(jx) < 20:
+                out[lab] = None
+                continue
+            r = spx[jx + h] / spx[jx] - 1
+            w = np.array([np.min(spx[i + 1:i + h + 1]) for i in jx]) / spx[jx] - 1
+            row = dict(med=float(np.median(r)), p10=float(np.percentile(r, 10)), p90=float(np.percentile(r, 90)),
+                       up=float(np.mean(r > 0)), fall5=float(np.mean(w <= -0.05)), fall10=float(np.mean(w <= -0.10)))
+            for k_, a in (('bonds', bonds), ('gold', gold)):
+                if a is not None:
+                    x = a[jx + h] / a[jx] - 1
+                    x = x[np.isfinite(x)]
+                    row[k_] = float(np.median(x)) if len(x) >= 20 else None
+            out[lab] = {k_: (None if v is None else round(v, 4)) for k_, v in row.items()}
+        return out
+    return dict(count=int(bucket(score[t])), lo=round(float(lo), 4), hi=round(float(hi), 4), same=stats(same),
+                all=stats(near), other=stats(other), otherLabel='3+' if score[t] < 3 else '0-2')
+
+
 def _month(d):
     return date.fromisoformat(d).strftime('%b %Y')
 
@@ -204,4 +246,5 @@ def build(cal, ser, context=(), k=5):
                 infl=None if not np.isfinite(infl[t]) else round(float(infl[t]), 4), inflHigh=INFL_HIGH,
                 since=cal[start] if start < n else None, falls=len(F), table=table, split=split,
                 normal10=round(float(np.mean(np.array(fall6_all) <= -0.10)), 3) if fall6_all else None,
-                matches=past, test=evaluate(spx, feats, spx_off, ok, start, cal, k=k))
+                matches=past, test=evaluate(spx, feats, spx_off, ok, start, cal, k=k),
+                expect=expect(spx, score, spx_off, known, start, assets['bonds'], assets['gold']) if known[t] else None)
