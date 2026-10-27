@@ -338,3 +338,31 @@ def test_recent_events_show_what_usually_followed_each(tmp_path):
     assert 'Tendencies, not forecasts' in out and 'momentum' not in out.lower()
     page = render_scanner.render(SCAN)
     assert '__RECENT__' not in page
+
+
+def test_dominoes_card_shows_now_past_falls_and_past_times_like_now(tmp_path):
+    D = dict(asOf='2026-10-27', spxOff=-0.0123, count=2, infl=0.037, since='1988-03-09', falls=52, normal10=0.215,
+             dominoes=[dict(key='banks', label='Banks', on=False, value=-0.089, line=0.1, how='off'),
+                       dict(key='transport', label='Transports', on=True, value=-0.105, line=0.1, how='off'),
+                       dict(key='fed', label='Fed raising rates', on=False, value=-0.23, line=1.0, how='fed'),
+                       dict(key='curve', label='Inverted yield curve', on=False, value=0.08, line=0.0, how='curve'),
+                       dict(key='oil', label='Oil shock', on=True, value=0.73, line=0.5, how='oil')],
+             table=[dict(dominoes='2', falls=12, to10=2, to20=0, to30=0), dict(dominoes='3', falls=7, to10=4, to20=3, to30=1)],
+             split=dict(low=dict(falls=38, deep=0), high=dict(falls=14, deep=6)),
+             matches=[dict(d='2021-09-15', on=['oil'], infl=0.0515, spxOff=-0.0124, then=['Oil up 50% in a year (Mar 2021)', '<b>x</b>'],
+                           next=dict(fall6=-0.0692, spx6=-0.0274, spx12=-0.1293, bonds6=-0.1076, bonds12=-0.26, gold6=None, gold12=None))],
+             test=dict(n=316, since='2000-01-01', rate=0.285, brier=0.237, brierNormal=0.224, auc=0.519, aucCount=0.63))
+    p = tmp_path / 'dom.json'
+    p.write_text(json.dumps(D))
+    out = render_scanner.dominoes_html('2026-10-27', path=str(p))
+    assert 'id="dominoes"' in out and '2 of 8 dominoes down' in out and 'inflation 3.7%' in out
+    assert '<span class="chip on" title="line −10%">Transports −10.5%' in out and 'Oil +73% in a year' in out
+    assert 'Fed rate −0.23 pt in a year' in out and 'Yield curve lowest +0.08 in the last year' in out
+    assert '<tr class="now"><td>2</td>' in out and 'With 0–2 down, 0 of 38 reached −20%; with 3 or more, 6 of 14 did' in out
+    assert 'Sep 2021' in out and '&lt;b&gt;x&lt;/b&gt;' in out and 'gold – / –' in out                      # escaped; gold missing
+    assert '0 of 1 fell 10% or more within six months (any six months since 1988: 22%)' in out
+    assert 'no better than a coin flip (52%' in out and 'scored worse than the normal rate' in out and 'alone did better (63%)' in out
+    assert 'last good reading' not in out and 'momentum' not in out.lower()
+    assert 'last good reading' in render_scanner.dominoes_html('2026-11-09', path=str(p))
+    assert render_scanner.dominoes_html(path=str(tmp_path / 'missing.json')) == ''
+    assert '__DOMINOES__' not in render_scanner.render(SCAN)

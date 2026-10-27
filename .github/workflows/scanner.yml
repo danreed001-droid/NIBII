@@ -106,6 +106,19 @@ jobs:
         run: |
           python scripts/log_issue.py events "Tonight's market events update failed, so the events page wasn't updated (it never affects the plan)."
 
+      - name: Read the dominoes
+        # which of the eight dominoes are down, how deep past falls went by that count, and the closest past times
+        # with what followed (data/dominoes.json, information only); a failure never blocks the dashboard
+        id: dominoes
+        continue-on-error: true
+        timeout-minutes: 10
+        run: python scripts/dominoes.py
+
+      - name: Log a failed dominoes update
+        if: ${{ steps.dominoes.outcome == 'failure' }}
+        run: |
+          python scripts/log_issue.py dominoes "Tonight's dominoes update failed, so the dominoes card shows the last good reading (it never affects the plan)."
+
       - name: Render the dashboard
         # after the events step, so a news feed problem it logs shows on tonight's page
         run: python scripts/render_scanner.py
@@ -114,7 +127,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/scanner.html docs/events.html docs/issues.html docs/stress.html data/major_events.json data/event_patterns.json data/event_forecasts.json data/headlines_log.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
+          git add docs/scanner.html docs/events.html docs/issues.html docs/stress.html data/dominoes.json data/major_events.json data/event_patterns.json data/event_forecasts.json data/headlines_log.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0

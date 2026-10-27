@@ -1,6 +1,6 @@
-"""Market stress card (information only): dominoes across asset classes, the drop study's warning signs.
+"""Market stress card (information only): sharp moves across asset classes, the drop study's warning signs.
 
-Dominoes: how many of 12 asset classes (the S&P 500, long and medium Treasuries, gold, oil, copper, the dollar index
+Sharp moves: how many of 12 asset classes (the S&P 500, long and medium Treasuries, gold, oil, copper, the dollar index
 and five major currencies) made a sharp 5-day move: more than twice its normal size, judged by its daily swings over
 the 63 sessions before. Since 2004, 3 or more moved sharply on 6.9% of days (6 or more on 1.1%). After those days a
 further 5% fall in the S&P 500 within a month came 23% of the time (38% after 6 or more) against 16% for all days,
