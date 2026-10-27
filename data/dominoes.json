@@ -1,0 +1,250 @@
+{
+ "about": "The dominoes card (mtl/dominoes.py, scripts/dominoes.py). Information only.",
+ "updated": "2026-10-27T15:57:29+00:00",
+ "asOf": "2026-10-27",
+ "spxOff": -0.0113,
+ "count": 2,
+ "dominoes": [
+  {
+   "key": "tech",
+   "label": "Tech",
+   "on": false,
+   "value": -0.0399,
+   "line": 0.1,
+   "how": "off"
+  },
+  {
+   "key": "small",
+   "label": "Small caps",
+   "on": false,
+   "value": -0.0837,
+   "line": 0.1,
+   "how": "off"
+  },
+  {
+   "key": "banks",
+   "label": "Banks",
+   "on": false,
+   "value": -0.0889,
+   "line": 0.1,
+   "how": "off"
+  },
+  {
+   "key": "transport",
+   "label": "Transports",
+   "on": true,
+   "value": -0.1048,
+   "line": 0.1,
+   "how": "off"
+  },
+  {
+   "key": "junk",
+   "label": "Junk bonds",
+   "on": false,
+   "value": -0.0258,
+   "line": 0.03,
+   "how": "off"
+  },
+  {
+   "key": "fed",
+   "label": "Fed raising rates",
+   "on": false,
+   "value": -0.23,
+   "line": 1.0,
+   "how": "fed"
+  },
+  {
+   "key": "curve",
+   "label": "Inverted yield curve",
+   "on": false,
+   "value": 0.08,
+   "line": 0.0,
+   "how": "curve"
+  },
+  {
+   "key": "oil",
+   "label": "Oil shock",
+   "on": true,
+   "value": 0.7326,
+   "line": 0.5,
+   "how": "oil"
+  }
+ ],
+ "infl": 0.0372,
+ "inflHigh": 0.03,
+ "since": "1988-03-09",
+ "falls": 52,
+ "table": [
+  {
+   "dominoes": "0",
+   "falls": 10,
+   "to10": 1,
+   "to20": 0,
+   "to30": 0
+  },
+  {
+   "dominoes": "1",
+   "falls": 16,
+   "to10": 5,
+   "to20": 0,
+   "to30": 0
+  },
+  {
+   "dominoes": "2",
+   "falls": 12,
+   "to10": 2,
+   "to20": 0,
+   "to30": 0
+  },
+  {
+   "dominoes": "3",
+   "falls": 7,
+   "to10": 4,
+   "to20": 3,
+   "to30": 1
+  },
+  {
+   "dominoes": "4+",
+   "falls": 7,
+   "to10": 4,
+   "to20": 3,
+   "to30": 2
+  }
+ ],
+ "split": {
+  "low": {
+   "falls": 38,
+   "deep": 0
+  },
+  "high": {
+   "falls": 14,
+   "deep": 6
+  }
+ },
+ "normal10": 0.215,
+ "matches": [
+  {
+   "d": "2021-11-11",
+   "on": [
+    "oil"
+   ],
+   "infl": 0.0535,
+   "spxOff": -0.0112,
+   "then": [
+    "Evergrande debt crisis (Sep 2021)",
+    "Inflation tops 4% (May 2021)",
+    "Archegos collapse forces block sales (Mar 2021)",
+    "Dollar down 10% in a year (Mar 2021)"
+   ],
+   "next": {
+    "fall6": -0.1547,
+    "spx6": -0.1345,
+    "spx12": -0.1412,
+    "bonds6": -0.2004,
+    "bonds12": -0.3089,
+    "gold6": -0.0299,
+    "gold12": -0.0507
+   }
+  },
+  {
+   "d": "1991-03-18",
+   "on": [
+    "transport"
+   ],
+   "infl": 0.0531,
+   "spxOff": -0.0122,
+   "then": [
+    "Inflation turns down (Mar 1991)",
+    "Oil 40% under its high (Jan 1991)",
+    "Recession signal (Dec 1990)",
+    "Oil up 50% in a year (Oct 1990)"
+   ],
+   "next": {
+    "fall6": -0.0149,
+    "spx6": 0.0367,
+    "spx12": 0.0921,
+    "bonds6": 0.0849,
+    "bonds12": 0.1136,
+    "gold6": null,
+    "gold12": null
+   }
+  },
+  {
+   "d": "2021-05-14",
+   "on": [
+    "oil"
+   ],
+   "infl": 0.0413,
+   "spxOff": -0.0139,
+   "then": [
+    "Inflation tops 4% (May 2021)",
+    "Archegos collapse forces block sales (Mar 2021)",
+    "Dollar down 10% in a year (Mar 2021)",
+    "Oil up 50% in a year (Mar 2021)"
+   ],
+   "next": {
+    "fall6": -0.0139,
+    "spx6": 0.1139,
+    "spx12": -0.0359,
+    "bonds6": 0.0799,
+    "bonds12": -0.1365,
+    "gold6": 0.014,
+    "gold12": -0.0163
+   }
+  },
+  {
+   "d": "1999-11-12",
+   "on": [
+    "transport",
+    "oil"
+   ],
+   "infl": 0.0263,
+   "spxOff": -0.016,
+   "then": [
+    "Credit cracking (Aug 1999)",
+    "Oil up 50% in a year (Jun 1999)"
+   ],
+   "next": {
+    "fall6": -0.0449,
+    "spx6": 0.0403,
+    "spx12": -0.0215,
+    "bonds6": 0.005,
+    "bonds12": 0.0887,
+    "gold6": null,
+    "gold12": null
+   }
+  },
+  {
+   "d": "2004-11-26",
+   "on": [
+    "oil"
+   ],
+   "infl": 0.0319,
+   "spxOff": -0.0013,
+   "then": [
+    "Dollar down 10% in a year (Sep 2004)",
+    "Fed starts hiking from 1% (17 straight hikes follow) (Jun 2004)",
+    "Credit cracking (May 2004)",
+    "Oil up 50% in a year (May 2004)"
+   ],
+   "next": {
+    "fall6": -0.0382,
+    "spx6": 0.0136,
+    "spx12": 0.0724,
+    "bonds6": 0.0644,
+    "bonds12": 0.0564,
+    "gold6": -0.0657,
+    "gold12": 0.0953
+   }
+  }
+ ],
+ "test": {
+  "n": 316,
+  "since": "2000-01-01",
+  "rate": 0.285,
+  "brier": 0.237,
+  "brierNormal": 0.224,
+  "auc": 0.519,
+  "aucCount": 0.63
+ }
+}
