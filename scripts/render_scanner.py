@@ -119,6 +119,24 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .evr .evr-o b { font-weight: 600; color: var(--ink); } .evr .evr-o b.pos { color: var(--pos); } .evr .evr-o b.neg { color: var(--neg); }
 .evr .evr-note { border-top: 1px solid var(--hairline); padding-top: 8px; }
 @media (max-width: 520px) { .evr .evr-o { margin-left: 0; } }
+.dom { font-size: 0.86rem; }
+.dom p { margin: 0; }
+.dom .dom-now b { font-weight: 600; }
+.dom .dom-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
+.dom .chip { font-size: 0.76rem; background: var(--surface-2); color: var(--muted); border: 1px solid transparent; border-radius: 6px; padding: 2px 7px; white-space: nowrap; }
+.dom .chip.on { color: var(--ink); border-color: var(--neg); }
+.dom .chip small { opacity: 0.75; }
+.dom .sub { color: var(--muted); font-size: 0.78rem; line-height: 1.45; margin-top: 10px; }
+.dom table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 4px; }
+.dom th { text-align: right; color: var(--muted); font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid var(--hairline); padding: 3px 4px; }
+.dom td { text-align: right; border-bottom: 1px solid var(--hairline); padding: 4px; }
+.dom th:first-child, .dom td:first-child { text-align: left; }
+.dom tr.now td { font-weight: 600; color: var(--ink); background: var(--surface-2); }
+.dom .m { border-top: 1px solid var(--hairline); padding: 7px 0; }
+.dom .m .when { font-weight: 600; margin-right: 6px; }
+.dom .m .what, .dom .m .next { color: var(--muted); font-size: 0.78rem; line-height: 1.45; }
+.dom .m .next b { font-weight: 600; color: var(--ink); } .dom .m .next b.neg { color: var(--neg); } .dom .m .next b.pos { color: var(--pos); }
+.dom .note { color: var(--muted); font-size: 0.78rem; line-height: 1.45; border-top: 1px solid var(--hairline); padding-top: 8px; margin-top: 2px; }
 .issues-card ul { margin: 6px 0 0; padding-left: 0; list-style: none; }
 .issues-card li { padding: 7px 0; border-top: 1px solid var(--hairline); font-size: 0.84rem; line-height: 1.45; }
 .issues-card li:first-child { border-top: 0; }
@@ -454,6 +472,7 @@ footer li { margin-bottom: 6px; }
   <div class="card swpanel" id="swpanel" hidden></div>
 
 __RECENT__
+__DOMINOES__
 __EVENTS__
   <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
   <div class="plan">
@@ -3521,6 +3540,7 @@ def render(scan, growth=None):
     page = page.replace('__RESEARCH__', widenet_html(scan) + crowding_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
+    page = page.replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
     sys.path.insert(0, ROOT)
     from mtl.events import ADD_URL   # the events page's "Add news" form
@@ -3692,6 +3712,86 @@ def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
     return ('<section id="events-recent"><p class="section-label">Recent events <span class="hint">the last 3 months and this '
             'year\'s macro signals · what usually followed each · <a href="events.html">all events →</a></span></p>\n'
             f'  <div class="card evr">{head}{"".join(rows)}{tail}</div></section>\n')
+
+
+DOMINOES_PATH = os.path.join(ROOT, 'data', 'dominoes.json')
+
+
+def dominoes_html(asof=None, path=DOMINOES_PATH):
+    """The dominoes card (data/dominoes.json, mtl/dominoes.py): which of the eight are down now, how deep past falls went
+    by dominoes down on the day the S&P first closed 5% under its top, and the closest past times with what followed."""
+    try:
+        with open(path) as fh:
+            D = json.load(fh)
+    except (OSError, ValueError):
+        return ''
+    if not D.get('dominoes'):
+        return ''
+    sg = lambda x, d=1: f"{x * 100:+.{d}f}%".replace('-', '−')
+    mo = lambda d: date.fromisoformat(d).strftime('%b %Y')
+
+    def chip(x):
+        v, how = x.get('value'), x['how']
+        if v is None:
+            val, ln = '–', ''
+        elif how == 'off':
+            val, ln = sg(v), f"line −{round(x['line'] * 100)}%"
+        elif how == 'fed':
+            val, ln = f"{v:+.2f} pt in a year".replace('-', '−'), 'line +1 pt'
+        elif how == 'curve':
+            val, ln = f"lowest {v:+.2f} in the last year".replace('-', '−'), 'line: under 0'
+        else:
+            val, ln = f"{sg(v, 0)} in a year", f"line +{round(x['line'] * 100)}%"
+        name = {'fed': 'Fed rate', 'curve': 'Yield curve', 'oil': 'Oil'}.get(how, x['label'])   # the reading, not the domino
+        return (f'<span class="chip{" on" if x["on"] else ""}" title="{html.escape(ln)}">{html.escape(name)} {val}'
+                f'{" <small>(" + html.escape(ln) + ")</small>" if x["on"] else ""}</span>')
+
+    when = date.fromisoformat(D['asOf']).strftime('%b %-d')
+    stale = f' <span class="neg">(last good reading; the scan is from {asof})</span>' if asof and D['asOf'] < \
+        (date.fromisoformat(asof) - timedelta(days=4)).isoformat() else ''
+    infl = f" · inflation {D['infl'] * 100:.1f}%" if D.get('infl') is not None else ''
+    head = (f'<p class="dom-now"><b>{D["count"]} of 8 dominoes down</b> · S&amp;P 500 {abs(D["spxOff"]) * 100:.1f}% under its '
+            f'1-year high{infl} · as of {when}{stale}</p><div class="dom-chips">{"".join(chip(x) for x in D["dominoes"])}</div>')
+    cnt = D['count']
+    rows = ''.join(f'<tr class="{"now" if (r["dominoes"] == str(cnt) or (r["dominoes"] == "4+" and cnt >= 4)) else ""}">'
+                   f'<td>{r["dominoes"]}</td><td>{r["falls"]}</td><td>{r["to10"]}</td><td>{r["to20"]}</td><td>{r["to30"]}</td></tr>'
+                   for r in D.get('table', []))
+    lo, hi = D.get('split', {}).get('low', {}), D.get('split', {}).get('high', {})
+    table = (f'<p class="sub">If the S&amp;P closes 5% under its high: how far the fall went, by dominoes down that day '
+             f'({D.get("falls", 0)} falls since {D["since"][:4] if D.get("since") else "1988"}). With 0–2 down, '
+             f'{lo.get("deep", 0)} of {lo.get("falls", 0)} reached −20%; with 3 or more, {hi.get("deep", 0)} of {hi.get("falls", 0)} did.</p>'
+             f'<table><thead><tr><th>Dominoes down</th><th>Falls</th><th>to −10%</th><th>to −20%</th><th>to −30%</th></tr></thead>'
+             f'<tbody>{rows}</tbody></table>') if rows else ''
+    names = {x['key']: x['label'] for x in D['dominoes']}
+    ms = []
+    for m in D.get('matches', []):
+        nx = m['next']
+        b = lambda x: '–' if x is None else f'<b class="{"pos" if x > 0 else "neg" if x < 0 else ""}">{sg(x, 0)}</b>'
+        then = ('Happening then: ' + html.escape(' · '.join(m['then'])) + '. ') if m.get('then') else ''
+        ms.append(f'<div class="m"><span class="when">{mo(m["d"])}</span><span class="what">dominoes down: '
+                  f'{html.escape(", ".join(names.get(k, k) for k in m["on"]) or "none")} · inflation '
+                  f'{"–" if m.get("infl") is None else format(m["infl"] * 100, ".1f") + "%"} · S&amp;P '
+                  f'{abs(m["spxOff"]) * 100:.1f}% under its high</span>'
+                  f'<div class="what">{then}</div>'
+                  f'<div class="next">Next 6 months, the S&amp;P\'s worst: {b(nx.get("fall6"))}. After 6 / 12 months: '
+                  f'S&amp;P {b(nx.get("spx6"))} / {b(nx.get("spx12"))} · bonds {b(nx.get("bonds6"))} / {b(nx.get("bonds12"))} · '
+                  f'gold {b(nx.get("gold6"))} / {b(nx.get("gold12"))}</div></div>')
+    deep = sum(1 for m in D.get('matches', []) if (m['next'].get('fall6') or 0) <= -0.10)
+    past = (f'<p class="sub">Past times like now: the closest days on the same dominoes, inflation above or below 3% and the '
+            f'S&amp;P\'s distance from its high (one per six months). {deep} of {len(ms)} fell 10% or more within six months'
+            + (f" (any six months since 1988: {round(D['normal10'] * 100)}%)" if D.get('normal10') is not None else '') + '.</p>'
+            + ''.join(ms)) if ms else ''
+    T = D.get('test')
+    test = (f"Tested from {T['since'][:4]} ({T['n']} month-ends, each matched only with earlier days), these matches ranked the "
+            f"months before a 10%+ fall no better than a coin flip ({round(T['auc'] * 100)}%, where 50% is chance) and "
+            f"scored {'worse' if T['brier'] > T['brierNormal'] else 'no better'} than the normal rate; the domino count "
+            f"alone did better ({round(T['aucCount'] * 100)}%). ") if T else ''
+    note = (f'<p class="note">History, not a forecast. {test}Acting on the dominoes cost the plan: stepping out of stocks on '
+            'them made 20–26% a year from 2000 against the plan\'s 45.8% (research, Oct 2026). Information only: the plan '
+            'doesn\'t use this.</p>')
+    return ('<section id="dominoes"><p class="section-label">Dominoes <span class="hint">what had fallen before past S&amp;P '
+            'falls · past times like now · information only</span></p>\n'
+            f'  <div class="card dom">{head}{table}{past}{note}</div></section>\n')
 
 
 ISSUES_PATH = os.path.join(ROOT, 'docs', 'issues.html')
