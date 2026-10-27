@@ -3968,6 +3968,7 @@ CWH_CSS = """.cwh td, .cwh th { white-space: normal; vertical-align: top; font-s
 .cwh td small { display: block; color: var(--muted); font-size: 0.72rem; }
 .cwh td.now { background: var(--surface-2); }
 .cwh .sig { font-weight: 600; } .cwh .sig.pos { color: var(--pos); } .cwh .sig.neg { color: var(--neg); }
+.cwh .trip, .cwh td small { white-space: nowrap; }
 @media (max-width: 520px) { .cwh { min-width: 560px; } }"""
 CWH_READS = (('long', 'While crowded long'), ('short', 'While crowded short'),
              ('exitLong', 'After a long crowded-long spell ends'), ('exitShort', 'After a long crowded-short spell ends'))
@@ -4006,7 +4007,7 @@ def crowding_history_html(G=None, path=None):
         c3 = read.get('3')
         typ = f"<small>3 mo typical {sg(c3['typ'])}</small>" if c3 else ''
         shade = ' class="now"' if (key == 'long' and now.get(name) == 'long') or (key == 'short' and now.get(name) == 'short') else ''
-        return f"<td{shade}>{' · '.join(bits)}{typ}</td>"
+        return f"<td{shade}><span class=\"trip\">{' · '.join(bits)}</span>{typ}</td>"
 
     rows = []
     for name, m in M.items():
