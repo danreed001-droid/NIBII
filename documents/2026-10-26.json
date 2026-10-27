@@ -375,8 +375,8 @@
        null
       ]
      ],
-     "maturityClose": 7719.5,
-     "ret": -0.000809,
+     "maturityClose": 7752.5,
+     "ret": 0.003462,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2480,8 +2480,8 @@
        null
       ]
      ],
-     "maturityClose": 106.0,
-     "ret": -0.001031,
+     "maturityClose": 106.046875,
+     "ret": -0.000589,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5137,8 +5137,8 @@
        null
       ]
      ],
-     "maturityClose": 4052.89990234375,
-     "ret": 0.006107,
+     "maturityClose": 4069.89990234375,
+     "ret": 0.010327,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7270,8 +7270,8 @@
        null
       ]
      ],
-     "maturityClose": 102.1780014038086,
-     "ret": 0.00097,
+     "maturityClose": 102.30400085449219,
+     "ret": 0.002204,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9487,8 +9487,8 @@
        null
       ]
      ],
-     "maturityClose": 2803.39990234375,
-     "ret": 0.001393,
+     "maturityClose": 2827.699951171875,
+     "ret": 0.010073,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11381,7 +11381,7 @@
       [
        "bull",
        "Brent fell about 1.3% on 26 October (news log) and oil is the dominant 21-session driver for this asset (correlation -0.538), with equities closing higher",
-       false
+       true
       ],
       [
        "neu",
@@ -11389,8 +11389,8 @@
        null
       ]
      ],
-     "maturityClose": 29530.5,
-     "ret": 0.000635,
+     "maturityClose": 29784.5,
+     "ret": 0.009242,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
