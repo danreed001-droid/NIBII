@@ -119,6 +119,7 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .evr .evr-o b { font-weight: 600; color: var(--ink); } .evr .evr-o b.pos { color: var(--pos); } .evr .evr-o b.neg { color: var(--neg); }
 .evr .evr-note { border-top: 1px solid var(--hairline); padding-top: 8px; }
 @media (max-width: 520px) { .evr .evr-o { margin-left: 0; } }
+__DOMCSS__
 .issues-card ul { margin: 6px 0 0; padding-left: 0; list-style: none; }
 .issues-card li { padding: 7px 0; border-top: 1px solid var(--hairline); font-size: 0.84rem; line-height: 1.45; }
 .issues-card li:first-child { border-top: 0; }
@@ -454,6 +455,7 @@ footer li { margin-bottom: 6px; }
   <div class="card swpanel" id="swpanel" hidden></div>
 
 __RECENT__
+__DOMINOES__
 __EVENTS__
   <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
   <div class="plan">
@@ -3521,6 +3523,7 @@ def render(scan, growth=None):
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
+    page = page.replace('__DOMCSS__', DOM_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
     page = page.replace('__EVENTS__', events_html(), 1)
     sys.path.insert(0, ROOT)
     from mtl.events import ADD_URL   # the events page's "Add news" form
@@ -3697,11 +3700,12 @@ def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
 DOMINOES_PATH = os.path.join(ROOT, 'data', 'dominoes.json')
 
 
-def dominoes_html(asof=None, path=DOMINOES_PATH):
+def dominoes_html(asof=None, path=None):
     """The dominoes card (data/dominoes.json, mtl/dominoes.py): which of the eight are down now, how deep past falls went
-    by dominoes down on the day the S&P first closed 5% under its top, and the closest past times with what followed."""
+    by dominoes down on the day the S&P first closed 5% under its top, and the closest past times with what followed.
+    On the scanner page and docs/stress.html."""
     try:
-        with open(path) as fh:
+        with open(path or DOMINOES_PATH) as fh:
             D = json.load(fh)
     except (OSError, ValueError):
         return ''
