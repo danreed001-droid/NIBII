@@ -11,8 +11,9 @@ It is a running calculation: each weekly rebuild uses every event so far, so new
 three months have passed. And from AUTO_SINCE on, each new event's odds are saved the day it first appears and checked
 three months later (data/event_forecasts.json), so the page can show whether the patterns keep working live.
 
-The hand-picked list supplies the news types. The rule types (big up/down days, VIX spikes, market-phase changes) use
-every day the nightly rules would have fired since 2000, so they carry no hindsight.
+The hand-picked list supplies the news types. The rule types (big up/down days, VIX spikes, market-phase changes,
+macro signals) use every day the nightly rules would have fired since 2000, so they carry no hindsight (the macro
+signals read today's copy of the Fed's data, which can carry small later revisions to inflation and jobs).
 
     python scripts/event_patterns.py      # fetch prices, rebuild data/event_patterns.json"""
 import json
@@ -36,7 +37,11 @@ ASSETS = {'S&P 500': 'SPY', 'Bonds': 'VUSTX', 'Gold': 'GLD', 'Oil': 'CL=F', 'Dol
 SECTORS = {'Tech': 'XLK', 'Financials': 'XLF', 'Energy': 'XLE', 'Utilities': 'XLU', 'Health care': 'XLV',
            'Staples': 'XLP', 'Discretionary': 'XLY', 'Industrials': 'XLI', 'Materials': 'XLB',
            'Small caps': 'IWM', 'Nasdaq 100': 'QQQ'}
-EXTRA = ('GC=F', '^VIX')      # gold futures before the gold ETF (Nov 2004); the VIX for the spike rule
+EXTRA = ('GC=F', '^VIX', 'VWEHX')   # gold futures before the gold ETF (Nov 2004); the VIX for the spike rule; junk bonds
+MACRO_YF = {'banks': 'XLF', 'junk': 'VWEHX', 'dollar': 'DX-Y.NYB'}          # the macro signals' inputs
+MACRO_FRED = {'oil': 'DCOILWTICO', 'curve': 'T10Y3M', 'cpi': 'CPIAUCSL', 'sahm': 'SAHMREALTIME'}
+FRED_URL = 'https://fred.stlouisfed.org/graph/fredgraph.csv?id={}'
+VERSION = 2                    # 2: macro signal types; an older file is rebuilt on the next run
 GOLD_ETF_FROM = '2004-11-19'
 OIL_BROKEN = ('2020-04-14', '2020-05-08')   # US crude futures went negative: returns meaningless
 MIN_N = 3
@@ -59,8 +64,51 @@ def fetch(start='1999-06-01'):
             missing.append(t)
     if len(out.get('SPY', {})) < 5000:
         raise SystemExit(f"SPY history came back short ({len(out.get('SPY', {}))} closes)")
-    out['_missing'] = missing
+    got, miss = fetch_fred()
+    out.update(got)
+    out['_missing'] = missing + miss
     return out
+
+
+def fred(sid, timeout=60):
+    """{date: value} for a FRED series (its public CSV); blanks dropped."""
+    import csv
+    import io
+    import urllib.request
+    with urllib.request.urlopen(FRED_URL.format(sid), timeout=timeout) as r:
+        rows = list(csv.reader(io.StringIO(r.read().decode())))[1:]
+    return {row[0]: float(row[1]) for row in rows if len(row) > 1 and row[1] not in ('', '.')}
+
+
+def fetch_fred(ids=tuple(MACRO_FRED.values()), get=fred):
+    """({'FRED:id': {date: value}}, [ids that failed or came back short]): one failing leaves its signals out."""
+    out, missing = {}, []
+    for sid in ids:
+        try:
+            out[f'FRED:{sid}'] = get(sid)
+        except Exception:   # noqa: BLE001 - the other series still load
+            out[f'FRED:{sid}'] = {}
+        if len(out[f'FRED:{sid}']) < 24:
+            missing.append(sid)
+    return out, missing
+
+
+MACRO_MIN = dict(daily=1000, monthly=36)    # a series shorter than this (a cut-off download) is left out, not misread
+
+
+def macro_inputs(px):
+    """The macro signals' series (mtl/macro_events.py) from fetched prices; any that are missing or cut short come back
+    empty, so a partial download can't fake a "first time in a year"."""
+    enough = lambda v, k: v if len(v) >= MACRO_MIN['monthly' if k in ('cpi', 'sahm') else 'daily'] else {}
+    ser = {k: enough(px.get(t, {}), k) for k, t in MACRO_YF.items()}
+    ser.update({k: enough(px.get(f'FRED:{sid}', {}), k) for k, sid in MACRO_FRED.items()})
+    return ser
+
+
+def macro_missing(px):
+    """The macro inputs that macro_inputs() leaves out."""
+    ser = macro_inputs(px)
+    return [t for k, t in list(MACRO_YF.items()) + list(MACRO_FRED.items()) if not ser[k]]
 
 
 def align(series, cal, stale=3):
@@ -161,7 +209,7 @@ def compute(doc, px, now=None):
             by_type.setdefault(t, []).append(k)
     hist = []
     spy = [px['SPY'][d] for d in cal]
-    ev.auto(hist, cal, spy, px.get('^VIX', {}), [], since=START)
+    ev.auto(hist, cal, spy, px.get('^VIX', {}), [], since=START, macro=macro_inputs(px))
     for e in hist:
         t = et.classify(dict(e, what=e['what'].split(':')[0]))
         k = bisect_left(cal, e['d'])
@@ -206,6 +254,7 @@ def compute(doc, px, now=None):
             b[lab] = {lab2: summary(m, sub, 'S&P 500', h, base, split) for lab2, h in (('month', 21), ('quarter', 63))}
         groups[g] = b
     return dict(about='What usually followed each type of market event since 2000 (scripts/event_patterns.py). Information only.',
+                version=VERSION,
                 updated=(now or datetime.now(timezone.utc)).isoformat(timespec='seconds'), start=START, split=split,
                 missing=list(px.get('_missing', [])),
                 baseline=base, types=types, groups=groups)
@@ -220,8 +269,9 @@ def load(path=OUT):
 
 
 def stale(path=OUT, days=7):
+    """A week old, or built before the current set of types (VERSION)."""
     doc = load(path)
-    if not doc:
+    if not doc or doc.get('version', 1) < VERSION:
         return True
     t = datetime.fromisoformat(doc['updated'])
     return (datetime.now(timezone.utc) - t).days >= days

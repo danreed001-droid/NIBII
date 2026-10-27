@@ -114,3 +114,22 @@ def test_gold_and_bonds_moves_use_one_source_per_window():
     evs[0]['bonds'] = dict(day=0.01, month=0.02)
     ev.side_moves(evs, cal, dict(bonds=[(0, fut), (k, [])]))                                  # one source failed tonight
     assert evs[0]['bonds'] == dict(day=0.01, month=0.02)
+
+
+def test_macro_signals_join_from_signal_since_once_each_and_can_share_a_day():
+    from datetime import date, timedelta
+    d, cal = date(2024, 7, 1), []
+    while len(cal) < 460:
+        if d.weekday() < 5:
+            cal.append(d.isoformat())
+        d += timedelta(days=1)
+    spy = [100.0] * len(cal)
+    k = next(i for i, x in enumerate(cal) if x >= '2026-02-02')
+    oil = dict(zip(cal, [60.0] * k + [95.0] * (len(cal) - k)))            # up 58% in a year from Feb 2, 2026
+    evs = []
+    ev.auto(evs, cal, spy, {}, [], since=ev.AUTO_SINCE, macro=dict(oil=oil))
+    assert [(e['d'], e['src'], e['type']) for e in evs] == [(cal[k], ev.SIGNAL_SRC, 'Oil up 50% in a year')]
+    ev.auto(evs, cal, spy, {}, [], since=ev.AUTO_SINCE, macro=dict(oil=oil))
+    assert len(evs) == 1                                                   # re-running adds nothing
+    assert ev.add(evs, cal[k], 'Dollar down 10% in a year: down 11%', ev.SIGNAL_SRC)   # a second signal that day
+    assert not ev.add(evs, cal[k], 'Oil up 50% in a year: again', ev.SIGNAL_SRC)

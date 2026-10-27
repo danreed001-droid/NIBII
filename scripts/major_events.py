@@ -29,10 +29,13 @@ TLT_FROM = '2002-07-30'                          # long Treasuries: TLT from her
 
 def fetch():
     """SPY and the VIX (the page can't run without SPY), plus gold and long Treasuries for their moves under each event:
-    one of those failing leaves its figures as they were and is listed in '_missing'."""
+    one of those failing leaves its figures as they were and is listed in '_missing'. Also the macro signals' inputs
+    (banks, junk bonds, the dollar, and oil, the yield curve, inflation and jobs from the Fed's FRED data): one of those
+    failing just leaves its signals out tonight and is listed in '_macro_missing'."""
     import yfinance as yf
     out, missing = {}, []
-    for t in ('SPY', '^VIX') + SIDE_TICKERS:
+    macro_t = tuple(t for t in ep.MACRO_YF.values() if t not in ('SPY', '^VIX') + SIDE_TICKERS)
+    for t in ('SPY', '^VIX') + SIDE_TICKERS + macro_t:
         try:
             df = yf.download(t, start='1999-06-01', auto_adjust=True, progress=False)
             c = df['Close']
@@ -44,7 +47,9 @@ def fetch():
             missing.append(t)
     if len(out['SPY']) < 5000:
         raise SystemExit(f"SPY history came back short ({len(out['SPY'])} closes)")
+    out.update(ep.fetch_fred()[0])
     out['_missing'] = missing
+    out['_macro_missing'] = ep.macro_missing(out)
     return out
 
 
@@ -522,7 +527,13 @@ def main(argv):
             health.add(log, today, 'events', f"News feed not working for {nf.STALE_DAYS}+ days: {', '.join(dead)}. "
                        "The events page still runs; big-move days may lack a headline.")
             health.save(log)
-        new = ev.auto(doc['events'], cal, spy, px['^VIX'], news, headlines=heads['items'], fed=doc['fed'])
+        new = ev.auto(doc['events'], cal, spy, px['^VIX'], news, headlines=heads['items'], fed=doc['fed'],
+                      macro=ep.macro_inputs(px))
+        if px.get('_macro_missing'):
+            log = health.load()
+            health.add(log, today, 'events', f"No data for {', '.join(px['_macro_missing'])} tonight, so those macro signals "
+                       "(oil, dollar, credit, yield curve, inflation, jobs) are skipped until it is back (it never affects the plan).")
+            health.save(log)
         all_moves(doc, px, cal, today)
         if '--patterns' in argv or ep.stale():
             try:

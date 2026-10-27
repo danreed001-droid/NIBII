@@ -9,6 +9,8 @@ From AUTO_SINCE on, each run adds:
     decision in the news log;
   - the VIX closing above 30 for the first time in three months;
   - the market label (mtl/phase.py) turning to a correction, a bear market, a new bull run, or back to a bull run.
+  - a macro signal (mtl/macro_events.py): oil, the dollar, credit, the yield curve, inflation or jobs crossing the
+    line that marked past turns. These start from SIGNAL_SINCE, so this year's are on the list.
 Your own items, sent from the page's "Add news" form, live in data/my_events.json (written only by that form's
 workflow) and are copied in on every run as 'added by you'."""
 import json
@@ -17,6 +19,7 @@ import re
 from bisect import bisect_left
 from datetime import date
 
+from mtl import macro_events
 from mtl.event_types import TYPES, classify
 from mtl.phase import market_phase
 
@@ -27,6 +30,7 @@ MINE = os.path.join(ROOT, 'data', 'my_events.json')
 MINE_SRC = 'added by you'
 ADD_URL = 'https://github.com/danreed001-droid/NIBII/issues/new?template=market-event.yml'   # the "Add news" form
 AUTO_SINCE = '2026-10-19'
+SIGNAL_SRC, SIGNAL_SINCE = 'auto: signal', '2026-01-01'
 BIG_MOVE, VIX_SPIKE = 0.025, 30.0
 FED = re.compile(r'^\s*(the\s+)?(Fed|Federal Reserve|FOMC)\b[^.;]{0,40}?\b(raises|cuts|hikes|lowers)\b', re.I)   # a decision, not odds or talk
 PHASE_TEXT = {'correction': 'S&P 500 enters a correction (10%+ below its high)',
@@ -78,8 +82,10 @@ def save(doc, path=PATH):
 
 
 def add(events, d, what, src):
-    """Add an event unless one from the same rule is already on that day. Returns True when added."""
-    if any(e['d'] == d and e['src'] == src for e in events):
+    """Add an event unless one from the same rule is already on that day (for macro signals: the same signal, since two
+    can fire on one day). Returns True when added."""
+    kind = lambda w: w.split(':', 1)[0] if src == SIGNAL_SRC else ''
+    if any(e['d'] == d and e['src'] == src and kind(e['what']) == kind(what) for e in events):
         return False
     e = dict(d=d, what=what, src=src, day=None, month=None)
     e['type'] = classify(e)
@@ -133,9 +139,10 @@ def day_headline(news, headlines, d, sign):
     return None, None
 
 
-def auto(events, cal, spy, vix, news, since=AUTO_SINCE, headlines=(), fed=()):
+def auto(events, cal, spy, vix, news, since=AUTO_SINCE, headlines=(), fed=(), macro=None):
     """Apply the automatic rules to every session from `since` (re-running is safe). `headlines` are the saved feed
-    items, `fed` the Fed's decisions [{d, action, lo, hi}]. Returns the events added."""
+    items, `fed` the Fed's decisions [{d, action, lo, hi}], `macro` the series for the macro signals
+    (mtl/macro_events.py; those start from SIGNAL_SINCE when that is earlier). Returns the events added."""
     from mtl.news_feeds import fmt_rate
     new, idx = [], {d: k for k, d in enumerate(cal)}
     for k in range(max(1, bisect_left(cal, since)), len(cal)):
@@ -177,6 +184,10 @@ def auto(events, cal, spy, vix, news, since=AUTO_SINCE, headlines=(), fed=()):
             if k < len(cal) and not any(x['d'] == cal[k] and 'Fed' in x['what'] for x in events) \
                     and add(events, cal[k], r_['event'].split(';')[0].strip(), 'auto: Fed'):
                 new.append(cal[k])
+    if macro:
+        for d, what in macro_events.find(cal, macro, min(since, SIGNAL_SINCE)):
+            if add(events, d, what, SIGNAL_SRC):
+                new.append(d)
     return new
 
 
