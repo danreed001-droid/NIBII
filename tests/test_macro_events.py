@@ -75,3 +75,9 @@ def test_since_keeps_only_later_signals():
     cal = sessions()
     oil = [50.0] * 300 + [80.0] * 600
     assert M.find(cal, dict(oil=path(cal, oil)), cal[301]) == []
+
+
+def test_oil_signal_fires_even_when_the_feds_oil_series_runs_a_week_behind():
+    cal = sessions()
+    oil = dict(zip(cal[:-8], [50.0] * 300 + [80.0] * (len(cal) - 308)))
+    assert [d for d, w in M.find(cal, dict(oil=oil), cal[0])] == [cal[300]]

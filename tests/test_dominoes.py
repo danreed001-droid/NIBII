@@ -80,3 +80,13 @@ def test_a_daytime_run_reads_only_closed_sessions():
     from scripts.dominoes import closed_only
     ser = dict(spx={'2026-10-26': 1.0, '2026-10-27': 2.0}, cpi={'2026-09-01': 3.0}, junk=None)
     assert closed_only(ser, '2026-10-26') == dict(spx={'2026-10-26': 1.0}, cpi={'2026-09-01': 3.0}, junk={})
+
+
+def test_the_feds_slower_daily_series_still_count_a_week_late():
+    cal = sessions(600)
+    flat = {d: 100.0 for d in cal}
+    late = cal[:-8]                                                    # oil and the Fed rate stop 8 sessions short
+    ser = dict(tech=flat, small=flat, banks=flat, transport=flat, junk=flat, curve={d: 0.5 for d in late},
+               fed={d: 2.0 for d in late}, oil={d: (50.0 if i < 500 else 80.0) for i, d in enumerate(late)})   # +60% in a year
+    r, on = dm.readings(cal, ser)
+    assert np.isfinite(r['oil'][-1]) and np.isfinite(r['fed'][-1]) and on[-1][[k for k, *_ in dm.DOMINOES].index('oil')]
