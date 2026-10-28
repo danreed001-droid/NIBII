@@ -29,7 +29,9 @@
    "d": "2026-10-23",
    "src": "track",
    "text": "A live rule changed since the backtest engine (research/backtest/overlay) was last synced, so the refreshed track record may not be the live plan's. Sync the engine's NBup variant, then run research/backtest/check_sync.py --update.",
-   "at": "2026-10-24T03:11:57+00:00"
+   "at": "2026-10-24T03:11:57+00:00",
+   "fixed": "the engine is in step with the live rules again (check_sync.py)",
+   "fixedOn": "2026-10-28"
   },
   {
    "d": "2026-10-27",
@@ -41,7 +43,9 @@
    "d": "2026-10-27",
    "src": "scan",
    "text": "The rules changed on 2026-10-27 without an update entry in the paper record.",
-   "at": "2026-10-28T01:27:11+00:00"
+   "at": "2026-10-28T01:27:11+00:00",
+   "fixed": "no rule had changed: a page-only price list had altered the rule fingerprint; it was moved out and the paper record lists that fingerprint",
+   "fixedOn": "2026-10-28"
   }
  ]
 }

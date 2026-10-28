@@ -3830,7 +3830,8 @@ def issue_rows(scan, entries=None, today=None):
         except ValueError:
             entries = [dict(d=scan.get('asOf') or '', src='run', at='', text='The issues log (data/issues_log.json) is damaged and could not be read.')]
     today = today or datetime.now(ZoneInfo('America/New_York')).date()
-    rows = [(e['d'], e['text']) for e in health.recent(entries, today)]
+    rows = [(e['d'], f"Fixed {e['fixedOn']}: {e['fixed']}. Logged: {e['text']}" if e.get('fixed') else e['text'])
+            for e in health.recent(entries, today)]   # a fixed issue stays listed for its 14 days, marked as fixed
     try:
         with open(IGNITION_PATH) as f:
             ig = json.load(f).get('asOf')
