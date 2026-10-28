@@ -3677,6 +3677,8 @@ def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
     base = (pats or {}).get('baseline', {})
     norm = {a: base.get(a, {}).get('63', {}).get('up') for a, _ in EVR_ASSETS}
 
+    plain_notes = []
+
     def odds(c, a, lab):
         """'S&P 500 up only 40% of the time (normally 69%)' where it differs from normal by 10+ points, else None."""
         b = norm.get(a)
@@ -3699,6 +3701,9 @@ def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
             return 'Too few past events of this type to say what usually followed.'
         notes = [x for x in (odds(src['assets'][a]['quarter'], a, lab) for a, lab in EVR_ASSETS
                              if (src['assets'].get(a) or {}).get('quarter')) if x]
+        sp = src['assets'].get('S&P 500', {}).get('quarter')
+        if sp and norm.get('S&P 500') is not None:
+            plain_notes.append((e, who, sp['up'] - norm['S&P 500'], sp))
         if not notes:
             return f'After the {who}, nothing moved differently from normal 3 months later.'
         return f'After the {who}, higher 3 months later:<span class="evr-cs">' + ''.join(notes) + '</span>'
@@ -3713,6 +3718,23 @@ def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
                     f'<span class="evr-t">{html.escape(e["what"])}</span>{tag}</div>'
                     f'<div class="evr-o">{line(e)}</div></div>')
     nm = ' · '.join(f"{lab} {round(norm[a] * 100)}%" for a, lab in EVR_ASSETS if norm.get(a) is not None)
+    plain = ''
+    recent = [x for x in plain_notes if x[0]['d'] > (today - timedelta(days=31)).isoformat()] or plain_notes[:1]
+    if recent:
+        e0, who0, d0, sp0 = recent[0]
+        weak = sum(1 for x in recent if x[2] <= -0.10)
+        strong = sum(1 for x in recent if x[2] >= 0.10)
+        how = (f'less often than usual ({round(sp0["up"] * 100)}% of the time, against {round(norm["S&P 500"] * 100)}% normally)' if d0 <= -0.10
+               else f'more often than usual ({round(sp0["up"] * 100)}% of the time, against {round(norm["S&P 500"] * 100)}% normally)' if d0 >= 0.10
+               else 'about as often as usual')
+        n_ = len(recent)
+        same = weak if d0 <= -0.10 else strong if d0 >= 0.10 else n_ - weak - strong
+        lean = ('' if n_ < 2 else (' Both news items of the last month have that same record.' if n_ == 2 else
+                f' All {n_} news items of the last month have that same record.') if same == n_ else
+                f' Of the {n_} news items in the last month, {weak} usually came before weaker stocks than normal and {strong} before stronger.')
+        plain = (f'<div class="plain"><b>In plain words:</b> the latest news is “{html.escape(e0["what"])}”. After the {who0}, '
+                 f'stocks (the S&amp;P 500) were higher 3 months later {how}.{lean} These are tendencies, not forecasts, and the '
+                 'plan does not trade on them.</div>')
     head = (f'<p class="evr-norm">Under each event: how often each market was higher 3 months after past events of the same '
             f'kind, against how often it is normally (any 3 months since 2000: {nm}). Shown only where the two differ by 10 '
             f'points or more: <b class="pos">▲</b> more often, <b class="neg">▼</b> less often; ✓ = held in both halves of 2000–2026.</p>' if nm else '<p class="evr-norm">What usually followed each type is not built yet.</p>')
@@ -3720,7 +3742,7 @@ def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
         else f'<p class="evr-note">{EVR_NOTE}</p>'
     return ('<section id="events-recent"><p class="section-label">Recent events <span class="hint">the last 3 months and this '
             'year\'s macro signals · what usually followed each · <a href="events.html">all events →</a></span></p>\n'
-            f'  <div class="card evr">{head}{"".join(rows)}{tail}</div></section>\n')
+            f'  <div class="card evr">{plain}{head}{"".join(rows)}{tail}</div></section>\n')
 
 
 DOMINOES_PATH = os.path.join(ROOT, 'data', 'dominoes.json')
@@ -3980,17 +4002,11 @@ def crowding_html(scan):
         f'<td class="num hide-sm {_tone(r["net"])}">{_p(r["net"], 0)}</td>'
         f'<td class="hide-sm">{spark(r.get("hist") or [])}</td></tr>'
         for r in G['rows'])
-    hot = [r for r in G['rows'] if r.get('flag')]
-    if hot:
-        now = '; '.join(f'<b>{_e(r["name"])}</b> crowded {r["flag"]} ({r["pct"] * 100:.0f}% of its 3-year range)' for r in hot)
-        rest = len(G['rows']) - len(hot)
-        summary = f'Crowded now: {now}.' + (f' The other {rest} markets are inside their usual range.' if rest else '')
-    else:
-        summary = 'No market is crowded this week: speculators sit inside their usual range everywhere.'
+    summary = crowding_plain(G['rows'])
     pct = round((1 - cr) * 100)
     return ('<section id="crowding"><p class="section-label">Speculator crowding <span class="hint">information only · '
             f'CFTC futures positions as of {_e(G.get("asOf"))} (published the Friday after)</span></p>'
-            f'<p class="cw-sum">{summary}</p>'
+            f'<div class="plain"><b>In plain words:</b> {summary}</div>'
             '<div class="tablebox"><table class="cw"><thead><tr><th class="l">Market</th>'
             '<th class="l cw-cell"><span class="cw-ends"><span>more short</span><span>more long</span></span></th>'
             '<th class="hide-sm" title="Speculators\u2019 long contracts minus short contracts, as a share of all open contracts">Net long</th>'
@@ -4009,6 +4025,37 @@ def crowding_html(scan):
             + crowding_history_html(G) + '</section>\n')
 
 
+CROWD_PLAIN = {'Nasdaq-100 futures': 'the Nasdaq-100', 'S&P 500 futures': 'the S&P 500', '10-yr Treasury': '10-year Treasury bonds',
+               '30-yr Treasury': '30-year Treasury bonds', 'Crude oil': 'oil'}
+
+
+def crowding_plain(rows):
+    """The crowding gauge in a few plain sentences: who is betting heavily which way, and what that has meant before."""
+    hot = [r for r in rows if r.get('flag')]
+    if not hot:
+        return ('Big traders (hedge funds and other speculators) are not making any unusually one-sided bets in these '
+                f'{len(rows)} markets right now. Nothing to watch here.')
+    out = []
+    for r in hot:
+        what = CROWD_PLAIN.get(r['name'], r['name'].lower())
+        up = r['flag'] == 'long'
+        stock = r['name'] in ('S&P 500 futures', 'Nasdaq-100 futures')
+        lead = (f'Big traders are betting heavily on {_e(what)} going {"up" if up else "down"}: more than at almost any time in '
+                f'the last 3 years ({r["pct"] * 100:.0f}% of their 3-year range).')
+        if stock and up:
+            past = 'In the past that was not a reliable warning of a fall.'
+        elif stock:
+            past = 'In the past stocks usually rose afterwards: the S&amp;P 500 was higher 3 months later 79% of the time.'
+        elif r['name'] == 'Silver' and up:
+            past = 'After past weeks like this silver fell 10%+ within 2 months a third of the time (a quarter of the time normally).'
+        else:
+            past = 'No reliable pattern followed this in the past.'
+        out.append(f'{lead} {past}')
+    rest = len(rows) - len(hot)
+    tail = f' The other {rest} markets look normal.' if rest else ''
+    return ' '.join(out) + tail + ' The plan does not act on this.'
+
+
 CROWD_HIST_PATH = os.path.join(ROOT, 'data', 'crowding_history.json')
 CWH_CSS = """.cwh td, .cwh th { white-space: normal; vertical-align: top; font-size: 0.8rem; }
 .cwh td small { display: block; color: var(--muted); font-size: 0.72rem; }
@@ -4023,7 +4070,7 @@ CWH_CSS = """.cwh td, .cwh th { white-space: normal; vertical-align: top; font-s
 .cw-read { font-size: 0.78rem; } .cw-lab { color: var(--muted); } .cw-mv { color: var(--muted); font-size: 0.72rem; }
 .cw-ends { display: flex; justify-content: space-between; gap: 10px; font-weight: 600; font-size: 0.64rem; }
 .cw .cw-bar { margin-right: 4px; }
-.cw-sum { margin: 0 0 8px; font-size: 0.92rem; }
+.plain { margin: 0 0 10px; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); border-left: 3px solid var(--accent); font-size: 0.9rem; line-height: 1.5; }
 .cw-meant { margin: 8px 0 0; padding-left: 18px; font-size: 0.84rem; line-height: 1.45; } .cw-meant li { margin: 4px 0; }
 details.cw-more { margin-top: 10px; } details.cw-more summary { cursor: pointer; font-weight: 600; font-size: 0.86rem; }"""
 CWH_READS = (('long', 'While crowded long'), ('short', 'While crowded short'))
