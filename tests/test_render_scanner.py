@@ -332,8 +332,10 @@ def test_recent_events_show_what_usually_followed_each(tmp_path):
     assert 'id="events-recent"' in out and 'Fed hikes &lt;0.25%&gt;' in out                     # escaped
     assert 'An old curated event' not in out and 'last year' not in out                       # 3 months; signals a year
     assert out.index('A new kind of thing') < out.index('Fed hikes') < out.index('Oil up 50%')  # newest first
-    assert '<b class="neg">31%↓</b>' in out and '<b class="pos">75%↑✓</b>' in out and '(15 Fed hike / hawkish events before)' in out
-    assert 'Too few past events of this type' in out and 'Any 3 months since 2000, higher: S&amp;P 60%' in out
+    assert '<span class="evr-c neg">S&amp;P 500 ▼ <b>31%</b> <small>vs 60%</small></span>' in out                # only where 10+ points off
+    assert ('<span class="evr-c pos">gold ▲ <b>75%</b> <small>vs 60%</small><span class="ok" title="held in both halves of '
+            '2000-2026">✓</span></span>') in out and 'After the 15 past Fed hike / hawkish events, higher 3 months later' in out
+    assert 'Too few past events of this type' in out and 'any 3 months since 2000: S&amp;P 500 60%' in out
     assert '<span class="tag">Oil up 50% in a year</span>' not in out                           # a signal names itself
     assert 'Tendencies, not forecasts' in out and 'momentum' not in out.lower()
     page = render_scanner.render(SCAN)

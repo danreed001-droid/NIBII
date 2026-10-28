@@ -54,6 +54,7 @@ def test_table_under_the_gauge(tmp_path):
     p = tmp_path / 'h.json'
     p.write_text(json.dumps(dict(since='2000-01-01', span=8, markets={'Nasdaq-100 futures': m})))
     out = rs.crowding_history_html(dict(rows=[dict(name='Nasdaq-100 futures', flag='long')]), path=str(p))
-    assert 'What followed, since 2000' in out and '<span class="sig pos">10/11✓</span>' in out
-    assert '<td class="now"><span class="trip">6/16' in out and 'Passing: Nasdaq-100 futures while crowded short (3 mo).' in out
+    assert 'what followed crowded spells since 2000' in out and '<span class="sig pos">10 of 11 ✓</span>' in out
+    assert '<td class="now"><span class="sig neg">6 of 15</span> beat normal' in out                         # crowded long now
+    assert 'Unlikely to be luck: Nasdaq-100 futures while crowded short.' in out and '<details class="cw-more">' in out
     assert 'momentum' not in out.lower() and rs.crowding_history_html(path=str(tmp_path / 'none.json')) == ''

@@ -113,9 +113,14 @@ h1 { font-size: 2.4rem; font-weight: 600; }
 .evr .evr-row:first-of-type { margin-top: 8px; }
 .evr .evr-h { display: flex; gap: 8px; align-items: baseline; }
 .evr .evr-h .when { color: var(--muted); font-size: 0.76rem; white-space: nowrap; min-width: 3.6em; }
-.evr .evr-h .clamp { flex: 1; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evr .evr-h .evr-t { flex: 1; font-weight: 600; color: var(--ink); line-height: 1.35; }
+.evr .evr-o .ok { color: var(--pos); font-weight: 700; margin-left: 3px; }
+.evr .evr-cs { display: flex; flex-wrap: wrap; gap: 4px 6px; margin-top: 4px; }
+.evr .evr-c { font-size: 0.78rem; border-radius: 6px; padding: 2px 7px; background: var(--surface-2); white-space: nowrap; }
+.evr .evr-c b { font-weight: 700; } .evr .evr-c small { color: var(--muted); }
+.evr .evr-c.neg b { color: var(--neg); } .evr .evr-c.pos b { color: var(--pos); }
 .evr .tag { font-size: 0.68rem; background: var(--surface-2); color: var(--muted); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }
-.evr .evr-o { color: var(--muted); font-size: 0.78rem; margin: 3px 0 0 calc(3.6em + 8px); line-height: 1.45; }
+.evr .evr-o { color: var(--ink-2); font-size: 0.82rem; margin: 4px 0 0 calc(3.6em + 8px); line-height: 1.5; }
 .evr .evr-o b { font-weight: 600; color: var(--ink); } .evr .evr-o b.pos { color: var(--pos); } .evr .evr-o b.neg { color: var(--neg); }
 .evr .evr-note { border-top: 1px solid var(--hairline); padding-top: 8px; }
 @media (max-width: 520px) { .evr .evr-o { margin-left: 0; } }
@@ -3642,12 +3647,11 @@ def events_html(path=None, show=5):
             .replace('__MATCH__', ev.MATCH_JS, 1).replace('__ROWS__', data, 1))
 
 
-EVR_ASSETS = (('S&P 500', 'S&amp;P'), ('Bonds', 'bonds'), ('Gold', 'gold'), ('Oil', 'oil'), ('Dollar', 'dollar'))
-EVR_NOTE = ('Tendencies, not forecasts: tested from 2000 on, calling each event only from the ones before it, event types '
-            'were right less often than simply assuming each asset keeps its recent trend. The few that held up: fear spikes '
-            '(VIX over 40) were followed by a higher S&amp;P 3 months later 7 times in 8, Fed and government rescues by a '
-            'higher S&amp;P a month later 9 in 10, and wars by lower oil a month later 7 in 10. Since 2000, bonds and gold '
-            'have cushioned falling stocks mostly while inflation was under 3%. Information only: the plan doesn\'t use this.')
+EVR_ASSETS = (('S&P 500', 'S&amp;P 500'), ('Bonds', 'bonds'), ('Gold', 'gold'), ('Oil', 'oil'), ('Dollar', 'the dollar'))
+EVR_NOTE = ('Tendencies, not forecasts: tested from 2000, calling each event only from the ones before it, these patterns '
+            'were right less often than simply assuming each market keeps its recent trend. A few held up: fear spikes (VIX '
+            'over 40) were followed by a higher S&amp;P 500 3 months later 7 times in 8, Fed and government rescues by a '
+            'higher S&amp;P 500 a month later 9 in 10, and wars by lower oil a month later 7 in 10. The plan doesn\'t use this.')
 
 
 def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
@@ -3673,27 +3677,31 @@ def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
     base = (pats or {}).get('baseline', {})
     norm = {a: base.get(a, {}).get('63', {}).get('up') for a, _ in EVR_ASSETS}
 
-    def odds(c, a):
-        txt = f"{round(c['up'] * c['n'])} of {c['n']}" if c['n'] < 10 else f"{round(c['up'] * 100)}%"
+    def odds(c, a, lab):
+        """'S&P 500 up only 40% of the time (normally 69%)' where it differs from normal by 10+ points, else None."""
         b = norm.get(a)
-        cls, arrow = ('pos', '↑') if b is not None and c['up'] - b >= 0.10 else ('neg', '↓') if b is not None and b - c['up'] >= 0.10 else ('', '')
-        held = '✓' if c.get('held') else ''
-        return f'<b class="{cls}">{txt}{arrow}{held}</b>'
+        if b is None or abs(c['up'] - b) < 0.10:
+            return None
+        lo = c['up'] < b
+        txt = f"{round(c['up'] * c['n'])} of {c['n']}" if c['n'] < 10 else f"{round(c['up'] * 100)}%"
+        held = '<span class="ok" title="held in both halves of 2000-2026">✓</span>' if c.get('held') else ''
+        return (f'<span class="evr-c {"neg" if lo else "pos"}">{lab} {"▼" if lo else "▲"} <b>{txt}</b> '
+                f'<small>vs {round(b * 100)}%</small>{held}</span>')
 
     def line(e):
         t = e.get('type')
         T = (pats or {}).get('types', {}).get(t)
         g = et.group(t) if t else None
         G = (pats or {}).get('groups', {}).get(g)
-        src, who = (T, f"{T['n']} {html.escape(t)} events before") if T and T['assets']['S&P 500']['quarter'] else \
-            (G, f"all {G['n']} {et.GROUP_SHORT[g]} before") if G and G['assets']['S&P 500']['quarter'] else (None, '')
+        src, who = (T, f"{T['n']} past {html.escape(t)} events") if T and T['assets']['S&P 500']['quarter'] else \
+            (G, f"{G['n']} past {et.GROUP_SHORT[g]}") if G and G['assets']['S&P 500']['quarter'] else (None, '')
         if not src:
             return 'Too few past events of this type to say what usually followed.'
-        cells = []
-        for a, lab in EVR_ASSETS:
-            c = src['assets'].get(a, {}).get('quarter')
-            cells.append(f"{lab} {odds(c, a) if c else '–'}")
-        return f"Higher 3 months later: {' · '.join(cells)} <span>({who})</span>"
+        notes = [x for x in (odds(src['assets'][a]['quarter'], a, lab) for a, lab in EVR_ASSETS
+                             if (src['assets'].get(a) or {}).get('quarter')) if x]
+        if not notes:
+            return f'After the {who}, nothing moved differently from normal 3 months later.'
+        return f'After the {who}, higher 3 months later:<span class="evr-cs">' + ''.join(notes) + '</span>'
 
     rows = []
     for e in pick[:show]:
@@ -3702,11 +3710,12 @@ def recent_events_html(asof=None, path=None, pats_path=None, days=92, show=10):
         t = e.get('type') or ''
         tag = '' if not t or e['what'].startswith(t) else f'<span class="tag">{html.escape(t)}</span>'   # a signal names itself
         rows.append(f'<div class="evr-row"><div class="evr-h"><span class="when">{when}</span>'
-                    f'<span class="clamp">{html.escape(e["what"])}</span>{tag}</div>'
+                    f'<span class="evr-t">{html.escape(e["what"])}</span>{tag}</div>'
                     f'<div class="evr-o">{line(e)}</div></div>')
     nm = ' · '.join(f"{lab} {round(norm[a] * 100)}%" for a, lab in EVR_ASSETS if norm.get(a) is not None)
-    head = (f'<p class="evr-norm">Any 3 months since 2000, higher: {nm}. ↑ ↓ 10+ points above or below that; ✓ held in both '
-            'halves of the history.</p>' if nm else '<p class="evr-norm">What usually followed each type is not built yet.</p>')
+    head = (f'<p class="evr-norm">Under each event: how often each market was higher 3 months after past events of the same '
+            f'kind, against how often it is normally (any 3 months since 2000: {nm}). Shown only where the two differ by 10 '
+            f'points or more: <b class="pos">▲</b> more often, <b class="neg">▼</b> less often; ✓ = held in both halves of 2000–2026.</p>' if nm else '<p class="evr-norm">What usually followed each type is not built yet.</p>')
     tail = f'<p class="evr-note">{len(pick) - show} more on the <a href="events.html">events page</a>. {EVR_NOTE}</p>' if more > 0 \
         else f'<p class="evr-note">{EVR_NOTE}</p>'
     return ('<section id="events-recent"><p class="section-label">Recent events <span class="hint">the last 3 months and this '
@@ -3928,10 +3937,13 @@ def stress_html(scan, events_path=None):
 
 def crowding_html(scan):
     """The speculator crowding gauge (information only, mtl/crowding.py): each market's speculator net long share of
-    open futures contracts, placed in its own 3-year range, from the CFTC's weekly report. '' when the scan has none."""
+    open futures contracts, placed in its own 3-year range, from the CFTC's weekly report. A plain summary first, a
+    short-to-long bar per market, what crowding has meant, and the market-by-market history folded away.
+    '' when the scan has none."""
     G = ((scan.get('plan') or {}).get('auto') or {}).get('crowding')
     if not G or not G.get('rows'):
         return ''
+    cr = G['crowded']
 
     def spark(h):
         h = h[-26:]
@@ -3944,37 +3956,56 @@ def crowding_html(scan):
                 f'<line x1="0" x2="{w}" y1="{ht - 2 - 0.1 * (ht - 4):.1f}" y2="{ht - 2 - 0.1 * (ht - 4):.1f}" stroke="var(--grid)" stroke-dasharray="2 2"/>'
                 f'<polyline points="{pts}" fill="none" stroke="var(--accent)" stroke-width="1.5"/></svg>')
 
+    def label(v):
+        return (('Crowded long', 'sell') if v >= cr else ('Crowded short', 'buy') if v <= 1 - cr
+                else ('Leaning long', '') if v >= 0.7 else ('Leaning short', '') if v <= 0.3 else ('Mid-range', ''))
+
     def bar(v):
-        col = 'var(--neg)' if v >= G['crowded'] else 'var(--accent)' if v <= 1 - G['crowded'] else 'var(--muted)'
-        return (f'<span style="display:inline-block;width:48px;height:8px;border-radius:4px;background:var(--hairline);vertical-align:middle;position:relative">'
-                f'<span style="position:absolute;left:{max(0, min(1, v)) * 100:.0f}%;top:-2px;width:4px;height:12px;margin-left:-2px;border-radius:2px;background:{col}"></span></span>')
+        col = 'var(--neg)' if v >= cr else 'var(--accent)' if v <= 1 - cr else 'var(--muted)'
+        return (f'<span class="cw-bar" title="{v * 100:.0f}% of its 3-year range"><span class="cw-zone l"></span><span class="cw-zone r"></span>'
+                f'<span class="cw-dot" style="left:{max(0, min(1, v)) * 100:.0f}%;background:{col}"></span></span>')
 
-    def _pc(v):
-        return '–' if v is None else f'{v * 100:.0f}%'
+    def move(r):
+        if r.get('prev') is None:
+            return ''
+        d = round((r['pct'] - r['prev']) * 100)
+        return '' if d == 0 else f' <span class="cw-mv">{"▲" if d > 0 else "▼"}{abs(d)}</span>'
 
-    def flag(r):
-        return ('<br><span class="tag sell">Crowded long</span>' if r['flag'] == 'long'
-                else '<br><span class="tag buy">Crowded short</span>' if r['flag'] == 'short' else '')
+    def cell(r):
+        txt, tag = label(r['pct'])
+        lab = f'<span class="tag {tag}">{txt}</span>' if tag else f'<span class="cw-lab">{txt}</span>'
+        return f'{bar(r["pct"])}<div class="cw-read">{lab} <b>{r["pct"] * 100:.0f}%</b>{move(r)}</div>'
     rows = ''.join(
-        f'<tr><td class="l"><b>{_e(r["name"])}</b>{flag(r)}</td>'
-        f'<td class="num {_tone(r["net"])}">{_p(r["net"], 0)}</td>'
-        f'<td class="num">{bar(r["pct"])} {r["pct"] * 100:.0f}%</td>'
-        f'<td class="num hide-sm">{_pc(r.get("prev"))}</td>'
+        f'<tr><td class="l"><b>{_e(r["name"])}</b></td><td class="l cw-cell">{cell(r)}</td>'
+        f'<td class="num hide-sm {_tone(r["net"])}">{_p(r["net"], 0)}</td>'
         f'<td class="hide-sm">{spark(r.get("hist") or [])}</td></tr>'
         for r in G['rows'])
+    hot = [r for r in G['rows'] if r.get('flag')]
+    if hot:
+        now = '; '.join(f'<b>{_e(r["name"])}</b> crowded {r["flag"]} ({r["pct"] * 100:.0f}% of its 3-year range)' for r in hot)
+        rest = len(G['rows']) - len(hot)
+        summary = f'Crowded now: {now}.' + (f' The other {rest} markets are inside their usual range.' if rest else '')
+    else:
+        summary = 'No market is crowded this week: speculators sit inside their usual range everywhere.'
+    pct = round((1 - cr) * 100)
     return ('<section id="crowding"><p class="section-label">Speculator crowding <span class="hint">information only · '
             f'CFTC futures positions as of {_e(G.get("asOf"))} (published the Friday after)</span></p>'
-            '<div class="tablebox"><table><thead><tr><th class="l">Market</th>'
-            '<th title="Speculators\u2019 long contracts minus short contracts, as a share of all open contracts">Net long</th>'
-            '<th title="Where this week sits between the most short (0%) and most long (100%) speculators have been in 3 years">3-year range</th>'
-            '<th class="hide-sm">Week before</th><th class="hide-sm">Last 26 weeks</th>'
+            f'<p class="cw-sum">{summary}</p>'
+            '<div class="tablebox"><table class="cw"><thead><tr><th class="l">Market</th>'
+            '<th class="l cw-cell"><span class="cw-ends"><span>more short</span><span>more long</span></span></th>'
+            '<th class="hide-sm" title="Speculators\u2019 long contracts minus short contracts, as a share of all open contracts">Net long</th>'
+            '<th class="hide-sm">Last 26 weeks</th>'
             f'</tr></thead><tbody>{rows}</tbody></table></div>'
-            '<p class="note">How hard hedge funds and other speculators lean one way in each futures market. '
-            f'<b>Crowded long</b> = in the top {round((1 - G["crowded"]) * 100)}% of its 3-year range, <b>crowded short</b> = the bottom {round((1 - G["crowded"]) * 100)}%. '
-            'It does not change anything the plan does. Checked on every weekly report since 2000, the most crowded long weeks were followed by a 10%+ '
-            'fall within 2 months 32.6% of the time in silver (24.4% for all weeks), 27.6% in S&amp;P 500 futures (11.2%, from only 58 weeks), '
-            '6.9% in gold (6.8%) and 17.7% in copper (18.5%), and less often than normal in crude oil and Nasdaq-100 futures. It missed the May–June 2006 metals crash, whose money came largely through new '
-            'metal ETFs and index funds that this report does not count as speculators. A heads-up on positioning, not a timing signal.</p>'
+            '<p class="note">Where hedge funds and other speculators sit in each futures market, against their own last 3 years: '
+            f'0% = the most short they have been, 100% = the most long. The shaded ends are the top and bottom {pct}%, '
+            '<b>crowded</b>. ▲▼ = change since the week before.</p>'
+            '<ul class="cw-meant"><li><b>Crowded long has not been a reliable sell warning.</b> Since 2000 a 10%+ fall within 2 months '
+            'followed more often than usual only in silver (33% of crowded weeks, 24% normally) and S&amp;P 500 futures (28% against '
+            '11%, few cases), not in gold, copper, oil or Nasdaq-100 futures. It also missed the May–June 2006 metals crash.</li>'
+            '<li><b>Crowded short in stock futures has been a good sign for stocks.</b> The S&amp;P 500 was higher 3 months later '
+            '79% of the time (+5.1% on average, against +2.4% normally).</li>'
+            '<li><b>Neither works as a trading rule:</b> tested on the plan, stepping out when crowded long or into the index when '
+            'crowded short both did worse. A heads-up on positioning, not a timing signal; it changes nothing the plan does.</li></ul>'
             + crowding_history_html(G) + '</section>\n')
 
 
@@ -3983,16 +4014,25 @@ CWH_CSS = """.cwh td, .cwh th { white-space: normal; vertical-align: top; font-s
 .cwh td small { display: block; color: var(--muted); font-size: 0.72rem; }
 .cwh td.now { background: var(--surface-2); }
 .cwh .sig { font-weight: 600; } .cwh .sig.pos { color: var(--pos); } .cwh .sig.neg { color: var(--neg); }
-.cwh .trip, .cwh td small { white-space: nowrap; }
-@media (max-width: 520px) { .cwh { min-width: 560px; } }"""
-CWH_READS = (('long', 'While crowded long'), ('short', 'While crowded short'),
-             ('exitLong', 'After a long crowded-long spell ends'), ('exitShort', 'After a long crowded-short spell ends'))
+.cw { min-width: 0; } .cw td, .cw th { vertical-align: middle; }
+.cw .cw-cell { width: 58%; }
+.cw-bar { position: relative; display: block; height: 10px; border-radius: 5px; background: var(--hairline); margin: 2px 0 4px; }
+.cw-zone { position: absolute; top: 0; bottom: 0; width: 10%; opacity: .35; }
+.cw-zone.l { left: 0; border-radius: 5px 0 0 5px; background: var(--accent); } .cw-zone.r { right: 0; border-radius: 0 5px 5px 0; background: var(--neg); }
+.cw-dot { position: absolute; top: -3px; width: 6px; height: 16px; margin-left: -3px; border-radius: 3px; }
+.cw-read { font-size: 0.78rem; } .cw-lab { color: var(--muted); } .cw-mv { color: var(--muted); font-size: 0.72rem; }
+.cw-ends { display: flex; justify-content: space-between; gap: 10px; font-weight: 600; font-size: 0.64rem; }
+.cw .cw-bar { margin-right: 4px; }
+.cw-sum { margin: 0 0 8px; font-size: 0.92rem; }
+.cw-meant { margin: 8px 0 0; padding-left: 18px; font-size: 0.84rem; line-height: 1.45; } .cw-meant li { margin: 4px 0; }
+details.cw-more { margin-top: 10px; } details.cw-more summary { cursor: pointer; font-weight: 600; font-size: 0.86rem; }"""
+CWH_READS = (('long', 'While crowded long'), ('short', 'While crowded short'))
 
 
 def crowding_history_html(G=None, path=None):
-    """Under the crowding gauge: what followed each market's crowded spells and the ends of long spells since 2000
-    (data/crowding_history.json, mtl/crowding_history.py): how many beat the market's normal move at 1 / 3 / 6 months,
-    and the typical 3-month move. Today's crowded markets are shaded. '' without the file."""
+    """Under the crowding gauge, folded away: what followed each market's crowded spells since 2000
+    (data/crowding_history.json, mtl/crowding_history.py) at 3 months: how many spells beat the market's normal 3-month
+    move, and the typical move against the normal one. Today's crowded markets are shaded. '' without the file."""
     try:
         with open(path or CROWD_HIST_PATH) as fh:
             D = json.load(fh)
@@ -4005,41 +4045,33 @@ def crowding_history_html(G=None, path=None):
     sg = lambda x: '–' if x is None else '0.0%' if round(x * 100, 1) == 0 else f"{x * 100:+.1f}%".replace('-', '−')
     passed, cells_n = [], 0
 
-    def cell(name, key, read):
+    def cell(name, key, read, normal):
         nonlocal cells_n
-        bits = []
-        for lab in ('1', '3', '6'):
-            c = read.get(lab)
-            if not c:
-                bits.append('–')
-                continue
-            cells_n += 1
-            sig = c['p'] < 0.05
-            if sig:
-                passed.append(f"{name} {dict(CWH_READS)[key].lower()} ({lab} mo)")
-            cls = ' pos' if c['beat'] * 2 > c['n'] else ' neg' if c['beat'] * 2 < c['n'] else ''
-            bits.append(f'<span class="sig{cls}">{c["beat"]}/{c["n"]}✓</span>' if sig else f"{c['beat']}/{c['n']}")
-        c3 = read.get('3')
-        typ = f"<small>3 mo typical {sg(c3['typ'])}</small>" if c3 else ''
-        shade = ' class="now"' if (key == 'long' and now.get(name) == 'long') or (key == 'short' and now.get(name) == 'short') else ''
-        return f"<td{shade}><span class=\"trip\">{' · '.join(bits)}</span>{typ}</td>"
+        c = read.get('3')
+        if not c:
+            return '<td>–</td>'
+        cells_n += 1
+        sig = c['p'] < 0.05
+        if sig:
+            passed.append(f"{name} {dict(CWH_READS)[key].lower()}")
+        cls = ' pos' if c['beat'] * 2 > c['n'] else ' neg' if c['beat'] * 2 < c['n'] else ''
+        beat = f'<span class="sig{cls}">{c["beat"]} of {c["n"]}{" ✓" if sig else ""}</span>'
+        shade = ' class="now"' if now.get(name) == key else ''
+        return f'<td{shade}>{beat} beat normal<small>typical {sg(c["typ"])} (normal {sg(normal)})</small></td>'
 
     rows = []
     for name, m in M.items():
-        nm = m.get('normal') or {}
-        rows.append(f'<tr><td class="l">{html.escape(name)}<small>normal 3 mo {sg(nm.get("3"))}</small></td>'
-                    + ''.join(cell(name, k, m.get(k) or {}) for k, _ in CWH_READS) + '</tr>')
-    head = ''.join(f'<th>{lab}</th>' for _, lab in CWH_READS)
-    passing = ('Passing: ' + '; '.join(passed) + '.') if passed else 'None passes.'
-    return (f'<p class="note"><b>What followed, since {D.get("since", "2000")[:4]}</b>: each crowded spell counted once (weeks less than '
-            f'9 weeks apart are one spell), and for the last two columns the second straight week back out of the zone after a spell of '
-            f'{D.get("span", 8)}+ weeks. Each cell: how many beat the market\'s normal move at 1 · 3 · 6 months, then the typical '
-            '3-month move. Shaded: where a market stands now.</p>'
+        nm = (m.get('normal') or {}).get('3')
+        rows.append(f'<tr><td class="l">{html.escape(name)}</td>' + ''.join(cell(name, k, m.get(k) or {}, nm) for k, _ in CWH_READS) + '</tr>')
+    head = ''.join(f'<th class="l">{lab}</th>' for _, lab in CWH_READS)
+    passing = ('Unlikely to be luck: ' + '; '.join(passed) + '.') if passed else 'None is clearly more than luck.'
+    return (f'<details class="cw-more"><summary>Market by market: what followed crowded spells since {D.get("since", "2000")[:4]}</summary>'
+            '<p class="note">Each crowded spell counted once (weeks less than 9 weeks apart are one spell). Each cell: how many '
+            'spells were followed by a better 3 months than the market\'s normal 3 months, and the typical 3-month move. '
+            'Shaded: where a market stands now.</p>'
             f'<div class="tablebox"><table class="cwh"><thead><tr><th class="l">Market</th>{head}</tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
-            f'<p class="note">✓ = unlikely to be luck (sign test, p &lt; 0.05). With {cells_n} figures here, about {round(cells_n * 0.05)} '
-            f'would pass by luck alone. {passing} Crowded long has not been a reliable sell warning, and the end of a long spell adds '
-            'little: too few cases. A strict plan test of holding bonds while Treasuries are crowded short did not beat the plan '
-            '(45.6% a year from 2000 against 45.8%). Context, not a timing signal.</p>')
+            f'<p class="note">✓ = unlikely to be luck (sign test). With {cells_n} figures here, about {max(1, round(cells_n * 0.05))} could pass '
+            f'by luck alone. {passing} Spells ending after a long run added little (too few cases). Context, not a timing signal.</p></details>')
 
 
 def widenet_html(scan):
