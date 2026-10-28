@@ -83,3 +83,15 @@ def test_issues_card_shows_the_newest_five_and_links_the_rest():
     few = rs.issues_html(scan, e[-2:], today=date(2026, 10, 19))
     assert few.count('<li>') == 3 and 'see all' not in few
     assert 'href="issues.html">issues page →' in few and 'href="issues.html">issues page →' in rs.issues_html(dict(asOf='2026-10-16', track={}), [], today=date(2026, 10, 19))
+
+
+def test_a_fixed_issue_stays_listed_marked_fixed():
+    import importlib.util, os
+    spec = importlib.util.spec_from_file_location(
+        'render_scanner', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'render_scanner.py'))
+    rs = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rs)
+    rs.IGNITION_PATH = '/nonexistent'
+    e = [dict(d='2026-10-15', src='scan', text='Rules changed.', at='', fixed='no rule had changed', fixedOn='2026-10-16')]
+    rows = rs.issue_rows(dict(asOf='2026-10-16', track=dict(end='2026-10-16')), e, today=date(2026, 10, 19))
+    assert ('2026-10-15', 'Fixed 2026-10-16: no rule had changed. Logged: Rules changed.') in rows
