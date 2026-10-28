@@ -4,12 +4,10 @@ AA,Aluminum
 AAC,Metal Fabrications
 AACG,Other Consumer Services
 AACI,Blank Checks
-AACIU,Blank Checks
 AACIW,Blank Checks
 AACP,Blank Checks
 AACPR,Blank Checks
 AACPU,Blank Checks
-AACPW,Blank Checks
 AADX,Military/Government/Technical
 AAL,Air Freight/Delivery Services
 AAME,Life Insurance
@@ -45,7 +43,7 @@ ABVX,Biotechnology: Pharmaceutical Preparations
 ABX,Investment Managers
 ABXL,Investment Managers
 ACAA,Blank Checks
-ACAAU,Blank Checks
+ACAAW,Blank Checks
 ACAD,Biotechnology: Pharmaceutical Preparations
 ACB,Medicinal Chemicals and Botanical Products
 ACCL,Professional Services
@@ -57,7 +55,6 @@ ACEL,Services-Misc. Amusement & Recreation
 ACET,Biotechnology: Pharmaceutical Preparations
 ACFN,Military/Government/Technical
 ACGC,Blank Checks
-ACGCW,Blank Checks
 ACGL,Property-Casualty Insurers
 ACGLN,Property-Casualty Insurers
 ACGLO,Property-Casualty Insurers
@@ -76,7 +73,6 @@ ACN,Business Services
 ACNB,Major Banks
 ACNT,Major Chemicals
 ACON,Medical Specialities
-ACONW,Medical Specialities
 ACP,Investment Managers
 ACR,Real Estate Investment Trusts
 ACRE,Real Estate Investment Trusts
@@ -89,7 +85,6 @@ ACU,Industrial Machinery/Components
 ACV,Finance/Investors Services
 ACXP,Biotechnology: Pharmaceutical Preparations
 AD,Telecommunications Equipment
-ADACU,Blank Checks
 ADAG,Biotechnology: Pharmaceutical Preparations
 ADAM,Real Estate Investment Trusts
 ADAMG,Real Estate Investment Trusts
@@ -146,12 +141,10 @@ AEP,Electric Utilities: Central
 AER,Diversified Commercial Services
 AERO,Air Freight/Delivery Services
 AERT,Professional Services
-AERTW,Professional Services
 AES,Electric Utilities: Central
 AESI,Mining & Quarrying of Nonmetallic Minerals (No Fuels)
 AESP,Blank Checks
 AESPR,Blank Checks
-AESPW,Blank Checks
 AETR,Industrial Machinery/Components
 AEVA,Auto Parts:O.E.M.
 AEYE,Computer Software: Prepackaged Software
@@ -164,6 +157,7 @@ AFGD,Property-Casualty Insurers
 AFGE,Property-Casualty Insurers
 AFL,Accident &Health Insurance
 AFRI,Packaged Foods
+AFRIW,Packaged Foods
 AFRM,Finance: Consumer Services
 AFYA,Other Consumer Services
 AG,Precious Metals
@@ -216,7 +210,6 @@ AIIOW,Auto Manufacturing
 AIIR,Tobacco
 AIM,Biotechnology: Biological Products (No Diagnostic Substances)
 AIMD,Computer peripheral equipment
-AIMDW,Computer peripheral equipment
 AIN,Textiles
 AIO,Finance/Investors Services
 AIOK,Marine Transportation
@@ -253,8 +246,10 @@ ALAR,Computer Software: Prepackaged Software
 ALB,Major Chemicals
 ALC,Ophthalmic Goods
 ALCO,Farming/Seeds/Milling
+ALDFW,Blank Checks
 ALDX,Biotechnology: Pharmaceutical Preparations
 ALEC,Biotechnology: Biological Products (No Diagnostic Substances)
+ALFUW,Blank Checks
 ALG,Industrial Machinery/Components
 ALGM,Semiconductors
 ALGN,Industrial Specialties
@@ -279,10 +274,12 @@ ALMS,Biotechnology: Pharmaceutical Preparations
 ALMU,Semiconductors
 ALNT,Electrical Products
 ALNY,Biotechnology: Pharmaceutical Preparations
+ALOVU,Blank Checks
 ALOY,Metal Mining
 ALP,Finance: Consumer Services
 ALPS,Medical/Nursing Services
 ALPX,Blank Checks
+ALPXW,Blank Checks
 ALRM,Computer Software: Prepackaged Software
 ALRS,Major Banks
 ALSN,Auto Parts:O.E.M.
@@ -298,7 +295,6 @@ ALXO,Biotechnology: Pharmaceutical Preparations
 ALZN,Biotechnology: Pharmaceutical Preparations
 AM,Natural Gas Distribution
 AMAC,Blank Checks
-AMACU,Blank Checks
 AMACW,Blank Checks
 AMAL,Major Banks
 AMAN,Blank Checks
@@ -356,7 +352,6 @@ ANDG,Business Services
 ANET,Computer Communications Equipment
 ANF,Clothing/Shoe/Accessory Stores
 ANGH,Telecommunications Equipment
-ANGHW,Telecommunications Equipment
 ANGI,Advertising
 ANGO,Medical/Dental Instruments
 ANGX,Movies/Entertainment
@@ -384,7 +379,6 @@ AOUT,Recreational Games/Products/Toys
 AP,Fluid Controls
 APA,Oil & Gas Production
 APAC,Blank Checks
-APACU,Blank Checks
 APAM,Investment Managers
 APC,Oil Refining/Marketing
 APD,Major Chemicals
@@ -409,6 +403,7 @@ APRE,Biotechnology: Pharmaceutical Preparations
 APT,Industrial Specialties
 APTV,Auto Parts:O.E.M.
 APUR,Blank Checks
+APURR,Blank Checks
 APUS,Biotechnology: Pharmaceutical Preparations
 APVO,Biotechnology: Pharmaceutical Preparations
 APWC,Telecommunications Equipment
@@ -430,7 +425,6 @@ ARBK,Finance: Consumer Services
 ARCB,Trucking Freight/Courier Services
 ARCC,Finance: Consumer Services
 ARCL,Blank Checks
-ARCLU,Blank Checks
 ARCO,Restaurants
 ARCT,Biotechnology: Pharmaceutical Preparations
 ARDC,Investment Managers
@@ -487,6 +481,7 @@ ASND,Biotechnology: Pharmaceutical Preparations
 ASO,Other Specialty Stores
 ASPC,Blank Checks
 ASPCR,Blank Checks
+ASPCU,Blank Checks
 ASPI,Major Chemicals
 ASPN,RETAIL: Building Materials
 ASPS,Other Consumer Services
@@ -524,7 +519,6 @@ ATLCZ,Finance: Consumer Services
 ATLO,Major Banks
 ATLQ,Blank Checks
 ATLQR,Blank Checks
-ATLQU,Blank Checks
 ATLQW,Blank Checks
 ATLX,Mining & Quarrying of Nonmetallic Minerals (No Fuels)
 ATMU,Auto Parts:O.E.M.
@@ -597,7 +591,6 @@ AXGN,Biotechnology: Electromedical & Electrotherapeutic Apparatus
 AXIL,Package Goods/Cosmetics
 AXIN,Blank Checks
 AXINR,Blank Checks
-AXINU,Blank Checks
 AXNX,Business Services
 AXON,Ordnance And Accessories
 AXP,Finance: Consumer Services
@@ -624,6 +617,7 @@ BABA,Business Services
 BAC,Major Banks
 BACC,Blank Checks
 BACCR,Blank Checks
+BACCU,Blank Checks
 BAER,Aerospace
 BAERW,Aerospace
 BAFN,Major Banks
@@ -635,7 +629,6 @@ BAM,Building operators
 BANC,Major Banks
 BAND,Computer Software: Prepackaged Software
 BANF,Major Banks
-BANFP,Major Banks
 BANL,Oil Refining/Marketing
 BANR,Major Banks
 BANX,Trusts Except Educational Religious and Charitable
@@ -699,6 +692,7 @@ BCYC,Biotechnology: Pharmaceutical Preparations
 BDAI,Computer Software: Prepackaged Software
 BDC,Telecommunications Equipment
 BDCI,Blank Checks
+BDCIW,Blank Checks
 BDJ,Finance Companies
 BDL,Restaurants
 BDMD,Medical/Dental Instruments
@@ -710,6 +704,7 @@ BDX,Medical/Dental Instruments
 BE,Industrial Machinery/Components
 BEAG,Blank Checks
 BEAGR,Blank Checks
+BEAGU,Blank Checks
 BEAM,Biotechnology: Biological Products (No Diagnostic Substances)
 BEAT,Medical/Dental Instruments
 BEATW,Medical/Dental Instruments
@@ -758,7 +753,6 @@ BGX,Trusts Except Educational Religious and Charitable
 BGY,Trusts Except Educational Religious and Charitable
 BH,Restaurants
 BHAV,Blank Checks
-BHAVU,Blank Checks
 BHB,Major Banks
 BHC,Biotechnology: Pharmaceutical Preparations
 BHE,Electrical Products
@@ -779,6 +773,7 @@ BIAF,Biotechnology: Commercial Physical & Biological Resarch
 BIAFW,Biotechnology: Commercial Physical & Biological Resarch
 BID,Blank Checks
 BIDU,Computer Software: Programming Data Processing
+BIDWR,Blank Checks
 BIIB,Biotechnology: Biological Products (No Diagnostic Substances)
 BIII,Blank Checks
 BILI,EDP Services
@@ -858,9 +853,9 @@ BMRN,Biotechnology: Pharmaceutical Preparations
 BMY,Biotechnology: Pharmaceutical Preparations
 BN,Building operators
 BNAI,EDP Services
+BNAIW,EDP Services
 BNC,Farming/Seeds/Milling
 BNCWW,Farming/Seeds/Milling
-BNCWZ,Farming/Seeds/Milling
 BNED,Other Specialty Stores
 BNGO,Biotechnology: Laboratory Analytical Instruments
 BNH,Building operators
@@ -892,6 +887,7 @@ BOW,Property-Casualty Insurers
 BOX,Computer Software: Prepackaged Software
 BOXL,Other Consumer Services
 BP,Integrated oil Companies
+BPACU,Blank Checks
 BPOP,Major Banks
 BPOPM,Major Banks
 BPRN,Major Banks
@@ -927,6 +923,7 @@ BRSL,Services-Misc. Amusement & Recreation
 BRSP,Real Estate Investment Trusts
 BRT,Real Estate Investment Trusts
 BRTM,Blank Checks
+BRTMW,Blank Checks
 BRTX,Managed Health Care
 BRUN,EDP Services
 BRVE,Biotechnology: Pharmaceutical Preparations
@@ -1019,6 +1016,7 @@ BZ,Computer Software: Programming Data Processing
 BZAI,Semiconductors
 BZAIW,Semiconductors
 BZFD,Telecommunications Equipment
+BZFDW,Telecommunications Equipment
 BZUN,Catalog/Specialty Distribution
 C,Major Banks
 CAAP,Aerospace
@@ -1037,6 +1035,7 @@ CAG,Packaged Foods
 CAH,Other Pharmaceuticals
 CAI,Medical Specialities
 CAII,Blank Checks
+CAIIU,Blank Checks
 CAKE,Restaurants
 CAL,Shoe Manufacturing
 CALC,Biotechnology: Pharmaceutical Preparations
@@ -1049,8 +1048,9 @@ CAN,Finance: Consumer Services
 CANF,Biotechnology: Pharmaceutical Preparations
 CANG,Finance: Consumer Services
 CAPL,Oil Refining/Marketing
+CAPNR,Blank Checks
 CAPR,Biotechnology: Pharmaceutical Preparations
-CAPS,RETAIL: Building Materials
+CAPS,Biotechnology: Pharmaceutical Preparations
 CAR,Rental/Leasing Companies
 CARE,Major Banks
 CARG,EDP Services
@@ -1064,6 +1064,8 @@ CAST,EDP Services
 CASY,Retail-Auto Dealers and Gas Stations
 CAT,Construction/Ag Equipment/Trucks
 CATL,Blank Checks
+CATLR,Blank Checks
+CATLU,Blank Checks
 CATO,Clothing/Shoe/Accessory Stores
 CATX,Biotechnology: Pharmaceutical Preparations
 CATY,Major Banks
@@ -1131,6 +1133,7 @@ CDNS,Computer Software: Prepackaged Software
 CDP,Real Estate Investment Trusts
 CDRE,Industrial Specialties
 CDRO,Services-Misc. Amusement & Recreation
+CDROW,Services-Misc. Amusement & Recreation
 CDT,Biotechnology: Pharmaceutical Preparations
 CDTG,Miscellaneous
 CDW,Catalog/Specialty Distribution
@@ -1191,6 +1194,7 @@ CHCT,Real Estate Investment Trusts
 CHD,Package Goods/Cosmetics
 CHDN,Services-Misc. Amusement & Recreation
 CHE,Medical/Nursing Services
+CHECU,Blank Checks
 CHEF,Food Distributors
 CHGA,EDP Services
 CHGG,Other Consumer Services
@@ -1346,7 +1350,6 @@ CNXN,Catalog/Specialty Distribution
 CNXU,Industrial Specialties
 COAG,Biotechnology: Biological Products (No Diagnostic Substances)
 COCH,Industrial Specialties
-COCHW,Industrial Specialties
 COCO,Beverages (Production/Distribution)
 COCP,Biotechnology: Pharmaceutical Preparations
 CODA,Industrial Machinery/Components
@@ -1370,6 +1373,7 @@ CON,Medical Specialities
 COO,Ophthalmic Goods
 COOK,Consumer Electronics/Appliances
 COOT,Packaged Foods
+COOTW,Packaged Foods
 COP,Integrated oil Companies
 COPR,Metal Mining
 COR,Other Pharmaceuticals
@@ -1405,8 +1409,10 @@ CPT,Real Estate Investment Trusts
 CPZ,Trusts Except Educational Religious and Charitable
 CQP,Oil/Gas Transmission
 CR,Metal Fabrications
+CRACU,Blank Checks
 CRAI,Other Consumer Services
 CRAN,Blank Checks
+CRANR,Blank Checks
 CRAQ,Blank Checks
 CRAQU,Blank Checks
 CRBD,Life Insurance
@@ -1501,6 +1507,7 @@ CUB,Industrial Machinery/Components
 CUBB,Major Banks
 CUBE,Real Estate Investment Trusts
 CUBI,Major Banks
+CUBWW,Industrial Machinery/Components
 CUE,Biotechnology: Pharmaceutical Preparations
 CULP,Textiles
 CUPR,Industrial Specialties
@@ -1541,7 +1548,6 @@ CWST,Environmental Services
 CWT,Water Supply
 CX,Building Materials
 CXAI,EDP Services
-CXAIW,EDP Services
 CXDO,Telecommunications Equipment
 CXII,Blank Checks
 CXIIU,Blank Checks
@@ -1564,6 +1570,7 @@ CZR,Hotels/Resorts
 CZWI,Savings Institutions
 D,Electric Utilities: Central
 DAAQ,Blank Checks
+DAAQW,Blank Checks
 DAC,Marine Transportation
 DAIC,EDP Services
 DAICW,EDP Services
@@ -1581,6 +1588,7 @@ DAVEW,Finance: Consumer Services
 DAVI,Medical/Dental Instruments
 DB,Major Banks
 DBCA,Blank Checks
+DBCAW,Blank Checks
 DBD,Office Equipment/Supplies/Services
 DBGI,Clothing/Shoe/Accessory Stores
 DBI,Clothing/Shoe/Accessory Stores
@@ -1673,6 +1681,7 @@ DMAC,Biotechnology: Pharmaceutical Preparations
 DMB,Trusts Except Educational Religious and Charitable
 DMC,Farming/Seeds/Milling
 DMII,Blank Checks
+DMIIR,Blank Checks
 DMLP,Oil & Gas Production
 DMO,Trusts Except Educational Religious and Charitable
 DMRA,Biotechnology: Pharmaceutical Preparations
@@ -1680,6 +1689,7 @@ DMRC,EDP Services
 DNA,Biotechnology: Biological Products (No Diagnostic Substances)
 DNLI,Biotechnology: Biological Products (No Diagnostic Substances)
 DNMX,Blank Checks
+DNMXU,Blank Checks
 DNN,Other Metals and Minerals
 DNOW,Oil and Gas Field Machinery
 DNP,Investment Managers
@@ -1740,7 +1750,7 @@ DTI,Oil and Gas Field Machinery
 DTIL,Biotechnology: Biological Products (No Diagnostic Substances)
 DTK,Electric Utilities: Central
 DTM,Natural Gas Distribution
-DTSQR,Blank Checks
+DTSQU,Blank Checks
 DTSS,Computer Software: Prepackaged Software
 DTST,EDP Services
 DTW,Electric Utilities: Central
@@ -1797,9 +1807,9 @@ ECOR,Biotechnology: Electromedical & Electrotherapeutic Apparatus
 ECPG,Finance Companies
 ECVT,Major Chemicals
 ECX,EDP Services
+ECXWW,EDP Services
 ED,Power Generation
 EDBL,Farming/Seeds/Milling
-EDBLW,Farming/Seeds/Milling
 EDD,Finance Companies
 EDF,Investment Managers
 EDHL,Advertising
@@ -2008,6 +2018,7 @@ EVN,Investment Managers
 EVO,Biotechnology: Pharmaceutical Preparations
 EVOX,Blank Checks
 EVOXU,Blank Checks
+EVOXW,Blank Checks
 EVR,Investment Managers
 EVRG,Power Generation
 EVT,Finance Companies
@@ -2016,6 +2027,8 @@ EVTL,Aerospace
 EVV,Finance/Investors Services
 EW,Industrial Specialties
 EWAV,Blank Checks
+EWAVR,Blank Checks
+EWAVU,Blank Checks
 EWBC,Major Banks
 EWTX,Biotechnology: Pharmaceutical Preparations
 EXC,Power Generation
@@ -2044,7 +2057,6 @@ F,Auto Manufacturing
 FA,EDP Services
 FABC,Telecommunications Equipment
 FAC,Industrial Machinery/Components
-FACTW,Blank Checks
 FACWW,Industrial Machinery/Components
 FAF,Specialty Insurers
 FAMI,Packaged Foods
@@ -2067,7 +2079,6 @@ FBP,Major Banks
 FBRT,Real Estate Investment Trusts
 FBYD,Services-Misc. Amusement & Recreation
 FBYDP,Services-Misc. Amusement & Recreation
-FBYDW,Services-Misc. Amusement & Recreation
 FC,Other Consumer Services
 FCAP,Savings Institutions
 FCBC,Major Banks
@@ -2089,7 +2100,6 @@ FCUV,Industrial Machinery/Components
 FCX,Metal Mining
 FDBC,Major Banks
 FDMM,Blank Checks
-FDMMU,Blank Checks
 FDMMW,Blank Checks
 FDMT,Biotechnology: Biological Products (No Diagnostic Substances)
 FDS,Computer Software: Programming Data Processing
@@ -2122,9 +2132,11 @@ FG,Life Insurance
 FGBI,Savings Institutions
 FGBIP,Savings Institutions
 FGC,Property-Casualty Insurers
+FGCPP,Property-Casualty Insurers
 FGI,Industrial Specialties
 FGII,Blank Checks
 FGIIW,Blank Checks
+FGIWW,Industrial Specialties
 FGL,Engineering & Construction
 FGN,Life Insurance
 FGSN,Life Insurance
@@ -2139,6 +2151,7 @@ FIG,Computer Software: Prepackaged Software
 FIGR,Finance: Consumer Services
 FIGS,Apparel
 FIGX,Blank Checks
+FIGXU,Blank Checks
 FINS,Finance/Investors Services
 FINV,Finance: Consumer Services
 FINW,Major Banks
@@ -2180,7 +2193,6 @@ FLYE,Aerospace
 FLYW,Business Services
 FLYX,Transportation Services
 FMAC,Blank Checks
-FMACR,Blank Checks
 FMAO,Savings Institutions
 FMBH,Major Banks
 FMC,Major Chemicals
@@ -2189,7 +2201,6 @@ FMN,Investment Managers
 FMNB,Major Banks
 FMS,Misc Health and Biotechnology Services
 FMST,Other Metals and Minerals
-FMSTW,Other Metals and Minerals
 FMX,Beverages (Production/Distribution)
 FMY,Finance/Investors Services
 FN,Telecommunications Equipment
@@ -2233,6 +2244,7 @@ FRD,Steel/Iron Ore
 FRGT,Integrated Freight & Logistics
 FRHC,Investment Bankers/Brokers/Service
 FRME,Major Banks
+FRMEP,Major Banks
 FRMI,Real Estate Investment Trusts
 FRMM,Finance: Consumer Services
 FRNM,Medical Specialities
@@ -2283,6 +2295,7 @@ FTV,Industrial Machinery/Components
 FTW,Oil & Gas Production
 FUBO,Movies/Entertainment
 FUFU,Finance: Consumer Services
+FUFUW,Finance: Consumer Services
 FUL,Home Furnishings
 FULC,Biotechnology: Pharmaceutical Preparations
 FULT,Major Banks
@@ -2296,11 +2309,10 @@ FUSE,EDP Services
 FUSEW,EDP Services
 FUTU,Investment Bankers/Brokers/Service
 FVCB,Major Banks
-FVNNR,Blank Checks
 FVR,Real Estate Investment Trusts
 FVRR,Business Services
 FWAC,Blank Checks
-FWACU,Blank Checks
+FWACR,Blank Checks
 FWACW,Blank Checks
 FWDI,Finance: Consumer Services
 FWONA,Broadcasting
@@ -2392,6 +2404,7 @@ GGB,Steel/Iron Ore
 GGG,Fluid Controls
 GGN,Finance/Investors Services
 GGR,Auto Manufacturing
+GGROW,Auto Manufacturing
 GGT,Trusts Except Educational Religious and Charitable
 GGZ,Investment Managers
 GH,Medical Specialities
@@ -2403,7 +2416,6 @@ GHRS,Biotechnology: Pharmaceutical Preparations
 GHY,Trusts Except Educational Religious and Charitable
 GIB,Professional Services
 GIBO,Computer Software: Prepackaged Software
-GIBOW,Computer Software: Prepackaged Software
 GIC,Industrial Machinery/Components
 GIFT,Catalog/Specialty Distribution
 GIGM,Computer Software: Programming Data Processing
@@ -2418,10 +2430,6 @@ GIW,Blank Checks
 GIX,Blank Checks
 GIXI,Computer Software: Prepackaged Software
 GIXXR,Blank Checks
-GIXXU,Blank Checks
-GJH,Finance: Consumer Services
-GJO,Finance: Consumer Services
-GJR,Finance: Consumer Services
 GJS,Finance: Consumer Services
 GJT,Finance: Consumer Services
 GKOS,Medical/Dental Instruments
@@ -2565,6 +2573,7 @@ GTN,Broadcasting
 GTX,Auto Parts:O.E.M.
 GTY,Real Estate
 GUAC,Blank Checks
+GUACW,Blank Checks
 GUG,Trusts Except Educational Religious and Charitable
 GURE,Major Chemicals
 GUT,Trusts Except Educational Religious and Charitable
@@ -2690,7 +2699,6 @@ HODO,Finance: Consumer Services
 HOFT,Home Furnishings
 HOG,Motor Vehicles
 HOLO,Computer Software: Programming Data Processing
-HOLOW,Computer Software: Programming Data Processing
 HOMB,Major Banks
 HON,Aerospace
 HONA,Aerospace
@@ -2706,7 +2714,6 @@ HOVRW,Aerospace
 HOWL,Biotechnology: Pharmaceutical Preparations
 HP,Oil & Gas Production
 HPAI,Computer Software: Prepackaged Software
-HPAIW,Computer Software: Prepackaged Software
 HPE,Retail: Computer Software & Peripheral Equipment
 HPF,Finance Companies
 HPI,Trusts Except Educational Religious and Charitable
@@ -2772,7 +2779,6 @@ HURC,Industrial Machinery/Components
 HURN,Professional Services
 HUT,Finance: Consumer Services
 HUYA,Computer Software: Programming Data Processing
-HVMCU,Blank Checks
 HVT,Other Specialty Stores
 HWBK,Major Banks
 HWC,Major Banks
@@ -2794,8 +2800,9 @@ HYT,Finance Companies
 HZO,Auto & Home Supply Stores
 IA,EDP Services
 IACO,Blank Checks
-IACOU,Blank Checks
 IACQ,Blank Checks
+IACQU,Blank Checks
+IACQW,Blank Checks
 IAF,Finance/Investors Services
 IAG,Precious Metals
 IAM,Biotechnology: Biological Products (No Diagnostic Substances)
@@ -2848,7 +2855,6 @@ IFRX,Biotechnology: Pharmaceutical Preparations
 IFS,Commercial Banks
 IGA,Investment Managers
 IGAC,Blank Checks
-IGACU,Blank Checks
 IGC,Biotechnology: Pharmaceutical Preparations
 IGD,Trusts Except Educational Religious and Charitable
 IGI,Investment Managers
@@ -2868,7 +2874,6 @@ IIPR,Real Estate
 IKT,Biotechnology: Biological Products (No Diagnostic Substances)
 ILAG,Office Equipment/Supplies/Services
 ILLU,Blank Checks
-ILLUU,Blank Checks
 ILMN,Medical Specialities
 ILPT,Real Estate Investment Trusts
 IMA,Biotechnology: Biological Products (No Diagnostic Substances)
@@ -2963,6 +2968,7 @@ IP,Paper
 IPAR,Package Goods/Cosmetics
 IPDN,Computer Software: Programming Data Processing
 IPFX,Blank Checks
+IPFXU,Blank Checks
 IPFXW,Blank Checks
 IPGP,Semiconductors
 IPHA,Biotechnology: Biological Products (No Diagnostic Substances)
@@ -2971,13 +2977,10 @@ IPM,Computer Software: Programming Data Processing
 IPSC,Biotechnology: Biological Products (No Diagnostic Substances)
 IPST,Beverages (Production/Distribution)
 IPVV,Blank Checks
-IPVVU,Blank Checks
 IPW,RETAIL: Building Materials
 IPWR,Semiconductors
 IPX,Other Metals and Minerals
 IPXG,Blank Checks
-IPXGU,Blank Checks
-IPXGW,Blank Checks
 IQ,Consumer Electronics/Video Chains
 IQI,Finance Companies
 IQMX,Computer Software: Prepackaged Software
@@ -3002,7 +3005,6 @@ IRWD,Biotechnology: Pharmaceutical Preparations
 ISBA,Major Banks
 ISD,Trusts Except Educational Religious and Charitable
 ISNR,Blank Checks
-ISNRU,Blank Checks
 ISNRW,Blank Checks
 ISPC,Biotechnology: Commercial Physical & Biological Resarch
 ISPR,Medicinal Chemicals and Botanical Products
@@ -3022,6 +3024,7 @@ ITUB,Major Banks
 ITW,Industrial Machinery/Components
 IVA,Biotechnology: Pharmaceutical Preparations
 IVDA,Computer Software: Prepackaged Software
+IVDAW,Computer Software: Prepackaged Software
 IVF,Medical/Dental Instruments
 IVR,Real Estate Investment Trusts
 IVT,Real Estate Investment Trusts
@@ -3121,9 +3124,11 @@ KB,Commercial Banks
 KBH,Homebuilding
 KBON,Blank Checks
 KBONU,Blank Checks
+KBONW,Blank Checks
 KBR,Military/Government/Technical
 KBSX,Recreational Games/Products/Toys
 KC,Computer Software: Prepackaged Software
+KCHVR,Blank Checks
 KD,EDP Services
 KDK,EDP Services
 KDKRW,EDP Services
@@ -3142,7 +3147,6 @@ KEYY,Blank Checks
 KF,Investment Managers
 KFFB,Savings Institutions
 KFII,Blank Checks
-KFIIU,Blank Checks
 KFRC,Professional Services
 KFY,Diversified Commercial Services
 KG,Property-Casualty Insurers
@@ -3260,6 +3264,7 @@ LARK,Major Banks
 LASE,Industrial Machinery/Components
 LASR,Semiconductors
 LATA,Blank Checks
+LATAW,Blank Checks
 LAUR,Other Consumer Services
 LAW,Computer Software: Prepackaged Software
 LAZ,Investment Managers
@@ -3369,6 +3374,7 @@ LNSR,Medical/Dental Instruments
 LNT,Power Generation
 LNTH,Biotechnology: In Vitro & In Vivo Diagnostic Substances
 LNZA,Major Chemicals
+LNZAW,Major Chemicals
 LOAN,Real Estate Investment Trusts
 LOAR,Military/Government/Technical
 LOB,Major Banks
@@ -3384,6 +3390,7 @@ LOPE,Other Consumer Services
 LOT,Auto Manufacturing
 LOTWW,Auto Manufacturing
 LOVE,Other Specialty Stores
+LOVIU,Blank Checks
 LOW,RETAIL: Building Materials
 LPA,Real Estate
 LPAAU,Blank Checks
@@ -3422,7 +3429,6 @@ LU,Finance: Consumer Services
 LUCD,Medical/Dental Instruments
 LUCK,Services-Misc. Amusement & Recreation
 LUCY,Ophthalmic Goods
-LUCYW,Ophthalmic Goods
 LUD,Steel/Iron Ore
 LULU,Apparel
 LUMN,Telecommunications Equipment
@@ -3436,7 +3442,6 @@ LVS,Hotels/Resorts
 LVWR,Motor Vehicles
 LW,Packaged Foods
 LWAC,Blank Checks
-LWACU,Blank Checks
 LWAY,Packaged Foods
 LWLG,Containers/Packaging
 LX,Finance: Consumer Services
@@ -3506,16 +3511,17 @@ MBNKO,Commercial Banks
 MBOT,Medical/Dental Instruments
 MBRX,Biotechnology: Pharmaceutical Preparations
 MBUU,Marine Transportation
+MBVIU,Blank Checks
 MBWM,Major Banks
 MBX,Biotechnology: Pharmaceutical Preparations
 MC,Investment Managers
 MCAH,Blank Checks
-MCAHR,Blank Checks
 MCB,Major Banks
 MCBS,Major Banks
 MCD,Restaurants
 MCFT,Marine Transportation
 MCGA,Electric Utilities: Central
+MCGAU,Blank Checks
 MCHB,Major Banks
 MCHP,Semiconductors
 MCHPP,Semiconductors
@@ -3626,10 +3632,8 @@ MITT,Real Estate Investment Trusts
 MIY,Investment Bankers/Brokers/Service
 MKC,Packaged Foods
 MKDW,Consumer Electronics/Appliances
-MKDWW,Consumer Electronics/Appliances
 MKL,Property-Casualty Insurers
 MKLY,Blank Checks
-MKLYR,Blank Checks
 MKSI,Industrial Machinery/Components
 MKTW,Computer Software: Prepackaged Software
 MKTX,Investment Bankers/Brokers/Service
@@ -3661,6 +3665,7 @@ MMSI,Medical/Dental Instruments
 MMT,Trusts Except Educational Religious and Charitable
 MMTX,Blank Checks
 MMTXU,Blank Checks
+MMTXW,Blank Checks
 MMU,Investment Managers
 MMYT,Transportation Services
 MNDO,EDP Services
@@ -3679,6 +3684,7 @@ MNTK,Natural Gas Distribution
 MNTN,Advertising
 MNTS,Military/Government/Technical
 MNY,Business Services
+MNYWW,Business Services
 MO,Medicinal Chemicals and Botanical Products
 MOB,Aerospace
 MOBI,Medical/Dental Instruments
@@ -3721,7 +3727,6 @@ MRLN,EDP Services
 MRM,Other Consumer Services
 MRNA,Biotechnology: Biological Products (No Diagnostic Substances)
 MRNO,Hotels/Resorts
-MRNOW,Hotels/Resorts
 MRP,Real Estate
 MRSH,Specialty Insurers
 MRT,Rental/Leasing Companies
@@ -3741,8 +3746,9 @@ MSD,Trusts Except Educational Religious and Charitable
 MSEX,Water Supply
 MSFT,Computer Software: Prepackaged Software
 MSGE,Services-Misc. Amusement & Recreation
+MSGK,Services-Misc. Amusement & Recreation
 MSGM,Computer Software: Prepackaged Software
-MSGY,Engineering & Construction
+MSGR,Services-Misc. Amusement & Recreation
 MSI,Radio And Television Broadcasting And Communications Equipment
 MSIF,Finance/Investors Services
 MSLE,Biotechnology: Pharmaceutical Preparations
@@ -3752,6 +3758,7 @@ MSS,Food Chains
 MSTR,Computer Software: Prepackaged Software
 MT,Steel/Iron Ore
 MTA,Precious Metals
+MTAKU,Blank Checks
 MTAL,Metal Mining
 MTB,Major Banks
 MTC,Computer Software: Prepackaged Software
@@ -3759,6 +3766,7 @@ MTCH,Computer Software: Programming Data Processing
 MTD,Biotechnology: Laboratory Analytical Instruments
 MTDR,Oil & Gas Production
 MTEK,Telecommunications Equipment
+MTEKW,Telecommunications Equipment
 MTEN,Building Products
 MTEX,Medicinal Chemicals and Botanical Products
 MTG,Property-Casualty Insurers
@@ -3784,7 +3792,6 @@ MUR,Oil & Gas Production
 MUSA,Retail-Auto Dealers and Gas Stations
 MUX,Precious Metals
 MUZE,Blank Checks
-MUZEW,Blank Checks
 MVBF,Major Banks
 MVIS,Industrial Machinery/Components
 MVST,Industrial Machinery/Components
@@ -3860,6 +3867,7 @@ NCLH,Marine Transportation
 NCMI,Advertising
 NCNA,Biotechnology: Pharmaceutical Preparations
 NCNO,Computer Software: Prepackaged Software
+NCOOU,Blank Checks
 NCPL,Finance: Consumer Services
 NCPLW,Finance: Consumer Services
 NCRA,Farming/Seeds/Milling
@@ -3920,6 +3928,7 @@ NGVT,Major Chemicals
 NHC,Hospital/Nursing Management
 NHI,Real Estate Investment Trusts
 NHIV,Blank Checks
+NHIVW,Blank Checks
 NHP,Real Estate Investment Trusts
 NHS,Trusts Except Educational Religious and Charitable
 NHTC,Consumer Specialties
@@ -3937,6 +3946,7 @@ NIPG,Services-Misc. Amusement & Recreation
 NIQ,Computer Software: Programming Data Processing
 NIU,Auto Manufacturing
 NIVF,Misc Health and Biotechnology Services
+NIVFW,Misc Health and Biotechnology Services
 NIXX,EDP Services
 NJR,Oil/Gas Transmission
 NKE,Shoe Manufacturing
@@ -3959,6 +3969,7 @@ NMIH,Property-Casualty Insurers
 NML,Finance/Investors Services
 NMM,Marine Transportation
 NMP,Blank Checks
+NMPAR,Blank Checks
 NMR,Investment Bankers/Brokers/Service
 NMRA,Biotechnology: Biological Products (No Diagnostic Substances)
 NMRK,Real Estate
@@ -4122,10 +4133,8 @@ O,Real Estate Investment Trusts
 OABI,Biotechnology: Commercial Physical & Biological Resarch
 OABIW,Biotechnology: Commercial Physical & Biological Resarch
 OACC,Blank Checks
-OACCW,Blank Checks
 OBA,Blank Checks
 OBAI,Telecommunications Equipment
-OBAWW,Blank Checks
 OBDC,Diversified Financial Services
 OBE,Oil & Gas Production
 OBIO,Medicinal Chemicals and Botanical Products
@@ -4140,9 +4149,7 @@ OCFC,Major Banks
 OCG,Other Consumer Services
 OCGN,Biotechnology: Biological Products (No Diagnostic Substances)
 OCLT,Blank Checks
-OCLTR,Blank Checks
 OCLTU,Blank Checks
-OCLTW,Blank Checks
 OCS,Biotechnology: Pharmaceutical Preparations
 OCSAW,Biotechnology: Pharmaceutical Preparations
 OCSL,Finance: Consumer Services
@@ -4174,6 +4181,7 @@ OI,Containers/Packaging
 OIA,Finance Companies
 OIG,Specialty Insurers
 OII,Oilfield Services/Equipment
+OIMAU,Blank Checks
 OIO,Environmental Services
 OIS,Oil and Gas Field Machinery
 OKE,Oil & Gas Production
@@ -4203,6 +4211,7 @@ ONB,Major Banks
 ONBPO,Major Banks
 ONBPP,Major Banks
 ONC,Biotechnology: Pharmaceutical Preparations
+ONCHW,Blank Checks
 ONCO,Biotechnology: Pharmaceutical Preparations
 ONCY,Biotechnology: Pharmaceutical Preparations
 ONDS,Radio And Television Broadcasting And Communications Equipment
@@ -4267,12 +4276,14 @@ OSIS,Semiconductors
 OSK,Auto Manufacturing
 OSPN,EDP Services
 OSPR,Blank Checks
+OSPRW,Blank Checks
 OSS,Computer Manufacturing
 OSTX,Biotechnology: Pharmaceutical Preparations
 OSUR,Medical/Dental Instruments
 OSW,Hotels/Resorts
 OTEX,EDP Services
 OTGA,Blank Checks
+OTGAW,Blank Checks
 OTIS,Consumer Electronics/Appliances
 OTLK,Biotechnology: Biological Products (No Diagnostic Substances)
 OTLY,Packaged Foods
@@ -4301,6 +4312,7 @@ OXSQG,Other Consumer Services
 OXSQH,Blank Checks
 OXY,Oil & Gas Production
 OYSE,Blank Checks
+OYSER,Blank Checks
 OYSEU,Blank Checks
 OZ,Real Estate
 OZK,Major Banks
@@ -4308,6 +4320,7 @@ OZKAP,Major Banks
 P,Electronic Components
 PAA,Natural Gas Distribution
 PAAC,Investment Managers
+PAACW,Investment Managers
 PAAI,EDP Services
 PAAS,Precious Metals
 PAC,Aerospace
@@ -4322,6 +4335,7 @@ PAI,Trusts Except Educational Religious and Charitable
 PAL,Transportation Services
 PALI,Biotechnology: Biological Products (No Diagnostic Substances)
 PALO,Blank Checks
+PALOW,Blank Checks
 PAM,Electric Utilities: Central
 PAMT,Trucking Freight/Courier Services
 PANL,Marine Transportation
@@ -4376,6 +4390,7 @@ PCQ,Investment Managers
 PCRX,Biotechnology: Pharmaceutical Preparations
 PCSA,Biotechnology: Pharmaceutical Preparations
 PCT,Major Chemicals
+PCTTU,Major Chemicals
 PCTTW,Major Chemicals
 PCTY,Computer Software: Prepackaged Software
 PCVX,Biotechnology: Biological Products (No Diagnostic Substances)
@@ -4398,7 +4413,7 @@ PEB,Real Estate Investment Trusts
 PEBK,Major Banks
 PEBO,Major Banks
 PECE,Blank Checks
-PECER,Blank Checks
+PECEW,Blank Checks
 PECO,Real Estate Investment Trusts
 PED,Oil & Gas Production
 PEG,Power Generation
@@ -4480,7 +4495,6 @@ PLBL,Consumer Electronics/Appliances
 PLBY,Other Specialty Stores
 PLCE,Clothing/Shoe/Accessory Stores
 PLCI,Blank Checks
-PLCIR,Blank Checks
 PLD,Real Estate Investment Trusts
 PLG,Precious Metals
 PLGO,Property-Casualty Insurers
@@ -4513,7 +4527,6 @@ PMN,Biotechnology: Pharmaceutical Preparations
 PMO,Finance Companies
 PMT,Real Estate Investment Trusts
 PMTR,Blank Checks
-PMTRU,Blank Checks
 PMTS,Publishing
 PMTU,Real Estate Investment Trusts
 PMTV,Real Estate Investment Trusts
@@ -4537,6 +4550,8 @@ POET,Semiconductors
 POLA,Industrial Machinery/Components
 POM,Other Specialty Stores
 PONO,Blank Checks
+PONOR,Blank Checks
+PONOU,Aerospace
 PONY,EDP Services
 POOL,Industrial Specialties
 POR,Electric Utilities: Central
@@ -4629,6 +4644,7 @@ PTLO,Restaurants
 PTN,Biotechnology: Pharmaceutical Preparations
 PTON,Recreational Games/Products/Toys
 PTOR,Blank Checks
+PTORW,Blank Checks
 PTRN,Catalog/Specialty Distribution
 PTY,Investment Managers
 PUBM,Computer Software: Programming Data Processing
@@ -4655,6 +4671,7 @@ PZG,Metal Mining
 PZZA,Restaurants
 Q,Semiconductors
 QADR,Blank Checks
+QADRU,Blank Checks
 QBTS,EDP Services
 QCLS,Biotechnology: In Vitro & In Vivo Diagnostic Substances
 QCOM,Radio And Television Broadcasting And Communications Equipment
@@ -4701,13 +4718,11 @@ RACE,Auto Manufacturing
 RADX,Biotechnology: Pharmaceutical Preparations
 RAIL,Railroads
 RAIN,Industrial Machinery/Components
-RAINW,Industrial Machinery/Components
 RAL,Industrial Machinery/Components
 RAMP,EDP Services
 RAND,Finance: Consumer Services
 RANG,Blank Checks
 RANGR,Blank Checks
-RANGU,Blank Checks
 RANI,Biotechnology: Pharmaceutical Preparations
 RAPP,Biotechnology: Pharmaceutical Preparations
 RARE,Biotechnology: Pharmaceutical Preparations
@@ -4739,6 +4754,7 @@ RCT,Computer Software: Programming Data Processing
 RCUS,Biotechnology: Pharmaceutical Preparations
 RDACR,Blank Checks
 RDAG,Blank Checks
+RDAGU,Blank Checks
 RDCM,Computer peripheral equipment
 RDDT,EDP Services
 RDGT,Retail-Drug Stores and Proprietary Stores
@@ -4788,6 +4804,7 @@ REZI,Wholesale Distributors
 RF,Major Banks
 RFAIR,Computer Software: Prepackaged Software
 RFAIU,Computer Software: Prepackaged Software
+RFAMR,Blank Checks
 RFI,Investment Managers
 RFIL,Electrical Products
 RFL,Biotechnology: Pharmaceutical Preparations
@@ -4845,7 +4862,6 @@ RMBI,Major Banks
 RMBS,Semiconductors
 RMCF,Specialty Foods
 RMCO,Multi-Sector Companies
-RMCOW,Multi-Sector Companies
 RMD,Medical/Dental Instruments
 RMI,Finance/Investors Services
 RMIX,Building Materials
@@ -4860,7 +4876,7 @@ RMTI,Biotechnology: Pharmaceutical Preparations
 RNA,Biotechnology: Pharmaceutical Preparations
 RNAC,Biotechnology: Pharmaceutical Preparations
 RNAQ,Blank Checks
-RNAQU,Blank Checks
+RNAQW,Blank Checks
 RNAZ,Biotechnology: Pharmaceutical Preparations
 RNG,EDP Services
 RNGR,Oilfield Services/Equipment
@@ -4898,6 +4914,7 @@ RR,Industrial Machinery/Components
 RRBI,Major Banks
 RRC,Oil & Gas Production
 RREV,Blank Checks
+RREVW,Blank Checks
 RRGB,Restaurants
 RRR,Hotels/Resorts
 RRX,Industrial Machinery/Components
@@ -5003,10 +5020,10 @@ SB,Marine Transportation
 SBAC,Real Estate Investment Trusts
 SBC,Medical/Nursing Services
 SBCF,Major Banks
+SBCWW,Medical/Nursing Services
 SBET,Computer Software: Prepackaged Software
 SBFG,Major Banks
 SBFM,Biotechnology: Pharmaceutical Preparations
-SBFMW,Biotechnology: Pharmaceutical Preparations
 SBGI,Broadcasting
 SBH,Other Specialty Stores
 SBI,Finance/Investors Services
@@ -5021,6 +5038,7 @@ SBUX,Restaurants
 SCAG,Construction/Ag Equipment/Trucks
 SCAGW,Construction/Ag Equipment/Trucks
 SCAT,Blank Checks
+SCATR,Blank Checks
 SCATU,Blank Checks
 SCATW,Blank Checks
 SCCD,Real Estate Investment Trusts
@@ -5035,7 +5053,6 @@ SCI,Other Consumer Services
 SCKT,Computer Manufacturing
 SCL,Package Goods/Cosmetics
 SCLX,Biotechnology: Biological Products (No Diagnostic Substances)
-SCLXW,Biotechnology: Biological Products (No Diagnostic Substances)
 SCM,Finance/Investors Services
 SCNI,Biotechnology: Biological Products (No Diagnostic Substances)
 SCNX,Biotechnology: Pharmaceutical Preparations
@@ -5332,6 +5349,7 @@ SRV,Finance Companies
 SRXH,Beverages (Production/Distribution)
 SRZN,Biotechnology: Biological Products (No Diagnostic Substances)
 SSAC,Blank Checks
+SSACR,Blank Checks
 SSACU,Blank Checks
 SSACW,Blank Checks
 SSB,Major Banks
@@ -5405,6 +5423,7 @@ SUGP,Diversified Commercial Services
 SUI,Real Estate Investment Trusts
 SUIG,Finance: Consumer Services
 SUJA,Beverages (Production/Distribution)
+SUMAR,Blank Checks
 SUNB,Diversified Commercial Services
 SUNE,Engineering & Construction
 SUNS,Real Estate Investment Trusts
@@ -5413,8 +5432,8 @@ SUPV,Commercial Banks
 SURG,Advertising
 SUZ,Paper
 SVAQ,Blank Checks
+SVAQW,Blank Checks
 SVC,Real Estate Investment Trusts
-SVCCU,Blank Checks
 SVCCW,Blank Checks
 SVCO,Computer Software: Prepackaged Software
 SVIA,Finance: Consumer Services
@@ -5429,7 +5448,6 @@ SVRN,Marine Transportation
 SVV,Other Specialty Stores
 SW,Containers/Packaging
 SWAG,Advertising
-SWAGW,Advertising
 SWBI,Ordnance And Accessories
 SWIM,Plastic Products
 SWK,Industrial Machinery/Components
@@ -5456,12 +5474,13 @@ SYPR,Industrial Machinery/Components
 SYRE,Biotechnology: Pharmaceutical Preparations
 SYY,Food Distributors
 SZZL,Blank Checks
+SZZLR,Blank Checks
 T,Telecommunications Equipment
 TAC,Electric Utilities: Central
 TACH,Blank Checks
+TACHU,Blank Checks
 TACHW,Blank Checks
 TACO,Blank Checks
-TACOU,Blank Checks
 TACOW,Blank Checks
 TACT,Computer peripheral equipment
 TAK,Biotechnology: Pharmaceutical Preparations
@@ -5718,7 +5737,6 @@ TUSK,Oilfield Services/Equipment
 TUYA,Computer Software: Prepackaged Software
 TV,Broadcasting
 TVACU,Blank Checks
-TVAIU,Blank Checks
 TVC,Electric Utilities: Central
 TVE,Electric Utilities: Central
 TVGN,Biotechnology: Biological Products (No Diagnostic Substances)
@@ -5733,6 +5751,7 @@ TWI,Steel/Iron Ore
 TWIN,Industrial Machinery/Components
 TWLO,Computer Software: Prepackaged Software
 TWLV,Blank Checks
+TWLVR,Blank Checks
 TWN,Trusts Except Educational Religious and Charitable
 TWST,Biotechnology: Biological Products (No Diagnostic Substances)
 TX,Steel/Iron Ore
@@ -5851,7 +5870,6 @@ UVV,Farming/Seeds/Milling
 UWMC,Finance: Consumer Services
 UXIN,Business Services
 UYSC,Blank Checks
-UYSCR,Blank Checks
 UZD,Telecommunications Equipment
 UZE,Telecommunications Equipment
 UZF,Telecommunications Equipment
@@ -5894,8 +5912,10 @@ VET,Oil & Gas Production
 VFC,Garments and Clothing
 VFF,Farming/Seeds/Milling
 VFS,Auto Manufacturing
+VFSWW,Auto Manufacturing
 VG,Oil/Gas Transmission
 VGAS,Major Chemicals
+VGASW,Major Chemicals
 VGI,Investment Managers
 VGM,Trusts Except Educational Religious and Charitable
 VGNT,Auto Parts:O.E.M.
@@ -6045,6 +6065,7 @@ WEC,Power Generation
 WELL,Real Estate Investment Trusts
 WEN,Restaurants
 WENC,Blank Checks
+WENNW,Blank Checks
 WERN,Trucking Freight/Courier Services
 WES,Natural Gas Distribution
 WEST,Beverages (Production/Distribution)
@@ -6067,6 +6088,7 @@ WHG,Investment Managers
 WHK,Oil & Gas Production
 WHLR,Real Estate Investment Trusts
 WHLRD,Real Estate Investment Trusts
+WHLRL,Real Estate Investment Trusts
 WHLRP,Real Estate Investment Trusts
 WHR,Consumer Electronics/Appliances
 WHWK,Biotechnology: Pharmaceutical Preparations
@@ -6082,6 +6104,8 @@ WKC,Oil Refining/Marketing
 WKHS,Auto Manufacturing
 WKSP,Auto Parts:O.E.M.
 WLCO,Blank Checks
+WLCOU,Blank Checks
+WLCOW,Blank Checks
 WLDN,Military/Government/Technical
 WLDS,Computer Communications Equipment
 WLDSW,Computer Communications Equipment
@@ -6163,6 +6187,7 @@ XBIO,Biotechnology: Pharmaceutical Preparations
 XBIT,Biotechnology: Pharmaceutical Preparations
 XBP,EDP Services
 XBPEW,EDP Services
+XCBEU,Blank Checks
 XCH,Industrial Machinery/Components
 XCUR,Biotechnology: Pharmaceutical Preparations
 XE,Metal Fabrications
@@ -6206,6 +6231,8 @@ XRTX,Biotechnology: Pharmaceutical Preparations
 XRX,Computer peripheral equipment
 XRXDW,Computer peripheral equipment
 XSLL,Blank Checks
+XSLLU,Blank Checks
+XSLLW,Blank Checks
 XTER,Blank Checks
 XTIA,EDP Services
 XTLB,Biotechnology: Pharmaceutical Preparations
@@ -6236,6 +6263,8 @@ YHGJ,Specialty Chemicals
 YI,Retail-Drug Stores and Proprietary Stores
 YIBO,Computer peripheral equipment
 YICC,Blank Checks
+YICCU,Blank Checks
+YICCW,Blank Checks
 YJ,Other Specialty Stores
 YMAT,Recreational Games/Products/Toys
 YMM,Computer Software: Prepackaged Software
@@ -6288,7 +6317,6 @@ ZM,Computer Software: Programming Data Processing
 ZNB,Other Consumer Services
 ZNTL,Biotechnology: Pharmaceutical Preparations
 ZOOZ,Industrial Machinery/Components
-ZOOZW,Industrial Machinery/Components
 ZS,EDP Services
 ZSQR,Finance: Consumer Services
 ZSTK,Other Pharmaceuticals
