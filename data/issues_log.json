@@ -36,6 +36,12 @@
    "src": "events",
    "text": "No data for XLF tonight, so those macro signals (oil, dollar, credit, yield curve, inflation, jobs) are skipped until it is back (it never affects the plan).",
    "at": "2026-10-27T19:20:34+00:00"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "scan",
+   "text": "The rules changed on 2026-10-27 without an update entry in the paper record.",
+   "at": "2026-10-28T01:27:11+00:00"
   }
  ]
 }
