@@ -4017,5 +4017,65 @@
       "time": "Pre-market",
       "vsExp": "KO and UPS beat estimates; Whirlpool missed"
     }
+  },
+  {
+    "id": "2026-10-28-1-fed-decision-hold-expected-hawkish-pause",
+    "data": {
+      "addedAt": "2026-10-28",
+      "category": "Fed",
+      "date": "2026-10-28",
+      "day": "Wed",
+      "direction": "Neutral",
+      "event": "Fed decision due 2 PM ET: hold expected in the 3.75%-4.00% range; focus on Chair Warsh's press conference and any signal of further rate hikes (a 'hawkish pause'). Futures mixed ahead of it.",
+      "impact": "High",
+      "numbers": "Fed funds 3.75%-4.00% (hold expected); 5:30 AM ET futures: Nasdaq-100 +0.30%, S&P 500 +0.10%, Dow -0.19%; Tue close: S&P +0.60%, Nasdaq Comp +1.18%, Dow +0.03%",
+      "order": 1,
+      "reaction": "Futures near flat to mixed pre-decision; hawkish guidance would pressure bonds and growth equities.",
+      "region": "US",
+      "source": "https://www.tipranks.com/news/stock-market-today-oct-28-futures-mixed-as-investors-await-mega-cap-earnings-and-the-feds-policy-decision",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, TLT, 10Y, yield, Treasury, DXY, dollar",
+      "time": "Pre-market",
+      "vsExp": "n/a (decision at 2 PM ET)"
+    }
+  },
+  {
+    "id": "2026-10-28-2-saudi-refinery-attack-lifts-oil",
+    "data": {
+      "addedAt": "2026-10-28",
+      "category": "Energy",
+      "date": "2026-10-28",
+      "day": "Wed",
+      "direction": "Mixed",
+      "event": "Oil rises after an attack on a Saudi Arabian refinery revived Middle East supply concerns, adding to inflation and rate-hike worries ahead of the Fed.",
+      "impact": "High",
+      "numbers": "Brent +1.15% to $115.19; WTI +1.70% to $101.60; TSX energy index -2.59% pre-open (per Yahoo)",
+      "order": 2,
+      "reaction": "Crude higher in early trading; inflation-sensitive assets in focus into the Fed decision.",
+      "region": "Middle East / Global",
+      "source": "https://www.tipranks.com/news/stock-market-today-oct-28-futures-mixed-as-investors-await-mega-cap-earnings-and-the-feds-policy-decision",
+      "tickers": "WTI, Brent, XLE, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-28-3-sk-hynix-record-profit-chips-hood-falls",
+    "data": {
+      "addedAt": "2026-10-28",
+      "category": "Earnings",
+      "date": "2026-10-28",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "SK Hynix posts record Q3 profit and plans about $75B in shareholder returns, lifting chip stocks after Tuesday's Broadcom-led semiconductor rally; Robinhood falls on disappointing Q3 results. Microsoft and Alphabet report after the close.",
+      "impact": "Medium",
+      "numbers": "SKHY ~+7.5-8% pre-market (Seoul shares +10%); Samsung ~+5%; MU ~+2%; HOOD down more than 8%; Nikkei 225 +1.08%",
+      "order": 3,
+      "reaction": "Chips and Asia tech led gains overnight; Nasdaq-100 futures the strongest of the major indexes.",
+      "region": "Global / US",
+      "source": "https://ca.finance.yahoo.com/news/live/stock-market-today-wednesday-october-28-dow-sp-500-nasdaq-fed-meeting-decision-080642111.html",
+      "tickers": "QQQ, Nasdaq, SKHY, MU, HOOD",
+      "time": "Pre-market",
+      "vsExp": "HOOD Q3 below expectations; SK Hynix record profit"
+    }
   }
 ]
