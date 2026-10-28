@@ -75,3 +75,16 @@ def test_page_section():
     html = rs.crowding_html(dict(plan=dict(auto=dict(crowding=G))))
     assert 'Speculator crowding' in html and 'Crowded long' in html and '+50%' in html and '95%' in html and '<polyline' in html
     assert rs.crowding_html(dict(plan=dict(auto=dict(crowding=None)))) == ''
+
+
+def test_plain_words_summary():
+    spec = importlib.util.spec_from_file_location(
+        'render_scanner', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'render_scanner.py'))
+    rs = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rs)
+    row = lambda name, pct, flag=None: dict(name=name, pct=pct, flag=flag)
+    assert 'not making any unusually one-sided bets' in rs.crowding_plain([row('Gold', 0.5), row('Silver', 0.4)])
+    t = rs.crowding_plain([row('Nasdaq-100 futures', 0.94, 'long'), row('Gold', 0.5)])
+    assert 'betting heavily on the Nasdaq-100 going up' in t and 'not a reliable warning' in t and 'other 1 markets' in t
+    t = rs.crowding_plain([row('S&P 500 futures', 0.05, 'short')])
+    assert 'going down' in t and 'higher 3 months later 79%' in t and 'does not act' in t
