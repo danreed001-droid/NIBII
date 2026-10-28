@@ -4077,5 +4077,65 @@
       "time": "Pre-market",
       "vsExp": "HOOD Q3 below expectations; SK Hynix record profit"
     }
+  },
+  {
+    "id": "2026-10-28-4-fed-holds-rates-10-2-vote-dissent",
+    "data": {
+      "addedAt": "2026-10-28",
+      "category": "Fed",
+      "date": "2026-10-28",
+      "day": "Wed",
+      "direction": "Mixed",
+      "event": "Fed holds rates steady at 3.75%-4.00% in a 10-2 vote, with Gov. Lisa Cook and Cleveland Fed President Beth Hammack dissenting in favor of a quarter-point hike. Statement upgraded its description of growth to a 'strong pace' with inflation still elevated; Chair Warsh said the Fed will hold one fewer policy meeting in 2027.",
+      "impact": "High",
+      "numbers": "Fed funds rate held at 3.75%-4.00%; vote 10-2",
+      "order": 4,
+      "reaction": "Equities held modest gains into the close; 10-year yield stayed elevated near 5% as traders priced roughly an 83-85% chance of a December rate hike",
+      "region": "US",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "tickers": "SPY, QQQ, DIA, TLT, 10Y, DXY",
+      "time": "Market hours",
+      "vsExp": "Hold was widely expected; two dissents favoring a hike (rather than a cut) were a hawkish surprise"
+    }
+  },
+  {
+    "id": "2026-10-28-5-stocks-close-higher-sp500-dow-nasdaq-10yr-yield",
+    "data": {
+      "addedAt": "2026-10-28",
+      "category": "Market",
+      "date": "2026-10-28",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "US stocks closed modestly higher after the Fed's decision to hold rates steady, with the S&P 500, Dow, and Nasdaq all edging up for a second straight session.",
+      "impact": "High",
+      "numbers": "S&P 500 7,743.98 (+0.28%); Dow 52,475.10 (+0.19%); Nasdaq Composite 26,549.85 (+0.27%); 10-year Treasury yield ~5.0-5.05% (near multi-month highs); WTI crude ~$101.67 (+1.8%); gold ~$4,075",
+      "order": 5,
+      "reaction": "Broad-based modest gains; yields stayed near 5% heading into after-hours mega-cap tech earnings",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-october-28-dow-sp-500-nasdaq-fed-meeting-decision-big-tech-earnings-130508769.html",
+      "tickers": "SPY, DIA, QQQ, TLT, 10Y, USO, GLD",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-28-6-microsoft-beats-alphabet-misses-after-hours",
+    "data": {
+      "addedAt": "2026-10-28",
+      "category": "Earnings",
+      "date": "2026-10-28",
+      "day": "Wed",
+      "direction": "Mixed",
+      "event": "Microsoft's fiscal Q1 results beat estimates on strong Azure growth, sending shares higher after hours; Alphabet missed on revenue and EPS with free cash flow turning sharply negative, sending shares down sharply after hours.",
+      "impact": "High",
+      "numbers": "MSFT closed $531.01 (-0.06%), rose to roughly $553 (+4%) after hours; Azure revenue $63.9B, up ~48% y/y. GOOG/GOOGL closed $321.89 (+1.6%), fell to roughly $294 (-8.7%) after hours; Google Cloud revenue more than doubled y/y but free cash flow was -$9.07B",
+      "order": 6,
+      "reaction": "Split reaction in mega-cap tech: Microsoft rallied after hours while Alphabet sold off sharply on AI-capex and cash-flow concerns",
+      "region": "US",
+      "source": "https://pro.thestreet.com/stock-market-today/the-fed-and-the-1-day-vix",
+      "tickers": "MSFT, GOOGL, GOOG, QQQ",
+      "time": "After-hours",
+      "vsExp": "MSFT beat revenue and EPS estimates; GOOGL missed revenue and EPS estimates"
+    }
   }
 ]
