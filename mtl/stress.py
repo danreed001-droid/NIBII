@@ -44,6 +44,15 @@ EVENT_FAMILY = {   # event type on the events list -> trigger family
     'Pandemic / disaster': 'Pandemic & disaster', 'Oil shock': 'Oil', 'Oil up 50% in a year': 'Oil'}
 
 
+def page_tickers():
+    """The extra price series the Market stress page needs: the 12 sharp-move assets, the crowding charts' prices,
+    small caps and gold futures, less those the scan already reads with the benchmark and haven prices. Kept here,
+    not as a scanner setting, so a page change never alters the paper record's rule fingerprint (mtl/paper.py)."""
+    from mtl import crowding
+    return sorted(({t for t, _ in DOMINOES} | set(crowding.PRICE.values()) | {'IWM', 'GC=F'})
+                  - {'SPY', 'TLT', 'IEF', 'GLD', 'QQQ'})
+
+
 def _upto(px, d):
     """(dates, closes) of a {date: close} series up to and including d."""
     ds = sorted(px)
