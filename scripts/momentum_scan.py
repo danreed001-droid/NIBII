@@ -115,9 +115,6 @@ def cushion_log(calendar, week_ends, start, split, spy_gap, credit_gap, n=12):
     return out[::-1][:n]
 
 
-MACRO = sorted(({t for t, _ in stress.DOMINOES} | set(crowding.PRICE.values()) | {'IWM', 'GC=F'})
-               - {'SPY', 'TLT', 'IEF', 'GLD', 'QQQ'})   # those come with the benchmark and haven prices
-
 
 def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False, volumes=None):
     """{ticker: [(date, open, high, low, close)]} - closes are split-adjusted
@@ -652,7 +649,7 @@ def main():
         print(f"  crowding-gauge fetch failed: {e}", file=sys.stderr)
         crowd_gauge = None
     try:   # market stress card + crowding charts (information only): futures, the dollar index, 5 currencies, small caps
-        macro_bars = fetch(MACRO, adjusted=True)   # (mtl/stress.py, mtl/crowding.py)
+        macro_bars = fetch(stress.page_tickers(), adjusted=True)   # (mtl/stress.py, mtl/crowding.py)
     except Exception as e:
         print(f"  market-stress fetch failed: {e}", file=sys.stderr)
         macro_bars = {}

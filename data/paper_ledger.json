@@ -373,6 +373,27 @@
    "what": "break re-entry rule (mtl/reentry.py): after SPY has been 10%+ under its 1-year high in the last 3 months, a weekly downtrend break (first close above the latest weekly swing high when it is below the one before) and a daily one with SPY's volume over the 10 sessions before it under 80% of the 50 before those, within 21 sessions of each other: the Boost list for 21 decision days over the other rules (the price-break rule still applies after it); backtest 45.8% a year from 2000 vs 44.5%, worst drop -29% either way"
   },
   {
+   "since": "2026-10-27",
+   "fingerprint": "f06e19fba0766d77",
+   "files": {
+    "mtl/momentum.py": "30434b62e1e5",
+    "mtl/rotation.py": "abbce15386b6",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/reentry.py": "e28fdda2a329",
+    "mtl/pricebreak.py": "20d70e5b7401",
+    "mtl/fractal.py": "936e82e39874",
+    "mtl/narrow.py": "2afdaea019ae",
+    "mtl/lowerhigh.py": "f950e464a79f",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "93bbda358364",
+    "mtl/fade.py": "eed144f30a67",
+    "mtl/calendar_nyse.py": "f968ab11e45a",
+    "scripts/momentum_scan.py (settings)": "9d2a88aff92a"
+   },
+   "what": "no rule change: a list of extra price series for the Market stress page (information only) was added among the scanner's settings lines on Oct 27, which changed the fingerprint for the Oct 27 entry; the decisions are the same. The list moved out of the settings on Oct 28, so the fingerprint is back to a0544e2cee5f4b54"
+  },
+  {
    "since": "2026-10-28",
    "fingerprint": "a0544e2cee5f4b54",
    "files": {

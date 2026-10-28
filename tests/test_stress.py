@@ -89,3 +89,10 @@ def test_stress_page_renders_card_and_crowding_charts():
     assert 'Market stress' in page and 'Oil' in page and '2 of 3 on' in page and 'Speculator crowding' in page and 'cc-data' in page
     assert 'href="stress.html"' in rs.render(dict(asOf='2026-10-27', holdings=[], table=[], trades=[], curves={}, years={}, stats={}))
     assert rs.stress_html(dict(plan=dict(auto={}))) == ''
+
+
+def test_page_tickers_skip_the_scans_own_series():
+    t = stress.page_tickers()
+    assert 'HG=F' in t and 'IWM' in t and 'ZN=F' in t
+    assert not {'SPY', 'TLT', 'IEF', 'GLD', 'QQQ'} & set(t)
+    assert t == sorted(set(t))
