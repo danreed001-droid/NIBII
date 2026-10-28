@@ -1,0 +1,986 @@
+{
+ "equities": {
+  "1": [
+   [
+    "neu",
+    "structure.hourly reads choppy for ES=F on 27 October - no consistent run of higher or lower swings"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "neu",
+    "1H structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "5": [
+   [
+    "bull",
+    "structure.weekly reads uptrend for ES=F on 27 October"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "bull",
+    "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+   ]
+  ],
+  "10": [
+   [
+    "bull",
+    "structure.weekly reads uptrend for ES=F on 27 October"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "bull",
+    "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+   ]
+  ]
+ },
+ "bonds": {
+  "1": [
+   [
+    "neu",
+    "structure.hourly reads choppy for ZN=F on 27 October - no consistent run of higher or lower swings"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "neu",
+    "1H structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "5": [
+   [
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 27 October"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "bear",
+    "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+   ]
+  ],
+  "10": [
+   [
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 27 October"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "bear",
+    "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+   ]
+  ]
+ },
+ "gold": {
+  "1": [
+   [
+    "neu",
+    "structure.hourly reads choppy for GC=F on 27 October - no consistent run of higher or lower swings"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "neu",
+    "1H structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "5": [
+   [
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 27 October"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "bear",
+    "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+   ]
+  ],
+  "10": [
+   [
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 27 October"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "bear",
+    "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+   ]
+  ]
+ },
+ "dollar": {
+  "1": [
+   [
+    "bull",
+    "structure.hourly reads uptrend for DX-Y.NYB on 27 October"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "bull",
+    "1H structure is uptrend - last labeled swings: HH/HH/HL/HH."
+   ]
+  ],
+  "5": [
+   [
+    "neu",
+    "structure.weekly reads choppy for DX-Y.NYB on 27 October - no consistent run of higher or lower swings"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "10": [
+   [
+    "neu",
+    "structure.weekly reads choppy for DX-Y.NYB on 27 October - no consistent run of higher or lower swings"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ]
+ },
+ "iwm": {
+  "1": [
+   [
+    "neu",
+    "structure.hourly reads choppy for RTY=F on 27 October - no consistent run of higher or lower swings"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "neu",
+    "1H structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "5": [
+   [
+    "bull",
+    "structure.weekly reads uptrend for RTY=F on 27 October"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "bull",
+    "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+   ]
+  ],
+  "10": [
+   [
+    "bull",
+    "structure.weekly reads uptrend for RTY=F on 27 October"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "bull",
+    "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+   ]
+  ]
+ },
+ "qqq": {
+  "1": [
+   [
+    "neu",
+    "structure.hourly reads choppy for NQ=F on 27 October - no consistent run of higher or lower swings"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "neu",
+    "1H structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "5": [
+   [
+    "neu",
+    "structure.weekly reads choppy for NQ=F on 27 October - no consistent run of higher or lower swings"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ],
+  "10": [
+   [
+    "neu",
+    "structure.weekly reads choppy for NQ=F on 27 October - no consistent run of higher or lower swings"
+   ],
+   [
+    "neu",
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+   ],
+   [
+    "neu",
+    "VIX closed at 17.52 on 27 October (down from 18.39), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated high-yield OAS or credit-spread figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "The 10-year Treasury yield closed at 4.993% (+0.7bp) on 27 October (news log), just under 5%; one day's move does not give a clear multi-day read, so neutral"
+   ],
+   [
+    "neu",
+    "The Fed is expected to hold on 28 October (~90% odds, news log) with focus on December hike pricing, but the outcome is unknown, so neutral"
+   ],
+   [
+    "neu",
+    "No dated contrarian market-sentiment extreme for 27 October was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No dated positioning or flow figure for 27 October was obtainable, so this category is neutral."
+   ],
+   [
+    "neu",
+    "Microsoft, Alphabet and Amazon report this week and chips rallied on 27 October (news log), but the results are unknown, so neutral"
+   ],
+   [
+    "neu",
+    "The FOMC decision on 28 October and big-tech earnings are the next dated checks, and their outcomes are unknown, so the calendar is neutral"
+   ],
+   [
+    "neu",
+    "No dated seasonality statistic for this window was obtained, so neutral"
+   ],
+   [
+    "neu",
+    "No clear cross-asset read for this asset on 27 October (Brent near six-month highs after a 1.4% Monday dip, no dated 27 October oil settle in the log, 10Y just under 5%, equities higher), so neutral"
+   ],
+   [
+    "neu",
+    "Weekly structure is choppy - no consistent run of higher or lower swings."
+   ]
+  ]
+ }
+}
