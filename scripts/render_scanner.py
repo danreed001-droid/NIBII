@@ -1139,6 +1139,18 @@ __ISSUES__
         '’s close and the next nightly run is overdue (it failed, or GitHub skipped or paused it). Don’t trade on it until it updates; see Issues at the bottom.</div>' : '') +
       ((D.dataIssues || []).length ? '<div class="data-issues neg" role="alert"><b>Data problem:</b> ' + D.dataIssues.map(esc).join(' ') + '</div>' : '');
   }
+  // the installed app keeps this page open in the background and shows it again as it was: when it comes back into
+  // view (and every 15 minutes while open), look for a newer build of the page and reload to it
+  function checkNewer() {
+    if (!window.fetch || location.protocol === 'file:') return;
+    fetch(location.pathname, { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
+      var m = /"generatedAt":\s*"([^"]+)"/.exec(t);
+      if (m && Date.parse(m[1]) > Date.parse(D.generatedAt)) location.reload();
+    }).catch(function () {});
+  }
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') checkNewer(); });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) checkNewer(); });
+  setInterval(function () { if (document.visibilityState === 'visible') checkNewer(); }, 15 * 60000);
   // market phase: bull run / correction / bear market (information only; no rule reads it)
   function marketPill() {
     var M = D.market; if (!M || !M.phase) return '';
