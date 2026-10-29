@@ -4177,5 +4177,85 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-10-29-3-fed-holds-rates-hawkish-10-2-vote",
+    "data": {
+      "addedAt": "2026-10-29",
+      "category": "Fed",
+      "date": "2026-10-29",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Fed (under Chair Kevin Warsh) held rates at 3.75%-4.00% on Wednesday in a hawkish 10-2 vote — dissenters Lisa Cook and Beth Hammack wanted a further 25bp HIKE, not a cut. Statement language upgraded growth description from 'solid' to 'strong'; Warsh said politics played no role in the decision ahead of the midterms. Reaction carried into today's session alongside the GDP/PCE data and the Alphabet-led tech selloff.",
+      "impact": "High",
+      "numbers": "Target range unchanged 3.75%-4.00%; IORB set to 3.90% effective 10/29; vote 10-2",
+      "order": 3,
+      "reaction": "10-yr Treasury yield held firm near 4.99%; hawkish tone added to rate-sensitive pressure alongside the Alphabet-driven tech selloff",
+      "region": "US",
+      "source": "https://finance.yahoo.com/economy/policy/live/fed-meeting-live-updates-federal-reserve-october-meeting-kevin-warsh-161129201.html",
+      "tickers": "TLT, SPY, DXY",
+      "time": "Pre-market",
+      "vsExp": "Markets had priced ~90% odds of a hold; fed funds futures now imply ~84% odds of a December HIKE (not a cut)"
+    }
+  },
+  {
+    "id": "2026-10-29-4-q3-gdp-beats-pce-stays-sticky",
+    "data": {
+      "addedAt": "2026-10-29",
+      "category": "Macro",
+      "date": "2026-10-29",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "Q3 advance GDP growth accelerated more than forecast while the Fed's preferred inflation gauge stayed firm; both released 8:30am ET, driven by investment, consumer, and government spending.",
+      "impact": "Medium",
+      "numbers": "Q3 GDP (advance, annualized) +3.4%, up from +2.2% in Q2; September PCE price index +3.6% y/y (headline); core PCE +3.1% y/y, +0.3% m/m",
+      "order": 4,
+      "reaction": "Growth beat is bullish for the earnings outlook but sticky inflation reinforces the hawkish Fed backdrop and keeps near-term rate-cut hopes off the table",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-29-dow-sp-500-nasdaq-alphabet-microsoft-earnings-130305714.html",
+      "tickers": "SPY, TLT, DXY",
+      "time": "Pre-market",
+      "vsExp": "GDP beat consensus of +3.1%; headline and core PCE both in line with estimates (core up from +3.0% y/y the prior month)"
+    }
+  },
+  {
+    "id": "2026-10-29-5-sp500-dow-nasdaq-close-alphabet-selloff",
+    "data": {
+      "addedAt": "2026-10-29",
+      "category": "Market",
+      "date": "2026-10-29",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "US stocks close lower, led by a historic Alphabet-driven Nasdaq selloff; S&P and Dow slip modestly while the Nasdaq underperforms sharply.",
+      "impact": "High",
+      "numbers": "S&P 500 7,720.39 (-23.59, -0.30%); Dow 52,342.56 (-132.54, -0.25%); Nasdaq Composite 26,184.73 (-365.13, -1.38%); 10-yr Treasury yield 4.989% (-0.056, -1.11%)",
+      "order": 5,
+      "reaction": "Nasdaq's underperformance driven almost entirely by Alphabet's ~12-13% plunge (nearly $500B of market value, the second-largest single-day market-cap loss on record for a US-listed company)",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-29-dow-sp-500-nasdaq-alphabet-microsoft-earnings-130305714.html",
+      "tickers": "SPY, DIA, QQQ, TLT, GOOGL",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-29-6-intel-amazon-earnings-after-hours",
+    "data": {
+      "addedAt": "2026-10-29",
+      "category": "Earnings",
+      "date": "2026-10-29",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "Intel beats Q3 on revenue and EPS but issues weak Q4 guidance, sending shares sharply lower after-hours; Amazon posts a Q3 beat on operating income and AWS growth, with Q4 sales guidance roughly in line.",
+      "impact": "Medium",
+      "numbers": "Intel: revenue $16.51B (+20.9% y/y) vs $16.42B est; adj. EPS $0.52 vs $0.40 est; Q4 guide ~$15.5B rev (vs $17.02B est) and ~$0.25 adj. EPS (vs $0.44 est). Amazon: net sales $201.9B (+12% y/y); operating income $28.1B (+61% y/y); AWS revenue $46.0B (+39% y/y); diluted EPS $1.89 (vs $1.95 y/y, which included a one-time $9.5B Anthropic gain); Q4 guide net sales $240.0B-$247.0B",
+      "order": 6,
+      "reaction": "INTC fell roughly 17.6% after-hours to ~$76 on the weak guidance; AMZN's after-hours stock reaction was not yet confirmed at time of logging — expect it to register at Friday's open",
+      "region": "US",
+      "source": "https://www.sec.gov/Archives/edgar/data/0001018724/000101872426000038/amzn-20260930xex991.htm",
+      "tickers": "INTC, AMZN",
+      "time": "After-hours",
+      "vsExp": "Intel beat Q3 but guided Q4 well below consensus on both revenue and EPS; Amazon beat on operating income and AWS, with the EPS dip vs. last year explained by a one-time gain that didn't repeat"
+    }
   }
 ]
