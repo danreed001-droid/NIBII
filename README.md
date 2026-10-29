@@ -353,16 +353,46 @@ independently rediscovered each morning.
 
 ## Honest limits
 
-- **The engine cannot verify `volRegime` or `crowd`.** Both may only be non-zero
-  when a source *itself* names a percentile, a record, or a multi-year extreme.
-  They arrive as inputs and are recorded verbatim. `crowd` is capped at +/-2.
-- **`HOLIDAYS` in `calendar_nyse.py` is hand-maintained.** Extend it per year or
-  maturity dates will be wrong.
-- **The category record is noise below ~20 marked votes per category.**
-  `record.py` returns `byCategoryWarning` saying so; report it, don't rank it.
-- **`prepare_daily.py` needs live network access** to Yahoo Finance and FRED,
-  which not every environment grants (this one doesn't) — run it somewhere
-  that can reach both.
+What the system can't check for itself, so nobody takes it for more than it is:
+
+- **Prices come from Yahoo Finance through an unofficial library (yfinance).** Yahoo can change or block it
+  without notice. The nightly scan has backups for that (see *Keeping it running*), but they only carry
+  the closing prices: on a night they're in use, a series can skip a session, and the page says so.
+- **The old daily board can't verify `volRegime` or `crowd`.** Both may only be non-zero when a source
+  *itself* names a percentile, a record, or a multi-year extreme. They arrive as inputs and are recorded
+  verbatim. `crowd` is capped at +/-2.
+- **Unscheduled market closures are hand-maintained.** Regular holidays are worked out by rule for any year
+  (`mtl/calendar_nyse.py`); a surprise closure (a storm, a national day of mourning) has to be added to
+  `EXTRA_CLOSURES` when the exchange announces it. Until then the page warns that a close is missing.
+- **The S&P 500 member list is read from Wikipedia.** If its page layout changes, the saved list is kept
+  and the page warns once it's more than 10 days old.
+- **The category record is noise below ~20 marked votes per category.** `record.py` returns
+  `byCategoryWarning` saying so; report it, don't rank it.
+- **`prepare_daily.py` needs live network access** to Yahoo Finance and FRED, which not every environment
+  grants - run it somewhere that can reach both.
+
+## Keeping it running
+
+Everything runs on GitHub Actions. What catches each way it can go quiet:
+
+| What can fail | What catches it |
+|---|---|
+| Yahoo misses a close or fails outright | The scan fills the gap from Tiingo's official closing prices (one request covers every US stock and fund) and from a saved copy of the last run's prices, kept in GitHub's Actions cache. The 10-year yield and the VIX come from FRED. The page lists every series that came from a backup. (`mtl/backup_prices.py`) |
+| A new yfinance release breaks downloads | Before each scan a two-ticker check runs; if it fails, the last version that worked here is reinstalled. (`scripts/check_yahoo.py`) |
+| The nightly run fails | A second run four hours later, an issue that @mentions you, and a line in the page's issues list. |
+| The run never starts (GitHub pauses or skips it) | The morning watchdog opens an issue before the open, and, outside GitHub, healthchecks.io emails you when the nightly ping doesn't arrive. |
+| A bad push or a damaged history | A monthly snapshot of the whole repository on the Releases page (last 12 kept). |
+
+Two repository secrets switch the outside parts on (Settings > Secrets and variables > Actions > New
+repository secret). Without them the rest still works:
+
+- `TIINGO_KEY`: a Tiingo API key (the free plan is enough: the backup uses one request a night).
+- `HEALTHCHECK_URL`: the ping URL of a check on healthchecks.io (free). Set the check's schedule to
+  Cron `20 22 * * 1-5`, time zone UTC, grace time 10 hours, so a missed night alerts you by about 4am New York time.
+
+GitHub pauses scheduled workflows after 60 days without activity in the repository; the nightly commits keep
+it active, and GitHub emails a warning before pausing. For a copy outside GitHub, download the newest
+backup from the Releases page now and then.
 
 ## Test
 

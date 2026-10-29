@@ -1,0 +1,56 @@
+name: Monthly backup
+
+# A dated snapshot of the whole repository each month, as a GitHub release: the full history (paper record, issues,
+# calls, logs) in one file anyone can restore with `git clone nibii-YYYY-MM.bundle`, plus a plain zip of today's
+# files. It protects against a bad push or a damaged history; to also have a copy outside GitHub, download the newest
+# one from the Releases page now and then (Watch > Custom > Releases emails you when a new one is out).
+
+on:
+  schedule:
+    # 09:23 UTC on the 1st of each month
+    - cron: '23 9 1 * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Build the snapshot
+        run: |
+          tag="backup-$(date -u +%Y-%m)"
+          echo "TAG=$tag" >> "$GITHUB_ENV"
+          git bundle create "$RUNNER_TEMP/nibii-$(date -u +%Y-%m).bundle" --all
+          git bundle verify "$RUNNER_TEMP/nibii-$(date -u +%Y-%m).bundle"
+          git archive --format=zip -o "$RUNNER_TEMP/nibii-files-$(date -u +%Y-%m).zip" HEAD
+          ls -la "$RUNNER_TEMP"/nibii-*
+
+      - name: Publish it as a release (keeping the last 12)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete "$TAG" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag 2>/dev/null || true
+          gh release create "$TAG" "$RUNNER_TEMP"/nibii-* --repo "$GITHUB_REPOSITORY" --target main \
+            --title "Backup $(date -u +%Y-%m-%d)" \
+            --notes "Monthly snapshot. Full history: \`git clone nibii-*.bundle\`. Today's files only: the zip."
+          gh release list --repo "$GITHUB_REPOSITORY" --limit 100 --json tagName --jq '.[].tagName' \
+            | grep '^backup-' | sort -r | tail -n +13 \
+            | xargs -r -I{} gh release delete {} --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag
+
+      - name: Open an issue if the backup failed
+        if: ${{ failure() || cancelled() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          bash scripts/report_failure.sh "Monthly backup failed $(date -u +%Y-%m)" \
+            "This month's backup snapshot couldn't be made, so the newest copy on the Releases page is last month's. Nothing else is affected; run it by hand from the Actions tab (Monthly backup, Run workflow)." backup
