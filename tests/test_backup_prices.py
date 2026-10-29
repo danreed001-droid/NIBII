@@ -130,3 +130,9 @@ def test_a_skipped_session_is_reported(monkeypatch):
     assert [r[0] for r in out['AAA']] == ['2026-10-26', '2026-10-28']
     assert bp.used()['gap'] == ['AAA']
     assert any('skip a session' in x for x in bp.problems(bp.used(), '2026-10-28'))
+
+
+def test_a_few_filled_closes_stay_off_the_page():
+    assert bp.problems({'tiingo': ['IWM'], 'cache': [], 'fred': [], 'gap': []}, '2026-10-28') == []
+    many = [f'T{i}' for i in range(12)]
+    assert len(bp.problems({'tiingo': many, 'cache': [], 'fred': [], 'gap': []}, '2026-10-28')) == 1

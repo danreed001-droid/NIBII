@@ -29,6 +29,7 @@ TIINGO_URL = 'https://api.tiingo.com/iex/?token={key}'   # every ticker's latest
 FRED_URL = 'https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}'
 FRED_ALT = {'^TNX': 'DGS10', '^VIX': 'VIXCLS'}            # Yahoo index -> the same series on FRED
 SPLIT = math.log(1.2)       # a jump in the previous close beyond 20% is a split, not a data correction
+QUIET = 10                  # fewer series filled than this aren't worth a line on the page
 BROKEN = 0.5                # Yahoo is "down" when it missed the last close for half or more of a large request
 
 _cache = None               # {'raw'|'adj': {ticker: 'date,open,high,low,close,volume' lines}}
@@ -213,6 +214,8 @@ def fill(out, tickers, adjusted=False, start='0000', volumes=None, target=None):
             _used['fred' if t in FRED_ALT else 'tiingo'].add(t)
         if rows[-1][0] >= target:   # complete (the copy already had the day, or a backup added it)
             _used['cache'].discard(t)
+        if got:
+            print(f"  {t}: {rows[-1][0]} close from the backup", file=sys.stderr)
         out[t] = rows
         if volumes is not None and vol:
             volumes[t] = vol
@@ -248,7 +251,7 @@ def problems(u, target):
         out.append("Yahoo Finance, the main price source, was missing tonight's close for most tickers: the plan ran "
                    "on the backup source instead (Tiingo's official closing prices). Nothing to do unless this "
                    "repeats for days; if it does, the download library likely needs an update.")
-    if names and not u.get('yahoo_down'):
+    if len(names) >= QUIET and not u.get('yahoo_down'):   # a few filled closes are routine: the run log has them
         out.append(f"{len(names)} price series came from the backup source tonight because Yahoo was missing "
                    f"{target}'s close (e.g. {', '.join(names[:5])}).")
     if u.get('gap'):
