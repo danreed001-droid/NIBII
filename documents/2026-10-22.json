@@ -426,62 +426,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for ES=F on 22 October"
+       "structure.weekly reads uptrend for ES=F on 22 October",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VIX rose 14.1% to 19.03 on 22 October (news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "VIX rose 14.1% to 19.03 on 22 October (news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral"
+       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral"
+       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral"
+       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral"
+       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral"
+       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7760.75,
+     "ret": 0.009299,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -2544,62 +2559,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for ZN=F on 22 October"
+       "structure.weekly reads downtrend for ZN=F on 22 October",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No implied-volatility print naming a percentile, record or multi-year extreme was obtained for 22 October, so neutral"
+       "No implied-volatility print naming a percentile, record or multi-year extreme was obtained for 22 October, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral"
+       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral"
+       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral"
+       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral"
+       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral"
+       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 106.09375,
+     "ret": -0.002058,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -5187,62 +5217,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for GC=F on 22 October"
+       "structure.weekly reads downtrend for GC=F on 22 October",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "GVZ closed 24.15 on 22 October, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "GVZ closed 24.15 on 22 October, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral"
+       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral"
+       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral"
+       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral"
+       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral"
+       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4038.39990234375,
+     "ret": 0.002607,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -7312,62 +7357,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for DX-Y.NYB on 22 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.weekly reads choppy for DX-Y.NYB on 22 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No implied-volatility print naming a percentile, record or multi-year extreme was obtained for 22 October, so neutral"
+       "No implied-volatility print naming a percentile, record or multi-year extreme was obtained for 22 October, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral"
+       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral"
+       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral"
+       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral"
+       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral"
+       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 102.28399658203125,
+     "ret": 0.007327,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 10,
@@ -9514,62 +9574,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for RTY=F on 22 October"
+       "structure.weekly reads uptrend for RTY=F on 22 October",
+       true
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No implied-volatility print naming a percentile, record or multi-year extreme was obtained for 22 October, so neutral"
+       "No implied-volatility print naming a percentile, record or multi-year extreme was obtained for 22 October, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral"
+       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral"
+       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral"
+       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral"
+       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral"
+       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2854.199951171875,
+     "ret": 0.023818,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -11436,62 +11511,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for NQ=F on 22 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.weekly reads choppy for NQ=F on 22 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VXN closed 28.72 on 22 October, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "VXN closed 28.72 on 22 October, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral"
+       "The 10-year Treasury yield closed at 4.953% (-0.193pt) on 22 October as investors rotated into bonds (news log); one day's move does not give a clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral"
+       "The Fed is in its pre-meeting blackout and the 27-28 October FOMC outcome is unknown; the news log shows no new Fed-path datapoint for 22 October, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral"
+       "No dated contrarian sentiment extreme for 22 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral"
+       "Earnings are mixed with no clear read-through for this asset (Meta EPS miss on a $9.89B legal charge with revenue beat, Texas Instruments beat, Tesla -3.08%, IBM weak Q4 outlook), so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 22 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral"
+       "Brent near $112 (highest since May), WTI near $99.5, gold -2.66% to $4,039.60 and the S&P 500 -1.21% on 22 October (news log) are cross-currents with no clear multi-day read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 29643.25,
+     "ret": 0.019395,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 10,
