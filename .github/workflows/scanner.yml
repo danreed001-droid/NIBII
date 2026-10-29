@@ -71,6 +71,30 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      # The backups for a night Yahoo fails (mtl/backup_prices.py): last run's prices, kept in GitHub's Actions
+      # cache (not the repo), and Tiingo's closing prices (the TIINGO_KEY secret; without it only the saved copy).
+      - name: Restore the saved price copy
+        uses: actions/cache/restore@v5
+        with:
+          path: .price-cache
+          key: prices-${{ github.run_id }}
+          restore-keys: prices-
+
+      - name: Check the Yahoo download library (else go back to the last version that worked)
+        run: |
+          mkdir -p .price-cache
+          now=$(pip show yfinance | awk '/^Version/{print $2}')
+          ok=$(cat .price-cache/yfinance-ok 2>/dev/null || true)
+          if v=$(python scripts/check_yahoo.py); then
+            echo "$v" > .price-cache/yfinance-ok
+          elif [ -n "$ok" ] && [ "$ok" != "$now" ]; then
+            echo "yfinance $now can't download: going back to $ok, the last version that worked here"
+            pip install -q "yfinance==$ok" && python scripts/check_yahoo.py \
+              || echo "::warning::Yahoo downloads still fail: tonight's prices come from the backups"
+          else
+            echo "::warning::Yahoo downloads fail: tonight's prices come from the backups"
+          fi
+
       - name: Rank the S&P 500 and replay the rule
         # also logs tonight's decision to the default plan's paper record (data/paper_ledger.json, mtl/paper.py)
         # and every data problem to the issues log (data/issues_log.json, mtl/health.py)
@@ -78,7 +102,17 @@ jobs:
         timeout-minutes: 45
         env:
           PAPER_LEDGER_WRITE: '1'
+          PRICE_CACHE: .price-cache/prices.json.gz
+          TIINGO_KEY: ${{ secrets.TIINGO_KEY }}
         run: python scripts/momentum_scan.py
+
+      - name: Save the price copy for the next run
+        if: ${{ steps.scan.outcome == 'success' }}
+        continue-on-error: true
+        uses: actions/cache/save@v5
+        with:
+          path: .price-cache
+          key: prices-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Scan all US stocks for ignition setups (Next big thing watch)
         # A bad day for this ~5,000-ticker scan must never block the main dashboard;
@@ -206,6 +240,17 @@ jobs:
             gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "Superseded by a newer ignition alert."
           done
           gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$D/alert_body.md"
+
+      - name: Tell the outside alarm how tonight went (healthchecks.io)
+        # GitHub can't report a run that never starts, so an outside service expects this ping every weeknight and
+        # emails when it doesn't come (the HEALTHCHECK_URL secret; skipped without it)
+        if: ${{ always() }}
+        env:
+          HC_URL: ${{ secrets.HEALTHCHECK_URL }}
+        run: |
+          [ -n "$HC_URL" ] || { echo "no HEALTHCHECK_URL secret: skipped"; exit 0; }
+          if [ "${{ job.status }}" = "success" ]; then u="$HC_URL"; else u="$HC_URL/fail"; fi
+          curl -fsS -m 10 --retry 3 -o /dev/null "$u" || echo "::warning::could not reach healthchecks.io"
 
       - name: Open an issue if this run failed
         # any failed, timed-out or cancelled step above (the ignition scan's own failures are logged above):

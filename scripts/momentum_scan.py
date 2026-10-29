@@ -54,7 +54,7 @@ from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
-from mtl import health, paper as paper_rec  # noqa: E402
+from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
 from mtl.fade import SWING_TH as FADE_SWING, VOL_TH as FADE_VOL, buy_ok as fade_buy_ok, fading as fade_check, ratios as fade_ratios  # noqa: E402
 from mtl.narrow import apply_narrow, narrow_cash_days, narrow_reading, narrow_state, narrow_warnings, NARROW_DAYS, NARROW_DELAY, NARROW_HIGH, NARROW_LAG, NARROW_VIX  # noqa: E402
@@ -119,14 +119,24 @@ def cushion_log(calendar, week_ends, start, split, spy_gap, credit_gap, n=12):
 def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False, volumes=None):
     """{ticker: [(date, open, high, low, close)]} - closes are split-adjusted
     (adjusted=True: also dividend-adjusted, used for the benchmarks). Pass a dict as
-    `volumes` to also collect {ticker: {date: shares traded}}."""
-    import yfinance as yf
+    `volumes` to also collect {ticker: {date: shares traded}}. Whatever Yahoo leaves out (a failed download, a close
+    not in yet) is filled from the backups in mtl/backup_prices.py when the run has them switched on."""
     out = {}
+    try:
+        import yfinance as yf
+    except Exception as e:   # noqa: BLE001 - a broken library release: the backups carry the run
+        print(f"  yfinance unusable: {e}", file=sys.stderr)
+        backup_prices.fill(out, tickers, adjusted, start, volumes)
+        return out
     for k in range(0, len(tickers), chunk):
         part = tickers[k:k + chunk]
         print(f"  prices {k + len(part)}/{len(tickers)}", file=sys.stderr, flush=True)
-        df = yf.download(part, interval='1d', start=start, group_by='ticker', auto_adjust=adjusted,
-                         threads=True, progress=False)
+        try:
+            df = yf.download(part, interval='1d', start=start, group_by='ticker', auto_adjust=adjusted,
+                             threads=True, progress=False)
+        except Exception as e:   # noqa: BLE001
+            print(f"  Yahoo download failed: {e}", file=sys.stderr)
+            continue
         blank = {}   # ticker -> the latest day, when Yahoo's daily bar for it has no prices yet
         for t in part:
             try:
@@ -142,6 +152,7 @@ def fetch(tickers, start='2008-06-01', chunk=100, adjusted=False, volumes=None):
                 blank[t] = raw.index[-1].date().isoformat()
         if blank:
             fill_from_minutes(out, blank, adjusted)
+    backup_prices.fill(out, tickers, adjusted, start, volumes)
     return out
 
 
@@ -658,6 +669,10 @@ def main():
     except Exception as e:
         print(f"  credit-watch fetch failed: {e}", file=sys.stderr)
         credit_bars = {}
+    try:   # the saved copy of tonight's prices, for the next run's backup (mtl/backup_prices.py)
+        backup_prices.save()
+    except Exception as e:
+        print(f"  price cache not saved: {e}", file=sys.stderr)
     # a run before the close (by hand during the day, or the quarterly track refresh in the morning) must not read
     # the session still trading: keep only closes up to the last session that has closed
     cut_ = last_closed_session()
@@ -1281,6 +1296,7 @@ def main():
     data_issues = data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, hold_bx,
                                 ((ledger.get('entries') or [{}])[-1].get('list') or []), expected=last_closed_session(),
                                 watch=top_prev, volumes=volumes, fund_px=fund_px)
+    data_issues += backup_prices.problems(backup_prices.used(), last_closed_session())
     p_idx = {d_: i for i, d_ in enumerate(calendar)}
     p_days = [p_[0] for p_ in picks_bx]
 
