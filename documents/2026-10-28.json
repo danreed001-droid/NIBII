@@ -392,8 +392,8 @@
        null
       ]
      ],
-     "maturityClose": 7740.25,
-     "ret": -0.000581,
+     "maturityClose": 7749.25,
+     "ret": 0.000581,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2525,8 +2525,8 @@
        null
       ]
      ],
-     "maturityClose": 106.328125,
-     "ret": 0.001324,
+     "maturityClose": 106.15625,
+     "ret": -0.000294,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5159,7 +5159,7 @@
       [
        "bear",
        "The Fed held on 28 October with two dissents for a hike and ~83-85% December hike odds priced (news log) - a hawkish path is a headwind for non-yielding gold",
-       false
+       true
       ],
       [
        "neu",
@@ -5197,8 +5197,8 @@
        null
       ]
      ],
-     "maturityClose": 4038.0,
-     "ret": -0.006667,
+     "maturityClose": 4027.39990234375,
+     "ret": -0.009274,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7278,7 +7278,7 @@
       [
        "bull",
        "The Fed held on 28 October with two dissents for a hike and ~83-85% December hike odds priced (news log) - a hawkish path supports the dollar",
-       true
+       false
       ],
       [
        "neu",
@@ -7316,8 +7316,8 @@
        null
       ]
      ],
-     "maturityClose": 102.26599884033203,
-     "ret": 0.001851,
+     "maturityClose": 102.00900268554688,
+     "ret": -0.000666,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9540,8 +9540,8 @@
        null
       ]
      ],
-     "maturityClose": 2866.699951171875,
-     "ret": 0.006107,
+     "maturityClose": 2870.5,
+     "ret": 0.00744,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11484,8 +11484,8 @@
        false
       ]
      ],
-     "maturityClose": 29490.0,
-     "ret": -0.00072,
+     "maturityClose": 29551.5,
+     "ret": 0.001364,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
