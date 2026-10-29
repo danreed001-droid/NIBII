@@ -1,7 +1,7 @@
 {
  "date": "2026-10-15",
  "basisDate": "2026-10-15",
- "scored": false,
+ "scored": true,
  "generatedAt": "2026-10-16T13:25:03Z",
  "generationLag": null,
  "schema": "multi-asset-v4",
@@ -570,13 +570,12 @@
        null
       ]
      ],
-     "maturityClose": 7743.25,
-     "ret": -0.005937,
+     "maturityClose": 7710.0,
+     "ret": -0.010206,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     }
    ],
    "structure": {
@@ -2689,13 +2688,12 @@
        false
       ]
      ],
-     "maturityClose": 106.28125,
-     "ret": 0.007704,
+     "maturityClose": 106.53125,
+     "ret": 0.010074,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     }
    ],
    "structure": {
@@ -5375,13 +5373,12 @@
        true
       ]
      ],
-     "maturityClose": 4030.89990234375,
-     "ret": -0.034654,
+     "maturityClose": 4033.300048828125,
+     "ret": -0.034079,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     }
    ],
    "structure": {
@@ -7501,13 +7498,12 @@
        null
       ]
      ],
-     "maturityClose": 101.97599792480469,
-     "ret": -0.000813,
+     "maturityClose": 101.93299865722656,
+     "ret": -0.001235,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     }
    ],
    "structure": {
@@ -9704,13 +9700,12 @@
        true
       ]
      ],
-     "maturityClose": 2864.5,
-     "ret": 0.029692,
+     "maturityClose": 2868.0,
+     "ret": 0.03095,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     }
    ],
    "structure": {
@@ -11638,7 +11633,7 @@
       [
        "bear",
        "Odds of an October Fed hike jumped to near 50/50 from under 25% after September CPI (+3.7% y/y vs 3.6% expected, core +0.3% m/m vs 0.2%) and PPI +6.3% y/y vs 5.5% expected; NY Fed's Williams reportedly backs one more 2026 hike (news log), a headwind for long-duration tech",
-       false
+       true
       ],
       [
        "neu",
@@ -11668,7 +11663,7 @@
       [
        "bear",
        "WTI $95.21 and Brent $104.60 on 15 October with a large geopolitical premium and a reported US MOAB strike plan for Iran (news log); oil is this asset's dominant 21-session driver (corr -0.574), and strike risk is unresolved, a headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -11676,13 +11671,12 @@
        null
       ]
      ],
-     "maturityClose": 29493.5,
-     "ret": -0.01909,
+     "maturityClose": 29218.25,
+     "ret": -0.028245,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     }
    ],
    "structure": {
