@@ -4137,5 +4137,45 @@
       "time": "After-hours",
       "vsExp": "MSFT beat revenue and EPS estimates; GOOGL missed revenue and EPS estimates"
     }
+  },
+  {
+    "id": "2026-10-29-1-alphabet-plunges-nasdaq-futures-lower-ai-jitters",
+    "data": {
+      "addedAt": "2026-10-29",
+      "category": "Earnings",
+      "date": "2026-10-29",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Alphabet plunges after its Q3 miss and negative free cash flow, dragging Nasdaq lower on renewed AI-capex jitters; Microsoft is roughly flat after its after-hours pop. Software names ServiceNow and Fortinet and industrial Caterpillar also fall sharply on earnings.",
+      "impact": "High",
+      "numbers": "Yahoo snapshot near the open: S&P 500 7,700.78 (-0.56%); Dow 52,272.93 (-0.39%); Nasdaq 26,095.12 (-1.71%); Russell 2000 +0.41%. GOOGL ~$281 (-13.4%); MSFT $531.58 (+0.11%); NOW -23.7%; FTNT -24.2%; CAT -9.9%; MRVL -11%. VIX 16.94",
+      "order": 1,
+      "reaction": "Tech-led risk-off: Nasdaq underperforms the S&P while small caps hold up modestly",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-29-dow-sp-500-nasdaq-alphabet-microsoft-earnings-130305714.html",
+      "tickers": "GOOGL, GOOG, MSFT, NOW, FTNT, CAT, MRVL, QQQ, SPY, IWM",
+      "time": "Pre-market",
+      "vsExp": "Alphabet missed revenue and EPS (logged 10/28 after-hours); September PCE (expected +0.5% m/m headline, +3.6% y/y) due 8:30 AM ET, actual n/a at time of logging"
+    }
+  },
+  {
+    "id": "2026-10-29-2-doordash-to-buy-instacart-17b",
+    "data": {
+      "addedAt": "2026-10-29",
+      "category": "Deals",
+      "date": "2026-10-29",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "DoorDash agrees to acquire Instacart in a deal valued at about $17B, $65 per share (26% premium, 75% cash); DoorDash shares rise over 5% pre-market.",
+      "impact": "Medium",
+      "numbers": "Deal value ~$17B; $65/share; 26% premium; 75% cash; DASH +5% pre-market",
+      "order": 2,
+      "reaction": "Acquirer rallies on the deal; consumer-internet consolidation",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-29-dow-sp-500-nasdaq-alphabet-microsoft-earnings-130305714.html",
+      "tickers": "DASH, CART",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
