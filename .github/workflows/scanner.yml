@@ -20,8 +20,12 @@ on:
     # 22:20 UTC Mon-Fri = 6:20pm EDT / 5:20pm EST, well after the close and
     # Yahoo's end-of-day prices in both summer and winter.
     - cron: '20 22 * * 1-5'
-    # Backup, 02:20 UTC Tue-Sat (that evening in New York): runs only when the
-    # main run hasn't logged tonight's decision (GitHub can delay or drop one).
+    # GitHub starts scheduled runs late when it's busy (3.5 hours on Oct 28, 2026), so three more tries follow,
+    # each going ahead only when tonight's decision isn't logged yet: 22:50 and 23:35 UTC Mon-Fri, and 02:20 UTC
+    # Tue-Sat (that evening in New York). An outside timer (cron-job.org) can also start the run on the dot through
+    # workflow_dispatch (README, "Keeping it running"); the scheduled tries then find it done and stop.
+    - cron: '50 22 * * 1-5'
+    - cron: '35 23 * * 1-5'
     - cron: '20 2 * * 2-6'
   workflow_dispatch: {}
 
@@ -35,7 +39,7 @@ concurrency:
 
 jobs:
   gate:
-    # the backup run goes ahead only when tonight's decision isn't logged yet
+    # a scheduled run goes ahead only when tonight's decision isn't logged yet (a run by hand always goes ahead)
     runs-on: ubuntu-latest
     outputs:
       run: ${{ steps.need.outputs.run }}
@@ -48,7 +52,7 @@ jobs:
           python-version: '3.13'
       - id: need
         run: |
-          if [ "${{ github.event.schedule }}" = "20 2 * * 2-6" ]; then
+          if [ "${{ github.event_name }}" = "schedule" ]; then
             # if the check itself breaks, run anyway: a second run is harmless, a missed one isn't
             python scripts/check_scanner_fresh.py gate || echo "run=true" >> "$GITHUB_OUTPUT"
           else
