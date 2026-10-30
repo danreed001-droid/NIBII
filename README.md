@@ -380,6 +380,7 @@ Everything runs on GitHub Actions. What catches each way it can go quiet:
 | Yahoo misses a close or fails outright | The scan fills the gap from Tiingo's official closing prices (one request covers every US stock and fund) and from a saved copy of the last run's prices, kept in GitHub's Actions cache. The 10-year yield and the VIX come from FRED. The page lists every series that came from a backup. (`mtl/backup_prices.py`) |
 | A new yfinance release breaks downloads | Before each scan a two-ticker check runs; if it fails, the last version that worked here is reinstalled. (`scripts/check_yahoo.py`) |
 | The nightly run fails | A second run four hours later, an issue that @mentions you, and a line in the page's issues list. |
+| GitHub starts the run late | Three more scheduled tries follow the 6:20pm one (6:50pm, 7:35pm and 10:20pm New York summer time; an hour earlier in winter), each skipped once the night's decision is in. For a run on the dot, an outside timer can start it (below). |
 | The run never starts (GitHub pauses or skips it) | The morning watchdog opens an issue before the open, and, outside GitHub, healthchecks.io emails you when the nightly ping doesn't arrive. |
 | A bad push or a damaged history | A monthly snapshot of the whole repository on the Releases page (last 12 kept). |
 
@@ -389,6 +390,19 @@ repository secret). Without them the rest still works:
 - `TIINGO_KEY`: a Tiingo API key (the free plan is enough: the backup uses one request a night).
 - `HEALTHCHECK_URL`: the ping URL of a check on healthchecks.io (free). Set the check's schedule to
   Cron `20 22 * * 1-5`, time zone UTC, grace time 10 hours, so a missed night alerts you by about 4am New York time.
+
+**Starting the run on the dot (optional).** GitHub's own timer runs late when it's busy, but a run started
+through GitHub's API begins within a minute. A free cron-job.org job can do that each weekday at 6:25pm New York
+time (it follows daylight saving by itself):
+
+1. GitHub: Settings > Developer settings > Fine-grained personal access tokens > Generate new token. Repository
+   access: only this repository; permissions: Actions = Read and write. Copy the token.
+2. cron-job.org: Create cronjob. URL `https://api.github.com/repos/<owner>/<repo>/actions/workflows/scanner.yml/dispatches`
+   (this repository's owner and name); schedule Monday-Friday 18:25, time zone America/New_York; Advanced: request
+   method POST, headers `Authorization: Bearer <the token>`, `Accept: application/vnd.github+json` and
+   `X-GitHub-Api-Version: 2022-11-28`, request body `{"ref":"main"}`.
+3. Its first run shows status 204 when it worked. GitHub's scheduled tries then find the night's decision logged
+   and stop at once. The token expires on the date you chose; cron-job.org emails when the job starts failing.
 
 GitHub pauses scheduled workflows after 60 days without activity in the repository; the nightly commits keep
 it active, and GitHub emails a warning before pausing. For a copy outside GitHub, download the newest
