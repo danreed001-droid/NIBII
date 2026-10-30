@@ -1,9 +1,9 @@
 {
  "about": "The dominoes card (mtl/dominoes.py, scripts/dominoes.py). Information only.",
- "updated": "2026-10-30T00:11:16+00:00",
+ "updated": "2026-10-30T16:23:47+00:00",
  "asOf": "2026-10-29",
  "spxOff": -0.0126,
- "count": 2,
+ "count": 1,
  "dominoes": [
   {
    "key": "tech",
@@ -25,15 +25,15 @@
    "key": "banks",
    "label": "Banks",
    "on": false,
-   "value": -0.0909,
+   "value": -0.0798,
    "line": 0.1,
    "how": "off"
   },
   {
    "key": "transport",
    "label": "Transports",
-   "on": true,
-   "value": -0.105,
+   "on": false,
+   "value": -0.0973,
    "line": 0.1,
    "how": "off"
   },
@@ -147,51 +147,6 @@
    }
   },
   {
-   "d": "1991-03-18",
-   "on": [
-    "transport"
-   ],
-   "infl": 0.0531,
-   "spxOff": -0.0122,
-   "then": [
-    "Inflation turns down (Mar 1991)",
-    "Oil 40% under its high (Jan 1991)",
-    "Recession signal (Dec 1990)",
-    "Oil up 50% in a year (Oct 1990)"
-   ],
-   "next": {
-    "fall6": -0.0149,
-    "spx6": 0.0367,
-    "spx12": 0.0921,
-    "bonds6": 0.0849,
-    "bonds12": 0.1136,
-    "gold6": null,
-    "gold12": null
-   }
-  },
-  {
-   "d": "1999-11-12",
-   "on": [
-    "transport",
-    "oil"
-   ],
-   "infl": 0.0263,
-   "spxOff": -0.016,
-   "then": [
-    "Credit cracking (Aug 1999)",
-    "Oil up 50% in a year (Jun 1999)"
-   ],
-   "next": {
-    "fall6": -0.0449,
-    "spx6": 0.0403,
-    "spx12": -0.0215,
-    "bonds6": 0.005,
-    "bonds12": 0.0887,
-    "gold6": null,
-    "gold12": null
-   }
-  },
-  {
    "d": "2004-11-26",
    "on": [
     "oil"
@@ -232,6 +187,45 @@
     "gold6": null,
     "gold12": null
    }
+  },
+  {
+   "d": "1996-12-10",
+   "on": [],
+   "infl": 0.0306,
+   "spxOff": -0.0125,
+   "then": [],
+   "next": {
+    "fall6": -0.0355,
+    "spx6": 0.1632,
+    "spx12": 0.3053,
+    "bonds6": 0.0002,
+    "bonds12": 0.0999,
+    "gold6": null,
+    "gold12": null
+   }
+  },
+  {
+   "d": "2010-05-03",
+   "on": [
+    "oil"
+   ],
+   "infl": 0.0229,
+   "spxOff": -0.0123,
+   "then": [
+    "Greece cut to junk (Apr 2010)",
+    "Oil up 50% in a year (Nov 2009)",
+    "Dollar down 10% in a year (Oct 2009)",
+    "Credit cracking (Jul 2009)"
+   ],
+   "next": {
+    "fall6": -0.1495,
+    "spx6": -0.0158,
+    "spx12": 0.1322,
+    "bonds6": 0.1085,
+    "bonds12": 0.0619,
+    "gold6": 0.1475,
+    "gold12": 0.3162
+   }
   }
  ],
  "test": {
@@ -244,41 +238,41 @@
   "aucCount": 0.63
  },
  "expect": {
-  "count": 2,
+  "count": 1,
   "lo": -0.0626,
   "hi": 0.0,
   "same": {
-   "days": 1060,
-   "stretches": 46,
+   "days": 2305,
+   "stretches": 52,
    "1": {
-    "med": 0.0138,
-    "p10": -0.0314,
-    "p90": 0.0477,
-    "up": 0.684,
-    "fall5": 0.106,
-    "fall10": 0.0076,
-    "bonds": -0.0006,
-    "gold": 0.0052
+    "med": 0.0126,
+    "p10": -0.0346,
+    "p90": 0.0433,
+    "up": 0.6761,
+    "fall5": 0.0973,
+    "fall10": 0.0213,
+    "bonds": 0.0064,
+    "gold": 0.0165
    },
    "3": {
-    "med": 0.0298,
-    "p10": -0.0439,
-    "p90": 0.0971,
-    "up": 0.7077,
-    "fall5": 0.2264,
-    "fall10": 0.0831,
-    "bonds": 0.0026,
-    "gold": 0.0448
+    "med": 0.0342,
+    "p10": -0.0609,
+    "p90": 0.0884,
+    "up": 0.7234,
+    "fall5": 0.2612,
+    "fall10": 0.108,
+    "bonds": 0.0155,
+    "gold": 0.0435
    },
    "6": {
-    "med": 0.0615,
-    "p10": -0.0398,
-    "p90": 0.1629,
-    "up": 0.8302,
-    "fall5": 0.2888,
-    "fall10": 0.118,
-    "bonds": 0.0256,
-    "gold": 0.0618
+    "med": 0.0541,
+    "p10": -0.0472,
+    "p90": 0.1493,
+    "up": 0.7313,
+    "fall5": 0.3996,
+    "fall10": 0.2052,
+    "bonds": 0.0424,
+    "gold": 0.1019
    }
   },
   "all": {
