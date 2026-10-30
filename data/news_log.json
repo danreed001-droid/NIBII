@@ -4257,5 +4257,45 @@
       "time": "After-hours",
       "vsExp": "Intel beat Q3 but guided Q4 well below consensus on both revenue and EPS; Amazon beat on operating income and AWS, with the EPS dip vs. last year explained by a one-time gain that didn't repeat"
     }
+  },
+  {
+    "id": "2026-10-30-1-us-futures-fall-after-amazon-intel-earnings",
+    "data": {
+      "addedAt": "2026-10-30",
+      "category": "Earnings",
+      "date": "2026-10-30",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "US equity futures slide overnight, led by Nasdaq-100, after Amazon and Intel earnings/guidance disappointed investors; Treasuries rallied as yields fell.",
+      "impact": "High",
+      "numbers": "Thu evening (8:47 PM ET): Nasdaq-100 futures ~-2% at 28,975; S&P 500 futures -0.8% at 7,690; Dow futures +0.04%. 10Y yield ~4.99% (-5.6bp); 2Y ~4.65% (-7.7bp). Nasdaq Composite fell 1.4% in Thursday's session. Some wires reported deeper premarket drops (Nasdaq-100 futs about -2.3%, S&P about -1%); sources conflict on Amazon's results vs. estimates (see prior Amazon/Intel row).",
+      "order": 1,
+      "reaction": "Tech/growth-led risk-off into the open; bonds bid, yields lower.",
+      "region": "US",
+      "source": "https://www.heygotrade.com/en/news/nasdaq-100-futures-sink-2-after-big-tech-earnings-treasuries-rally/",
+      "tickers": "SPY, QQQ, Nasdaq, S&P, TLT, 10Y, yield, Treasury, AMZN, INTC",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-30-2-boj-holds-1-25-nikkei-drops-on-tech-selloff",
+    "data": {
+      "addedAt": "2026-10-30",
+      "category": "Rates",
+      "date": "2026-10-30",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Bank of Japan holds policy rate at 1.25% and unveils faster ETF-holding sales; Nikkei falls roughly 2% as the global tech selloff hits Asia.",
+      "impact": "Medium",
+      "numbers": "BoJ rate 1.25% (unchanged). Nikkei roughly -2% in the afternoon (one report: -2.1% to ~63,290; intraday low ~-3%). ETF unwind timeline cut to ~43 years from 112. Fed (Oct 28) and ECB (Oct 29) also held rates.",
+      "order": 2,
+      "reaction": "Asia followed US tech lower; central-bank holds across Fed/ECB/BoJ left rates unchanged.",
+      "region": "Asia",
+      "source": "https://www.bloomberg.com/news/articles/2026-10-30/japanese-stocks-signal-confidence-over-faster-boj-etf-sales",
+      "tickers": "SPY, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "BoJ hold was expected; faster ETF sales plan was a surprise"
+    }
   }
 ]

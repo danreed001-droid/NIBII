@@ -1,0 +1,986 @@
+{
+  "equities": {
+    "1": [
+      [
+        "bear",
+        "structure.hourly reads downtrend for ES=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "neu",
+        "The Fed held 10-2 with two hike dissents on 28 October (news log); the hawkish path has no clean directional read for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "bear",
+        "1H structure is downtrend - last labeled swings: LH/LL/LH/LH."
+      ]
+    ],
+    "5": [
+      [
+        "bull",
+        "structure.weekly reads uptrend for ES=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "neu",
+        "The Fed held 10-2 with two hike dissents on 28 October (news log); the hawkish path has no clean directional read for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "bull",
+        "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+      ]
+    ],
+    "10": [
+      [
+        "bull",
+        "structure.weekly reads uptrend for ES=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "neu",
+        "The Fed held 10-2 with two hike dissents on 28 October (news log); the hawkish path has no clean directional read for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "bull",
+        "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+      ]
+    ]
+  },
+  "bonds": {
+    "1": [
+      [
+        "neu",
+        "structure.hourly reads choppy for ZN=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "bear",
+        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "neu",
+        "1H structure is choppy - no consistent run of higher or lower swings."
+      ]
+    ],
+    "5": [
+      [
+        "bear",
+        "structure.weekly reads downtrend for ZN=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "bear",
+        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "bear",
+        "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+      ]
+    ],
+    "10": [
+      [
+        "bear",
+        "structure.weekly reads downtrend for ZN=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "bear",
+        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "bear",
+        "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+      ]
+    ]
+  },
+  "gold": {
+    "1": [
+      [
+        "neu",
+        "structure.hourly reads choppy for GC=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "bear",
+        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "neu",
+        "1H structure is choppy - no consistent run of higher or lower swings."
+      ]
+    ],
+    "5": [
+      [
+        "bear",
+        "structure.weekly reads downtrend for GC=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "bear",
+        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "bear",
+        "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+      ]
+    ],
+    "10": [
+      [
+        "bear",
+        "structure.weekly reads downtrend for GC=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "bear",
+        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "bear",
+        "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+      ]
+    ]
+  },
+  "dollar": {
+    "1": [
+      [
+        "neu",
+        "structure.hourly reads choppy for DX-Y.NYB on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "bull",
+        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "neu",
+        "1H structure is choppy - no consistent run of higher or lower swings."
+      ]
+    ],
+    "5": [
+      [
+        "neu",
+        "structure.weekly reads choppy for DX-Y.NYB on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "bull",
+        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "neu",
+        "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+    ],
+    "10": [
+      [
+        "neu",
+        "structure.weekly reads choppy for DX-Y.NYB on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "bull",
+        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "neu",
+        "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+    ]
+  },
+  "iwm": {
+    "1": [
+      [
+        "neu",
+        "structure.hourly reads choppy for RTY=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "neu",
+        "The Fed held 10-2 with two hike dissents on 28 October (news log); the hawkish path has no clean directional read for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "neu",
+        "1H structure is choppy - no consistent run of higher or lower swings."
+      ]
+    ],
+    "5": [
+      [
+        "bull",
+        "structure.weekly reads uptrend for RTY=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "neu",
+        "The Fed held 10-2 with two hike dissents on 28 October (news log); the hawkish path has no clean directional read for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "bull",
+        "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+      ]
+    ],
+    "10": [
+      [
+        "bull",
+        "structure.weekly reads uptrend for RTY=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "neu",
+        "The Fed held 10-2 with two hike dissents on 28 October (news log); the hawkish path has no clean directional read for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "Alphabet-led selloff and after-hours Amazon/Intel results (news log) have no clean directional read for this asset beyond the Nasdaq, so neutral"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "bull",
+        "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+      ]
+    ]
+  },
+  "qqq": {
+    "1": [
+      [
+        "neu",
+        "structure.hourly reads choppy for NQ=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "neu",
+        "The Fed held 10-2 with two hike dissents on 28 October (news log); the hawkish path has no clean directional read for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "bear",
+        "Alphabet fell ~12-13% on its Q3 miss and negative free cash flow, dragging the Nasdaq Composite -1.38% (news log); Amazon/Intel reported after the close with reaction not yet known"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "neu",
+        "1H structure is choppy - no consistent run of higher or lower swings."
+      ]
+    ],
+    "5": [
+      [
+        "neu",
+        "structure.weekly reads choppy for NQ=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "neu",
+        "The Fed held 10-2 with two hike dissents on 28 October (news log); the hawkish path has no clean directional read for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "bear",
+        "Alphabet fell ~12-13% on its Q3 miss and negative free cash flow, dragging the Nasdaq Composite -1.38% (news log); Amazon/Intel reported after the close with reaction not yet known"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "neu",
+        "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+    ],
+    "10": [
+      [
+        "neu",
+        "structure.weekly reads choppy for NQ=F on 29 October"
+      ],
+      [
+        "neu",
+        "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+      ],
+      [
+        "neu",
+        "Volatility index/implied-vol context for 29 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated high-yield OAS or credit-spread figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "neu",
+        "The 10-year Treasury yield closed 4.989% (-5.6bp) on 29 October (news log); one day does not give a multi-day rate trend, so neutral"
+      ],
+      [
+        "neu",
+        "The Fed held 10-2 with two hike dissents on 28 October (news log); the hawkish path has no clean directional read for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated contrarian market-sentiment extreme for 29 October was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No dated positioning or flow figure for 29 October was obtainable, so this category is neutral."
+      ],
+      [
+        "bear",
+        "Alphabet fell ~12-13% on its Q3 miss and negative free cash flow, dragging the Nasdaq Composite -1.38% (news log); Amazon/Intel reported after the close with reaction not yet known"
+      ],
+      [
+        "neu",
+        "Q3 GDP +3.4% beat while September core PCE stayed firm at +3.1% y/y (news log); the print is mixed for this asset, so neutral"
+      ],
+      [
+        "neu",
+        "No dated seasonality statistic for this window was obtained, so neutral"
+      ],
+      [
+        "neu",
+        "No clear cross-asset read for this asset on 29 October (10Y 4.989%, Nasdaq -1.38%, S&P -0.30%, per the news log), so neutral"
+      ],
+      [
+        "neu",
+        "Weekly structure is choppy - no consistent run of higher or lower swings."
+      ]
+    ]
+  }
+}
