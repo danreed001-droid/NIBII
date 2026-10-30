@@ -393,8 +393,8 @@
        true
       ]
      ],
-     "maturityClose": 7569.0,
-     "ret": -0.013683,
+     "maturityClose": 7581.75,
+     "ret": -0.012021,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2519,8 +2519,8 @@
        null
       ]
      ],
-     "maturityClose": 106.71875,
-     "ret": 0.0,
+     "maturityClose": 106.640625,
+     "ret": -0.000732,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5177,8 +5177,8 @@
        null
       ]
      ],
-     "maturityClose": 3888.5,
-     "ret": -0.030614,
+     "maturityClose": 3886.10009765625,
+     "ret": -0.031212,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7258,7 +7258,7 @@
       [
        "bull",
        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar",
-       true
+       false
       ],
       [
        "neu",
@@ -7296,8 +7296,8 @@
        null
       ]
      ],
-     "maturityClose": 101.89600372314453,
-     "ret": 0.001602,
+     "maturityClose": 101.88200378417969,
+     "ret": 0.001465,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9513,8 +9513,8 @@
        null
       ]
      ],
-     "maturityClose": 2798.699951171875,
-     "ret": -0.019239,
+     "maturityClose": 2806.5,
+     "ret": -0.016506,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11464,8 +11464,8 @@
        null
       ]
      ],
-     "maturityClose": 28299.5,
-     "ret": -0.019761,
+     "maturityClose": 28234.5,
+     "ret": -0.022012,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
