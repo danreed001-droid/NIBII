@@ -584,8 +584,8 @@
        null
       ]
      ],
-     "maturityClose": 7633.5,
-     "ret": -0.009183,
+     "maturityClose": 7575.5,
+     "ret": -0.016712,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2682,8 +2682,8 @@
        false
       ]
      ],
-     "maturityClose": 106.515625,
-     "ret": 0.010076,
+     "maturityClose": 106.703125,
+     "ret": 0.011854,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5354,8 +5354,8 @@
        true
       ]
      ],
-     "maturityClose": 3913.199951171875,
-     "ret": -0.064074,
+     "maturityClose": 3887.0,
+     "ret": -0.07034,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7480,8 +7480,8 @@
        null
       ]
      ],
-     "maturityClose": 101.87899780273438,
-     "ret": 0.000383,
+     "maturityClose": 101.90599822998047,
+     "ret": 0.000648,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9683,8 +9683,8 @@
        true
       ]
      ],
-     "maturityClose": 2819.89990234375,
-     "ret": 0.030854,
+     "maturityClose": 2799.10009765625,
+     "ret": 0.02325,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11596,7 +11596,7 @@
       [
        "bear",
        "September import prices (+1.1% vs +0.8% expected) and industrial production (+0.7% vs +0.4%) topped forecasts on top of 3.7% y/y CPI and 6.3% y/y PPI (news log); the log also quotes ~85% CME odds of an on-hold Fed, so the hawkish read rests on the data, not on hike pricing, a headwind for long-duration growth",
-       false
+       true
       ],
       [
        "neu",
@@ -11611,7 +11611,7 @@
       [
        "bear",
        "TSMC's record Q3 results were met by selling; AI-bubble fears deepened on 16 October with CoreWeave down as much as 11.8% intraday on its $50B debt load and the semiconductor index down 8 sessions running (news log), a drag on Nasdaq-100",
-       false
+       true
       ],
       [
        "neu",
@@ -11626,7 +11626,7 @@
       [
        "bear",
        "Oil is the dominant 21-session driver (corr -0.631) and WTI jumped 2.61% to $99.02, its highest close since 17 September (news log), a headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -11634,8 +11634,8 @@
        null
       ]
      ],
-     "maturityClose": 28644.5,
-     "ret": -0.025416,
+     "maturityClose": 28352.0,
+     "ret": -0.035367,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
