@@ -523,8 +523,8 @@
        false
       ]
      ],
-     "maturityClose": 7661.25,
-     "ret": -0.001466,
+     "maturityClose": 7633.5,
+     "ret": -0.005083,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2642,8 +2642,8 @@
        false
       ]
      ],
-     "maturityClose": 106.578125,
-     "ret": 0.00427,
+     "maturityClose": 106.515625,
+     "ret": 0.003681,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5314,8 +5314,8 @@
        true
       ]
      ],
-     "maturityClose": 3927.39990234375,
-     "ret": -0.020599,
+     "maturityClose": 3913.199951171875,
+     "ret": -0.02414,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7440,8 +7440,8 @@
        null
       ]
      ],
-     "maturityClose": 101.99700164794922,
-     "ret": 0.002408,
+     "maturityClose": 101.87899780273438,
+     "ret": 0.001248,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9601,7 +9601,7 @@
       [
        "bull",
        "structure.weekly reads uptrend for RTY=F on 23 October",
-       true
+       false
       ],
       [
        "neu",
@@ -9661,11 +9661,11 @@
       [
        "bull",
        "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
-       true
+       false
       ]
      ],
-     "maturityClose": 2840.10009765625,
-     "ret": 0.018432,
+     "maturityClose": 2819.89990234375,
+     "ret": 0.011188,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11587,8 +11587,8 @@
        null
       ]
      ],
-     "maturityClose": 28768.25,
-     "ret": -0.013942,
+     "maturityClose": 28644.5,
+     "ret": -0.018183,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
