@@ -523,8 +523,8 @@
        false
       ]
      ],
-     "maturityClose": 7674.75,
-     "ret": 0.000293,
+     "maturityClose": 7656.25,
+     "ret": -0.002118,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2642,8 +2642,8 @@
        false
       ]
      ],
-     "maturityClose": 106.609375,
-     "ret": 0.004564,
+     "maturityClose": 106.640625,
+     "ret": 0.004859,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5251,7 +5251,7 @@
       [
        "bear",
        "structure.weekly reads downtrend for GC=F on 23 October",
-       false
+       true
       ],
       [
        "neu",
@@ -5276,7 +5276,7 @@
       [
        "bear",
        "Fed funds futures priced about an 83% chance of a December hike while holding in October (CME FedWatch via news log, 23 October), a higher-for-longer path that weighs on this asset",
-       false
+       true
       ],
       [
        "neu",
@@ -5311,11 +5311,11 @@
       [
        "bear",
        "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 3998.300048828125,
-     "ret": -0.002918,
+     "maturityClose": 3936.699951171875,
+     "ret": -0.018279,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7440,8 +7440,8 @@
        null
       ]
      ],
-     "maturityClose": 101.68699645996094,
-     "ret": -0.000639,
+     "maturityClose": 101.88700103759766,
+     "ret": 0.001327,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9664,8 +9664,8 @@
        true
       ]
      ],
-     "maturityClose": 2855.10009765625,
-     "ret": 0.02381,
+     "maturityClose": 2852.300048828125,
+     "ret": 0.022806,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11587,8 +11587,8 @@
        null
       ]
      ],
-     "maturityClose": 28913.0,
-     "ret": -0.00898,
+     "maturityClose": 28729.0,
+     "ret": -0.015287,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
