@@ -25,7 +25,7 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from mtl import ignition as ig  # noqa: E402
+from mtl import backup_prices, ignition as ig  # noqa: E402
 from mtl.universe import load_ndx, load_sp500  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -200,6 +200,49 @@ def refetch_latest(frames, fetch=None, share=0.5):
     return out
 
 
+def fill_from_backup(frames, quotes=None, target=None, share=0.5):
+    """Yahoo's evening bars for the session just closed can stay blank for most stocks for hours (Oct 19-21 and 29,
+    2026). Fill them from Tiingo's closing prices for every US stock (mtl/backup_prices.py, one request; skipped
+    without the TIINGO_KEY secret): the blanks in the latest session's row, or the whole row when Yahoo has none yet
+    but the backup prices at least `share` of the stocks priced the session before. A stock whose previous close
+    doesn't match the backup's (a split in between) is left out rather than filled at the wrong scale."""
+    import pandas as pd
+    C = frames['Close']
+    if len(C) < 2:
+        return frames
+    target = target or backup_prices.last_closed()
+    day = pd.Timestamp(target)
+    q = quotes if quotes is not None else backup_prices.quotes()
+    q = {t: v for t, v in q.items() if v[0] == target}
+    if not q or C.index[-1] > day:
+        return frames
+    have = C.index[-1] == day
+    prev = C.iloc[-2] if have else C.iloc[-1]
+    row = C.iloc[-1] if have else pd.Series(float('nan'), index=C.columns)
+    use = {}
+    for t in C.columns:
+        v = q.get(t.upper())
+        if v is None or row[t] == row[t] or prev[t] != prev[t]:
+            continue
+        if v[6] and abs(prev[t] / v[6] - 1) > 0.2:   # a split since the last close: can't splice raw prices on
+            continue
+        use[t] = v
+    if not use or (not have and len(use) < share * prev.notna().sum()):
+        return frames
+    out = {}
+    for f, d in frames.items():
+        d = d.copy()
+        if not have:
+            d.loc[day] = float('nan')
+        k = {'Open': 1, 'High': 2, 'Low': 3, 'Close': 4, 'Volume': 5}[f]
+        for t, v in use.items():
+            if v[k] is not None:
+                d.at[day, t] = float(v[k])
+        out[f] = d
+    log(f'{target}: {len(use)} stocks priced from the backup source (Tiingo)')
+    return out
+
+
 def drop_thin_sessions(frames, share=0.5):
     """Yahoo sometimes has the latest session for only a few stocks; scoring that session would blank every
     stock's latest close. Drop trailing sessions priced for under `share` of the stocks the session before had."""
@@ -315,7 +358,7 @@ def main():
             import pickle
             with open(a.cache, 'wb') as f:
                 pickle.dump(fr, f)
-    fr = drop_thin_sessions(refetch_latest(drop_partial_session(fr)))
+    fr = drop_thin_sessions(fill_from_backup(refetch_latest(drop_partial_session(fr))))
     O, H, L, C, V = (fr[k] for k in ('Open', 'High', 'Low', 'Close', 'Volume'))
     spy = C.pop('SPY').ffill()
     for d in (O, H, L, V):

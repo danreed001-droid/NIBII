@@ -209,3 +209,25 @@ def test_scan_drops_a_latest_session_priced_for_only_a_few_stocks():
     out = scan.drop_thin_sessions(fr)
     assert list(out['Close'].index) == list(idx[:3]) and len(out['Volume']) == 3
     assert scan.drop_thin_sessions({'Close': C.iloc[:3], 'Volume': C.iloc[:3]})['Close'].shape == (3, 4)
+
+
+def test_scan_fills_the_latest_session_from_the_backup():
+    scan = _scan_module()
+    idx = pd.bdate_range('2026-10-26', periods=4)          # Mon 26 .. Thu 29
+    C = pd.DataFrame({t: [10.0, 11.0, 12.0, 13.0] for t in 'ABCD'}, index=idx)
+    C.iloc[-1, 1:] = np.nan                                  # Yahoo has Thursday for A only
+    fr = {f: C.copy() for f in ('Open', 'High', 'Low', 'Close', 'Volume')}
+    q = {'B': ('2026-10-29', 12.5, 14.0, 12.0, 13.5, 900, 12.0),
+         'C': ('2026-10-29', 6.0, 6.5, 5.9, 6.2, 800, 6.0),    # split: yesterday's close was 12, not 6
+         'D': ('2026-10-28', 1, 1, 1, 1, 1, 1)}                 # an old quote
+    out = scan.fill_from_backup(fr, quotes=q, target='2026-10-29')
+    last = out['Close'].iloc[-1]
+    assert last['A'] == 13.0 and last['B'] == 13.5 and np.isnan(last['C']) and np.isnan(last['D'])
+    assert out['Volume'].iloc[-1]['B'] == 900 and out['High'].iloc[-1]['B'] == 14.0
+    # no row for Thursday at all: added only when the backup prices at least half the stocks
+    fr3 = {f: d.iloc[:3] for f, d in fr.items()}
+    q2 = {t: ('2026-10-29', 13, 13, 13, 13, 5, 12.0) for t in 'ABC'}
+    out = scan.fill_from_backup(fr3, quotes=q2, target='2026-10-29')
+    assert out['Close'].index[-1] == pd.Timestamp('2026-10-29') and out['Close'].iloc[-1].notna().sum() == 3
+    assert scan.fill_from_backup(fr3, quotes={'A': q2['A']}, target='2026-10-29')['Close'] is fr3['Close']
+    assert scan.fill_from_backup(fr, quotes={}, target='2026-10-29')['Close'] is fr['Close']

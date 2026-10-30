@@ -124,6 +124,8 @@ jobs:
         id: ignition
         continue-on-error: true
         timeout-minutes: 45
+        env:
+          TIINGO_KEY: ${{ secrets.TIINGO_KEY }}
         run: python scripts/ignition_scan.py
 
       - name: Log a failed ignition scan
