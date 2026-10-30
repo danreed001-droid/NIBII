@@ -4297,5 +4297,65 @@
       "time": "Pre-market",
       "vsExp": "BoJ hold was expected; faster ETF sales plan was a surprise"
     }
+  },
+  {
+    "id": "2026-10-30-3-sp500-dow-nasdaq-close-tech-selloff",
+    "data": {
+      "addedAt": "2026-10-30",
+      "category": "Market",
+      "date": "2026-10-30",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Wall Street closes sharply lower to end October as a wave of disappointing Big Tech earnings (Amazon, Intel, Reddit) compounds a hot September PCE reading and a hawkish Fed hold; Nasdaq leads the broad selloff.",
+      "impact": "High",
+      "numbers": "S&P 500 7,559.67, down 160.72 (-2.08%); Dow Jones Industrial Average 51,690.26, down 652.30 (-1.25%); Nasdaq Composite 25,420.96, down 763.76 (-2.92%); 10-year Treasury yield ~4.92%, down ~7bp.",
+      "order": 3,
+      "reaction": "Broad risk-off into month-end; growth/tech underperforms sharply while Treasuries catch a modest bid.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-30-dow-sp-500-nasdaq-amazon-intel-ai-sell-off-191429143.html",
+      "tickers": "SPY, QQQ, DIA, AMZN, INTC, RDDT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-10-30-4-intel-plunges-on-weak-q4-guidance",
+    "data": {
+      "addedAt": "2026-10-30",
+      "category": "Earnings",
+      "date": "2026-10-30",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Intel shares crater after Q4 revenue guidance came in well below Street estimates, with management citing sluggish PC demand and rising memory-chip costs.",
+      "impact": "High",
+      "numbers": "INTC closed at $65.13, down $26.94 (-29.26%) — one of its worst one-day drops on record.",
+      "order": 4,
+      "reaction": "Dragged down PC-supply-chain and semiconductor peers; a top contributor to the Nasdaq's decline.",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-30-2026",
+      "tickers": "INTC",
+      "time": "Market hours",
+      "vsExp": "Q4 revenue/guidance below consensus estimates"
+    }
+  },
+  {
+    "id": "2026-10-30-5-reddit-plunges-on-weak-dau-guidance",
+    "data": {
+      "addedAt": "2026-10-30",
+      "category": "Earnings",
+      "date": "2026-10-30",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Reddit shares plunge after Q3 daily active users missed expectations and Q4 revenue guidance came in light; the company also announced plans to require logins for forum access.",
+      "impact": "Medium",
+      "numbers": "RDDT down roughly 24% on the day.",
+      "order": 5,
+      "reaction": "Added to pressure on social/ad-tech names amid the broader growth-stock selloff.",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-30-2026",
+      "tickers": "RDDT",
+      "time": "Market hours",
+      "vsExp": "Q3 DAU and Q4 revenue guidance below consensus"
+    }
   }
 ]
