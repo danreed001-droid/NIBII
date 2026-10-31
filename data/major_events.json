@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-10-30T16:46:18+00:00",
+ "updated": "2026-10-31T01:29:06+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -1170,7 +1170,7 @@
    },
    "bonds": {
     "day": -0.0167,
-    "month": -0.0419
+    "month": -0.042
    },
    "plan": {
     "day": 0.0262,
@@ -1632,7 +1632,7 @@
    },
    "bonds": {
     "day": -0.0424,
-    "month": -0.0949
+    "month": -0.095
    },
    "plan": {
     "day": 0.0011,
@@ -2094,7 +2094,7 @@
    },
    "bonds": {
     "day": 0.0412,
-    "month": 0.065
+    "month": 0.0649
    },
    "plan": {
     "day": 0.0024,
@@ -3282,20 +3282,20 @@
    "what": "10-year yield at its highest since 2002 (5.33%)",
    "src": "curated",
    "day": 0.0018,
-   "month": -0.0074,
+   "month": -0.0091,
    "type": "Inflation / yields",
    "trend": "above",
    "gold": {
     "day": 0.005,
-    "month": -0.0628
+    "month": -0.0658
    },
    "bonds": {
     "day": 0.0031,
-    "month": 0.0517
+    "month": 0.0564
    },
    "plan": {
     "day": 0.005,
-    "month": null
+    "month": -0.1086
    }
   },
   {

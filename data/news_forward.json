@@ -1,0 +1,290 @@
+{
+ "about": "News forward test: fixed guesses about what follows each day's news, written before the next open and scored afterwards (mtl/news_forward.py). Information only.",
+ "updated": "2026-10-31T01:29:14+00:00",
+ "version": 1,
+ "started": "2026-10-31",
+ "minN": 20,
+ "guesses": [
+  {
+   "id": "tone_tlt",
+   "text": "Upbeat news day → long Treasuries lower the next day (downbeat → higher)",
+   "asset": "TLT",
+   "h": 1
+  },
+  {
+   "id": "tone_gld",
+   "text": "Upbeat news day → gold lower the next day (downbeat → higher)",
+   "asset": "GLD",
+   "h": 1
+  },
+  {
+   "id": "tone_spy",
+   "text": "The news tone carries into the S&P 500 the next day",
+   "asset": "SPY",
+   "h": 1
+  },
+  {
+   "id": "tone_qqq",
+   "text": "The news tone carries into the Nasdaq-100 over the next 2 days",
+   "asset": "QQQ",
+   "h": 2
+  },
+  {
+   "id": "shrug",
+   "text": "Downbeat news but the S&P 500 rose anyway → S&P higher over the next week",
+   "asset": "SPY",
+   "h": 5
+  },
+  {
+   "id": "pile_tlt",
+   "text": "2+ high-impact bearish items → long Treasuries higher over the next week",
+   "asset": "TLT",
+   "h": 5
+  },
+  {
+   "id": "pile_qqq",
+   "text": "2+ high-impact bearish items → Nasdaq-100 lower the next day",
+   "asset": "QQQ",
+   "h": 1
+  },
+  {
+   "id": "fed_bear",
+   "text": "Bearish Fed or rates news → S&P 500 lower the next day",
+   "asset": "SPY",
+   "h": 1
+  },
+  {
+   "id": "bounce",
+   "text": "S&P 500 down 1.5%+ on a day with high-impact bearish news → S&P higher the next day",
+   "asset": "SPY",
+   "h": 1
+  },
+  {
+   "id": "busy",
+   "text": "Busy news day (6+ items) → a bigger S&P 500 move the next day than its typical day",
+   "asset": "SPY",
+   "h": 1
+  }
+ ],
+ "calls": [
+  {
+   "d": "2026-10-30",
+   "id": "tone_tlt",
+   "asset": "TLT",
+   "h": 1,
+   "call": 1,
+   "at": "2026-10-31T01:29:14+00:00"
+  },
+  {
+   "d": "2026-10-30",
+   "id": "tone_gld",
+   "asset": "GLD",
+   "h": 1,
+   "call": 1,
+   "at": "2026-10-31T01:29:14+00:00"
+  },
+  {
+   "d": "2026-10-30",
+   "id": "tone_spy",
+   "asset": "SPY",
+   "h": 1,
+   "call": -1,
+   "at": "2026-10-31T01:29:14+00:00"
+  },
+  {
+   "d": "2026-10-30",
+   "id": "tone_qqq",
+   "asset": "QQQ",
+   "h": 2,
+   "call": -1,
+   "at": "2026-10-31T01:29:14+00:00"
+  },
+  {
+   "d": "2026-10-30",
+   "id": "pile_tlt",
+   "asset": "TLT",
+   "h": 5,
+   "call": 1,
+   "at": "2026-10-31T01:29:14+00:00"
+  },
+  {
+   "d": "2026-10-30",
+   "id": "pile_qqq",
+   "asset": "QQQ",
+   "h": 1,
+   "call": -1,
+   "at": "2026-10-31T01:29:14+00:00"
+  },
+  {
+   "d": "2026-10-30",
+   "id": "fed_bear",
+   "asset": "SPY",
+   "h": 1,
+   "call": -1,
+   "at": "2026-10-31T01:29:14+00:00"
+  },
+  {
+   "d": "2026-10-30",
+   "id": "bounce",
+   "asset": "SPY",
+   "h": 1,
+   "call": 1,
+   "at": "2026-10-31T01:29:14+00:00"
+  },
+  {
+   "d": "2026-10-30",
+   "id": "busy",
+   "asset": "SPY",
+   "h": 1,
+   "call": "big",
+   "at": "2026-10-31T01:29:14+00:00",
+   "typical": 0.00524
+  }
+ ],
+ "days": [
+  {
+   "d": "2026-10-30",
+   "at": "2026-10-31T01:29:14+00:00",
+   "n": 6,
+   "tone": -8,
+   "bearHi": 3,
+   "fedBear": true,
+   "calls": 9
+  }
+ ],
+ "summary": {
+  "bar": 0.005,
+  "rows": [
+   {
+    "id": "tone_tlt",
+    "text": "Upbeat news day → long Treasuries lower the next day (downbeat → higher)",
+    "asset": "TLT",
+    "h": 1,
+    "calls": 1,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "tone_gld",
+    "text": "Upbeat news day → gold lower the next day (downbeat → higher)",
+    "asset": "GLD",
+    "h": 1,
+    "calls": 1,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "tone_spy",
+    "text": "The news tone carries into the S&P 500 the next day",
+    "asset": "SPY",
+    "h": 1,
+    "calls": 1,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "tone_qqq",
+    "text": "The news tone carries into the Nasdaq-100 over the next 2 days",
+    "asset": "QQQ",
+    "h": 2,
+    "calls": 1,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "shrug",
+    "text": "Downbeat news but the S&P 500 rose anyway → S&P higher over the next week",
+    "asset": "SPY",
+    "h": 5,
+    "calls": 0,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "pile_tlt",
+    "text": "2+ high-impact bearish items → long Treasuries higher over the next week",
+    "asset": "TLT",
+    "h": 5,
+    "calls": 1,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "pile_qqq",
+    "text": "2+ high-impact bearish items → Nasdaq-100 lower the next day",
+    "asset": "QQQ",
+    "h": 1,
+    "calls": 1,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "fed_bear",
+    "text": "Bearish Fed or rates news → S&P 500 lower the next day",
+    "asset": "SPY",
+    "h": 1,
+    "calls": 1,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "bounce",
+    "text": "S&P 500 down 1.5%+ on a day with high-impact bearish news → S&P higher the next day",
+    "asset": "SPY",
+    "h": 1,
+    "calls": 1,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "busy",
+    "text": "Busy news day (6+ items) → a bigger S&P 500 move the next day than its typical day",
+    "asset": "SPY",
+    "h": 1,
+    "calls": 1,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   }
+  ]
+ }
+}
