@@ -460,6 +460,7 @@ footer li { margin-bottom: 6px; }
   <div class="card swpanel" id="swpanel" hidden></div>
 
 __RECENT__
+__NEWSFWD__
 __DOMINOES__
 __CROWDING__
 __EVENTS__
@@ -3543,7 +3544,8 @@ def render(scan, growth=None):
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
-    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
+    page = page.replace('__NEWSFWD__', news_forward_html(), 1)
+    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS + '\n' + NFW_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
     page = page.replace('__CROWDING__', crowding_html(scan).replace(   # also on docs/stress.html, where it has its charts
         '(published the Friday after)</span>', '(published the Friday after) · <a href="stress.html#crowding">charts →</a></span>', 1), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
@@ -4054,6 +4056,67 @@ def crowding_plain(rows):
     rest = len(rows) - len(hot)
     tail = f' The other {rest} markets look normal.' if rest else ''
     return ' '.join(out) + tail + ' The plan does not act on this.'
+
+
+NEWS_FWD_PATH = os.path.join(ROOT, 'data', 'news_forward.json')
+NFW_CSS = """.nfw table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.nfw th { text-align: right; color: var(--muted); font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid var(--hairline);
+  padding: 4px; text-transform: none; letter-spacing: 0; white-space: normal; }
+.nfw td { text-align: right; border-bottom: 1px solid var(--hairline); padding: 5px 4px; white-space: nowrap; }
+.nfw th:first-child, .nfw td:first-child { text-align: left; white-space: normal; }
+.nfw td small { display: block; color: var(--muted); font-size: 0.72rem; }
+.nfw .v-ok { color: var(--pos); font-weight: 600; } .nfw .v-no { color: var(--neg); font-weight: 600; }
+.nfw .nfw-last { margin: 0 0 8px; font-size: 0.85rem; color: var(--ink-2); }
+@media (max-width: 520px) { .nfw table { min-width: 520px; } }"""
+
+
+def news_forward_html(path=None):
+    """The news forward test (data/news_forward.json, mtl/news_forward.py): each fixed guess, its calls scored so
+    far, the hit rate against a coin flip and a verdict, and the latest night's calls. '' without the file."""
+    try:
+        with open(path or NEWS_FWD_PATH) as fh:
+            D = json.load(fh)
+    except (OSError, ValueError):
+        return ''
+    S = D.get('summary') or {}
+    rows = S.get('rows') or []
+    if not rows:
+        return ''
+    when = lambda h: 'next day' if h == 1 else 'over the next week' if h == 5 else f'over the next {h} days'
+    pct = lambda x: '–' if x is None else '0.0%' if round(x * 100, 2) == 0 else f"{x * 100:+.2f}%".replace('-', '−')
+    body = []
+    for r in rows:
+        v = r['verdict']
+        cls = ' class="v-ok"' if v == 'holding up' else ' class="v-no"' if v.startswith('the reverse') else ''
+        rate = '–' if r['rate'] is None else f"{round(r['rate'] * 100)}%"
+        body.append(f'<tr><td>{html.escape(r["text"])}</td><td>{r["hits"]}/{r["n"]}<small>{r["calls"] - r["n"]} waiting</small></td>'
+                    f'<td>{rate}<small>p {r["p"]:.2f}</small></td><td>{pct(r.get("avg"))}</td><td{cls}>{html.escape(v)}</td></tr>')
+    days = D.get('days') or []
+    last = ''
+    if days:
+        d0 = days[-1]
+        names = {'SPY': 'S&P 500', 'QQQ': 'Nasdaq-100', 'GLD': 'gold', 'TLT': 'long Treasuries'}
+        said = {}
+        for c in (c for c in D.get('calls', []) if c['d'] == d0['d']):
+            a = names.get(c['asset'], c['asset'])
+            k = (f"{a} to move more than usual {when(c['h'])}" if c['call'] == 'big' else
+                 f"{a} {'up' if c['call'] > 0 else 'down'} {when(c['h'])}")
+            said[k] = said.get(k, 0) + 1
+        dt = date.fromisoformat(d0['d']).strftime('%a %b %-d')
+        what = ('; '.join(html.escape(k) + (f' ({n} guesses)' if n > 1 else '') for k, n in said.items()) if said
+                else 'none of the guesses fired')
+        last = f'<p class="nfw-last"><b>Latest calls</b> ({dt}, from {d0["n"]} news items): {what}.</p>'
+    started = date.fromisoformat(D.get('started', '2026-10-31')).strftime('%b %-d, %Y')
+    note = (f'<p class="evr-note">Each guess was fixed on {started} and is written down each night before the next open, '
+            f'then scored on the sessions that follow; nothing is filled in afterwards. Hit rate: how often the market moved '
+            f'the called way (for the busy-day guess: moved more than its typical day). A guess counts as holding up only '
+            f'after {D.get("minN", 20)} scored calls with p under {S.get("bar", 0.005):.3f} (0.05 split over '
+            f'{len(rows)} guesses, so one lucky pass doesn\'t count). Information only; the plan does not trade on it.</p>')
+    return ('<section id="news-forward"><p class="section-label">News forward test <span class="hint">fixed guesses '
+            'about what follows the news, scored only afterwards</span></p>\n'
+            f'  <div class="card nfw">{last}<div class="tablebox" style="border:0;background:none"><table><thead><tr><th>Guess</th>'
+            '<th>Right</th><th>Hit rate</th><th>Avg move the called way</th><th>Verdict</th></tr></thead><tbody>'
+            + ''.join(body) + f'</tbody></table></div>{note}</div></section>\n')
 
 
 CROWD_HIST_PATH = os.path.join(ROOT, 'data', 'crowding_history.json')
