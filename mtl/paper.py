@@ -26,7 +26,7 @@ from mtl.rotation import WHIP_SHARE
 START = '2026-10-14'            # the day the current default plan (with the rebound rule) went live
 SLIP = 0.0015                   # per side, as in the backtest
 CASH = 'CASH'
-RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/reentry.py', 'mtl/pricebreak.py', 'mtl/fractal.py', 'mtl/narrow.py', 'mtl/lowerhigh.py',
+RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/reentry.py', 'mtl/pricebreak.py', 'mtl/fractal.py', 'mtl/narrow.py', 'mtl/lowerhigh.py', 'mtl/fedday.py',
               'mtl/news.py', 'mtl/structure.py', 'mtl/universe.py', 'mtl/fade.py', 'mtl/calendar_nyse.py')
 SLOTS = 5                       # the Boost list's slots: each stock is a fifth, an empty slot (fading filter) is cash
 SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (settings, not page code)
@@ -35,7 +35,8 @@ CLOSE_ET = time(16, 15)             # a decision is logged only after the close 
 # The 2000-2026 backtest of the default plan (with the fading-energy filter, its whipsaw shadow count, the whole-account
 # whipsaw switch since Oct 16, 2026, the 3-month no-T-bills pick since Oct 19, 2026 and DBMF instead of plain cash since
 # Oct 20, 2026, the price-break rule since Oct 24, 2026, the buy freeze and green light since Oct 26, 2026 and the break re-entry
-# rule since Oct 27, 2026, the whipsaw switch without SPY since Oct 28, 2026) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026
+# rule since Oct 27, 2026, the whipsaw switch without SPY since Oct 28, 2026; the Fed-day hold since Oct 31, 2026 is not in these
+# ranges: it moved the backtest by 0.3 points a year, inside their rounding) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026
 # (engine NBup, 40.4% a year on the real daily member lists since Oct 26, 2026; 46.1% on the lists rebuilt from
 # Wikipedia's changes before that) - 0.15% per side, every window of that
 # length: return percentiles, share ahead of SPY, the 1-in-10 shortfall against SPY, and the worst drop inside the window

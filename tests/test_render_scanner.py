@@ -263,7 +263,7 @@ def test_wide_net_watch_lists_the_strongest_assets_and_breakouts():
 
 def test_rotation_explains_the_two_scale_buy_rules():
     page = render_scanner.render(SCAN)
-    assert 'function fractalNote(RT)' in page and 'pricebreakNote(RT) + fractalNote(RT) + reentryNote(RT);' in page and '9. Two-scale buy rules' in page
+    assert 'function fractalNote(RT)' in page and 'pricebreakNote(RT) + fractalNote(RT) + reentryNote(RT) + feddayNote(RT);' in page and 'function feddayNote(RT)' in page and '9. Two-scale buy rules' in page
     assert '<b>Buy freeze</b> for the next' in page and '<b>Green light</b> for the next' in page
 
 
