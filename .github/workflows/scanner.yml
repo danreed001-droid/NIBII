@@ -185,6 +185,19 @@ jobs:
         run: |
           python scripts/log_issue.py newsfwd "Tonight's news forward test step failed, so its calls for today may be missing (information only; the plan is unaffected)."
 
+      - name: Analyst-revisions forward test (score past Fridays)
+        # do the ranked stocks with the biggest rises in analysts' estimates beat the rest over the next 4 weeks?
+        # (data/revisions_forward.json, information only); a failure never blocks the dashboard
+        id: revfwd
+        continue-on-error: true
+        timeout-minutes: 10
+        run: python scripts/revisions_forward.py
+
+      - name: Log a failed revisions forward test
+        if: ${{ steps.revfwd.outcome == 'failure' }}
+        run: |
+          python scripts/log_issue.py revfwd "Tonight's analyst-revisions forward test step failed, so its scoreboard shows the last figures (information only; the plan is unaffected)."
+
       - name: Render the dashboard
         # after the events step, so a news feed problem it logs shows on tonight's page
         run: python scripts/render_scanner.py
@@ -193,7 +206,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/scanner.html docs/events.html docs/issues.html docs/stress.html docs/forward.html data/dominoes.json data/crowding_history.json data/news_forward.json data/major_events.json data/event_patterns.json data/event_forecasts.json data/headlines_log.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
+          git add docs/scanner.html docs/events.html docs/issues.html docs/stress.html docs/forward.html data/dominoes.json data/crowding_history.json data/news_forward.json data/revisions_forward.json data/major_events.json data/event_patterns.json data/event_forecasts.json data/headlines_log.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0

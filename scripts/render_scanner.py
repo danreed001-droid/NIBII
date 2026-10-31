@@ -439,7 +439,7 @@ footer li { margin-bottom: 6px; }
 </style>
 
 <div class="masthead"><div class="masthead-inner">
-  <div class="nav"><a href="index.html">← Market Tape Ledger</a><span class="nav-r"><a class="bt add" href="__ADD_URL__" target="_blank" rel="noopener" title="Add your own news to the market events page">＋ Add news</a><a class="bt" href="stress.html" title="Market stress, dominoes, news and speculator crowding (information only)">Stress →</a><a class="bt" href="forward.html" title="Fixed guesses about what follows the news, scored only afterwards (information only)">News test →</a><a class="bt" href="events.html">Events →</a><a class="bt" href="backtest.html">Backtests →</a></span></div>
+  <div class="nav"><a href="index.html">← Market Tape Ledger</a><span class="nav-r"><a class="bt add" href="__ADD_URL__" target="_blank" rel="noopener" title="Add your own news to the market events page">＋ Add news</a><a class="bt" href="stress.html" title="Market stress, dominoes, news and speculator crowding (information only)">Stress →</a><a class="bt" href="forward.html" title="Fixed guesses about what comes next (the news, analysts' estimates), scored only afterwards (information only)">Forward tests →</a><a class="bt" href="events.html">Events →</a><a class="bt" href="backtest.html">Backtests →</a></span></div>
   <p class="eyebrow">NIBII · Momentum</p>
   <div class="top"><h1>Top 5 Strongest</h1>
     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark/light theme">
@@ -4141,7 +4141,7 @@ def news_forward_html(path=None):
     else:
         tally = f'No calls scored yet; each guess needs {D.get("minN", 20)} before it can be judged.'
     return ('<section id="news-forward"><p class="section-label">News forward test <span class="hint">fixed guesses '
-            'about what follows the news, scored only afterwards · <a href="forward.html">full scoreboard →</a></span></p>\n'
+            'about what follows the news, scored only afterwards · <a href="forward.html">all forward tests →</a></span></p>\n'
             f'  <div class="card nfw">{_nfw_last(D)}<p class="nfw-note">{tally} Information only; the plan does not '
             'trade on it.</p></div></section>\n')
 
@@ -4203,12 +4203,74 @@ def news_forward_full(path=None, log_rows=200):
     return board + calls_html + why
 
 
-def forward_page(path=None):
-    """docs/forward.html: the news forward test's scoreboard, every call and where the guesses came from."""
-    body = news_forward_full(path) or '<p class="note">No calls written yet: the first are written after the next close.</p>'
-    return side_page('News Forward Test', 'News forward test',
-                     'Fixed guesses about what follows the news, written down each night before the next open and scored only '
-                     'afterwards. Information only: the plan does not trade on anything here.', body, NFW_CSS)
+REV_FWD_PATH = os.path.join(ROOT, 'data', 'revisions_forward.json')
+
+
+def revisions_forward_html(path=None):
+    """docs/forward.html: the analyst-revisions forward test (data/revisions_forward.json, mtl/revisions_forward.py):
+    each guess's record and every Friday's call. '' without the file."""
+    try:
+        with open(path or REV_FWD_PATH) as fh:
+            D = json.load(fh)
+    except (OSError, ValueError):
+        return ''
+    S = D.get('summary') or {}
+    rows = S.get('rows') or []
+    if not rows:
+        return ''
+    pct = lambda x: '–' if x is None else '0.0%' if round(x * 100, 2) == 0 else f"{x * 100:+.2f}%".replace('-', '−')
+    body = []
+    for r in rows:
+        v = r['verdict']
+        cls = ' class="v-ok"' if v == 'holding up' else ' class="v-no"' if v.startswith('the reverse') else ''
+        rate = '–' if r['rate'] is None else f"{round(r['rate'] * 100)}%"
+        body.append(f'<tr><td>{html.escape(r["text"])}</td><td data-l="Right">{r["hits"]}/{r["n"]}<small>{r["calls"] - r["n"]} waiting</small></td>'
+                    f'<td data-l="Hit rate">{rate}<small>p {r["p"]:.2f}</small></td><td data-l="Avg edge">{pct(r.get("avg"))}</td>'
+                    f'<td data-l="Verdict"{cls}>{html.escape(v)}</td></tr>')
+    short = {'top25': 'Top 25: bigger rises vs the rest', 'top10': 'Top 10: bigger rises vs the rest', 'cut': 'Estimates cut vs the S&P 500'}
+    log = []
+    for w in reversed(D.get('weeks') or []):
+        dt = date.fromisoformat(w['d']).strftime('%b %-d')
+        for gid, c in w['calls'].items():
+            if not c:
+                continue
+            if 'hit' in c:
+                res = f"{pct(c['a'])} vs {pct(c['b'])}"
+                ok = '<span class="pos">✓</span>' if c['hit'] else '<span class="neg">✗</span>'
+            else:
+                res, ok = '–', '<span class="muted">waiting</span>'
+            grp = f"{c['n_a']} stocks" if gid == 'cut' else f"{c['n_a']} vs {c['n_b']} stocks"
+            log.append(f'<tr><td>{dt}</td><td>{html.escape(short.get(gid, gid))}</td><td data-l="Groups">{grp}</td>'
+                       f'<td data-l="4 weeks">{res}</td><td data-l="Right?">{ok}</td></tr>')
+    note = (f'<p class="nfw-note">Every signal Friday the scanner saves analysts\' estimate changes for the 25 strongest '
+            f'stocks, at the time, so each Friday is a guess made before the outcome. Each guess is scored once per Friday, '
+            f'{D.get("h", 20)} sessions (about 4 weeks) after that Friday\'s close, equal weight within each group. Avg edge: '
+            f'how much the group called to do better did better, on average. A guess counts as holding up only after '
+            f'{D.get("minN", 20)} scored Fridays with p under {S.get("bar", 0.0167):.3f} (0.05 split over {len(rows)} guesses). '
+            'Estimate changes and price strength are fairly separate reasons, which is why this is worth checking. '
+            'Information only; the plan does not trade on it.</p>')
+    return ('<section id="revisions"><p class="section-label">Analyst estimate revisions <span class="hint">do the strongest '
+            'stocks with the biggest rises in earnings estimates beat the others?</span></p>\n'
+            '  <div class="card nfw"><div class="tablebox" style="border:0;background:none"><table><thead><tr><th>Guess</th>'
+            '<th>Right</th><th>Hit rate</th><th>Avg edge</th><th>Verdict</th></tr></thead><tbody>' + ''.join(body)
+            + '</tbody></table></div>' + (f'<div class="tablebox" style="border:0;background:none;margin-top:12px"><table class="nfw-log">'
+            '<thead><tr><th>Friday</th><th>Guess</th><th>Groups</th><th>4 weeks</th><th>Right?</th></tr></thead><tbody>'
+            + ''.join(log) + '</tbody></table></div>' if log else '') + f'{note}</div></section>\n')
+
+
+def forward_page(path=None, rev_path=None):
+    """docs/forward.html: the forward tests: the news guesses (scoreboard, every call, where they came from) and the
+    analyst-revisions guesses."""
+    news = news_forward_full(path) or '<p class="note">No news calls written yet: the first are written after the next close.</p>'
+    rev = revisions_forward_html(rev_path)
+    body = news.replace('<p class="section-label">Scoreboard</p>', '<p class="section-label">News: scoreboard</p>', 1) \
+        .replace('<p class="section-label">Every call ', '<p class="section-label">News: every call ', 1)
+    if rev:
+        body = body.replace('<section id="why">', rev + '<section id="why">', 1) if '<section id="why">' in body else body + rev
+    return side_page('Forward Tests', 'Forward tests',
+                     'Fixed guesses about what comes next, written down before the outcome and scored only afterwards: what '
+                     'follows the news, and whether rising earnings estimates help pick the stronger stocks. Information only: '
+                     'the plan does not trade on anything here.', body, NFW_CSS)
 
 
 CROWD_HIST_PATH = os.path.join(ROOT, 'data', 'crowding_history.json')
@@ -4456,8 +4518,8 @@ CC_JS = r"""<script>
 
 def side_page(title, h1, intro, body, css=''):
     """A page beside the scanner (docs/stress.html, docs/forward.html): the shared look and links, then `body`."""
-    links = [('scanner.html', '← Top 5 Strongest'), ('stress.html', 'Stress'), ('forward.html', 'News test'), ('events.html', 'Events')]
-    here = {'Market Stress': 'stress.html', 'News Forward Test': 'forward.html'}.get(title)
+    links = [('scanner.html', '← Top 5 Strongest'), ('stress.html', 'Stress'), ('forward.html', 'Forward tests'), ('events.html', 'Events')]
+    here = {'Market Stress': 'stress.html', 'Forward Tests': 'forward.html'}.get(title)
     nav = ' · '.join(f'<a href="{u}">{t}</a>' for u, t in links if u != here)
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
