@@ -1,0 +1,29 @@
+{
+ "about": "Rates model forward test: each month-end a model of the 10-year yield picks SPY, gold, bonds or cash for the next month, scored against a plan-style rule and SPY (mtl/rates_forward.py). Information only.",
+ "updated": "2026-10-31T12:16:32+00:00",
+ "started": "2026-10-31",
+ "minN": 24,
+ "months": [
+  {
+   "d": "2026-10-30",
+   "at": "2026-10-31T12:16:29+00:00",
+   "pick": "GLD",
+   "pred": {
+    "SPY": 0.00719,
+    "GLD": 0.01346,
+    "TLT": 0.00607
+   },
+   "cash": 0.00331,
+   "rule": "SPY"
+  }
+ ],
+ "summary": {
+  "n": 0,
+  "model": null,
+  "rule": null,
+  "spy": null,
+  "differ": 0,
+  "beat": 0,
+  "verdict": "too few"
+ }
+}
