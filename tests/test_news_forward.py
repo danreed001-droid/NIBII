@@ -75,13 +75,13 @@ def test_brief_card_on_the_scanner_page_and_its_own_page(tmp_path):
     p = tmp_path / 'nf.json'
     p.write_text(json.dumps(doc))
     card = rs.news_forward_html(path=str(p))
-    assert 'Latest calls</b> (Fri Oct 30, from 2 news items)' in card and 'href="forward.html">full scoreboard' in card
+    assert 'Latest calls</b> (Fri Oct 30, from 2 news items)' in card and 'href="forward.html">all forward tests' in card
     assert 'long Treasuries up over the next week; Nasdaq-100 down next day' in card and 'S&amp;P 500 down next day;' in card
     assert '5 calls scored so far, 2 right (40%)' in card and '<table' not in card
-    page = rs.forward_page(path=str(p))
+    page = rs.forward_page(path=str(p), rev_path=str(tmp_path / 'none.json'))
     assert page.count('<tr>') == 1 + len(NF.GUESSES) + 1 + len(doc['calls'])        # scoreboard and every call
     assert '<a href="stress.html">Stress</a>' in page and 'href="forward.html"' not in page and 'waiting' in page
     assert '<span class="pos">✓</span>' in page and '<span class="neg">✗</span>' in page
     for word in ('momentum', 'SPY', 'QQQ', 'GLD', 'TLT'):
         assert word not in page and word not in card
-    assert rs.news_forward_html(path=str(tmp_path / 'none.json')) == '' and 'No calls written yet' in rs.forward_page(path=str(tmp_path / 'none.json'))
+    assert rs.news_forward_html(path=str(tmp_path / 'none.json')) == '' and 'No news calls written yet' in rs.forward_page(path=str(tmp_path / 'none.json'), rev_path=str(tmp_path / 'none.json'))
