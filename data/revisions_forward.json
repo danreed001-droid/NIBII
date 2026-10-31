@@ -1,0 +1,138 @@
+{
+ "about": "Analyst-revisions forward test: do the ranked stocks with the biggest rises in estimates beat the rest over the next 4 weeks? (mtl/revisions_forward.py). Information only.",
+ "updated": "2026-10-31T01:55:41+00:00",
+ "asOf": "2026-10-30",
+ "started": "2026-10-31",
+ "minN": 20,
+ "h": 20,
+ "guesses": [
+  {
+   "id": "top25",
+   "text": "Of the top 25 ranked stocks, the half with the bigger rise in analysts' estimates beats the other half over the next 4 weeks"
+  },
+  {
+   "id": "top10",
+   "text": "Of the top 10 ranked, the 5 with the bigger rise in estimates beat the other 5 over the next 4 weeks"
+  },
+  {
+   "id": "cut",
+   "text": "Ranked stocks whose estimates were cut trail the S&P 500 over the next 4 weeks"
+  }
+ ],
+ "weeks": [
+  {
+   "d": "2026-10-09",
+   "calls": {
+    "top25": {
+     "waiting": true,
+     "n_a": 12,
+     "n_b": 13
+    },
+    "top10": {
+     "waiting": true,
+     "n_a": 5,
+     "n_b": 5
+    },
+    "cut": {
+     "waiting": true,
+     "n_a": 2
+    }
+   }
+  },
+  {
+   "d": "2026-10-16",
+   "calls": {
+    "top25": {
+     "waiting": true,
+     "n_a": 12,
+     "n_b": 13
+    },
+    "top10": {
+     "waiting": true,
+     "n_a": 5,
+     "n_b": 5
+    },
+    "cut": {
+     "waiting": true,
+     "n_a": 1
+    }
+   }
+  },
+  {
+   "d": "2026-10-23",
+   "calls": {
+    "top25": {
+     "waiting": true,
+     "n_a": 12,
+     "n_b": 13
+    },
+    "top10": {
+     "waiting": true,
+     "n_a": 5,
+     "n_b": 5
+    },
+    "cut": {
+     "waiting": true,
+     "n_a": 2
+    }
+   }
+  },
+  {
+   "d": "2026-10-30",
+   "calls": {
+    "top25": {
+     "waiting": true,
+     "n_a": 13,
+     "n_b": 13
+    },
+    "top10": {
+     "waiting": true,
+     "n_a": 5,
+     "n_b": 5
+    },
+    "cut": {
+     "waiting": true,
+     "n_a": 3
+    }
+   }
+  }
+ ],
+ "summary": {
+  "bar": 0.016666666666666666,
+  "rows": [
+   {
+    "id": "top25",
+    "text": "Of the top 25 ranked stocks, the half with the bigger rise in analysts' estimates beats the other half over the next 4 weeks",
+    "calls": 4,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "top10",
+    "text": "Of the top 10 ranked, the 5 with the bigger rise in estimates beat the other 5 over the next 4 weeks",
+    "calls": 4,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   },
+   {
+    "id": "cut",
+    "text": "Ranked stocks whose estimates were cut trail the S&P 500 over the next 4 weeks",
+    "calls": 4,
+    "n": 0,
+    "hits": 0,
+    "rate": null,
+    "p": 1.0,
+    "avg": null,
+    "verdict": "too few"
+   }
+  ]
+ }
+}
