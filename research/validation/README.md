@@ -250,3 +250,21 @@ After tax from 2000: 23.8%, 23.9% and 23.6%. With the join dates, one of the 15 
 3/6/12-month ranges barely move. Limits: all 15 joined the Nasdaq-100 in 2017 or later, and Nasdaq-100 members
 outside the S&P 500 that later left the index (for example Zoom, DocuSign, Peloton and JD.com around 2020–2023)
 are not included, so this checks the 15 as traded, not the full point-in-time Nasdaq-100.
+
+## Fed-day hold (default since Oct 31, 2026)
+
+When the rules decide to leave stocks and the trade would come at the close just before a scheduled Fed decision day,
+the trade waits one session and happens at the decision day's close (`mtl/fedday.py`, dates in
+`data/fomc_dates.json`; engine `NBup` = with it, `NBnofd` = without). It never moves the account into stocks.
+
+It came from a search for reasons to act that don't come from prices (calendar, Fed liquidity, insider buying,
+earnings timing, sector caps, analyst revisions): the others were lower from 2000 or are being tested forward. The plan's
+stocks gained 0.45% a day on scheduled decision days against 0.10% on other days since 2000, in each of 2000-07,
+2008-15 and 2016-26. Staying one more day after an exit normally costs the plan (-0.32% on average over 108 exits),
+but before a decision day it gained in 6 of 7 cases (+1.08%; 2% of random picks of 7 other exits did as well).
+
+Real member lists, 0.15% per side: 40.7% a year from 2000 vs 40.3% without it, 45.6% vs 45.4% from 2010, 58.2% vs
+58.0% from 2016, 84.4% vs 83.7% from 2020, worst drop -35% either way (t-stat 1.6 on monthly returns); on the lists
+rebuilt from Wikipedia's changes 46.2% vs 45.8%. It acted 6 times (Nov 2002, Apr 2009, Oct 2011, Mar 2017, Jun 2025,
+Dec 2025). Holding 2-3 sessions before the decision added more on paper, all from one episode (Jan 2009); moving into
+stocks for every decision day lost to trading costs (44.2% vs 45.8%). Few cases, so it went in on probation.
