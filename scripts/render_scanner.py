@@ -797,6 +797,17 @@ __ISSUES__
       out.push('<b>In stocks</b> because SPY is ' + pct(S.gap) + ' vs its 150-day average (daily chart ' + tr(S.daily) + ', weekly ' + tr(S.weekly) + '), with no lower-high exit or narrow-market cash week in force' +
         (NN && NN.cash && !NN.inCash ? '. <b>A narrow-market cash week is scheduled</b> from the close after ' + f(NN.cash[0]) : '') + '.');
     }
+    var RN = RT && RT.renote;
+    if (pm === 'rotation' && RN && RN.show) {   // the re-entry note (information only)
+      var rs = RN.stats || {}, st = RN.kind === 'concentrated' ? rs.conc : rs.spread;
+      var nm = (RN.list || []).map(function (t) { return esc(t) + (RN.sectors && RN.sectors[t] ? ' (' + esc(RN.sectors[t]) + ')' : ''); }).join(', ');
+      out.push('<b>Re-entry note</b> (information only): the plan went back into stocks ' + (RN.ago ? RN.ago + ' session' + (RN.ago === 1 ? '' : 's') + ' ago' : 'tonight') + ' with ' + nm + '. ' +
+        (RN.kind === 'unknown' ? 'Their sectors couldn’t be read tonight.' :
+         (RN.kind === 'concentrated' ? '<b class="pos">Concentrated: ' + RN.most + ' of them track ' + esc(RN.mostIn) + '.</b> Since 2000, re-entries like this beat the haven they left over the next month ' :
+          '<b>Spread out:</b> at most ' + RN.most + ' track any one sector. Since 2000, re-entries like this beat the haven they left over the next month ') +
+         (st ? st.won + ' of ' + st.n + ' times (' + (st.avg >= 0 ? '+' : '−') + Math.abs(st.avg * 100).toFixed(1) + '% on average).' : '') +
+         ' As a rule (waiting, SPY instead, or the best sector’s top 3) it never beat the plan, so it is a clue for your own call, not a trade.'));
+    }
     var FZ = RT && RT.fractal;
     if (pm === 'rotation' && FZ && !out_) {   // the two-scale buy rules (mtl/fractal.py)
       if (FZ.green) out.push('<b>Green light</b> for the next ' + FZ.greenFor + ' sessions: SPY’s weekly and daily charts both show a higher low, so empty slots fill at once (the fading filter and any buy freeze stand aside) and a narrow-market cash week is skipped.');

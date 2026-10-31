@@ -53,7 +53,7 @@ from mtl.pricebreak import apply_pricebreak, break_days, hold_days, pricebreak_s
 from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
-from mtl import fedday, fedday_check  # noqa: E402
+from mtl import fedday, fedday_check, reentry_note  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
@@ -641,6 +641,11 @@ def main():
     bars = fetch(tickers, volumes=volumes)
     bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD', 'RSP'], adjusted=True, volumes=volumes)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check; RSP: equal-weight S&P 500 (narrow-market warning)
     asset_bars = fetch(ASSETS, adjusted=True)   # OHLC: Boost + rotation reads TLT's and GLD's swing structure
+    try:   # the SPDR sector funds, for the re-entry note's sectors (information only, mtl/reentry_note.py)
+        sector_px = {t: {b[0]: b[4] for b in bs if b[4]} for t, bs in fetch(list(reentry_note.FUNDS), adjusted=True).items() if bs}
+    except Exception as e:
+        print(f"  sector funds fetch failed: {e}", file=sys.stderr)
+        sector_px = {}
     try:   # managed futures (DBMF): held instead of plain cash when neither TLT nor GLD is up (mtl/rotation.py no_bills)
         fund_px = {b[0]: b[4] for b in (fetch([CASH_FUND], adjusted=True).get(CASH_FUND) or []) if b[4]}
     except Exception as e:
@@ -1187,6 +1192,9 @@ def main():
     # decision day; 3 losses in its first 4 live cases -> an issue recommending its removal
     fd_card = fedday_check.scorecard(fd_held, ov['fd_before'], strat_rot, whip_px, calendar)
     auto['rotation']['fedday']['card'] = fd_card
+    # the re-entry note (information only): back into stocks after 10+ sessions out - is the list it buys concentrated
+    # in one sector (past re-entries like that beat the haven 22 of 23 times) or spread out (a coin flip)?
+    auto['rotation']['renote'] = reentry_note.note(rot_modes, calendar, K, picks_bx, prices, sector_px) if sector_px else dict(show=False)
     # the two-scale buy rules (mtl/fractal.py): SPY's weekly + daily reading and the freeze / green light now
     auto['rotation']['fractal'] = fractal.state(bench['SPY'], calendar, K, fz_rules['frozen'], fz_rules['green'], fz_rules['log'])
     # SPY trendline watch (information only): a rising weekly line touched 3 or 4 times about evenly (mtl/trendline.py)
