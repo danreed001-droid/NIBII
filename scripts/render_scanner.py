@@ -439,7 +439,7 @@ footer li { margin-bottom: 6px; }
 </style>
 
 <div class="masthead"><div class="masthead-inner">
-  <div class="nav"><a href="index.html">← Market Tape Ledger</a><span class="nav-r"><a class="bt add" href="__ADD_URL__" target="_blank" rel="noopener" title="Add your own news to the market events page">＋ Add news</a><a class="bt" href="stress.html" title="Market stress, dominoes, news and speculator crowding (information only)">Stress →</a><a class="bt" href="events.html">Events →</a><a class="bt" href="backtest.html">Backtests →</a></span></div>
+  <div class="nav"><a href="index.html">← Market Tape Ledger</a><span class="nav-r"><a class="bt add" href="__ADD_URL__" target="_blank" rel="noopener" title="Add your own news to the market events page">＋ Add news</a><a class="bt" href="stress.html" title="Market stress, dominoes, news and speculator crowding (information only)">Stress →</a><a class="bt" href="forward.html" title="Fixed guesses about what follows the news, scored only afterwards (information only)">News test →</a><a class="bt" href="events.html">Events →</a><a class="bt" href="backtest.html">Backtests →</a></span></div>
   <p class="eyebrow">NIBII · Momentum</p>
   <div class="top"><h1>Top 5 Strongest</h1>
     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark/light theme">
@@ -460,6 +460,7 @@ footer li { margin-bottom: 6px; }
   <div class="card swpanel" id="swpanel" hidden></div>
 
 __RECENT__
+__NEWSFWD__
 __DOMINOES__
 __CROWDING__
 __EVENTS__
@@ -3543,7 +3544,8 @@ def render(scan, growth=None):
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
-    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
+    page = page.replace('__NEWSFWD__', news_forward_html(), 1)
+    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS + '\n' + NFW_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
     page = page.replace('__CROWDING__', crowding_html(scan).replace(   # also on docs/stress.html, where it has its charts
         '(published the Friday after)</span>', '(published the Friday after) · <a href="stress.html#crowding">charts →</a></span>', 1), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
@@ -4056,6 +4058,159 @@ def crowding_plain(rows):
     return ' '.join(out) + tail + ' The plan does not act on this.'
 
 
+NEWS_FWD_PATH = os.path.join(ROOT, 'data', 'news_forward.json')
+NFW_CSS = """.nfw table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.nfw th { text-align: right; color: var(--muted); font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid var(--hairline);
+  padding: 4px; text-transform: none; letter-spacing: 0; white-space: normal; }
+.nfw td { text-align: right; border-bottom: 1px solid var(--hairline); padding: 5px 4px; white-space: nowrap; }
+.nfw th:first-child, .nfw td:first-child { text-align: left; white-space: normal; }
+.nfw td small { display: block; color: var(--muted); font-size: 0.72rem; }
+.nfw .v-ok { color: var(--pos); font-weight: 600; } .nfw .v-no { color: var(--neg); font-weight: 600; }
+.nfw .nfw-last { margin: 0 0 8px; font-size: 0.85rem; color: var(--ink-2); }
+.nfw .nfw-note { color: var(--muted); font-size: 0.78rem; line-height: 1.45; margin: 8px 0 0; }
+.nfw table.nfw-log td:nth-child(2), .nfw table.nfw-log td:nth-child(3) { white-space: normal; text-align: left; }
+.nfw table.nfw-log td:nth-child(2) { color: var(--muted); } .nfw table.nfw-log th:nth-child(2), .nfw table.nfw-log th:nth-child(3) { text-align: left; }
+.nfw table.nfw-log td:first-child { white-space: nowrap; }
+@media (max-width: 560px) {
+  .nfw table, .nfw tbody { display: block; } .nfw thead { display: none; }
+  .nfw tr { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px 10px; padding: 8px 0; border-bottom: 1px solid var(--hairline); }
+  .nfw td { border: 0; padding: 0; text-align: left !important; }
+  .nfw td:first-child { grid-column: 1 / -1; margin-bottom: 3px; }
+  .nfw td[data-l]::before { content: attr(data-l); display: block; color: var(--muted); font-size: 0.68rem; }
+  .nfw table.nfw-log tr { grid-template-columns: 2fr 1fr 1fr; }
+  .nfw table.nfw-log td:first-child { margin: 0; font-weight: 600; }
+  .nfw table.nfw-log td:nth-child(2) { grid-column: 1 / -1; margin-bottom: 3px; }
+}"""
+
+
+FORWARD_PATH = os.path.join(ROOT, 'docs', 'forward.html')
+NFW_NAMES = {'SPY': 'S&P 500', 'QQQ': 'Nasdaq-100', 'GLD': 'gold', 'TLT': 'long Treasuries'}
+
+
+def _nfw_load(path=None):
+    try:
+        with open(path or NEWS_FWD_PATH) as fh:
+            D = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    return D if (D.get('summary') or {}).get('rows') else None
+
+
+def _nfw_when(h):
+    return 'next day' if h == 1 else 'over the next week' if h == 5 else f'over the next {h} days'
+
+
+def _nfw_said(c):
+    """One call in plain words: 'long Treasuries up next day'."""
+    a = NFW_NAMES.get(c['asset'], c['asset'])
+    return (f"{a} to move more than usual {_nfw_when(c['h'])}" if c['call'] == 'big' else
+            f"{a} {'up' if c['call'] > 0 else 'down'} {_nfw_when(c['h'])}")
+
+
+def _nfw_last(D):
+    days = D.get('days') or []
+    if not days:
+        return ''
+    d0 = days[-1]
+    said = {}
+    for c in (c for c in D.get('calls', []) if c['d'] == d0['d']):
+        said[_nfw_said(c)] = said.get(_nfw_said(c), 0) + 1
+    dt = date.fromisoformat(d0['d']).strftime('%a %b %-d')
+    what = ('; '.join(html.escape(k) + (f' ({n} guesses)' if n > 1 else '') for k, n in said.items()) if said
+            else 'none of the guesses fired')
+    return f'<p class="nfw-last"><b>Latest calls</b> ({dt}, from {d0["n"]} news items): {what}.</p>'
+
+
+def news_forward_html(path=None):
+    """Scanner page: the news forward test in brief (data/news_forward.json, mtl/news_forward.py): the latest
+    night's calls and the tally so far, with the full scoreboard on docs/forward.html. '' without the file."""
+    D = _nfw_load(path)
+    if not D:
+        return ''
+    rows = D['summary']['rows']
+    n = sum(r['n'] for r in rows)
+    hits = sum(r['hits'] for r in rows)
+    held = [r['text'] for r in rows if r['verdict'] == 'holding up']
+    ready = sum(1 for r in rows if r['verdict'] != 'too few')
+    if held:
+        tally = f'Holding up so far: {html.escape("; ".join(held))}.'
+    elif n:
+        tally = (f'{n} calls scored so far, {hits} right ({round(hits / n * 100)}%). '
+                 + (f'{ready} of {len(rows)} guesses have enough calls to judge; none is holding up.' if ready else
+                    f'No guess has the {D.get("minN", 20)} scored calls it needs to be judged yet.'))
+    else:
+        tally = f'No calls scored yet; each guess needs {D.get("minN", 20)} before it can be judged.'
+    return ('<section id="news-forward"><p class="section-label">News forward test <span class="hint">fixed guesses '
+            'about what follows the news, scored only afterwards · <a href="forward.html">full scoreboard →</a></span></p>\n'
+            f'  <div class="card nfw">{_nfw_last(D)}<p class="nfw-note">{tally} Information only; the plan does not '
+            'trade on it.</p></div></section>\n')
+
+
+def news_forward_full(path=None, log_rows=200):
+    """docs/forward.html's body: the latest calls, the scoreboard (each guess's record, hit rate, p and verdict),
+    every call newest first, and where the guesses came from. '' without the file."""
+    D = _nfw_load(path)
+    if not D:
+        return ''
+    S = D['summary']
+    rows = S['rows']
+    pct = lambda x: '–' if x is None else '0.0%' if round(x * 100, 2) == 0 else f"{x * 100:+.2f}%".replace('-', '−')
+    body = []
+    for r in rows:
+        v = r['verdict']
+        cls = ' class="v-ok"' if v == 'holding up' else ' class="v-no"' if v.startswith('the reverse') else ''
+        rate = '–' if r['rate'] is None else f"{round(r['rate'] * 100)}%"
+        body.append(f'<tr><td>{html.escape(r["text"])}</td><td data-l="Right">{r["hits"]}/{r["n"]}<small>{r["calls"] - r["n"]} waiting</small></td>'
+                    f'<td data-l="Hit rate">{rate}<small>p {r["p"]:.2f}</small></td><td data-l="Avg move">{pct(r.get("avg"))}</td>'
+                    f'<td data-l="Verdict"{cls}>{html.escape(v)}</td></tr>')
+    started = date.fromisoformat(D.get('started', '2026-10-31')).strftime('%b %-d, %Y')
+    note = (f'<p class="nfw-note">Each guess was fixed on {started} and is written down each night before the next open, '
+            f'then scored on the sessions that follow; nothing is filled in afterwards. Right: calls where the market moved '
+            f'the called way (for the busy-day guess: moved more than its typical day), out of those scored. p: the chance '
+            f'of a record this far from half by coin flips. A guess counts as holding up only after {D.get("minN", 20)} '
+            f'scored calls with p under {S.get("bar", 0.005):.3f} (0.05 split over {len(rows)} guesses, so one lucky pass '
+            'doesn\'t count). Information only; the plan does not trade on it.</p>')
+    board = ('<section id="scoreboard"><p class="section-label">Scoreboard</p>\n'
+             f'  <div class="card nfw">{_nfw_last(D)}<div class="tablebox" style="border:0;background:none"><table><thead><tr>'
+             '<th>Guess</th><th>Right</th><th>Hit rate</th><th>Avg move the called way</th><th>Verdict</th></tr></thead><tbody>'
+             + ''.join(body) + f'</tbody></table></div>{note}</div></section>\n')
+    text = {g['id']: g['text'] for g in D.get('guesses', [])}
+    calls = sorted(D.get('calls', []), key=lambda c: (c['d'], c['id']), reverse=True)[:log_rows]
+    log = []
+    for c in calls:
+        dt = date.fromisoformat(c['d']).strftime('%b %-d')
+        if 'hit' in c:
+            res = f'{pct(c["res"])}'
+            ok = '<span class="pos">✓</span>' if c['hit'] else '<span class="neg">✗</span>'
+        else:
+            res, ok = '–', '<span class="muted">waiting</span>'
+        log.append(f'<tr><td>{dt}</td><td>{html.escape(text.get(c["id"], c["id"]))}</td><td data-l="Call">{html.escape(_nfw_said(c))}</td>'
+                   f'<td data-l="Move">{res}</td><td data-l="Right?">{ok}</td></tr>')
+    calls_html = ('<section id="calls"><p class="section-label">Every call <span class="hint">newest first · the move is '
+                  'from that day\'s close to the close the call is scored on</span></p>\n'
+                  '  <div class="card nfw"><div class="tablebox" style="border:0;background:none"><table class="nfw-log"><thead><tr>'
+                  '<th>Day</th><th>Guess</th><th>Call</th><th>Move</th><th>Right?</th></tr></thead><tbody>'
+                  + ''.join(log) + '</tbody></table></div></div></section>\n') if log else ''
+    why = ('<section id="why"><p class="section-label">Where the guesses came from</p>\n'
+           '  <div class="card nfw"><p class="nfw-note" style="margin:0">Before this test, the news log (Aug 5 – Oct 30, 2026, '
+           '62 trading days) was checked against the S&amp;P 500, the Nasdaq-100, gold and long Treasuries: the day of the news, '
+           'the opening gap and the next 1–5 days. Of 102 checks, 8 passed where about 5 would pass by luck. The strongest '
+           '(upbeat news days followed by lower bonds and gold the next day) went the other way over the 20 years before, '
+           'and a striking one in the major-events list since 2000 (bonds giving back their jump the day after a news-driven '
+           'sell-off) disappeared when the events were picked by something visible on the day rather than with hindsight. '
+           'News written after the fact can\'t be tested by looking back, so the most promising ideas were fixed as these ten '
+           'guesses and are now scored only on what comes next.</p></div></section>\n')
+    return board + calls_html + why
+
+
+def forward_page(path=None):
+    """docs/forward.html: the news forward test's scoreboard, every call and where the guesses came from."""
+    body = news_forward_full(path) or '<p class="note">No calls written yet: the first are written after the next close.</p>'
+    return side_page('News Forward Test', 'News forward test',
+                     'Fixed guesses about what follows the news, written down each night before the next open and scored only '
+                     'afterwards. Information only: the plan does not trade on anything here.', body, NFW_CSS)
+
+
 CROWD_HIST_PATH = os.path.join(ROOT, 'data', 'crowding_history.json')
 CWH_CSS = """.cwh td, .cwh th { white-space: normal; vertical-align: top; font-size: 0.8rem; }
 .cwh td small { display: block; color: var(--muted); font-size: 0.72rem; }
@@ -4299,14 +4454,14 @@ CC_JS = r"""<script>
 </script>"""
 
 
-def stress_page(scan):
-    """docs/stress.html: the market stress card, the dominoes card and the speculator crowding gauge with its charts (information only)."""
-    body = stress_html(scan) + dominoes_html(scan.get('asOf')) + crowding_html(scan).replace('</section>', crowding_charts(scan) + '</section>', 1)
-    if not body:
-        body = '<p class="note">Tonight\'s scan has no market stress or crowding readings.</p>'
+def side_page(title, h1, intro, body, css=''):
+    """A page beside the scanner (docs/stress.html, docs/forward.html): the shared look and links, then `body`."""
+    links = [('scanner.html', '← Top 5 Strongest'), ('stress.html', 'Stress'), ('forward.html', 'News test'), ('events.html', 'Events')]
+    here = {'Market Stress': 'stress.html', 'News Forward Test': 'forward.html'}.get(title)
+    nav = ' · '.join(f'<a href="{u}">{t}</a>' for u, t in links if u != here)
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex"><title>Market Stress</title>
+<meta name="robots" content="noindex"><title>{title}</title>
 <style>
 :root {{ --bg: #f4f3ef; --surface: #fdfdfc; --surface-2: #f0efea; --ink: #0b0c0e; --ink-2: #52514e; --muted: #6f6d67; --hairline: #e1e0d9; --grid: #e7e6e0;
   --accent: #2a78d6; --pos: #0a8f0a; --neg: #c43232; --cc-long: rgba(196,50,50,.14); --cc-short: rgba(42,120,214,.14); }}
@@ -4342,14 +4497,24 @@ th.l, td.l {{ text-align: left; }} td.num {{ font-variant-numeric: tabular-nums;
 {STRESS_CSS}
 {DOM_CSS}
 {CWH_CSS}
+{css}
 </style></head><body><div class="wrap">
-<div class="nav"><a href="scanner.html">← Top 5 Strongest</a> · <a href="events.html">Events</a></div>
-<h1>Market stress</h1>
-<p class="note" style="margin:0">Context for the market, refreshed with each nightly scan. Information only: the plan does not trade on anything here.</p>
+<div class="nav">{nav}</div>
+<h1>{h1}</h1>
+<p class="note" style="margin:0">{intro}</p>
 {body}
-<div id="cc-tip" hidden></div>
 </div></body></html>
 """
+
+
+
+
+def stress_page(scan):
+    """docs/stress.html: the market stress card, the dominoes card and the speculator crowding gauge with its charts (information only)."""
+    body = stress_html(scan) + dominoes_html(scan.get('asOf')) + crowding_html(scan).replace('</section>', crowding_charts(scan) + '</section>', 1)
+    if not body:
+        body = '<p class="note">Tonight\'s scan has no market stress or crowding readings.</p>'
+    return side_page('Market Stress', 'Market stress', 'Context for the market, refreshed with each nightly scan. Information only: the plan does not trade on anything here.', body + '\n<div id="cc-tip" hidden></div>')
 
 
 def main():
@@ -4365,7 +4530,9 @@ def main():
         f.write(issues_page(with_track_record(scan)))   # the same rows the scanner page's card lists
     with open(STRESS_PATH, 'w') as f:
         f.write(stress_page(scan))
-    print(f"wrote {OUT_PATH}, {ISSUES_PATH} and {STRESS_PATH}")
+    with open(FORWARD_PATH, 'w') as f:
+        f.write(forward_page())
+    print(f"wrote {OUT_PATH}, {ISSUES_PATH}, {STRESS_PATH} and {FORWARD_PATH}")
 
 
 if __name__ == '__main__':
