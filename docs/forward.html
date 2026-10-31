@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex"><title>News Forward Test</title>
+<style>
+:root { --bg: #f4f3ef; --surface: #fdfdfc; --surface-2: #f0efea; --ink: #0b0c0e; --ink-2: #52514e; --muted: #6f6d67; --hairline: #e1e0d9; --grid: #e7e6e0;
+  --accent: #2a78d6; --pos: #0a8f0a; --neg: #c43232; --cc-long: rgba(196,50,50,.14); --cc-short: rgba(42,120,214,.14); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0d0d0d; --surface: #17181a; --surface-2: #1f2023; --ink: #ffffff; --ink-2: #c3c2b7;
+  --muted: #8b8a85; --hairline: #2c2c2a; --grid: #26262a; --accent: #3987e5; --pos: #3fbf5f; --neg: #e5605a; --cc-long: rgba(229,96,90,.17); --cc-short: rgba(57,135,229,.18); color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #0d0d0d; --surface: #17181a; --surface-2: #1f2023; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #8b8a85; --hairline: #2c2c2a; --grid: #26262a;
+  --accent: #3987e5; --pos: #3fbf5f; --neg: #e5605a; --cc-long: rgba(229,96,90,.17); --cc-short: rgba(57,135,229,.18); color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 -apple-system, system-ui, "Segoe UI", sans-serif; }
+.wrap { max-width: 920px; margin: 0 auto; padding-block: 18px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 22px; }
+.wrap > *, section { min-width: 0; }
+.nav a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+h1 { font-size: 1.6rem; margin: 6px 0 0; }
+.section-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 8px; }
+.hint { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted); margin-left: 6px; }
+.card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px; padding: 14px; }
+.note { color: var(--muted); font-size: 0.82rem; margin: 8px 0 0; } .muted { color: var(--muted); }
+.pos { color: var(--pos); } .neg { color: var(--neg); }
+.tablebox { overflow-x: auto; background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--hairline); text-align: right; white-space: nowrap; }
+th { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }
+th.l, td.l { text-align: left; } td.num { font-variant-numeric: tabular-nums; }
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 1px 8px; border-radius: 999px; border: 1px solid currentColor; margin-top: 3px; }
+.tag.sell { color: var(--neg); } .tag.buy { color: var(--accent); }
+.cc { margin-top: 10px; } .cc-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.cc-tabs button { font: inherit; font-size: 0.8rem; background: transparent; color: var(--ink-2); border: 1px solid var(--hairline); border-radius: 999px; padding: 4px 11px; cursor: pointer; }
+.cc-tabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.cc-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cc-chart svg { display: block; width: 100%; height: auto; }
+#cc-tip { position: fixed; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--hairline); border-radius: 6px; padding: 7px 9px; font-size: 0.8rem; box-shadow: 0 4px 14px rgba(0,0,0,.2); z-index: 5; }
+@media (max-width: 600px) { .hide-sm { display: none; } }
+.stress { display: grid; gap: 10px; margin-bottom: 18px; }
+.stress .st-row { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 10px; padding-top: 10px; border-top: 1px solid var(--hairline); }
+.stress .st-row:first-of-type { border-top: 0; padding-top: 0; }
+.stress .st-k { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); padding-top: 2px; }
+.stress .st-v { font-size: 0.9rem; color: var(--ink-2); min-width: 0; }
+.stress .st-v b { color: var(--ink); }
+.stress .st-sign { display: inline-block; margin: 2px 8px 2px 0; }
+.stress .st-sign i { font-style: normal; font-weight: 700; margin-right: 4px; }
+.stress .on { color: var(--neg); } .stress .off { color: var(--muted); }
+.stress .st-note { font-size: 0.76rem; color: var(--muted); margin: 0; }
+.stress svg { display: block; margin-top: 6px; max-width: 100%; }
+@media (max-width: 520px) { .stress .st-row { grid-template-columns: 1fr; gap: 4px; } }
+.dom { font-size: 0.86rem; }
+.dom p { margin: 0; }
+.dom .dom-now b { font-weight: 600; }
+.dom .dom-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
+.dom .chip { font-size: 0.76rem; background: var(--surface-2); color: var(--muted); border: 1px solid transparent; border-radius: 6px; padding: 2px 7px; white-space: nowrap; }
+.dom .chip.on { color: var(--ink); border-color: var(--neg); }
+.dom .chip small { opacity: 0.75; }
+.dom .sub { color: var(--muted); font-size: 0.78rem; line-height: 1.45; margin-top: 10px; }
+.dom table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 4px; }
+.dom th { text-align: right; color: var(--muted); font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid var(--hairline); padding: 3px 4px; }
+.dom td { text-align: right; border-bottom: 1px solid var(--hairline); padding: 4px; }
+.dom th:first-child, .dom td:first-child { text-align: left; }
+.dom tr.now td { font-weight: 600; color: var(--ink); background: var(--surface-2); }
+.dom .m { border-top: 1px solid var(--hairline); padding: 7px 0; }
+.dom .m .when { font-weight: 600; margin-right: 6px; }
+.dom .m .what, .dom .m .next { color: var(--muted); font-size: 0.78rem; line-height: 1.45; }
+.dom .m .next b { font-weight: 600; color: var(--ink); } .dom .m .next b.neg { color: var(--neg); } .dom .m .next b.pos { color: var(--pos); }
+.dom .note { color: var(--muted); font-size: 0.78rem; line-height: 1.45; border-top: 1px solid var(--hairline); padding-top: 8px; margin-top: 2px; }
+.dom th { text-transform: none; letter-spacing: 0; white-space: normal; }
+.dom table.exp td { white-space: normal; } .dom table.exp td:first-child { width: 34%; }
+@media (max-width: 520px) { .dom table.exp { font-size: 0.74rem; } .dom table.exp td, .dom table.exp th { padding: 4px 3px; } }
+.cwh td, .cwh th { white-space: normal; vertical-align: top; font-size: 0.8rem; }
+.cwh td small { display: block; color: var(--muted); font-size: 0.72rem; }
+.cwh td.now { background: var(--surface-2); }
+.cwh .sig { font-weight: 600; } .cwh .sig.pos { color: var(--pos); } .cwh .sig.neg { color: var(--neg); }
+.cw { min-width: 0; } .cw td, .cw th { vertical-align: middle; }
+.cw .cw-cell { width: 58%; }
+.cw-bar { position: relative; display: block; height: 10px; border-radius: 5px; background: var(--hairline); margin: 2px 0 4px; }
+.cw-zone { position: absolute; top: 0; bottom: 0; width: 10%; opacity: .35; }
+.cw-zone.l { left: 0; border-radius: 5px 0 0 5px; background: var(--accent); } .cw-zone.r { right: 0; border-radius: 0 5px 5px 0; background: var(--neg); }
+.cw-dot { position: absolute; top: -3px; width: 6px; height: 16px; margin-left: -3px; border-radius: 3px; }
+.cw-read { font-size: 0.78rem; } .cw-lab { color: var(--muted); } .cw-mv { color: var(--muted); font-size: 0.72rem; }
+.cw-ends { display: flex; justify-content: space-between; gap: 10px; font-weight: 600; font-size: 0.64rem; }
+.cw .cw-bar { margin-right: 4px; }
+.plain { margin: 0 0 10px; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); border-left: 3px solid var(--accent); font-size: 0.9rem; line-height: 1.5; }
+.cw-meant { margin: 8px 0 0; padding-left: 18px; font-size: 0.84rem; line-height: 1.45; } .cw-meant li { margin: 4px 0; }
+details.cw-more { margin-top: 10px; } details.cw-more summary { cursor: pointer; font-weight: 600; font-size: 0.86rem; }
+.nfw table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.nfw th { text-align: right; color: var(--muted); font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid var(--hairline);
+  padding: 4px; text-transform: none; letter-spacing: 0; white-space: normal; }
+.nfw td { text-align: right; border-bottom: 1px solid var(--hairline); padding: 5px 4px; white-space: nowrap; }
+.nfw th:first-child, .nfw td:first-child { text-align: left; white-space: normal; }
+.nfw td small { display: block; color: var(--muted); font-size: 0.72rem; }
+.nfw .v-ok { color: var(--pos); font-weight: 600; } .nfw .v-no { color: var(--neg); font-weight: 600; }
+.nfw .nfw-last { margin: 0 0 8px; font-size: 0.85rem; color: var(--ink-2); }
+.nfw .nfw-note { color: var(--muted); font-size: 0.78rem; line-height: 1.45; margin: 8px 0 0; }
+.nfw table.nfw-log td:nth-child(2), .nfw table.nfw-log td:nth-child(3) { white-space: normal; text-align: left; }
+.nfw table.nfw-log td:nth-child(2) { color: var(--muted); } .nfw table.nfw-log th:nth-child(2), .nfw table.nfw-log th:nth-child(3) { text-align: left; }
+.nfw table.nfw-log td:first-child { white-space: nowrap; }
+@media (max-width: 560px) {
+  .nfw table, .nfw tbody { display: block; } .nfw thead { display: none; }
+  .nfw tr { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px 10px; padding: 8px 0; border-bottom: 1px solid var(--hairline); }
+  .nfw td { border: 0; padding: 0; text-align: left !important; }
+  .nfw td:first-child { grid-column: 1 / -1; margin-bottom: 3px; }
+  .nfw td[data-l]::before { content: attr(data-l); display: block; color: var(--muted); font-size: 0.68rem; }
+  .nfw table.nfw-log tr { grid-template-columns: 2fr 1fr 1fr; }
+  .nfw table.nfw-log td:first-child { margin: 0; font-weight: 600; }
+  .nfw table.nfw-log td:nth-child(2) { grid-column: 1 / -1; margin-bottom: 3px; }
+}
+</style></head><body><div class="wrap">
+<div class="nav"><a href="scanner.html">← Top 5 Strongest</a> · <a href="stress.html">Stress</a> · <a href="events.html">Events</a></div>
+<h1>News forward test</h1>
+<p class="note" style="margin:0">Fixed guesses about what follows the news, written down each night before the next open and scored only afterwards. Information only: the plan does not trade on anything here.</p>
+<section id="scoreboard"><p class="section-label">Scoreboard</p>
+  <div class="card nfw"><p class="nfw-last"><b>Latest calls</b> (Fri Oct 30, from 6 news items): long Treasuries up next day; gold up next day; S&amp;P 500 down next day (2 guesses); Nasdaq-100 down over the next 2 days; long Treasuries up over the next week; Nasdaq-100 down next day; S&amp;P 500 up next day; S&amp;P 500 to move more than usual next day.</p><div class="tablebox" style="border:0;background:none"><table><thead><tr><th>Guess</th><th>Right</th><th>Hit rate</th><th>Avg move the called way</th><th>Verdict</th></tr></thead><tbody><tr><td>Upbeat news day → long Treasuries lower the next day (downbeat → higher)</td><td data-l="Right">0/0<small>1 waiting</small></td><td data-l="Hit rate">–<small>p 1.00</small></td><td data-l="Avg move">–</td><td data-l="Verdict">too few</td></tr><tr><td>Upbeat news day → gold lower the next day (downbeat → higher)</td><td data-l="Right">0/0<small>1 waiting</small></td><td data-l="Hit rate">–<small>p 1.00</small></td><td data-l="Avg move">–</td><td data-l="Verdict">too few</td></tr><tr><td>The news tone carries into the S&amp;P 500 the next day</td><td data-l="Right">0/0<small>1 waiting</small></td><td data-l="Hit rate">–<small>p 1.00</small></td><td data-l="Avg move">–</td><td data-l="Verdict">too few</td></tr><tr><td>The news tone carries into the Nasdaq-100 over the next 2 days</td><td data-l="Right">0/0<small>1 waiting</small></td><td data-l="Hit rate">–<small>p 1.00</small></td><td data-l="Avg move">–</td><td data-l="Verdict">too few</td></tr><tr><td>Downbeat news but the S&amp;P 500 rose anyway → S&amp;P higher over the next week</td><td data-l="Right">0/0<small>0 waiting</small></td><td data-l="Hit rate">–<small>p 1.00</small></td><td data-l="Avg move">–</td><td data-l="Verdict">too few</td></tr><tr><td>2+ high-impact bearish items → long Treasuries higher over the next week</td><td data-l="Right">0/0<small>1 waiting</small></td><td data-l="Hit rate">–<small>p 1.00</small></td><td data-l="Avg move">–</td><td data-l="Verdict">too few</td></tr><tr><td>2+ high-impact bearish items → Nasdaq-100 lower the next day</td><td data-l="Right">0/0<small>1 waiting</small></td><td data-l="Hit rate">–<small>p 1.00</small></td><td data-l="Avg move">–</td><td data-l="Verdict">too few</td></tr><tr><td>Bearish Fed or rates news → S&amp;P 500 lower the next day</td><td data-l="Right">0/0<small>1 waiting</small></td><td data-l="Hit rate">–<small>p 1.00</small></td><td data-l="Avg move">–</td><td data-l="Verdict">too few</td></tr><tr><td>S&amp;P 500 down 1.5%+ on a day with high-impact bearish news → S&amp;P higher the next day</td><td data-l="Right">0/0<small>1 waiting</small></td><td data-l="Hit rate">–<small>p 1.00</small></td><td data-l="Avg move">–</td><td data-l="Verdict">too few</td></tr><tr><td>Busy news day (6+ items) → a bigger S&amp;P 500 move the next day than its typical day</td><td data-l="Right">0/0<small>1 waiting</small></td><td data-l="Hit rate">–<small>p 1.00</small></td><td data-l="Avg move">–</td><td data-l="Verdict">too few</td></tr></tbody></table></div><p class="nfw-note">Each guess was fixed on Oct 31, 2026 and is written down each night before the next open, then scored on the sessions that follow; nothing is filled in afterwards. Right: calls where the market moved the called way (for the busy-day guess: moved more than its typical day), out of those scored. p: the chance of a record this far from half by coin flips. A guess counts as holding up only after 20 scored calls with p under 0.005 (0.05 split over 10 guesses, so one lucky pass doesn't count). Information only; the plan does not trade on it.</p></div></section>
+<section id="calls"><p class="section-label">Every call <span class="hint">newest first · the move is from that day's close to the close the call is scored on</span></p>
+  <div class="card nfw"><div class="tablebox" style="border:0;background:none"><table class="nfw-log"><thead><tr><th>Day</th><th>Guess</th><th>Call</th><th>Move</th><th>Right?</th></tr></thead><tbody><tr><td>Oct 30</td><td>Upbeat news day → long Treasuries lower the next day (downbeat → higher)</td><td data-l="Call">long Treasuries up next day</td><td data-l="Move">–</td><td data-l="Right?"><span class="muted">waiting</span></td></tr><tr><td>Oct 30</td><td>The news tone carries into the S&amp;P 500 the next day</td><td data-l="Call">S&amp;P 500 down next day</td><td data-l="Move">–</td><td data-l="Right?"><span class="muted">waiting</span></td></tr><tr><td>Oct 30</td><td>The news tone carries into the Nasdaq-100 over the next 2 days</td><td data-l="Call">Nasdaq-100 down over the next 2 days</td><td data-l="Move">–</td><td data-l="Right?"><span class="muted">waiting</span></td></tr><tr><td>Oct 30</td><td>Upbeat news day → gold lower the next day (downbeat → higher)</td><td data-l="Call">gold up next day</td><td data-l="Move">–</td><td data-l="Right?"><span class="muted">waiting</span></td></tr><tr><td>Oct 30</td><td>2+ high-impact bearish items → long Treasuries higher over the next week</td><td data-l="Call">long Treasuries up over the next week</td><td data-l="Move">–</td><td data-l="Right?"><span class="muted">waiting</span></td></tr><tr><td>Oct 30</td><td>2+ high-impact bearish items → Nasdaq-100 lower the next day</td><td data-l="Call">Nasdaq-100 down next day</td><td data-l="Move">–</td><td data-l="Right?"><span class="muted">waiting</span></td></tr><tr><td>Oct 30</td><td>Bearish Fed or rates news → S&amp;P 500 lower the next day</td><td data-l="Call">S&amp;P 500 down next day</td><td data-l="Move">–</td><td data-l="Right?"><span class="muted">waiting</span></td></tr><tr><td>Oct 30</td><td>Busy news day (6+ items) → a bigger S&amp;P 500 move the next day than its typical day</td><td data-l="Call">S&amp;P 500 to move more than usual next day</td><td data-l="Move">–</td><td data-l="Right?"><span class="muted">waiting</span></td></tr><tr><td>Oct 30</td><td>S&amp;P 500 down 1.5%+ on a day with high-impact bearish news → S&amp;P higher the next day</td><td data-l="Call">S&amp;P 500 up next day</td><td data-l="Move">–</td><td data-l="Right?"><span class="muted">waiting</span></td></tr></tbody></table></div></div></section>
+<section id="why"><p class="section-label">Where the guesses came from</p>
+  <div class="card nfw"><p class="nfw-note" style="margin:0">Before this test, the news log (Aug 5 – Oct 30, 2026, 62 trading days) was checked against the S&amp;P 500, the Nasdaq-100, gold and long Treasuries: the day of the news, the opening gap and the next 1–5 days. Of 102 checks, 8 passed where about 5 would pass by luck. The strongest (upbeat news days followed by lower bonds and gold the next day) went the other way over the 20 years before, and a striking one in the major-events list since 2000 (bonds giving back their jump the day after a news-driven sell-off) disappeared when the events were picked by something visible on the day rather than with hindsight. News written after the fact can't be tested by looking back, so the most promising ideas were fixed as these ten guesses and are now scored only on what comes next.</p></div></section>
+
+</div></body></html>
