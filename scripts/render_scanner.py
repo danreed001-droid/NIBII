@@ -4296,18 +4296,69 @@ def revisions_forward_html(path=None):
             + ''.join(log) + '</tbody></table></div>' if log else '') + f'{note}</div></section>\n')
 
 
-def forward_page(path=None, rev_path=None):
+RATES_FWD_PATH = os.path.join(ROOT, 'data', 'rates_forward.json')
+
+
+def rates_forward_html(path=None):
+    """docs/forward.html: the rates model forward test (data/rates_forward.json, mtl/rates_forward.py): each month's
+    pick against the plan-style rule and SPY, and the running totals. '' without the file."""
+    try:
+        with open(path or RATES_FWD_PATH) as fh:
+            D = json.load(fh)
+    except (OSError, ValueError):
+        return ''
+    ms = D.get('months') or []
+    if not ms:
+        return ''
+    S = D.get('summary') or {}
+    nm = {'SPY': 'S&P 500', 'GLD': 'gold', 'TLT': 'long Treasuries', 'CASH': 'cash'}
+    pct = lambda x: '–' if x is None else '0.0%' if round(x * 100, 1) == 0 else f"{x * 100:+.1f}%".replace('-', '−')
+    rows = []
+    for m in reversed(ms):
+        mon = date.fromisoformat(m['d']) + timedelta(days=5)
+        lab = mon.strftime('%B %Y')
+        if 'model' in m:
+            won = m['pick'] != m.get('rule') and m['model'] > (m.get('ruleRet') or 0)
+            lost = m['pick'] != m.get('rule') and not won
+            mark = '<span class="pos">✓</span>' if won else '<span class="neg">✗</span>' if lost else '<span class="muted">same pick</span>'
+            res = (f'<td data-l="Model">{pct(m["model"])}</td><td data-l="Rule">{pct(m.get("ruleRet"))}</td>'
+                   f'<td data-l="S&amp;P 500">{pct(m.get("spy"))}</td><td data-l="Model ahead?">{mark}</td>')
+        else:
+            res = '<td data-l="Model">–</td><td data-l="Rule">–</td><td data-l="S&amp;P 500">–</td><td data-l="Model ahead?"><span class="muted">waiting</span></td>'
+        rows.append(f'<tr><td>{lab}</td><td data-l="Model picks">{html.escape(nm.get(m["pick"], m["pick"]))}</td>'
+                    f'<td data-l="Rule picks">{html.escape(nm.get(m.get("rule"), m.get("rule") or "–"))}</td>{res}</tr>')
+    tot = (f'Scored months: {S.get("n", 0)}. Since the start the model made {pct(S.get("model"))}, the rule {pct(S.get("rule"))} and '
+           f'the S&amp;P 500 {pct(S.get("spy"))}; in the {S.get("differ", 0)} months their picks differed, the model came out ahead '
+           f'{S.get("beat", 0)} times. Verdict: {html.escape(S.get("verdict", "too few"))}'
+           + (f' (judged after {D.get("minN", 24)} scored months).' if S.get('verdict') == 'too few' else '.')) if S.get('n') else \
+        'No month scored yet: each pick is scored at the next month-end.'
+    note = ('<p class="nfw-note">Each month-end, a model of the 10-year Treasury yield (its level, its 3-month change and the gap to '
+            'the 3-month yield), trained only on earlier months, picks the S&amp;P 500, gold, long Treasuries or cash for the next '
+            'month; the rule is SPY while it is above its 150-day average, else the stronger of gold and bonds over 3 months. '
+            'Logged before the next open and scored a month later. It came from a search of 3,303 combinations of market data '
+            'where the 10-year yield stood out, but that was found by looking at the same years, so only months to come count. '
+            'Information only; the plan does not trade on it.</p>')
+    return ('<section id="rates"><p class="section-label">Rates model <span class="hint">does the 10-year yield know where to '
+            'be next month?</span></p>\n  <div class="card nfw"><p class="nfw-last">' + tot + '</p>'
+            '<div class="tablebox" style="border:0;background:none"><table class="nfw-log"><thead><tr><th>Month</th><th>Model picks</th>'
+            '<th>Rule picks</th><th>Model</th><th>Rule</th><th>S&amp;P 500</th><th>Model ahead?</th></tr></thead><tbody>'
+            + ''.join(rows) + '</tbody></table></div>' + note + '</div></section>\n')
+
+
+def forward_page(path=None, rev_path=None, rates_path=None):
     """docs/forward.html: the forward tests: the news guesses (scoreboard, every call, where they came from) and the
     analyst-revisions guesses."""
     news = news_forward_full(path) or '<p class="note">No news calls written yet: the first are written after the next close.</p>'
     rev = revisions_forward_html(rev_path)
+    rev += rates_forward_html(rates_path)
     body = news.replace('<p class="section-label">Scoreboard</p>', '<p class="section-label">News: scoreboard</p>', 1) \
         .replace('<p class="section-label">Every call ', '<p class="section-label">News: every call ', 1)
     if rev:
         body = body.replace('<section id="why">', rev + '<section id="why">', 1) if '<section id="why">' in body else body + rev
     return side_page('Forward Tests', 'Forward tests',
                      'Fixed guesses about what comes next, written down before the outcome and scored only afterwards: what '
-                     'follows the news, and whether rising earnings estimates help pick the stronger stocks. Information only: '
+                     'follows the news, whether rising earnings estimates help pick the stronger stocks, and whether the 10-year yield knows '
+                     'where to be next month. Information only: '
                      'the plan does not trade on anything here.', body, NFW_CSS)
 
 
