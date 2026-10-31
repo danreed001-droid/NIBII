@@ -4357,5 +4357,25 @@
       "time": "Market hours",
       "vsExp": "Q3 DAU and Q4 revenue guidance below consensus"
     }
+  },
+  {
+    "id": "2026-10-31-1-iran-hormuz-tension-oil-6-month-high",
+    "data": {
+      "addedAt": "2026-10-31",
+      "category": "Geopolitics",
+      "date": "2026-10-31",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Oil jumped to six-month highs into the weekend as the US-Iran conflict escalates: Iran's Revolutionary Guard claimed multiple tankers struck mines and caught fire in the Strait of Hormuz on Friday, Saudi air defenses intercepted several hostile drones (one claimed by the Houthis) on Saturday, and US officials privately urged regional partners to prepare for possible new American strikes on Iran after Tuesday's midterm elections. Trump has not made a final decision; State Dept warned Iran faces 'consequences.' CENTCOM's Adm. Brad Cooper said the main transit routes through Hormuz have been cleared of mines.",
+      "impact": "High",
+      "numbers": "Fri settle: Brent (Jan contract) $113.43/bbl, +$2.63 (+2.4%); WTI $104.12/bbl, +$2.12 (+2.08%) — both at ~6-month highs.",
+      "order": 1,
+      "reaction": "Crude extended gains as traders hedged into the weekend against a possible US strike on Iran; risk of a volatile Monday open (oil higher / equities pressured) depending on whether an attack materializes over the weekend.",
+      "region": "Middle East",
+      "source": "https://www.newswire.lk/2026/10/31/oil-jumps-2-settles-at-6-month-highs-on-fears-of-escalation-in-iran/",
+      "tickers": "CL=F, BZ=F, USO, BNO, XLE",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
