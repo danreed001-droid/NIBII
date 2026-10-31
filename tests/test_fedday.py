@@ -1,6 +1,6 @@
 """Fed-day hold (mtl/fedday.py): a move out of stocks whose trade would land just before a scheduled Fed decision day
 waits one session; it never moves the account into stocks."""
-from mtl import fedday as F
+from mtl import fedday as F, fedday_check as FC
 
 CAL = ['2026-12-03', '2026-12-04', '2026-12-07', '2026-12-08', '2026-12-09', '2026-12-10']
 FED = ['2026-12-09']
@@ -40,3 +40,18 @@ def test_the_date_list_is_scheduled_meetings_and_runs_ahead():
     fed = F.load()
     assert len([d for d in fed if d.startswith('2024')]) == 8 and '2025-08-22' not in fed
     assert F.covered(fed, '2026-10-31') and F.next_decision(fed, '2026-10-31') == '2026-12-09'
+
+
+def test_probation_check_scores_each_case_and_flags_three_losses_in_four():
+    cal = [f'2027-01-{d:02d}' for d in range(4, 30) if d % 7 not in (2, 3)]   # weekdays-ish
+    bv = [[d, 100.0 + i] for i, d in enumerate(cal)]                          # stocks rise every day
+    tlt = {d: 100.0 + 2 * i for i, d in enumerate(cal)}                        # the haven rises faster
+    held = set(cal[0:8:2])                                                    # four live cases
+    card = FC.scorecard(held, {d: 'TLT' for d in held}, bv, {'TLT': tlt}, cal, since='2027-01-01')
+    assert card['lost'] == 4 and card['verdict'] == 'review: remove' and card['live'][0]['decision'] == cal[2]
+    card = FC.scorecard(held, {d: 'CASH' for d in held}, bv, {}, cal, since='2027-01-01')   # cash: flat
+    assert card['won'] == 4 and card['verdict'] == 'keep'
+    card = FC.scorecard({cal[-1]}, {cal[-1]: 'GLD'}, bv, {}, cal, since='2027-01-01')
+    assert card['pending'] == 1 and card['verdict'] == 'too early'
+    old = FC.scorecard(held, {d: 'CASH' for d in held}, bv, {}, cal, since='2028-01-01')
+    assert old['live'] == [] and old['past']['n'] == 4 and old['past']['won'] == 4

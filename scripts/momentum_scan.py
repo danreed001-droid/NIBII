@@ -53,7 +53,7 @@ from mtl.pricebreak import apply_pricebreak, break_days, hold_days, pricebreak_s
 from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
-from mtl import fedday  # noqa: E402
+from mtl import fedday, fedday_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
@@ -551,10 +551,12 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # scheduled Fed decision day waits one session, so the trade is at the decision day's close (mtl/fedday.py)
     nx1 = next_trading_day(calendar[-1])
     upcoming = [nx1.isoformat(), next_trading_day(nx1).isoformat()]
+    fd_before = dict(modes)
     modes, why, half, fd_held = fedday.apply_fedday(modes, why, half, fedday.load(), calendar, upcoming=upcoming, start=start)
+    fd_before = {d_: fd_before.get(d_) for d_ in fd_held}
     return dict(modes=modes, why=why, half=half, read=read, state=state, lh_cash=lh_cash, lh_log=lh_log,
                 whip_on=whip_on, regime=regime, narrow_warn=narrow_warn, narrow_cash=narrow_cash, reb_held=reb_held, re_held=re_held, re_sig=re_sig,
-                pb_breaks=pb_breaks, pb_held=pb_held, fd_held=fd_held, upcoming=upcoming)
+                pb_breaks=pb_breaks, pb_held=pb_held, fd_held=fd_held, fd_before=fd_before, upcoming=upcoming)
 
 
 def last_closed_session(now=None):
@@ -1181,6 +1183,10 @@ def main():
     # whether data/fomc_dates.json still covers the months ahead
     fed_ = fedday.load()
     auto['rotation']['fedday'] = fedday.fedday_state(fed_, calendar, K, ov['upcoming'], fd_held)
+    # its probation check: each time it acts, the stock list against the haven it was about to move into over the
+    # decision day; 3 losses in its first 4 live cases -> an issue recommending its removal
+    fd_card = fedday_check.scorecard(fd_held, ov['fd_before'], strat_rot, whip_px, calendar)
+    auto['rotation']['fedday']['card'] = fd_card
     # the two-scale buy rules (mtl/fractal.py): SPY's weekly + daily reading and the freeze / green light now
     auto['rotation']['fractal'] = fractal.state(bench['SPY'], calendar, K, fz_rules['frozen'], fz_rules['green'], fz_rules['log'])
     # SPY trendline watch (information only): a rising weekly line touched 3 or 4 times about evenly (mtl/trendline.py)
@@ -1340,6 +1346,10 @@ def main():
         data_issues.append('The futures and currency prices could not be downloaded, so the market stress card and the crowding charts are thin tonight (they never affect the plan).')
     if not crowd_gauge:
         data_issues.append('The CFTC futures positions could not be downloaded, so the crowding gauge is missing tonight (it never affects the plan).')
+    fd_c = auto['rotation'].get('fedday', {}).get('card') or {}
+    if fd_c.get('verdict') == 'review: remove':
+        data_issues.append(f"The Fed-day hold (on probation) lost {fd_c['lost']} of its first {fd_c['first']} live cases: waiting "
+                           "for the decision day cost money more often than not. Review it for removal (mtl/fedday.py).")
     if not fedday.covered(fedday.load(), as_of):
         data_issues.append('data/fomc_dates.json lists Fed decision days only to ' + (fedday.load() or ['nothing'])[-1] + ': add the '
                            'next year\'s scheduled dates from federalreserve.gov/monetarypolicy/fomccalendars.htm (the Fed-day '

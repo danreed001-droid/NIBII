@@ -948,7 +948,20 @@ __ISSUES__
     return '<br><span class="' + (F.active ? 'pos' : 'muted') + '"><b>11. Fed-day hold</b> (default since Oct 31, 2026, on probation): ' + st + '.</span>' +
       '<span class="muted"> When the rules decide to leave stocks and the trade would come at the close just before a scheduled Fed decision day, the trade waits one session and happens at the decision day’s close instead; it never moves the account into stocks. Stocks have tended to rise into Fed announcements: the plan’s stocks gained 0.45% a day on decision days against 0.10% on other days since 2000, in each of 2000–07, 2008–15 and 2016–26, and staying one more day after an exit, which normally costs the plan, gained before a decision day in 6 of 7 cases. ' +
       'On the real S&amp;P 500 member lists the plan made 40.7% a year from 2000 vs 40.3% without it, 45.6% vs 45.4% from 2010, 58.2% vs 58.0% from 2016 and 84.4% vs 83.7% from 2020, the same worst drop (t-stat 1.6 on monthly returns from 2000). It acted 6 times in 26 years, so it rests on few cases. ' +
-      'Next decision day: ' + (F.next ? f(F.next) : 'unknown') + (F.covered ? '' : ' <b>(the date list runs out on ' + (F.last ? f(F.last) : '?') + ': add the next year’s dates)</b>') + '.</span>';
+      'Next decision day: ' + (F.next ? f(F.next) : 'unknown') + (F.covered ? '' : ' <b>(the date list runs out on ' + (F.last ? f(F.last) : '?') + ': add the next year’s dates)</b>') + '.</span>' + feddayCard(F.card, f);
+  }
+  function feddayCard(C, f) {   // the hold's probation check: did waiting pay on each decision day?
+    if (!C) return '';
+    var pc = function (x) { return (x >= 0 ? '+' : '−') + Math.abs(x * 100).toFixed(2) + '%'; };
+    var rows = (C.live || []).map(function (r) {
+      return f(r.d) + ' (decision ' + (r.decision ? f(r.decision) : 'ahead') + '): ' + (r.won == null ? 'waiting' :
+        'stocks ' + pc(r.stocks) + ' vs ' + esc(r.haven || 'haven') + ' ' + pc(r.havenRet) + ' → <b class="' + (r.won ? 'pos">paid' : 'neg">cost') + '</b>');
+    }).join(' · ');
+    var v = C.verdict === 'review: remove' ? '<b class="neg">Lost ' + C.lost + ' of its first ' + C.first + ': review it for removal.</b>' :
+      C.verdict === 'keep' ? 'Passed its first ' + C.first + ' (' + C.won + ' paid, ' + C.lost + ' cost).' :
+      'Too early: it is judged once its first ' + C.first + ' live cases are in (' + C.limit + ' or more losses → review it for removal).';
+    var bt = C.past && C.past.n ? ' Backtest: waiting paid ' + C.past.won + ' of ' + C.past.n + ' times, ' + pc(C.past.avg) + ' on average.' : '';
+    return '<br><span class="muted"><b>Probation check</b> (since ' + f(C.since) + '): ' + (rows || 'it has not acted yet') + '. ' + v + bt + '</span>';
   }
   function whipNote(RT) {   // the whipsaw switch: rule, reading now, recent sales, log
     var W = RT && RT.whip;
