@@ -54,4 +54,4 @@ def test_probation_check_scores_each_case_and_flags_three_losses_in_four():
     card = FC.scorecard({cal[-1]}, {cal[-1]: 'GLD'}, bv, {}, cal, since='2027-01-01')
     assert card['pending'] == 1 and card['verdict'] == 'too early'
     old = FC.scorecard(held, {d: 'CASH' for d in held}, bv, {}, cal, since='2028-01-01')
-    assert old['live'] == [] and old['past']['n'] == 4 and old['past']['won'] == 4
+    assert old['live'] == [] and old['past']['n'] == 4 and old['past']['won'] == 4 and len(old['past']['rows']) == 4

@@ -261,7 +261,11 @@ It came from a search for reasons to act that don't come from prices (calendar, 
 earnings timing, sector caps, analyst revisions): the others were lower from 2000 or are being tested forward. The plan's
 stocks gained 0.45% a day on scheduled decision days against 0.10% on other days since 2000, in each of 2000-07,
 2008-15 and 2016-26. Staying one more day after an exit normally costs the plan (-0.32% on average over 108 exits),
-but before a decision day it gained in 6 of 7 cases (+1.08%; 2% of random picks of 7 other exits did as well).
+but before a decision day it gained in 6 of 7 cases (+1.08%; 2% of random picks of 7 other exits did as well). Those
+counts are from the daily replay on the lists rebuilt from Wikipedia's changes; on the real member lists the engine's 6
+cases paid 4 times (+1.33, +2.33, +0.70, -1.41, -0.17, +2.09% on the decision day, +0.8% on average), and the
+scanner's own replay (today's stocks) 3 of 5 (+0.06% on average), so the case-by-case evidence is thinner than the
+first count suggested.
 
 Real member lists, 0.15% per side: 40.7% a year from 2000 vs 40.3% without it, 45.6% vs 45.4% from 2010, 58.2% vs
 58.0% from 2016, 84.4% vs 83.7% from 2020, worst drop -35% either way (t-stat 1.6 on monthly returns); on the lists
