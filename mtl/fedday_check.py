@@ -39,5 +39,6 @@ def scorecard(held, before, boost_curve, asset_px, calendar, since=PROBATION_STA
     return dict(live=live, won=sum(1 for r in scored if r['won']), lost=sum(1 for r in scored if not r['won']),
                 pending=len(live) - len(scored), verdict=verdict, first=FIRST, limit=LOSE_LIMIT, since=since,
                 past=dict(n=len(past), won=sum(1 for r in past if r['won']),
-                          avg=round(sum(r['edge'] for r in past) / len(past), 5) if past else None))
+                          avg=round(sum(r['edge'] for r in past) / len(past), 5) if past else None,
+                          rows=[dict(decision=r['decision'], edge=r['edge']) for r in past]))
 
