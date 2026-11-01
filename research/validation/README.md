@@ -292,6 +292,6 @@ risk), better in 15 of 27 years; without 2016 and 2025, 41.2% vs 39.5%; 2000-12 
 At 0.30% per side 34.1% vs 32.7%. Robustness (all ahead from 2000): 1.5x, 2x and 3x; top quarter, third and half; up/down
 volume over 1, 3 or 6 months (41.6-43.6%); paired with rising volume (3 months vs a year) 42.2-46.3%, the best but more
 dependent on 2025. Against it: in a simple top-5 test on eight foreign markets (today's index members) it helped in 4
-and hurt in 5, while in the same simple test on the S&P 500 it added 2.0 points a year; and it was found among many
+and hurt in 4 (a combined Europe pool also lagged), while in the same simple test on the S&P 500 it added 2.0 points a year; and it was found among many
 tested ideas. So it went in on probation: `mtl/volweight_check.py` scores each live trade against equal parts and after
 a year flags it for review if it trails by more than the backtest's 1-in-10 worst year.
