@@ -300,7 +300,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     def weights(target, k):
         if not target:
             return {}
-        if weighting == 'inv_vol':
+        if callable(weighting):      # weighting(target, k) -> {ticker: weight} (e.g. mtl/volweight.py)
+            w = weighting(target, k)
+        elif weighting == 'inv_vol':
             inv = {t: 1 / vol(t, k) for t in target}
             tot = sum(inv.values())
             w = {t: inv[t] / tot * len(target) / top_n for t in target}

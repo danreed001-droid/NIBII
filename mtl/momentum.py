@@ -129,7 +129,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
       slot in cash.
     weighting: 'equal' (each holding 1/top_n), 'inv_vol' (the same total, split
       in proportion to 1 / each stock's `vol_window`-day volatility) or 'top2x'
-      (the best-ranked holding at twice the weight of each other one).
+      (the best-ranked holding at twice the weight of each other one), or a
+      callable weighting(target, k) -> {ticker: weight} (the buying-volume
+      weighting of the default plan, mtl/volweight.py).
     vol_target: e.g. 0.30 - at each rebalance, scale every position down so the
       basket's volatility over the last `vol_window` sessions would have been
       at most 30% a year (never above 100% invested); the rest sits in cash.
@@ -222,7 +224,9 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     def weights(target, k):
         if not target:
             return {}
-        if weighting == 'inv_vol':
+        if callable(weighting):      # weighting(target, k) -> {ticker: weight} (e.g. mtl/volweight.py)
+            w = weighting(target, k)
+        elif weighting == 'inv_vol':
             inv = {t: 1 / vol(t, k) for t in target}
             tot = sum(inv.values())
             w = {t: inv[t] / tot * len(target) / top_n for t in target}

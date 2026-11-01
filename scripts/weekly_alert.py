@@ -199,6 +199,15 @@ def with_data(res, scan, owner=None):
     return f"Data problem {fmt(scan['asOf'])}: {(scan.get('dataIssues') or [''])[0]}"[:240], '\n'.join(lines) + '\n'
 
 
+def vw_split(bx):
+    """The buying-volume weighting's split of the stock money (rule 12, mtl/volweight.py) when it isn't equal."""
+    st = ((bx or {}).get('vw') or {}).get('stocks') or []
+    if not st or all(abs((x.get('w') or 0) - 0.2) < 1e-6 for x in st):
+        return ''
+    return '; split the stock money ' + ', '.join(f"{x['t']} {x['w'] * 100:.1f}%" + (' (2x, buying volume)' if x.get('buying') else '') for x in st) + \
+        ' (reset to these weights at the trade)'
+
+
 def default_line(rt, bx):
     """The default plan (Boost + rotation) in one line when it has no switch tonight: what it holds and its stock swaps."""
     m = (rt or {}).get('mode')
@@ -212,10 +221,11 @@ def default_line(rt, bx):
         return (f"**Default plan (Boost + rotation):** 100% {w['half']} (whipsaw switch): nothing to do",
                 f"default plan: nothing to do ({w['half']})")
     xs, xb = (bx or {}).get('sell') or [], (bx or {}).get('buy') or []
+    split = vw_split(bx)
     if xs or xb:
         acts = ', '.join([f"sell {t}" for t in xs] + [f"buy {t}" for t in xb])
-        return f"**Default plan (Boost + rotation), in stocks:** {acts}", f"default plan: {acts}"
-    return "**Default plan (Boost + rotation):** in stocks, no changes", "default plan: no change"
+        return f"**Default plan (Boost + rotation), in stocks:** {acts}{split}", f"default plan: {acts}"
+    return f"**Default plan (Boost + rotation):** in stocks, no changes{split}", "default plan: no change"
 
 
 def build(scan, owner=None):
