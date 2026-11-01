@@ -4377,5 +4377,65 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-01-1-iran-hormuz-conflict-escalates-weekend",
+    "data": {
+      "addedAt": "2026-11-01",
+      "category": "Geopolitics",
+      "date": "2026-11-01",
+      "day": "Sun",
+      "direction": "Mixed",
+      "event": "Iran/Strait of Hormuz conflict escalates further over the weekend: an LNG carrier (M/T Al Mayeda) was struck by a projectile in the Arabian Gulf (crew safe), Saudi air defenses intercepted drones near Riyadh, the Eastern Region, and one Houthi drone toward the Southern Region on Saturday, and Houthi missiles targeted Aden. Sec. of State Rubio said Trump 'hasn't made a decision' on further strikes on Iran; diplomats say US officials have privately told regional partners to prepare for possible new strikes after Tuesday's midterms.",
+      "impact": "High",
+      "numbers": "Fri settle (last available): Brent (Jan) $113.43/bbl (+2.4%); WTI $104.12/bbl (+2.08%), both ~6-month highs. No new settlement over the weekend (US markets closed).",
+      "order": 1,
+      "reaction": "Oil markets closed for the weekend after Friday's 6-month-high close; risk of a volatile Monday open (oil higher / equities pressured) if new incidents occur or a US decision on Iran strikes emerges.",
+      "region": "Middle East",
+      "source": "https://gulfnews.com/world/mena/middle-east-war-saudi-intercepts-drone-iran-claims-3-tankers-hit-mines-in-hormuz-1.500730393",
+      "tickers": "CL=F, BZ=F, USO, BNO, XLE, SPY",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-01-2-ism-manufacturing-apple-earnings-monday",
+    "data": {
+      "addedAt": "2026-11-01",
+      "category": "Market",
+      "date": "2026-11-01",
+      "day": "Sun",
+      "direction": "Neutral",
+      "event": "Monday's open faces two scheduled catalysts: the October ISM Manufacturing PMI (10:00 AM ET) and Apple's fiscal Q4 earnings after the close -- the first of the week's mega-cap reports (AMD and Pfizer follow Tuesday).",
+      "impact": "Medium",
+      "numbers": "AAPL consensus: ~$2.02 EPS on ~$115.5B revenue; options imply an outsized ~8-9% post-earnings move. ISM Manufacturing consensus n/a.",
+      "order": 2,
+      "reaction": "n/a (pre-event)",
+      "region": "US",
+      "source": "https://tickerdaily.com/article/stock-market-this-week-november-2-6-2026-earnings-calendar-and-key-catalysts",
+      "tickers": "AAPL, QQQ, SPY, AMD, PFE",
+      "time": "Weekend",
+      "vsExp": "n/a (forward-looking; both events pending)"
+    }
+  },
+  {
+    "id": "2026-11-01-3-midterms-tuesday-iran-strike-risk",
+    "data": {
+      "addedAt": "2026-11-01",
+      "category": "Policy",
+      "date": "2026-11-01",
+      "day": "Sun",
+      "direction": "Neutral",
+      "event": "US midterm elections on Tuesday headline the week ahead; Axios reports Netanyahu is pressing Trump for a joint strike on Iran immediately after the vote, and the administration is reportedly split between negotiators and advocates of further strikes -- adding event risk on top of an already data- and earnings-heavy week (payrolls Friday, consensus 65k).",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 3,
+      "reaction": "n/a (pre-event); markets likely to stay cautious into Tuesday's vote and any post-election Iran decision",
+      "region": "US",
+      "source": "https://strategitz.substack.com/p/the-week-ahead-nov-2-6-2026",
+      "tickers": "SPY, QQQ, USO, XLE",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
