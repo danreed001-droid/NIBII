@@ -54,6 +54,7 @@ from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl import fedday, fedday_check, reentry_note  # noqa: E402
+from mtl import volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
@@ -818,7 +819,10 @@ def main():
     # filter (plan_exits)
     # ... and the two-scale buy rules (mtl/fractal.py, since Oct 26, 2026): the buy freeze and the green light
     fz_rules = plan_rules(bench['SPY'], calendar, START)
-    rbx, hold_bx, after_bx = boost_run(lambda cal_: plan_exits(prices, volumes, cal_, rules=fz_rules))
+    # ... and the buying-volume weighting (mtl/volweight.py, since Nov 2, 2026, on probation): at each trade a held stock in the
+    # top third of the S&P 500 by up-day vs down-day volume over 3 months gets twice the money of the others
+    vw = volweight.VolWeight(prices, volumes, eligible, TOP_N)
+    rbx, hold_bx, after_bx = boost_run(lambda cal_: dict(plan_exits(prices, volumes, cal_, rules=fz_rules), weighting=vw.fn(cal_)))
     picks_bx = rbx['picks']
     # the whipsaw half-switch reads the same list with the fading-energy filter off (since Oct 16, 2026): a stock the filter
     # skipped counts as if it had been bought and later sold, so the filter changes which stocks are bought, never when
@@ -1111,6 +1115,17 @@ def main():
         weeksDiff=sum(1 for f_ in last_sessions_of_weeks(calendar) if f_ >= START and set(held_at_bx(f_)) != set(held_at_b(f_))),
         stops=rbx.get('stops', 0),
         armedAt=armed_bx[kidx[sig_d]], prevArmed=armed_bx[kidx[prev_d]])
+    # the buying-volume weighting: each stock's share of the stock money at the trade in force (tonight's on a Friday)
+    wl_bx = rbx.get('weights') or []
+    wl_days = [x[0] for x in wl_bx]
+
+    def vw_traded(d_):   # {stock: weight} traded at the latest trade on or before session d_
+        i_ = bisect_right(wl_days, d_) - 1
+        return wl_bx[i_][1] if i_ >= 0 else {}
+    vw_list = list(after_bx if signal_day else hold_bx)
+    vw_k = K if signal_day or not wl_days else max(0, kidx.get(wl_days[-1], K + 1) - 1)
+    auto['boostx']['vw'] = vw.card(vw_list, calendar, min(vw_k, K))
+    auto['boostx']['vw']['card'] = volweight_check.scorecard(wl_bx, prices, calendar)
     # fading-energy filter: top-5 stocks at the last decision that weren't bought (their slot sits in cash)
     fade_k = K if signal_day else kidx[sig_d]
     fade_now = fade_check(prices, volumes, calendar)
@@ -1192,6 +1207,7 @@ def main():
     # decision day; 3 losses in its first 4 live cases -> an issue recommending its removal
     fd_card = fedday_check.scorecard(fd_held, ov['fd_before'], strat_rot, whip_px, calendar)
     auto['rotation']['fedday']['card'] = fd_card
+    auto['rotation']['vw'] = auto['boostx'].get('vw')   # the buying-volume weighting (rule 12), for the rules note
     # the re-entry note (information only): back into stocks after 10+ sessions out - is the list it buys concentrated
     # in one sector (past re-entries like that beat the haven 22 of 23 times) or spread out (a coin flip)?
     auto['rotation']['renote'] = reentry_note.note(rot_modes, calendar, K, picks_bx, prices, sector_px) if sector_px else dict(show=False)
@@ -1334,12 +1350,14 @@ def main():
         if i_ is None or i_ + 1 >= len(calendar):
             return None
         return paper_rec.decision(d_, rot_modes.get(d_, 'boost'), whip_half.get(d_), p_list(calendar[i_ + 1]),
-                                  slot=(fz_fill.get(calendar[i_ + 1]) or (None,))[0])
+                                  slot=(fz_fill.get(calendar[i_ + 1]) or (None,))[0], sw=vw_traded(calendar[i_ + 1]))
     p_stocks = after_bx if signal_day else (list(pend_bx) if pend_bx is not None else hold_bx)
     # tonight's empty slots: the haven pick when the next trade falls inside a buy freeze, else what the last trade put there
     p_slot = (fz_pick(K) if K + 1 in fz_rules['frozen'] else (fz_fill.get(as_of) or (None,))[0]) if len(p_stocks) < TOP_N else None
+    # tonight's stock weights: a Friday's (or a mid-week sale's) new trade is weighted at today's close, else the trade in force
+    p_sw = vw.weights(list(p_stocks), calendar, K) if signal_day or set(p_stocks) != set(hold_bx) else vw_traded(as_of)
     p_now = paper_rec.decision(as_of, rot_modes.get(as_of, 'boost'), whip_half.get(as_of), p_stocks,
-                               slot=p_slot if p_slot != CASH else None)
+                               slot=p_slot if p_slot != CASH else None, sw=p_sw)
     auto['rotation']['fractal']['slot'] = p_slot if p_slot != CASH else None
     if os.environ.get('PAPER_LEDGER_WRITE') == '1' and paper_rec.after_close(as_of):
         if paper_rec.record(ledger, p_now, datetime.now(timezone.utc).isoformat(timespec='seconds'), paper_fp):
@@ -1354,6 +1372,10 @@ def main():
         data_issues.append('The futures and currency prices could not be downloaded, so the market stress card and the crowding charts are thin tonight (they never affect the plan).')
     if not crowd_gauge:
         data_issues.append('The CFTC futures positions could not be downloaded, so the crowding gauge is missing tonight (it never affects the plan).')
+    vw_c = (auto['boostx'].get('vw') or {}).get('card') or {}
+    if vw_c.get('verdict') == 'review: remove':
+        data_issues.append(f"The buying-volume weighting (on probation) trails equal weights by {-vw_c['edge'] * 100:.1f}% over its first year, "
+                           f"worse than 9 in 10 of the backtest's years ({vw_c['past']['p10'] * 100:+.1f}%). Review it for removal (mtl/volweight.py).")
     fd_c = auto['rotation'].get('fedday', {}).get('card') or {}
     if fd_c.get('verdict') == 'review: remove':
         data_issues.append(f"The Fed-day hold (on probation) lost {fd_c['lost']} of its first {fd_c['first']} live cases: waiting "

@@ -272,3 +272,26 @@ Real member lists, 0.15% per side: 40.7% a year from 2000 vs 40.3% without it, 4
 rebuilt from Wikipedia's changes 46.2% vs 45.8%. It acted 6 times (Nov 2002, Apr 2009, Oct 2011, Mar 2017, Jun 2025,
 Dec 2025). Holding 2-3 sessions before the decision added more on paper, all from one episode (Jan 2009); moving into
 stocks for every decision day lost to trading costs (44.2% vs 45.8%). Few cases, so it went in on probation.
+
+## Buying-volume weighting (default since Nov 2, 2026)
+
+At each trade, a held stock in the top third of the eligible S&P 500 members by up-day volume over down-day volume
+(shares traded on up closes / on the other closes over 63 sessions) gets twice the money of the others
+(`mtl/volweight.py`; engine `NBup` = with it, `NBnovw` = without). The stocks, the slots (an empty slot stays a fifth in
+cash) and the timing are unchanged; with no buying stock, or all of them, the split stays equal.
+
+It came out of a search of stock-level signals as 2x weightings on the plan's own picks (64 single and paired signals:
+volatility, volume trend, recent volume, volume spikes, up/down volume, 1/3/6-month strength, distance from the 52-week
+high, top or bottom third). 21 beat the plan from 2000; the 10 that were ahead from 2000, 2010, 2016 and 2020 and in
+both halves all used volume, and the opposite tilts (weight on falling volume, on more selling) lost. Price tilts
+(strength, the 52-week high, volatility on its own) all lost: the plan already buys on strength.
+
+Real member lists, 0.15% per side: 42.7% a year from 2000 vs 40.7% without it, 47.0% vs 45.5% from 2010, 60.0% vs
+57.8% from 2016, 86.6% vs 83.8% from 2020, worst drop -34% vs -35%, Sharpe 1.30 vs 1.26 (the gain is not only more
+risk), better in 15 of 27 years; without 2016 and 2025, 41.2% vs 39.5%; 2000-12 31.8% vs 29.8%, 2013-26 54.0% vs 51.9%.
+At 0.30% per side 34.1% vs 32.7%. Robustness (all ahead from 2000): 1.5x, 2x and 3x; top quarter, third and half; up/down
+volume over 1, 3 or 6 months (41.6-43.6%); paired with rising volume (3 months vs a year) 42.2-46.3%, the best but more
+dependent on 2025. Against it: in a simple top-5 test on eight foreign markets (today's index members) it helped in 4
+and hurt in 5, while in the same simple test on the S&P 500 it added 2.0 points a year; and it was found among many
+tested ideas. So it went in on probation: `mtl/volweight_check.py` scores each live trade against equal parts and after
+a year flags it for review if it trails by more than the backtest's 1-in-10 worst year.

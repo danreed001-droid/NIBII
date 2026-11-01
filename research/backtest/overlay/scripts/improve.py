@@ -700,7 +700,8 @@ VARIANTS = {
     'NBmx': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='cash', other='gb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBbl': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='bil', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBrv': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='gb', other='cash'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
-    'NBup': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), fedday=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True, nospy=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026); the no-T-bills pick by 3-month change (Oct 19, 2026); DBMF (managed futures) instead of cash where neither is up (Oct 20, 2026); the price-break haven rule (Oct 24, 2026); the two-scale buy rules: buy freeze and green light (Oct 26, 2026; the stock lower-high part, parts 's', was dropped: -1 to -3 points a year here); the break re-entry rule (Oct 27, 2026, mtl/reentry.py); the whipsaw switch picks only TLT / GLD (Oct 28, 2026); the Fed-day hold (Oct 31, 2026, mtl/fedday.py)
+    'NBup': (dict(top_n=5, vw=dict(mult=2.0, top=1 / 3, look=63), pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), fedday=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True, nospy=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026); the no-T-bills pick by 3-month change (Oct 19, 2026); DBMF (managed futures) instead of cash where neither is up (Oct 20, 2026); the price-break haven rule (Oct 24, 2026); the two-scale buy rules: buy freeze and green light (Oct 26, 2026; the stock lower-high part, parts 's', was dropped: -1 to -3 points a year here); the break re-entry rule (Oct 27, 2026, mtl/reentry.py); the whipsaw switch picks only TLT / GLD (Oct 28, 2026); the Fed-day hold (Oct 31, 2026, mtl/fedday.py); the buying-volume weighting (Nov 2, 2026, mtl/volweight.py)
+    'NBnovw': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), fedday=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True, nospy=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # NBup before the buying-volume weighting (Nov 2, 2026)
     'NBnofd': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True, nospy=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the Fed-day hold (Oct 31, 2026)
     'NBre': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the whipsaw switch dropped SPY (Oct 27, 2026: + the break re-entry rule)
     'NBfz': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan before the break re-entry rule (Oct 26, 2026: + the buy freeze and green light)
@@ -2881,6 +2882,61 @@ def run_one(args):
         opts['buy_when'] = _buy_when
         opts['wait_buy'] = True
         opts['buy_max_rank'] = pb_.get('max_rank', 5)
+    vw_ = opts.pop('vw', None)
+    if vw_:
+        # the buying-volume weighting (the live repo's mtl/volweight.py, default since Nov 2, 2026): at each trade a held
+        # stock in the top `top` of the eligible members (a year of prices) by shares traded on up closes / on the other
+        # closes over `look` sessions gets `mult` shares of the stock money, every other stock one
+        _z = _np.load(os.path.join(SIDE_, 'stock_volume.npz'), allow_pickle=True)
+        _di = {str(d_)[:10]: i_ for i_, d_ in enumerate(_z['dates'].tolist())}
+        _ti = {t_: i_ for i_, t_ in enumerate(_z['tickers'].tolist())}
+        _VM = _z['vol']
+        cal_w, px_w, el_w = P['calendar'], P['prices'], opts['eligible']
+        _ci = _np.array([_di.get(str(d_)[:10], -1) for d_ in cal_w])
+        _pa, _va, _wc = {}, {}, {}
+        lk_ = vw_.get('look', 63)
+
+        def _parr(t):
+            if t not in _pa:
+                m_ = px_w[t]
+                _pa[t] = _np.array([m_.get(d_) or _np.nan for d_ in cal_w], float)
+            return _pa[t]
+
+        def _varr(t):
+            if t not in _va:
+                _va[t] = _np.where(_ci >= 0, _VM[_ti[t]][_np.maximum(_ci, 0)], _np.nan).astype(float) if t in _ti else None
+            return _va[t]
+
+        def _udv(t, k):
+            p_ = _parr(t)[k - 252:k + 1]
+            v_ = _varr(t)
+            if v_ is None or not _np.isfinite(p_[-(lk_ + 1):]).all() or not _np.isfinite(p_[0]):
+                return None
+            up = _np.diff(_np.log(p_[-(lk_ + 1):])) > 0
+            w = v_[k - lk_ + 1:k + 1]
+            dn = _np.nansum(_np.where(~up, w, 0))
+            return _np.nansum(_np.where(up, w, 0)) / dn if dn > 0 else None
+
+        def _wcut(k):
+            if k not in _wc:
+                d_ = cal_w[k]
+                rows = {}
+                if k >= 252:
+                    for t in px_w:
+                        if t != 'SPY' and px_w[t].get(d_) and el_w(t, d_):
+                            x_ = _udv(t, k)
+                            if x_ is not None and _np.isfinite(x_):
+                                rows[t] = x_
+                _wc[k] = (rows, _np.quantile(list(rows.values()), 1 - vw_.get('top', 1 / 3)) if len(rows) > 30 else None)
+            return _wc[k]
+        _tn = opts.get('top_n', 5)
+
+        def _vw_w(target, k):
+            rows, th = _wcut(k)
+            m_ = {t: (vw_['mult'] if th is not None and t in rows and rows[t] >= th else 1.0) for t in target}
+            tot = sum(m_.values())
+            return {t: m_[t] / tot * len(target) / _tn for t in target}
+        opts['weighting'] = _vw_w
     st_ = opts.pop('sec_top', None)
     if st_:
         import csv as _csv

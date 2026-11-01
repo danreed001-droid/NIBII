@@ -27,8 +27,8 @@ START = '2026-10-14'            # the day the current default plan (with the reb
 SLIP = 0.0015                   # per side, as in the backtest
 CASH = 'CASH'
 RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/reentry.py', 'mtl/pricebreak.py', 'mtl/fractal.py', 'mtl/narrow.py', 'mtl/lowerhigh.py', 'mtl/fedday.py',
-              'mtl/news.py', 'mtl/structure.py', 'mtl/universe.py', 'mtl/fade.py', 'mtl/calendar_nyse.py')
-SLOTS = 5                       # the Boost list's slots: each stock is a fifth, an empty slot (fading filter) is cash
+              'mtl/volweight.py', 'mtl/news.py', 'mtl/structure.py', 'mtl/universe.py', 'mtl/fade.py', 'mtl/calendar_nyse.py')
+SLOTS = 5                       # the Boost list's slots: each stock is a fifth (or its buying-volume share), an empty slot (fading filter) is cash
 SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (settings, not page code)
 CLOSE_ET = time(16, 15)             # a decision is logged only after the close it is read from
 
@@ -36,7 +36,8 @@ CLOSE_ET = time(16, 15)             # a decision is logged only after the close 
 # whipsaw switch since Oct 16, 2026, the 3-month no-T-bills pick since Oct 19, 2026 and DBMF instead of plain cash since
 # Oct 20, 2026, the price-break rule since Oct 24, 2026, the buy freeze and green light since Oct 26, 2026 and the break re-entry
 # rule since Oct 27, 2026, the whipsaw switch without SPY since Oct 28, 2026; the Fed-day hold since Oct 31, 2026 is not in these
-# ranges: it moved the backtest by 0.3 points a year, inside their rounding) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026
+# ranges: it moved the backtest by 0.3 points a year, inside their rounding; nor is the buying-volume weighting since Nov 2, 2026, which
+# added 2.0 points a year from 2000 - the ranges are a little low for it) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026
 # (engine NBup, 40.4% a year on the real daily member lists since Oct 26, 2026; 46.1% on the lists rebuilt from
 # Wikipedia's changes before that) - 0.15% per side, every window of that
 # length: return percentiles, share ahead of SPY, the 1-in-10 shortfall against SPY, and the worst drop inside the window
@@ -70,11 +71,13 @@ def fingerprint(root):
     return hashlib.sha256(b'\0'.join(parts)).hexdigest()[:16], files
 
 
-def weights(mode, half, stocks, slot=None):
+def weights(mode, half, stocks, slot=None, sw=None):
     """Target weights after the next close: a fifth per Boost-list stock while the mode is 'boost' (an empty
     slot, e.g. a stock the fading filter skipped, is cash, or `slot` - the haven pick a buy freeze puts there,
     mtl/fractal.py since Oct 24, 2026; WHIP_SHARE of the account in `half` during the whipsaw switch, all of it since
-    Oct 16, 2026), otherwise all in the mode's asset (or cash)."""
+    Oct 16, 2026), otherwise all in the mode's asset (or cash). sw: {stock: share of the stock part} from the
+    buying-volume weighting (mtl/volweight.py, since Nov 2, 2026; summing to len(stocks) / SLOTS) in place of the
+    equal fifths, used when it covers every stock."""
     if mode != 'boost':
         return {mode or CASH: 1.0}
     if half and WHIP_SHARE >= 1:
@@ -84,18 +87,21 @@ def weights(mode, half, stocks, slot=None):
         return {CASH: 1.0}
     part = 1 - WHIP_SHARE if half else 1.0
     each = part / max(SLOTS, len(stocks))
-    w = {t: each for t in stocks}
-    if part - each * len(stocks) > 1e-12:
-        w[slot or CASH] = part - each * len(stocks)
+    if sw and all(sw.get(t) for t in stocks):
+        w = {t: part * sw[t] for t in stocks}
+    else:
+        w = {t: each for t in stocks}
+    if part - sum(w.values()) > 1e-9:
+        w[slot or CASH] = part - sum(w.values())
     if half:
         w[half] = w.get(half, 0.0) + WHIP_SHARE
     return w
 
 
-def decision(day, mode, half, stocks, slot=None):
+def decision(day, mode, half, stocks, slot=None, sw=None):
     mode = mode or 'boost'
     half = half if mode == 'boost' else None
-    return dict(d=day, mode=mode, half=half, list=sorted(stocks or []), w={k: round(v, 6) for k, v in weights(mode, half, stocks, slot).items()})
+    return dict(d=day, mode=mode, half=half, list=sorted(stocks or []), w={k: round(v, 6) for k, v in weights(mode, half, stocks, slot, sw).items()})
 
 
 def after_close(day, now=None):

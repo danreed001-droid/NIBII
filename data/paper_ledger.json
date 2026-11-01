@@ -501,6 +501,29 @@
     "scripts/momentum_scan.py (settings)": "c10bba062f81"
    },
    "what": "Fed-day hold (mtl/fedday.py): a decision to leave stocks whose trade would come at the close just before a scheduled Fed decision day (data/fomc_dates.json) waits one session, so the trade is at the decision day's close; it never moves the account into stocks; backtest on the real member lists 40.7% a year from 2000 vs 40.3%, worst drop -35% either way"
+  },
+  {
+   "since": "2026-11-02",
+   "fingerprint": "89880b3536d394e6",
+   "files": {
+    "mtl/momentum.py": "3759b9201678",
+    "mtl/rotation.py": "abbce15386b6",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/reentry.py": "e28fdda2a329",
+    "mtl/pricebreak.py": "20d70e5b7401",
+    "mtl/fractal.py": "936e82e39874",
+    "mtl/narrow.py": "2afdaea019ae",
+    "mtl/lowerhigh.py": "f950e464a79f",
+    "mtl/fedday.py": "9803dbb7512f",
+    "mtl/volweight.py": "2622a3df3c70",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "93bbda358364",
+    "mtl/fade.py": "eed144f30a67",
+    "mtl/calendar_nyse.py": "f968ab11e45a",
+    "scripts/momentum_scan.py (settings)": "c10bba062f81"
+   },
+   "what": "Buying-volume weighting (mtl/volweight.py): at each trade a held stock in the top third of the S&P 500 by shares traded on up days over shares traded on its other days (3 months) gets twice the money of the others; the stocks, slots and timing are unchanged; backtest on the real member lists 42.7% a year from 2000 vs 40.7%, worst drop -34% vs -35%; on probation"
   }
  ]
 }

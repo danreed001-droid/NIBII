@@ -735,7 +735,9 @@ __ISSUES__
     var X = D.plan && D.plan.auto && D.plan.auto.boostx, buy = esc(rotName(RT.mode)) + ' (rotation)';
     if (RT.mode === 'boost' && X && X.holdings && X.holdings.length) {   // back into stocks: name them, and any cash slot
       var sk = (X.fade && X.fade.skipped) || [], open = Math.max(0, 5 - X.holdings.length);
-      buy = X.holdings.map(esc).join(', ') + ' (20% each' + (open ? '; keep ' + open * 20 + '% in cash' + (sk.length ? ', ' + sk.map(function (s) { return esc(s.t); }).join(', ') + ' fading' : '') : '') + ')';
+      var VWr = {}; ((X.vw && X.vw.stocks) || []).forEach(function (s) { VWr[s.t] = s.w; });   // rule 12: the buying-volume weights
+      var eqw = !X.holdings.some(function (t) { return VWr[t] && Math.abs(VWr[t] - 0.2) > 1e-6; });
+      buy = (eqw ? X.holdings.map(esc).join(', ') + ' (20% each' : X.holdings.map(function (t) { return esc(t) + ' ' + Math.round((VWr[t] || 0.2) * 1000) / 10 + '%'; }).join(', ') + ' (buying-volume weights') + (open ? '; keep ' + open * 20 + '% in cash' + (sk.length ? ', ' + sk.map(function (s) { return esc(s.t); }).join(', ') + ' fading' : '') : '') + ')';
     }
     return '<span class="tag sell">sell ' + esc(rotName(RT.held)) + '</span><span class="tag buy">buy ' + buy + '</span>';
   }
@@ -961,6 +963,28 @@ __ISSUES__
       'On the real S&amp;P 500 member lists the plan made 40.7% a year from 2000 vs 40.3% without it, 45.6% vs 45.4% from 2010, 58.2% vs 58.0% from 2016 and 84.4% vs 83.7% from 2020, the same worst drop (t-stat 1.6 on monthly returns from 2000). It acted 6 times in 26 years, so it rests on few cases. ' +
       'Next decision day: ' + (F.next ? f(F.next) : 'unknown') + (F.covered ? '' : ' <b>(the date list runs out on ' + (F.last ? f(F.last) : '?') + ': add the next year’s dates)</b>') + '.</span>' + feddayCard(F.card, f);
   }
+  function vwNote(RT) {   // the buying-volume weighting
+    var V = RT && RT.vw;
+    if (!V) return '';
+    var f = function (d) { return fmtDate(d, { month: 'short', day: 'numeric', year: 'numeric' }); };
+    var pc = function (x) { return (x >= 0 ? '+' : '−') + Math.abs(x * 100).toFixed(1) + '%'; };
+    var by = (V.stocks || []).map(function (s) {
+      return '<b>' + esc(s.t) + '</b> ' + (s.ratio == null ? 'no reading' : s.ratio.toFixed(2)) + (s.buying ? ' <b class="pos">2×</b>' : '') + ' → ' + Math.round(s.w * 1000) / 10 + '% of the stock money';
+    }).join(' · ');
+    return '<br><span class="pos"><b>12. Buying-volume weighting</b> (default since Nov 2, 2026, on probation)</span>' +
+      '<span class="muted">: at each trade, a held stock whose shares traded on up days over the last ' + V.look + ' sessions (3 months), divided by those traded on its other days, is in the top third of the S&amp;P 500 gets twice the money of the others; the stocks, the slots (an empty one stays a fifth in cash) and the timing don’t change, and with none or all of them buying the split is equal. ' +
+      'Heavy volume on the up days and light volume on the pullbacks tends to mean steady buying, and those runs have tended to last. On the real S&amp;P 500 member lists the plan made 42.7% a year from 2000 vs 40.7% with equal weights, 47.0% vs 45.5% from 2010, 60.0% vs 57.8% from 2016 and 86.6% vs 83.8% from 2020, worst drop −34% vs −35%, better in 15 of 27 years and still ahead at double trading costs (34.1% vs 32.7%); every nearby setting tested (1.5×–3×, top quarter to top half, 1 to 6 months) was ahead too. It was found among many ideas and did not show up in eight foreign markets, so it is on probation. ' +
+      '<br>At ' + f(V.d) + ' (top third from ' + (V.threshold != null ? V.threshold.toFixed(2) : '–') + ' across ' + V.n + ' stocks): ' + (by || 'no stocks held') + '.</span>' + vwCard(V.card, f, pc);
+  }
+  function vwCard(C, f, pc) {   // the weighting's probation check: weighted vs equal parts at each trade
+    if (!C) return '';
+    var rows = (C.rows || []).slice(0, 6).map(function (r) { return f(r.d) + (r.open ? ' (open)' : '') + ': ' + pc(r.w) + ' vs ' + pc(r.eq) + ' equal'; }).join(' · ');
+    var v = C.verdict === 'review: remove' ? '<b class="neg">It trails equal weights by more than the backtest’s 1-in-10 worst year: review it for removal.</b>' :
+      C.verdict === 'keep' ? 'A year in, it is within the backtest’s range: keep.' :
+      'Too early: it is judged after a year (' + C.days + ' days so far); trailing equal weights by more than the backtest’s 1-in-10 worst year (' + (C.past && C.past.p10 != null ? pc(C.past.p10) : '–') + ') → review it for removal.';
+    var bt = C.past && C.past.years ? ' This scanner’s own replay before the start: the weighting was ahead over ' + C.past.aheadYears + ' of ' + C.past.years + ' one-year spans (median ' + pc(C.past.median) + ').' : '';
+    return '<br><span class="muted"><b>Probation check</b> (since ' + f(C.since) + '): ' + C.trades + ' trade' + (C.trades === 1 ? '' : 's') + (C.trades ? ', weighted ahead ' + C.won + ', behind ' + C.lost + ', ' + pc(C.edge) + ' vs equal so far' : '') + (rows ? ' (' + rows + ')' : '') + '. ' + v + bt + '</span>';
+  }
   function feddayCard(C, f) {   // the hold's probation check: did waiting pay on each decision day?
     if (!C) return '';
     var pc = function (x) { return (x >= 0 ? '+' : '−') + Math.abs(x * 100).toFixed(2) + '%'; };
@@ -1102,7 +1126,7 @@ __ISSUES__
       ' Out of stocks on ' + RT.daysOut + ' of ' + RT.days + ' sessions since ' + SINCE + ', ' + RT.switches + ' switches. ' + (bt('rotation') && bt('boost100') ? 'Backtest since ' + TSINCE + ' (stocks in the S&amp;P 500 at the time): ' + pct(bt('rotation').annual, 1) + ' a year, worst drop ' + pct(bt('rotation').maxDD, 0) + ' vs ' + pct(bt('boost100').annual, 1) + ' and ' + pct(bt('boost100').maxDD, 0) + ' for Boost 100%. ' : '') +
       'Since Oct 26, 2026 the backtest uses the real day-by-day S&amp;P 500 member lists, with prices for former members (a few series that belonged to other companies left out). On them the current plan made 40.4% a year from 2000 (25.5% after tax), worst drop −35% (2006), Sharpe 1.23; 44.3% from 2010, 59.5% from 2016 and 70.1% from 2020. The with-and-without figures in the rule notes are on these lists unless they say otherwise. ' +
       'In the 2000–2026 audit on the real member lists (0.15% slippage, 37%/20% tax; TLT / GLD spliced onto a Treasury fund / gold futures before they existed) $100,000 grew to about $42.8M after tax: 40.4% a year before tax (25.5% after), worst drop −35%. On the old member lists (before Oct 26, 2026) it showed $58.9M after tax vs $5.17M for Boost 100%: 42.9% a year before tax (27.0% after) vs 24.5% (15.9%), worst drop −34% vs −63%; from 2010 45.6% vs 26.2%, from 2016 54.6%, from 2020 80.5% vs 53.3% (all with the surge exit below, the whipsaw switch with its rate/gold regime, TLT / GLD picked by their 6-month gain, the narrow-market cash week, the lower-high exit into gold or bonds on both its triggers, no T-bills (gold or bonds by their 3-month gain, else DBMF managed futures), the rebound rule and the fading-energy filter, whose skipped stocks the whipsaw check counts as if bought, and the whole account in the whipsaw switch’s asset; with plain cash instead of DBMF (the default until Oct 20, 2026) 42.4% and $54.9M; with half of it there 42.0% and $53.0M; without the filter 40.6% and $43.4M; without the rebound rule 41.1% and $47.0M; with T-bills 38.8% and $34.4M, worst drop −32%; with plain cash instead of T-bills 38.3% and $32.2M; with one stretch per lower high 37.9% and $30.4M; with T-bills in the lower-high exit 37.5% and $28.9M; without the lower-high exit 36.7% and $26.4M, worst drop −35%. Earlier steps, measured before the rebound rule: without the cash week as well 30.6% and $11.9M; with the old dip add 30.4% and $11.7M, so it was dropped; picking the steepest gradient instead 29.9% and $10.8M, without the regime 29.7% and $10.5M, without the half-switch 29.0% and $9.7M, before the surge exit 27.4% and $7.8M). Corrected Oct 13, 2026: two tickers (EP, CPWR) had been priced with the histories of other companies that reuse the symbols and are now left out, which took about 5 points a year off the 2000 figures. Since Oct 14, 2026 the cash week reads the equal-weight index from 2003, so the audit includes three 2006–07 cash weeks the first run missed (37.0% before). The thresholds were picked on that same history, so expect less: an overfitting test across 599 tested versions (run before the lower-high exit was added) puts a realistic plan at about 18–25% a year before tax. The 6-month pick also did better than the gradient pick when replayed in Japan, the UK, Germany, India and Hong Kong (UK 13.1% vs 11.2% a year).' +
-      (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '') + whipNote(RT) + narrowNote(RT) + lowerhighNote(RT) + noBillsNote(RT) + reboundNote(RT) + pricebreakNote(RT) + fractalNote(RT) + reentryNote(RT) + feddayNote(RT);
+      (RT.log && RT.log.length ? '<br><b>Switch log</b> (newest first): ' + RT.log.map(function (r) { return fmtDate(r[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + esc(rotName(r[1])) + ' → <b>' + esc(rotName(r[2])) + '</b> <span class="muted">(' + esc(why[r[3]] || r[3] || '') + ')</span>'; }).join(' · ') + '. ' : '') + whipNote(RT) + narrowNote(RT) + lowerhighNote(RT) + noBillsNote(RT) + reboundNote(RT) + pricebreakNote(RT) + fractalNote(RT) + reentryNote(RT) + feddayNote(RT) + vwNote(RT);
   }
   function fadeNote(A) {   // the fading-energy filter on new buys (rule 8)
     var X = A && A.boostx, F = X && X.fade;
@@ -1711,11 +1735,13 @@ __ISSUES__
         : MX === 'mine' && mine ? slotsFor(hs.map(function (h) { return h.t; }), mine) : hs.map(function (h) { return h.t; });
       if (mineBoost) { var sb = slotsFor(shown, mine); hs = shown.map(function (t) { return TBL[t] || { t: t }; }); shown = sb; }
       var gapOf = {}; if (BS) BS.gaps.forEach(function (g) { gapOf[g.t] = g.d; });
+      var VW = {}; if (useX && A && A.boostx && A.boostx.vw) A.boostx.vw.stocks.forEach(function (s) { VW[s.t] = s; });   // rule 12: the buying-volume weights
+      function amt(t) { return VW[t] && VW[t].w ? stocks * VW[t].w : per; }
       var rows = stocks > 0 ? shown.map(function (t, i) {
         if (!t) return '<tr><td><span class="sw" style="--c:var(--muted)"></span><b>Cash</b> <span class="muted">dropped ' + esc(hs[i].t) + '</span></td><td class="r">' + usd(per) + '</td><td></td></tr>';
         var h = TBL[t] || {}, swapped = t !== hs[i].t;
-        return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(t) + '</b> <span class="muted nm2">' + (swapped ? (BS && !mineBoost ? (gapOf[t] ? 'news boost (gap ' + fmtDate(gapOf[t], md) + ') instead of ' : 'boost list holds it instead of ') : 'swapped in for ') + esc(hs[i].t) : esc(h.n || '')) + '</span></td>' +
-          '<td class="r">' + usd(per) + '</td><td class="r muted">' + sh(per, h.close) + '</td></tr>';
+        return '<tr><td><span class="sw" style="--c:var(--s-strat)"></span><b>' + esc(t) + '</b>' + (VW[t] && VW[t].buying ? ' <span class="tag buy" title="buying volume in the top third: twice the money (rule 12)">2×</span>' : '') + ' <span class="muted nm2">' + (swapped ? (BS && !mineBoost ? (gapOf[t] ? 'news boost (gap ' + fmtDate(gapOf[t], md) + ') instead of ' : 'boost list holds it instead of ') : 'swapped in for ') + esc(hs[i].t) : esc(h.n || '')) + '</span></td>' +
+          '<td class="r">' + usd(amt(t)) + (VW[t] && VW[t].w ? ' <span class="muted">(' + Math.round(VW[t].w * (stocks / acct) * 1000) / 10 + '%)</span>' : '') + '</td><td class="r muted">' + sh(amt(t), h.close) + '</td></tr>';
       }).join('') : '<tr class="borrow"><td>Top 5 stocks — not held this week</td><td class="r">$0</td><td></td></tr>';
       rows += sleeve > 0 ? '<tr><td><span class="sw" style="--c:var(--s-plan)"></span><b>' + esc(SL.held) + '</b> <span class="muted">sleeve<span class="nm2"> · ' + esc(sp.n || '') + '</span></span></td>' +
         '<td class="r">' + usd(sleeve) + '</td><td class="r muted">' + sh(sleeve, sp.close) + '</td></tr>'
@@ -3086,6 +3112,7 @@ WALLST_OTHER = {
     'fzT': lambda o: f'<b>The buy freeze and green light on their own</b> (default since Oct 26, 2026): {_e(o["v"])}. A coin flip on the history, so they are on probation; the paper record decides.',
     'reT': lambda o: f'<b>The break re-entry rule on its own</b> (default since Oct 27, 2026): {_e(o["v"])}. It rests on 7 trades and was shaped after seeing a failure on the same history (the daily break alone bought back in two weeks before Lehman), so it is on probation.',
     'fdT': lambda o: f'<b>The Fed-day hold on its own</b> (a move out of stocks waits one session when its trade would land just before a scheduled Fed decision day; default since Oct 31, 2026): {_e(o["v"])}. It acted 6 times in 26 years, so it is on probation.',
+    'vwT': lambda o: f'<b>The buying-volume weighting on its own</b> (twice the money for a held stock whose up-day volume over down-day volume is in the top third of the S&amp;P 500; default since Nov 2, 2026): {_e(o["v"])}. It held at every nearby setting tested but did not show up in eight foreign markets, so it is on probation.',
     'nsT': lambda o: f'<b>The whipsaw switch without SPY on its own</b> (TLT or GLD only, else DBMF or cash; default since Oct 28, 2026): {_e(o["v"])}. It rests on a few stretches and is too small to call proven, so it is on probation.',
     'pbreakT': lambda o: f'<b>The price-break rule on its own:</b> {_e(o["v"])}. It rests on a handful of breaks (99 haven days in 27 years) and one idea tried many ways, so it is on probation.',
     'mfT': lambda o: f'<b>Managed futures instead of cash on its own</b> (DBMF, a fund that follows trends in stock, bond, currency and commodity futures, wherever the no-T-bills pick finds neither gold nor bonds up; default since Oct 20, 2026): {_e(o["v"])}. The fund began in May 2019, so the gain is from then on; it rests on a few stretches and is on probation.',
