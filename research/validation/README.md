@@ -410,3 +410,37 @@ Real member lists, 0.15% per side:
 The gain: 2000 +57.7% instead of +49.6%, 2025 +9.2 points, 2008 +4.3; behind in 2007 (-2.8), 2015 (-2.3) and 2001
 (-1.8). The 2000-02 wait for a new high is 19 months instead of 25. The 100-200 day averages all helped, but the
 t-stat is only 1.4 and two years (2000, 2025) carry most of the gain: on probation.
+
+## Overfitting among close versions (Nov 2, 2026)
+
+The earlier overfitting checks (deflated Sharpe 99.69%, PBO 2.3%, 1,388 versions) pooled many quite different
+strategies. On Nov 2, 2026 the same checks were run on close versions only: 324 distinct versions of the current plan
+tried that day on the real member lists (every rule switched off in turn, the variations of each new rule, per-stock
+exits, slower trading after losing streaks), monthly returns Jan 2000 - Oct 2026.
+
+| Check | All 324 | The 295 within 10 points of the best |
+|---|---|---|
+| Deflated Sharpe (N = the pool, 2,700 or 10,000 tried) | 100% (luck ~0.41-0.55) | 100% (luck ~0.16-0.21) |
+| PBO (CSCV, 16 blocks, 12,870 splits) | 51% | 56% |
+| Walk-forward 2005-2026: best Sharpe so far each year vs the typical version | 45.3% vs 45.9% | 45.3% vs 46.2% |
+
+The plan's monthly Sharpe (1.46) is far above what luck gives the best of that many tries, so the edge over doing
+nothing holds. But choosing between close versions is a coin flip: the in-sample winner does no better than the median
+out of sample, and the best Sharpe in the pool belongs to slow-trading variants that were rejected on their own merits.
+So each small rule added on Nov 2 (about +0.5 to +2 points a year, t 0.9-1.4) is on probation and is judged on the
+paper record, not the backtest.
+
+## Rejected Nov 2, 2026: per-stock exits and slower trading after losing streaks (the 2006 problem)
+
+In Jan-Apr 2006 the plan lost 8.8% while SPY gained 6.0% and every sector fund but health care rose: the 2005 leaders
+(AMD, FCX, AAPL) rolled over one by one. Against the current plan (48.2% a year from 2000, 2006 -16.9%):
+- **Per-stock exits** (22 versions: a 10-25% trailing stop, a close under the stock's own 50- or 100-day average, the
+  stock 10-20% behind SPY over 1-3 months; each always or only while SPY is above its 150-day average): best 48.2%
+  (behind SPY by 20% over 3 months, rising market only), behind from 2010, 2016 and 2020, 2006 -21.3%. The two that
+  helped 2006 (-8.1%, -8.4%) made 44.0% and 32.4% a year. Strong stocks drop 10-20% on the way in most years; the stop
+  sells the dip and the 20-session ban keeps the plan out.
+- **Holding SPY when the plan trails it** (192 replay versions): best +0.3 points, 2006 unchanged.
+- **Trading every 2, 4 or 8 weeks after a losing streak** (28 versions: 3 of 4 to 7 of 10 sales lost, or the last 5 or
+  8 sales down 3% or 6% on average; while the streak lasts or for 1, 3 or 6 months): best 49.5% (4 of 6, every 2
+  weeks) but ahead in 11 years and behind in 15, worst drop -31%, t 0.7, neighbours 43.5-49.0%; 2006 no better
+  (-15.9% at best). Every 4- or 8-week version lost 2-8 points a year.
