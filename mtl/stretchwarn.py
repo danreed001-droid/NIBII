@@ -1,4 +1,4 @@
-"""Stretched-and-warned exit (the default plan, from Nov 2, 2026, on probation): when 2 or more of the eight dominoes are
+"""Stretched-and-warned exit (the default plan, from Nov 2, 2026, on probation): when 3 or more of the eight dominoes are
 down (mtl/dominoes.py) and SPY is stretched far above its 1-year trend, a plan in stocks steps into its haven for 20
 sessions (4 weeks), starting from the first close where both are true.
 
@@ -8,11 +8,12 @@ the last reading holds. The dominoes read as on the scanner page; the Fed funds 
 FRED a day or more late, so those three are read one session late.
 
 Why: a market already stretched far above its trend while the dominoes have started to fall has no cushion. Strict
-test (S&P 500 members as of each date, 0.15% a side; Nov 2, 2026): 46.0% a year from 2000 against 44.7%, worst drop
--31% against -33%, Sharpe 1.39 against 1.33; the same from 2010 on, as it last acted in 2006. It acted only 3 times in
-26 years (Mar 2000, Oct and Nov 2006) and SPY's stretch in Mar 2000 was 2.05, just over the line: at 2.5 the rule never
-acts, at 1.5 (with 3 dominoes) it acts 14 times and costs 1.5 points a year. So it rests on a few trades and a line
-that happens to catch them: on probation.
+test (S&P 500 members as of each date, 0.15% a side; Nov 2, 2026): 45.8% a year from 2000 against 44.7%, the
+spring-2000 drop -17% against -33%, Sharpe 1.38 against 1.33, the same worst drop (-33%, 2006) and the same from 2001
+on. It acted only once in 26 years (Mar 24, 2000, the dot-com top; a start in Apr 2009 found the plan out of stocks) and
+SPY's stretch then was 2.05, just over the line: at 2.5 the rule never acts, at 1.5 it acts 14 times and costs 1.5
+points a year; with 2 dominoes it also acts twice in late 2006 (46.0%). So it rests on one trade and a line that
+happens to catch it: on probation.
 
 Pure: closes {date: close}, the dominoes' series {key: {date: value}}, a session calendar."""
 from bisect import bisect_right
@@ -20,7 +21,7 @@ from datetime import date
 
 import numpy as np
 
-K = 2            # dominoes down
+K = 3            # dominoes down
 Z = 2.0          # standard errors above the 52-week line
 WEEKS = 52
 HOLD = 20        # sessions in the haven

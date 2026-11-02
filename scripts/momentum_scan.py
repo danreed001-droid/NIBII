@@ -560,7 +560,7 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # volume within 21 sessions of each other -> the Boost list for 21 decision days (mtl/reentry.py, since Oct 27, 2026)
     re_days, re_sig = reentry_days(prices['SPY'], spy_vol, calendar, start, week_closed) if spy_vol else (set(), [])
     modes, why, half, re_held = apply_reentry(modes, why, half, re_days, calendar)
-    # ... and the stretched-and-warned exit: 2+ dominoes down and SPY 2+ standard errors above its 52-week line ->
+    # ... and the stretched-and-warned exit: 3+ dominoes down and SPY 2+ standard errors above its 52-week line ->
     # the haven pick (T-bills here, turned into the pick by no_bills below) for 20 sessions from the first such close,
     # if the plan holds stocks then (mtl/stretchwarn.py, since Nov 2, 2026)
     sw_counts, sw_z, sw_starts, sw_held = {}, {}, [], set()

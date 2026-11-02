@@ -551,7 +551,7 @@
   },
   {
    "since": "2026-11-02",
-   "fingerprint": "5296f7d86fb5ad7f",
+   "fingerprint": "6a8acf423e057ca2",
    "files": {
     "mtl/momentum.py": "3759b9201678",
     "mtl/rotation.py": "abbce15386b6",
@@ -562,7 +562,7 @@
     "mtl/narrow.py": "2afdaea019ae",
     "mtl/lowerhigh.py": "f950e464a79f",
     "mtl/fedday.py": "9803dbb7512f",
-    "mtl/stretchwarn.py": "8650d6604dcf",
+    "mtl/stretchwarn.py": "a24a93cfbad2",
     "mtl/dominoes.py": "aa3f0ad9b0a6",
     "mtl/volweight.py": "4f973002712e",
     "mtl/earnjump.py": "d90a7ad5e130",
@@ -573,7 +573,7 @@
     "mtl/calendar_nyse.py": "f968ab11e45a",
     "scripts/momentum_scan.py (settings)": "c10bba062f81"
    },
-   "what": "Stretched-and-warned exit (mtl/stretchwarn.py): when 2 or more of the eight dominoes are down and SPY's weekly close is 2+ standard errors above its 52-week trend line, the haven pick for 20 sessions from the first such close, if in stocks then; backtest on the real member lists 46.0% a year from 2000 vs 44.7%, worst drop -31% vs -33%, the same from 2010 on (it acted 3 times: Mar 2000, Oct and Nov 2006); on probation"
+   "what": "Stretched-and-warned exit (mtl/stretchwarn.py): when 3 or more of the eight dominoes are down and SPY's weekly close is 2+ standard errors above its 52-week trend line, the haven pick for 20 sessions from the first such close, if in stocks then; backtest on the real member lists 45.8% a year from 2000 vs 44.7%, the same worst drop (-33%) and the same from 2001 on (it acted once: Mar 2000); on probation"
   }
  ]
 }
