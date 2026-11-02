@@ -54,10 +54,12 @@ def _quantile(xs, q):
 
 
 class VolWeight:
-    """Ratios and the buying threshold at each close, cached by date (shared across runs on the same data)."""
+    """Ratios and the buying threshold at each close, cached by date (shared across runs on the same data). With
+    `extra` (the earnings-jump rule, mtl/earnjump.py, since Nov 2, 2026), each stock's share is also multiplied by its
+    factor: a stock with both gets 4 shares of the stock money against 1 for one with neither."""
 
-    def __init__(self, prices, volumes, eligible, top_n=5, mult=MULT, top=TOP, look=LOOK, benchmark='SPY'):
-        self.prices, self.volumes, self.eligible = prices, volumes, eligible
+    def __init__(self, prices, volumes, eligible, top_n=5, mult=MULT, top=TOP, look=LOOK, benchmark='SPY', extra=None):
+        self.prices, self.volumes, self.eligible, self.extra = prices, volumes, eligible, extra   # extra: e.g. mtl.earnjump.EarnJump
         self.top_n, self.mult, self.top, self.look, self.bench = top_n, mult, top, look, benchmark
         self._cut = {}
 
@@ -87,7 +89,8 @@ class VolWeight:
         summing to len(target) / top_n (an empty slot stays a fifth in cash), MULT shares for a buying stock."""
         if not target:
             return {}
-        m = {t: (self.mult if self.buying(t, calendar, k) else 1.0) for t in target}
+        m = {t: (self.mult if self.buying(t, calendar, k) else 1.0) * (self.extra.factor(t, calendar, k) if self.extra else 1.0)
+             for t in target}
         tot = sum(m.values())
         return {t: m[t] / tot * len(target) / self.top_n for t in target}
 
@@ -102,4 +105,5 @@ class VolWeight:
         return dict(d=calendar[k], threshold=round(th, 4) if th is not None else None, mult=self.mult, top=round(self.top, 4),
                     look=self.look, since=START, n=len(rows),
                     stocks=[dict(t=t, ratio=round(rows[t], 4) if t in rows else None, buying=self.buying(t, calendar, k),
-                                 w=round(w.get(t, 0.0), 6)) for t in stocks])
+                                 w=round(w.get(t, 0.0), 6), earn=self.extra.info(t, calendar, k) if self.extra else None)
+                            for t in stocks])

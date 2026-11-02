@@ -295,3 +295,26 @@ dependent on 2025. Against it: in a simple top-5 test on eight foreign markets (
 and hurt in 4 (a combined Europe pool also lagged), while in the same simple test on the S&P 500 it added 2.0 points a year; and it was found among many
 tested ideas. So it went in on probation: `mtl/volweight_check.py` scores each live trade against equal parts and after
 a year flags it for review if it trails by more than the backtest's 1-in-10 worst year.
+
+## Earnings-jump weighting (default since Nov 2, 2026)
+
+At each trade, a held stock that closed 3% or more higher on its last earnings report's reaction day (the report's own
+session for one out before or during it, the next session for one after the close), within the last 63 sessions, gets
+twice its money too (`mtl/earnjump.py`; it multiplies the buying-volume weighting: a stock with both gets 4 shares of
+the stock money against 1 for one with neither). Report dates: SEC 8-K item 2.02 filings from 2004
+(`data/earnings_dates.json`), kept current each night from Yahoo for the stocks the plan holds or ranks near the top.
+Engine `NBup` = with it, `NBnoej` = without.
+
+It came out of a search of about 20 second signals on top of the buying-volume weighting: smooth climbers (share of up
+days), residual strength, the biggest one-day gain, last week's pullback, seasonality, insider buying, industry
+strength, earnings disappointments and earnings jumps. Industry strength (top half) was also above t 1 (1.5) but
+deepened the worst drop to -38%; the others were under t 1 or negative.
+
+Real member lists, 0.15% per side: 44.7% a year from 2000 vs 42.7% without it, 49.4% vs 47.0% from 2010, 64.7% vs
+60.0% from 2016, 94.9% vs 86.6% from 2020, worst drop -33% vs -34%, Sharpe 1.33 vs 1.30, t-stat 1.8 on monthly returns
+(1.5 from 2005, when the dates start), better in 15 of 23 years. Nearby settings: jumps of 2% (t 2.0), 4% and 5%
+(t 1.1), windows of 90 and 126 sessions (t 1.9), 1.5x (t 1.9) and 3x (t 1.1) all ahead; a 42-session window was level
+(t 0.0). Against it: 2005-2015 was level (31.2% vs 31.1%), so nearly all of the gain is 2016-2026; there is no foreign
+earnings data to check it abroad; and it was found in a search. On probation: `volweight_check.scorecard` scores each
+live trade against the same trade without the rule, and after a year flags it if it trails by more than the scanner
+replay's 1-in-10 worst year.

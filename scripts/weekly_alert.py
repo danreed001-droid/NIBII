@@ -204,7 +204,8 @@ def vw_split(bx):
     st = ((bx or {}).get('vw') or {}).get('stocks') or []
     if not st or all(abs((x.get('w') or 0) - 0.2) < 1e-6 for x in st):
         return ''
-    return '; split the stock money ' + ', '.join(f"{x['t']} {x['w'] * 100:.1f}%" + (' (2x, buying volume)' if x.get('buying') else '') for x in st) + \
+    why = lambda x: ', '.join(r for r, on in (('2x buying volume', x.get('buying')), ('2x earnings jump', (x.get('earn') or {}).get('hit'))) if on)
+    return '; split the stock money ' + ', '.join(f"{x['t']} {x['w'] * 100:.1f}%" + (f' ({why(x)})' if why(x) else '') for x in st) + \
         ' (reset to these weights at the trade)'
 
 
