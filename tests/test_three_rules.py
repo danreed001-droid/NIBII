@@ -26,6 +26,17 @@ def test_near_high_doubles_a_stock_within_3pct_of_its_year_high():
     assert nh.info('B', cal, 299)['off'] < -0.15
 
 
+def test_near_high_doubling_is_off_while_spy_is_under_its_150_day_average():
+    cal = _cal(300)
+    px = {'A': {d: 100 + i * 0.1 for i, d in enumerate(cal)},
+          'SPY': {d: (100.0 if i < 290 else 90.0) for i, d in enumerate(cal)}}
+    nh = nearhigh.NearHigh(px)
+    assert nh.down(cal, 299) and nh.factor('A', cal, 299) == 1.0
+    assert nh.info('A', cal, 299)['hit'] and nh.info('A', cal, 299)['down']
+    assert not nh.down(cal, 289) and nh.factor('A', cal, 289) == 2.0
+    assert nh.spy_gap(cal, 299) < 0 < 1 + nh.spy_gap(cal, 299)
+
+
 def test_cap_spreads_the_excess():
     w = volweight.capped({'A': 8 / 12, 'B': 1 / 12, 'C': 1 / 12, 'D': 1 / 12, 'E': 1 / 12}, 0.40)
     assert abs(w['A'] - 0.40) < 1e-9 and abs(sum(w.values()) - 1) < 1e-9 and abs(w['B'] - 0.15) < 1e-9
