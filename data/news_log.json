@@ -4497,5 +4497,65 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-02-4-stocks-close-mixed-ahead-midterms",
+    "data": {
+      "addedAt": "2026-11-02",
+      "category": "Market",
+      "date": "2026-11-02",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "S&P 500 and Nasdaq close lower, Dow ekes out a gain, as stocks give back midday gains ahead of Tuesday's US midterm elections and megacap earnings from Apple and Palantir after the bell; tech, energy and health care led decliners (Oracle, Intel, Marvell, Lumentum), while oil's plunge (-7.6%) eased some inflation worries and the 10-year yield stayed little changed.",
+      "impact": "High",
+      "numbers": "S&P 500 -38.67 (-0.5%) to 7,541.40; Dow +213.67 (+0.4%) to 51,983.98; Nasdaq -272.68 (-1.1%) to 25,164.32; Russell 2000 -5.97 (-0.2%) to 2,805.88; WTI (Dec) -7.6% to ~$96.18; Brent (Jan) -8.1% to ~$104.29; 10Y UST ~4.90% (little changed)",
+      "order": 4,
+      "reaction": "Choppy, lower-volume session; stocks gave back gains into the close as investors de-risked ahead of midterms and earnings",
+      "region": "US",
+      "source": "https://krmg.com/2026/11/02/how-major-us-stock-indexes-fared-monday-11-2-2026/",
+      "tickers": "SPY, DIA, QQQ, IWM, ORCL, INTC, MRVL, LITE",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-02-5-apple-q4-beats-china-light",
+    "data": {
+      "addedAt": "2026-11-02",
+      "category": "Earnings",
+      "date": "2026-11-02",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Apple reports fiscal Q4 2026 results, the first full quarter under new CEO John Ternus: revenue and EPS beat consensus on record Sept-quarter iPhone sales and an all-time-high Services number, but Greater China revenue missed estimates and the company gave no explicit holiday-quarter guidance, leaving shares lower after hours.",
+      "impact": "High",
+      "numbers": "Revenue $114.48B (+12% y/y) vs ~$113.4B est; EPS $2.10 vs ~$1.98-1.99 est; iPhone revenue $57.58B (Sept-qtr record); Services $31.57B (all-time high); Greater China $17.54B (+21% y/y) vs ~$18.58B est",
+      "order": 5,
+      "reaction": "Shares initially down ~1% after hours despite the beat, as the China miss and lack of explicit holiday-quarter guidance offset the headline numbers (tariff refunds also flattered results)",
+      "region": "US",
+      "source": "https://247wallst.com/investing/2026/11/02/live-will-apple-crush-q4-earnings-tonight-in-new-ceo-john-ternuss-first-quarter/",
+      "tickers": "AAPL",
+      "time": "After-hours",
+      "vsExp": "Beat on revenue and EPS; missed on Greater China revenue"
+    }
+  },
+  {
+    "id": "2026-11-02-6-palantir-q3-revenue-doubles",
+    "data": {
+      "addedAt": "2026-11-02",
+      "category": "Earnings",
+      "date": "2026-11-02",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "Palantir reports Q3 2026 results after the close: revenue nearly doubled year-over-year on continued AI/commercial demand and beat estimates, and the company again raised full-year guidance across revenue, operating income and free cash flow.",
+      "impact": "High",
+      "numbers": "Revenue $2.313B (+96% y/y) vs $1.181B a year ago; GAAP diluted EPS $0.44 (vs $0.18 y/y); FY2026 revenue guidance raised to $8.530-8.534B (~91% growth); FY2026 adj. operating income raised to $5.245-5.249B; FY2026 adj. FCF raised to $4.8-5.0B; Q4 2026 revenue guide $2.649-2.653B",
+      "order": 6,
+      "reaction": "n/a - after-hours price reaction not independently confirmed at time of writing",
+      "region": "US",
+      "source": "https://www.tradingkey.com/news/earnings/262264979-",
+      "tickers": "PLTR",
+      "time": "After-hours",
+      "vsExp": "Double beat vs Street; raised guidance again"
+    }
   }
 ]
