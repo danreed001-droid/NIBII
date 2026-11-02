@@ -207,23 +207,23 @@
   },
   {
    "k": "cashT",
-   "v": "about 4.2 points a year over the plan without it from 2000 (t-stat 1.7 on monthly returns, real member lists): 40.4% a year from 2000 vs 36.2%, 44.3% vs 37.8% from 2010, 59.5% vs 49.6% from 2016 and 70.1% vs 59.2% from 2020; worst drop −35% vs −37% from 2000, −26% vs −37% from 2010, −26% vs −37% from 2016, −33% vs −37% from 2020"
+   "v": "about 4.9 points a year over the plan without it from 2000 (t-stat 2.0 on monthly returns, real member lists, Nov 1, 2026): 42.7% a year from 2000 vs 37.8%, 47.0% vs 39.3% from 2010, 60.0% vs 48.3% from 2016 and 86.6% vs 71.1% from 2020; worst drop −34% vs −33%"
   },
   {
    "k": "reboundT",
-   "v": "about level with the plan without it from 2000 (t-stat −0.1 on monthly returns, real member lists): 40.4% a year from 2000 vs 40.6%, 44.3% vs 44.4% from 2010, 59.5% vs 59.5% from 2016 and 70.1% vs 66.2% from 2020; worst drop −33% vs −34% from 2020"
+   "v": "about 1.0 point a year over the plan without it from 2000 (t-stat 0.6 on monthly returns, real member lists, Nov 1, 2026): 42.7% a year from 2000 vs 41.7%, 47.0% vs 45.5% from 2010, 60.0% vs 59.0% from 2016 and 86.6% vs 86.4% from 2020, the same worst drop"
   },
   {
    "k": "fadeT",
-   "v": "about 2.4 points a year over the plan without it from 2000 (t-stat 1.9 on monthly returns, real member lists): 40.4% a year from 2000 vs 38.0%, 44.3% vs 40.9% from 2010, 59.5% vs 54.1% from 2016 and 70.1% vs 65.3% from 2020; worst drop −35% vs −34% from 2000, −26% vs −25% from 2010, −26% vs −25% from 2016"
+   "v": "about 3.0 points a year over the plan without it from 2000 (t-stat 1.7 on monthly returns, real member lists, Nov 1, 2026): 42.7% a year from 2000 vs 39.7%, 47.0% vs 43.6% from 2010, 60.0% vs 54.2% from 2016 and 86.6% vs 83.4% from 2020, the same worst drop"
   },
   {
    "k": "lowerT",
-   "v": "about 4.2 points a year over the plan without it from 2000 (t-stat 1.6 on monthly returns, real member lists): 40.4% a year from 2000 vs 36.2%, 44.3% vs 40.8% from 2010, 59.5% vs 55.2% from 2016 and 70.1% vs 63.8% from 2020; worst drop −35% vs −48% from 2000"
+   "v": "about 4.5 points a year over the plan without it from 2000 (t-stat 1.7 on monthly returns, real member lists, Nov 1, 2026): 42.7% a year from 2000 vs 38.2%, 47.0% vs 42.9% from 2010, 60.0% vs 54.8% from 2016 and 86.6% vs 78.2% from 2020; worst drop −34% vs −45%"
   },
   {
    "k": "billsT",
-   "v": "about 3.1 points a year over T-bills (t-stat 3.1 on monthly returns) and about 3.4 over plain cash; it beat the T-bills version in 92/98/100% of simulated 5 / 10 / 20-year futures and plain cash in 93/99/100% (measured on the old member lists)"
+   "v": "about 3.9 points a year over T-bills on the real member lists (Nov 1, 2026: 42.7% vs 38.8% from 2000, 86.6% vs 75.2% from 2020, t-stat 3.1); earlier, about 3.1 points a year over T-bills (t-stat 3.1 on monthly returns) and about 3.4 over plain cash; it beat the T-bills version in 92/98/100% of simulated 5 / 10 / 20-year futures and plain cash in 93/99/100% (measured on the old member lists)"
   },
   {
    "k": "bills3T",
@@ -231,7 +231,7 @@
   },
   {
    "k": "mfT",
-   "v": "about 1.0 points a year over the plan with plain cash from 2000 (t-stat 2.1 on monthly returns, real member lists): 40.4% a year from 2000 vs 39.4%, 44.3% vs 42.6% from 2010, 59.5% vs 56.7% from 2016 and 70.1% vs 65.4% from 2020, the same worst drops"
+   "v": "about 1.0 point a year over the plan with plain cash from 2000 (t-stat 2.1 on monthly returns, real member lists, Nov 1, 2026): 42.7% a year from 2000 vs 41.7%, 47.0% vs 45.2% from 2010, 60.0% vs 57.1% from 2016 and 86.6% vs 81.3% from 2020, the same worst drops"
   },
   {
    "k": "pickT",
@@ -255,15 +255,15 @@
   },
   {
    "k": "pbreakT",
-   "v": "about 2.3 points a year over the plan without it from 2000 (t-stat 1.9 on monthly returns, real member lists): 40.4% a year from 2000 vs 38.1%, 44.3% vs 42.5% from 2010, 59.5% vs 58.9% from 2016 and 70.1% vs 68.2% from 2020, the same worst drops"
+   "v": "about 2.0 points a year over the plan without it from 2000 (t-stat 1.6 on monthly returns, real member lists, Nov 1, 2026): 42.7% a year from 2000 vs 40.7%, 47.0% vs 45.9% from 2010, 60.0% vs 58.5% from 2016 and 86.6% vs 84.7% from 2020, the same worst drops"
   },
   {
    "k": "fzT",
-   "v": "about 0.4 points a year under the plan without the buy freeze from 2000 (t-stat −0.7 on monthly returns, real member lists): 40.4% a year from 2000 vs 40.8%, 44.3% vs 44.6% from 2010, 59.5% vs 60.4% from 2016 and 70.1% vs 71.8% from 2020, the same worst drops; the green light alone: about 0.7 points a year over the plan without the green light from 2000 (t-stat 1.0 on monthly returns, real member lists): 40.4% a year from 2000 vs 39.7%, 44.3% vs 44.2% from 2010, 59.5% vs 60.0% from 2016 and 70.1% vs 69.6% from 2020, the same worst drops"
+   "v": "about 0.4 points a year over the plan without the buy freeze from 2000 (t-stat 0.5 on monthly returns, real member lists, Nov 1, 2026): 42.7% a year from 2000 vs 42.3%, 47.0% vs 46.6% from 2010, 60.0% vs 60.3% from 2016 and 86.6% vs 88.0% from 2020; and 0.9 over the plan without the green light (41.8%, t-stat 1.2); both cost a little from 2016 and 2020"
   },
   {
    "k": "reT",
-   "v": "about 0.7 points a year over the plan without it from 2000 (t-stat 0.7 on monthly returns, real member lists): 40.4% a year from 2000 vs 39.7%, 44.3% vs 43.6% from 2010, 59.5% vs 57.4% from 2016 and 70.1% vs 66.5% from 2020, the same worst drops"
+   "v": "about 0.9 points a year over the plan without it from 2000 (t-stat 1.0 on monthly returns, real member lists, Nov 1, 2026): 42.7% a year from 2000 vs 41.8%, 47.0% vs 45.9% from 2010, 60.0% vs 57.6% from 2016 and 86.6% vs 82.1% from 2020, the same worst drops"
   },
   {
    "k": "nsT",
@@ -271,7 +271,7 @@
   },
   {
    "k": "fdT",
-   "v": "ahead of the plan without it from every start (t-stat 1.6 on monthly returns, real member lists): 40.7% a year from 2000 vs 40.3%, 45.6% vs 45.4% from 2010, 58.2% vs 58.0% from 2016 and 84.4% vs 83.7% from 2020, the same worst drop (-35%)"
+   "v": "ahead of the plan without it from every start (t-stat 1.6 on monthly returns, real member lists, Nov 1, 2026): 42.7% a year from 2000 vs 42.3%, 47.0% vs 46.7% from 2010, 60.0% vs 59.7% from 2016 and 86.6% vs 85.8% from 2020, the same worst drop (−34%)"
   },
   {
    "k": "vwT",
