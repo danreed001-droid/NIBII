@@ -454,6 +454,8 @@ footer li { margin-bottom: 6px; }
 <div class="wrap">
   <div class="banner" id="banner"></div>
 
+  <p class="section-label" id="plan-hold-label">Holdings: the default plan <span class="hint" id="plan-hold-hint"></span></p>
+  <div class="holdings" id="plan-holdings"></div>
   <p class="section-label">Reference list: plain top 5 <span class="hint" id="hold-hint"></span></p>
   <div class="holdings" id="holdings"></div>
   <div class="card optcheck" id="optcheck" hidden></div>
@@ -1400,7 +1402,21 @@ __ISSUES__
   }
 
   // holdings
-  $('hold-hint').textContent = 'the basic ranking only, not your plan: your plan’s stocks and dollar amounts are in “Your plan” below' + (D.signalDay ? ' · after Monday’s trades' : '') + ' · 6-1m = return from 6 months to 1 month ago';
+  $('hold-hint').textContent = 'the basic ranking only, not your plan (your plan’s stocks are above)' + (D.signalDay ? ' · after Monday’s trades' : '') + ' · 6-1m = return from 6 months to 1 month ago';
+  (function () {   // the default plan's own holdings, with their weights (rule 12), or where the account sits when out of stocks
+    var RT = D.plan && D.plan.auto && D.plan.auto.rotation, W = RT && RT.whip, PH = D.planHoldings;
+    var hint = $('plan-hold-hint'), box = $('plan-holdings');
+    if (!PH) { $('plan-hold-label').hidden = true; box.hidden = true; return; }
+    var out = RT && RT.mode && RT.mode !== 'boost' ? RT.mode : (W && W.half && (W.part == null ? 0.5 : W.part) >= 1 ? W.half : null);
+    if (out) {
+      hint.textContent = 'decided at the last close, traded at the next close';
+      box.innerHTML = '<article class="hold"><div class="hold-top"><span class="rank">100%</span></div><div><div class="tk">' + esc(out) + '</div><div class="nm">' + (ROTN[out] || esc(out)) + '</div></div>' +
+        '<p class="small" style="margin:8px 0 0">The default plan is out of stocks' + (RT.mode === 'boost' ? ' (whipsaw switch)' : '') + ': the whole account in ' + (ROTN[out] || esc(out)) + '. Its stock list comes back when the rules say so.</p></article>';
+      return;
+    }
+    hint.textContent = (D.signalDay ? 'after Monday’s trades · ' : '') + 'the default plan · % = share of the stock money (2× = more buying than selling volume, rule 12) · dollar amounts in “Your plan” below';
+    box.innerHTML = PH.map(function (h) { return holdCard(h, true); }).join('');
+  })();
   (function () {
     var O = D.option;
     if (!O) return;
@@ -1426,10 +1442,10 @@ __ISSUES__
     var b = v.up30 != null ? '<span class="small muted"> ↑' + v.up30 + ' ↓' + v.down30 + '</span>' : '';
     return '<span style="white-space:nowrap">' + a + b + '</span>';
   }
-  $('holdings').innerHTML = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) {
+  function holdCard(h, plan) {
     var tap = h.chart ? ' data-t="' + esc(h.t) + '" tabindex="0" role="button" aria-expanded="false" aria-controls="swpanel" aria-label="' + esc(h.t) + ': show swing chart"' : '';
     return '<article class="hold"' + tap + '><div class="hold-top"><span class="rank">#' + (h.rank || '–') + '</span><span>' + (h.new ? '<span class="tag buy">buy Mon</span> ' : '') + (h.ndx ? '<span class="tag ndx" title="Nasdaq-100 only">NDX</span>' : '') + '</span></div>' +
-      '<div><div class="tk">' + esc(h.t) + (h.w ? ' <span class="small muted">' + Math.round(h.w * 100) + '%</span>' : '') + '</div><div class="nm" title="' + esc(h.n) + '">' + esc(h.n) + '</div></div>' +
+      '<div><div class="tk">' + esc(h.t) + (plan && h.w ? ' <span class="small"><b>' + Math.round(h.w * 1000) / 10 + '%</b></span>' + (h.buying ? ' <span class="tag buy" title="more buying than selling volume: twice the money (rule 12)">2×</span>' : '') : '') + '</div><div class="nm" title="' + esc(h.n) + '">' + esc(h.n) + '</div></div>' +
       '<div><div class="big ' + tone(h.score) + '">' + pct(h.score, 0) + '</div><div class="small">6-1m · ' + pct(h.vsSpy, 0) + ' vs SPY</div></div>' +
       spark(h.spark, 200, 44) +
       '<div class="kv"><span>Held</span><b>' + (h.new ? 'new' : (h.weeks || 0) + ' wk') + '</b><span>Since buy</span><b class="' + tone(h.sinceRet) + '">' + pct(h.sinceRet) + '</b>' +
@@ -1437,10 +1453,11 @@ __ISSUES__
       '<span title="Analysts’ estimate of this year’s earnings: change over 90 days · raised / cut in the last 30 days">Estimates</span><b>' + revCell(h.rev) + '</b></div>' +
       '<div style="display:flex;justify-content:space-between;align-items:center"><span class="small">' + esc(h.sec) + '</span>' + trend(h.trend) + '</div>' +
       (h.chart ? '<div class="chart-hint">Swing chart ›</div>' : '') + '</article>';
-  }).join('');
+  }
+  $('holdings').innerHTML = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) { return holdCard(h, false); }).join('');
 
   // swing chart panel: tap a card to open it
-  var HB = {}; D.table.forEach(function (r) { if (r.chart) HB[r.t] = r; }); D.holdings.forEach(function (h) { if (h.chart) HB[h.t] = h; });
+  var HB = {}; D.table.forEach(function (r) { if (r.chart) HB[r.t] = r; }); D.holdings.concat(D.planHoldings || []).forEach(function (h) { if (h.chart) HB[h.t] = h; });
   var openT = {};   // panel id -> ticker shown
   function svgEl(tag, a, txt) { var e = el(tag, a); if (txt != null) e.textContent = txt; return e; }
   function drawSwing(t, pid) {
@@ -1515,12 +1532,12 @@ __ISSUES__
     openT[pid] = null; $(pid).hidden = true;
     document.querySelectorAll(SWSEL[pid]).forEach(function (c) { c.setAttribute('aria-expanded', 'false'); });
   }
-  function openSwing(t, pid) {
+  function openSwing(t, pid, cardEl) {
     pid = pid || 'swpanel';
     if (openT[pid] === t) { closeSwing(pid); return; }
     openT[pid] = t; $(pid).hidden = false;
     // drop the chart down right under the tapped card (full row in the grid)
-    var card = document.querySelector(SWSEL[pid] + '[data-t="' + t + '"]');
+    var card = cardEl || document.querySelector(SWSEL[pid] + '[data-t="' + t + '"]');
     if (card) {   // after the last card on the tapped card's row, so the row stays intact
       var panel = $(pid), grid = card.parentNode;
       panel.hidden = true;            // measure the rows without the panel in the way
@@ -1533,8 +1550,10 @@ __ISSUES__
     drawSwing(t, pid);
     $(pid).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
-  $('holdings').addEventListener('click', function (e) { var c = e.target.closest('.hold[data-t]'); if (c) openSwing(c.getAttribute('data-t')); });
-  $('holdings').addEventListener('keydown', function (e) { var c = e.target.closest('.hold[data-t]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSwing(c.getAttribute('data-t')); } });
+  ['holdings', 'plan-holdings'].forEach(function (id) {
+    $(id).addEventListener('click', function (e) { var c = e.target.closest('.hold[data-t]'); if (c) openSwing(c.getAttribute('data-t'), null, c); });
+    $(id).addEventListener('keydown', function (e) { var c = e.target.closest('.hold[data-t]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSwing(c.getAttribute('data-t'), null, c); } });
+  });
   var swr; window.addEventListener('resize', function () { clearTimeout(swr); swr = setTimeout(function () { Object.keys(openT).forEach(function (pid) { if (openT[pid]) drawSwing(openT[pid], pid); }); }, 150); });
 
   // plan + your own weekly calls ("Mine", the human model)
