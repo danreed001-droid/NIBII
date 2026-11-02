@@ -2,52 +2,52 @@
  "equities": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.hourly reads downtrend for ES=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+   ],
+   [
+    "bear",
+    "Wall Street closed sharply lower on 30 October: S&P 500 7,559.67 (-2.08%) on Amazon, Intel and Reddit earnings (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 30 October: S&P 500 -2.08%, Nasdaq -2.92%, 10Y yield ~4.92% (-7bp) per the news log - risk-off with a bid in Treasuries, but no clean directional read for this asset beyond that, so neutral"
    ],
    [
     "bear",
@@ -56,52 +56,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for ES=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+   ],
+   [
+    "bear",
+    "Wall Street closed sharply lower on 30 October: S&P 500 7,559.67 (-2.08%) on Amazon, Intel and Reddit earnings (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 30 October: S&P 500 -2.08%, Nasdaq -2.92%, 10Y yield ~4.92% (-7bp) per the news log - risk-off with a bid in Treasuries, but no clean directional read for this asset beyond that, so neutral"
    ],
    [
     "bull",
@@ -110,52 +110,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for ES=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+   ],
+   [
+    "bear",
+    "Wall Street closed sharply lower on 30 October: S&P 500 7,559.67 (-2.08%) on Amazon, Intel and Reddit earnings (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 30 October: S&P 500 -2.08%, Nasdaq -2.92%, 10Y yield ~4.92% (-7bp) per the news log - risk-off with a bid in Treasuries, but no clean directional read for this asset beyond that, so neutral"
    ],
    [
     "bull",
@@ -167,51 +167,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for ZN=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+   ],
+   [
+    "bear",
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings-specific read for Treasuries, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "neu",
@@ -220,52 +220,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+   ],
+   [
+    "bear",
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings-specific read for Treasuries, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "bear",
@@ -274,52 +274,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+   ],
+   [
+    "bear",
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings-specific read for Treasuries, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "bear",
@@ -331,51 +331,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for GC=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+   ],
+   [
+    "bear",
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings-specific read for gold, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "neu",
@@ -384,52 +384,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+   ],
+   [
+    "bear",
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings-specific read for gold, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "bear",
@@ -438,52 +438,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+   ],
+   [
+    "bear",
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings-specific read for gold, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "bear",
@@ -495,51 +495,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for DX-Y.NYB on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+   ],
+   [
+    "bull",
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings-specific read for the dollar, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "neu",
@@ -549,51 +549,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for DX-Y.NYB on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+   ],
+   [
+    "bull",
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings-specific read for the dollar, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "neu",
@@ -603,51 +603,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for DX-Y.NYB on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+   ],
+   [
+    "bull",
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings-specific read for the dollar, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "neu",
@@ -659,51 +659,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for RTY=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 30 October selloff was Big Tech/earnings-led; the news log has no small-cap-specific catalyst, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "neu",
@@ -712,52 +712,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for RTY=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 30 October selloff was Big Tech/earnings-led; the news log has no small-cap-specific catalyst, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "bull",
@@ -766,52 +766,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for RTY=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 30 October selloff was Big Tech/earnings-led; the news log has no small-cap-specific catalyst, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "bull",
@@ -822,52 +822,52 @@
  "qqq": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.hourly reads downtrend for NQ=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+   ],
+   [
+    "bear",
+    "Nasdaq Composite fell 2.92% to 25,420.96 on 30 October, led by Intel (-29.26%) and Amazon/Reddit results (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "bear",
@@ -877,51 +877,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for NQ=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+   ],
+   [
+    "bear",
+    "Nasdaq Composite fell 2.92% to 25,420.96 on 30 October, led by Intel (-29.26%) and Amazon/Reddit results (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "neu",
@@ -931,51 +931,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for NQ=F on 30 October"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+   ],
+   [
+    "bear",
+    "Nasdaq Composite fell 2.92% to 25,420.96 on 30 October, led by Intel (-29.26%) and Amazon/Reddit results (news log)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
    ],
    [
     "neu",
