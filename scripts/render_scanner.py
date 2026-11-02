@@ -454,7 +454,7 @@ footer li { margin-bottom: 6px; }
 <div class="wrap">
   <div class="banner" id="banner"></div>
 
-  <p class="section-label">Current holdings <span class="hint" id="hold-hint"></span></p>
+  <p class="section-label">Reference list: plain top 5 <span class="hint" id="hold-hint"></span></p>
   <div class="holdings" id="holdings"></div>
   <div class="card optcheck" id="optcheck" hidden></div>
   <div class="card swpanel" id="swpanel" hidden></div>
@@ -1400,7 +1400,7 @@ __ISSUES__
   }
 
   // holdings
-  $('hold-hint').textContent = (D.signalDay ? 'after Monday’s trades · ' : '') + 'equal weight · 6-1m = return from 6 months to 1 month ago';
+  $('hold-hint').textContent = 'the basic ranking only, not your plan: your plan’s stocks and dollar amounts are in “Your plan” below' + (D.signalDay ? ' · after Monday’s trades' : '') + ' · 6-1m = return from 6 months to 1 month ago';
   (function () {
     var O = D.option;
     if (!O) return;
