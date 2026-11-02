@@ -109,7 +109,7 @@ def test_page_and_alert_show_the_weights():
     spec.loader.exec_module(wa)
     bx = dict(vw=dict(stocks=[dict(t='A', w=2 / 7, buying=True), dict(t='B', w=1 / 7, buying=False)]))
     s = wa.vw_split(bx)
-    assert 'A 28.6% (2x, buying volume)' in s and 'B 14.3%' in s
+    assert 'A 28.6% (2x buying volume)' in s and 'B 14.3%' in s
     assert wa.vw_split(dict(vw=dict(stocks=[dict(t='A', w=0.2), dict(t='B', w=0.2)]))) == ''
     src = open(os.path.join(os.path.dirname(__file__), '..', 'scripts', 'render_scanner.py')).read()
     assert 'function vwNote(RT)' in src and '12. Buying-volume weighting' in src and 'function amt(t)' in src

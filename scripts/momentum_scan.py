@@ -54,7 +54,7 @@ from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl import fedday, fedday_check, reentry_note  # noqa: E402
-from mtl import volweight, volweight_check  # noqa: E402
+from mtl import earnjump, volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
@@ -231,6 +231,25 @@ def ret(px, calendar, k, n):
 
 def r4(x):
     return None if x is None else round(x, 4)
+
+
+def refresh_earnings(dates, tickers, today):
+    """Add each ticker's past earnings report dates from Yahoo to `dates` (mtl/earnjump.merge). Returns (added, failed)."""
+    added, failed = 0, []
+    try:
+        import yfinance as yf
+    except ImportError:
+        return 0, list(tickers)
+    for t in tickers:
+        try:
+            e = yf.Ticker(t).get_earnings_dates(limit=8)
+            if e is None or not len(e):
+                failed.append(t)
+                continue
+            added += earnjump.merge(dates, t, earnjump.from_yahoo(list(e.index), today))
+        except Exception:   # noqa: BLE001
+            failed.append(t)
+    return added, failed
 
 
 def next_earnings(t):
@@ -821,7 +840,25 @@ def main():
     fz_rules = plan_rules(bench['SPY'], calendar, START)
     # ... and the buying-volume weighting (mtl/volweight.py, since Nov 2, 2026, on probation): at each trade a held stock in the
     # top third of the S&P 500 by up-day vs down-day volume over 3 months gets twice the money of the others
-    vw = volweight.VolWeight(prices, volumes, eligible, TOP_N)
+    # ... and the earnings-jump weighting (mtl/earnjump.py, since Nov 2, 2026, on probation): a held stock that closed 3%+ higher
+    # on its last earnings report's reaction day, within 63 sessions, gets twice its money too (the two multiply)
+    ej_dates = earnjump.load()
+    # dates refreshed from Yahoo for the stocks that can be in the list: the top of the ranking, today's lists and any stock
+    # with a recent news gap (the news boost can pick from anywhere in the S&P 500)
+    recent_gap = {t_ for t_, ds_ in gaps.items() if any(d_ >= calendar[max(0, K - 25)] for d_ in ds_)}
+    ej_t = sorted((set(t_ for t_, _ in now[:40]) | set(holdings) | set(hold_b) | set(after_b) | recent_gap) & set(prices))
+    ej_added, ej_failed = (refresh_earnings(ej_dates, ej_t, as_of) if '--no-earnings' not in sys.argv else (0, []))
+    if ej_added:
+        try:
+            with open(earnjump.PATH) as fh_:
+                ej_doc = json.load(fh_)
+        except (OSError, ValueError):
+            ej_doc = dict(about='Earnings report dates for the earnings-jump rule (mtl/earnjump.py).')
+        ej_doc.update(updated=as_of, dates=ej_dates)
+        with open(earnjump.PATH, 'w') as fh_:
+            json.dump(ej_doc, fh_, separators=(',', ':'))
+    ej = earnjump.EarnJump(prices, ej_dates)
+    vw = volweight.VolWeight(prices, volumes, eligible, TOP_N, extra=ej)
     rbx, hold_bx, after_bx = boost_run(lambda cal_: dict(plan_exits(prices, volumes, cal_, rules=fz_rules), weighting=vw.fn(cal_)))
     picks_bx = rbx['picks']
     # the whipsaw half-switch reads the same list with the fading-energy filter off (since Oct 16, 2026): a stock the filter
@@ -1125,7 +1162,15 @@ def main():
     vw_list = list(after_bx if signal_day else hold_bx)
     vw_k = K if signal_day or not wl_days else max(0, kidx.get(wl_days[-1], K + 1) - 1)
     auto['boostx']['vw'] = vw.card(vw_list, calendar, min(vw_k, K))
+    # the buying-volume check scores the whole tilt (both rules) against equal parts, as it did before the earnings rule
+    vw_plain = volweight.VolWeight(prices, volumes, eligible, TOP_N)
+    vw_plain._cut = vw._cut      # the same buying-volume cuts, already worked out for every trade
+    alt_ej = {d_: vw_plain.weights([t_ for t_, x_ in w_.items() if x_ > 0], calendar, max(0, kidx[d_] - 1)) for d_, w_ in wl_bx if d_ in kidx}
     auto['boostx']['vw']['card'] = volweight_check.scorecard(wl_bx, prices, calendar)
+    # the earnings-jump check: each trade with the earnings rule against the same trade with the buying-volume rule alone
+    auto['boostx']['vw']['earnCard'] = volweight_check.scorecard(wl_bx, prices, calendar, since=earnjump.START, alt=alt_ej)
+    auto['boostx']['vw']['earnRule'] = dict(jump=earnjump.JUMP, within=earnjump.WITHIN, mult=earnjump.MULT, since=earnjump.START,
+                                             refreshed=len(ej_t), added=ej_added, failed=len(ej_failed))
     # the page's top cards: the default plan's own stocks (tonight's list on a Friday) with their weights
     ent_bx = {}
     for d_, side_, t_ in trades_from_picks(picks_bx):
@@ -1136,6 +1181,7 @@ def main():
     for t_ in vw_list:
         h_ = row(t_, detail='chart')
         h_['w'], h_['buying'] = vw_by.get(t_, {}).get('w'), vw_by.get(t_, {}).get('buying')
+        h_['earnHit'] = bool((vw_by.get(t_, {}).get('earn') or {}).get('hit'))
         if signal_day and t_ not in hold_bx:
             h_['new'] = True
         else:
@@ -1392,6 +1438,14 @@ def main():
     if not crowd_gauge:
         data_issues.append('The CFTC futures positions could not be downloaded, so the crowding gauge is missing tonight (it never affects the plan).')
     vw_c = (auto['boostx'].get('vw') or {}).get('card') or {}
+    ej_c = (auto['boostx'].get('vw') or {}).get('earnCard') or {}
+    if ej_c.get('verdict') == 'review: remove':
+        data_issues.append(f"The earnings-jump weighting (on probation) trails the plan without it by {-ej_c['edge'] * 100:.1f}% over its first year, "
+                           f"worse than 9 in 10 of the backtest's years ({ej_c['past']['p10'] * 100:+.1f}%). Review it for removal (mtl/earnjump.py).")
+    ej_r = (auto['boostx'].get('vw') or {}).get('earnRule') or {}
+    if ej_r.get('refreshed') and ej_r.get('failed', 0) > ej_r['refreshed'] / 2:
+        data_issues.append(f"Earnings dates could not be refreshed from Yahoo for {ej_r['failed']} of {ej_r['refreshed']} stocks, so the earnings-jump "
+                           "rule may miss a report from the last few days (data/earnings_dates.json keeps the dates it has).")
     if vw_c.get('verdict') == 'review: remove':
         data_issues.append(f"The buying-volume weighting (on probation) trails equal weights by {-vw_c['edge'] * 100:.1f}% over its first year, "
                            f"worse than 9 in 10 of the backtest's years ({vw_c['past']['p10'] * 100:+.1f}%). Review it for removal (mtl/volweight.py).")

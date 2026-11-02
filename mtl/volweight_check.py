@@ -16,8 +16,9 @@ def _ret(prices, t, a, b):
     return p1 / p0 - 1 if p0 and p1 else 0.0
 
 
-def periods(weights_log, prices, calendar):
-    """[(trade date, next trade date or the calendar's last day, weighted, equal, open)] for each trade."""
+def periods(weights_log, prices, calendar, alt=None):
+    """[(trade date, next trade date or the calendar's last day, weighted, equal, open)] for each trade. alt: {trade date:
+    {stock: weight}} - the same trades under another weighting (e.g. without the earnings-jump rule) in place of equal parts."""
     out = []
     for i, (d, w) in enumerate(weights_log):
         stocks = {t: x for t, x in w.items() if x > 0}
@@ -28,7 +29,9 @@ def periods(weights_log, prices, calendar):
             continue
         r = {t: _ret(prices, t, d, end) for t in stocks}
         tot = sum(stocks.values())
-        out.append((d, end, sum(stocks[t] * r[t] for t in stocks) / tot, sum(r.values()) / len(r), i + 1 >= len(weights_log)))
+        a = {t: x for t, x in (alt or {}).get(d, {}).items() if t in stocks and x > 0}
+        other = sum(a[t] * r[t] for t in a) / sum(a.values()) if a else sum(r.values()) / len(r)
+        out.append((d, end, sum(stocks[t] * r[t] for t in stocks) / tot, other, i + 1 >= len(weights_log)))
     return out
 
 
@@ -51,10 +54,10 @@ def _years(rows):
     return out
 
 
-def scorecard(weights_log, prices, calendar, since=PROBATION_START):
+def scorecard(weights_log, prices, calendar, since=PROBATION_START, alt=None):
     """The live record from `since` (trades, how many the weighting won, its edge so far, compounded), the backtest's
     record before it, and the verdict once a year is in."""
-    rows = periods(weights_log, prices, calendar)
+    rows = periods(weights_log, prices, calendar, alt)
     live = [r for r in rows if r[0] >= since]
     past = [r for r in rows if r[0] < since]
     yrs = sorted(_years(past))
