@@ -1126,6 +1126,25 @@ def main():
     vw_k = K if signal_day or not wl_days else max(0, kidx.get(wl_days[-1], K + 1) - 1)
     auto['boostx']['vw'] = vw.card(vw_list, calendar, min(vw_k, K))
     auto['boostx']['vw']['card'] = volweight_check.scorecard(wl_bx, prices, calendar)
+    # the page's top cards: the default plan's own stocks (tonight's list on a Friday) with their weights
+    ent_bx = {}
+    for d_, side_, t_ in trades_from_picks(picks_bx):
+        if side_ == 'buy':
+            ent_bx[t_] = d_
+    vw_by = {x_['t']: x_ for x_ in auto['boostx']['vw']['stocks']}
+    plan_rows = []
+    for t_ in vw_list:
+        h_ = row(t_, detail='chart')
+        h_['w'], h_['buying'] = vw_by.get(t_, {}).get('w'), vw_by.get(t_, {}).get('buying')
+        if signal_day and t_ not in hold_bx:
+            h_['new'] = True
+        else:
+            e_ = ent_bx.get(t_)
+            bp_ = prices[t_].get(e_) if e_ else None
+            h_['since'] = e_
+            h_['sinceRet'] = r4(prices[t_][as_of] / bp_ - 1) if bp_ and prices[t_].get(as_of) else None
+            h_['weeks'] = sum(1 for p_ in picks_bx if e_ and p_[0] >= e_)
+        plan_rows.append(h_)
     # fading-energy filter: top-5 stocks at the last decision that weren't bought (their slot sits in cash)
     fade_k = K if signal_day else kidx[sig_d]
     fade_now = fade_check(prices, volumes, calendar)
@@ -1403,7 +1422,7 @@ def main():
         rev_t = list(dict.fromkeys([r_['t'] for r_ in table[:25]] + [h_['t'] for h_ in held_rows] + list(bx_hold)))
         print(f"Fetching estimate revisions for {len(rev_t)} stocks...", file=sys.stderr)
         revs = fetch_revisions(rev_t)
-        for r_ in table + held_rows:
+        for r_ in table + held_rows + plan_rows:
             if r_['t'] in revs:
                 r_['rev'] = revs[r_['t']]
         if signal_day and revs:
@@ -1421,7 +1440,7 @@ def main():
         tradeDate=trade_date.isoformat(),
         rule=dict(look=LOOK, skip=SKIP, topN=TOP_N, keepRank=2 * TOP_N, start=START),
         universe=dict(total=len(names), sp=sum(1 for t in names if t in sp), ndxOnly=sum(1 for t in names if t not in sp), picks='sp'),
-        spyScore=r4(spy_score), holdings=held_rows, preview=preview,
+        spyScore=r4(spy_score), holdings=held_rows, planHoldings=plan_rows, preview=preview,
         changes=dict(sell=[t for t in holdings if t not in preview], buy=[t for t in preview if t not in holdings]),
         trades=[dict(d=d_, side=s, t=t, n=names.get(t, ('', ''))[0], px=r4(prices[t].get(d_)))
                 for d_, s, t in trades[-24:]][::-1],
