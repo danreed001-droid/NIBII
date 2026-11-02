@@ -318,3 +318,26 @@ Real member lists, 0.15% per side: 44.7% a year from 2000 vs 42.7% without it, 4
 earnings data to check it abroad; and it was found in a search. On probation: `volweight_check.scorecard` scores each
 live trade against the same trade without the rule, and after a year flags it if it trails by more than the scanner
 replay's 1-in-10 worst year.
+
+## Stretched-and-warned exit (default since Nov 2, 2026)
+
+When 2 or more of the eight dominoes (`mtl/dominoes.py`: tech, small caps, banks, transports 10%+ under their 1-year
+highs, junk bonds 3%+ under, the Fed funds rate 1 point+ above a year earlier, an inverted yield curve in the last year,
+oil 50%+ above a year earlier; the three FRED series read a session late) are down and SPY's latest weekly close is 2 or
+more standard errors above the straight line through its last 52 weekly closes (logs), the plan holds the haven pick for
+20 sessions from the first close where both are true, if it holds stocks then (`mtl/stretchwarn.py`). Engine `NBup` =
+with it, `NBnosw` = without; the dominoes count per session is `dominoes_counts.json` in the side data
+(`research/backtest/side_data.py`).
+
+It came out of a run of exits built on the dominoes (Nov 2, 2026): the dominoes count alone or with crash triggers
+(0 of 40 ahead), the count arming a 10/15/20% stop on the plan (0 of 105), and the count with SPY or a haven at a
+weekly-RSI, channel or 200-day extreme (71 combinations); only the channel extreme with the count was ahead.
+
+Real member lists, 0.15% per side: 46.0% a year from 2000 vs 44.7% without it, the same from 2010 on (it last acted in
+2006), worst drop -31% vs -33%, Sharpe 1.39 vs 1.33, after tax 28.9% vs 28.1%, t-stat 1.6 on monthly returns. 2000:
++62.9% instead of +31.8% (spring drop -17% instead of -33%); 2006: -21.4% instead of -24.1%. It acted 3 times since 2000
+(Mar 24, 2000; Oct 27 and Nov 17, 2006; a fourth start, Apr 2009, found the plan already out of stocks). Nearby settings:
+3 or 4 dominoes 45.8% (only the 2000 start), 5 dominoes 44.7% (a start 3 sessions later in 2000, about level); a 1.5 line (3 dominoes) 43.2%,
+14 starts, a loser; a 2.5 line never acts; 40 sessions 46.3%. SPY's stretch at the 2000 top was 2.05, just over the
+line. So it rests on a few trades caught by a line set after seeing them: on probation, kept because it acts so rarely
+that it costs little when it is wrong.

@@ -13,6 +13,9 @@ narrow_warn.json [date, ...]                        the narrow-market warning da
                warning also fires in 2006-07, as it would have live. The Oct 2026 audit read them from 2007 on and
                missed those three cash weeks (two cost money in 2006, the Oct 2007 one caught the top); with
                them the default made about 0.5 points a year less from 2000.
+dominoes_counts.json {date: n}                      how many of the eight dominoes were down at each session
+               (mtl/stretchwarn.warn_counts, the FRED ones a session late) from 1985 histories, for the
+               stretched-and-warned exit (mtl/stretchwarn.py, since Nov 2, 2026).
 """
 import json
 import os
@@ -22,6 +25,7 @@ import yfinance as yf
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 from mtl.narrow import narrow_warnings  # noqa: E402
+from mtl import stretchwarn  # noqa: E402
 
 START = '1998-01-01'
 XASSET = ['CL=F', 'DX-Y.NYB', 'GC=F', 'GLD', 'HG=F', 'HYG', 'IEF', 'IWM', 'LQD', 'RSP', 'SPY', 'TLT', 'XLK', 'XLU',
@@ -60,6 +64,24 @@ def inverse(proxy, fund):
     return pre + [b[:5] for b in fund]
 
 
+def dominoes_counts():
+    """{date: dominoes down} from 1985 (Yahoo for the five price series, FRED's public files for the other three)."""
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'scripts'))
+    from event_patterns import fred
+    ser = {}
+    for k, t in stretchwarn.YF.items():
+        df = yf.download(t, start='1985-01-01', auto_adjust=True, progress=False)
+        c = df['Close']
+        c = c[c.columns[0]] if hasattr(c, 'columns') else c
+        ser[k] = {d.date().isoformat(): float(v) for d, v in c.dropna().items()}
+    for k, sid in stretchwarn.FRED.items():
+        ser[k] = fred(sid)
+    short = [k for k, v in ser.items() if len(v) < 8000]
+    if short:
+        raise SystemExit(f'dominoes: short history for {short}')
+    return stretchwarn.warn_counts(sorted(ser['tech']), ser)
+
+
 def main(out):
     os.makedirs(os.path.join(out, 'rates'), exist_ok=True)
     closes = lambda bs: {b[0]: b[4] for b in bs}
@@ -74,6 +96,9 @@ def main(out):
           'DBCX': splice(bars('^SPGSCI'), bars('DBC')), 'USOX': splice(bars('CL=F'), bars('USO')),
           'DBMF': [b[:5] for b in bars('DBMF')]}
     json.dump(sp, open(os.path.join(out, 'spliced.json'), 'w'))
+    dc = dominoes_counts()
+    json.dump(dc, open(os.path.join(out, 'dominoes_counts.json'), 'w'))
+    print('dominoes counts', min(dc), max(dc), len(dc))
     for k, v in sp.items():
         print(k, v[0][0], v[-1][0], len(v))
     print('xasset through', max(xa['SPY']), '· VIX through', max(xa['^VIX']), f'· {len(nw)} narrow-market warning days, last', nw[-1] if nw else None)

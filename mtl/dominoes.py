@@ -1,4 +1,6 @@
-"""Dominoes (information only): what had already fallen before past S&P 500 falls, and past times like now.
+"""Dominoes: what had already fallen before past S&P 500 falls, and past times like now. The card is information only,
+but the count of dominoes down is one of the two conditions of the stretched-and-warned exit (mtl/stretchwarn.py, since
+Nov 2, 2026), which reads it through readings().
 
 Eight dominoes, each down or not (lines fixed from the 2000, 2008, 2020 and 2022 domino charts, not fitted):
   tech, small caps, banks, transports   10%+ under their 1-year highs (Nasdaq composite, Russell 2000, Fidelity Select

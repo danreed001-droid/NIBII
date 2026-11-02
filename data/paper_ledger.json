@@ -548,6 +548,32 @@
     "scripts/momentum_scan.py (settings)": "c10bba062f81"
    },
    "what": "Earnings-jump weighting (mtl/earnjump.py): a held stock that closed 3%+ higher on its last earnings report's reaction day, within 63 sessions, gets twice its money too, multiplied with the buying-volume weighting; report dates in data/earnings_dates.json; backtest on the real member lists 44.7% a year from 2000 vs 42.7%, worst drop -33% vs -34%; on probation"
+  },
+  {
+   "since": "2026-11-02",
+   "fingerprint": "5296f7d86fb5ad7f",
+   "files": {
+    "mtl/momentum.py": "3759b9201678",
+    "mtl/rotation.py": "abbce15386b6",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/reentry.py": "e28fdda2a329",
+    "mtl/pricebreak.py": "20d70e5b7401",
+    "mtl/fractal.py": "936e82e39874",
+    "mtl/narrow.py": "2afdaea019ae",
+    "mtl/lowerhigh.py": "f950e464a79f",
+    "mtl/fedday.py": "9803dbb7512f",
+    "mtl/stretchwarn.py": "8650d6604dcf",
+    "mtl/dominoes.py": "aa3f0ad9b0a6",
+    "mtl/volweight.py": "4f973002712e",
+    "mtl/earnjump.py": "d90a7ad5e130",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "93bbda358364",
+    "mtl/fade.py": "eed144f30a67",
+    "mtl/calendar_nyse.py": "f968ab11e45a",
+    "scripts/momentum_scan.py (settings)": "c10bba062f81"
+   },
+   "what": "Stretched-and-warned exit (mtl/stretchwarn.py): when 2 or more of the eight dominoes are down and SPY's weekly close is 2+ standard errors above its 52-week trend line, the haven pick for 20 sessions from the first such close, if in stocks then; backtest on the real member lists 46.0% a year from 2000 vs 44.7%, worst drop -31% vs -33%, the same from 2010 on (it acted 3 times: Mar 2000, Oct and Nov 2006); on probation"
   }
  ]
 }

@@ -1,4 +1,5 @@
-"""Nightly: the dominoes card's data (data/dominoes.json, mtl/dominoes.py). Information only: the plan doesn't use it.
+"""Nightly: the dominoes card's data (data/dominoes.json, mtl/dominoes.py). Information only: the plan's
+stretched-and-warned exit (mtl/stretchwarn.py) reads the dominoes itself in the scan, from its own downloads.
 
 Fetches the long histories the eight dominoes need (back to 1985: the S&P 500, Nasdaq, Russell 2000, the banking,
 transport and high-yield funds, the Fed funds rate, the yield curve, oil, inflation) plus long Treasuries and gold for
@@ -74,7 +75,7 @@ def main():
     if short:
         log = health.load()
         health.add(log, today, 'dominoes', f"No full history for {', '.join(short)} tonight, so the dominoes card shows the "
-                   'last good reading (it never affects the plan).')
+                   'last good reading (the card never affects the plan; the scan reads the dominoes for its rule itself).')
         health.save(log)
         print(f"dominoes: short data for {', '.join(short)}; keeping {OUT}")
         return
