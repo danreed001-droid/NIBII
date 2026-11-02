@@ -193,6 +193,19 @@
    "typical": "23.6%"
   },
   {
+   "k": "nearPbo",
+   "n": 324,
+   "d": "2026-11-02",
+   "pbo": "51%",
+   "pboFam": "56%",
+   "nFam": 295,
+   "dsr": "100%",
+   "luck": "0.2–0.55",
+   "sharpe": "1.46",
+   "walk": "45.3%",
+   "typical": "45.9–46.2%"
+  },
+  {
    "k": "cashT",
    "v": "about 5.1 points a year over the plan without it from 2000 (t-stat 1.9 on monthly returns, real member lists, Nov 2, 2026): 48.2% a year from 2000 vs 43.1%, 52.6% vs 44.6% from 2010, 69.1% vs 56.1% from 2016 and 103.6% vs 85.2% from 2020; worst drop −28% vs −35%"
   },
