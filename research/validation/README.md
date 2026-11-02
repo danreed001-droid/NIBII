@@ -342,3 +342,45 @@ line 43.2%, 14 starts, a loser; a 2.5 line never acts; 40 sessions 46.3%. SPY's 
 over the line. As a replacement for the narrow-market cash week instead of an addition it lost (41.1% a year from
 2000, 41.9% from 2010). So it rests on one trade caught by a line set after seeing it: on probation, kept because it
 acts so rarely that it costs little when it is wrong.
+
+## Near-the-high weighting, hot-commodity buy skip and unemployment step-aside (default since Nov 2, 2026)
+
+Three rules added together, with a 40% cap on any one stock:
+- **Near-the-high weighting** (`mtl/nearhigh.py`): a held stock within 3% of its highest close of the last year gets
+  twice its money too. It multiplies with the buying-volume and earnings-jump weightings, and no stock may hold more than
+  40% of the account (`mtl/volweight.CAP`; the excess is spread over the others).
+- **Hot-commodity buy skip** (`mtl/hotcomm.py`): no new buy of a metals or energy stock (`data/industries_all.csv`)
+  while copper (metals) or crude oil (energy) is up 50%+ over 126 sessions. The slot stays in cash, as with the fading
+  filter, and the green light sets it aside.
+- **Unemployment step-aside** (`mtl/jobwarn.py`): FRED's UNRATE, each month used 36 days after its first day. When the
+  3-month average is 0.3 points+ above its low of the year before while SPY is under its 150-day average, the haven for
+  21 sessions from the first such close, if in stocks then.
+
+Engine `NBup` = with all three, `NBno3` = without (the side data gains `jobwarn.json`).
+
+They came out of a Nov 2, 2026 search of about 100 versions (sector and industry limits, keep ranks, buy filters,
+earnings-date filters, haven mixes, look-back windows, FRED macro and financial-stress signals as exits and as
+stay-ins), in which nothing was robust on its own:
+- near-the-high 2x at 3% / 5% gave 46.7% / 46.4% (t 0.6 / 0.5);
+- the unemployment step-aside at 0.3 / 21 sessions gave 47.3% (t 1.05, ahead in 3 years and behind in 4);
+- skipping metals and energy buys at 50% / 6 months gave 46.2% (t 1.5, nearly all of it 2021).
+
+Combined, with the cap, on the real member lists, 0.15% per side:
+
+| | 2000 | 2010 | 2016 | 2020 | 2000-12 / 2013-26 | Worst drop | Sharpe | After tax |
+|---|---|---|---|---|---|---|---|---|
+| With the three rules | 47.6% | 52.0% | 67.9% | 102.0% | 35.7 / 59.3 | -28% | 1.45 | 29.7% |
+| Without them | 45.8% | 49.4% | 64.7% | 94.9% | 34.7 / 56.7 | -33% | 1.38 | 28.8% |
+
+t-stat 0.9 on monthly returns; ahead in 14 years and behind in 13. Without the cap: 48.5% (t 1.35), but one stock
+held up to 62% of the account, and 40% or more in 40% of trades.
+
+Against it:
+- each setting was the best of its own search;
+- neighbours with the cap (near 2-7%, commodity 25-35% over 3 months, unemployment 0.4) gave 46.2-46.9% from 2000 but
+  fell behind from 2016 and 2020;
+- with unemployment at 0.5 it was behind from 2000 (45.1%);
+- the unemployment figures are today's revised ones, because ALFRED's first-release vintages could not be downloaded.
+
+So all three are on probation. The near-the-high rule is scored per trade like the other weightings
+(`volweight_check`, the scanner's nearCard).

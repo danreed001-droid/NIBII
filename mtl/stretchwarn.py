@@ -92,7 +92,7 @@ def out_days(calendar, starts, in_stocks, hold=HOLD):
     return out
 
 
-def apply_stretchwarn(modes, why, half, days, calendar, haven='BIL'):
+def apply_stretchwarn(modes, why, half, days, calendar, haven='BIL', reason='stretchwarn'):
     """New (modes, why, half, held): `haven` (T-bills, which the no-T-bills rule then turns into the haven pick) on the
     rule's days, with the switch reasons 'stretchwarn' (into the haven) and 'stretchwarn-end' (back to what the plan
     holds); held = the days it changed the holding."""
@@ -102,15 +102,15 @@ def apply_stretchwarn(modes, why, half, days, calendar, haven='BIL'):
         if d not in m and d not in days:
             continue
         if d in days and m.get(d, 'boost') == 'boost':
-            if prev != 'stretchwarn':
-                w[d] = 'stretchwarn'
+            if prev != reason:
+                w[d] = reason
             m[d] = haven
             h.pop(d, None)
             held.add(d)
-            prev = 'stretchwarn'
+            prev = reason
         else:
-            if prev == 'stretchwarn':
-                w.setdefault(d, 'stretchwarn-end')
+            if prev == reason:
+                w.setdefault(d, reason + '-end')
             prev = 'plan'
     return m, w, h, held
 
