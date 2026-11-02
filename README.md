@@ -380,8 +380,8 @@ Everything runs on GitHub Actions. What catches each way it can go quiet:
 | Yahoo misses a close or fails outright | The scan fills the gap from Tiingo's official closing prices (one request covers every US stock and fund) and from a saved copy of the last run's prices, kept in GitHub's Actions cache. The 10-year yield and the VIX come from FRED. The page lists every series that came from a backup. (`mtl/backup_prices.py`) |
 | A new yfinance release breaks downloads | Before each scan a two-ticker check runs; if it fails, the last version that worked here is reinstalled. (`scripts/check_yahoo.py`) |
 | The nightly run fails | A second run four hours later, an issue that @mentions you, and a line in the page's issues list. |
-| GitHub starts the run late | Three more scheduled tries follow the 6:20pm one (6:50pm, 7:35pm and 10:20pm New York summer time; an hour earlier in winter), each skipped once the night's decision is in. For a run on the dot, an outside timer can start it (below). |
-| The run never starts (GitHub pauses or skips it) | The morning watchdog opens an issue before the open, and, outside GitHub, healthchecks.io emails you when the nightly ping doesn't arrive. |
+| GitHub starts the run late, or drops it | Seven more scheduled tries follow the 6:20pm one (6:50pm, 7:35pm, 8:35pm, 9:25pm, 10:20pm, 11:35pm and 12:50am New York summer time; an hour earlier in winter), each skipped once the night's decision is in. For a run on the dot, an outside timer can start it (below). |
+| The run never starts (GitHub pauses or skips it) | The watchdog checks three times each weekday morning (3:23am, 6:47am and 9:31am New York summer time), so even when GitHub starts it hours late one check lands before the open; it opens one issue that morning, and a run that comes in later closes it. Outside GitHub, healthchecks.io emails you when the nightly ping doesn't arrive. |
 | A bad push or a damaged history | A monthly snapshot of the whole repository on the Releases page (last 12 kept). |
 
 Two repository secrets switch the outside parts on (Settings > Secrets and variables > Actions > New

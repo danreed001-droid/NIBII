@@ -64,6 +64,13 @@ def test_watchdog_reads_the_last_closed_session():
     assert cf.last_closed(datetime(2026, 10, 20, 13, 31, tzinfo=timezone.utc)) == '2026-10-19'   # Tue morning
     assert cf.last_closed(datetime(2026, 10, 19, 13, 31, tzinfo=timezone.utc)) == '2026-10-16'   # Mon morning
     assert cf.last_closed(datetime(2026, 10, 20, 2, 20, tzinfo=timezone.utc)) == '2026-10-19'    # backup run Mon evening
+    cf.last_logged = lambda: '2026-10-19'                      # Monday's run is in
+    for h, m in ((7, 23), (10, 47), (13, 31), (22, 5)):        # each morning check, and one GitHub started 9 hours late
+        assert cf.main('watch', datetime(2026, 10, 20, h, m, tzinfo=timezone.utc)) == 0
+    assert cf.main('gate', datetime(2026, 10, 20, 22, 25, tzinfo=timezone.utc)) == 0
+    cf.last_logged = lambda: '2026-10-16'                      # Monday's run is missing
+    assert cf.main('watch', datetime(2026, 10, 20, 7, 23, tzinfo=timezone.utc)) == 1
+    assert cf.main('watch', datetime(2026, 10, 19, 7, 23, tzinfo=timezone.utc)) == 0   # Mon morning wants Friday's
 
 
 def test_issues_card_shows_the_newest_five_and_links_the_rest():
