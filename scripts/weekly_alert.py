@@ -63,7 +63,10 @@ ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and
            'stretchwarn': "stretched-and-warned exit: 3 or more of the eight dominoes are down and SPY is 2+ standard errors "
                           "above its 52-week trend line; {to} for 20 sessions (the stronger of TLT / GLD over 3 months if it is up, "
                           "else DBMF managed futures)",
-           'stretchwarn-end': 'the stretched-and-warned stay is over: back to what the plan holds'}
+           'stretchwarn-end': 'the stretched-and-warned stay is over: back to what the plan holds',
+           'jobwarn': "unemployment step-aside: the unemployment rate has started to climb (its 3-month average 0.3 points above its "
+                      "low of the year before) while SPY is under its 150-day average; {to} for 21 sessions",
+           'jobwarn-end': 'the unemployment step-aside is over: back to what the plan holds'}
 
 
 def rot_name(m):
@@ -208,7 +211,8 @@ def vw_split(bx):
     st = ((bx or {}).get('vw') or {}).get('stocks') or []
     if not st or all(abs((x.get('w') or 0) - 0.2) < 1e-6 for x in st):
         return ''
-    why = lambda x: ', '.join(r for r, on in (('2x buying volume', x.get('buying')), ('2x earnings jump', (x.get('earn') or {}).get('hit'))) if on)
+    why = lambda x: ', '.join(r for r, on in (('2x buying volume', x.get('buying')), ('2x earnings jump', (x.get('earn') or {}).get('hit')),
+                                             ('2x near its high', (x.get('near') or {}).get('hit'))) if on)
     return '; split the stock money ' + ', '.join(f"{x['t']} {x['w'] * 100:.1f}%" + (f' ({why(x)})' if why(x) else '') for x in st) + \
         ' (reset to these weights at the trade)'
 

@@ -22,6 +22,7 @@ HIST = 252           # sessions of price history a stock needs to count
 MULT = 2.0           # a buying stock's share of the stock money, against 1 for the others
 TOP = 1 / 3          # the share of the eligible members counted as buying (the top third by the ratio)
 START = '2026-11-02'  # live from the trade at this close
+CAP = 0.40           # no stock above this share of the account (since Nov 2, 2026, with the near-the-high weighting)
 
 
 def ratio(px, vol, calendar, k, look=LOOK):
@@ -53,13 +54,36 @@ def _quantile(xs, q):
     return s[lo] + (s[hi] - s[lo]) * (pos - lo)
 
 
+def capped(w, cap):
+    """No weight above `cap`: the excess spread over the others in proportion to their weights (as the backtest, up to
+    10 passes)."""
+    w = dict(w)
+    for _ in range(10):
+        over = sum(max(0.0, x - cap) for x in w.values())
+        if over <= 1e-12:
+            break
+        under = [t for t, x in w.items() if x < cap]
+        w = {t: min(cap, x) for t, x in w.items()}
+        tu = sum(w[t] for t in under)
+        if not under or tu <= 0:
+            break
+        for t in under:
+            w[t] += over * w[t] / tu
+    return w
+
+
 class VolWeight:
     """Ratios and the buying threshold at each close, cached by date (shared across runs on the same data). With
-    `extra` (the earnings-jump rule, mtl/earnjump.py, since Nov 2, 2026), each stock's share is also multiplied by its
-    factor: a stock with both gets 4 shares of the stock money against 1 for one with neither."""
+    `extra` (the earnings-jump rule, mtl/earnjump.py, and the near-the-high rule, mtl/nearhigh.py, since Nov 2, 2026),
+    each stock's share is also multiplied by their factors (a stock with all three gets 8 shares of the stock money
+    against 1 for one with none), and with `cap` no stock holds more than that share of the account."""
 
-    def __init__(self, prices, volumes, eligible, top_n=5, mult=MULT, top=TOP, look=LOOK, benchmark='SPY', extra=None):
-        self.prices, self.volumes, self.eligible, self.extra = prices, volumes, eligible, extra   # extra: e.g. mtl.earnjump.EarnJump
+    def __init__(self, prices, volumes, eligible, top_n=5, mult=MULT, top=TOP, look=LOOK, benchmark='SPY', extra=None, cap=None):
+        # extra: a rule with factor(t, calendar, k) (mtl.earnjump.EarnJump), or a list of them (and mtl.nearhigh.NearHigh)
+        self.prices, self.volumes, self.eligible = prices, volumes, eligible
+        self.extras = [] if extra is None else list(extra) if isinstance(extra, (list, tuple)) else [extra]
+        self.extra = self.extras[0] if self.extras else None
+        self.cap = cap
         self.top_n, self.mult, self.top, self.look, self.bench = top_n, mult, top, look, benchmark
         self._cut = {}
 
@@ -89,10 +113,15 @@ class VolWeight:
         summing to len(target) / top_n (an empty slot stays a fifth in cash), MULT shares for a buying stock."""
         if not target:
             return {}
-        m = {t: (self.mult if self.buying(t, calendar, k) else 1.0) * (self.extra.factor(t, calendar, k) if self.extra else 1.0)
-             for t in target}
+        m = {}
+        for t in target:
+            f = self.mult if self.buying(t, calendar, k) else 1.0
+            for e in self.extras:
+                f *= e.factor(t, calendar, k)
+            m[t] = f
         tot = sum(m.values())
-        return {t: m[t] / tot * len(target) / self.top_n for t in target}
+        w = {t: m[t] / tot * len(target) / self.top_n for t in target}
+        return capped(w, self.cap) if self.cap else w
 
     def fn(self, calendar):
         """weighting(target, k) for mtl.momentum.run_momentum on this calendar."""
@@ -105,5 +134,6 @@ class VolWeight:
         return dict(d=calendar[k], threshold=round(th, 4) if th is not None else None, mult=self.mult, top=round(self.top, 4),
                     look=self.look, since=START, n=len(rows),
                     stocks=[dict(t=t, ratio=round(rows[t], 4) if t in rows else None, buying=self.buying(t, calendar, k),
-                                 w=round(w.get(t, 0.0), 6), earn=self.extra.info(t, calendar, k) if self.extra else None)
+                                 w=round(w.get(t, 0.0), 6), earn=self.extra.info(t, calendar, k) if self.extra else None,
+                                 near=self.extras[1].info(t, calendar, k) if len(self.extras) > 1 else None)
                             for t in stocks])

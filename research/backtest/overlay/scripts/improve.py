@@ -700,7 +700,8 @@ VARIANTS = {
     'NBmx': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='cash', other='gb'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBbl': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil='bil', major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
     'NBrv': (dict(top_n=5, vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(nobil=dict(narrow='gb', other='cash'), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),
-    'NBup': (dict(top_n=5, vw=dict(mult=2.0, top=1 / 3, look=63, earn=dict(jump=0.03, within=63, mult=2.0)), pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), stretchwarn=dict(k=3, z=2.0, hold=20), fedday=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True, nospy=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026); the no-T-bills pick by 3-month change (Oct 19, 2026); DBMF (managed futures) instead of cash where neither is up (Oct 20, 2026); the price-break haven rule (Oct 24, 2026); the two-scale buy rules: buy freeze and green light (Oct 26, 2026; the stock lower-high part, parts 's', was dropped: -1 to -3 points a year here); the break re-entry rule (Oct 27, 2026, mtl/reentry.py); the whipsaw switch picks only TLT / GLD (Oct 28, 2026); the Fed-day hold (Oct 31, 2026, mtl/fedday.py); the buying-volume weighting and the earnings-jump weighting (Nov 2, 2026, mtl/volweight.py, mtl/earnjump.py); the stretched-and-warned exit (Nov 2, 2026, mtl/stretchwarn.py)
+    'NBup': (dict(top_n=5, vw=dict(mult=2.0, top=1 / 3, look=63, earn=dict(jump=0.03, within=63, mult=2.0), hi52=dict(near=0.03, mult=2.0), cap=0.40), pf=dict(kinds=['fade_vs', 'hotcomm'], th_v=0.70, th_s=0.55, cash=True, comm_th=0.50, comm_n=126), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), stretchwarn=dict(k=3, z=2.0, hold=20), jobwarn=dict(hold=21), fedday=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True, nospy=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # the default plan: + the fading-energy filter on new buys and the whole account in the whipsaw switch's asset (Oct 16, 2026); the 15-session count starts over after more than 10 sessions out of SPY's downtrend (Oct 19, 2026); the no-T-bills pick by 3-month change (Oct 19, 2026); DBMF (managed futures) instead of cash where neither is up (Oct 20, 2026); the price-break haven rule (Oct 24, 2026); the two-scale buy rules: buy freeze and green light (Oct 26, 2026; the stock lower-high part, parts 's', was dropped: -1 to -3 points a year here); the break re-entry rule (Oct 27, 2026, mtl/reentry.py); the whipsaw switch picks only TLT / GLD (Oct 28, 2026); the Fed-day hold (Oct 31, 2026, mtl/fedday.py); the buying-volume weighting and the earnings-jump weighting (Nov 2, 2026, mtl/volweight.py, mtl/earnjump.py); the stretched-and-warned exit (Nov 2, 2026, mtl/stretchwarn.py)
+    'NBno3': (dict(top_n=5, vw=dict(mult=2.0, top=1 / 3, look=63, earn=dict(jump=0.03, within=63, mult=2.0)), pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), stretchwarn=dict(k=3, z=2.0, hold=20), fedday=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True, nospy=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # NBup before the near-the-high weighting, the hot-commodity skip and the unemployment step-aside (Nov 2, 2026)
     'NBnosw': (dict(top_n=5, vw=dict(mult=2.0, top=1 / 3, look=63, earn=dict(jump=0.03, within=63, mult=2.0)), pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), fedday=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True, nospy=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # NBup before the stretched-and-warned exit (Nov 2, 2026)
     'NBnoej': (dict(top_n=5, vw=dict(mult=2.0, top=1 / 3, look=63), pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), fedday=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True, nospy=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # NBup before the earnings-jump weighting (Nov 2, 2026)
     'NBnovw': (dict(top_n=5, pf=dict(kinds=['fade_vs'], th_v=0.70, th_s=0.55, cash=True), fzr=dict(near=0.01, days=10, gl_near=0.03, gl_days=10, parts='fg'), vx=dict(move='day', th=0.05, vol_k=4, delay=5), xit='accel_2.0', xgate=('ma150', 0), plan=dict(ladder=(1.0,), legrot=dict(reentry=dict(on=True), fedday=dict(on=True), fstock=dict(hl=True, rules=[(0.12, None, 'rallied')]), nobil='gbup', nobil_n=63, nobil_fb='DBMF', pbreak=dict(slow=100, fast=7, slope=5, hold=10), major=dict(tf='w', n=4, days=10, prov='dlh', twice=True), narrowcash=dict(delay=5, days=5), side=dict(share=1.0, metric='whip', n=126, loss=0.65, min=6, thr=0.5, mode='PBMIX', pn=63, nodown=True, nospy=True), rg_boost='side', pick=('both', 126), tf='d', vol=True, slope='pts', spy_down=True, assets=('TLTX', 'GLDX'), confirm=15, conf_gap=10, overlay=dict(back_tf='d', dest='best', slow=0.12)))), None),   # NBup before the buying-volume weighting (Nov 2, 2026)
@@ -2261,8 +2262,22 @@ def run_one(args):
                     break
             return len(hs) >= 2 and len(ls) >= 2 and hs[0] < hs[1] and ls[0] < ls[1]
 
+        if pf_.get('comm_th') is not None and 'HOTC' not in G:
+            # the hot-commodity buy skip (the live repo's mtl/hotcomm.py, since Nov 2, 2026): metals / energy stocks
+            # (data/industries_all.csv) and their commodity (copper / crude oil, the side data's xasset.json)
+            import importlib.util as _iu
+            _repo = os.environ.get('NIBII_REPO', '/home/user/NIBII')
+            _sp = _iu.spec_from_file_location('hotcomm', os.path.join(_repo, 'mtl', 'hotcomm.py'))
+            _hm = _iu.module_from_spec(_sp); _sp.loader.exec_module(_hm)
+            _xa = json.load(open(os.path.join(SIDE_, 'xasset.json')))
+            G['HOTC'] = _hm.HotComm(_hm.themes(os.path.join(_repo, 'data', 'industries_all.csv')), {c_: _xa[c_] for c_ in (_hm.COPPER, _hm.OIL)},
+                                    cal_p, jump=pf_['comm_th'], look=pf_.get('comm_n', 126))
+
+        def f_hotcomm(t, k):
+            return G['HOTC'].blocked(t, k)
+
         PFK = dict(fade_v=f_fade_v, fade_s=f_fade_s, fade_vs=lambda t, k: f_fade_v(t, k) and f_fade_s(t, k),
-                   calm=f_calm, wdown=f_wdown)
+                   calm=f_calm, wdown=f_wdown, hotcomm=f_hotcomm)
         fns_ = [PFK[x] for x in pf_['kinds']]
 
         def pf_ok(t, k):
@@ -2966,8 +2981,27 @@ def run_one(args):
         def _vw_w(target, k):
             rows, th = _wcut(k)
             m_ = {t: (vw_['mult'] if th is not None and t in rows and rows[t] >= th else 1.0) * (_ej(t, k) if ej_ else 1.0) for t in target}
+            hi_ = vw_.get('hi52')
+            if hi_:      # the near-the-high weighting (the live repo's mtl/nearhigh.py, since Nov 2, 2026): within `near` of
+                for t in target:      # the highest close of the last year -> `mult` times the money too
+                    a_ = G['XF'](t)
+                    if a_ is not None and k >= 252:
+                        c_ = a_['c'][k - 251:k + 1]
+                        if _np.isfinite(c_[-1]) and c_[-1] >= (1 - hi_['near']) * _np.nanmax(c_):
+                            m_[t] *= hi_['mult']
             tot = float(sum(m_.values()))
-            return {t: m_[t] / tot * len(target) / _tn for t in target}
+            w_ = {t: m_[t] / tot * len(target) / _tn for t in target}
+            cap_ = vw_.get('cap')
+            if cap_:      # no stock above `cap` of the account (mtl/volweight.capped); the excess spread over the others
+                for _ in range(10):
+                    over = sum(max(0.0, x - cap_) for x in w_.values())
+                    if over <= 1e-12: break
+                    under = [t for t, x in w_.items() if x < cap_]
+                    w_ = {t: min(cap_, x) for t, x in w_.items()}
+                    tu = sum(w_[t] for t in under)
+                    if not under or tu <= 0: break
+                    for t in under: w_[t] += over * w_[t] / tu
+            return w_
         opts['weighting'] = _vw_w
     st_ = opts.pop('sec_top', None)
     if st_:
@@ -5484,6 +5518,27 @@ def main():
                 for d_ in _od:
                     modes[d_] = 'BIL'
                 R.log(f"  {key} stretched-and-warned starts {len(_st)} ({', '.join(_st)}), days moved to the haven {len(_od)}")
+            if leg_.get('jobwarn') is not None:
+                # the unemployment step-aside (the live repo's mtl/jobwarn.py, since Nov 2, 2026): the unemployment rate's
+                # 3-month average 0.3 points+ above its low of the year before while SPY is under its 150-day average ->
+                # the haven for 21 sessions from the first such close, if in stocks then (flags: research/backtest/side_data.py)
+                if 'JOBWARN' not in G:
+                    _jf = json.load(open(os.path.join(SIDE_, 'jobwarn.json')))
+                    G['JOBWARN'] = _jf
+                _jf = G['JOBWARN']
+                _jst = [d_ for i_, d_ in enumerate(cal) if _jf.get(d_) and (i_ == 0 or not _jf.get(cal[i_ - 1])) and d_ >= R.START]
+                _jh = leg_['jobwarn'].get('hold', 21)
+                _pos = {d_: i_ for i_, d_ in enumerate(cal)}
+                _jo = set()
+                for s_ in _jst:
+                    if modes.get(s_, 'boost') != 'boost':
+                        continue
+                    for d_ in cal[_pos[s_]:_pos[s_] + _jh]:
+                        if modes.get(d_, 'boost') == 'boost':
+                            _jo.add(d_)
+                for d_ in _jo:
+                    modes[d_] = 'BIL'
+                R.log(f"  {key} unemployment step-aside starts {len(_jst)}, days moved to the haven {len(_jo)}")
             if leg_.get('fedday') is not None:
                 # the Fed-day hold (the live repo's mtl/fedday.py, default since Oct 31, 2026): a decision to leave
                 # stocks whose trade would come at the close just before a scheduled Fed decision day waits one

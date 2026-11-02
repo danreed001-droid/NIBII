@@ -13,6 +13,8 @@ narrow_warn.json [date, ...]                        the narrow-market warning da
                warning also fires in 2006-07, as it would have live. The Oct 2026 audit read them from 2007 on and
                missed those three cash weeks (two cost money in 2006, the Oct 2007 one caught the top); with
                them the default made about 0.5 points a year less from 2000.
+jobwarn.json   {date: 0|1}                         the unemployment step-aside's flag (mtl/jobwarn.readings: FRED's
+               UNRATE, each month read 36 days after its first day, and SPY under its 150-day average), since Nov 2, 2026.
 dominoes_counts.json {date: n}                      how many of the eight dominoes were down at each session
                (mtl/stretchwarn.warn_counts, the FRED ones a session late) from 1985 histories, for the
                stretched-and-warned exit (mtl/stretchwarn.py, since Nov 2, 2026).
@@ -25,7 +27,7 @@ import yfinance as yf
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 from mtl.narrow import narrow_warnings  # noqa: E402
-from mtl import stretchwarn  # noqa: E402
+from mtl import jobwarn, stretchwarn  # noqa: E402
 
 START = '1998-01-01'
 XASSET = ['CL=F', 'DX-Y.NYB', 'GC=F', 'GLD', 'HG=F', 'HYG', 'IEF', 'IWM', 'LQD', 'RSP', 'SPY', 'TLT', 'XLK', 'XLU',
@@ -96,6 +98,15 @@ def main(out):
           'DBCX': splice(bars('^SPGSCI'), bars('DBC')), 'USOX': splice(bars('CL=F'), bars('USO')),
           'DBMF': [b[:5] for b in bars('DBMF')]}
     json.dump(sp, open(os.path.join(out, 'spliced.json'), 'w'))
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'scripts'))
+    from event_patterns import fred
+    ur = fred(jobwarn.FRED_ID)
+    if len(ur) < 300:
+        raise SystemExit('jobwarn: short UNRATE history')
+    jc = sorted(xa['SPY'])
+    jf, _, _ = jobwarn.readings(jc, xa['SPY'], ur)
+    json.dump({d: int(bool(f)) for d, f in zip(jc, jf)}, open(os.path.join(out, 'jobwarn.json'), 'w'))
+    print('jobwarn flags', int(jf.sum()), 'sessions')
     dc = dominoes_counts()
     json.dump(dc, open(os.path.join(out, 'dominoes_counts.json'), 'w'))
     print('dominoes counts', min(dc), max(dc), len(dc))

@@ -54,7 +54,7 @@ from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl import fedday, fedday_check, reentry_note, stretchwarn  # noqa: E402
-from mtl import earnjump, volweight, volweight_check  # noqa: E402
+from mtl import earnjump, hotcomm, jobwarn, nearhigh, volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
@@ -502,18 +502,22 @@ def plan_rules(spy_bars, calendar, start):
     return dict(frozen=frozen, green=green, log=log)
 
 
-def plan_exits(prices, volumes, cal_, fade=True, rules=None):
+def plan_exits(prices, volumes, cal_, fade=True, rules=None, hot=None):
     """The default plan's stock part on top of the Boost list (scripts/backtest_strategies.py runs the same): the
     blow-off exit (a holding whose last month's gain is more than BLOWOFF times the 5 months before it is sold and
     barred for 4 weeks, only while SPY is below its BLOWOFF_MA-session average), the surge exit (a 5%+ up close on
     4x+ its 50-day volume -> sold a week later), and with `fade` the fading-energy filter (mtl/fade.py, since Oct 16,
     2026: a top-5 stock whose volume and daily swings have both faded isn't bought; its slot stays in cash until it
     leaves the top 5 or stops fading), and with `rules` (plan_rules) the two-scale buy rules on top of it: no new buys
-    in a buy freeze, and the green light setting the filters aside (mtl/fractal.py, since Oct 26, 2026). fade=False is the list the whipsaw half-switch counts sales on."""
+    in a buy freeze, and the green light setting the filters aside (mtl/fractal.py, since Oct 26, 2026). fade=False is the list the whipsaw half-switch counts sales on.
+    hot: (themes, commodity closes) for the hot-commodity buy skip (mtl/hotcomm.py, since Nov 2, 2026): no new metals /
+    energy buy while copper / oil is up 50%+ over 6 months, applied with the fading filter (the green light sets both aside)."""
     blow_, surge_ = blowoff_exit(prices, cal_, BLOWOFF, market='SPY', ma=BLOWOFF_MA), surge_exit(prices, volumes, cal_, SURGE_UP, SURGE_VOL, SURGE_DELAY)
     out = dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e))
     if fade:
         bw = fade_buy_ok(prices, volumes, cal_)
+        if hot and hot[1]:
+            bw = hotcomm.HotComm(hot[0], hot[1], cal_).buy_ok(bw)
         if rules:
             bw = fractal.buy_rule(bw, rules['frozen'], rules['green'])
         out.update(buy_when=bw, buy_max_rank=TOP_N)
@@ -521,7 +525,7 @@ def plan_exits(prices, volumes, cal_, fade=True, rules=None):
 
 
 def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, start, rate_px, rsp_px, vix_px, green=None,
-                 spy_vol=None, week_closed=True, dom_series=None):
+                 spy_vol=None, week_closed=True, dom_series=None, unrate=None):
     """Every rule of the default plan above its stock list, in the order the live plan applies them (the scanner and
     scripts/backtest_strategies.py both run this). Returns the day-by-day modes, why, half-switch and what the
     page shows of each rule. spy_vol: SPY's {date: volume} for the break re-entry rule (without it the rule doesn't
@@ -570,6 +574,15 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
         sw_starts = [d_ for d_ in stretchwarn.onsets(calendar, sw_counts, sw_z) if d_ >= start]
         sw_days = stretchwarn.out_days(calendar, sw_starts, lambda d_: modes.get(d_, 'boost') == 'boost')
         modes, why, half, sw_held = stretchwarn.apply_stretchwarn(modes, why, half, sw_days, calendar)
+    # ... and the unemployment step-aside: the unemployment rate's 3-month average 0.3 points+ above its low of the year before
+    # while SPY is under its 150-day average -> the haven pick for 21 sessions from the first such close, if in stocks then
+    # (mtl/jobwarn.py, since Nov 2, 2026; unrate: FRED's monthly UNRATE, without it the rule doesn't run)
+    jw_flag, jw_rise, jw_gap, jw_starts, jw_held = [False] * len(calendar), [float('nan')] * len(calendar), [float('nan')] * len(calendar), [], set()
+    if unrate:
+        jw_flag, jw_rise, jw_gap = jobwarn.readings(calendar, prices['SPY'], unrate)
+        jw_starts = jobwarn.starts(calendar, jw_flag, start)
+        jw_days = stretchwarn.out_days(calendar, jw_starts, lambda d_: modes.get(d_, 'boost') == 'boost', hold=jobwarn.HOLD)
+        modes, why, half, jw_held = stretchwarn.apply_stretchwarn(modes, why, half, jw_days, calendar, reason='jobwarn')
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
     # stronger of TLT / GLD over 3 months if it is up, else DBMF managed futures (mtl/rotation.py no_bills)
     modes, why, half = no_bills(modes, why, half, whip_px, calendar)
@@ -588,7 +601,8 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     return dict(modes=modes, why=why, half=half, read=read, state=state, lh_cash=lh_cash, lh_log=lh_log,
                 whip_on=whip_on, regime=regime, narrow_warn=narrow_warn, narrow_cash=narrow_cash, reb_held=reb_held, re_held=re_held, re_sig=re_sig,
                 pb_breaks=pb_breaks, pb_held=pb_held, fd_held=fd_held, fd_before=fd_before, upcoming=upcoming,
-                sw_counts=sw_counts, sw_z=sw_z, sw_starts=sw_starts, sw_held=sw_held)
+                sw_counts=sw_counts, sw_z=sw_z, sw_starts=sw_starts, sw_held=sw_held,
+                jw_flag=jw_flag, jw_rise=jw_rise, jw_gap=jw_gap, jw_starts=jw_starts, jw_held=jw_held)
 
 
 def last_closed_session(now=None):
@@ -707,6 +721,18 @@ def main():
         print(f"  dominoes fetch failed: {e}", file=sys.stderr)
         dom_series = {}
     dom_short = [k for k in (*stretchwarn.YF, *stretchwarn.FRED) if len(dom_series.get(k) or {}) < 300]
+    try:   # copper and crude oil for the hot-commodity buy skip (mtl/hotcomm.py)
+        cb_ = fetch([hotcomm.COPPER, hotcomm.OIL], adjusted=True)
+        comm_px = {t_: {b[0]: b[4] for b in (cb_.get(t_) or []) if b[4]} for t_ in (hotcomm.COPPER, hotcomm.OIL)}
+        comm_px = comm_px if all(len(v_) > 300 for v_ in comm_px.values()) else {}
+    except Exception as e:
+        print(f"  copper / oil fetch failed: {e}", file=sys.stderr)
+        comm_px = {}
+    try:   # the unemployment rate for the unemployment step-aside (mtl/jobwarn.py)
+        unrate = fred_series(jobwarn.FRED_ID)
+    except Exception as e:   # noqa: BLE001 - reported below
+        print(f"  FRED {jobwarn.FRED_ID} fetch failed: {e}", file=sys.stderr)
+        unrate = {}
     try:   # the wide-net watch (information only): about 40 assets the plan never holds (mtl/widenet.py)
         wide_bars = fetch(list(WIDE_NET), adjusted=True)
     except Exception as e:
@@ -884,8 +910,13 @@ def main():
         with open(earnjump.PATH, 'w') as fh_:
             json.dump(ej_doc, fh_, separators=(',', ':'))
     ej = earnjump.EarnJump(prices, ej_dates)
-    vw = volweight.VolWeight(prices, volumes, eligible, TOP_N, extra=ej)
-    rbx, hold_bx, after_bx = boost_run(lambda cal_: dict(plan_exits(prices, volumes, cal_, rules=fz_rules), weighting=vw.fn(cal_)))
+    # ... and the near-the-high weighting (mtl/nearhigh.py, since Nov 2, 2026, on probation): a held stock within 3% of its highest
+    # close of the last year gets twice its money too, and no stock holds more than 40% of the account (mtl/volweight.CAP)
+    nh = nearhigh.NearHigh(prices)
+    vw = volweight.VolWeight(prices, volumes, eligible, TOP_N, extra=[ej, nh], cap=volweight.CAP)
+    # ... and the hot-commodity buy skip (mtl/hotcomm.py, since Nov 2, 2026, on probation)
+    hot_in = (hotcomm.themes(), comm_px) if comm_px else None
+    rbx, hold_bx, after_bx = boost_run(lambda cal_: dict(plan_exits(prices, volumes, cal_, rules=fz_rules, hot=hot_in), weighting=vw.fn(cal_)))
     picks_bx = rbx['picks']
     # the whipsaw half-switch reads the same list with the fading-energy filter off (since Oct 16, 2026): a stock the filter
     # skipped counts as if it had been bought and later sold, so the filter changes which stocks are bought, never when
@@ -988,7 +1019,7 @@ def main():
     rsp_px = {b[0]: b[4] for b in bench.get('RSP') or []}
     ov = plan_overlay(bench['SPY'], asset_bars, whip_px, picks_whip, prices, calendar, START, rate_px, rsp_px, vix_px,
                       green=fz_rules['green'], spy_vol=volumes.get('SPY'), week_closed=week_ended(calendar[-1]),
-                      dom_series=None if dom_short else dom_series)
+                      dom_series=None if dom_short else dom_series, unrate=unrate if len(unrate) > 300 else None)
     rot_modes, rot_why, whip_half, rot_read, rot_state = ov['modes'], ov['why'], ov['half'], ov['read'], ov['state']
     lh_cash, lh_log, whip_on, regime = ov['lh_cash'], ov['lh_log'], ov['whip_on'], ov['regime']
     narrow_warn, narrow_cash, reb_held = ov['narrow_warn'], ov['narrow_cash'], ov['reb_held']
@@ -996,6 +1027,7 @@ def main():
     pb_held = ov['pb_held']
     fd_held = ov['fd_held']
     sw_held = ov['sw_held']
+    jw_held = ov['jw_held']
     # a slot left empty at a trade inside a buy freeze holds the haven pick until the next trade (mtl/fractal.py)
     fz_pick = lambda k_: bills_pick(whip_px, calendar, k_)
     fz_fill = fractal.slot_fill(picks_bx, fz_rules['frozen'], calendar, START, fz_pick)
@@ -1191,12 +1223,21 @@ def main():
     vw_k = K if signal_day or not wl_days else max(0, kidx.get(wl_days[-1], K + 1) - 1)
     auto['boostx']['vw'] = vw.card(vw_list, calendar, min(vw_k, K))
     # the buying-volume check scores the whole tilt (both rules) against equal parts, as it did before the earnings rule
-    vw_plain = volweight.VolWeight(prices, volumes, eligible, TOP_N)
+    vw_plain = volweight.VolWeight(prices, volumes, eligible, TOP_N, extra=[nh], cap=volweight.CAP)   # without the earnings rule
     vw_plain._cut = vw._cut      # the same buying-volume cuts, already worked out for every trade
     alt_ej = {d_: vw_plain.weights([t_ for t_, x_ in w_.items() if x_ > 0], calendar, max(0, kidx[d_] - 1)) for d_, w_ in wl_bx if d_ in kidx}
+    vw_nonh = volweight.VolWeight(prices, volumes, eligible, TOP_N, extra=ej)                         # before the near-the-high rule
+    vw_nonh._cut = vw._cut
+    alt_nh = {d_: vw_nonh.weights([t_ for t_, x_ in w_.items() if x_ > 0], calendar, max(0, kidx[d_] - 1)) for d_, w_ in wl_bx if d_ in kidx}
     auto['boostx']['vw']['card'] = volweight_check.scorecard(wl_bx, prices, calendar)
     # the earnings-jump check: each trade with the earnings rule against the same trade with the buying-volume rule alone
     auto['boostx']['vw']['earnCard'] = volweight_check.scorecard(wl_bx, prices, calendar, since=earnjump.START, alt=alt_ej)
+    # the near-the-high check: each trade against the same trade without the near-the-high rule and the cap
+    auto['boostx']['vw']['nearCard'] = volweight_check.scorecard(wl_bx, prices, calendar, since=nearhigh.START, alt=alt_nh)
+    auto['boostx']['vw']['nearRule'] = dict(near=nearhigh.NEAR, mult=nearhigh.MULT, look=nearhigh.LOOK, cap=volweight.CAP, since=nearhigh.START)
+    hc_ = hotcomm.HotComm(hotcomm.themes(), comm_px or {}, calendar)
+    auto['boostx']['hotcomm'] = dict(hc_.state(K), jump=hotcomm.JUMP, look=hotcomm.LOOK, since=hotcomm.START, missing=not comm_px,
+                                     blocked=[t_ for t_, _ in now[:15] if hc_.blocked(t_, K)])
     auto['boostx']['vw']['earnRule'] = dict(jump=earnjump.JUMP, within=earnjump.WITHIN, mult=earnjump.MULT, since=earnjump.START,
                                              refreshed=len(ej_t), added=ej_added, failed=len(ej_failed))
     # the page's top cards: the default plan's own stocks (tonight's list on a Friday) with their weights
@@ -1291,6 +1332,9 @@ def main():
     auto['rotation']['pricebreak'] = pricebreak_state(prices['SPY'], calendar, K, pb_held)
     # the stretched-and-warned exit (mtl/stretchwarn.py): tonight's dominoes count and SPY's stretch, whether it holds the haven
     auto['rotation']['stretchwarn'] = stretchwarn.state(calendar, K, ov['sw_counts'], ov['sw_z'], sw_held, ov['sw_starts'], dom_short)
+    # the unemployment step-aside (mtl/jobwarn.py): tonight's reading and whether it holds the haven
+    auto['rotation']['jobwarn'] = jobwarn.state(calendar, K, ov['jw_flag'], ov['jw_rise'], ov['jw_gap'], jw_held, ov['jw_starts'],
+                                                missing=len(unrate) <= 300)
     # the break re-entry rule (mtl/reentry.py): tonight's reading, whether it holds stocks next session, the signals
     re_ = reentry_state(prices['SPY'], volumes.get('SPY') or {}, calendar, K, re_held, re_sig, week_ended(calendar[K]))
     auto['rotation']['reentry'] = re_
@@ -1303,6 +1347,7 @@ def main():
     fd_card = fedday_check.scorecard(fd_held, ov['fd_before'], strat_rot, whip_px, calendar)
     auto['rotation']['fedday']['card'] = fd_card
     auto['rotation']['vw'] = auto['boostx'].get('vw')   # the buying-volume weighting (rule 12), for the rules note
+    auto['rotation']['hotcomm'] = auto['boostx'].get('hotcomm')   # the hot-commodity buy skip (rule 16), for the rules note
     # the re-entry note (information only): back into stocks after 10+ sessions out - is the list it buys concentrated
     # in one sector (past re-entries like that beat the haven 22 of 23 times) or spread out (a coin flip)?
     auto['rotation']['renote'] = reentry_note.note(rot_modes, calendar, K, picks_bx, prices, sector_px) if sector_px else dict(show=False)
@@ -1467,6 +1512,12 @@ def main():
         data_issues.append('The futures and currency prices could not be downloaded, so the market stress card and the crowding charts are thin tonight (they never affect the plan).')
     if not crowd_gauge:
         data_issues.append('The CFTC futures positions could not be downloaded, so the crowding gauge is missing tonight (it never affects the plan).')
+    if len(unrate) <= 300:
+        data_issues.append('The unemployment rate could not be downloaded from FRED, so the unemployment step-aside could not be checked '
+                           'tonight: the plan follows its other rules.')
+    if not comm_px:
+        data_issues.append('Copper and oil prices could not be downloaded, so the hot-commodity buy skip is off tonight (new metals and '
+                           'energy buys go ahead as usual).')
     if dom_short:
         data_issues.append('The dominoes data (' + ', '.join(dom_short) + ") could not be downloaded in full, so the stretched-and-warned "
                            'exit could not be checked tonight: the plan follows its other rules. Check the dominoes and SPY by hand before trading.')
