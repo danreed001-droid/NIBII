@@ -53,7 +53,7 @@ from mtl.pricebreak import apply_pricebreak, break_days, hold_days, pricebreak_s
 from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
-from mtl import fedday, fedday_check, reentry_note  # noqa: E402
+from mtl import fedday, fedday_check, reentry_note, stretchwarn  # noqa: E402
 from mtl import earnjump, volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
@@ -521,12 +521,13 @@ def plan_exits(prices, volumes, cal_, fade=True, rules=None):
 
 
 def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, start, rate_px, rsp_px, vix_px, green=None,
-                 spy_vol=None, week_closed=True):
+                 spy_vol=None, week_closed=True, dom_series=None):
     """Every rule of the default plan above its stock list, in the order the live plan applies them (the scanner and
     scripts/backtest_strategies.py both run this). Returns the day-by-day modes, why, half-switch and what the
     page shows of each rule. spy_vol: SPY's {date: volume} for the break re-entry rule (without it the rule doesn't
     run); week_closed: whether the calendar's last day closes a week (False on a live run before the week's last
-    session)."""
+    session); dom_series: the dominoes' series ({key: {date: value}}, mtl/stretchwarn.YF / FRED) for the
+    stretched-and-warned exit (without it the rule doesn't run)."""
     # the rotation: out of stocks into TLT / GLD when the swing structure says so (mtl/rotation.py); decided at any
     # close, traded at the next close
     rot_bars = {'SPY': spy_bars, **{t: asset_bars[t] for t in ROT_ASSETS if asset_bars.get(t)}}
@@ -559,6 +560,16 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # volume within 21 sessions of each other -> the Boost list for 21 decision days (mtl/reentry.py, since Oct 27, 2026)
     re_days, re_sig = reentry_days(prices['SPY'], spy_vol, calendar, start, week_closed) if spy_vol else (set(), [])
     modes, why, half, re_held = apply_reentry(modes, why, half, re_days, calendar)
+    # ... and the stretched-and-warned exit: 3+ dominoes down and SPY 2+ standard errors above its 52-week line ->
+    # the haven pick (T-bills here, turned into the pick by no_bills below) for 20 sessions from the first such close,
+    # if the plan holds stocks then (mtl/stretchwarn.py, since Nov 2, 2026)
+    sw_counts, sw_z, sw_starts, sw_held = {}, {}, [], set()
+    if dom_series:
+        sw_counts = stretchwarn.warn_counts(calendar, dom_series)
+        sw_z = stretchwarn.weekly_z(prices['SPY'], calendar)
+        sw_starts = [d_ for d_ in stretchwarn.onsets(calendar, sw_counts, sw_z) if d_ >= start]
+        sw_days = stretchwarn.out_days(calendar, sw_starts, lambda d_: modes.get(d_, 'boost') == 'boost')
+        modes, why, half, sw_held = stretchwarn.apply_stretchwarn(modes, why, half, sw_days, calendar)
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
     # stronger of TLT / GLD over 3 months if it is up, else DBMF managed futures (mtl/rotation.py no_bills)
     modes, why, half = no_bills(modes, why, half, whip_px, calendar)
@@ -576,7 +587,8 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     fd_before = {d_: fd_before.get(d_) for d_ in fd_held}
     return dict(modes=modes, why=why, half=half, read=read, state=state, lh_cash=lh_cash, lh_log=lh_log,
                 whip_on=whip_on, regime=regime, narrow_warn=narrow_warn, narrow_cash=narrow_cash, reb_held=reb_held, re_held=re_held, re_sig=re_sig,
-                pb_breaks=pb_breaks, pb_held=pb_held, fd_held=fd_held, fd_before=fd_before, upcoming=upcoming)
+                pb_breaks=pb_breaks, pb_held=pb_held, fd_held=fd_held, fd_before=fd_before, upcoming=upcoming,
+                sw_counts=sw_counts, sw_z=sw_z, sw_starts=sw_starts, sw_held=sw_held)
 
 
 def last_closed_session(now=None):
@@ -681,6 +693,20 @@ def main():
     except Exception as e:
         print(f"  VIX fetch failed: {e}", file=sys.stderr)
         vix_px = {}
+    try:   # the dominoes the stretched-and-warned exit reads (mtl/stretchwarn.py): five from Yahoo, three from FRED
+        from scripts.event_patterns import fred as fred_series
+        dom_bars = fetch(list(stretchwarn.YF.values()), adjusted=True)
+        dom_series = {k: {b[0]: b[4] for b in (dom_bars.get(t) or []) if b[4]} for k, t in stretchwarn.YF.items()}
+        for k, sid in stretchwarn.FRED.items():
+            try:
+                dom_series[k] = fred_series(sid)
+            except Exception as e:   # noqa: BLE001 - reported below
+                print(f"  FRED {sid} fetch failed: {e}", file=sys.stderr)
+                dom_series[k] = {}
+    except Exception as e:
+        print(f"  dominoes fetch failed: {e}", file=sys.stderr)
+        dom_series = {}
+    dom_short = [k for k in (*stretchwarn.YF, *stretchwarn.FRED) if len(dom_series.get(k) or {}) < 300]
     try:   # the wide-net watch (information only): about 40 assets the plan never holds (mtl/widenet.py)
         wide_bars = fetch(list(WIDE_NET), adjusted=True)
     except Exception as e:
@@ -961,13 +987,15 @@ def main():
     whip_px = {**filled({**sleeve_px, CASH_FUND: fund_px}, calendar), 'SPY': prices['SPY']}
     rsp_px = {b[0]: b[4] for b in bench.get('RSP') or []}
     ov = plan_overlay(bench['SPY'], asset_bars, whip_px, picks_whip, prices, calendar, START, rate_px, rsp_px, vix_px,
-                      green=fz_rules['green'], spy_vol=volumes.get('SPY'), week_closed=week_ended(calendar[-1]))
+                      green=fz_rules['green'], spy_vol=volumes.get('SPY'), week_closed=week_ended(calendar[-1]),
+                      dom_series=None if dom_short else dom_series)
     rot_modes, rot_why, whip_half, rot_read, rot_state = ov['modes'], ov['why'], ov['half'], ov['read'], ov['state']
     lh_cash, lh_log, whip_on, regime = ov['lh_cash'], ov['lh_log'], ov['whip_on'], ov['regime']
     narrow_warn, narrow_cash, reb_held = ov['narrow_warn'], ov['narrow_cash'], ov['reb_held']
     re_held, re_sig = ov['re_held'], ov['re_sig']
     pb_held = ov['pb_held']
     fd_held = ov['fd_held']
+    sw_held = ov['sw_held']
     # a slot left empty at a trade inside a buy freeze holds the haven pick until the next trade (mtl/fractal.py)
     fz_pick = lambda k_: bills_pick(whip_px, calendar, k_)
     fz_fill = fractal.slot_fill(picks_bx, fz_rules['frozen'], calendar, START, fz_pick)
@@ -1261,6 +1289,8 @@ def main():
     rb_ = rebound_state(bench['SPY'], whip_px, calendar, K, reb_held)
     auto['rotation']['rebound'] = {k_: (r4(v_) if isinstance(v_, float) else v_) for k_, v_ in rb_.items()}
     auto['rotation']['pricebreak'] = pricebreak_state(prices['SPY'], calendar, K, pb_held)
+    # the stretched-and-warned exit (mtl/stretchwarn.py): tonight's dominoes count and SPY's stretch, whether it holds the haven
+    auto['rotation']['stretchwarn'] = stretchwarn.state(calendar, K, ov['sw_counts'], ov['sw_z'], sw_held, ov['sw_starts'], dom_short)
     # the break re-entry rule (mtl/reentry.py): tonight's reading, whether it holds stocks next session, the signals
     re_ = reentry_state(prices['SPY'], volumes.get('SPY') or {}, calendar, K, re_held, re_sig, week_ended(calendar[K]))
     auto['rotation']['reentry'] = re_
@@ -1437,6 +1467,9 @@ def main():
         data_issues.append('The futures and currency prices could not be downloaded, so the market stress card and the crowding charts are thin tonight (they never affect the plan).')
     if not crowd_gauge:
         data_issues.append('The CFTC futures positions could not be downloaded, so the crowding gauge is missing tonight (it never affects the plan).')
+    if dom_short:
+        data_issues.append('The dominoes data (' + ', '.join(dom_short) + ") could not be downloaded in full, so the stretched-and-warned "
+                           'exit could not be checked tonight: the plan follows its other rules. Check the dominoes and SPY by hand before trading.')
     vw_c = (auto['boostx'].get('vw') or {}).get('card') or {}
     ej_c = (auto['boostx'].get('vw') or {}).get('earnCard') or {}
     if ej_c.get('verdict') == 'review: remove':
