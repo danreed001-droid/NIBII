@@ -1,13 +1,18 @@
 name: Scanner watchdog
 
-# Each weekday morning, before the open: is last night's Top 5 Strongest run in? Every run logs the default
+# Three times each weekday morning, well before the open: is last night's Top 5 Strongest run in? GitHub starts
+# scheduled runs 3 to 6 hours late when it's busy, so the first check is set for the small hours to land before
+# the open even when it's late. Every run logs the default
 # plan's decision to the paper record (data/paper_ledger.json), so a missing day means the run failed without
 # reporting, was skipped or delayed by GitHub, or scheduled runs were paused. A missing run can't report itself,
 # so this opens the issue (and adds the line to the page's issues list).
 
 on:
   schedule:
-    # 13:31 UTC Mon-Fri = 9:31am EDT / 8:31am EST
+    # 07:23 UTC = 3:23am EDT / 2:23am EST, 10:47 UTC = 6:47am EDT / 5:47am EST, 13:31 UTC = 9:31am EDT / 8:31am EST
+    # (Mon-Fri; an issue opens once per morning, and a run that comes in later closes it)
+    - cron: '23 7 * * 1-5'
+    - cron: '47 10 * * 1-5'
     - cron: '31 13 * * 1-5'
   workflow_dispatch: {}
 

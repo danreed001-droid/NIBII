@@ -20,13 +20,18 @@ on:
     # 22:20 UTC Mon-Fri = 6:20pm EDT / 5:20pm EST, well after the close and
     # Yahoo's end-of-day prices in both summer and winter.
     - cron: '20 22 * * 1-5'
-    # GitHub starts scheduled runs late when it's busy (3.5 hours on Oct 28, 2026), so three more tries follow,
-    # each going ahead only when tonight's decision isn't logged yet: 22:50 and 23:35 UTC Mon-Fri, and 02:20 UTC
-    # Tue-Sat (that evening in New York). An outside timer (cron-job.org) can also start the run on the dot through
+    # GitHub starts scheduled runs late when it's busy (3 to 6 hours in late Oct 2026) and sometimes drops them,
+    # so seven more tries follow, each going ahead only when tonight's decision isn't logged yet: 22:50 and 23:35
+    # UTC Mon-Fri, and 00:35, 01:25, 02:20, 03:35 and 04:50 UTC Tue-Sat (that evening in New York, the last at
+    # 12:50am summer time). An outside timer (cron-job.org) can also start the run on the dot through
     # workflow_dispatch (README, "Keeping it running"); the scheduled tries then find it done and stop.
     - cron: '50 22 * * 1-5'
     - cron: '35 23 * * 1-5'
+    - cron: '35 0 * * 2-6'
+    - cron: '25 1 * * 2-6'
     - cron: '20 2 * * 2-6'
+    - cron: '35 3 * * 2-6'
+    - cron: '50 4 * * 2-6'
   workflow_dispatch: {}
 
 permissions:
@@ -231,6 +236,16 @@ jobs:
             sleep 10
           done
           exit 1
+
+      - name: Close the watchdog's issue now that the run is in
+        # a late run can land after a morning watchdog check already reported it missing
+        if: ${{ steps.scan.outcome == 'success' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for n in $(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "Scanner run missing in:title" --json number,title --jq '.[] | select(.title | startswith("Scanner run missing")) | .number'); do
+            gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "Last night's run came in after the watchdog checked, so the page and any trade alert are current now." || true
+          done
 
       - name: Friday alert - open an issue when Monday's trade has anything to do
         # runs even if the push failed: the alert matters more than the page
