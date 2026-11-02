@@ -4437,5 +4437,65 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-02-1-oil-slides-iran-qatar-talks",
+    "data": {
+      "addedAt": "2026-11-02",
+      "category": "Energy",
+      "date": "2026-11-02",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Oil falls more than 4% overnight as Qatar-mediated Iran-US talks raise hopes of easing Hormuz supply disruption; Axios reports Trump told Netanyahu he wants to give diplomacy more time before resuming strikes after Tuesday's midterms. Iran says talks are 'making progress' but no final conclusion; Rubio says no decision on resuming military action.",
+      "impact": "High",
+      "numbers": "WTI (Dec) -4.4% to ~$99.59; Brent (Jan) -4.4% to ~$108.42 (Fri Brent range $111.03-114.29); Goldman raised Dec Brent forecast to $105 from $90",
+      "order": 1,
+      "reaction": "Energy-linked names under pressure; lower crude eased yields slightly and supported equity futures",
+      "region": "Global / Middle East",
+      "source": "https://www.chinatechnews.com/2026/11/02/131923-futures-rise-as-oil-slides-below-100-on-trump-iran-diplomacy-report-tech-bounces-ahead-of-midterms",
+      "tickers": "USO, XLE, SPY, QQQ",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-02-2-futures-rebound-after-friday-tech-rout",
+    "data": {
+      "addedAt": "2026-11-02",
+      "category": "Market",
+      "date": "2026-11-02",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "US index futures rebound after Friday's tech-led selloff (Intel's worst one-day fall since the 1980s on a weak forecast); megacap tech steadies premarket ahead of Apple and Palantir earnings after the close and Tuesday's midterm elections.",
+      "impact": "Medium",
+      "numbers": "S&P 500 futures +0.3%, Nasdaq 100 futures +0.6%, Dow futures +0.4% (~8:00 ET); Friday S&P 500 -1.8%, Nasdaq 100 -3.5%; Nasdaq 100 -6.7% in October",
+      "order": 2,
+      "reaction": "Modest bounce premarket; Intel ~-1%, Estee Lauder ~+2-3% on raised guidance; Nvidia ~+1%",
+      "region": "US",
+      "source": "https://www.investing.com/news/stock-market-news/wall-street-futures-rise-as-ai-stocks-catch-their-breath-midterms-in-focus-4990733",
+      "tickers": "SPY, QQQ, IWM, INTC, AAPL",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-02-3-dollar-one-week-low-gold-up-10y-flat",
+    "data": {
+      "addedAt": "2026-11-02",
+      "category": "Rates",
+      "date": "2026-11-02",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Dollar slips to a one-week low and gold rises as oil retreats on Iran-diplomacy hopes; 10-year Treasury yield little changed near 4.9% and UK 10-year gilt yield falls ~5bp to ~5.23%. Asia mixed (Kospi up, ASX and Singapore lower); Stoxx 600 +0.1%.",
+      "impact": "Medium",
+      "numbers": "10Y UST ~4.91-4.92%; Dollar index ~-0.2% (~101.5); EUR/USD +0.5% to ~1.1214; gold up ~0.6-1.4% (~$3,900-3,950; sources differ); Stoxx 600 +0.1% at 647.18",
+      "order": 3,
+      "reaction": "Yields flat, dollar softer, gold bid; December Fed-hike pricing keeps focus on Friday's payrolls",
+      "region": "Global",
+      "source": "https://www.chinatechnews.com/2026/11/02/131923-futures-rise-as-oil-slides-below-100-on-trump-iran-diplomacy-report-tech-bounces-ahead-of-midterms",
+      "tickers": "TLT, 10Y, yield, DXY, dollar, GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
