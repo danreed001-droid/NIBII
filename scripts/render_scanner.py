@@ -3145,6 +3145,20 @@ WALLST_OTHER = {
 }
 
 
+def highs_html(H):
+    """How often each one made a new high (Jan 2000 on, daily closes): new highs a year, the typical and 1-in-10 gap
+    between them, and the longest wait."""
+    if not H:
+        return ''
+    labs = (('plan', 'Plan'), ('prev', 'Previous plan'), ('spy', 'SPY'), ('qqq', 'QQQ'))
+    def wk(d): return f'{d} days' if d < 14 else f'{round(d / 7)} weeks' if d < 120 else f'{d / 30.44:.0f} months'
+    rows = ''.join(f'<tr><td class="l"><b>{lab}</b></td><td class="num">{H[k]["n"]:,}</td><td class="num">{H[k]["perYear"]}</td>'
+                   f'<td class="num">{wk(H[k]["gapMedianDays"])}</td><td class="num hide-sm">{wk(H[k]["gap90Days"])}</td><td class="num">{wk(H[k]["gapMaxDays"])}</td></tr>'
+                   for k, lab in labs if H.get(k))
+    return ('<div class="tablebox"><table><thead><tr><th class="l">How often it made a new high</th><th>New highs</th><th>A year</th>'
+            '<th>Typical gap</th><th class="hide-sm">9 in 10 within</th><th>Longest wait</th></tr></thead><tbody>' + rows + '</tbody></table></div>')
+
+
 def recovery_html(rc):
     """Back to the peak: how long the plan took to get back to a previous high after each 15%+ drop, or ''."""
     drops = (rc or {}).get('drops') or []
@@ -3171,7 +3185,7 @@ def recovery_html(rc):
             f'Between those drops, half of the plan’s {rc.get("newHighs", 0):,} new highs came within {rc.get("gapMedianDays")} days of the one before, and 90% within {round(rc.get("gap90Days", 0) / 7)} weeks.</p>'
             '<div class="tablebox"><table><thead><tr><th>Drop</th><th class="l">Peak</th><th class="l hide-sm">Low</th><th class="l">Back</th>'
             '<th>Months</th><th class="hide-sm">Months falling</th><th class="hide-sm">Months back</th></tr></thead><tbody>' + rows + '</tbody></table></div>'
-            f'<p class="note" style="margin:-4px 0 12px">Back = when the plan was back at its peak; months = from the peak to then, split on wider screens into months falling and months back. The {len(top)} longest waits, longest first. {tail}{nowtxt}A backtest, so expect real waits to run a little longer.</p>')
+            + f'<p class="note" style="margin:-4px 0 12px">Back = when the plan was back at its peak; months = from the peak to then, split on wider screens into months falling and months back. The {len(top)} longest waits, longest first. {tail}{nowtxt}A backtest, so expect real waits to run a little longer.</p>' + highs_html(rc.get('highs')))
 
 
 def wallst_html(ws=None):
@@ -3185,9 +3199,11 @@ def wallst_html(ws=None):
     rows = [r for r in ws.get('scorecard') or [] if r.get('k') in WALLST_ROWS]
     if not rows:
         return ''
+    has_q = any(r.get('qqq') for r in rows)
     sc = ''.join(f'<tr><td class="l w"><b>{_e(WALLST_ROWS[r["k"]][0])}</b><span class="msub">{_e(WALLST_ROWS[r["k"]][1])}</span></td>'
                  f'<td class="num"><b>{_e(r.get("plan"))}</b></td><td class="num hide-sm">{_e(r.get("prev"))}</td><td class="num">{_e(r.get("spy"))}</td>'
-                 f'<td class="l m hide-sm">{_e(WALLST_ROWS[r["k"]][1])}</td></tr>' for r in rows)
+                 + (f'<td class="num hide-sm">{_e(r.get("qqq"))}</td>' if has_q else '')
+                 + f'<td class="l m hide-sm">{_e(WALLST_ROWS[r["k"]][1])}</td></tr>' for r in rows)
     mc = ws.get('monteCarlo') or {}
     hz = mc.get('horizons') or []
     mrows = ''.join(f'<tr><td class="l w"><b>{_e(WALLST_MC[r["k"]][0])}</b><span class="msub">{_e(WALLST_MC[r["k"]][1])}</span></td>'
@@ -3201,6 +3217,7 @@ def wallst_html(ws=None):
             '<section id="wallst"><p class="section-label">Wall Street tests <span class="hint">the standard checks a fund manager would run on the '
             f'default plan · {_e(ws.get("period"))} backtest, before tax unless noted · run {_e(ws.get("asOf"))}</span></p>'
             '<div class="tablebox"><table><thead><tr><th class="l">Measure</th><th>Plan</th><th class="hide-sm">Previous plan</th><th>SPY</th>'
+            + ('<th class="hide-sm">QQQ</th>' if has_q else '') +
             '<th class="l hide-sm">What it means</th></tr></thead><tbody>' + sc + '</tbody></table></div>'
             f'<p class="note" style="margin:-4px 0 12px"><b>Plan</b> = {_e(ws.get("plan"))}. <b>Previous plan</b> = {_e(ws.get("previous"))}. '
             f'{_e(ws.get("source"))}.</p>'
