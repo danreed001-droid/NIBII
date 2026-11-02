@@ -378,13 +378,12 @@
        false
       ]
      ],
-     "maturityClose": 7676.0,
-     "ret": 0.008077,
+     "maturityClose": 7587.25,
+     "ret": -0.003579,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2469,13 +2468,12 @@
        null
       ]
      ],
-     "maturityClose": 106.828125,
-     "ret": 0.001758,
+     "maturityClose": 106.75,
+     "ret": 0.001026,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5106,13 +5104,12 @@
        null
       ]
      ],
-     "maturityClose": 3969.699951171875,
-     "ret": 0.021828,
+     "maturityClose": 3956.60009765625,
+     "ret": 0.018456,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7204,13 +7201,12 @@
        null
       ]
      ],
-     "maturityClose": 101.62000274658203,
-     "ret": -0.003374,
+     "maturityClose": 101.77899932861328,
+     "ret": -0.001814,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9434,13 +9430,12 @@
        null
       ]
      ],
-     "maturityClose": 2850.10009765625,
-     "ret": 0.009993,
+     "maturityClose": 2820.0,
+     "ret": -0.000673,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11329,7 +11324,7 @@
       [
        "bear",
        "structure.hourly reads downtrend for NQ=F on 30 October",
-       false
+       true
       ],
       [
        "neu",
@@ -11369,7 +11364,7 @@
       [
        "bear",
        "Nasdaq Composite fell 2.92% to 25,420.96 on 30 October, led by Intel (-29.26%) and Amazon/Reddit results (news log)",
-       false
+       true
       ],
       [
        "neu",
@@ -11389,16 +11384,15 @@
       [
        "bear",
        "1H structure is downtrend - last labeled swings: LH/LL/LL/LH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 28785.75,
-     "ret": 0.008505,
+     "maturityClose": 28223.75,
+     "ret": -0.011185,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,
