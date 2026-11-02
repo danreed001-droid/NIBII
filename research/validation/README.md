@@ -384,3 +384,29 @@ Against it:
 
 So all three are on probation. The near-the-high rule is scored per trade like the other weightings
 (`volweight_check`, the scanner's nearCard).
+
+## Near-the-high doubling off in a down market (default since Nov 2, 2026)
+
+In 2000-02 the near-the-high weighting cost the plan about 10 points against the version before it: in a falling
+market a stock at its 1-year high is often about to roll over (MU at the 40% cap in Jul 2000, NTAP doubled in Oct
+2000), and the plan took 25 months to get back to its Jul 2000 peak. So the doubling is now off while SPY closes under
+its 150-day average (`mtl/nearhigh.MA`, the same average the unemployment step-aside and the exit gate use); the
+earnings-jump and buying-volume weightings and the cap are unchanged. Engine `NBup` = with the switch, `NBno4` =
+without (`vw.hi52.off`).
+
+Real member lists, 0.15% per side:
+
+| Doubling off when | 2000 | 2010 | 2016 | 2020 | Worst drop | Sharpe | After tax | t vs always on | Years +/- |
+|---|---|---|---|---|---|---|---|---|---|
+| SPY under its 150-day average (adopted) | 48.2% | 52.6% | 69.1% | 103.6% | -28% | 1.47 | 30.1% | 1.37 | 12 / 7 |
+| SPY under its 200-day average | 48.2% | 52.6% | 69.1% | 103.8% | -28% | 1.47 | 30.1% | 1.31 | 11 / 7 |
+| SPY lower than 6 months ago | 48.2% | 52.4% | 69.0% | 103.5% | -28% | 1.46 | 30.1% | 1.15 | 11 / 9 |
+| SPY under its 100-day average | 48.0% | 52.3% | 68.3% | 103.5% | -28% | 1.46 | 30.0% | 0.82 | 9 / 10 |
+| the unemployment flag | 48.0% | 52.5% | 68.5% | 103.1% | -28% | 1.46 | 30.0% | 1.35 | 4 / 2 |
+| SPY under its 50-day average | 47.7% | 52.5% | 68.4% | 103.3% | -28% | 1.46 | 29.8% | 0.10 | 13 / 11 |
+| never (the plan before) | 47.6% | 52.0% | 67.9% | 102.0% | -28% | 1.45 | 29.7% | - | - |
+| SPY 15% or 20% under its 1-year high | 47.4-47.5% | 52.1% | 68.0% | 102.2-102.3% | -28% | 1.45 | 29.7% | -0.5 | - |
+
+The gain: 2000 +57.7% instead of +49.6%, 2025 +9.2 points, 2008 +4.3; behind in 2007 (-2.8), 2015 (-2.3) and 2001
+(-1.8). The 2000-02 wait for a new high is 19 months instead of 25. The 100-200 day averages all helped, but the
+t-stat is only 1.4 and two years (2000, 2025) carry most of the gain: on probation.

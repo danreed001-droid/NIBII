@@ -911,7 +911,8 @@ def main():
             json.dump(ej_doc, fh_, separators=(',', ':'))
     ej = earnjump.EarnJump(prices, ej_dates)
     # ... and the near-the-high weighting (mtl/nearhigh.py, since Nov 2, 2026, on probation): a held stock within 3% of its highest
-    # close of the last year gets twice its money too, and no stock holds more than 40% of the account (mtl/volweight.CAP)
+    # close of the last year gets twice its money too, and no stock holds more than 40% of the account (mtl/volweight.CAP);
+    # the doubling is off while SPY closes under its 150-day average (mtl/nearhigh.MA, since Nov 2, 2026, on probation)
     nh = nearhigh.NearHigh(prices)
     vw = volweight.VolWeight(prices, volumes, eligible, TOP_N, extra=[ej, nh], cap=volweight.CAP)
     # ... and the hot-commodity buy skip (mtl/hotcomm.py, since Nov 2, 2026, on probation)
@@ -1234,7 +1235,11 @@ def main():
     auto['boostx']['vw']['earnCard'] = volweight_check.scorecard(wl_bx, prices, calendar, since=earnjump.START, alt=alt_ej)
     # the near-the-high check: each trade against the same trade without the near-the-high rule and the cap
     auto['boostx']['vw']['nearCard'] = volweight_check.scorecard(wl_bx, prices, calendar, since=nearhigh.START, alt=alt_nh)
-    auto['boostx']['vw']['nearRule'] = dict(near=nearhigh.NEAR, mult=nearhigh.MULT, look=nearhigh.LOOK, cap=volweight.CAP, since=nearhigh.START)
+    _kn = K
+    _gn = nh.spy_gap(calendar, _kn)
+    auto['boostx']['vw']['nearRule'] = dict(near=nearhigh.NEAR, mult=nearhigh.MULT, look=nearhigh.LOOK, cap=volweight.CAP, since=nearhigh.START,
+                                            ma=nearhigh.MA, maSince=nearhigh.OFF_START, spyGap=round(_gn, 4) if _gn is not None else None,
+                                            down=nh.down(calendar, _kn))
     hc_ = hotcomm.HotComm(hotcomm.themes(), comm_px or {}, calendar)
     auto['boostx']['hotcomm'] = dict(hc_.state(K), jump=hotcomm.JUMP, look=hotcomm.LOOK, since=hotcomm.START, missing=not comm_px,
                                      blocked=[t_ for t_, _ in now[:15] if hc_.blocked(t_, K)])

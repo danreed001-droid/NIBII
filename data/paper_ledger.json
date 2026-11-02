@@ -603,6 +603,35 @@
     "scripts/momentum_scan.py (settings)": "c10bba062f81"
    },
    "what": "Near-the-high weighting (mtl/nearhigh.py: a held stock within 3% of its 1-year high gets twice its money too, multiplied with the other two weightings; no stock above 40% of the account), hot-commodity buy skip (mtl/hotcomm.py: no new metals or energy buy while copper or oil is up 50%+ over 6 months) and unemployment step-aside (mtl/jobwarn.py: the unemployment rate's 3-month average 0.3 points+ above its low of the year before while SPY is under its 150-day average -> the haven for 21 sessions); backtest on the real member lists 47.6% a year from 2000 vs 45.8%, worst drop -28% vs -33%, t-stat 0.9; on probation"
+  },
+  {
+   "since": "2026-11-02",
+   "fingerprint": "c6172f6963eca837",
+   "files": {
+    "mtl/momentum.py": "3759b9201678",
+    "mtl/rotation.py": "abbce15386b6",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/reentry.py": "e28fdda2a329",
+    "mtl/pricebreak.py": "20d70e5b7401",
+    "mtl/fractal.py": "936e82e39874",
+    "mtl/narrow.py": "2afdaea019ae",
+    "mtl/lowerhigh.py": "f950e464a79f",
+    "mtl/fedday.py": "9803dbb7512f",
+    "mtl/stretchwarn.py": "4cb17a8dce40",
+    "mtl/dominoes.py": "aa3f0ad9b0a6",
+    "mtl/nearhigh.py": "d62affa0db5b",
+    "mtl/hotcomm.py": "1b98b2db540a",
+    "mtl/jobwarn.py": "473f94c1a8c6",
+    "mtl/volweight.py": "2aa9b511eb1a",
+    "mtl/earnjump.py": "d90a7ad5e130",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "93bbda358364",
+    "mtl/fade.py": "eed144f30a67",
+    "mtl/calendar_nyse.py": "f968ab11e45a",
+    "scripts/momentum_scan.py (settings)": "c10bba062f81"
+   },
+   "what": "Near-the-high doubling off in a down market (mtl/nearhigh.py: while SPY closes under its 150-day average a stock near its 1-year high no longer gets twice its money); backtest on the real member lists 48.2% a year from 2000 vs 47.6%, the same worst drop (-28%), t-stat 1.4; on probation"
   }
  ]
 }
