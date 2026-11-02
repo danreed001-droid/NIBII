@@ -1,6 +1,6 @@
 {
  "about": "News forward test: fixed guesses about what follows each day's news, written before the next open and scored afterwards (mtl/news_forward.py). Information only.",
- "updated": "2026-11-02T13:07:14+00:00",
+ "updated": "2026-11-02T23:22:43+00:00",
  "version": 1,
  "started": "2026-10-31",
  "minN": 20,
@@ -73,7 +73,9 @@
    "asset": "TLT",
    "h": 1,
    "call": 1,
-   "at": "2026-10-31T01:29:14+00:00"
+   "at": "2026-10-31T01:29:14+00:00",
+   "res": -0.00134,
+   "hit": false
   },
   {
    "d": "2026-10-30",
@@ -81,7 +83,9 @@
    "asset": "GLD",
    "h": 1,
    "call": 1,
-   "at": "2026-10-31T01:29:14+00:00"
+   "at": "2026-10-31T01:29:14+00:00",
+   "res": 0.0165,
+   "hit": true
   },
   {
    "d": "2026-10-30",
@@ -89,7 +93,9 @@
    "asset": "SPY",
    "h": 1,
    "call": -1,
-   "at": "2026-10-31T01:29:14+00:00"
+   "at": "2026-10-31T01:29:14+00:00",
+   "res": -0.00479,
+   "hit": true
   },
   {
    "d": "2026-10-30",
@@ -113,7 +119,9 @@
    "asset": "QQQ",
    "h": 1,
    "call": -1,
-   "at": "2026-10-31T01:29:14+00:00"
+   "at": "2026-10-31T01:29:14+00:00",
+   "res": -0.01361,
+   "hit": true
   },
   {
    "d": "2026-10-30",
@@ -121,7 +129,9 @@
    "asset": "SPY",
    "h": 1,
    "call": -1,
-   "at": "2026-10-31T01:29:14+00:00"
+   "at": "2026-10-31T01:29:14+00:00",
+   "res": -0.00479,
+   "hit": true
   },
   {
    "d": "2026-10-30",
@@ -129,7 +139,9 @@
    "asset": "SPY",
    "h": 1,
    "call": 1,
-   "at": "2026-10-31T01:29:14+00:00"
+   "at": "2026-10-31T01:29:14+00:00",
+   "res": -0.00479,
+   "hit": false
   },
   {
    "d": "2026-10-30",
@@ -138,6 +150,49 @@
    "h": 1,
    "call": "big",
    "at": "2026-10-31T01:29:14+00:00",
+   "typical": 0.00524,
+   "res": -0.00479,
+   "hit": false
+  },
+  {
+   "d": "2026-11-02",
+   "id": "tone_tlt",
+   "asset": "TLT",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-02T23:22:43+00:00"
+  },
+  {
+   "d": "2026-11-02",
+   "id": "tone_gld",
+   "asset": "GLD",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-02T23:22:43+00:00"
+  },
+  {
+   "d": "2026-11-02",
+   "id": "tone_spy",
+   "asset": "SPY",
+   "h": 1,
+   "call": 1,
+   "at": "2026-11-02T23:22:43+00:00"
+  },
+  {
+   "d": "2026-11-02",
+   "id": "tone_qqq",
+   "asset": "QQQ",
+   "h": 2,
+   "call": 1,
+   "at": "2026-11-02T23:22:43+00:00"
+  },
+  {
+   "d": "2026-11-02",
+   "id": "busy",
+   "asset": "SPY",
+   "h": 1,
+   "call": "big",
+   "at": "2026-11-02T23:22:43+00:00",
    "typical": 0.00524
   }
  ],
@@ -150,6 +205,15 @@
    "bearHi": 3,
    "fedBear": true,
    "calls": 9
+  },
+  {
+   "d": "2026-11-02",
+   "at": "2026-11-02T23:22:43+00:00",
+   "n": 8,
+   "tone": 1,
+   "bearHi": 0,
+   "fedBear": false,
+   "calls": 5
   }
  ],
  "summary": {
@@ -160,12 +224,12 @@
     "text": "Upbeat news day → long Treasuries lower the next day (downbeat → higher)",
     "asset": "TLT",
     "h": 1,
-    "calls": 1,
-    "n": 0,
+    "calls": 2,
+    "n": 1,
     "hits": 0,
-    "rate": null,
+    "rate": 0.0,
     "p": 1.0,
-    "avg": null,
+    "avg": -0.00134,
     "verdict": "too few"
    },
    {
@@ -173,12 +237,12 @@
     "text": "Upbeat news day → gold lower the next day (downbeat → higher)",
     "asset": "GLD",
     "h": 1,
-    "calls": 1,
-    "n": 0,
-    "hits": 0,
-    "rate": null,
+    "calls": 2,
+    "n": 1,
+    "hits": 1,
+    "rate": 1.0,
     "p": 1.0,
-    "avg": null,
+    "avg": 0.0165,
     "verdict": "too few"
    },
    {
@@ -186,12 +250,12 @@
     "text": "The news tone carries into the S&P 500 the next day",
     "asset": "SPY",
     "h": 1,
-    "calls": 1,
-    "n": 0,
-    "hits": 0,
-    "rate": null,
+    "calls": 2,
+    "n": 1,
+    "hits": 1,
+    "rate": 1.0,
     "p": 1.0,
-    "avg": null,
+    "avg": 0.00479,
     "verdict": "too few"
    },
    {
@@ -199,7 +263,7 @@
     "text": "The news tone carries into the Nasdaq-100 over the next 2 days",
     "asset": "QQQ",
     "h": 2,
-    "calls": 1,
+    "calls": 2,
     "n": 0,
     "hits": 0,
     "rate": null,
@@ -239,11 +303,11 @@
     "asset": "QQQ",
     "h": 1,
     "calls": 1,
-    "n": 0,
-    "hits": 0,
-    "rate": null,
+    "n": 1,
+    "hits": 1,
+    "rate": 1.0,
     "p": 1.0,
-    "avg": null,
+    "avg": 0.01361,
     "verdict": "too few"
    },
    {
@@ -252,11 +316,11 @@
     "asset": "SPY",
     "h": 1,
     "calls": 1,
-    "n": 0,
-    "hits": 0,
-    "rate": null,
+    "n": 1,
+    "hits": 1,
+    "rate": 1.0,
     "p": 1.0,
-    "avg": null,
+    "avg": 0.00479,
     "verdict": "too few"
    },
    {
@@ -265,11 +329,11 @@
     "asset": "SPY",
     "h": 1,
     "calls": 1,
-    "n": 0,
+    "n": 1,
     "hits": 0,
-    "rate": null,
+    "rate": 0.0,
     "p": 1.0,
-    "avg": null,
+    "avg": -0.00479,
     "verdict": "too few"
    },
    {
@@ -277,10 +341,10 @@
     "text": "Busy news day (6+ items) → a bigger S&P 500 move the next day than its typical day",
     "asset": "SPY",
     "h": 1,
-    "calls": 1,
-    "n": 0,
+    "calls": 2,
+    "n": 1,
     "hits": 0,
-    "rate": null,
+    "rate": 0.0,
     "p": 1.0,
     "avg": null,
     "verdict": "too few"

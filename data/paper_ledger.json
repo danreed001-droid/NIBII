@@ -271,6 +271,28 @@
    "at": "2026-10-31T01:20:41+00:00",
    "fp": "a0544e2cee5f4b54",
    "src": "scanner run"
+  },
+  {
+   "d": "2026-11-02",
+   "mode": "boost",
+   "half": null,
+   "list": [
+    "CRWD",
+    "DELL",
+    "HPE",
+    "MRNA",
+    "VRT"
+   ],
+   "w": {
+    "MRNA": 0.142857,
+    "DELL": 0.285714,
+    "CRWD": 0.142857,
+    "HPE": 0.285714,
+    "VRT": 0.142857
+   },
+   "at": "2026-11-02T23:14:40+00:00",
+   "fp": "c6172f6963eca837",
+   "src": "scanner run"
   }
  ],
  "updates": [
