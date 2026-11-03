@@ -444,3 +444,25 @@ In Jan-Apr 2006 the plan lost 8.8% while SPY gained 6.0% and every sector fund b
   8 sales down 3% or 6% on average; while the streak lasts or for 1, 3 or 6 months): best 49.5% (4 of 6, every 2
   weeks) but ahead in 11 years and behind in 15, worst drop -31%, t 0.7, neighbours 43.5-49.0%; 2006 no better
   (-15.9% at best). Every 4- or 8-week version lost 2-8 points a year.
+
+## Heavy-volume selling (default since Nov 3, 2026)
+
+Two parts with one idea, staying away from a stock that big holders are dumping (`mtl/volsell.py`):
+- no new buy of a stock with a down close on 4x+ its average volume of the 50 sessions before, in the last 5 sessions;
+- a holding that closes 6%+ down on 4x+ that volume is sold at the next close (barred for the usual 4 weeks).
+
+Engine `NBup` has `vz` (the buy part) and `vz2` (the sell part); `NBno5` = without. It came out of a Nov 2-3, 2026
+search: three volume ideas (about 30 versions), each alone a near-miss (the buy part 49.0% a year from 2000, t 1.7,
+mostly one 2018 trade; the sell part 49.1%, behind from 2010), then all 30 combinations of five near-misses, in which
+this pair was the only one ahead from every start without a deeper drop.
+
+| | 2000 | 2010 | 2016 | 2020 | Worst drop | Sharpe | After tax |
+|---|---|---|---|---|---|---|---|
+| With the rule | 50.0% | 53.6% | 71.0% | 104.4% | -27% | 1.50 | 31.2% |
+| Without | 48.2% | 52.6% | 69.1% | 103.6% | -28% | 1.47 | 30.1% |
+
+12 nearby settings: 10 ahead from 2000 (48.6-50.1%), 9 from 2010 and 2016, about level from 2020 (102.4-106.1%), worst
+drop -27% in most; both losers had the sell part at 3x volume (47.2-47.9%), where it fires too often. Against it:
+t-stat 1.2 (0.4-1.4 across the neighbours), the same few years carry every version (2013 +11.5, 2005 +10.9, 2007 +8.1
+points; 2025 -10.9), and it is the best of about 60 versions tried that night, the case the close-versions overfitting
+check (above) warns about: on probation, judged on the paper record.
