@@ -36,15 +36,15 @@ CLOSE_ET = time(16, 15)             # a decision is logged only after the close 
 # whipsaw switch since Oct 16, 2026, the 3-month no-T-bills pick since Oct 19, 2026 and DBMF instead of plain cash since
 # Oct 20, 2026, the price-break rule since Oct 24, 2026, the buy freeze and green light since Oct 26, 2026 and the break re-entry
 # rule since Oct 27, 2026, the whipsaw switch without SPY since Oct 28, 2026; the Fed-day hold since Oct 31, 2026 and the buying-volume
-# weighting, the earnings-jump weighting, the stretched-and-warned exit, the near-the-high weighting with its 40% cap (off while SPY is under its 150-day average), the hot-commodity buy skip and the unemployment step-aside since Nov 2, 2026; ranges rebuilt Nov 2, 2026 from that curve, 48.2% a year from 2000) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026
-# (engine NBup, 48.2% a year on the real daily member lists with all of the Nov 2, 2026 rules, 40.4% in the Oct 26 audit before it; 46.1% on
+# weighting, the earnings-jump weighting, the stretched-and-warned exit, the near-the-high weighting with its 40% cap (off while SPY is under its 150-day average), the hot-commodity buy skip and the unemployment step-aside since Nov 2, 2026, and the heavy-volume selling rule since Nov 3, 2026; ranges rebuilt Nov 3, 2026 from that curve, 50.0% a year from 2000) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026
+# (engine NBup, 50.0% a year on the real daily member lists with all of the Nov 2-3, 2026 rules, 40.4% in the Oct 26 audit before it; 46.1% on
 # the lists rebuilt from Wikipedia's changes before that) - 0.15% per side, every window of that
 # length: return percentiles, share ahead of SPY, the 1-in-10 shortfall against SPY, and the worst drop inside the window
 # (typical, and the 1-in-20 worst).
 BANDS = {
-    63: dict(label='3 months', p5=-0.078, p25=0.003, p50=0.084, p75=0.176, p95=0.424, ahead=0.712, lag10=-0.078, dd50=-0.086, dd95=-0.177),
-    126: dict(label='6 months', p5=-0.072, p25=0.056, p50=0.174, p75=0.342, p95=0.824, ahead=0.812, lag10=-0.068, dd50=-0.121, dd95=-0.246),
-    252: dict(label='12 months', p5=-0.011, p25=0.172, p50=0.362, p75=0.676, p95=1.784, ahead=0.869, lag10=-0.032, dd50=-0.143, dd95=-0.268),
+    63: dict(label='3 months', p5=-0.075, p25=0.008, p50=0.09, p75=0.181, p95=0.416, ahead=0.731, lag10=-0.076, dd50=-0.087, dd95=-0.177),
+    126: dict(label='6 months', p5=-0.073, p25=0.066, p50=0.186, p75=0.35, p95=0.787, ahead=0.822, lag10=-0.055, dd50=-0.123, dd95=-0.233),
+    252: dict(label='12 months', p5=0.006, p25=0.181, p50=0.396, p75=0.706, p95=1.712, ahead=0.881, lag10=-0.021, dd50=-0.138, dd95=-0.26),
 }
 WORST_DD = -0.35                # the backtest's worst drop, 2000-2026
 
