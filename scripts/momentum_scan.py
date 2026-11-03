@@ -92,6 +92,7 @@ STEPS_MIN = 0.4
 BLOWOFF = 2.0                          # blow-off exit for Boost 100% / Boost + cushion (mtl.momentum.blowoff_exit)
 BLOWOFF_MA = 150                       # ... only while SPY closes below its 150-session average
 SURGE_UP, SURGE_VOL, SURGE_DELAY = 0.05, 4.0, 5   # surge exit (mtl.momentum.surge_exit): a 5%+ up day on 4x+ volume -> sold 5 sessions later
+RULE_ORDER = ('reentry over jobwarn', 'lowerhigh over rebound')   # which rule wins a clash (since Nov 3, 2026, on probation)
 CUSHION, CUSHION_MA = 0.75, 150      # Boost + cushion: 25% in the sleeve while SPY closes below its 150-session average
 REVISIONS_LOG = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'revisions_log.json')
 CREDIT_LOOK = 21                       # ... and junk bonds (HYG) lagged quality bonds (LQD) over the last 21 sessions
@@ -564,6 +565,10 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # and SPY's daily chart has made a higher low, the plan holds the Boost list whatever the rules above say
     # (mtl/rebound.py)
     reb_days = rebound_days(spy_bars, whip_px, calendar, start)
+    # the lower-high exit wins over the rebound rule (since Nov 3, 2026, on probation): no rebound stay-in on a day the
+    # lower-high exit holds the haven (2008 +9.0, 2011 +1.0 points in the backtest)
+    if 'lowerhigh over rebound' in RULE_ORDER:
+        reb_days = {d_ for d_ in reb_days if d_ not in lh_cash}
     modes, why, half, reb_held = apply_rebound(modes, why, half, reb_days, calendar)
     # ... and the break re-entry rule: after a 10% drop, SPY's weekly downtrend break and its daily break on fading
     # volume within 21 sessions of each other -> the Boost list for 21 decision days (mtl/reentry.py, since Oct 27, 2026)
@@ -587,6 +592,10 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
         jw_flag, jw_rise, jw_gap = jobwarn.readings(calendar, prices['SPY'], unrate)
         jw_starts = jobwarn.starts(calendar, jw_flag, start)
         jw_days = stretchwarn.out_days(calendar, jw_starts, lambda d_: modes.get(d_, 'boost') == 'boost', hold=jobwarn.HOLD)
+        # the break re-entry wins over the unemployment step-aside (since Nov 3, 2026, on probation): the step-aside never
+        # moves a re-entry day out of stocks (2020 +12.9, 2002 +5.6 points in the backtest; unemployment figures lag)
+        if 'reentry over jobwarn' in RULE_ORDER:
+            jw_days = {d_ for d_ in jw_days if d_ not in re_days or d_ < start}
         modes, why, half, jw_held = stretchwarn.apply_stretchwarn(modes, why, half, jw_days, calendar, reason='jobwarn')
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
     # stronger of TLT / GLD over 3 months if it is up, else DBMF managed futures (mtl/rotation.py no_bills)
