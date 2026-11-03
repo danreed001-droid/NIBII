@@ -46,6 +46,12 @@
    "at": "2026-10-28T01:27:11+00:00",
    "fixed": "no rule had changed: a page-only price list had altered the rule fingerprint; it was moved out and the paper record lists that fingerprint",
    "fixedOn": "2026-10-28"
+  },
+  {
+   "d": "2026-11-03",
+   "src": "scan",
+   "text": "1 of them skip a session or more (e.g. KVUE): the backup has only the latest close, so moves measured across the missing days are slightly off until Yahoo is back.",
+   "at": "2026-11-03T23:17:20+00:00"
   }
  ]
 }

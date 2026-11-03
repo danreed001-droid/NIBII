@@ -1,9 +1,9 @@
 {
  "about": "Market headlines saved nightly from free news feeds (mtl/news_feeds.py), last 90 days.",
  "feeds": {
-  "MarketWatch": "2026-11-02",
-  "Google News": "2026-11-02",
-  "Fed": "2026-11-02"
+  "MarketWatch": "2026-11-03",
+  "Google News": "2026-11-03",
+  "Fed": "2026-11-03"
  },
  "items": [
   {
@@ -19849,6 +19849,762 @@
    "t": "‘She’s a Type A personality’: My stepmother wants me to repay my late father’s $40,000 wedding gift. Should I oblige?",
    "src": "MarketWatch",
    "link": "https://www.marketwatch.com/story/shes-a-type-a-personality-my-stepmother-wants-me-to-repay-my-late-fathers-40-000-wedding-gift-should-i-oblige-51fc64f7?mod=mw_rss_topstories",
+   "feed": "MarketWatch"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "3 Stocks That Did Well the Last Time the Fed Raised Rates Aggressively",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOemRMeklLczhQc1RjNjd5VWpZVmxSZ0F6alhSZ2VWOE40NjN1Z2Z1YkxGYk02WnRGUEdGSEY1WkpLeXNDVElTcUtZT3NsVlE1NlVJN2ZpVmZaS2JaT3Q1ZDF3Z1ZWM3NuTmUwTWZaZjZVdy1OazJBM0o3RjlISzNpaU9VcWlnQ0g1NmFVZW9qTmI?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "AI Stock Market Bubble: Can the Technology Succeed While Stocks Crash?",
+   "src": "The Acquirer's Multiple",
+   "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPeTJrbi0yd01vMmhZcmJSOU5RcnV1Y1ItZ0ZyU3hDcUNjcHVvem9JTkN6Y1AwQUpxT21HSHVsMTYyX1RXWDRPZHhwdFNnNTBuYThnNWFBLUVQUzdvWVpMMmduWGpKQWwyLUpLcklJVWRRcGc2YW9ZX1pMMWdhTE0xZXh0QzlNdHFBQmVmMUNTUW4tY2h1anZ0MlZvc0x0ZVNFeFh4bzFfMlpRSlE?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "AI and tech stocks have sent the stock market on a wild ride recently. But Smartbird CEO Nadia Carlsten, PhD says we should look beyond these short-term swings. \"I think every company needs to reinvent itself every now and again,\" Carlsten told Ben Bergma",
+   "src": "LinkedIn",
+   "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQWmlBMFgwX0xHM1lFcHBIczMtNTNDS0ZMaXRfdkRPWk14MXNLTlpLVlUzSTFDbTFTcTRlRHk5NlRGa09BN045YTEtVzNEUzBVSGl3X2ZCUDRzZ3FZZDN5WEQteTZpSXlzMEF4UVhQcXhqbHg1YkJ1WXo3UjV6SV9VQmg4ZFpCMG1mNF9wN3RuTlZSZ1dPc3hudG9qMHhOUnppeVcwdXdpZ3F6QmloLWhON092aWg3Tm9fWHBfQ2N0WnlvV3Z2?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "AI, Chip Stocks Lead Nasdaq Rebound: AMD, Methanex, Hilton In Focus",
+   "src": "Investor's Business Daily",
+   "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQUVNYQWtEQmxUY0x5YWJvdWh1bktFLVFTQzFIaWxSR09CUm1KMjROWllwT2lLZl9sTGlzZnd0QWN0S0pfNGxvYTVCV0xSZy1wY1N3NS1TMmxaTEhxcEdDV2dWMEhxUTN3NmpLaXg5SDltTllENy1NclMtX252MG9ZanhxaG5pWi1NY0ZFYXNrUUs1SUhHdU83Q1I1Z1A?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "AMD (NASDAQ:AMD) surprises with Q3 sales, stock soars",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxONUF2S3V5OTRHdjBEeERmRTdsSlZLcENIRUtER3c2LVZUZHE4ejYtNDl1c0hTdDZmdnlMaWRvc25NNnBKVE5WNlZEb1hTdDFRdGsxQll0RjJPN3dhR3JQMnJNOHdrUmp5N3pNZ29zek9Nelp6VUluRThPMURBVTE5WHBtMTIwTUVBQ1hfblRtUnpKdTh3SUJJ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "AMD Posts Beat-And-Raise Report On Record AI Data Center Sales",
+   "src": "Investor's Business Daily",
+   "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1XUlpyMXlqcVpLcWt5MHZGLWJZd1FXVDlUTDlMTUhrMjVuOGNtMmhDUmFsang0MVN4RmRTR0o3TFk2Zndka1ZkWWp1QzViaEhkbmcxdXpZejRKWEV2enFDb3NZNmNzb3R5STEtclNmZk1DOUxQemZWQQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "AMD stock jumps after hours as quarterly results, revenue guidance beat estimates",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPZE5fMmotR09jRWJVcTVFcURmVlZiRHR3NDBEMVh6MzVfTHZZSEhLaWotLXNsWVNMMjNsZUpBc2tab2tTS0wzcDFDcFRURWUyRThyMl9NM3lsS3kxMnRZU3JqYUZwektUYzdNNTA0eVJyVnZMb2tscW9scWg5Vmt5LVd4MjFnVmhnNlFQVklPUWlESFBMcHFOVGxnV0Q?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "AMD stock rises after Q3 earnings beat, as data center revenue climbs 97%",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPR2NPYWttRXRkSERHSVlBbkU1QzVTZEZCaW1lMHYwSEhFM3oxQnlBdTlodGNJeFpSM2E1UFZiUGdHVFRHUjNTQW95VmlYNy1jNDNDeWpNMnlOQjFhYkRuNVh3WVNrYU9zeGc0MHhGc0gzOFp0U2h3N3hqTC1BVVhMcGtZdUlMN285ckpaU2VFeUlRSU5LMnMteTctTVJSdGU5V2g3WWRTZ2VRa2JaOUVxNEFRQ0M3bVFSdmdSaDRCZ0FFYl81MzVkZlg0OA?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "ATHEX: Credit sector led rebound on stock market",
+   "src": "eKathimerini.com",
+   "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOSFRWbng4bld5QXFqRmtiM193c1lqMVE4MVAzQW9GUlBIclc2QTNEc29XZkFXTmVDNXF1MUdaUFZXSERhWjNwWjRkSHpMZHNDLUZnR3FZaWdlVzZQeXpTbmZYekVnRXZZakdxMWs2VlFPSDFjdzhaOGVDc2lXX3psUi11dVNXelpzWEpWZHdYT3dpQzlZTUNBXw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Ackman calls stock market \"broken\" but touts Visa, MasterCard and Netflix",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQRUVQekMwVDh0SVZ5ZXpfVG5BeW1EZ3JmV1psRUI3Z2lRWjd1eU11RWluN1N1V1B4RjBHUlI4bjk1elNUQUZERFUweGhVak9xZ2w0T1RtQ2x0VGtVdG9NX3dlNy1rTkNXSklfT0prNVJMSjhXZFhPemp1ZW9ia0FaaXplSmNuT1lyR0o1dE5ZWjBjZDdTTm51S1lrUl9IQQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "American Eagle Outfitters (AEO) Stock Slides as Market Rises: Facts to Know Before You Trade",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQUGxJU2hIZ1pISGNGYTRiY3lIcWx3UDlQTVduWGtmck9LaEJBOXgzWXR6VGUxRW1TS3BGN2RWeHZmRE9wazhsck0zTXQ5UW9pSkxDU3VDaTh5d3UwYnhxdF9IS3liSFdiYnNlNmFZeURBV09meWNkNGVPejFaVjFCR2hBVHNSSUFPZmFmTFFBSGFlVXVBLWhkWmlXbkVvRkxiUHc?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Apple Shares Slip, Meta Debt Costs Rise",
+   "src": "WSJ",
+   "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQMGhjbGhSUVc1TVpmNDVMOFNtMUgzUldVeFFkc0cwNlc4emk1R3M1TWZJSEs3VGdUYmVZM3loemdPd1RKM1NZYjB3VWRWUm1adWppSXhCM2YyYlF5RnpEMFRlYkQ5LV9NcUk1Q2R3ZEhPRndPZ2tkVVZyQm5mQWdIUDdKMmh3aEJFbUE?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Are You Sure You Understand Amphenol Stock's Risk?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVmtQenRiTFdtbHdRcmY2TzJBcXZQYmEtX3Z6NXFVZG9MS3ZjSGk2NFdXdG5QcHZ0TDhJbWpFaFdOUm1yYXItV1BsQ0JPOU1xX2hBdUh1c1dtUGl1R09udFNLZjN0cHZxemxPVkwxNlVnZzY0MEM3OXRoSVJqSWYtUzlDZkYyVjZTc0VaUlJoeFhzNERudFcyTXZLRHFCdHpMbk00?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Arista Networks shares jump on upbeat Q3 results, strong guidance",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNRXR5bmFobjZsY2FGbnRYalFsa2lGSDdweGV5djQwMTE2YVZjWmlhdGFnRnRTcEdoeWd5Nk50WDJGd1FreUpqQW1EX0VkTzlIanpheFp3RDMwQnY0aGJTSzZHaDIwWk9aRl8wYWJ5NFRyZ0xTc0RDRHB4NzZQY3BRY3dlUjJJZXl2RmFJcDhCZDZUVERDaUszVFNyaGtTX081?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Asian Tech Stocks to Rise on AI Rally as US Votes: Markets Wrap",
+   "src": "Bloomberg.com",
+   "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPLVc2azZiNTdEZEJUM0RFOERmNk1QaTRQOGdkbE5EOUM5YVE5M2pqVTFkYmJsTC13MnpKaVRSd2ZLYmowSlhpOE5VcjdJNnJleWZsTDJ2SGN2b3JTOE9pdkZLMmdCblZhSE5ucGoyd2k2SEJwOFpVZVp1aWk1aWJYSHdvQ3VTMGtGa3FXa3NYUWxiWEsz?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Australian Stock Market Today: ASX Futures Ease As RBA Hawkish Shift Hits Sentiment",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOcW9oXzZ6UUd4SE1CRGppT2owZ3A4QlBSY2lTYVZaTFR6ejNWRjQ0Q1BNekhTdEtrLVRKZFV3ejBFOVhSallJN0tjN29FeFJpY1FRMl9TNExKR2hvdllZRTRCS2haOTFwNlRLcVQySEgxWU1SLXE3VDBSNUduMjUtUUNZNUJXNXBDR2V2MU1qdW9JR1hTY0tobjRwX2JDQUU?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "BC-Select Stock Indices",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQLUJ5eS1oUDZFSWYyQ2p0dk5CbE5kQ3kySVpiVk1aaGQyYjlaSW9wYUVPcFA5TW9oUDAxQ1dmNDJKSEVkNV9vTUlWNHhlRWk3anlPcVh3Zm5oY1NEZXpFV3Q5ZkNyUjdibGliOC1FS3JfLVJlVDBwTXRUS2Y4emlWYVE3UXFaM2E0N1FpX0ZYenMwNGZfMFVWN0ZQZw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Beijing Reins In IPO Rush After AI Concerns Hit Stock Market",
+   "src": "WSJ",
+   "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOdG14X1p2Yml1N0c0ZEdISnRrX3RwY19oVU9sVVJNS25PdThMSHVWNk1xSHR2WDlNNlJDV05nWHBaNjRud3dTMmdKdnhWSGpmY0FKQ3VEQWlLM2pPQUtsVWdBXzAtY3ZnUGNHbDBOYWx5WTJRZnR1V1o4dVFvTWloX19ZUHNFU3RmOS10aGRZTWxvMkdwektUbFV3cUozbGFLNUs1ZFNKWQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Beijing is Intervening in its Stock Market. Yet Again.",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPVHZfTXlPQTlLS1NLU0p4eGhzaXYzTHc2WUctRWctREhHSk1BRFpWdTdHYXRWclpRdk5YcXd0dEFWWFVLenRfUWRLbnkzNFpzNTl0RktNZE51SFBlbEppQXdCMkpVYnZkdF8wUmF1THRiY2xNM2ZMU0tsbTl5a2hyU1RIcE40d3RoVm9HOWZqcHZEWWRyU1djOVY0SWI5R3JXakNr?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Bill Ackman warns of 'casino' stock market as speculative trading grows",
+   "src": "CNBC",
+   "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9jVkpJM1FyU1pqQ25PNXRiN2Y4U2wyYjE1RWpQaEd2SjhYWUNjVUJQNzRGZ1hVangyVW1lNzdlWFZtczU2dVNJYjNKN2s3RS1WX3hDTFRCU1NnMUhkS0ltbk9BcnhwcUY2MHJVXzlOM1hoUVNQdnBZ0gF8QVVfeXFMUHdwYndqc01nM3dmWmp6WTFmN0ZOUXdwdkFLejBVNm5fMlpGMi1mZmFKU2ROSDZ2TTVyVG8zOE0zamN4eVNDTWxQZjhnLVQ5c0VSaUZJSTZCYXVZTEJUNWlrVUFwWXAzbVM0ajZRRDAzQ1BNaVhzbUtYQzQxWQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "BlackBerry (BB) Outperforms Broader Market: What You Need to Know",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNbnEyS3JkUks1REdqRXdseGoxUjhXeEtQMWNySUZWWU42ZTFRYncwR2h4bVBBMUk4SDR6MnRxa0VuNllPcFQyZ1RMcWJuNEFrUk9xZTBWNGV4OU0xR2IzLXlxNkVUMjl5ZFpadTRwcjB1S1FKdkRCblNSRXVBVG41bnlIQ1lhR0EwVGJHaWZPNmc3YlB5cDNCMHpMSURDS0d0Qy13eEhhc0g?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Booking Stock Falls After Mixed Earnings Report. Here Are The Numbers To Know.",
+   "src": "Investor's Business Daily",
+   "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPZ1JVV2x3N1pxYm91ZGN5RkxxZlN0VGFBOFBCRGpiTW5KQ3pLSjBIcmxCZ0NfN3pLcmFPeXQ5akppd3REbDVlUFhtLUt2dnYtSk93Zm1ZRkJ1Rm0wWC0zMUZPUVJCMUpXeEtRdzFMRzJIcHBYQTRmaGFnbDV0b1k4a1ZxSm5NeW9HS2pEb1J3?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Byron Donalds Could Be Next Florida Governor: Here Are the Stocks He's Been Buying in 2026",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOTTVKSFRGNzdQcWRDVGgyY0JNUUpDMmN6TXN2YlhtQS1Sdk9ndTdpNHZhcHlKdHc3R2Fhc1lhNDZlN2RYM1R4UURfaFp2WnBoZ2VwNlN3dmdqNzRXSXhJQUJMZkFxZGJqRTFfVVNPLXQ0OFFOVEtDOFA2S1RZUVdrRVJQQWg3TGZnSHNFNXF5c290NVhxWmNHWlFvWkdmZw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "CFTC Clears First Stock Perpetual Futures for Trading on US Exchanges",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQa0MyMjk4VHNJbk42RC1tS21iS0twUmMtTjNlemotS3lRSVhhYV96cEtOaTZqUFlLamNGRm12em85azJ5aGdIWU5uQ200T09BQmNRcjNkR1AzYjJoV3VsYWZzNFpUeW1wRFJpQzhLV3BTTk1YY2JLaHFic21jVGJSTzFrVFJiZkJIWGRDY3YwOTdHQW9XYkFKSDNMR0hXZ3Z3?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "CFTC Opens U.S. Stock Market To Equity Perpetual Futures",
+   "src": "Bitcoin Magazine",
+   "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9WY1hOaE1sWUdzQkVINHB2TFl3cU5WSGYzZnp5cmZvaVdCaXlIQnZxMFk3U1dBZGhvNldtNFZfWE12cFRGdzN1bERhMTI1d2RWQ0RhbnlyT2dFUGlqVm4xdWRKb2Q1SmJUbWpEaldkTGpiendIbFRz?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Canadian Stock Market Today: TSX Futures Dip On Manufacturing Weakness And Jobs Data Watch",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPYWlTcG9MT2VaYXJLZ2RrYy0xWDZhSW5SdmtRRHlnSG9WMzBsZTNnbjhjRW1CeU9xUkt5WkZkUWl5QThqLXpjSEZVVl8wdHA3WjFYTHA0bmE2Tl9JR05vUGRXV1gxLVYyUDlFMDJrMmdxbnN5WENMUkxXWjNXNzU2cnRHRTZRcldvYlJpNE1lN0g3TFlROTZxOVZtSnA?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Check Point (CHKP) Stock Price Shrugs Off Q2 Earnings Margin Strength",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNaWY3RnEwOWs2ZHlsTWswZDY5QzIxV0JjektUR1VRRzFiMHo5SC1fN2JRdllDM0E5dzJHOEQwU002dHE2N2NDMi1PaUlHV1Z6X0c1R3lTdTNGLXprTkhRSlB0VnBlWkVXYVJoRlFJak9KWE5WWEVyNVRZdUVDcTRaeHpaMXljeUFGYmRUYTlZS01rc3ZGZVlPLQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "China Stock Market’s Hidden Problem: Foreign Investors Get a Different Truth",
+   "src": "WSJ",
+   "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNTzZ5N25BZWFvQ28wbmJUSmVfTDZSVHVTVy1OZkJwdFhSN29Eakw5M28yUUpVOTJRQVJjRmRzSUkxdlhXckN4ZU5LY08zc3RsV0U0dlZwNFRTRE9NY2lOeXhPbkUzcm5HZFhfczl3UEpKZlRwbGZlODlUel9xZFd6OHpRWWh5cVN3aWJBOUJ5LWpIeEJwMEQxSjZ4UUtJQ0x3eF85aVdmajZMb1VOTmZ3bFJZLWl0Zw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "China’s AI stock-market struggles are a warning",
+   "src": "The Economist",
+   "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNUk5SYzV2RVRZQkdoM0syTWN4M010ZjVBWXJrVjBWdkNoNGE1ajd4Q2Y0eTdEMkJhbC1JVnNzdkJJSkNkSHhTbDNoNmw4Z1pZQk5EbGxkNUxJbTBQOTRJRGRrUzlKcTRGTWZxVVZxM2Rmb3FCVnJFQ2oyUTQ5UzhrODR4V29jM2toZFIyYVRXTVpRTVI1QXNBYk96a00weFk3T3NGZkQ3cXo?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Did The Market Read Cerebras Stock Right?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPUk53VU9kRnZxZmxJcElJT2YwYkJ0Tmx0VlcwOGRoRnBvNnZtQ3l4eTdOZ1JGV3ZjWHdoUU5ORTV4MmJuUFprTXU1SW5mOE1ZdGpmTzdjOHBHX3FSc1ZQalFlMHJGLTU0cldrUEI2aUtMOTEwOUlPeEV2cS1BdzBWbXF2aGFxTjdtYmtVLXFlUW1Id1FqQklscHJMYw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Ecopetrol (EC) Outperforms Broader Market: What You Need to Know",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPX1JrQ3cyRzg4VzZlaTFSQldLcHFHY2R5cDAzTGZVaGRKemJ1OEJLUl9oWm15NTByd2NUcVJfNWxHcFpNZDVzbElBTnRKdVBSWmMwUkVuS2l0d2dXdl9yX3NLNG9jVE5fSmFyOHRoRmpua1F2R3A2cHliYl9kV0dPaEtzYVdybDMwM2hmZ1RFSEdQcXVZaXlucGgxWi1yRG9SQzBINVFDQQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "FuelCell Energy Inc. stock rises Tuesday, outperforms market",
+   "src": "MarketWatch",
+   "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNOWNVTHdSYTVWdVloWnMyNjgxdjdxbjZQX0hORTJyUmNyeHdHbFRqaDkybno5cWpYVzVGdzRZU2syVVpUWkE5TVB6M2owR1dwaXJZanFEb3lMX3Q2WnZub2h0ZVdvb0RyaFVIS2tRU2wwWUJlYTZhS1ZxWnVZLVVTX190N253ajNUNTJhY0FlQzJSYWRaVXJpSEZ2NkZ0U2lyUU9uZlB5XzBxZzRxY0pWSmVydWRPektUNHltQnUtT2REU3dfVXIyY1Y1WXE4Zm00WHc?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "GE Vernova Inc. stock rises Tuesday, outperforms market",
+   "src": "MarketWatch",
+   "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPZ1cxaWxyZnBtOWlvSXhIbnJfNWotc1dRZlhMdy1PbFN6YmNuUjRiN1NUbHY4VTE1cjIzTjE2Nm5KaHRkd2ljX1pHTlZFWnMxYWgxdk9ZWnZFS2RoNHdLZXBlRmdmc2RCWjVpQjNuME5ZTWMwWmpIV2pNOGh6aDkzb255SWhjdGxUemRyZWZ0UGZod3NCSzlqLThNMktDX093QzdwUXpjampKYkdVYlBRSjZfRXNWVEJ3US1TZmRqaWpBcV9JTmxJNkdmVQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "GM Financial Announces Transfer of Stock Exchange Listing to Nasdaq",
+   "src": "Yahoo Finance Singapore",
+   "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOdHE2OVU5ZjI3bGkwT2Q3SUxEOVVKdTM4cy1mR3loRHFYWkFtMzFyLTdWTnc1YVM4VmhnNFNiTGJDS2tyc3V0LWEzSHI1dkJIMVg1VFpUeFRqalotSkR6Wi1pN3lSV09JX0F4WWpHY21sSTRONjc4UWFnSGNHUEREM0pmd2g2a0Q3VVh5emRrUQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Grab Stock Jumps On Raised Outlook After Strong Quarter",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQYkp2Y0ZpdHlzUmZ2V09lM3lrWTl5UzRxZDFPS05OdjZJZXM5a3FuQ0Z0ZlZyOUpzdzMyclVxUnFpYlN5Q3R3QWdyUllrWDRvendDRFJJc1ZTMHVaTHRUSWpBejFBU0pveUpiZVRxdDAwblExUlhOSFFCcGxnRTZGcl8zeDUtVWNId1lWWTJTYVpjZ1lWTDRISkZyRnk?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Here's What SpaceX Stock Will Be Worth by 2027 if Elon Musk's $1 Trillion Revenue Call Is Correct",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNak82Rk9uWHNGdlk1N3pmQXpBdzFBUTNMOGJIaEYtYS1uVGtqTkpCS1daRGtnNF9xd0xLSktFQk9tek55UFNRMXl2VHpFWXZpVWVIMVBYaWdub2ZOWW44cThlX01CdndMcmpub1ZrYXltSk1WYUxSYWFBT2tuTVpHLVJPWTlYLTU4OUJTOWE0YjdjWDhud0lReUNB?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Home Depot (HD) Stock Falls Amid Market Uptick: What Investors Need to Know",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQdUEtZ2lIbHZPZWlQdkY5RTdKR29pSWNHOHdad29uZkZUYkcwQTBVXzhJbXh6YzRLaEFYNzhsbXpud2tsZnVJNTByZnNGRnJaNXFEWEZuVENja2NVZTd0WFJLVEM2MmRqclFyNng0M053T2xjVE1SVjZOaW9PNnhCeGZETWt2NVFFWnlISTh1VVVNSHNl?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "How Much Did Dominion Stock Really Pay Its Holders?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxORzM5dW5VZG9aVEg2djhMNW1oUEg3elZBZTZOWUxMXy14LWdmd1hFV3Bzam4zUU1lRzFHekl0YTVrcVFpSHhDUlVIZjZsR0FZYUZfeTJkY3U2NEJmMkhXb3hYTDd0VTJFSGNPN1E3R1FPa0xadzRQVkJ2RlV0TXhpVlE5UGU4eklfUUVxVVVRTGY1N29XX2VZSVBzdw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "How Wall Street analysts think the midterms could affect the stock market",
+   "src": "CBS News",
+   "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBKNExSNUh0clVZWHY5bmZ0dGVxMHFBT25FbU9ybTZ1MElfRHhNN1hKSFhja1J4VTZPT0ttMkprWVVMWEhKMVdlTHVwVWRQMS1ZMkkzQ1YwZmpHQ184QjJud1ZQVk9GeGJxWUotMjhhMHpFTW5nMXNmQXFqdFo?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "How much of the stock market is propped up by artificial intelligence boom?",
+   "src": "Baltimore Sun",
+   "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNOHhncjkxd3BuUjYzcGZUeDZxZ2stUkt3R1djX2RhMm5oWUh0YzM1dWRRVTJjMHRfYTZ4ZU9ockxPcFM2eGxNZjVHYlRJa2prRXc2TUVQSXdnYjJzd3JaLXBKQXNwdEg5c2EwWXdVbXdjTzJCNng5SEo5SVlTM1BNeTBJNXhnWE9aZDBpUW43SGVjNGk4MWx5MW9HeWhJNTFsNlM4QUhfakdLTFJwV3VMUWJKMndRdw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Huron (NASDAQ:HURN) reports Q3 2026 in line with expectations but stock drops",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOTUhyX2FjcTkxcFJ6RXBvUHQxMmp4b1NtVDZlQS14bVp4VUZGMG9Qa0lJcjZUSkpXUzhSMjZUblVFUWF3UXRTa0pNaTJmbVNIQk5NX2RXOVJLZU1BeWNXZHhnQ1p3b1pqNFljN3Q0ZUdQNndQZlJzdFhDNGNJQWtBMmRibkg3WjdvUy1PTTYxQ1U3NG50T3ZxLQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "I don't see roaring 1920s comparison in the stock market: Bill Ackman",
+   "src": "CNBC",
+   "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNeEVha2ZPWmV1dk9hUERiNUZhUENkSmZvdWlHZGQxU1c5RGlWek1wS3hsb0Q0UXRrQ0RIVUdTUGhqMlo2UUpKV1lFZFlsbXZSN2xrM3RKaDlPWTFUVVhrZ1Vwb1JOSWdMYzIyU0NRbVdJX2IycTdIM3dnX1QwRUYxLXlDYUh1NU0taG5pcm11UE5HbDB0TVAzbG9EMmhWRDdrc2hPRHc1Ykk5SHowcXB3?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Investor Fear Spikes Ahead Of Midterms. It May Not Be So Bad For Stocks.",
+   "src": "Investor's Business Daily",
+   "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE82YV8zN255WVZncmdUUlhxT2hlTXpqZ0QwT0FFN2hGazV2T0FBMkFBSFR2azRsdkRrX083ak1mSExIN0hPY3MtOVVnNzJKbjJyU3lKT1U1LVlUZGo1YWJ2bHozay1ma0NhVEowX3R0OVg1NnYw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "IonQ Just Dropped 32% In a Month: Is IONQ Stock Hopeless or Ready for a Rebound?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQTHY1U3ZjX0Y3NEtqemlVQ0owV0FJbWdlQmdLWWRLU3A4cTFsUFl4Um1fcUQ5X2V5Q2JUa3NVVkNmWURsQlFyTVhfTWdESDJZYUxfVEM5ejhWX1FfckVaZnZsdVNUVmNxSHY4Y2FCYTE0UzI5cXd2SzFpVm9HNFdBX042cVNFN0FLNEliY2lCT2J6aTRrclE?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Is Palantir Stock a Buy After its Latest Earnings Report?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNcWptdHZZcVM4WDVYNWVLMjFORkhDanFVTHoxeFo5cmV2NHVSbEhZSFM0ZnlYdVNlTkExS1BTSVNzajhPTW55WXdXQmpRcDBhdkVnUW1FOEJSRzdQZG5HWWZGNXotdzRGOVBJQ1NtdEIxQjBCN0JteGpaVWx6UUw1bEpqS1I3eUZLT0RVenRYVkJzSmtSWkJDMG9pb0wwZTJw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Is the stock market open on Election Day 2026?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxONFlMRFlHYktLLXdBSkpJT2c3RlVqU3NYVVlGRG5UWnhiMDlmalQ4MjNXZVQxRFZlaXNBN3VNQmF0a1NxdFVxRmFld05mQ3NuZFMyU0VKQ1hxM0FrSjNMUGVIQ2c5ejJEc0twNmYxdnVGNGFaRTAtcGVtNnpLaUY3Q3U0amxnR0hhc291LXl2WUpndUpNa3dOSEJfRQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Jim Cramer's top 10 things to watch in the stock market Tuesday",
+   "src": "CNBC",
+   "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOb1lXTjFkeXFrN2VjVy10dXd1N0RGWVdscVNaSl9OX3BNU0UzZHZJZnM5ZjBMbnlnQ3dLa2NtTWU0QXhkWW9EaDFpNzc2YVNwX2w3REdRcnZrUnJhYlRWdWJ0OFFBN3JEb2NQaGxBQzRqN3pncDlvdjNSeElXOEdPLThSb0xkQUFRSXlYSGYxdVN1RkdxcGNmbDd1Y0lJelJiTncydDRpTWRVWFlqUkZ6MXBhNA?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Lowe's (LOW) Stock Drops Despite Market Gains: Important Facts to Note",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPM2dWR045VXoybHppVkt0STJXdDJOeHRLM0xvUUktV3FhRjYzNmZZVDBzMF9rTXFJX0ZmSmJGZHVXMWRBZ1pnWTB1cUlRaHlBTmtrcnh1TTF1RzI5ZFpHc3VpR2xwM0huRExaVV82ZGNoSm44MkNWU09pMHZWNHI1MmJ6aW9RZ29aQmYzZ0VVMUdOOFd5ZmRqRG53?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "M&T Bank Stock and Its Richer Credit Card Rewards Program What It Means For Shareholders",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxORTAxYjlNRHJGajJ3VlkyUUNsU1pXYmw0LTdPMnBSaHZOWFlWZmphNUlFX19DdHYySGVaUjVjWVBzeU1GeGtaQmpQLVB6dm1GejdVNk9YUHc1SkZ1UE8wU3BfQXMwcWMyS3pUSkNfcEhDajFyeFFQSmRUYWJ5MC1zNUtHam9tSXNobjFhRmZXTQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Mayville Engineering (NYSE:MEC) exceeds Q3 2026 expectations but stock drops on weak guidance",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNLW5oWTQyRnYzVEJlWTE2dndMeEt0cTlJLW1QUlJ1QVpUMHp6eUt4anNoN3JKdlA0TFozMEZPal9OR2hXbzhSTDRIem1vbmltZmsxclhFdV95NGNCTG90ZWlMenc5clNKTlRzdW1ENUxUeTV0cjV5OHkyYTUwZWFiclVCWUREd2p1c0llcTJidV9uSFhBWnZ4b0tZYm1CLVB1TnB0SQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Midterm elections could jolt stocks if Democrats sweep Congress",
+   "src": "CNBC",
+   "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9Ua0pHS0JmY1BBaERCRF9iQXFoRnYyYm1ZamRxdHRJbkU4WEI0TkRobUVkMWxpQWIzRFMzaklSY2VOeVlzSmdocEhVaTduQmx0SGo4RTdqU2k1bW5mSlFDazlNT3pXZlVhYzlOYjFaaXVwWkdB0gF6QVVfeXFMTlhUMHhuNVFSZ3Z0OWdhUUxiUk5RSE12R1hzTmcwT0s0d0hVX3RqZnZleHg3cGMtaW5fTklxYWN3V0NPdFZFWEdXcU1HNVFvWXZhLWRiYkZPZ21CWTFibWMyVzlQUFZGOFZzdUJkalZiYlltTjlSejl6TWc?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Monday.com (MNDY) Stock Slides as Market Rises: Facts to Know Before You Trade",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQZzhFU0RLcXItcFdSNjF0QmNkbnB4ZG5KSFNfNjd0YVg2Vm5Ia3ZkUkI3TUQ0RWhFWnpxbmNMNl9fOUxrN0hyZU1GSHRzUmdVUE1rMHRsc3E5d3lEbDJCQnVzQjdSOFpGNm1EXzEyaXo5dnJnd3ZVSWhITTJldWNleG5hVnBvTko0S3N5d0poZkV4eWpjbVVFMA?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Morgan Stanley Flags Major Turning Point for Stock Market",
+   "src": "Yahoo Finance Singapore",
+   "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWDZFbGlSZkNkODlSQVQ1Y0xyOXgydlA0dXQ1WjBhYk8tWHlRS3k2bmRxeU9xSkZNVHJEWWlqRFFxaXJCUWRITll1QWhzOHUwN2FNVWo3RmN2Qi1TMmxnUEJCREtMMnRWbzhQVUVZQUxSem9iU1g2WFBIbkNpb1ZPX0pYaldYeUVGVkJV?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Morgan Stanley Warns of Stock Market Drop Amid 3 ‘Clearing Events’: ‘Much of the Damage Already Done’",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNTnJzZEFjbExIS3NiV2dOMjZtandIYkI2QmhraE9lOHo3bFM3YmFrM1JnS2tpSzQ0OHk2aUNQOUpUczRwY2FjMUtkbVQwdnFkSWdVaWZUWm43V213VUR6RDRCelRXUVI0M1hKV29EeWU3U2VQNklTWHNrRk8za3ZjMkE3QTBBWHhzaFdZNjFQcDJwWE5qYUJKMlpnQXgydFE?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Nasdaq Bounces as Chips Lead AI Revival: Stock Market Today",
+   "src": "Kiplinger",
+   "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNYnRDUzc3MFhXWEZOZlNxZFIxLXJrVk9aMHhzM2dHY1d6blZ0OE4zajJqZEcxamYzeUl1OG5MSUJZUVBJY1hEWGU0SVFpVjZ2WDBqd0hzRlZBcHQtdVg0R21OTVh0dUMwTGNIakNnVXprM1diZnQwLVJaOWZRU2xiekZpNzR1UG5laWNlREdMWm92WW1JcDh6dWM3eE1sT1lweHA0?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Nasdaq ends higher as AI heavyweights rebound ahead of midterm results",
+   "src": "Reuters",
+   "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNWVp0N2w0REZqOUJ3YkRxcmliYkhtX25yTkFtdmJDUFdSVm5CcXRQYjdMeFFLU0gxcHk1STM2R0xXaGJ6TW9ZN2ZQS2RReVRiXzNtY1B3Qm5fZ1lfTUFaMVpRM2d2ZVZodnZtbUFFLUtkcURfUEtENElyNG5YcFRGcncteEFaZFUwOGxVUmpTMWFkMEtvb09VTG50a2NSbjhLUm5Zc3EtZS1XUU5lWm9B?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "New Break Closes $523,820 Non-Brokered Flow-Through Financing",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNUV9rUS12MVFKN2NkTzdxWWlsUFFScVBScHpuV0tPbXNFMzluV0VQYVZmcUlYb28zb3dKT1l4Ml9nRFJubExhV010N1ZlbGF3czMwb3UxUkNyVHBRdHBqN01IN216OTRPWnBBaFRMWmtlaXNIWnFwVHlMdDlqSWcwQzlwVF9PNVlZNlFyWmNsVUNBeE0?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "November Stock Market Outlook: How to Position Your Portfolio for the Remainder of 2026",
+   "src": "Morningstar",
+   "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQaVVWZXNxSXFDUmhYbGJFZjZIWlV0MElvbDZUc0pBR01Vbk44REpJVTZoRVdtdlpoc2hlNG1yYkdFbkYxR283alo3Q29raGk3bTBPMWZPS3lJblo3TERFdmZwSmRmb1A5YmkydURqbFRiY3JvQ0xqU1hlbzY2T21iY2lsSFN0NWNFXzBLUW1ad1l2OUoxcmRaOFBmUkZBQ0xfbTNHejJDa1J0a2ZN?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Number Sense: Grocery winners and losers on the stock market",
+   "src": "Grocery Dive",
+   "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQaFFFSGN5R0lsT01RSm51T3BWa0pfby1ZZjRKeDhUdDltMTk3S0lFZm9jcHlXUDI0WUZnTHF1aWxkeDVjWlp3cDd0Y3I0LWs4MVprWm1BcHcwTEt2TjFkM3VnLWxlNWFNN3lQSlpobG54Q2FVWHctWGQ4WXM5bkJRdmczUGYwYUpkei1pekxFSzFvRW5qUS1mU3JLTmprNzIxazNRYWJNSU8?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Nvidia and other Big Tech stocks lift Wall Street and make up for a drop by Apple",
+   "src": "Pittsburgh Post-Gazette",
+   "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNZnpaTEp4YXR0OFlnQm5mVkVVYmlWSUV4T1ZYZlJjd19uZnctMUpWQ2JNZXE0c0NCd0d4cGdvcU1wQUZManllLW9ZMGZjTllsUC1Nai1aTDdiLU5pZlpYWlhMdjFnWFVNMExIYjRQNG82SUx5ZFBvd2w3T3QzSW5Tek4xNDJqNzhxM2I4TkRDSlBpU1YxOXZueDI0Y0xSMUItYlVjSG1tRk1BaEtPV2dN?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "On Holding (ONON) Exceeds Market Returns: Some Facts to Consider",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPNzFJOW84TFhIMWpRVGdZNnBWSVktX25mV2UtSzEtaHBOOG4zT3FlZllzUXZtejhmRFVJTExFS0FuUU9vWGdxMmg4TFZfOTVGdFowbGoxMGR2ak5HTU5sRjgyR3Z1bTJQRFVTRmd0eDZpSkZOZUVpU1Y1REJfRllIcHVnX1czN3lJUnJxQjNHWURFYkVsR1BzSGFQdmNCcWhlZlE?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Ouster, Inc. (OUST) Reports Q3 Loss, Beats Revenue Estimates",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPQ1Y1aHhtOFF5Y1E1SFlZU3RSRWY5b1VzUU41RFNLVmlNeU8wNERhUmpWeEpRU2M4NEtzeElTMk5na0tCd0xVbW1SVUUyQmFRVEM2cml3ekUtajVKM3pNV1RUV0hjbmh3c2VEUjFwMkpLTXl4MFY5LV9IMk5mY0lzWUg5TkhCZWxIZXFERUo5REZ6ajhjMkE?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Palantir's Report Moved My Buy Price for the Stock. Here's the New Number.",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPXy0yZzQxS3NYOWhCeWs5MUtyS0thR1EwYzVaX1JjNTBScm5QakxLTnYxZW5zUEFIZUpMNDYyM3dMVHp2WDd6UjFXS0I4WXhSVTgxSGlnbzRxTjJEM0hHblR1YVVaMEN1Y05id1h5YzdwcjJKc25ZX0xlaHNDLWJ1c2xUb2FGZUN4dFVWZEtXRXR4RmFSOWZDUGJPanpuZw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "S&P 500, Nasdaq rise as tech stocks gain ahead of midterm results",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQWE5VTWlqMWhWQjhVTU1PYTc2M2w3ZWJlUWl1UUMzbThRNGVvQkc1YXBxOUdyVDIwYzVHRG9WR3J0VkhxSnhGdlAzNk9WZXduZHBXdkRackxJVmZPLTZZLTFuQnFQMzZWTVF4U28xV3VrNERlV3hwOGFiYWR2SUVmcUtjOXZNeE0yeHRBTkZkZjI2bDdraXdDYg?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Sector Update: Tech Stocks Gain Late Afternoon",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNSERRS3M0UnY1ZlNuNWJDczhpWjd6Uy13cHpZQ05BeUR5dngyZERaTDNkQU9aX1AtV2FzSGRUMFNOLVczTWt3c3dOMExXaml3dzRoYjlTWG5IQWItcmN4VW91UDlPWFJDYUFXWVNZbzlaY3d5RjhYc2thUXR3dk5vWE5HQVRkT1AxX0hlZzZleGNObkQ3Y3JsVjFMaVRFb1k?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market Mostly Higher On Election Day, But Apple, Shopify Slide; AMD Jumps Late",
+   "src": "Investor's Business Daily",
+   "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQWVp1Tmd0OGxSSk11TUl0eW1rS094VmdLbE9vWG1BWFU1YmdMdmFDQmhabDR4TnV0dUZOZGJHdWpLcmxtWEVKdlJtQXNMOWtiMDU1ZzVrMFdKN0J0Ykpyb1hoTWtTSG11Tmxsdkp3ZXdKay1yV2NaMTZKODlHVDM2MzBrcDRKUXhRdXpMME1nOVc0QW0waktsMVRVR2xiMXRiTGVpNjcxQTJCOS1CWjg1UDlWNjdQLVk?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market News for Nov 3, 2026",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQV1V1ZDdrYWZLVkttZk9fR3VOeXE0cEFldnFyYkNYMDZmdG83ajNOVGEycHQ5YzBoUlNfa1pSMlB2YjlCb2N6eGdsbE42c1NhN2FkRU9SNzhZdlR3Y2NvOHV1ZmtvajdwMFhiUU5QcXYxSHJ6T0NIcWlPaXN0d2JBQnFOcTlUSU0tZGFkSHhrSFBaZw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market Today, Nov. 3: Grab Holdings Jumps 9% on Q3 Revenue Beat and Raised 2026 Outlook",
+   "src": "The Motley Fool",
+   "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPRHQxaW4xVG9kdGJ4endsQ0M4a2hpdkg5cnlOQnJ0ai1jd3k1UjBoUzI3eF9RclF4SXNPaTR4YkRzeU9lbXNHOXY2SjVtakVJUHVqM3hWSnpOSXRkX25OTFNBZ01SR2R0TUpfU0tzY1ZibmxFenFVOUE1UV9JMTFsUXN0MVFxeUdnYjhEMEI4c3VjLUh1U1hzYVFJSkFKaUNPdmpUdlpHcHJPbFFiT0RtQzB2bWs2SnYxVGdCU0FoNFBLZWc4TW9DZWwwNWtxbHUzeWJaUmZ6aXMxcFBNY3ZhWkpYVHo?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market Today, Nov. 3: Markets Edge Higher as Semiconductor Stocks Rebound",
+   "src": "The Motley Fool",
+   "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOSkF4U0NKME12NDFnZXRjRmFGLUJ2TGtGTGU0TVVKU3IwWGlhWU9mQ0hhY29hMUxXVWUxTkhhaWp3N3laUDJLQV9WWUNBZWlhNXlFUGRreDQtZy1qQ1hjd2s2MndKNGQ4ZmpwV2FnQXVKd0Z3ZnpSRUVpNjhFSmJnaDZ1MF9STl9zcHZsLWVfSlNTd29kVGlUVmVPV21YcVRlWjkyTWhjLU9YeExVSGhzNGxacE9oSDlzUG9DeW91cGxNTkVyRU1SaFU4bUF5NkJFRHdr?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market Today, Nov. 3: Marvell Shares Edge Higher After Premarket Drop on $115 Billion Lumentum Deal",
+   "src": "The Motley Fool",
+   "link": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxOVWc4YUNvRTVfRXpyWENSOUdNN0ZqeG42dUo2b196SzFQNXI1dGVEWW1qem1ZdVNySmxWOWhsVjBTVXFxQXFiem04Mm1LVVpmbjlqR3h4WXM4YmdtZ21NdUJibm5IMW10S1hkUy1xUldQLWdpRXBRQlhkS2xmUDdyWVZWZVVnVDFCQl9kZ3U5eXphZnpHcS1FSV9ReWd3YXJ0by0yZlpLYnRrdE1ORGo4RFRySHJtR1hJdHo4MF9PSlpNVHRIbV9rdWVLa1ZiZ0Q3TGkxbmdRUzFvU1lwR0I5QWdkZzRESEdYOE1vMmV4akxrQXBzb3Nkbg?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market Today, Nov. 3: Palantir Falls After Q3 Results as Valuation Stays in Focus",
+   "src": "The Motley Fool",
+   "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPcXNrZ1ZFcVN5eE9FWmZnNGdwNlVibzBLUnZrU0JraUo1UVVWeUR1b2tyRVhHYU50a0dKWFlrM2tCaS1KbWYxNENUdHM1NVBKd2RsWXI0RVB0bGFoUENmQnRadWtSdFBjT1BxcEY3eHRxVmdmUmxWbFdZRC1EWGVlZk1lbUF3VVFvenk2Vmhac3VrLVNCV19FY1VjRmRnSlNOdkRrSzZsTUI2ZDR1TTFhS0hfcjRreHoxTXFubzJleFE3N1dzQmhTSm1McWJJZE9FdXIxc2dqaUs4RnJlVFE?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market Today, Nov. 3: Stellantis Falls on Reports of Chip Shortage Disrupting Fiat Output",
+   "src": "The Motley Fool",
+   "link": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOeDk5akhrNFVIS1lYc1dQRTdFazA1eG1nMXVMdjNLVjQ5NDA2N3pNeGlmOFRySDliNHBldHBRczRYdGdDU0E1ZEJWYVc5LXV5M0E4dGtwclV1Q0ZZaE9jRVQxSWJVa25iUDBBLUJBWmlSRG5VVkRGOGttdXpkLTlaVmFtTnFPVEpYczQyX3JCYkxzQkkyZkNRODE0TG9sTDkza28yU2NuTGdpLXBzbEtad1lJTEg1SDNZb1RaWGRCTjl1R2lwZEpTbWlWb0l1LW5KcEl3US1BT0dGbE5yQjc3M0ZqWWduZUZs?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market Today: Dow Dips Amid Midterm Elections; Palantir Slips, DuPont Surges Past Entry",
+   "src": "Investor's Business Daily",
+   "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOcEFVaXAzcGdNaDVQVzZzT1dUaVdCUVlQc0pBUnN5SkFyMUc3clF3Q0dzamdzNUQwVFBEbVNLT28xX0RGUWhmWnB6STZ1QVVjODk3S20tR0h6ek5QQnQ0TjNYUlZ4YW1LQWNXZjVFLXpzUWlWT2NGZEt3OEhBNkpUdi1TSzhfNWk5ZWY3MGpjeUVMQ242RmZUVnNVS3RTMlZMcExUZ242REQzckJZV3dtQkg4UmRlU0Zra0otVmdB?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market Today: Dow Futures Drop as Apple Sinks After Earnings; Chip Stocks Rebound as AMD Results Loom",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNN203dHdBSnlpOWZCV0lZREJuTk16RXdJaEVwUC1iTzhUQjlDX3ZpU1A4aHU4VWVfalVSd0t6M01oU1NHVEtJRHNrbUhZMXBBMFVTQ1FOLVVha0hySzU1X3JaS3hDVUtWSkJjWlMzVlVIVGU2SnhEQmN4QjZ0Z1dzX0s0YnByQlpYbHhKU0hVOE5LckVWOV9ucFlBaw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market Today: Dow Futures Plunge 323 Points, Apple Sinks, and Iran Strikes Send Oil Soaring",
+   "src": "24/7 Wall St.",
+   "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxObWh3bllKRDFaQU4tbnRhVFpNUGVKUjB0WjEwTTh0cnNfbnFYdjZYWDFKRXI3dHhIWGVDQVNxSkoxemg4NGxYM0hvbl9DZVpialRXLXcwRXd4NmVnOXlIQk51Z1lNRjJ5dTh1OTd4WVZpZ21neXdXNmlIYTBKNFZmS1VlUGhZU05RbGJxNlpIMkZ4dEQ5cmNNR3YzTjRVbTdRNXNMV1ROdjlycTI2cl9VRXp4bkp4b0Q0ZTVTdkhyZlpaOHU1LTFFMVJuVWdyYnVheVA5UQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Market Today: Stock Market News And Analysis",
+   "src": "Investor's Business Daily",
+   "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE8zdGl1MmxTM2JJa2pLNlFSWVhuZUd1ekRIeVpDcGVqckVJcloxaWlnRHJ3b0hqb291NXk4dlo0SmRQNlhDaGpubDh6ZWNTUHZiYVhjOVJINUxSYXE0NHRiNVE2OW51R2h4N1daaXRIdzVBR1UxT0g4?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock Sell-Off, Bond Market Jitters Signal Financing Trouble For AI Data Centers",
+   "src": "Bisnow",
+   "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNUlZyaFFFcjBvMG5RZHE4aV9sdTBqYlk0T3haTV9CbXlLcW9yNTBpeDU5Wk1RNm5QZmZZeF9lQ2N6dTFQSFM1ekdyZTdpTkQxdlVNem9qak5zQjVMSE91WVJOR0F0NFVNRk9tWXlMbmFIaV9aNHZKN3lpRXczbmFDV19fSndUSC13NUNjNFg5eFA0TG9hOWZQQWdBNHpMWktUREFBQmR3WHNXTnNod0pLaHZkTWRJRVdlcnc?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock market after midterm elections: 10 things to know",
+   "src": "qz.com",
+   "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1nMzZVMEVELS11Szd5a3ZLeS11LXhQbTFsZ01yUWxDbGNEcUpJTHZkQmZwZDZfWXFuQ0txdW5LOFhqWHh4OS16Njlaam45TzV0NHFBS2FqX2w0X1V6QW5UbA?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock market impact of midterm elections 2026: Experts warn of ‘uniquely difficult’ year",
+   "src": "Fast Company",
+   "link": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxNd0I0S0c5aTNGemJ2YkpfbkVuSGdGYmNxTkJNazA5SnVETU9QdXVfTmV0NklzVlF4NW1lb1p0UG5wVEZpOWh4eHRWcl9ra1plOGlRdklOaU12Qlc1dUt4MXBVQVFGbDQteWRfMk1RX0dwWDlnYTJVWUtsRW9rUGE3QVhDakVaYlF6MmNfNXFMRG0wZlRCaVY1SkFNZFRrS2FMM0NpQ3Vqc2FGYzJsSlV0c2VOMHl5QThsTXFGZUtSY3VZTjhhVk5hbXo5RWN2WWFuMVM0MFM3TlNMei1HMklWd0h6dlY0clpXMjVBbzkySVlxalN0bWF0eWU4UF8?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Stock market is mixed as investors await U.S. midterm results, tech trade pushes to recover",
+   "src": "Seeking Alpha",
+   "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOUmlmd0pQN3BaVkI0X2dubmxfMjFhaFVaSmdabG55UF9jMEJsRUpUb1RxejNPNVMtSjZ1YV9KMmFwLWFhazVMMkY1SnVGZWw4V052ZVNpRGlsbVI5dkJEUmFDTmNkSklwSkRRczQ4SUVWT0JmV01UZlZaNDBVT0dlLXo2ZmZ5NWxmdlpDSUtUTnc0UQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Super Micro Computer (SMCI) Stock Dropped, So What Is Driving Attention Now?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNdnhFb1NvQVdPOS1yWlBhUU04aHJXYk9iQ1Vodk5ZT2ViWDNraEdJMC1wcGxkNWZfMkJSdzRWMTQzbC0zSGI5aGJxUWsyX0FNOHRrWWVDR1dxRFZEdUZZVFNJSGRieHJCYVU5X2phbGtoR1M2WTZXOFR1OEVURC03eGRfcGN6YkFtTFBtZ3VRdWxlYlJRZ0xsaHRhU1E?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Suze Orman Says Doing Nothing Can Be the Right Move When Stocks Fall",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQVWZ3SUtfOHdsM0dxR3FsVjQxUG1BLXhwQnd1czFrWTlXTEZXV2FaRU8tX1JfOXVEU2llVkhQNVVCSTc1MnFudE13X1YyNkdpS3ZVX2xGX1RvN2dGVkNGTlQwX1FDUkI2ZF8wU1JEeUVLb2lvcjBYemlGQXYtZVN3RDlTMDlwNDJSZTRqandDdEladUc3WU5kUk53?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "The Stock Market Has Boomed After the Last 19 Midterms. Whether Trump Wins or Loses on Tuesday, Wednesday Could be the Day to Buy",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBqTHZKZmZPRUpyWTVLMWk5WlVUQmJzTlF3QTNGbk54MmxWSmVwSlh4VFc4eUpWWXFDQzQ2MlhzaFV6cVpEQW5QRlZRcTZkSkVQd3BaaGwwM21hN2ZlTXJGWDFQYTZSMENEZlFob19jOU5hZTFaa3UzUlV1RXF0ejA?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "The Stock Market Will Make a Big Move in the Next 6 Months if History Repeats Itself",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNNjJERjR5VnFMMVNuN0o4THF2ZkF2dlFfT3NiR05JaW01MjlSTnhLT1FVT0l4dDJueXd2NnJOMWFLVFlUVmppZ1VKZUhKWlZVQlM0MXVmRGpRS19jQ2RaMzluaUJDZWY3ZTJYQjNFaklEOF9FcmtaSzBSdWVEbFA5UGo2WHVSaHFhRDlUSThZcmw3NXppYkE?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Third Quarter Earnings Might Change The Case For Investing In McDonalds Stock (MCD)",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPejdDSldaWHRySUppVVA4YkpnSkU1UHg2SGE5YkN2MVVfVmc1bGg5RTZyM1YtT2FzaU9yT0cyUUpibHp1YW50YzF3M20wMjBzblRxQV9WcVRZbmRLUmJPbHd2QkZvMlpaNHJJWGFxUHE3ZjhfWjF5SmI5dmZJWUs4SVZHa3AzbmtXNXBOTTY3YWpjdk0tV3hxYldPUnV5UWQ2NWc?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Trading Day: AI trade rebounds, midterms awaited",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOTzB2d1lkYjBmamNqWTJUNFVtd1dDQ3dEX3BrMFZmWWJSNk5MbWZQZEhwSGVZZnFxUm51S3VscEtBclNuSXRCZUMyLW1UMVZnLU9MMHpIODN3Xy1BcEgwems3ZFd4M21pclNRMUN5LW0ybGI3V1V6c2l2ejZRVnRmams2RzljNFJTenFNa1FUVks?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "US Stock Market Today: S&P 500 Futures Slip On Firm Manufacturing And Jobs Focus",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQT2lLVUtpc2JMdU9rbl9TMS00a2ZBaUNnTkJBcHBoc2M2TWJzRTRMZ0h6LVpPZVpmQTNBVVVsTXMwMHNlV2hGTEFHTGdXZXNZUFdpZUZUYldWM3lOYkZsd09Bb2tERUNMdURYS1d4VkdCMnpkVmlTZGxmbDE5NWZkaG4zQ0lCWTVmWVNPQnplR1JfZw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "US stocks end mostly up as markets await election results",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQUE1tNzlfeUhTaGExV2pybWtVakVVUUExd1FCOVFicnlfLXBFbHFUUmdCMlZiajh5aU5wYWtYdmNrVXlCUTVNU0FyQXF1anl0ZVdhcGZNc1pmZXB3Q3JuTHJ0aU5yMGtWY1JVNEpBOHVtdVBXTGNyRUplNTM1TnRqa3lyaTNhNUhaVGoySkdHa2E4TlgtcnFzMC1hWQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "US tech stocks recover after selloff spooks investors over AI spending",
+   "src": "The Guardian",
+   "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQNHk1ZjhfMklrX0ZsaExCalhYZHVyZjg2Z0NhQTZJWk8yLXNISkZJU0ptOVE1WmJ6OTVBN0dfdlB3VnpDRENzdFBJc0kyeHBacFVPa21iOTlGb0RIcHlFSGVlQmJ2RmZSdkRlVGNpeTkzbnBJSFlmTUNWc2N0OGVKQ0RoQThKVmRyOWhCRg?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "USANA (NYSE:USNA) misses Q3 2026 revenue estimates, stock drops 14.9%",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQWmJVUDlBS09FS19kUEhaQTN0N3BFdVp6LTk4aTUwMVdGVDZlOWZ2NkVJS3ZHdXVWemlKV3Q3V1NGa2dJMVBEcVJBd1BnZ2c4T3lPZ256US1VM1RVRHVhQ0cxcXExTVdVMFU1ZWRMYy1kSzNSNXU2TVcwalZkSUdHZkc1Y1pDVFh5LW5xVGR2QU91c0VI?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Update: US Equity Indexes Mixed Amid Tech Gains, Midterm Elections Underway",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQalBRWFRnSi1SdkhjTlNkV200Z25IbGtpZmhfRzZxTFVEYktfeXFlOEx0MnM4bFVlSVIxdFZYUzJDelJ2ZWpwNFowWmVRR0VxSFJqVmxKUzBfU1lqYi1VNE4zYkxEa2J1VHhienRCNHJDblpTRldmU1dlektJanh3UEJkOFZJTGFNNWtTNUdHdTZzVmE5dFZGbg?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "W.W. Grainger Earnings Ahead: What Past Reactions Say About The Stock",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNSTZHdDRqLXRJbVZxbmtISmhiTGQtaUpVY1dmN3BDdjBfcjNsX1FaTHRoX2I1dWJlYmpMR1RVaVRGWjNJQS1NOXh1aXdIWm1jQjdOUlhCRzk2VTRkT1JkVmNQTFRLdGNqbEd2WTFoX1NRam16dG1wbTVVU25vQnkzTl9HdjVxRFByUEp2NFBRMmtiSGdnQWtj?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "What Happens to Stocks After the Midterm Elections?",
+   "src": "Investopedia",
+   "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOQTU3NE53azdTeUVTOHlSdFRaUmxXNnloZU9yaU9QZlk0eFNWU2lPejFpSlpfOFdsRFdLMVktamMzRFpleEl1MW1fb0NUX1E3WEFzR0V2ZnVxU3dGUUlSdkFpclZyc1ljSURJT2hMWU5VVzFwdUYtSUtVWnUzMnhheU1hMFZweWFTUmRGeDl4Um8wYlR5SElKaDFOd2p6SjVFZU1aS3RuQlU?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "What Is Behind The Move In CRH Stock?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNQlZVUDZ0RHdFQW5reHVXZk8ySEdHOUJpYXd3M1c5MVNtWWtUbEtVcUVHTHEyOF95Mm4wVllEMW1FdE8zQ3VubnFFUk9VcFVEODYyVVhsRjZyT2RTTm9SUEFJd2F4a3ZJNjZqU29EajVOTmVuWF9oUC1jZGNuakdwSjZHYXNYclZZcHl2Q25Zaw?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "What Just Happened To CBRE Stock?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOVHVYLWgzTjBETVdCZV9QbWNRUHBTY3ItWHBSZzBYV0IzT3VLdDNncUNVTTJjUXlRNll3WlMwdDRmVTlraHlscVBxTzFkRWpxZF9fWW5HaXhjUDBELVkwb1VwQnpWT054Xzg1d2JrZ2tXWHdNYWpFcXFMdlNPWjIwdVljUFEyMVgxYVVBc1JHNGZCYWs?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "What Just Happened To Copart Stock?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQWWszVi02VmVhaGp1WGFkSC02bHFWQS1aRi1iWlNGUlZjWmtoN2pkaVhNVnVrdkRfTGZZOGh0czNrNXFXZ2FWb256bTNFSWtvQU5DRWJBNDRmSDRabWxRQTRKSU13eEZYLUhEaUZ4eDBneXR4ZnhuRjVTYWdwVGRLT1JXSTFZV0J0MGFfZm9pbWhYNjVTenc?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "What Just Happened To Lumentum Shares?",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNbi1uWG5PWDVEZldYSTA5Z0h2dE9VRlAxeHlDbVMtUVJHa2lndG9WeWVnQWpDSXpGbnVnNXM5Rzk4aVpjdnhGUjFKSFRacXBORXo4LWRicHplX3QyT0ZHY1Fhb0gtLXZ3dEl5UE9lZWZWMEg1RDVpVmtTbXdzcHI3ZzF3MWxTOVpabU9EZVY1cEROaDg4dXlCR0Nn?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "What a Democratic sweep could mean for stocks — and why history says not much",
+   "src": "Yahoo Finance",
+   "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPYjBNZFlHQ3FTcUZ5VXZWaVVTY2NYMnpZVU1QakozY0RjRGpzdllzVmlaZ1hpR21ua25rZHRDeW5KSm1KeTF4THBtTm9uUzVOMmZUX1ExNGFQRXpSRHV0ajZxdm9OLXAyV2dQeHNaTnhtbE53UnE2ZXFrRzZBZGRvalI0LWJjd1pBTkE4Wl84SGhDT2F0UTkwYmFzaWxIN0RtZGFmUVNiLVlJQWl0blJrUW1zV0o1U1ZMT2EyNTVuWERTZDl4TWl1RmNWUFd4QQ?oc=5",
+   "feed": "Google News"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "AI’s control over the bond market is growing — even rivaling war and elections",
+   "src": "MarketWatch",
+   "link": "https://www.marketwatch.com/story/ais-control-over-the-bond-market-is-growing-even-rivaling-war-and-elections-5d727b35?mod=mw_rss_topstories",
+   "feed": "MarketWatch"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "An overlooked energy source could solve AI’s power crunch — and these 2 stocks are prime plays",
+   "src": "MarketWatch",
+   "link": "https://www.marketwatch.com/story/an-overlooked-energy-source-could-solve-ais-power-crunch-and-these-2-stocks-are-prime-plays-bc5d988a?mod=mw_rss_topstories",
+   "feed": "MarketWatch"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Anthropic’s IPO is a high-stakes referendum on Big Tech — and this chart proves it",
+   "src": "MarketWatch",
+   "link": "https://www.marketwatch.com/story/anthropics-ipo-is-a-high-stakes-referendum-on-big-tech-and-this-chart-proves-it-d1c54d33?mod=mw_rss_topstories",
+   "feed": "MarketWatch"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Depressing, but true: If you want to get ahead at work, embrace virtue signaling",
+   "src": "MarketWatch",
+   "link": "https://www.marketwatch.com/story/depressing-but-true-if-you-want-to-get-ahead-at-work-embrace-virtue-signaling-b4e72f0a?mod=mw_rss_topstories",
+   "feed": "MarketWatch"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "S&P 500 is looking over the edge of a technical cliff — what happens if it falls off?",
+   "src": "MarketWatch",
+   "link": "https://www.marketwatch.com/story/s-p-500-is-looking-over-the-edge-of-a-technical-cliff-what-happens-if-it-falls-off-be97ebd9?mod=mw_rss_topstories",
+   "feed": "MarketWatch"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Shopify’s stock slides after earnings. This is what’s worrying Wall Street.",
+   "src": "MarketWatch",
+   "link": "https://www.marketwatch.com/story/shopifys-stock-slides-after-earnings-this-is-whats-worrying-wall-street-e2e8d52b?mod=mw_rss_topstories",
+   "feed": "MarketWatch"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "Super Micro’s stock pops as earnings show booming demand for AI servers",
+   "src": "MarketWatch",
+   "link": "https://www.marketwatch.com/story/super-micros-stock-pops-as-earnings-show-booming-demand-for-ai-servers-2d179658?mod=mw_rss_topstories",
+   "feed": "MarketWatch"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "The internet is ‘dying’: AI is eating it and obliterating these business models",
+   "src": "MarketWatch",
+   "link": "https://www.marketwatch.com/story/the-internet-is-dying-ai-is-eating-it-and-obliterating-these-business-models-435ae2b0?mod=mw_rss_topstories",
+   "feed": "MarketWatch"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "What analysts are telling us while Apple’s stock falls after earnings report",
+   "src": "MarketWatch",
+   "link": "https://www.marketwatch.com/story/what-analysts-are-saying-as-apples-stock-falls-after-earnings-report-f0afa357?mod=mw_rss_topstories",
+   "feed": "MarketWatch"
+  },
+  {
+   "d": "2026-11-03",
+   "t": "‘It’s good to be old’: I’ve been invited to a dozen free meals that turn into annuity sales pitches. Should I stop going?",
+   "src": "MarketWatch",
+   "link": "https://www.marketwatch.com/story/its-good-to-be-old-ive-been-invited-to-a-dozen-free-meals-that-turn-into-annuity-sales-pitches-should-i-stop-going-63df67ca?mod=mw_rss_topstories",
    "feed": "MarketWatch"
   }
  ]
