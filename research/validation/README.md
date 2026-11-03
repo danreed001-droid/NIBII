@@ -466,3 +466,20 @@ drop -27% in most; both losers had the sell part at 3x volume (47.2-47.9%), wher
 t-stat 1.2 (0.4-1.4 across the neighbours), the same few years carry every version (2013 +11.5, 2005 +10.9, 2007 +8.1
 points; 2025 -10.9), and it is the best of about 60 versions tried that night, the case the close-versions overfitting
 check (above) warns about: on probation, judged on the paper record.
+
+## Rejected Nov 3, 2026: other market measures, a sector cap, removing the weakest rules
+
+Against the current plan (50.0% a year from 2000, worst drop -27%), strict test:
+- **SPY replaced in every market signal** by an index built from the members at each date (daily-curve figures, 49.9 /
+  53.5 / 71.2 / 104.8% for the plan): equal weight (tracks RSP, daily correlation 0.993) 39.8 / 39.7 / 53.6 / 76.8%,
+  worst drop -41%; dollar-volume weighted 38.0 / 44.7 / 57.7 / 79.2%, worst drop -61% (2008 -36.9%). The equal-weight
+  index lags out of bottoms (2020 +64% instead of +153%); the plan's stocks are large companies that move with SPY.
+- **No sector above 40 / 50 / 60% of the account** (`data/sectors.csv`, excess to the other sectors' stocks or to
+  cash): 39.6-48.8% a year from 2000, 76.4-97.1% from 2020; days below -5% fall from 52 to 21-44, but the worst drop
+  stays -27% and the worst day -11.8% (Jan 20, 2009, five sectors held); 2026 costs 53-117 points.
+- **Removing the weakest rules in sets** (12 versions: the rate/gold regime, whipsaw switch, hot-commodity skip,
+  rebound, break re-entry, surge exit, Fed-day hold, buy freeze / green light): 47.0-50.0% from 2000 but 90.2-102.3%
+  from 2020 against 104.4%; even the rate/gold regime alone costs 2 points from 2020. The rules overlap: all kept.
+
+The plan's worst single days since 2000: -11.8% (Jan 20, 2009) and -11.4% (Sep 1, 2009), then -7.0 to -8.3%; 52 days
+below -5% and 10 below -7% in 6,737, nearly all from one theme held at 30-40% a stock while SPY moved 0-2.5%.
