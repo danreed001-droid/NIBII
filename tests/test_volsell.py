@@ -47,3 +47,14 @@ def test_no_buy_within_five_sessions_of_a_heavy_volume_down_close():
     pu, vu = _data(cal, 100, 0.03, 6)                   # a heavy-volume UP close doesn't block
     assert volsell.VolSell(pu, vu, cal).buy_ok()('A', 102)
     assert vs.info('A', 102)['heavyDown'] == cal[100]
+
+
+def test_sell_part_waits_while_spy_is_under_its_150_day_average():
+    cal = _cal(300)
+    px, vol = _data(cal, 290, -0.07, 5)
+    px['SPY'] = {d: (100.0 if i < 280 else 90.0) for i, d in enumerate(cal)}   # SPY under its average from session 280
+    vs = volsell.VolSell(px, vol, cal)
+    assert not vs.rising(290) and not vs.sell('A', 290, 200)
+    assert vs.blocked('A', 292)                         # the buy block still applies
+    px['SPY'] = {d: 100.0 + i * 0.1 for i, d in enumerate(cal)}               # a rising SPY: the sell acts
+    assert volsell.VolSell(px, vol, cal).sell('A', 290, 200)

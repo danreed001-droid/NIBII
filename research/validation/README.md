@@ -483,3 +483,24 @@ Against the current plan (50.0% a year from 2000, worst drop -27%), strict test:
 
 The plan's worst single days since 2000: -11.8% (Jan 20, 2009) and -11.4% (Sep 1, 2009), then -7.0 to -8.3%; 52 days
 below -5% and 10 below -7% in 6,737, nearly all from one theme held at 30-40% a stock while SPY moved 0-2.5%.
+
+## Rule 18's sell only in a rising market (default since Nov 3, 2026)
+
+The sell part of the heavy-volume selling rule now acts only while SPY closes at or above its 150-day average
+(`mtl/volsell.MA`; engine `vz2.gate='spy150'`, `NBno6` = without). In a falling market a heavy-volume drop is often
+panic near a bottom. The buy part is unchanged.
+
+| Sell part acts | 2000 | 2010 | 2016 | 2020 | Worst drop | t | Years +/- |
+|---|---|---|---|---|---|---|---|
+| Only while SPY is above its 150-day average (adopted) | 50.5% | 55.1% | 72.4% | 105.1% | -27% | 0.6 | 6 / 4 |
+| ... its 100-day average | 50.7% | 55.5% | 72.8% | 105.1% | -27% | 0.7 | 7 / 4 |
+| ... its 200-day average | 50.5% | 54.7% | 72.4% | 105.1% | -27% | 0.7 | 4 / 3 |
+| ... 150-day, at a 5% drop | 50.9% | 55.6% | 73.2% | 104.7% | -29% | 0.8 | 9 / 8 |
+| ... 150-day, at 5x volume | 49.2-49.4% | 53.6-53.9% | 71.0-71.5% | 104.1-104.5% | -27% | -0.5 to -0.6 | 7 / 12-13 |
+| Always (rule 18 as first adopted) | 50.0% | 53.6% | 71.0% | 104.4% | -27% | - | - |
+
+At 4x volume every average (100 / 150 / 200-day) was ahead from every start; rebound years gained (2018 +9.9, 2004
++6.1, 2020 +5.8 points) and 2001, 2007 and 2008 gave a little back (-4 to -7). Small (+0.5 a year) and t 0.6: on
+probation. Also tested that night and rejected: selling on a 5-15% one-day drop on normal (under 2x) or quiet (under
+1.5x) volume or at any volume (34.8-50.3% a year; 15% on quiet volume was +0.3 but deepened the worst drop to -32%),
+and adding such a sell to the rising-market version (45.3-49.1%).
