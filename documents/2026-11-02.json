@@ -393,8 +393,8 @@
        null
       ]
      ],
-     "maturityClose": 7597.0,
-     "ret": 0.002077,
+     "maturityClose": 7597.5,
+     "ret": 0.002143,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2519,8 +2519,8 @@
        null
       ]
      ],
-     "maturityClose": 106.546875,
-     "ret": -0.001318,
+     "maturityClose": 106.515625,
+     "ret": -0.001611,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5118,7 +5118,7 @@
       [
        "bear",
        "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for bond prices",
-       false
+       true
       ],
       [
        "neu",
@@ -5156,8 +5156,8 @@
        false
       ]
      ],
-     "maturityClose": 3932.0,
-     "ret": -0.007872,
+     "maturityClose": 3931.0,
+     "ret": -0.008125,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7254,8 +7254,8 @@
        null
       ]
      ],
-     "maturityClose": 101.86199951171875,
-     "ret": 0.001288,
+     "maturityClose": 101.85700225830078,
+     "ret": 0.001239,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9471,8 +9471,8 @@
        null
       ]
      ],
-     "maturityClose": 2827.5,
-     "ret": 0.003122,
+     "maturityClose": 2826.800048828125,
+     "ret": 0.002874,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11483,8 +11483,8 @@
        null
       ]
      ],
-     "maturityClose": 28306.0,
-     "ret": 0.004195,
+     "maturityClose": 28325.25,
+     "ret": 0.004878,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
