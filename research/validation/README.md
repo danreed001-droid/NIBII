@@ -504,3 +504,23 @@ At 4x volume every average (100 / 150 / 200-day) was ahead from every start; reb
 probation. Also tested that night and rejected: selling on a 5-15% one-day drop on normal (under 2x) or quiet (under
 1.5x) volume or at any volume (34.8-50.3% a year; 15% on quiet volume was +0.3 but deepened the worst drop to -32%),
 and adding such a sell to the rising-market version (45.3-49.1%).
+
+## Rule order: re-entry over the unemployment step-aside, lower-high over rebound (default since Nov 3, 2026)
+
+How often the rules clash since 2000: the unemployment step-aside overrode the break re-entry on 32 days (2002 and
+2020) and the rebound rule on 2; the price-break rule overrode the re-entry on 4 days; the rebound rule overrode the
+lower-high exit in 2008 and 2011. Flipping each clash (strict test, against 50.5% a year from 2000):
+
+| Order change | 2000 | 2010 | 2016 | 2020 | Years +/- |
+|---|---|---|---|---|---|
+| Re-entry over the step-aside | 51.0% | 55.6% | 73.2% | 106.6% | 2 / 0 |
+| Lower-high exit over the rebound rule | 50.9% | 55.2% | 72.4% | 105.1% | 2 / 0 |
+| Both (adopted) | 51.4% | 55.7% | 73.2% | 106.6% | 4 / 0 |
+| Rebound over the step-aside | 50.6% | 55.3% | 72.6% | 105.5% | 1 / 0 |
+| Re-entry or rebound over the price break | 50.5% | (no change) | | | 0 / 0 |
+| Every stay-in rule over every exit | 50.4% | 55.6% | 73.2% | 106.7% | 1 / 1 (2002 -8.3) |
+
+The step-aside reads lagging unemployment figures and kept the plan in bonds after the re-entry signal had caught the
+2020 and 2002 turns (+12.9 and +5.6 points); the rebound rule pulled the plan into a failed 2008 bounce (+9.0 with the
+lower-high exit winning). Worst drop -27% either way, t-stat 1.9, but only four years change: on probation.
+`scripts/momentum_scan.py` RULE_ORDER; engine `legrot.prec` (`re_over_jw`, `lh_over_reb`), `NBno7` = before.
