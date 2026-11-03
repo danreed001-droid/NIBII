@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-11-03T02:38:02+00:00",
+ "updated": "2026-11-03T03:10:10+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -279,7 +279,7 @@
    "what": "Fed's last hike of the cycle, to 5.25%",
    "src": "curated",
    "day": 0.0202,
-   "month": 0.0249,
+   "month": 0.0248,
    "type": "Fed hike / hawkish",
    "trend": "below",
    "gold": {
@@ -582,11 +582,11 @@
    },
    "bonds": {
     "day": -0.0317,
-    "month": -0.022
+    "month": -0.0221
    },
    "plan": {
     "day": -0.0317,
-    "month": -0.022
+    "month": -0.0221
    }
   },
   {
@@ -678,7 +678,7 @@
    "what": "Bank recapitalisation plans",
    "src": "curated",
    "day": 0.1452,
-   "month": 0.0144,
+   "month": 0.0143,
    "type": "Rescue / fiscal",
    "trend": "below",
    "gold": {
@@ -712,7 +712,7 @@
    },
    "plan": {
     "day": 0.0294,
-    "month": -0.0345
+    "month": 0.0194
    }
   },
   {
@@ -732,8 +732,8 @@
     "month": 0.0091
    },
    "plan": {
-    "day": 0.0438,
-    "month": -0.0041
+    "day": 0.0407,
+    "month": 0.0153
    }
   },
   {
@@ -1006,7 +1006,7 @@
    },
    "plan": {
     "day": 0.03,
-    "month": 0.1448
+    "month": 0.1563
    }
   },
   {
@@ -1027,7 +1027,7 @@
    },
    "plan": {
     "day": -0.0053,
-    "month": 0.1471
+    "month": 0.1587
    }
   },
   {
@@ -1048,7 +1048,7 @@
    },
    "plan": {
     "day": 0.0332,
-    "month": 0.1641
+    "month": 0.1758
    }
   },
   {
@@ -1170,7 +1170,7 @@
    },
    "bonds": {
     "day": -0.0167,
-    "month": -0.042
+    "month": -0.0419
    },
    "plan": {
     "day": 0.0258,
@@ -1694,7 +1694,7 @@
     "month": -0.0053
    },
    "bonds": {
-    "day": 0.0095,
+    "day": 0.0094,
     "month": -0.0111
    },
    "plan": {
@@ -2161,7 +2161,7 @@
    },
    "plan": {
     "day": -0.0304,
-    "month": 0.0333
+    "month": 0.0302
    }
   },
   {
