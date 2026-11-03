@@ -1246,7 +1246,9 @@ def main():
                                             ma=nearhigh.MA, maSince=nearhigh.OFF_START, spyGap=round(_gn, 4) if _gn is not None else None,
                                             down=nh.down(calendar, _kn))
     vsl_ = volsell.VolSell(prices, volumes, calendar)
-    auto['boostx']['volsell'] = dict(k=volsell.K, drop=volsell.DROP, win=volsell.WIN, since=volsell.START,
+    _vg = vsl_.spy_gap(K)
+    auto['boostx']['volsell'] = dict(k=volsell.K, drop=volsell.DROP, win=volsell.WIN, since=volsell.START, ma=volsell.MA,
+                                     spyGap=round(_vg, 4) if _vg is not None else None, rising=vsl_.rising(K),
                                      held={t_: vsl_.info(t_, K) for t_ in vw_list},
                                      blocked=[t_ for t_, _ in now[:15] if vsl_.blocked(t_, K)])
     hc_ = hotcomm.HotComm(hotcomm.themes(), comm_px or {}, calendar)
