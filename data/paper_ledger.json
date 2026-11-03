@@ -684,6 +684,36 @@
     "scripts/momentum_scan.py (settings)": "c10bba062f81"
    },
    "what": "Heavy-volume selling (mtl/volsell.py): no new buy within 5 sessions of a down close on 4x+ the 50-day average volume; a holding that closes 6%+ down on 4x+ that volume is sold at the next close; backtest on the real member lists 50.0% a year from 2000 vs 48.2%, worst drop -27% vs -28%, t-stat 1.2; on probation"
+  },
+  {
+   "since": "2026-11-03",
+   "fingerprint": "f6c97356a96810f5",
+   "files": {
+    "mtl/momentum.py": "3759b9201678",
+    "mtl/rotation.py": "abbce15386b6",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/reentry.py": "e28fdda2a329",
+    "mtl/pricebreak.py": "20d70e5b7401",
+    "mtl/fractal.py": "936e82e39874",
+    "mtl/narrow.py": "2afdaea019ae",
+    "mtl/lowerhigh.py": "f950e464a79f",
+    "mtl/fedday.py": "9803dbb7512f",
+    "mtl/stretchwarn.py": "4cb17a8dce40",
+    "mtl/dominoes.py": "aa3f0ad9b0a6",
+    "mtl/nearhigh.py": "d62affa0db5b",
+    "mtl/hotcomm.py": "1b98b2db540a",
+    "mtl/jobwarn.py": "473f94c1a8c6",
+    "mtl/volsell.py": "0920ad8ba1b4",
+    "mtl/volweight.py": "2aa9b511eb1a",
+    "mtl/earnjump.py": "d90a7ad5e130",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "93bbda358364",
+    "mtl/fade.py": "eed144f30a67",
+    "mtl/calendar_nyse.py": "f968ab11e45a",
+    "scripts/momentum_scan.py (settings)": "c10bba062f81"
+   },
+   "what": "Heavy-volume selling, sell part only while SPY closes at or above its 150-day average (mtl/volsell.MA); backtest on the real member lists 50.5% a year from 2000 vs 50.0%, the same worst drop (-27%), t-stat 0.6; on probation"
   }
  ]
 }
