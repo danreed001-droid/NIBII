@@ -4617,5 +4617,105 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-03-4-sp500-nasdaq-close-higher-dow-dips",
+    "data": {
+      "addedAt": "2026-11-03",
+      "category": "Market",
+      "date": "2026-11-03",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "Wall Street closes mixed on Election Day: chip-stock rebound (memory and equipment names) lifts the Nasdaq and S&P 500, while the Dow lags, weighed down by Apple's post-earnings drop. The PHLX Semiconductor Index had closed Monday about 22% below its October 6 high.",
+      "impact": "High",
+      "numbers": "S&P 500: 7,568.92 (+27.52, +0.36%); Dow: 51,786.72 (-197.26, -0.38%); Nasdaq Composite: 25,372.01 (+207.65, +0.83%); 10-year Treasury yield: 4.952% (+0.058, +1.19%)",
+      "order": 4,
+      "reaction": "Mixed finish; tech/semis outperform while Dow components (notably Apple) drag the blue-chip index lower.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-november-3-dow-sp-500-nasdaq-midterms-amd-earnings-141143244.html",
+      "tickers": "SPY, DIA, QQQ, ^GSPC, ^DJI, ^IXIC, TNX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-03-5-apple-palantir-shopify-fall-on-earnings",
+    "data": {
+      "addedAt": "2026-11-03",
+      "category": "Earnings",
+      "date": "2026-11-03",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "Big-cap earnings reactions turn negative into the close: Apple fell despite beating on iPhone sales, hurt by a soft gross-margin forecast tied to rising memory-chip costs; Palantir fell even after revenue nearly doubled, as contract-value growth slowed; Shopify slid sharply after Q3 revenue and GMV missed estimates.",
+      "impact": "High",
+      "numbers": "Apple closed -1.90% (~-$94B market cap); Palantir closed -1.65% (~-$8B) on revenue of $2.313B (+96% YoY) but total contract value growth of only 6% and new US business contracts +11%; Shopify fell roughly -8.7% to -15% intraday on the GMV/revenue miss",
+      "order": 5,
+      "reaction": "Classic 'sell the beat' reaction on growth/margin concerns; Shopify's miss was the sharpest single-stock move of the day.",
+      "region": "US",
+      "source": "https://stocktitan.net/articles/stock-market-today-live-november-3-2026",
+      "tickers": "AAPL, PLTR, SHOP",
+      "time": "Market hours",
+      "vsExp": "Apple and Palantir both beat on revenue but missed on margin guidance (Apple) and bookings growth (Palantir); Shopify missed on revenue and GMV"
+    }
+  },
+  {
+    "id": "2026-11-03-6-midterm-elections-results-awaited",
+    "data": {
+      "addedAt": "2026-11-03",
+      "category": "Policy",
+      "date": "2026-11-03",
+      "day": "Tue",
+      "direction": "Neutral",
+      "event": "US midterm elections: polls close tonight with control of both chambers at stake. Prediction markets lean heavily toward a Democratic sweep; Republicans currently hold the Senate 53-47. Some races may not be called Tuesday night, and strategists flagged that a confirmed Democratic sweep could pressure stocks Wednesday.",
+      "impact": "Medium",
+      "numbers": "Polymarket: ~75-76% implied probability Democrats win both House and Senate; current Senate split 53 (R) - 47 (D)",
+      "order": 6,
+      "reaction": "Market largely in wait-and-see mode into the close; reaction will play out Wednesday as results firm up.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-november-3-dow-sp-500-nasdaq-midterms-amd-earnings-141143244.html",
+      "tickers": "SPY, DIA, QQQ",
+      "time": "After-hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-03-7-jolts-job-openings-rise-to-7-5m",
+    "data": {
+      "addedAt": "2026-11-03",
+      "category": "Macro",
+      "date": "2026-11-03",
+      "day": "Tue",
+      "direction": "Neutral",
+      "event": "September JOLTS report showed job openings rose and the hiring rate ticked up, reinforcing the Fed's 'low hire, low fire' characterization of the labor market. The more closely watched October jobs report is due Friday.",
+      "impact": "Medium",
+      "numbers": "JOLTS job openings: 7.5M in September, up from a revised 7.2M in August; hiring rate rose to 3.4%",
+      "order": 7,
+      "reaction": "Modestly firm labor data; limited standalone market reaction with focus split between earnings and elections.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-november-3-dow-sp-500-nasdaq-midterms-amd-earnings-141143244.html",
+      "tickers": "SPY, TNX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-03-8-oil-eases-again-on-iran-talks-hope",
+    "data": {
+      "addedAt": "2026-11-03",
+      "category": "Energy",
+      "date": "2026-11-03",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Crude extended its decline for a second straight session on renewed hope for US-Iran talks, partly reversing this morning's spike that followed reports of strikes near Qeshm Island. Even so, US retail gasoline and diesel prices hit record highs for an Election Day.",
+      "impact": "Medium",
+      "numbers": "Brent ~-1% to roughly $103-104/bbl; WTI around $95-96/bbl; AAA national average gasoline $4.14/gal and diesel $6.29/gal (record Election Day highs)",
+      "order": 8,
+      "reaction": "Lower oil is a modest inflation-easing positive for equities and bonds, though the Iran situation remains fluid after this morning's escalation headlines.",
+      "region": "Middle East / Global",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-november-3-dow-sp-500-nasdaq-midterms-amd-earnings-141143244.html",
+      "tickers": "USO, BNO, XLE",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
