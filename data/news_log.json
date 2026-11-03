@@ -4557,5 +4557,65 @@
       "time": "After-hours",
       "vsExp": "Double beat vs Street; raised guidance again"
     }
+  },
+  {
+    "id": "2026-11-03-1-oil-rebounds-us-strikes-qeshm-island",
+    "data": {
+      "addedAt": "2026-11-03",
+      "category": "Energy",
+      "date": "2026-11-03",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "Oil rebounds after Monday's >7% drop as hopes for a US-Iran deal fade: US officials confirm strikes on Qeshm Island near the Strait of Hormuz, reviving supply-risk and escalation fears; US index futures soft (Dow futures -0.6%).",
+      "impact": "High",
+      "numbers": "Brent ~$106.61 (+1.76%) and US crude ~$98.06 (+1.66%) as of 07:44 GMT; Monday's drop was >7%; Dow futures ~-290 pts (-0.6%), S&P futures ~-0.1%, Nasdaq 100 futures ~flat",
+      "order": 1,
+      "reaction": "Crude reversed part of Monday's slide; equity futures slightly lower, with Dow weakest. Escalation risk would lift fuel/transport costs and yields.",
+      "region": "Middle East / Global",
+      "source": "https://invezz.com/news/2026/11/03/dow-futures-plunge-290-points-5-things-to-know-before-wall-street-opens/",
+      "tickers": "SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-03-2-apple-palantir-fall-premarket-after-beats",
+    "data": {
+      "addedAt": "2026-11-03",
+      "category": "Earnings",
+      "date": "2026-11-03",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "Apple and Palantir both fall in pre-market despite beating estimates: Apple's margin guide and iPad miss (memory costs, Siri AI rollout) disappoint; Palantir's revenue nearly doubled but U.S. commercial TCV bookings growth slowed.",
+      "impact": "High",
+      "numbers": "Apple ~-4% pre-market (current-qtr gross margin guide 45-46% vs ~47% expected, per Yahoo Finance); Palantir ~-6.5% pre-market; Palantir revenue topped $2B for the first time",
+      "order": 2,
+      "reaction": "Mega-cap tech weakness, though Nasdaq 100 futures roughly flat; Apple had risen ~25% in 2026, leaving little room for disappointment.",
+      "region": "US",
+      "source": "https://www.cnbc.com/2026/11/03/apple-palantir-stock-earnings.html",
+      "tickers": "AAPL, PLTR, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "Beat on revenue; Apple guidance margin and iPad below expectations; Palantir bookings growth slowed"
+    }
+  },
+  {
+    "id": "2026-11-03-3-midterms-jolts-10am-fed-hold",
+    "data": {
+      "addedAt": "2026-11-03",
+      "category": "Macro",
+      "date": "2026-11-03",
+      "day": "Tue",
+      "direction": "Neutral",
+      "event": "U.S. midterm elections today with September JOLTS job openings and factory orders due at 10 AM ET; Fed held rates at 3.75%-4% last week, so a strong labor print would reinforce higher-for-longer. An unexpected Republican sweep could lift yields and the dollar on spending expectations; AMD reports after the close.",
+      "impact": "Medium",
+      "numbers": "JOLTS consensus ~7.1M openings; Fed funds 3.75%-4.00%; actual n/a (not yet released)",
+      "order": 3,
+      "reaction": "n/a - releases and election results pending",
+      "region": "US",
+      "source": "https://invezz.com/news/2026/11/03/dow-futures-plunge-290-points-5-things-to-know-before-wall-street-opens/",
+      "tickers": "SPY, S&P, 10Y, yield, Treasury, TLT, DXY, dollar",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
