@@ -24,7 +24,9 @@ on:
     # so seven more tries follow, each going ahead only when tonight's decision isn't logged yet: 22:50 and 23:35
     # UTC Mon-Fri, and 00:35, 01:25, 02:20, 03:35 and 04:50 UTC Tue-Sat (that evening in New York, the last at
     # 12:50am summer time). An outside timer (cron-job.org) can also start the run on the dot through
-    # workflow_dispatch (README, "Keeping it running"); the scheduled tries then find it done and stop.
+    # workflow_dispatch (README, "Keeping it running"); the scheduled tries then find it done and stop. Since Nov 3,
+    # 2026 the hourly Daily Market Data Fetch also starts this run by hand from 6pm New York time whenever tonight's
+    # decision is missing (its kick-scanner job), because GitHub dropped every scheduled try on Nov 2.
     - cron: '50 22 * * 1-5'
     - cron: '35 23 * * 1-5'
     - cron: '35 0 * * 2-6'
