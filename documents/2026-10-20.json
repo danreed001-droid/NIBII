@@ -504,62 +504,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for ES=F on 20 October - last labeled swings HL/HH/HL/HH"
+       "structure.weekly reads uptrend for ES=F on 20 October - last labeled swings HL/HH/HL/HH",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VIX closed 17.31 on 20 October (18.44 on 19 October), naming no percentile, record or multi-year extreme, so neutral"
+       "VIX closed 17.31 on 20 October (18.44 on 19 October), naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral"
+       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral"
+       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral"
+       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No dated cross-asset driver gives a clear multi-day read, so neutral"
+       "No dated cross-asset driver gives a clear multi-day read, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7556.25,
+     "ret": -0.02801,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     }
    ],
    "structure": {
@@ -2615,62 +2630,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for ZN=F on 20 October - last labeled swings LH/LL/LH/LL"
+       "structure.weekly reads downtrend for ZN=F on 20 October - last labeled swings LH/LL/LH/LL",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated implied-volatility print for 20 October was obtained (the sigma figure is carried stale), so neutral"
+       "No dated implied-volatility print for 20 October was obtained (the sigma figure is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral; ZN itself edged only -0.04%, so the signals do not line up"
+       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral; ZN itself edged only -0.04%, so the signals do not line up",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral"
+       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral"
+       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No dated cross-asset driver gives a clear multi-day read, so neutral"
+       "No dated cross-asset driver gives a clear multi-day read, so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 106.8125,
+     "ret": 0.014846,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     }
    ],
    "structure": {
@@ -5300,62 +5330,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for GC=F on 20 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.weekly reads choppy for GC=F on 20 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "GVZ closed 21.83 on 20 October (22.23 on 19 October), naming no percentile, record or multi-year extreme, so neutral"
+       "GVZ closed 21.83 on 20 October (22.23 on 19 October), naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral"
+       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral"
+       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral"
+       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No dated cross-asset driver gives a clear multi-day read, so neutral"
+       "No dated cross-asset driver gives a clear multi-day read, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 3928.300048828125,
+     "ret": -0.048008,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     }
    ],
    "structure": {
@@ -7452,62 +7497,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for DX-Y.NYB on 20 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.weekly reads choppy for DX-Y.NYB on 20 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated implied-volatility print for 20 October was obtained (the sigma figure is carried stale), so neutral"
+       "No dated implied-volatility print for 20 October was obtained (the sigma figure is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral"
+       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral"
+       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral"
+       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No dated cross-asset driver gives a clear multi-day read, so neutral"
+       "No dated cross-asset driver gives a clear multi-day read, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 101.71700286865234,
+     "ret": -0.000609,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     }
    ],
    "structure": {
@@ -9654,62 +9714,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for RTY=F on 20 October - last labeled swings HL/HH/HL/HH"
+       "structure.weekly reads uptrend for RTY=F on 20 October - last labeled swings HL/HH/HL/HH",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated implied-volatility print for 20 October was obtained (the sigma figure is carried stale), so neutral"
+       "No dated implied-volatility print for 20 October was obtained (the sigma figure is carried stale), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral"
+       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral"
+       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral"
+       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No dated cross-asset driver gives a clear multi-day read, so neutral"
+       "No dated cross-asset driver gives a clear multi-day read, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2812.0,
+     "ret": 0.009115,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     }
    ],
    "structure": {
@@ -11611,62 +11686,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for NQ=F on 20 October - no consistent run of higher or lower swings, so no trend is claimed"
+       "structure.weekly reads choppy for NQ=F on 20 October - no consistent run of higher or lower swings, so no trend is claimed",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single index/futures/currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "VXN closed 25.22 on 20 October (25.56 on 19 October), naming no percentile, record or multi-year extreme, so neutral"
+       "VXN closed 25.22 on 20 October (25.56 on 19 October), naming no percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral"
+       "The 10-year yield closed at 5.116% (-1.9bp) on 20 October (news log) and stays above 5%; the move is small, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral"
+       "The Fed is in its pre-meeting blackout and the October FOMC outcome is unknown; last week's CPI/PPI ran warm and December hike risk remains (news log), so neutral",
+       null
       ],
       [
        "neu",
-       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral"
+       "The newest sentiment datapoint in the news log is the University of Michigan preliminary October reading of 46.3 (9 October); it names no contrarian extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral"
+       "Earnings are mixed and mostly outcome-unknown across a heavy week (GM beat but fell on narrowed guidance; Netflix reported after the close), with no clear read-through for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral"
+       "The 27-28 October FOMC is the next dated check, the Fed is in its pre-meeting blackout and the outcome is unknown, so the calendar is neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral."
+       "No dated seasonal statistic for 20 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No dated cross-asset driver gives a clear multi-day read, so neutral"
+       "No dated cross-asset driver gives a clear multi-day read, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 28076.0,
+     "ret": -0.060446,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     }
    ],
    "structure": {
