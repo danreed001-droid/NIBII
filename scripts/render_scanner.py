@@ -1206,10 +1206,10 @@ __ISSUES__
   function familiesNote(RT, A) {   // every rule note, in the plan's five groups (Nov 3, 2026); numbers = the order the rules were added
     var fam = function (t, sub, body) { return '<br><br><b>' + t + '</b> <span class="muted">' + sub + '</span>' + body; };
     return '<br><br><b>The plan’s rules in five groups</b> <span class="muted">(each rule’s number is the order it was added; nothing here changes what the plan does)</span>' +
-      fam('A. Pick', 'the strongest S&amp;P 500 stocks by their 6-month gain (leaving out the last month), checked each week and held while they stay in the top 5: the Boost list above.', '') +
+      fam('A. Pick', 'the strongest S&amp;P 500 stocks by their 6-month gain (leaving out the last month), checked each week: bought when in the top 5 and kept while they stay in the top 10 (the Boost list above).', '') +
       fam('B. Weight', 'how the money is split among the five: more for strong buying volume, an earnings jump, or a stock near its high in a rising market; no stock above 40%.', vwNote(RT) + earnNote(RT) + nearNote(RT)) +
       fam('C. Don’t buy', 'filters on new buys only (a stock already held is kept): fading runs, buy freezes, overheated commodity themes, and stocks just hit by heavy selling (rule 18, below).', fadeNote(A) + fractalNote(RT) + hotcommNote(RT)) +
-      fam('D. Sell early', 'a held stock sold before it leaves the top 5: the blow-off and surge exits (the Boost list above) and heavy-volume selling.', volsellNote(RT)) +
+      fam('D. Sell early', 'a held stock sold before it drops out of the top 10: the blow-off and surge exits (the Boost list above) and heavy-volume selling.', volsellNote(RT)) +
       fam('E. Step out of stocks', 'when the market turns, the plan moves out of stocks into gold, bonds or managed futures, never T-bills, and back (rules 1 and 2 above, and these).', whipNote(RT) + narrowNote(RT) + lowerhighNote(RT) + noBillsNote(RT) + reboundNote(RT) + pricebreakNote(RT) + reentryNote(RT) + feddayNote(RT) + stretchwarnNote(RT) + jobwarnNote(RT));
   }
   function fadeNote(A) {   // the fading-energy filter on new buys (rule 8)
