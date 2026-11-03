@@ -71,6 +71,40 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  kick-scanner:
+    # GitHub starts the Top 5 Strongest workflow's own scheduled runs hours late or drops them (none of its evening
+    # tries fired on Nov 2, 2026), while this hourly run keeps going. From 6pm New York time on a trading day, if the
+    # last close's decision isn't in the paper record yet and no scanner run is queued or running, start one by hand
+    # (workflow_dispatch from GITHUB_TOKEN does start a run). Never fails this workflow.
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - id: need
+        continue-on-error: true
+        run: python scripts/check_scanner_fresh.py kick
+      - name: Start the scanner
+        if: steps.need.outputs.run == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          busy=$(gh run list --workflow scanner.yml --limit 10 --json status --jq '[.[] | select(.status=="queued" or .status=="in_progress" or .status=="waiting" or .status=="pending")] | length')
+          if [ "${busy:-0}" -gt 0 ]; then
+            echo "a scanner run is already queued or running: leaving it"
+          else
+            gh workflow run scanner.yml --ref main && echo "started the scanner"
+          fi
+
   dst-gate:
     runs-on: ubuntu-latest
     outputs:
