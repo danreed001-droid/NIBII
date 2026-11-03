@@ -393,13 +393,12 @@
        null
       ]
      ],
-     "maturityClose": 7593.0,
-     "ret": 0.00155,
+     "maturityClose": 7609.25,
+     "ret": 0.003693,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2519,13 +2518,12 @@
        null
       ]
      ],
-     "maturityClose": 106.453125,
-     "ret": -0.002197,
+     "maturityClose": 106.421875,
+     "ret": -0.00249,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5118,7 +5116,7 @@
       [
        "bear",
        "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for bond prices",
-       true
+       false
       ],
       [
        "neu",
@@ -5156,13 +5154,12 @@
        false
       ]
      ],
-     "maturityClose": 3931.300048828125,
-     "ret": -0.008049,
+     "maturityClose": 3940.199951171875,
+     "ret": -0.005803,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7254,13 +7251,12 @@
        null
       ]
      ],
-     "maturityClose": 101.86199951171875,
-     "ret": 0.001288,
+     "maturityClose": 101.86799621582031,
+     "ret": 0.001347,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9471,13 +9467,12 @@
        null
       ]
      ],
-     "maturityClose": 2822.5,
-     "ret": 0.001348,
+     "maturityClose": 2821.699951171875,
+     "ret": 0.001064,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11483,13 +11478,12 @@
        null
       ]
      ],
-     "maturityClose": 28287.75,
-     "ret": 0.003548,
+     "maturityClose": 28416.0,
+     "ret": 0.008097,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,
