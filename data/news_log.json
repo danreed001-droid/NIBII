@@ -4777,5 +4777,45 @@
       "vsExp": "Beat (+86K vs +75K)",
       "order": 3
     }
+  },
+  {
+    "id": "2026-11-04-4-dow-closes-3pct-post-midterm-rally",
+    "data": {
+      "addedAt": "2026-11-04",
+      "category": "Market",
+      "date": "2026-11-04",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "Markets closed sharply higher and the rally held into the close: Democrats confirmed full control of both the House and Senate (not a split Congress, as some pre-market reports floated). The Dow's post-election-day gain was its best in 44 years.",
+      "impact": "High",
+      "numbers": "Dow 53,356.12 (+1,569.40, +3.03%); S&P 500 7,688.62 (+119.70, +1.58%); Nasdaq Composite 25,736.51 (+364.50, +1.44%); Russell 2000 2,856.96 (+44.51, +1.58%); 10-yr Treasury yield ~4.89% (down from Tuesday's spike to ~4.96%)",
+      "order": 4,
+      "reaction": "Removal of election uncertainty plus a 'gridlock is good for stocks' read drove broad buying; small caps and mega-cap tech both rallied hard into the close.",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-04-2026",
+      "tickers": "DIA, SPY, QQQ, IWM, TLT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-04-5-apple-hits-5t-cap-tech-earnings-rally",
+    "data": {
+      "addedAt": "2026-11-04",
+      "category": "Earnings",
+      "date": "2026-11-04",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "Apple shares hit an all-time high and market cap topped $5 trillion after a strong fiscal Q4 report, helping lead a mega-cap tech surge. Uber beat Q3 estimates but gave soft Q4 EPS guidance (shares rose anyway); McDonald's beat on EPS despite negative US same-store sales.",
+      "impact": "Medium",
+      "numbers": "Apple fiscal Q4: revenue $114.48B, EPS $2.10, market cap >$5T; ~2:50pm ET moves: Amazon +7.22%, Microsoft +7.07%, Apple +6.27%, Alphabet +4.13%; Uber Q4 EPS guide $0.95-$0.99 vs $1.06 est; McDonald's Q3 EPS $3.57 vs $3.38 est, revenue $7.16B vs $7.28B est, US comp sales -0.2%",
+      "order": 5,
+      "reaction": "AAPL +6.27% to a record high, UBER +3.47%, MCD +4.73%; big tech led index gains alongside the post-election relief rally.",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-04-2026",
+      "tickers": "AAPL, AMZN, MSFT, GOOGL, UBER, MCD",
+      "time": "Market hours",
+      "vsExp": "Apple beat; Uber Q3 beat / Q4 guide miss; McDonald's EPS beat / revenue miss"
+    }
   }
 ]
