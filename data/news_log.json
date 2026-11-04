@@ -4717,5 +4717,65 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-04-1-democrats-win-congress-futures-rebound",
+    "data": {
+      "addedAt": "2026-11-04",
+      "category": "Policy",
+      "date": "2026-11-04",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "Fox News Decision Desk projected Democrats take control of both chambers of Congress in the midterms. US futures dipped sharply overnight on the early counts, then rebounded as political uncertainty cleared; renewables and health insurers rallied while Trump Media and CoreWeave fell premarket.",
+      "impact": "High",
+      "numbers": "Per CNBC (8:45 AM ET): Dow futures ~+1,083 pts (+2.1%), S&P 500 futures ~+1.1%, Nasdaq-100 futures ~+0.4% (overnight low 27,615.75, lowest since Jul 30); Fox earlier showed S&P futures +0.35%; TAN +5% premarket; VIX futures 20.90 Tue evening",
+      "reaction": "Divided-government outcome read as removing election risk; futures swung from deep overnight losses to solid gains.",
+      "region": "US",
+      "source": "https://www.cnbc.com/2026/11/03/stock-market-today-live-updates.html",
+      "tickers": "SPY, QQQ, S&P, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "order": 1
+    }
+  },
+  {
+    "id": "2026-11-04-2-yields-ease-dollar-slips-after-midterms",
+    "data": {
+      "addedAt": "2026-11-04",
+      "category": "Rates",
+      "date": "2026-11-04",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "Treasury yields eased from Tuesday's surge (10Y up more than 6bp to ~4.96%) and the dollar weakened overnight as the midterm result and softer oil cooled risk aversion. Sources differ slightly on the exact 10Y level.",
+      "impact": "High",
+      "numbers": "10Y ~4.91-4.93% (Fox: -6bp to 4.906%; CNBC: 4.9311%), 30Y ~5.31%, 2Y ~4.60%; DXY -0.39% to 101.32; EUR/USD 1.1235",
+      "reaction": "Lower yields and a softer dollar are supportive for bonds and risk assets, though the 10Y remains near 5%.",
+      "region": "US / Global",
+      "source": "https://www.foxbusiness.com/markets/us-stock-futures-mixed-democrats-score-key-midterm-election-wins",
+      "tickers": "TLT, 10Y, yield, Treasury, DXY, USD, dollar",
+      "time": "Pre-market",
+      "vsExp": "n/a",
+      "order": 2
+    }
+  },
+  {
+    "id": "2026-11-04-3-adp-oct-86k-gold-jumps-nikkei-slides",
+    "data": {
+      "addedAt": "2026-11-04",
+      "category": "Macro",
+      "date": "2026-11-04",
+      "day": "Wed",
+      "direction": "Mixed",
+      "event": "ADP October private payrolls beat estimates. Overnight, gold and silver jumped alongside the weaker dollar, while Japan's Nikkei swung sharply (down 4.45% intraday to its lowest since May) before closing down 1.42%; Kospi rose and the Stoxx 600 opened up.",
+      "impact": "Medium",
+      "numbers": "ADP Oct: +86K vs +75K est (Sep revised to 86K); spot gold +2.93% to $4,043.45; silver +4.44% to $51.98; Nikkei 225 -1.42% to 62,188.63; Kospi +0.62%; ASX 200 -0.59%; Stoxx 600 +0.44% early",
+      "reaction": "Solid private hiring with strong metals bid; Asia mixed with volatile Japan session.",
+      "region": "US / Asia / Europe",
+      "source": "https://www.cnbc.com/2026/11/03/stock-market-today-live-updates.html",
+      "tickers": "SPY, GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "Beat (+86K vs +75K)",
+      "order": 3
+    }
   }
 ]
