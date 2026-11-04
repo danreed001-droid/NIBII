@@ -31,11 +31,16 @@ FRED_ALT = {'^TNX': 'DGS10', '^VIX': 'VIXCLS'}            # Yahoo index -> the s
 SPLIT = math.log(1.2)       # a jump in the previous close beyond 20% is a split, not a data correction
 QUIET = 10                  # fewer series filled than this aren't worth a line on the page
 BROKEN = 0.5                # Yahoo is "down" when it missed the last close for half or more of a large request
+STALE = 2                   # a series Yahoo has no close for on the STALE sessions before the last one, in a large
+                            # request Yahoo otherwise answers, is most likely delisted (Kenvue, bought out Nov 2, 2026):
+                            # Tiingo's quote still carries its last price, so it isn't filled and the scan's
+                            # stopped-trading check (scripts/momentum_scan.stopped_members) catches it
+LARGE = 20                  # tickers in a request for the two checks above
 
 _cache = None               # {'raw'|'adj': {ticker: 'date,open,high,low,close,volume' lines}}
 _quotes = None
 _fred = {}
-_used = {'cache': set(), 'tiingo': set(), 'fred': set(), 'gap': set()}
+_used = {'cache': set(), 'tiingo': set(), 'fred': set(), 'gap': set(), 'stale': set()}
 _asked = [0, 0]             # tickers asked for in large requests, of which Yahoo missed the last close
 
 
@@ -189,9 +194,13 @@ def fill(out, tickers, adjusted=False, start='0000', volumes=None, target=None):
     mode = 'adj' if adjusted else 'raw'
     saved = _load()[mode]
     behind = [t for t in tickers if not out.get(t) or out[t][-1][0] < target]
-    if len(tickers) >= 20:
+    if len(tickers) >= LARGE:
         _asked[0] += len(tickers)
         _asked[1] += len(behind)
+    yahoo_ok = len(tickers) >= LARGE and len(behind) < BROKEN * len(tickers)
+    stale_before = target
+    for _ in range(STALE):
+        stale_before = previous_trading_day(stale_before).isoformat()
     for t in behind:
         rows = out.get(t) or []
         vol = dict((volumes or {}).get(t) or {})
@@ -202,6 +211,10 @@ def fill(out, tickers, adjusted=False, start='0000', volumes=None, target=None):
             if rows:
                 _used['cache'].add(t)
         if not rows:
+            continue
+        if yahoo_ok and t not in FRED_ALT and rows[-1][0] < stale_before:
+            _used['stale'].add(t)   # most likely delisted: leave it stopped (see STALE)
+            out[t] = rows
             continue
         if t in FRED_ALT:
             got = append(t, rows, vol, adjusted, target, fred_ser=fred(FRED_ALT[t]))
@@ -239,7 +252,7 @@ def save():
 
 
 def used():
-    """{'cache'|'tiingo'|'fred'|'gap': sorted tickers} filled from each backup tonight, and whether Yahoo looked down."""
+    """{'cache'|'tiingo'|'fred'|'gap'|'stale': sorted tickers} filled from each backup tonight, and whether Yahoo looked down."""
     return {**{k: sorted(v) for k, v in _used.items()}, 'yahoo_down': bool(_asked[0]) and _asked[1] >= BROKEN * _asked[0]}
 
 

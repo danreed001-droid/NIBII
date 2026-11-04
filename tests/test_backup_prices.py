@@ -136,3 +136,30 @@ def test_a_few_filled_closes_stay_off_the_page():
     assert bp.problems({'tiingo': ['IWM'], 'cache': [], 'fred': [], 'gap': []}, '2026-10-28') == []
     many = [f'T{i}' for i in range(12)]
     assert len(bp.problems({'tiingo': many, 'cache': [], 'fred': [], 'gap': []}, '2026-10-28')) == 1
+
+
+def test_a_series_stopped_for_days_is_left_stopped(monkeypatch):
+    # Kenvue (Nov 2026): bought out, Yahoo stops on its last day, but Tiingo's quote still carries that price
+    monkeypatch.setenv('TIINGO_KEY', 'x')
+    tick = [f'T{i}' for i in range(30)]
+    bp._quotes = {t: ('2026-10-28', 2, 2, 2, 2, 1, 1) for t in tick}
+    out = {t: rows(1, 1, 1) for t in tick}                     # up to date (26-28)
+    out['T0'] = [('2026-10-22', 1, 1, 1, 1)]                    # stopped on the 22nd: 23, 26, 27 missing
+    out['T1'] = rows(1)                                         # one session missing (the 27th): filled as before
+    bp.fill(out, tick, target='2026-10-28')
+    u = bp.used()
+    assert out['T0'][-1][0] == '2026-10-22' and u['stale'] == ['T0']
+    assert out['T1'][-1][0] == '2026-10-28' and u['gap'] == ['T1'] and not u['yahoo_down']
+
+
+def test_stopped_series_still_filled_when_yahoo_is_down_or_the_request_is_small(monkeypatch):
+    monkeypatch.setenv('TIINGO_KEY', 'x')
+    bp._quotes = {'SPY': ('2026-10-28', 2, 2, 2, 2, 1, 1)}
+    out = {'SPY': [('2026-10-22', 1, 1, 1, 1)]}                 # a small request (the index, the havens)
+    bp.fill(out, ['SPY'], target='2026-10-28')
+    assert out['SPY'][-1][0] == '2026-10-28' and bp.used()['stale'] == []
+    tick = [f'T{i}' for i in range(30)]
+    bp._quotes = {t: ('2026-10-28', 2, 2, 2, 2, 1, 1) for t in tick}
+    out = {t: [('2026-10-22', 1, 1, 1, 1)] for t in tick}       # Yahoo down for days: fill them all
+    bp.fill(out, tick, target='2026-10-28')
+    assert all(out[t][-1][0] == '2026-10-28' for t in tick) and bp.used()['stale'] == []
