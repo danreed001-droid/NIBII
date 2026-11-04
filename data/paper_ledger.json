@@ -766,6 +766,36 @@
     "scripts/momentum_scan.py (settings)": "93c8c7a59da0"
    },
    "what": "Rule order (scripts/momentum_scan.py RULE_ORDER): the break re-entry wins over the unemployment step-aside, and the lower-high exit wins over the rebound rule; backtest on the real member lists 51.4% a year from 2000 vs 50.5%, worst drop -27% (-26.5%), ahead in 4 years and behind in none, t-stat 1.9; on probation"
+  },
+  {
+   "since": "2026-11-04",
+   "fingerprint": "1b1bd12e16339ca7",
+   "files": {
+    "mtl/momentum.py": "3759b9201678",
+    "mtl/rotation.py": "abbce15386b6",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/reentry.py": "e28fdda2a329",
+    "mtl/pricebreak.py": "20d70e5b7401",
+    "mtl/fractal.py": "936e82e39874",
+    "mtl/narrow.py": "2afdaea019ae",
+    "mtl/lowerhigh.py": "f950e464a79f",
+    "mtl/fedday.py": "9803dbb7512f",
+    "mtl/stretchwarn.py": "4cb17a8dce40",
+    "mtl/dominoes.py": "aa3f0ad9b0a6",
+    "mtl/nearhigh.py": "d62affa0db5b",
+    "mtl/hotcomm.py": "1b98b2db540a",
+    "mtl/jobwarn.py": "473f94c1a8c6",
+    "mtl/volsell.py": "0920ad8ba1b4",
+    "mtl/volweight.py": "2aa9b511eb1a",
+    "mtl/earnjump.py": "d90a7ad5e130",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "7d98e9b96862",
+    "mtl/fade.py": "eed144f30a67",
+    "mtl/calendar_nyse.py": "f968ab11e45a",
+    "scripts/momentum_scan.py (settings)": "cbf4fa481fcc"
+   },
+   "what": "Data housekeeping, no rule change: an S&P 500 member with no close for the last 2+ sessions (a buyout or merger the saved list hasn't caught up with, e.g. Kenvue) is left out of the ranking after its last close and flagged on the page; the S&P list refreshes daily"
   }
  ]
 }

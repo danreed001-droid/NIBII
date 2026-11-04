@@ -18,7 +18,7 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 SP500_PATH = os.path.join(DATA_DIR, 'sp500.csv')
 ASOF_PATH = os.path.join(DATA_DIR, 'sp500.asof')
 URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
-MAX_AGE_DAYS = 7
+MAX_AGE_DAYS = 1   # refreshed daily since Nov 4, 2026 (was 7): index changes such as a buyout show up within a day
 MIN_CONSTITUENTS = 490  # fewer parsed = the page layout changed; don't overwrite
 
 ETFS = {
