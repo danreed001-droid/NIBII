@@ -631,6 +631,37 @@ def last_closed_session(now=None):
     return previous_trading_day(d).isoformat()
 
 
+STOPPED_AFTER = 2   # sessions in a row without a close before an S&P member counts as stopped (delisted, bought out)
+
+
+def stopped_members(bars, sp, calendar, after=STOPPED_AFTER):
+    """{ticker: last close date} for S&P members with no close on the calendar's last `after` sessions (Kenvue's last
+    close was Oct 30, 2026: Kimberly-Clark's purchase closed Nov 2, while the saved list still had it)."""
+    if len(calendar) <= after:
+        return {}
+    cut = calendar[-after]
+    return {t: bs[-1][0] for t, bs in bars.items() if t in sp and bs and bs[-1][0] < cut}
+
+
+def stopped_problems(stopped, held, calendar):
+    """Plain-language page lines for members whose prices stopped."""
+    if not stopped:
+        return []
+    out = []
+    held_ = sorted(t for t in stopped if t in set(held or []))
+    if held_:
+        out.append(f"HELD stock{'s' if len(held_) > 1 else ''} {', '.join(held_)} ha{'ve' if len(held_) > 1 else 's'} had no price since "
+                   f"{', '.join(stopped[t] for t in held_)}: most likely delisted (a buyout or merger). Check the broker for the cash or "
+                   f"shares paid; the plan can't trade it and replaces it at the next trade.")
+    rest = sorted(t for t in stopped if t not in held_)
+    if rest:
+        ex = ', '.join(f"{t} (last close {stopped[t]})" for t in rest[:5])
+        out.append(f"{len(rest)} S&P 500 member{'s' if len(rest) > 1 else ''} stopped trading, most likely delisted after a buyout or "
+                   f"merger: {ex}. Left out of the ranking from then on; the S&P list drops {'them' if len(rest) > 1 else 'it'} at its next "
+                   f"refresh.")
+    return out
+
+
 def data_problems(as_of, calendar, bars, bench, asset_bars, rate_px, vix_px, sp, held, logged, expected=None,
                   watch=(), volumes=None, fund_px=None):
     """Plain-language problems with tonight's data that change (or stop) a rule: prices that stop before the
@@ -787,11 +818,16 @@ def main():
     prices['SPY'] = {b[0]: b[4] for b in bench['SPY']}
     calendar = [b[0] for b in bench['SPY']]
     blocked = {t: blocked_dates(bs) for t, bs in bars.items()}
+    # a member with no close for the last STOPPED_AFTER+ sessions has most likely been delisted (bought out, merged) before
+    # the saved S&P list caught up: leave it out of the ranking after its last close, and say so on the page
+    stopped = stopped_members(bars, sp, calendar)
 
     def eligible(t, d):
         # picks come from S&P 500 members only (since Oct 19, 2026; the Nasdaq-100 names outside the S&P 500 were
         # dropped: the plan was tested on S&P 500 members, and adding them did worse point in time)
         if t not in sp or d in blocked.get(t, ()):
+            return False
+        if t in stopped and d > stopped[t]:
             return False
         return added.get(t, '0000') <= d
 
@@ -1504,6 +1540,7 @@ def main():
                                 ((ledger.get('entries') or [{}])[-1].get('list') or []), expected=last_closed_session(),
                                 watch=top_prev, volumes=volumes, fund_px=fund_px)
     data_issues += backup_prices.problems(backup_prices.used(), last_closed_session())
+    data_issues += stopped_problems(stopped, hold_bx, calendar)
     p_idx = {d_: i for i, d_ in enumerate(calendar)}
     p_days = [p_[0] for p_ in picks_bx]
 
