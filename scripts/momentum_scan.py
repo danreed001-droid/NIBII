@@ -53,7 +53,7 @@ from mtl.pricebreak import apply_pricebreak, break_days, hold_days, pricebreak_s
 from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
-from mtl import fedday, fedday_check, reentry_note, stretchwarn  # noqa: E402
+from mtl import candle, fedday, fedday_check, reentry_note, stretchwarn  # noqa: E402
 from mtl import earnjump, hotcomm, jobwarn, nearhigh, volsell, volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
@@ -597,6 +597,11 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
         if 'reentry over jobwarn' in RULE_ORDER:
             jw_days = {d_ for d_ in jw_days if d_ not in re_days or d_ < start}
         modes, why, half, jw_held = stretchwarn.apply_stretchwarn(modes, why, half, jw_days, calendar, reason='jobwarn')
+    # ... and the candle re-entry rule: after a 12%+ drop, two red days making a fresh 20-session low and then a close above
+    # both of their opens -> the Boost list for 10 decision days whatever the rules above say, and the price-break rule
+    # below stays out of those days (mtl/candle.py, rule 19, since Nov 5, 2026, on probation)
+    cd_days, cd_sig = candle.candle_days(spy_bars, calendar, start)
+    modes, why, half, cd_held = candle.apply_candle(modes, why, half, cd_days, calendar)
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
     # stronger of TLT / GLD over 3 months if it is up, else DBMF managed futures (mtl/rotation.py no_bills)
     modes, why, half = no_bills(modes, why, half, whip_px, calendar)
@@ -604,7 +609,7 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # average both lower than 5 sessions ago, the haven pick (as above) for the next 10 sessions wherever the plan would
     # hold stocks (mtl/pricebreak.py)
     pb_breaks = break_days(prices['SPY'], calendar, start)
-    modes, why, half, pb_held = apply_pricebreak(modes, why, half, hold_days(pb_breaks, calendar, start), whip_px, calendar)
+    modes, why, half, pb_held = apply_pricebreak(modes, why, half, hold_days(pb_breaks, calendar, start) - cd_days, whip_px, calendar)
     # ... and the Fed-day hold, last: a decision to leave stocks whose trade would come at the close just before a
     # scheduled Fed decision day waits one session, so the trade is at the decision day's close (mtl/fedday.py)
     nx1 = next_trading_day(calendar[-1])
@@ -616,7 +621,8 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
                 whip_on=whip_on, regime=regime, narrow_warn=narrow_warn, narrow_cash=narrow_cash, reb_held=reb_held, re_held=re_held, re_sig=re_sig,
                 pb_breaks=pb_breaks, pb_held=pb_held, fd_held=fd_held, fd_before=fd_before, upcoming=upcoming,
                 sw_counts=sw_counts, sw_z=sw_z, sw_starts=sw_starts, sw_held=sw_held,
-                jw_flag=jw_flag, jw_rise=jw_rise, jw_gap=jw_gap, jw_starts=jw_starts, jw_held=jw_held)
+                jw_flag=jw_flag, jw_rise=jw_rise, jw_gap=jw_gap, jw_starts=jw_starts, jw_held=jw_held,
+                cd_days=cd_days, cd_sig=cd_sig, cd_held=cd_held)
 
 
 def last_closed_session(now=None):
@@ -1399,6 +1405,8 @@ def main():
     # the break re-entry rule (mtl/reentry.py): tonight's reading, whether it holds stocks next session, the signals
     re_ = reentry_state(prices['SPY'], volumes.get('SPY') or {}, calendar, K, re_held, re_sig, week_ended(calendar[K]))
     auto['rotation']['reentry'] = re_
+    # the candle re-entry rule (mtl/candle.py, rule 19): tonight's reading, whether it holds stocks next session, the signals
+    auto['rotation']['candle'] = candle.candle_state(bench['SPY'], calendar, K, ov['cd_held'], ov['cd_sig'])
     # the Fed-day hold (mtl/fedday.py): whether tonight's decision is held in stocks, the next decision day, and
     # whether data/fomc_dates.json still covers the months ahead
     fed_ = fedday.load()
