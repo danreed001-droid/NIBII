@@ -4877,5 +4877,65 @@
       "time": "Pre-market",
       "vsExp": "ARM beat; Cava miss; Dutch Bros beat/guide cut; AppLovin beat"
     }
+  },
+  {
+    "id": "2026-11-05-4-nasdaq-enters-correction-chip-selloff",
+    "data": {
+      "addedAt": "2026-11-05",
+      "category": "Market",
+      "date": "2026-11-05",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "US stocks suffer their worst session in roughly a year and a half as the AI/chip selloff accelerates into the close; the Nasdaq closes in correction territory (>10% below its record) and the Russell 2000 also enters a correction.",
+      "impact": "High",
+      "numbers": "S&P 500 7,353.73 (-334.89, -4.36%); Dow 51,523.06 (-1,833.06, -3.44%); Nasdaq Composite 24,315.00 (-1,421.52, -5.52%); Russell 2000 2,729.89 (-4.45%); 10-yr Treasury yield 4.837% (-6bp); VIX 28.18 (+69.7%, its biggest 1-day jump since 2024); PHLX Semiconductor Index (SOX) -12.25%",
+      "order": 4,
+      "reaction": "Broad risk-off: all 11 S&P sectors fell; retail investors were net sellers of ~$358M per Vanda Research, the heaviest since March 2020. Traders cited post-midterm worries that a Democratic-controlled Congress will slow AI data-center buildout (UBS estimates ~30% of planned 2028 data-center capacity now at risk).",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-5-dow-sp-500-nasdaq-oil-rises-chip-stocks-141439950.html",
+      "tickers": "SPY, QQQ, DIA, SMH, SOX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-05-5-qualcomm-arm-micron-slide-on-guidance",
+    "data": {
+      "addedAt": "2026-11-05",
+      "category": "Earnings",
+      "date": "2026-11-05",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Mega-cap chip earnings disappoint despite headline beats: Qualcomm's phone-chip revenue fell 26% and margin-recovery guidance slipped; Arm's Q2 royalties missed even as revenue rose 27%; Micron reportedly suspended a $4.5B Taiwan memory plant over a labor dispute. AppLovin, Unity and Snap rallied on strong results.",
+      "impact": "High",
+      "numbers": "Qualcomm (QCOM) -9.5%; Arm (ARM) -13.1% (rev +27% to $1.44B); Micron (MU) -17.5%; AMD -17.3%; Marvell (MRVL) -16.4%; Broadcom (AVGO) -10.4%; Nvidia (NVDA) -9.3% to $181.60, erasing its 2026 gain; AppLovin (APP) +31% (Q4 guide $2.38B vs. $2.25B est.); Snap revenue +14% YoY to $1.72B",
+      "order": 5,
+      "reaction": "Chip and AI-infrastructure names led index declines even where headline numbers beat, as investors focused on guidance softness and capex/demand risk.",
+      "region": "US",
+      "source": "https://www.stocktitan.net/articles/stock-market-today-live-november-5-2026",
+      "tickers": "QCOM, ARM, MU, AMD, MRVL, AVGO, NVDA, APP, SNAP",
+      "time": "Market hours",
+      "vsExp": "Qualcomm and Arm beat headline EPS/revenue but guidance and underlying demand metrics disappointed; AppLovin, Unity and Snap beat"
+    }
+  },
+  {
+    "id": "2026-11-05-6-oil-jumps-on-hormuz-tanker-fire",
+    "data": {
+      "addedAt": "2026-11-05",
+      "category": "Energy",
+      "date": "2026-11-05",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "Oil prices jumped after two tankers reportedly hit mines and caught fire in an insecure area east of the Strait of Hormuz, reversing Wednesday's roughly 8% plunge; VP JD Vance's midterm/Iran remarks added to uncertainty over a potential US-Iran deal.",
+      "impact": "Medium",
+      "numbers": "WTI (Dec) $90.52 (+$2.40, +2.7%); Brent (Dec) $98.29 (+$3.67, +3.9%)",
+      "order": 6,
+      "reaction": "Energy was one of the few areas higher on an otherwise sharply negative day for equities; gold and silver also gained as havens.",
+      "region": "Middle East/Global",
+      "source": "https://investrade.com/market-review-november-05-2026/",
+      "tickers": "USO, XLE, BNO",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
