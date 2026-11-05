@@ -488,8 +488,8 @@
        false
       ]
      ],
-     "maturityClose": 7734.0,
-     "ret": 0.007819,
+     "maturityClose": 7722.25,
+     "ret": 0.006287,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2628,8 +2628,8 @@
        false
       ]
      ],
-     "maturityClose": 106.890625,
-     "ret": 0.001611,
+     "maturityClose": 106.765625,
+     "ret": 0.000439,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5300,8 +5300,8 @@
        false
       ]
      ],
-     "maturityClose": 4140.10009765625,
-     "ret": 0.032109,
+     "maturityClose": 4134.2998046875,
+     "ret": 0.030663,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7433,8 +7433,8 @@
        null
       ]
      ],
-     "maturityClose": 101.57599639892578,
-     "ret": -0.001543,
+     "maturityClose": 101.61900329589844,
+     "ret": -0.001121,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9664,8 +9664,8 @@
        false
       ]
      ],
-     "maturityClose": 2880.60009765625,
-     "ret": 0.009462,
+     "maturityClose": 2870.5,
+     "ret": 0.005922,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11606,7 +11606,7 @@
       [
        "bear",
        "Alphabet fell ~12-13% on its Q3 miss and negative free cash flow, dragging the Nasdaq Composite -1.38% (news log); Amazon/Intel reported after the close with reaction not yet known",
-       false
+       true
       ],
       [
        "neu",
@@ -11629,8 +11629,8 @@
        null
       ]
      ],
-     "maturityClose": 28420.25,
-     "ret": -0.015578,
+     "maturityClose": 28278.25,
+     "ret": -0.020497,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
