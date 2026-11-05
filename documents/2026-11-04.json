@@ -379,8 +379,8 @@
        null
       ]
      ],
-     "maturityClose": 7405.5,
-     "ret": -0.041266,
+     "maturityClose": 7385.5,
+     "ret": -0.043855,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2491,8 +2491,8 @@
        null
       ]
      ],
-     "maturityClose": 107.359375,
-     "ret": 0.003798,
+     "maturityClose": 107.390625,
+     "ret": 0.004091,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5106,7 +5106,7 @@
       [
        "bull",
        "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log), lowering the opportunity cost of gold",
-       true
+       false
       ],
       [
        "bear",
@@ -5141,7 +5141,7 @@
       [
        "bull",
        "Gold jumped (spot +2.9% to $4,043 overnight; GC=F closed 4,082.6 vs 3,948.6) as the dollar weakened and yields eased (news log)",
-       true
+       false
       ],
       [
        "neu",
@@ -5149,8 +5149,8 @@
        null
       ]
      ],
-     "maturityClose": 4115.60009765625,
-     "ret": 0.008083,
+     "maturityClose": 4109.2001953125,
+     "ret": 0.006515,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7219,8 +7219,8 @@
        null
       ]
      ],
-     "maturityClose": 101.56700134277344,
-     "ret": 0.000739,
+     "maturityClose": 101.56300354003906,
+     "ret": 0.0007,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9449,8 +9449,8 @@
        null
       ]
      ],
-     "maturityClose": 2739.5,
-     "ret": -0.044938,
+     "maturityClose": 2731.0,
+     "ret": -0.047901,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11434,8 +11434,8 @@
        null
       ]
      ],
-     "maturityClose": 26906.25,
-     "ret": -0.057038,
+     "maturityClose": 26808.25,
+     "ret": -0.060472,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
