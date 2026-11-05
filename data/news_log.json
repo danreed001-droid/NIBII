@@ -4817,5 +4817,65 @@
       "time": "Market hours",
       "vsExp": "Apple beat; Uber Q3 beat / Q4 guide miss; McDonald's EPS beat / revenue miss"
     }
+  },
+  {
+    "id": "2026-11-05-1-asia-ai-chip-selloff-kospi-nikkei-hang-seng-up",
+    "data": {
+      "addedAt": "2026-11-05",
+      "category": "Market",
+      "date": "2026-11-05",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "Asian markets split after the US midterms: AI/chip stocks sold off hard in Japan and South Korea while Hong Kong rallied on hopes a Democratic-led Congress could ease tariffs.",
+      "impact": "Medium",
+      "numbers": "Kospi -5.3% to 5,383.80 (Samsung -7.6%, SK Hynix -9.4%); Nikkei 225 -1.8% to 61,077.90 (Advantest -15%, Tokyo Electron -9.5%); Hang Seng +3.7% to 24,796.98; Shanghai +0.1% to 3,689.91; Brent $95.04 (+0.4%) after -8.7% Wednesday; USD/JPY 158.22; EUR/USD 1.1241",
+      "order": 1,
+      "reaction": "AI-chip weakness in Asia is a headwind for US semis/tech at the open; dollar slightly softer vs yen.",
+      "region": "Asia",
+      "source": "https://bnnbloomberg.ca/markets/2026/11/05/world-shares-mostly-gain-after-us-midterm-elections-as-ai-related-stocks-sink",
+      "tickers": "QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-05-2-us-futures-mixed-dow-up-nasdaq-down-ai-chips",
+    "data": {
+      "addedAt": "2026-11-05",
+      "category": "Market",
+      "date": "2026-11-05",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "US futures mixed after Wednesday's post-midterm rally: Dow futures higher, S&P slightly lower and Nasdaq futures sliding as Nvidia, Intel, AMD and Broadcom fall premarket on the Asia chip selloff; traders also eye Friday's October payrolls.",
+      "impact": "Medium",
+      "numbers": "Dow +3.03% Wed to 53,356.12 (two-month high); Dow futures ~+0.5%, S&P futures slightly lower; weekly jobless claims due 8:30am ET (consensus ~197K vs 194K prior)",
+      "order": 2,
+      "reaction": "Rotation out of AI/semis into cyclicals; strong ADP data has raised odds of a December Fed hike per FXStreet.",
+      "region": "US",
+      "source": "https://www.fxstreet.com/news/dow-jones-futures-gains-as-traders-eyeball-us-jobs-data-corporate-earnings-202611050900",
+      "tickers": "SPY, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "Jobless claims n/a at time of logging"
+    }
+  },
+  {
+    "id": "2026-11-05-3-arm-falls-cava-misses-applovin-beats-premarket",
+    "data": {
+      "addedAt": "2026-11-05",
+      "category": "Earnings",
+      "date": "2026-11-05",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "Premarket earnings reactions: ARM falls despite a beat, Cava misses on revenue and EPS, Dutch Bros beats but cuts full-year EBITDA guidance, AppLovin beats; ConocoPhillips, Kimberly-Clark and Airbnb report later.",
+      "impact": "Low",
+      "numbers": "ARM ~-3.4% premarket; other figures n/a",
+      "order": 3,
+      "reaction": "Stock-specific moves; ARM weakness aligns with the broader chip selloff.",
+      "region": "US",
+      "source": "https://www.benzinga.com/markets/equities/26/11/62906643/stock-market-today-dow-jones-sp-500-futures-trade-mixed-after-post-midterm-rally-tm-arm-qcom-in-focus",
+      "tickers": "ARM, CAVA, BROS, APP",
+      "time": "Pre-market",
+      "vsExp": "ARM beat; Cava miss; Dutch Bros beat/guide cut; AppLovin beat"
+    }
   }
 ]
