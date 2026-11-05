@@ -524,3 +524,36 @@ The step-aside reads lagging unemployment figures and kept the plan in bonds aft
 2020 and 2002 turns (+12.9 and +5.6 points); the rebound rule pulled the plan into a failed 2008 bounce (+9.0 with the
 lower-high exit winning). Worst drop -27% either way, t-stat 1.9, but only four years change: on probation.
 `scripts/momentum_scan.py` RULE_ORDER; engine `legrot.prec` (`re_over_jw`, `lh_over_reb`), `NBno7` = before.
+
+## Candle re-entry (rule 19, default since Nov 5, 2026)
+
+The owner's idea from a chart: two red days, then a day that closes above them, while SPY is down -> stocks for two
+weeks whatever the other rules say. 11 versions first (strict test, against 51.4% a year from 2000):
+
+| Version | 2000 | 2010 | 2016 | 2020 | Worst drop | Signals |
+|---|---|---|---|---|---|---|
+| Closes above both red opens, fresh 20-day low, 10%+ down | 52.0% | 56.6% | 73.7% | 107.6% | -26% | 22 |
+| Green, closes above both red closes, fresh low, 10%+ down | 52.8% | 55.5% | 71.9% | 103.8% | -26% | 36 |
+| ... the same, held 4 weeks | 49.3% | 54.8% | 71.0% | 100.5% | -51% | 36 |
+| ... any day 20% / 15% / 10% down | 50.4 / 47.6 / 44.2% | | | | -39 to -56% | 30-97 |
+| ... under the 150-day average | 44.6% | 50.5% | 64.9% | 95.8% | -56% | 136 |
+
+Without the fresh-low condition it buys back into the 2008 crash (-86 points that year at 10%). Neighbour check of
+the first row (27 versions: an 8 / 10 / 12% drop, a 15- / 20- / 30-day low, 5 / 10 / 15 sessions held): 20 ahead of
+the plan from every start, all 9 at 12%; 3 weeks held is the weak spot. Adopted: 12%, 20-day low, 10 sessions.
+52.6% a year from 2000 vs 51.4%, 57.5 / 75.4 / 110.8% from 2010 / 2016 / 2020 vs 55.7 / 73.2 / 106.6%, worst drop
+-26% vs -27%, Sharpe 1.56 vs 1.54, ahead in 6 years and behind in 2, t-stat 1.0. 19-20 signals since 2000; October
+2022 carries most of it (+25.8 points that year); 8 of the 13 times it moved the plan out of a haven, the plan went
+back to the haven when the two weeks ended. At a 10% drop it also fired in April 2025 and lost 24 points; 12% skips
+that, which may flatter the choice: on probation. `mtl/candle.py`; engine `legrot.candle`, `NBno8` = before.
+
+Also tested that day and rejected, as exits (two weeks out of stocks; the other rules unchanged):
+- the mirror image, two green days then a red day closing below both (their closes or opens), with the three days
+  under the high of the 1 / 2 / 3 months before, out 2 / 3 / 4 weeks (18 versions): 26.7-44.0% a year, worst drop
+  -26 to -40%; 132-282 signals, SPY afterwards no worse than on any day;
+- a red day with a long upper wick within 1% of the 50- / 100- / 126- / 150-day high, then a red close under its
+  close or low within a week (24 versions): 39.3-43.4%;
+- either pattern only with a second warning: SPY under its 50- / 150-day average, 1.5x volume, a VIX jump, 2+
+  dominoes, the narrow-market warning, an overbought RSI, the unemployment flag, gold / bonds / the dollar up, bonds
+  down, rising 10-year yields (62 versions): best 51.9% (with the overbought RSI; -28% worst drop, behind in 7 years
+  and ahead in 3), most 38-51%.
