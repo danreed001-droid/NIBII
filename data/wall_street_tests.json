@@ -9,79 +9,92 @@
    "k": "return",
    "plan": "52.5% (33.0%)",
    "prev": "51.3% (32.2%)",
-   "spy": "8.2%"
+   "spy": "8.2%",
+   "qqq": "8.5%"
   },
   {
    "k": "sharpe",
    "plan": "1.54",
    "prev": "1.52",
-   "spy": "0.41"
+   "spy": "0.41",
+   "qqq": "0.36"
   },
   {
    "k": "sortino",
    "plan": "2.42",
    "prev": "2.39",
-   "spy": "0.57"
+   "spy": "0.57",
+   "qqq": "0.52"
   },
   {
    "k": "maxdd",
    "plan": "−26%",
    "prev": "−27%",
-   "spy": "−55%"
+   "spy": "−55%",
+   "qqq": "−83%"
   },
   {
    "k": "calmar",
    "plan": "2.02",
    "prev": "1.94",
-   "spy": "0.15"
+   "spy": "0.15",
+   "qqq": "0.10"
   },
   {
    "k": "ulcer",
    "plan": "8.2%",
    "prev": "8.4%",
-   "spy": "16.1%"
+   "spy": "16.1%",
+   "qqq": "43.9%"
   },
   {
    "k": "omega",
    "plan": "4.00",
    "prev": "3.94",
-   "spy": "1.43"
+   "spy": "1.43",
+   "qqq": "1.35"
   },
   {
    "k": "capture",
    "plan": "157% / -45%",
    "prev": "154% / -44%",
-   "spy": "100% / 100%"
+   "spy": "100% / 100%",
+   "qqq": "129% / 135%"
   },
   {
    "k": "var",
    "plan": "−5.9% / −8.0%",
    "prev": "−5.9% / −8.0%",
-   "spy": "−7.5% / −9.4%"
+   "spy": "−7.5% / −9.4%",
+   "qqq": "−11.8% / −15.1%"
   },
   {
    "k": "worst3",
    "plan": "13.8% a year",
    "prev": "13.9% a year",
-   "spy": "−16.3% a year"
+   "spy": "−16.3% a year",
+   "qqq": "−38.7% a year"
   },
   {
    "k": "under",
    "plan": "15 months",
    "prev": "15 months",
-   "spy": "74 months"
+   "spy": "74 months",
+   "qqq": "174 months"
   },
   {
    "k": "alpha",
    "plan": "40.4% (t 7.0)",
    "prev": "39.9% (t 6.9)",
-   "spy": "–"
+   "spy": "–",
+   "qqq": "–"
   },
   {
    "k": "alphadec",
    "plan": "46.1% / 17.2% / 67.1%",
    "prev": "46.1% / 16.7% / 66.7%",
-   "spy": "–"
+   "spy": "–",
+   "qqq": "–"
   }
  ],
  "monteCarlo": {
@@ -477,18 +490,18 @@
   },
   "highs": {
    "plan": {
+    "n": 901,
+    "perYear": 33.6,
+    "gapMedianDays": 2,
+    "gap90Days": 21,
+    "gapMaxDays": 568
+   },
+   "prev": {
     "n": 877,
     "perYear": 32.7,
     "gapMedianDays": 2,
     "gap90Days": 21,
     "gapMaxDays": 588
-   },
-   "prev": {
-    "n": 868,
-    "perYear": 32.4,
-    "gapMedianDays": 2,
-    "gap90Days": 21,
-    "gapMaxDays": 592
    },
    "spy": {
     "n": 613,
