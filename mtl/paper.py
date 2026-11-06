@@ -26,7 +26,7 @@ from mtl.rotation import WHIP_SHARE
 START = '2026-10-14'            # the day the current default plan (with the rebound rule) went live
 SLIP = 0.0015                   # per side, as in the backtest
 CASH = 'CASH'
-RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/reentry.py', 'mtl/pricebreak.py', 'mtl/fractal.py', 'mtl/narrow.py', 'mtl/lowerhigh.py', 'mtl/fedday.py', 'mtl/stretchwarn.py', 'mtl/dominoes.py', 'mtl/nearhigh.py', 'mtl/hotcomm.py', 'mtl/jobwarn.py', 'mtl/volsell.py', 'mtl/candle.py',
+RULE_FILES = ('mtl/momentum.py', 'mtl/rotation.py', 'mtl/rebound.py', 'mtl/reentry.py', 'mtl/pricebreak.py', 'mtl/fractal.py', 'mtl/narrow.py', 'mtl/lowerhigh.py', 'mtl/fedday.py', 'mtl/stretchwarn.py', 'mtl/dominoes.py', 'mtl/nearhigh.py', 'mtl/hotcomm.py', 'mtl/jobwarn.py', 'mtl/volsell.py', 'mtl/candle.py', 'mtl/runup.py',
               'mtl/volweight.py', 'mtl/earnjump.py', 'mtl/news.py', 'mtl/structure.py', 'mtl/universe.py', 'mtl/fade.py', 'mtl/calendar_nyse.py')
 SLOTS = 5                       # the Boost list's slots: each stock is a fifth (or its buying-volume share), an empty slot (fading filter) is cash
 SCAN = 'scripts/momentum_scan.py'   # only its module-level CONSTANTS count (settings, not page code)
@@ -36,15 +36,15 @@ CLOSE_ET = time(16, 15)             # a decision is logged only after the close 
 # whipsaw switch since Oct 16, 2026, the 3-month no-T-bills pick since Oct 19, 2026 and DBMF instead of plain cash since
 # Oct 20, 2026, the price-break rule since Oct 24, 2026, the buy freeze and green light since Oct 26, 2026 and the break re-entry
 # rule since Oct 27, 2026, the whipsaw switch without SPY since Oct 28, 2026; the Fed-day hold since Oct 31, 2026 and the buying-volume
-# weighting, the earnings-jump weighting, the stretched-and-warned exit, the near-the-high weighting with its 40% cap (off while SPY is under its 150-day average), the hot-commodity buy skip and the unemployment step-aside since Nov 2, 2026, and the heavy-volume selling rule since Nov 3, 2026 (its sell part only while SPY is above its 150-day average) the rule-order changes since Nov 3, 2026 and the candle re-entry rule since Nov 5, 2026; ranges rebuilt Nov 5, 2026 from that curve, 52.6% a year from 2000) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026
-# (engine NBup, 52.6% a year on the real daily member lists with all of the Nov 2-5, 2026 rules, 40.4% in the Oct 26 audit before it; 46.1% on
+# weighting, the earnings-jump weighting, the stretched-and-warned exit, the near-the-high weighting with its 40% cap (off while SPY is under its 150-day average), the hot-commodity buy skip and the unemployment step-aside since Nov 2, 2026, and the heavy-volume selling rule since Nov 3, 2026 (its sell part only while SPY is above its 150-day average) the rule-order changes since Nov 3, 2026 the candle re-entry rule since Nov 5, 2026 and the run-up skip since Nov 6, 2026; ranges rebuilt Nov 6, 2026 from that curve, 54.1% a year from 2000) on S&P 500 members at each date - the stocks the live plan picks from since Oct 19, 2026
+# (engine NBup, 54.1% a year on the real daily member lists with all of the Nov 2-6, 2026 rules, 40.4% in the Oct 26 audit before it; 46.1% on
 # the lists rebuilt from Wikipedia's changes before that) - 0.15% per side, every window of that
 # length: return percentiles, share ahead of SPY, the 1-in-10 shortfall against SPY, and the worst drop inside the window
 # (typical, and the 1-in-20 worst).
 BANDS = {
-    63: dict(label='3 months', p5=-0.072, p25=0.01, p50=0.091, p75=0.185, p95=0.428, ahead=0.738, lag10=-0.067, dd50=-0.088, dd95=-0.177),
-    126: dict(label='6 months', p5=-0.056, p25=0.073, p50=0.191, p75=0.357, p95=0.812, ahead=0.838, lag10=-0.047, dd50=-0.121, dd95=-0.222),
-    252: dict(label='12 months', p5=0.022, p25=0.204, p50=0.405, p75=0.75, p95=1.778, ahead=0.91, lag10=0.014, dd50=-0.137, dd95=-0.247),
+    63: dict(label='3 months', p5=-0.074, p25=0.015, p50=0.093, p75=0.187, p95=0.438, ahead=0.74, lag10=-0.066, dd50=-0.086, dd95=-0.177),
+    126: dict(label='6 months', p5=-0.058, p25=0.076, p50=0.196, p75=0.37, p95=0.838, ahead=0.838, lag10=-0.046, dd50=-0.121, dd95=-0.226),
+    252: dict(label='12 months', p5=0.016, p25=0.207, p50=0.412, p75=0.804, p95=1.78, ahead=0.91, lag10=0.014, dd50=-0.137, dd95=-0.247),
 }
 WORST_DD = -0.35                # the backtest's worst drop, 2000-2026
 

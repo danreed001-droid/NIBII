@@ -1,63 +1,63 @@
 {
- "asOf": "2026-11-05",
+ "asOf": "2026-11-06",
  "period": "Jan 2000 – Oct 2026",
- "plan": "Boost + rotation (surge exit, whipsaw switch (the whole account into TLT or GLD) with the rate/gold regime, TLT / GLD by 6-month gain, narrow-market cash week read from the equal-weight index’s full history, lower-high exit into gold or bonds on both its triggers, no T-bills: gold or bonds if up over 3 months, else DBMF managed futures (from its start in May 2019; cash before); price-break rule: the day SPY closes under its 100-day average for the first time with that average and its 7-day average both falling, the haven pick for 10 sessions; buy freeze: no new stocks for 10 sessions after a week ends with SPY within 1% of a weekly lower high that the daily chart confirms, an empty slot in the haven pick; green light: weekly and daily higher lows lift the buy filters and skip the cash week for 10 sessions; rebound rule: stays in stocks after a 12%+ drop with gold or bonds up 2%+ and a daily higher low; break re-entry rule: after a 10%+ drop, a weekly and a daily downtrend break (the daily one on fading volume) within 21 sessions hold stocks for 21 sessions; fading-energy filter: a top-5 stock whose volume and daily swings have both faded isn’t bought, its slot stays in cash; the whipsaw check counts the list with the filter off; buying-volume weighting: at each trade a held stock in the top third of the S&P 500 by up-day vs down-day volume over 3 months gets twice the money of the others; earnings-jump weighting: a held stock that closed 3%+ higher on its last earnings report within 3 months gets twice its money too; stretched-and-warned exit: when 3 or more of the eight dominoes are down and SPY is 2+ standard errors above its 52-week trend line, the haven for 20 sessions; near-the-high weighting: a held stock within 3% of its 1-year high gets twice its money too, no stock above 40% of the account; hot-commodity buy skip: no new metals or energy buy while copper or oil is up 50%+ over 6 months; unemployment step-aside: when the unemployment rate has climbed 0.3 points from its low of the year before while SPY is under its 150-day average, the haven for 21 sessions; the near-the-high doubling off while SPY is under its 150-day average; heavy-volume selling: no new buy within 5 sessions of a down close on 4x+ the 50-day average volume, and a holding that closes 6%+ down on 4x+ volume is sold, the sell only while SPY is above its 150-day average; rule order: the break re-entry wins over the unemployment step-aside, the lower-high exit over the rebound rule; candle re-entry: after a 12%+ drop, two red days making a fresh 20-day low and then a close above both of their opens hold stocks for 10 sessions over the other rules)",
- "previous": "the same plan without the candle re-entry rule (until Nov 5, 2026)",
+ "plan": "Boost + rotation (surge exit, whipsaw switch (the whole account into TLT or GLD) with the rate/gold regime, TLT / GLD by 6-month gain, narrow-market cash week read from the equal-weight index’s full history, lower-high exit into gold or bonds on both its triggers, no T-bills: gold or bonds if up over 3 months, else DBMF managed futures (from its start in May 2019; cash before); price-break rule: the day SPY closes under its 100-day average for the first time with that average and its 7-day average both falling, the haven pick for 10 sessions; buy freeze: no new stocks for 10 sessions after a week ends with SPY within 1% of a weekly lower high that the daily chart confirms, an empty slot in the haven pick; green light: weekly and daily higher lows lift the buy filters and skip the cash week for 10 sessions; rebound rule: stays in stocks after a 12%+ drop with gold or bonds up 2%+ and a daily higher low; break re-entry rule: after a 10%+ drop, a weekly and a daily downtrend break (the daily one on fading volume) within 21 sessions hold stocks for 21 sessions; fading-energy filter: a top-5 stock whose volume and daily swings have both faded isn’t bought, its slot stays in cash; the whipsaw check counts the list with the filter off; buying-volume weighting: at each trade a held stock in the top third of the S&P 500 by up-day vs down-day volume over 3 months gets twice the money of the others; earnings-jump weighting: a held stock that closed 3%+ higher on its last earnings report within 3 months gets twice its money too; stretched-and-warned exit: when 3 or more of the eight dominoes are down and SPY is 2+ standard errors above its 52-week trend line, the haven for 20 sessions; near-the-high weighting: a held stock within 3% of its 1-year high gets twice its money too, no stock above 40% of the account; hot-commodity buy skip: no new metals or energy buy while copper or oil is up 50%+ over 6 months; unemployment step-aside: when the unemployment rate has climbed 0.3 points from its low of the year before while SPY is under its 150-day average, the haven for 21 sessions; the near-the-high doubling off while SPY is under its 150-day average; heavy-volume selling: no new buy within 5 sessions of a down close on 4x+ the 50-day average volume, and a holding that closes 6%+ down on 4x+ volume is sold, the sell only while SPY is above its 150-day average; rule order: the break re-entry wins over the unemployment step-aside, the lower-high exit over the rebound rule; candle re-entry: after a 12%+ drop, two red days making a fresh 20-day low and then a close above both of their opens hold stocks for 10 sessions over the other rules; run-up skip: while SPY is down over 6 months, no new buy of a stock up 50%+ in 2 months)",
+ "previous": "the same plan without the run-up skip (until Nov 6, 2026)",
  "source": "From the audit’s daily curves: stocks in the S&P 500 at the time, from the real daily member lists (since Oct 26, 2026; before, lists rebuilt from Wikipedia’s change table held companies years before they joined), with prices for former members from Tiingo (a few series that belonged to other companies left out); 0.15% slippage, 37%/20% tax; Sharpe and Sortino net of a 2% cash rate. EP and CPWR are left out (their tickers were reused by later companies)",
  "scorecard": [
   {
    "k": "return",
-   "plan": "52.5% (33.0%)",
-   "prev": "51.3% (32.2%)",
+   "plan": "54.0% (33.9%)",
+   "prev": "52.5% (33.0%)",
    "spy": "8.2%",
    "qqq": "8.5%"
   },
   {
    "k": "sharpe",
-   "plan": "1.54",
-   "prev": "1.52",
+   "plan": "1.57",
+   "prev": "1.54",
    "spy": "0.41",
    "qqq": "0.36"
   },
   {
    "k": "sortino",
-   "plan": "2.42",
-   "prev": "2.39",
+   "plan": "2.47",
+   "prev": "2.42",
    "spy": "0.57",
    "qqq": "0.52"
   },
   {
    "k": "maxdd",
    "plan": "−26%",
-   "prev": "−27%",
+   "prev": "−26%",
    "spy": "−55%",
    "qqq": "−83%"
   },
   {
    "k": "calmar",
-   "plan": "2.02",
-   "prev": "1.94",
+   "plan": "2.08",
+   "prev": "2.02",
    "spy": "0.15",
    "qqq": "0.10"
   },
   {
    "k": "ulcer",
-   "plan": "8.2%",
-   "prev": "8.4%",
+   "plan": "8.3%",
+   "prev": "8.2%",
    "spy": "16.1%",
    "qqq": "43.9%"
   },
   {
    "k": "omega",
-   "plan": "4.00",
-   "prev": "3.94",
+   "plan": "4.12",
+   "prev": "4.00",
    "spy": "1.43",
    "qqq": "1.35"
   },
   {
    "k": "capture",
-   "plan": "157% / -45%",
-   "prev": "154% / -44%",
+   "plan": "160% / -47%",
+   "prev": "157% / -45%",
    "spy": "100% / 100%",
    "qqq": "129% / 135%"
   },
@@ -70,29 +70,29 @@
   },
   {
    "k": "worst3",
-   "plan": "13.8% a year",
-   "prev": "13.9% a year",
+   "plan": "16.6% a year",
+   "prev": "13.8% a year",
    "spy": "−16.3% a year",
    "qqq": "−38.7% a year"
   },
   {
    "k": "under",
-   "plan": "15 months",
+   "plan": "16 months",
    "prev": "15 months",
    "spy": "74 months",
    "qqq": "174 months"
   },
   {
    "k": "alpha",
-   "plan": "40.4% (t 7.0)",
-   "prev": "39.9% (t 6.9)",
+   "plan": "41.0% (t 7.0)",
+   "prev": "40.4% (t 7.0)",
    "spy": "–",
    "qqq": "–"
   },
   {
    "k": "alphadec",
-   "plan": "46.1% / 17.2% / 67.1%",
-   "prev": "46.1% / 16.7% / 66.7%",
+   "plan": "46.2% / 17.2% / 68.2%",
+   "prev": "46.1% / 17.2% / 67.1%",
    "spy": "–",
    "qqq": "–"
   }
@@ -108,17 +108,17 @@
    {
     "k": "typical",
     "v": [
-     "48.6% (30.7%)",
-     "49.5% (31.1%)",
-     "49.7% (31.3%)"
+     "49.9% (31.6%)",
+     "50.8% (32.0%)",
+     "51.1% (32.2%)"
     ]
    },
    {
     "k": "bad",
     "v": [
-     "22.8%",
-     "29.6%",
-     "35.0%"
+     "23.0%",
+     "30.1%",
+     "35.8%"
     ]
    },
    {
@@ -156,9 +156,9 @@
    {
     "k": "beatPrev",
     "v": [
-     "74%",
-     "84%",
-     "93%"
+     "71%",
+     "79%",
+     "88%"
     ]
    },
    {
@@ -166,7 +166,7 @@
     "v": [
      "−15%",
      "−18%",
-     "−18%"
+     "−19%"
     ]
    },
    {
@@ -180,9 +180,9 @@
    {
     "k": "dd50Half",
     "v": [
-     "0%",
+     "1%",
      "2%",
-     "4%"
+     "6%"
     ]
    }
   ]
@@ -317,6 +317,10 @@
   {
    "k": "candleT",
    "v": "about 1.2 points a year over the plan without it, from 2000 (t-stat 1.0 on monthly returns, real member lists, Nov 5, 2026): 52.6% a year from 2000 vs 51.4%, 57.5% vs 55.7% from 2010, 75.4% vs 73.2% from 2016 and 110.8% vs 106.6% from 2020; worst drop −26% vs −27%; better in 6 years and worse in 2; 20 of 27 nearby settings ahead from every start; it fired 20 times in 26 years and October 2022 carries most of the gain"
+  },
+  {
+   "k": "runupT",
+   "v": "about 1.5 points a year over the plan without it, from 2000 (t-stat 1.8 on monthly returns, real member lists, Nov 6, 2026): 54.1% a year from 2000 vs 52.6%, 58.5% vs 57.5% from 2010, 77.1% vs 75.4% from 2016 and 114.1% vs 110.8% from 2020; the same −26% worst drop; better in 6 years and worse in 1; all 8 nearby versions with a 40–50% run over 2 months ahead from every start; most of the gain is in 2003, 2026 and 2002"
   }
  ],
  "recovery": {
@@ -324,12 +328,12 @@
   "drops": [
    {
     "peak": "2000-07-17",
-    "low": "2001-04-06",
-    "back": "2002-02-05",
-    "depth": -0.2224,
-    "down": 8.6,
-    "up": 10.0,
-    "total": 18.7
+    "low": "2001-10-30",
+    "back": "2002-03-01",
+    "depth": -0.2334,
+    "down": 15.4,
+    "up": 4.0,
+    "total": 19.4
    },
    {
     "peak": "2006-01-11",
@@ -370,8 +374,8 @@
    {
     "peak": "2009-01-12",
     "low": "2009-05-13",
-    "back": "2009-07-23",
-    "depth": -0.2363,
+    "back": "2009-07-22",
+    "depth": -0.2352,
     "down": 4.0,
     "up": 2.3,
     "total": 6.3
@@ -467,7 +471,7 @@
    "plan": {
     "months": 19,
     "peak": "2000-07-17",
-    "back": "2002-02-05"
+    "back": "2002-03-01"
    },
    "spy": {
     "months": 79,
@@ -480,7 +484,7 @@
     "back": "2015-02-20"
    }
   },
-  "newHighs": 901,
+  "newHighs": 914,
   "gapMedianDays": 2,
   "gap90Days": 21,
   "end": "2026-10-23",
@@ -490,18 +494,18 @@
   },
   "highs": {
    "plan": {
+    "n": 914,
+    "perYear": 34.1,
+    "gapMedianDays": 2,
+    "gap90Days": 21,
+    "gapMaxDays": 592
+   },
+   "prev": {
     "n": 901,
     "perYear": 33.6,
     "gapMedianDays": 2,
     "gap90Days": 21,
     "gapMaxDays": 568
-   },
-   "prev": {
-    "n": 877,
-    "perYear": 32.7,
-    "gapMedianDays": 2,
-    "gap90Days": 21,
-    "gapMaxDays": 588
    },
    "spy": {
     "n": 613,
