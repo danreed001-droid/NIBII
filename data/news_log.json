@@ -4997,5 +4997,65 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-06-4-stocks-close-mixed-chip-rally-continues",
+    "data": {
+      "addedAt": "2026-11-06",
+      "category": "Market",
+      "date": "2026-11-06",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Nasdaq and S&P 500 rebounded as chip stocks extended their bounce into the close, while the Dow slipped, capping a volatile week driven by a midterm-election-linked AI/data-center selloff.",
+      "impact": "High",
+      "numbers": "S&P 500 7,376.86 (+23.13, +0.31%); Dow 51,285.73 (-237.33, -0.46%); Nasdaq Composite 24,579.42 (+264.43, +1.09%); 10Y Treasury yield ~4.86% (vs ~4.84% Thu close); Russell 2000 2,754.11 (+0.89%); VIX 25.64 (-9.0%); WTI crude ~$90.47/bbl; Gold ~$4,074.80/oz",
+      "order": 4,
+      "reaction": "Partial recovery from Thursday's rout (S&P -4%+, its worst day since the April 2025 tariff selloff, ~$3T in market cap erased; semiconductor index SOX -12%, worst day since March 2020); S&P 500 still posted its worst week since June (sector ETFs XLK -7%, XLE -11% on the week).",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-friday-november-6-dow-sp-500-nasdaq-jobs-report-earnings-135953863.html",
+      "tickers": "SPY, QQQ, DIA, NVDA, AMD, MU, LRCX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-06-5-democrats-sweep-midterms-ai-datacenter-risk",
+    "data": {
+      "addedAt": "2026-11-06",
+      "category": "Policy",
+      "date": "2026-11-06",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Democrats won sweeping midterm victories, taking control of the House and Senate; markets are digesting what a split Washington (Republican President Trump remains in office) means for AI data-center policy after campaigns in both parties targeted data-center power costs.",
+      "impact": "High",
+      "numbers": "n/a",
+      "order": 5,
+      "reaction": "Cited as a key driver of this week's AI/data-center stock rout on fears of new state/local restrictions on data-center buildout; Trump's veto power is seen limiting federal action, which helped sentiment stabilize somewhat by Friday.",
+      "region": "US",
+      "source": "https://spectrumlocalnews.com/nys/binghamton/business/2026/11/06/the-worldwide-sell-off-for-ai-stocks-halts",
+      "tickers": "NVDA, QQQ, SOX, CEG, VST",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-06-6-iren-lam-research-earnings-pop",
+    "data": {
+      "addedAt": "2026-11-06",
+      "category": "Earnings",
+      "date": "2026-11-06",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "IREN shares jumped on a fiscal Q1 AI-cloud revenue beat and new customer contracts; Lam Research rallied after unveiling a plan to return up to $25 billion to shareholders via buybacks.",
+      "impact": "Medium",
+      "numbers": "IREN +19-20%; AI cloud revenue $200M (vs $71M prior quarter, $7M a year ago); quarterly net loss $263M (wider than estimates); Lam Research (LRCX) +10.9%; buyback program up to $25B",
+      "order": 6,
+      "reaction": "Both stocks extended Friday's broader chip-sector rebound; IREN highlighted AI infrastructure demand (customers include Microsoft) while Lam's buyback signals confidence despite the week's semiconductor selloff.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-friday-november-6-dow-sp-500-nasdaq-jobs-report-earnings-135953863.html",
+      "tickers": "IREN, LRCX, MSFT",
+      "time": "Market hours",
+      "vsExp": "IREN loss wider than Bloomberg-compiled estimate"
+    }
   }
 ]
