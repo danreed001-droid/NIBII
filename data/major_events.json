@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-11-05T23:43:24+00:00",
+ "updated": "2026-11-06T19:29:41+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -145,7 +145,7 @@
    },
    "plan": {
     "day": -0.0102,
-    "month": 0.0274
+    "month": 0.0273
    }
   },
   {
@@ -207,8 +207,8 @@
     "month": 0.009
    },
    "plan": {
-    "day": 0.0143,
-    "month": 0.0575
+    "day": -0.0018,
+    "month": 0.1616
    }
   },
   {
@@ -678,7 +678,7 @@
    "what": "Bank recapitalisation plans",
    "src": "curated",
    "day": 0.1452,
-   "month": 0.0144,
+   "month": 0.0143,
    "type": "Rescue / fiscal",
    "trend": "below",
    "gold": {
@@ -837,8 +837,8 @@
     "month": -0.0739
    },
    "plan": {
-    "day": -0.0456,
-    "month": 0.0237
+    "day": -0.0554,
+    "month": 0.0186
    }
   },
   {
@@ -1274,7 +1274,7 @@
     "month": -0.0589
    },
    "bonds": {
-    "day": -0.0149,
+    "day": -0.0148,
     "month": -0.0779
    },
    "plan": {
@@ -1632,7 +1632,7 @@
    },
    "bonds": {
     "day": -0.0424,
-    "month": -0.0949
+    "month": -0.095
    },
    "plan": {
     "day": -0.0102,
@@ -3106,7 +3106,7 @@
    },
    "plan": {
     "day": 0.0062,
-    "month": 0.2829
+    "month": 0.2991
    }
   },
   {
@@ -3127,7 +3127,7 @@
    },
    "plan": {
     "day": 0.0558,
-    "month": 0.4155
+    "month": 0.5049
    }
   },
   {
@@ -3147,8 +3147,8 @@
     "month": -0.0114
    },
    "plan": {
-    "day": 0.0059,
-    "month": 0.3643
+    "day": 0.006,
+    "month": 0.4553
    }
   },
   {
@@ -3168,8 +3168,8 @@
     "month": -0.0078
    },
    "plan": {
-    "day": 0.0924,
-    "month": 0.4053
+    "day": 0.0914,
+    "month": 0.4868
    }
   },
   {
@@ -3190,7 +3190,7 @@
    },
    "plan": {
     "day": -0.0201,
-    "month": 0.0202
+    "month": 0.0211
    }
   },
   {
@@ -3211,7 +3211,7 @@
    },
    "plan": {
     "day": -0.0006,
-    "month": 0.0319
+    "month": 0.0327
    }
   },
   {
