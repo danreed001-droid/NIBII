@@ -557,3 +557,34 @@ Also tested that day and rejected, as exits (two weeks out of stocks; the other 
   dominoes, the narrow-market warning, an overbought RSI, the unemployment flag, gold / bonds / the dollar up, bonds
   down, rising 10-year yields (62 versions): best 51.9% (with the overbought RSI; -28% worst drop, behind in 7 years
   and ahead in 3), most 38-51%.
+
+## Run-up skip (rule 20, default since Nov 6, 2026)
+
+From a 2008 losing trade (a land-drilling contractor bought after a near-vertical run while SPY was falling) and the
+trade table of all 1,450 trades since 2000 (stretched buys into a weak market did worse): while SPY trends down, skip a
+new pick that has run up. First pass (28 versions): "up 40%+ in 3 months" with SPY under its 150-day average, or down
+over 6 months, was ahead from every start with the same -26% worst drop; "up 20%+ in a month" and the RSI versions
+gained more in some starts but deepened the worst drop (-28% to -34%). Neighbour check (36: a 30 / 40 / 50% run over 2
+/ 3 / 4 months, SPY under its 100 / 150 / 200-day average or down over 6 months): 14 ahead from every start, 13 with
+the same worst drop, and all 8 with a 40-50% run over 2 months. Adopted: up 50%+ in 42 sessions while SPY is lower than
+126 sessions earlier. 54.1% a year from 2000 vs 52.6%, 58.5 / 77.1 / 114.1% from 2010 / 2016 / 2020 vs 57.5 / 75.4 /
+110.8%, worst drop -26% either way, better in 6 years (2003 +21.3, 2026 +18.0, 2002 +6.5, 2023 +4.3, 2022 +3.4, 2009
++2.4) and worse in 1 (2001 -3.7), t-stat 1.8. The idea came from the same history: on probation. `mtl/runup.py`;
+engine `nostretch_down` (`NBno9` = before).
+
+Also tested Nov 5-6, 2026 and rejected (strict test against the plan of the day):
+- SPY weekly RSI bearish divergence as a trigger for stricter exits, with or without volume (62 versions): 41.3-52.3%;
+- that divergence plus a candle sell pattern on SPY (68 versions): one version acting twice in 26 years was +0.1, the
+  rest 44.9-52.3%;
+- a held stock's own weekly divergence + candle pattern + volume (12 versions, the slot to the next stock, cash or the
+  haven): 50.3-53.2% on 1-30 sales, the cash and haven versions the same as the next stock;
+- dominant-actor gauges (average stock correlation, stock-bond correlation, the best-vs-worst spread over 2-6 months)
+  as switches to SPY, half SPY or the haven (42 versions): 32.8-52.7% (the one at 52.7% acted on 4 days); the plan
+  earns most when the spread is wide and least when one force moves everything, but beats SPY in every bucket;
+- no new buys within 1-4 weeks of an earnings report, always or by gauge (15 versions): 44.3-52.8%;
+- SEC-filed financials as buy filters from 2011 (profitable, revenue / earnings growth, return on equity, debt,
+  price-to-sales / earnings, 20 versions): 36.6-55.9% from 2011 against 58.2%;
+- a pullback buy for stretched picks (13 versions): 44.2-51.0%; weighting tilts from the trade table (12 versions):
+  51.8-53.0%, in-sample and t 0.0-0.6;
+- selling on a falling resistance line with 3-5 touches (22 versions): 42.0-52.8%, the 4-touch ones break even;
+- a broken rounded top, as a buy filter, a sell, or both (34 versions): 31.9-52.3%.
