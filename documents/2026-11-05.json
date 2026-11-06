@@ -397,8 +397,8 @@
        null
       ]
      ],
-     "maturityClose": 7388.75,
-     "ret": 0.000745,
+     "maturityClose": 7437.75,
+     "ret": 0.007382,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2481,8 +2481,8 @@
        null
       ]
      ],
-     "maturityClose": 107.09375,
-     "ret": -0.002184,
+     "maturityClose": 107.1875,
+     "ret": -0.00131,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5104,8 +5104,8 @@
        null
       ]
      ],
-     "maturityClose": 4046.199951171875,
-     "ret": -0.015906,
+     "maturityClose": 4069.60009765625,
+     "ret": -0.010215,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7167,8 +7167,8 @@
        true
       ]
      ],
-     "maturityClose": 102.34600067138672,
-     "ret": 0.00768,
+     "maturityClose": 102.15399932861328,
+     "ret": 0.005789,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9334,7 +9334,7 @@
       [
        "bull",
        "10Y yield fell 6bp to 4.837% on 5 November (news log), supportive for equity multiples though overwhelmed by the chip rout",
-       false
+       true
       ],
       [
        "neu",
@@ -9377,8 +9377,8 @@
        null
       ]
      ],
-     "maturityClose": 2741.5,
-     "ret": 0.002047,
+     "maturityClose": 2760.5,
+     "ret": 0.008992,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11304,7 +11304,7 @@
       [
        "bull",
        "10Y yield fell 6bp to 4.837% on 5 November (news log), supportive for equity multiples though overwhelmed by the chip rout",
-       false
+       true
       ],
       [
        "neu",
@@ -11347,8 +11347,8 @@
        false
       ]
      ],
-     "maturityClose": 27147.75,
-     "ret": 0.011711,
+     "maturityClose": 27210.0,
+     "ret": 0.014031,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,

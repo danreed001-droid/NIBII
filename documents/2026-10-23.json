@@ -618,8 +618,8 @@
        false
       ]
      ],
-     "maturityClose": 7388.75,
-     "ret": -0.036983,
+     "maturityClose": 7437.75,
+     "ret": -0.030596,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2751,8 +2751,8 @@
        false
       ]
      ],
-     "maturityClose": 107.09375,
-     "ret": 0.009128,
+     "maturityClose": 107.1875,
+     "ret": 0.010012,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5437,8 +5437,8 @@
        false
       ]
      ],
-     "maturityClose": 4046.199951171875,
-     "ret": 0.009027,
+     "maturityClose": 4069.60009765625,
+     "ret": 0.014863,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7539,7 +7539,7 @@
       [
        "bull",
        "Fed funds futures priced about an 83% chance of a December hike while holding in October (CME FedWatch via news log, 23 October), a higher-for-longer path that supports the dollar",
-       true
+       false
       ],
       [
        "neu",
@@ -7577,8 +7577,8 @@
        null
       ]
      ],
-     "maturityClose": 102.34600067138672,
-     "ret": 0.005838,
+     "maturityClose": 102.15399932861328,
+     "ret": 0.003951,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9815,8 +9815,8 @@
        false
       ]
      ],
-     "maturityClose": 2741.5,
-     "ret": -0.016925,
+     "maturityClose": 2760.5,
+     "ret": -0.010112,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11752,8 +11752,8 @@
        null
       ]
      ],
-     "maturityClose": 27147.75,
-     "ret": -0.069486,
+     "maturityClose": 27210.0,
+     "ret": -0.067352,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
