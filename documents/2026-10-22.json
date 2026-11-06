@@ -1,7 +1,7 @@
 {
  "date": "2026-10-22",
  "basisDate": "2026-10-22",
- "scored": false,
+ "scored": true,
  "generatedAt": "2026-10-23T13:25:06Z",
  "generationLag": null,
  "schema": "multi-asset-v4",
@@ -585,13 +585,12 @@
        false
       ]
      ],
-     "maturityClose": 7711.0,
-     "ret": 0.002829,
+     "maturityClose": 7353.0,
+     "ret": -0.04373,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     }
    ],
    "structure": {
@@ -2732,13 +2731,12 @@
        false
       ]
      ],
-     "maturityClose": 106.734375,
-     "ret": 0.003968,
+     "maturityClose": 107.3125,
+     "ret": 0.009406,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     }
    ],
    "structure": {
@@ -5404,13 +5402,12 @@
        false
       ]
      ],
-     "maturityClose": 4134.0,
-     "ret": 0.026341,
+     "maturityClose": 4097.89990234375,
+     "ret": 0.017379,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     }
    ],
    "structure": {
@@ -7558,13 +7555,12 @@
        null
       ]
      ],
-     "maturityClose": 101.64600372314453,
-     "ret": 0.001044,
+     "maturityClose": 101.58599853515625,
+     "ret": 0.000453,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     }
    ],
    "structure": {
@@ -9726,7 +9722,7 @@
       [
        "bull",
        "structure.weekly reads uptrend for RTY=F on 22 October",
-       true
+       false
       ],
       [
        "neu",
@@ -9786,16 +9782,15 @@
       [
        "bull",
        "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
-       true
+       false
       ]
      ],
-     "maturityClose": 2869.0,
-     "ret": 0.029127,
+     "maturityClose": 2723.39990234375,
+     "ret": -0.023101,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     }
    ],
    "structure": {
@@ -11740,13 +11735,12 @@
        null
       ]
      ],
-     "maturityClose": 28227.25,
-     "ret": -0.029299,
+     "maturityClose": 26604.0,
+     "ret": -0.085121,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     }
    ],
    "structure": {

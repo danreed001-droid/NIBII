@@ -1,23 +1,23 @@
 {
  "about": "The dominoes card (mtl/dominoes.py, scripts/dominoes.py). Information only.",
- "updated": "2026-11-04T23:43:23+00:00",
- "asOf": "2026-11-04",
- "spxOff": -0.0167,
- "count": 1,
+ "updated": "2026-11-05T23:43:30+00:00",
+ "asOf": "2026-11-05",
+ "spxOff": -0.0595,
+ "count": 3,
  "dominoes": [
   {
    "key": "tech",
    "label": "Tech",
-   "on": false,
-   "value": -0.0675,
+   "on": true,
+   "value": -0.119,
    "line": 0.1,
    "how": "off"
   },
   {
    "key": "small",
    "label": "Small caps",
-   "on": false,
-   "value": -0.0689,
+   "on": true,
+   "value": -0.1103,
    "line": 0.1,
    "how": "off"
   },
@@ -25,7 +25,7 @@
    "key": "banks",
    "label": "Banks",
    "on": false,
-   "value": -0.0829,
+   "value": -0.065,
    "line": 0.1,
    "how": "off"
   },
@@ -33,7 +33,7 @@
    "key": "transport",
    "label": "Transports",
    "on": false,
-   "value": -0.0863,
+   "value": -0.0558,
    "line": 0.1,
    "how": "off"
   },
@@ -41,7 +41,7 @@
    "key": "junk",
    "label": "Junk bonds",
    "on": false,
-   "value": -0.0186,
+   "value": -0.0149,
    "line": 0.03,
    "how": "off"
   },
@@ -65,7 +65,7 @@
    "key": "oil",
    "label": "Oil shock",
    "on": true,
-   "value": 0.6126,
+   "value": 0.6233,
    "line": 0.5,
    "how": "oil"
   }
@@ -73,7 +73,7 @@
  "infl": 0.0372,
  "inflHigh": 0.03,
  "since": "1988-03-09",
- "falls": 52,
+ "falls": 53,
  "table": [
   {
    "dominoes": "0",
@@ -98,7 +98,7 @@
   },
   {
    "dominoes": "3",
-   "falls": 7,
+   "falls": 8,
    "to10": 4,
    "to20": 3,
    "to30": 1
@@ -117,42 +117,21 @@
    "deep": 0
   },
   "high": {
-   "falls": 14,
+   "falls": 15,
    "deep": 6
   }
  },
  "normal10": 0.215,
  "matches": [
   {
-   "d": "2021-05-17",
+   "d": "2022-01-31",
    "on": [
+    "tech",
+    "small",
     "oil"
    ],
-   "infl": 0.0413,
-   "spxOff": -0.0164,
-   "then": [
-    "Inflation tops 4% (May 2021)",
-    "Archegos collapse forces block sales (Mar 2021)",
-    "Dollar down 10% in a year (Mar 2021)",
-    "Oil up 50% in a year (Mar 2021)"
-   ],
-   "next": {
-    "fall6": -0.0114,
-    "spx6": 0.1248,
-    "spx12": -0.0373,
-    "bonds6": 0.0792,
-    "bonds12": -0.1342,
-    "gold6": 0.0005,
-    "gold12": -0.0287
-   }
-  },
-  {
-   "d": "2022-01-06",
-   "on": [
-    "oil"
-   ],
-   "infl": 0.069,
-   "spxOff": -0.021,
+   "infl": 0.0717,
+   "spxOff": -0.0586,
    "then": [
     "Powell drops \"transitory\": inflation fight begins (Nov 2021)",
     "Omicron variant (Nov 2021)",
@@ -160,73 +139,104 @@
     "Inflation tops 4% (May 2021)"
    ],
    "next": {
-    "fall6": -0.2192,
-    "spx6": -0.1792,
-    "spx12": -0.1712,
-    "bonds6": -0.1848,
-    "bonds12": -0.2323,
-    "gold6": -0.0321,
-    "gold12": 0.0495
+    "fall6": -0.188,
+    "spx6": -0.094,
+    "spx12": -0.0878,
+    "bonds6": -0.1569,
+    "bonds12": -0.2076,
+    "gold6": -0.003,
+    "gold12": 0.0823
    }
   },
   {
-   "d": "2004-11-26",
+   "d": "2004-08-13",
    "on": [
+    "tech",
+    "small",
     "oil"
    ],
-   "infl": 0.0319,
-   "spxOff": -0.0013,
+   "infl": 0.0317,
+   "spxOff": -0.0803,
    "then": [
-    "Dollar down 10% in a year (Sep 2004)",
     "Fed starts hiking from 1% (17 straight hikes follow) (Jun 2004)",
     "Credit cracking (May 2004)",
     "Oil up 50% in a year (May 2004)"
    ],
    "next": {
-    "fall6": -0.0382,
-    "spx6": 0.0136,
-    "spx12": 0.0724,
-    "bonds6": 0.0644,
-    "bonds12": 0.0564,
-    "gold6": -0.0657,
-    "gold12": 0.0953
+    "fall6": 0.0137,
+    "spx6": 0.1319,
+    "spx12": 0.1555,
+    "bonds6": 0.0719,
+    "bonds12": 0.0959,
+    "gold6": 0.0541,
+    "gold12": 0.1178
    }
   },
   {
-   "d": "1991-10-21",
-   "on": [],
-   "infl": 0.034,
-   "spxOff": -0.0167,
+   "d": "1992-10-09",
+   "on": [
+    "tech",
+    "small"
+   ],
+   "infl": 0.0307,
+   "spxOff": -0.0532,
    "then": [
-    "Dollar up 10% in a year (Aug 1991)",
-    "Inflation turns down (Mar 1991)",
-    "Oil 40% under its high (Jan 1991)",
-    "Recession signal (Dec 1990)"
+    "Dollar down 10% in a year (Jun 1992)"
    ],
    "next": {
-    "fall6": -0.0379,
-    "spx6": 0.0519,
-    "spx12": 0.064,
-    "bonds6": 0.04,
-    "bonds12": 0.1334,
+    "fall6": 0.0119,
+    "spx6": 0.1135,
+    "spx12": 0.1432,
+    "bonds6": 0.1121,
+    "bonds12": 0.2382,
     "gold6": null,
     "gold12": null
    }
   },
   {
-   "d": "1996-12-05",
-   "on": [],
-   "infl": 0.0306,
-   "spxOff": -0.0167,
+   "d": "1996-07-19",
+   "on": [
+    "tech",
+    "small"
+   ],
+   "infl": 0.0282,
+   "spxOff": -0.0586,
    "then": [],
    "next": {
-    "fall6": -0.0314,
-    "spx6": 0.1527,
-    "spx12": 0.3073,
-    "bonds6": 0.0063,
-    "bonds12": 0.1126,
+    "fall6": -0.0189,
+    "spx6": 0.2152,
+    "spx12": 0.433,
+    "bonds6": 0.0501,
+    "bonds12": 0.1177,
     "gold6": null,
     "gold12": null
+   }
+  },
+  {
+   "d": "2000-09-18",
+   "on": [
+    "tech",
+    "small",
+    "fed",
+    "curve",
+    "oil"
+   ],
+   "infl": 0.0335,
+   "spxOff": -0.0543,
+   "then": [
+    "Oil up 50% in a year (Jul 2000)",
+    "Fed hikes 0.50% to 6.5%, the last hike before the bust (May 2000)",
+    "Dollar up 10% in a year (May 2000)",
+    "Nasdaq crashes 9.7% in a day as the dot-com bubble bursts (Apr 2000)"
+   ],
+   "next": {
+    "fall6": -0.209,
+    "spx6": -0.209,
+    "spx12": -0.3053,
+    "bonds6": 0.1174,
+    "bonds12": 0.1314,
+    "gold6": -0.0402,
+    "gold12": 0.0674
    }
   }
  ],
@@ -240,111 +250,111 @@
   "aucCount": 0.63
  },
  "expect": {
-  "count": 1,
-  "lo": -0.0667,
-  "hi": 0.0,
+  "count": 3,
+  "lo": -0.1095,
+  "hi": -0.0095,
   "same": {
-   "days": 2327,
+   "days": 554,
    "stretches": 51,
    "1": {
-    "med": 0.0127,
-    "p10": -0.0345,
-    "p90": 0.0436,
-    "up": 0.6774,
-    "fall5": 0.0973,
-    "fall10": 0.0211,
-    "bonds": 0.0065,
-    "gold": 0.0165
+    "med": 0.015,
+    "p10": -0.0604,
+    "p90": 0.0518,
+    "up": 0.613,
+    "fall5": 0.2315,
+    "fall10": 0.0362,
+    "bonds": 0.0085,
+    "gold": 0.0097
    },
    "3": {
-    "med": 0.0342,
-    "p10": -0.0602,
-    "p90": 0.0886,
-    "up": 0.7236,
-    "fall5": 0.2595,
-    "fall10": 0.1069,
-    "bonds": 0.0154,
-    "gold": 0.0435
+    "med": 0.0367,
+    "p10": -0.0428,
+    "p90": 0.0962,
+    "up": 0.7221,
+    "fall5": 0.3985,
+    "fall10": 0.1353,
+    "bonds": 0.0168,
+    "gold": 0.0444
    },
    "6": {
-    "med": 0.054,
-    "p10": -0.0467,
-    "p90": 0.1493,
-    "up": 0.7332,
-    "fall5": 0.3976,
-    "fall10": 0.2039,
+    "med": 0.0641,
+    "p10": -0.0737,
+    "p90": 0.1597,
+    "up": 0.8227,
+    "fall5": 0.4863,
+    "fall10": 0.2029,
     "bonds": 0.0424,
-    "gold": 0.1018
+    "gold": 0.0745
    }
   },
   "all": {
-   "days": 7220,
-   "stretches": 15,
+   "days": 4981,
+   "stretches": 36,
    "1": {
-    "med": 0.0119,
-    "p10": -0.0351,
-    "p90": 0.0456,
-    "up": 0.6531,
-    "fall5": 0.1108,
-    "fall10": 0.0147,
-    "bonds": 0.0054,
-    "gold": 0.0053
+    "med": 0.0151,
+    "p10": -0.0398,
+    "p90": 0.0544,
+    "up": 0.675,
+    "fall5": 0.1406,
+    "fall10": 0.028,
+    "bonds": 0.0064,
+    "gold": 0.0079
    },
    "3": {
-    "med": 0.0305,
-    "p10": -0.0453,
-    "p90": 0.0896,
-    "up": 0.7221,
-    "fall5": 0.2527,
-    "fall10": 0.0799,
-    "bonds": 0.0164,
-    "gold": 0.0256
+    "med": 0.0361,
+    "p10": -0.0461,
+    "p90": 0.1006,
+    "up": 0.7414,
+    "fall5": 0.2614,
+    "fall10": 0.1108,
+    "bonds": 0.0177,
+    "gold": 0.0251
    },
    "6": {
-    "med": 0.057,
-    "p10": -0.0497,
-    "p90": 0.15,
-    "up": 0.7783,
-    "fall5": 0.3608,
-    "fall10": 0.1581,
-    "bonds": 0.0394,
-    "gold": 0.0479
+    "med": 0.0598,
+    "p10": -0.0639,
+    "p90": 0.1696,
+    "up": 0.7868,
+    "fall5": 0.3663,
+    "fall10": 0.1836,
+    "bonds": 0.0427,
+    "gold": 0.0579
    }
   },
   "other": {
-   "days": 1024,
-   "stretches": 38,
+   "days": 3508,
+   "stretches": 46,
    "1": {
-    "med": 0.0155,
-    "p10": -0.0554,
-    "p90": 0.0501,
-    "up": 0.6199,
-    "fall5": 0.2201,
-    "fall10": 0.0316,
-    "bonds": 0.0062,
-    "gold": 0.0045
+    "med": 0.0146,
+    "p10": -0.0289,
+    "p90": 0.0517,
+    "up": 0.6973,
+    "fall5": 0.0923,
+    "fall10": 0.0146,
+    "bonds": 0.0059,
+    "gold": 0.0063
    },
    "3": {
-    "med": 0.0372,
-    "p10": -0.08,
-    "p90": 0.095,
-    "up": 0.6826,
-    "fall5": 0.3832,
-    "fall10": 0.1597,
-    "bonds": 0.0228,
-    "gold": 0.0331
+    "med": 0.0328,
+    "p10": -0.0373,
+    "p90": 0.0963,
+    "up": 0.7539,
+    "fall5": 0.2041,
+    "fall10": 0.0742,
+    "bonds": 0.0166,
+    "gold": 0.0227
    },
    "6": {
-    "med": 0.0586,
-    "p10": -0.1098,
-    "p90": 0.1641,
-    "up": 0.7066,
-    "fall5": 0.491,
-    "fall10": 0.2545,
-    "bonds": 0.0414,
-    "gold": 0.0713
+    "med": 0.059,
+    "p10": -0.0325,
+    "p90": 0.1612,
+    "up": 0.8192,
+    "fall5": 0.3092,
+    "fall10": 0.1351,
+    "bonds": 0.0436,
+    "gold": 0.0528
    }
   },
-  "otherLabel": "3+"
+  "otherLabel": "0-2"
  }
 }

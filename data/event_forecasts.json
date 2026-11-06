@@ -1,5 +1,18 @@
 {
  "about": "Each new event's odds as the events page showed them the day it appeared, and what the S&P 500 did over the next 3 months (scripts/event_patterns.py). Append-only.",
  "since": "2026-10-19",
- "entries": []
+ "entries": [
+  {
+   "d": "2026-11-05",
+   "what": "S&P 500 −4.2% in a day: Asian markets split after the US midterms: AI/chip stocks sold off hard in Japan and South Korea while Hong Kong rallied on hopes a Democratic-led Congress could ease tariffs. (news log)",
+   "type": "Trade war / China",
+   "made": "2026-11-05",
+   "basis": "Trade war / China",
+   "n": 9,
+   "up": 0.889,
+   "avg": 0.0556,
+   "normal": 0.692,
+   "spy_q": null
+  }
+ ]
 }

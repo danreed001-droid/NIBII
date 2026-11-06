@@ -4877,5 +4877,125 @@
       "time": "Pre-market",
       "vsExp": "ARM beat; Cava miss; Dutch Bros beat/guide cut; AppLovin beat"
     }
+  },
+  {
+    "id": "2026-11-05-4-nasdaq-enters-correction-chip-selloff",
+    "data": {
+      "addedAt": "2026-11-05",
+      "category": "Market",
+      "date": "2026-11-05",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "US stocks suffer their worst session in roughly a year and a half as the AI/chip selloff accelerates into the close; the Nasdaq closes in correction territory (>10% below its record) and the Russell 2000 also enters a correction.",
+      "impact": "High",
+      "numbers": "S&P 500 7,353.73 (-334.89, -4.36%); Dow 51,523.06 (-1,833.06, -3.44%); Nasdaq Composite 24,315.00 (-1,421.52, -5.52%); Russell 2000 2,729.89 (-4.45%); 10-yr Treasury yield 4.837% (-6bp); VIX 28.18 (+69.7%, its biggest 1-day jump since 2024); PHLX Semiconductor Index (SOX) -12.25%",
+      "order": 4,
+      "reaction": "Broad risk-off: all 11 S&P sectors fell; retail investors were net sellers of ~$358M per Vanda Research, the heaviest since March 2020. Traders cited post-midterm worries that a Democratic-controlled Congress will slow AI data-center buildout (UBS estimates ~30% of planned 2028 data-center capacity now at risk).",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-5-dow-sp-500-nasdaq-oil-rises-chip-stocks-141439950.html",
+      "tickers": "SPY, QQQ, DIA, SMH, SOX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-05-5-qualcomm-arm-micron-slide-on-guidance",
+    "data": {
+      "addedAt": "2026-11-05",
+      "category": "Earnings",
+      "date": "2026-11-05",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Mega-cap chip earnings disappoint despite headline beats: Qualcomm's phone-chip revenue fell 26% and margin-recovery guidance slipped; Arm's Q2 royalties missed even as revenue rose 27%; Micron reportedly suspended a $4.5B Taiwan memory plant over a labor dispute. AppLovin, Unity and Snap rallied on strong results.",
+      "impact": "High",
+      "numbers": "Qualcomm (QCOM) -9.5%; Arm (ARM) -13.1% (rev +27% to $1.44B); Micron (MU) -17.5%; AMD -17.3%; Marvell (MRVL) -16.4%; Broadcom (AVGO) -10.4%; Nvidia (NVDA) -9.3% to $181.60, erasing its 2026 gain; AppLovin (APP) +31% (Q4 guide $2.38B vs. $2.25B est.); Snap revenue +14% YoY to $1.72B",
+      "order": 5,
+      "reaction": "Chip and AI-infrastructure names led index declines even where headline numbers beat, as investors focused on guidance softness and capex/demand risk.",
+      "region": "US",
+      "source": "https://www.stocktitan.net/articles/stock-market-today-live-november-5-2026",
+      "tickers": "QCOM, ARM, MU, AMD, MRVL, AVGO, NVDA, APP, SNAP",
+      "time": "Market hours",
+      "vsExp": "Qualcomm and Arm beat headline EPS/revenue but guidance and underlying demand metrics disappointed; AppLovin, Unity and Snap beat"
+    }
+  },
+  {
+    "id": "2026-11-05-6-oil-jumps-on-hormuz-tanker-fire",
+    "data": {
+      "addedAt": "2026-11-05",
+      "category": "Energy",
+      "date": "2026-11-05",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "Oil prices jumped after two tankers reportedly hit mines and caught fire in an insecure area east of the Strait of Hormuz, reversing Wednesday's roughly 8% plunge; VP JD Vance's midterm/Iran remarks added to uncertainty over a potential US-Iran deal.",
+      "impact": "Medium",
+      "numbers": "WTI (Dec) $90.52 (+$2.40, +2.7%); Brent (Dec) $98.29 (+$3.67, +3.9%)",
+      "order": 6,
+      "reaction": "Energy was one of the few areas higher on an otherwise sharply negative day for equities; gold and silver also gained as havens.",
+      "region": "Middle East/Global",
+      "source": "https://investrade.com/market-review-november-05-2026/",
+      "tickers": "USO, XLE, BNO",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-06-1-october-payrolls-165k-beat",
+    "data": {
+      "addedAt": "2026-11-06",
+      "category": "Macro",
+      "date": "2026-11-06",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "October payrolls smashed forecasts and unemployment fell, lifting Fed rate-hike odds and pushing yields and the dollar higher.",
+      "impact": "High",
+      "numbers": "NFP +165K (Sept revised to +60K); unemployment 4.1% (exp 4.2%); avg hourly earnings +0.4% m/m, +3.1% y/y (exp +0.3%/+2.9%); 2Y 4.52% (+5bp), 10Y 4.88% (+4bp), 30Y 5.29%; DXY +0.7% to 102.18; Dec Fed hike odds 78% (from 70%)",
+      "order": 1,
+      "reaction": "Yields and dollar rose after the release (yields later pulled back); stronger labor data raises odds of a December Fed hike, pressuring bonds and rate-sensitive equities.",
+      "region": "US",
+      "source": "https://www.investing.com/news/economic-indicators/strong-october-jobs-report-sends-yields-higher-5008272",
+      "tickers": "SPY, TLT, 10Y, yield, Treasury, DXY, USD, dollar, IWM",
+      "time": "Pre-market",
+      "vsExp": "NFP 165K vs ~59-65K est; unemployment 4.1% vs 4.2%; AHE +0.4% vs +0.3%"
+    }
+  },
+  {
+    "id": "2026-11-06-2-asia-selloff-chips-rebound-premarket",
+    "data": {
+      "addedAt": "2026-11-06",
+      "category": "Market",
+      "date": "2026-11-06",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Asian equities extended the tech rout (Kospi -6%, Nikkei in a bear market) while US chip stocks bounced pre-market after Thursday's heavy losses; Nasdaq-100 futures up and Dow futures down as of 7:47 AM ET.",
+      "impact": "High",
+      "numbers": "Kospi -6%+; Nikkei 225 >20% off peak; Nasdaq-100 futures +1.6%, Dow futures -0.9% (7:47 AM ET); chips recovered ~40% of Thursday's losses: NVDA +4.1%, AMD +7.9%, MU +7.6%, MRVL +9.6%, LRCX +10.8%",
+      "order": 2,
+      "reaction": "Sharp rotation divergence: tech/semis rebounding while the broad market indicated weaker; volatility elevated after the Nasdaq 100's worst day since 2020.",
+      "region": "Asia/US",
+      "source": "https://www.stocktitan.net/articles/stock-market-today-live-november-6-2026",
+      "tickers": "QQQ, Nasdaq, SPY, NVDA, AMD, MU",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-06-3-premarket-earnings-movers",
+    "data": {
+      "addedAt": "2026-11-06",
+      "category": "Earnings",
+      "date": "2026-11-06",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Pre-market earnings movers: Cloudflare, Airbnb and JFrog surge; DraftKings, Five9, Atlassian and Axon slide.",
+      "impact": "Medium",
+      "numbers": "NET +20.2%; ABNB +14.3%; FROG +22.9%; DKNG -24.5%; FIVN -18.9%; TEAM -16.0%; AXON -10.9%; UA -9.9%; CHTR -6.3% (as of ~8:00 AM ET)",
+      "order": 3,
+      "reaction": "Software and consumer names diverge on results; single-stock volatility high into the open.",
+      "region": "US",
+      "source": "https://www.stocktitan.net/articles/stock-market-today-live-november-6-2026",
+      "tickers": "NET, ABNB, FROG, DKNG, TEAM, AXON, QQQ",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]

@@ -379,13 +379,12 @@
        null
       ]
      ],
-     "maturityClose": 7711.0,
-     "ret": -0.001715,
+     "maturityClose": 7353.0,
+     "ret": -0.048063,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2491,13 +2490,12 @@
        null
       ]
      ],
-     "maturityClose": 106.734375,
-     "ret": -0.002045,
+     "maturityClose": 107.3125,
+     "ret": 0.00336,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5106,7 +5104,7 @@
       [
        "bull",
        "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log), lowering the opportunity cost of gold",
-       true
+       false
       ],
       [
        "bear",
@@ -5141,7 +5139,7 @@
       [
        "bull",
        "Gold jumped (spot +2.9% to $4,043 overnight; GC=F closed 4,082.6 vs 3,948.6) as the dollar weakened and yields eased (news log)",
-       true
+       false
       ],
       [
        "neu",
@@ -5149,13 +5147,12 @@
        null
       ]
      ],
-     "maturityClose": 4134.0,
-     "ret": 0.01259,
+     "maturityClose": 4097.89990234375,
+     "ret": 0.003748,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7181,7 +7178,7 @@
       [
        "bull",
        "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish tilt for this asset",
-       true
+       false
       ],
       [
        "neu",
@@ -7219,13 +7216,12 @@
        null
       ]
      ],
-     "maturityClose": 101.64600372314453,
-     "ret": 0.001517,
+     "maturityClose": 101.58599853515625,
+     "ret": 0.000926,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9449,13 +9445,12 @@
        null
       ]
      ],
-     "maturityClose": 2869.0,
-     "ret": 0.000209,
+     "maturityClose": 2723.39990234375,
+     "ret": -0.050551,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11434,13 +11429,12 @@
        null
       ]
      ],
-     "maturityClose": 28227.25,
-     "ret": -0.010742,
+     "maturityClose": 26604.0,
+     "ret": -0.06763,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,
