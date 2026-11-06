@@ -397,8 +397,8 @@
        null
       ]
      ],
-     "maturityClose": 7424.0,
-     "ret": 0.005519,
+     "maturityClose": 7406.25,
+     "ret": 0.003115,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2481,8 +2481,8 @@
        null
       ]
      ],
-     "maturityClose": 107.125,
-     "ret": -0.001893,
+     "maturityClose": 107.140625,
+     "ret": -0.001747,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5104,8 +5104,8 @@
        null
       ]
      ],
-     "maturityClose": 4070.39990234375,
-     "ret": -0.01002,
+     "maturityClose": 4074.699951171875,
+     "ret": -0.008975,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7167,8 +7167,8 @@
        true
       ]
      ],
-     "maturityClose": 102.31900024414062,
-     "ret": 0.007414,
+     "maturityClose": 102.31999969482422,
+     "ret": 0.007424,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9377,8 +9377,8 @@
        null
       ]
      ],
-     "maturityClose": 2763.89990234375,
-     "ret": 0.010234,
+     "maturityClose": 2763.0,
+     "ret": 0.009905,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11304,7 +11304,7 @@
       [
        "bull",
        "10Y yield fell 6bp to 4.837% on 5 November (news log), supportive for equity multiples though overwhelmed by the chip rout",
-       true
+       false
       ],
       [
        "neu",
@@ -11347,8 +11347,8 @@
        false
       ]
      ],
-     "maturityClose": 27190.5,
-     "ret": 0.013304,
+     "maturityClose": 27098.5,
+     "ret": 0.009876,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
