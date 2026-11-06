@@ -4937,5 +4937,65 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-06-1-october-payrolls-165k-beat",
+    "data": {
+      "addedAt": "2026-11-06",
+      "category": "Macro",
+      "date": "2026-11-06",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "October payrolls smashed forecasts and unemployment fell, lifting Fed rate-hike odds and pushing yields and the dollar higher.",
+      "impact": "High",
+      "numbers": "NFP +165K (Sept revised to +60K); unemployment 4.1% (exp 4.2%); avg hourly earnings +0.4% m/m, +3.1% y/y (exp +0.3%/+2.9%); 2Y 4.52% (+5bp), 10Y 4.88% (+4bp), 30Y 5.29%; DXY +0.7% to 102.18; Dec Fed hike odds 78% (from 70%)",
+      "order": 1,
+      "reaction": "Yields and dollar rose after the release (yields later pulled back); stronger labor data raises odds of a December Fed hike, pressuring bonds and rate-sensitive equities.",
+      "region": "US",
+      "source": "https://www.investing.com/news/economic-indicators/strong-october-jobs-report-sends-yields-higher-5008272",
+      "tickers": "SPY, TLT, 10Y, yield, Treasury, DXY, USD, dollar, IWM",
+      "time": "Pre-market",
+      "vsExp": "NFP 165K vs ~59-65K est; unemployment 4.1% vs 4.2%; AHE +0.4% vs +0.3%"
+    }
+  },
+  {
+    "id": "2026-11-06-2-asia-selloff-chips-rebound-premarket",
+    "data": {
+      "addedAt": "2026-11-06",
+      "category": "Market",
+      "date": "2026-11-06",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Asian equities extended the tech rout (Kospi -6%, Nikkei in a bear market) while US chip stocks bounced pre-market after Thursday's heavy losses; Nasdaq-100 futures up and Dow futures down as of 7:47 AM ET.",
+      "impact": "High",
+      "numbers": "Kospi -6%+; Nikkei 225 >20% off peak; Nasdaq-100 futures +1.6%, Dow futures -0.9% (7:47 AM ET); chips recovered ~40% of Thursday's losses: NVDA +4.1%, AMD +7.9%, MU +7.6%, MRVL +9.6%, LRCX +10.8%",
+      "order": 2,
+      "reaction": "Sharp rotation divergence: tech/semis rebounding while the broad market indicated weaker; volatility elevated after the Nasdaq 100's worst day since 2020.",
+      "region": "Asia/US",
+      "source": "https://www.stocktitan.net/articles/stock-market-today-live-november-6-2026",
+      "tickers": "QQQ, Nasdaq, SPY, NVDA, AMD, MU",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-06-3-premarket-earnings-movers",
+    "data": {
+      "addedAt": "2026-11-06",
+      "category": "Earnings",
+      "date": "2026-11-06",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Pre-market earnings movers: Cloudflare, Airbnb and JFrog surge; DraftKings, Five9, Atlassian and Axon slide.",
+      "impact": "Medium",
+      "numbers": "NET +20.2%; ABNB +14.3%; FROG +22.9%; DKNG -24.5%; FIVN -18.9%; TEAM -16.0%; AXON -10.9%; UA -9.9%; CHTR -6.3% (as of ~8:00 AM ET)",
+      "order": 3,
+      "reaction": "Software and consumer names diverge on results; single-stock volatility high into the open.",
+      "region": "US",
+      "source": "https://www.stocktitan.net/articles/stock-market-today-live-november-6-2026",
+      "tickers": "NET, ABNB, FROG, DKNG, TEAM, AXON, QQQ",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
