@@ -10,26 +10,26 @@
  ],
  "assets": {
   "equities": {
-   "name": "TODO: fill in before publish",
+   "name": "S&P 500",
    "instrument": "ES=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 7383.25,
    "sigma": 28.18000030517578,
    "sigmaSource": "^VIX close 28.18000030517578 on 2026-11-05",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "ES=F closed 7383.25 on 5 November (-4.4% vs 7724.25) as the S&P 500 cash index fell 4.36% to 7,353.73, its worst session in about a year and a half, on an AI/chip rout; VIX 28.18 (+69.7%); RSI 33.2, below the 50-day (7721) but above the 200-day (7352); 1H structure choppy, weekly structure uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -1825,30 +1825,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +69.7% was called the biggest 1-day jump since 2024, not a multi-year extreme), so volRegime is 0.",
+    "Vanda Research's retail net selling of ~$358M (heaviest since March 2020) is a one-day flow figure, not a sentiment-extreme reading from a positioning source; crowd is left at 0."
    ]
   },
   "bonds": {
-   "name": "TODO: fill in before publish",
+   "name": "10-Year Treasury Note",
    "instrument": "ZN=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = note price up, yields down",
    "close": 107.328125,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 15,
+   "sigmaSource": "TLT 30-day option implied volatility 15 carried from the 25 September Market Rebellion Pre-Market IV Report; no newer print was obtainable, so the value is 27 sessions stale (carried again on 5 November)",
+   "driverNote": "ZN=F closed 107.33 on 5 November (vs 106.95) as the 10Y yield fell 6bp to 4.837% in the risk-off session; RSI 66.6, above the 50-day (105.96) but below the 200-day (109.33); 1H structure choppy, weekly structure downtrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -4183,30 +4184,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +69.7% was called the biggest 1-day jump since 2024, not a multi-year extreme), so volRegime is 0.",
+    "Vanda Research's retail net selling of ~$358M (heaviest since March 2020) is a one-day flow figure, not a sentiment-extreme reading from a positioning source; crowd is left at 0."
    ]
   },
   "gold": {
-   "name": "TODO: fill in before publish",
+   "name": "Gold",
    "instrument": "GC=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = gold higher",
    "close": 4111.60009765625,
    "sigma": 25.829999923706055,
    "sigmaSource": "^GVZ close 25.829999923706055 on 2026-11-05",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "GC=F closed 4111.60 on 5 November (+0.7% vs 4082.60) as gold gained as a haven alongside lower yields and an oil jump; RSI 49.9, still below its 50-day (4242) and 200-day (4506) averages; 1H structure choppy, weekly structure downtrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -5981,30 +5983,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +69.7% was called the biggest 1-day jump since 2024, not a multi-year extreme), so volRegime is 0.",
+    "Vanda Research's retail net selling of ~$358M (heaviest since March 2020) is a one-day flow figure, not a sentiment-extreme reading from a positioning source; crowd is left at 0."
    ]
   },
   "dollar": {
-   "name": "TODO: fill in before publish",
+   "name": "US Dollar Index",
    "instrument": "DX-Y.NYB close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = stronger dollar",
    "close": 101.56600189208984,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 4.72,
+   "sigmaSource": "EUR/USD 1-month ATM implied volatility 4.72 carried unchanged from 21 September; no newer print was obtainable, so the value is 31 sessions stale (carried again on 5 November)",
+   "driverNote": "DX-Y.NYB closed 101.57 on 5 November (vs 101.49), roughly flat as haven demand offset a lower 10Y yield; RSI 48.0, above the 50-day (101.03) and 200-day (99.68); 1H structure uptrend, weekly structure choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -7926,30 +7929,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +69.7% was called the biggest 1-day jump since 2024, not a multi-year extreme), so volRegime is 0.",
+    "Vanda Research's retail net selling of ~$358M (heaviest since March 2020) is a one-day flow figure, not a sentiment-extreme reading from a positioning source; crowd is left at 0."
    ]
   },
   "iwm": {
-   "name": "TODO: fill in before publish",
+   "name": "Russell 2000",
    "instrument": "RTY=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 2735.89990234375,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 19.97,
+   "sigmaSource": "RVX 19.97 carried from the 23 September YCharts close (now 29 sessions stale); no newer print was obtainable (carried again on 5 November); VIX itself jumped to 28.18 so this likely understates current vol",
+   "driverNote": "RTY=F closed 2735.90 on 5 November (-4.6% vs 2868.40); Russell 2000 cash -4.45% to 2,729.89, entering a correction; RSI 38.6, below the 50-day (2855) and 200-day (2817); 1H structure choppy, weekly structure uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -9626,30 +9630,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +69.7% was called the biggest 1-day jump since 2024, not a multi-year extreme), so volRegime is 0.",
+    "Vanda Research's retail net selling of ~$358M (heaviest since March 2020) is a one-day flow figure, not a sentiment-extreme reading from a positioning source; crowd is left at 0."
    ]
   },
   "qqq": {
-   "name": "TODO: fill in before publish",
+   "name": "Nasdaq-100",
    "instrument": "NQ=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 26833.5,
    "sigma": 38.2599983215332,
    "sigmaSource": "^VXN close 38.2599983215332 on 2026-11-05",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "NQ=F closed 26833.50 on 5 November (-6.0% vs 28533.75); Nasdaq Composite -5.52% to 24,315.00 into correction territory, SOX -12.25%; RSI 27.2 (below 30), far under the 50-day (29844) and 200-day (28106); 1H structure downtrend, weekly structure choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -11326,7 +11331,8 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +69.7% was called the biggest 1-day jump since 2024, not a multi-year extreme), so volRegime is 0.",
+    "Vanda Research's retail net selling of ~$358M (heaviest since March 2020) is a one-day flow figure, not a sentiment-extreme reading from a positioning source; crowd is left at 0."
    ]
   }
  },
@@ -11417,7 +11423,10 @@
    }
   },
   "dataNotes": [
-   "TODO: fill in before publish"
+   "Run timing: this cycle ran the morning of Friday 6 November 2026 after the GitHub Actions fetch job drafted contracts/*.2026-11-05.json from Thursday 5 November's close. Every figure used is dated at or before 2026-11-05; the 6 November news-log entries (October payrolls, Asia rout, premarket chip rebound) were NOT used.",
+   "Bonds, dollar and IWM sigma are not auto-fetched; the last obtainable implied-volatility values (TLT 30-day IV, EUR/USD 1-month ATM IV, RVX) were carried forward again with stale-source notes. The RVX carry (19.97) likely understates current small-cap vol after VIX jumped to 28.18.",
+   "News-log entries for 2026-11-05 (six, matching the Artifact database exactly; no hand-entered entries) were read. No separate web search was run, to keep the blindness rule clean.",
+   "Category 1-12 votes are neutral unless a dated source in the news log gives a clear read (Rates, Earnings, Macro calendar and Cross-asset are 1D-only; Fed path is horizon-wide; Positioning uses the Vanda retail-flow figure for equities/Nasdaq/Russell at 5D only); Trend structure follows the computed structure reads; Market structure carries its own mechanical direction."
   ]
  }
 }
