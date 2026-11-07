@@ -600,7 +600,7 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
         if 'reentry over jobwarn' in RULE_ORDER:
             jw_days = {d_ for d_ in jw_days if d_ not in re_days or d_ < start}
         modes, why, half, jw_held = stretchwarn.apply_stretchwarn(modes, why, half, jw_days, calendar, reason='jobwarn')
-    # ... and the candle re-entry rule: after a 12%+ drop, two red days making a fresh 20-session low and then a close above
+    # ... and the candle re-entry rule: after a 12-30% drop (the cap since Nov 7, 2026), two red days making a fresh 20-session low and then a close above
     # both of their opens -> the Boost list for 10 decision days whatever the rules above say, and the price-break rule
     # below stays out of those days (mtl/candle.py, rule 19, since Nov 5, 2026, on probation)
     cd_days, cd_sig = candle.candle_days(spy_bars, calendar, start)

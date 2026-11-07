@@ -5,7 +5,8 @@ weeks, whatever the other rules say.
 On SPY's daily bars, at the close of session k:
 - sessions k-2 and k-1 are red (close under open);
 - session k closes above the opens of both (the selling of two days undone in one);
-- at k-1 SPY closes DROP (12%) or more under its highest close of the HIGH (252) sessions to k;
+- at k-1 SPY closes DROP (12%) or more, but no more than CAP (30%), under its highest close of the HIGH (252) sessions
+  to k (since Nov 7, 2026: deeper than that is a crash, where the pattern has been a bounce before more selling);
 - the lower of the two red closes is at or under every close of the LOW - 1 (19) sessions before them: a fresh
   LOW (20)-session low.
 Then the plan holds the Boost list on the decision days k through k + HOLD - 1 (10 sessions, two weeks), over the
@@ -22,8 +23,16 @@ gain (+25.8 points that year); at a 10% drop it also fired in April 2025 and los
 of a 10-15% drop, or under the 150-day average) bought back into the 2008 crash and lost 4-7 points a year with a -56%
 worst drop. Found among 11 versions tried and the owner's idea from one chart: on probation.
 
+The 30% cap (Nov 7, 2026): replayed in six markets abroad (UK, Germany, France, Canada, Australia, Hong Kong, 2005-2026)
+the rule cost points in all six, mostly by buying back in during the 2008 crash 30-50% down (Germany 2008 -48.5% with
+it vs -13.6% without). Of 9 stricter versions, only the cap was ahead both in the US (54.3% a year from 2000 vs 54.1%,
+the same from 2010 / 2016 / 2020, worst drop -26%; it skips Jul 2002 and Mar 24, 2020, and 2002 gains 3.7 points) and
+abroad (+0.5 points a year on average, ahead in 4 markets, behind in none). Abroad the rule is still a little worse
+than none (-0.7 points a year on average), so it stays on probation.
+
 Pure: SPY's bars [(date, open, high, low, close)] in calendar order, the session calendar."""
 DROP = 0.12
+CAP = 0.30
 HIGH = 252
 LOW = 20
 HOLD = 10
@@ -38,8 +47,9 @@ def _series(bars, calendar):
     return o, c
 
 
-def reading(o, c, k, drop=DROP, high=HIGH, low=LOW):
-    """At session k: dict(reds, above, deep, fresh, signal, dd) or None when the bars are too short or missing."""
+def reading(o, c, k, drop=DROP, high=HIGH, low=LOW, cap=CAP):
+    """At session k: dict(reds, above, deep, capped, fresh, signal, dd) or None when the bars are too short or missing;
+    capped = the fall is no deeper than `cap` (None: no cap)."""
     if k < max(high, low + 2) or None in (o[k], c[k], o[k - 1], c[k - 1], o[k - 2], c[k - 2]):
         return None
     w = [x for x in c[k - high + 1:k + 1] if x is not None]
@@ -50,9 +60,10 @@ def reading(o, c, k, drop=DROP, high=HIGH, low=LOW):
     reds = c[k - 2] < o[k - 2] and c[k - 1] < o[k - 1]
     above = c[k] > max(o[k - 1], o[k - 2])
     deep = dd >= drop
+    capped = cap is None or dd <= cap
     fresh = min(c[k - 2], c[k - 1]) <= min(lw)
-    return dict(reds=bool(reds), above=bool(above), deep=bool(deep), fresh=bool(fresh), signal=bool(reds and above and deep and fresh),
-                dd=round(dd, 4))
+    return dict(reds=bool(reds), above=bool(above), deep=bool(deep), capped=bool(capped), fresh=bool(fresh),
+                signal=bool(reds and above and deep and capped and fresh), dd=round(dd, 4))
 
 
 def signals(bars, calendar, start=START, **kw):
@@ -113,4 +124,4 @@ def candle_state(bars, calendar, k, held, sig, hold=HOLD, n=6):
         if i is not None and i <= k < i + hold:
             until = i + hold - 1 - k
     return dict(r, onNext=until is not None and until >= 1, left=until, active=calendar[k] in held,
-                log=list(sig)[::-1][:n], n=len(sig), drop=DROP, low=LOW, hold=hold, since=START)
+                log=list(sig)[::-1][:n], n=len(sig), drop=DROP, cap=CAP, low=LOW, hold=hold, since=START)
