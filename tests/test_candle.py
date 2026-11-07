@@ -53,6 +53,20 @@ def test_no_signal_without_a_deep_enough_drop():
     assert candle.candle_days(bars, cal, cal[0])[1] == []
 
 
+def test_no_signal_in_a_crash_deeper_than_the_cap():
+    cal, bars = _drop_then_pattern(low=60.0, third_close=62.0)   # about 44% under the high: past the 30% cap
+    assert candle.candle_days(bars, cal, cal[0])[1] == []
+    r = candle.reading(*candle._series(bars, cal), len(cal) - 1)
+    assert r['reds'] and r['fresh'] and r['deep'] and r['above'] and not r['capped'] and not r['signal']
+    r = candle.reading(*candle._series(bars, cal), len(cal) - 1, cap=None)   # without the cap it would fire
+    assert r['signal']
+
+
+def test_fires_inside_the_cap():
+    cal, bars = _drop_then_pattern(low=75.0, third_close=78.0)   # about 27% under the high
+    assert candle.candle_days(bars, cal, cal[0])[1] == [cal[-1]]
+
+
 def test_holds_ten_sessions_over_the_other_rules_and_marks_the_switches():
     cal = _cal(30)
     modes = {d: ('TLT' if 5 <= i < 25 else 'boost') for i, d in enumerate(cal)}

@@ -588,3 +588,27 @@ Also tested Nov 5-6, 2026 and rejected (strict test against the plan of the day)
   51.8-53.0%, in-sample and t 0.0-0.6;
 - selling on a falling resistance line with 3-5 touches (22 versions): 42.0-52.8%, the 4-touch ones break even;
 - a broken rounded top, as a buy filter, a sell, or both (34 versions): 31.9-52.3%.
+
+## Rule 19's 30% cap (default since Nov 7, 2026)
+
+The candle re-entry rule (rule 19) was replayed abroad with the strict engine (UK, Germany, France, Canada, Australia
+and Hong Kong, 2005-2026, today's index members, the local index in place of SPY, the US-only rules off). It cost
+points in all six markets, mostly in 2008: the pattern fired 30-50% into the crash and bought back in before more
+selling (Germany 2008 -48.5% with it vs -13.6% without, the worst drop -61% vs -40%). Nine stricter versions were run
+in the US and in all six markets: a deeper fall (15% / 20%), a cap on the fall (25% / 30%), a confirming next close,
+SPY's 50-day average down at most 2% / 4% over 10 sessions, and a 1-week hold.
+
+| Version | US from 2000 | 2010 | 2016 | 2020 | Abroad, vs rule 19 as it was (6-market average) |
+|---|---|---|---|---|---|
+| Rule 19 capped at a 30% fall (adopted) | 54.3% | 58.5% | 77.1% | 114.1% | +0.5 points, ahead in 4, behind in 0 |
+| Rule 19 as it was | 54.1% | 58.5% | 77.1% | 114.1% | - |
+| Capped at 25% | 53.9% | 58.5% | 77.1% | 114.1% | +1.0, ahead in 4, behind in 1 |
+| 50-day average down at most 2% | 54.2% | 58.4% | 77.1% | 114.1% | +0.2, ahead in 4, behind in 2 |
+| A confirming next close | 53.1% | 57.0% | 74.9% | 109.8% | +0.7, ahead in 3, behind in 2 |
+| 1-week hold | 53.2% | 57.5% | 75.4% | 110.7% | +0.4, ahead in 5, behind in 1 |
+| No rule 19 | 52.6% | 56.7% | 74.9% | 109.8% | +1.2, ahead in 6, behind in 0 |
+
+The cap skips Jul 24, 2002 and Mar 24, 2020 in the US (2002 gains 3.7 points; 2020 is unchanged) and keeps every
+2008 and 2022 signal. Worst drop -26% either way; t-stat 0.55 against the uncapped rule. Abroad the capped rule is
+still about 0.7 points a year worse than no rule 19, so it stays on probation. Wall Street tests (daily curve):
+54.2% a year (34.0% after tax) vs 54.0%, Sharpe 1.57, Calmar 2.09 vs 2.08, worst 3 years +17.7% a year vs +16.6%.

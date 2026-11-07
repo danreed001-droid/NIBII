@@ -60,7 +60,7 @@ ROT_WHY = {'rotate': 'SPY in a daily downtrend while {to} makes higher highs and
                       "chart (that one on fading volume) within 21 sessions, so the plan holds the Boost list for 21 sessions "
                       "whatever the other rules say",
            'reentry-end': 'the break re-entry stay is over: back to what the plan holds',
-           'candle': "candle re-entry rule: after a 12%+ drop SPY made a fresh 20-day low on two red days and then closed "
+           'candle': "candle re-entry rule: after a 12-30% drop SPY made a fresh 20-day low on two red days and then closed "
                      "above both of their opens, so the plan holds the Boost list for 10 sessions whatever the other rules say",
            'candle-end': 'the candle re-entry stay is over: back to what the plan holds',
            'stretchwarn': "stretched-and-warned exit: 3 or more of the eight dominoes are down and SPY is 2+ standard errors "
