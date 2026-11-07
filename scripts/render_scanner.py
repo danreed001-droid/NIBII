@@ -1388,7 +1388,13 @@ __ISSUES__
     if (RTb && RTb.warn) mixTag += '<span class="tag sell">downtrend warning: SPY below its 150-day, ' + esc(RTb.warn) + ' rising (info only)</span>';
     var GD = PA && PA.guard;
     if (pm === 'guard' && GD && GD.bear !== GD.prevBear) mixTag += '<span class="tag ' + (GD.bear ? 'sell' : 'buy') + '">bear guard ' + (GD.bear ? 'ON → ' + Math.round(GD.share * 100) + '% of stocks into SPY' : 'OFF → back to the top 5') + '</span>';
-    var sw = SLb && SLb.held !== SLb.prevHeld ? '<span class="tag sell">sell ' + esc(SLb.prevHeld) + '</span><span class="tag buy">buy ' + esc(SLb.held) + ' (sleeve)</span>' : '';
+    // a sleeve switch only matters to a mix that holds the sleeve now: Auto, Steps, Boost and Boost + cushion while their
+    // split gives the sleeve money, a fixed split with a sleeve part, or your own mix; the default plan (Boost + rotation),
+    // Boost 100% and Guard never hold it
+    var slPart = function (sp) { var q = String(sp || '').split('/'); return q.length > 1 ? (+q[1] || 0) : 0; };
+    var sleeveOn = pm === 'auto' || pm === 'steps' ? slPart(PM && PM.split) > 0 : pm === 'boost' ? slPart(BO && BO.split) > 0
+      : pm === 'cushion' ? slPart(CUb && CUb.split) > 0 : pm === 'mine' ? true : String(pm).indexOf('/') > 0 ? slPart(pm) > 0 : false;
+    var sw = sleeveOn && SLb && SLb.held !== SLb.prevHeld ? '<span class="tag sell">sell ' + esc(SLb.prevHeld) + ' (sleeve)</span><span class="tag buy">buy ' + esc(SLb.held) + ' (sleeve)</span>' : '';
     $('banner').innerHTML = '<b>Trade Mon ' + fmtDate(D.tradeDate, md) + ', 3:30–4:00 pm ET</b><span class="muted">signal from ' + fmtDate(D.asOf, wd) + '’s close:</span>' +
       (tags || sw || mixTag ? tags + sw + mixTag : '<span>No stock, sleeve or mix changes — just reset to your mix.</span>') + callWhy(pm);
   } else {
@@ -2194,9 +2200,10 @@ __ISSUES__
         '<span class="num ' + tone(a.r6) + '">' + pct(a.r6) + '</span></li>';
     }).join('');
     var ss = SL.stats;
-    $('sleeve-note').innerHTML = (D.signalDay && SL.held !== SL.prevHeld ? '<b>New pick: switch ' + esc(SL.prevHeld) + ' → ' + esc(SL.held) + ' on Monday.</b> '
+    $('sleeve-note').innerHTML = (D.signalDay && SL.held !== SL.prevHeld ? '<b>New sleeve pick: ' + esc(SL.prevHeld) + ' → ' + esc(SL.held) + ' on Monday, for mixes that hold the sleeve.</b> '
         : !D.signalDay && SL.preview !== SL.held ? '<b>Preview: if Friday’s signal were today, switch ' + esc(SL.held) + ' → ' + esc(SL.preview) + '.</b> ' : '') +
-      'Sleeve alone since ' + SINCE + ': ' + pct(ss.annual, 0) + ' a year, worst drop ' + pct(ss.maxDD, 0) + '. 6-month returns, dividends included.';
+      'Sleeve alone since ' + SINCE + ': ' + pct(ss.annual, 0) + ' a year, worst drop ' + pct(ss.maxDD, 0) + '. 6-month returns, dividends included. ' +
+      '<b>Only the Auto, Steps, Boost and Boost + cushion mixes (and fixed splits with a sleeve part) hold the sleeve.</b> The default plan (Boost + rotation) never does: when it steps out of stocks it holds long Treasuries (TLT), gold (GLD) or managed futures (DBMF), picked by its own rules.';
   })();
 
   // date range for the track record (defaults to everything since the start)
