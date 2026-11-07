@@ -5057,5 +5057,25 @@
       "time": "Market hours",
       "vsExp": "IREN loss wider than Bloomberg-compiled estimate"
     }
+  },
+  {
+    "id": "2026-11-07-1-russia-strikes-ukraine-before-talks",
+    "data": {
+      "addedAt": "2026-11-07",
+      "category": "Geopolitics",
+      "date": "2026-11-07",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Russia hit Kyiv and 12 other Ukrainian regions with one of its heaviest barrages in weeks two days before US-brokered Russia-Ukraine-US peace talks set for Nov 10-11 in Abu Dhabi; Zelenskyy said Russia treats diplomacy 'as a subtype of aggression.'",
+      "impact": "Medium",
+      "numbers": "36 missiles fired (Zelenskyy says only 4 intercepted) plus 172 drones targeting Kyiv and 12 regions; at least 9 wounded Saturday; a kindergarten partly destroyed and Kyiv's Northern Bridge closed; separate Zaporizhzhia village strike death toll at 55 as of Saturday; Zelenskyy says preliminary findings point to North Korean-made KN-23 missiles",
+      "order": 1,
+      "reaction": "Attack raises doubts about progress at Tuesday's Abu Dhabi round; a weekend risk factor for oil and European defense/energy names heading into Monday's open, though no confirmed market reaction yet since markets are closed.",
+      "region": "Europe/Middle East",
+      "source": "https://www.cbsnews.com/news/zelenskyy-russia-attacks-us-talks/",
+      "tickers": "USO, BNO, LMT, RTX, NOC",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
