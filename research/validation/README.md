@@ -612,3 +612,25 @@ The cap skips Jul 24, 2002 and Mar 24, 2020 in the US (2002 gains 3.7 points; 20
 2008 and 2022 signal. Worst drop -26% either way; t-stat 0.55 against the uncapped rule. Abroad the capped rule is
 still about 0.7 points a year worse than no rule 19, so it stays on probation. Wall Street tests (daily curve):
 54.2% a year (34.0% after tax) vs 54.0%, Sharpe 1.57, Calmar 2.09 vs 2.08, worst 3 years +17.7% a year vs +16.6%.
+
+## The per-stock cap raised to 50% (default since Nov 7, 2026)
+
+After 2006 was traced to heavy single-stock weights in short-lived themes, the per-stock cap of the weighting rules
+(mtl/volweight.CAP, 40% since Nov 2, 2026) was tested at 25, 30, 35, 38 and 50% and with no cap.
+
+| Cap | 2000 | 2010 | 2016 | 2020 | Worst drop | Sharpe | After tax | 2006 |
+|---|---|---|---|---|---|---|---|---|
+| None | 54.9% | 59.6% | 79.4% | 116.9% | -25% | 1.60 | 34.2% | -14.4% |
+| 50% (adopted) | 54.9% | 59.4% | 79.0% | 116.7% | -25% | 1.60 | 34.2% | -14.1% |
+| 40% (before) | 54.3% | 58.5% | 77.1% | 114.1% | -26% | 1.59 | 33.8% | -15.1% |
+| 38% | 54.0% | 58.1% | 76.5% | 113.1% | -26% | 1.59 | 33.6% | -15.4% |
+| 35% | 53.5% | 57.4% | 75.6% | 111.7% | -26% | 1.58 | 33.3% | -16.1% |
+| 30% | 52.4% | 56.2% | 73.9% | 109.2% | -27% | 1.56 | 32.7% | -17.5% |
+| 25% | 51.4% | 55.4% | 72.1% | 106.3% | -29% | 1.54 | 32.1% | -19.6% |
+
+Lower caps moved money to the weaker 4th and 5th picks and made 2006 worse, not better. With no cap one stock reached
+62% of the account (Apr 2021); 50% keeps nearly all of the gain with no stock above half. The 50% cap is ahead in 16
+years and behind in 10 (t-stat 1.7), most of the gain in 2025 (+10.6 points) and 2021 (+5.0); 2013 is the biggest
+cost (-3.0). Wall Street tests (daily curve): 54.7% a year (34.3% after tax) vs 54.2%, Sharpe 1.58 vs 1.57, Calmar
+2.17 vs 2.09, worst drop -25.2% vs -26.0%; Monte Carlo typical 51.9% over 20 years, beats the 40% cap 77 / 87 / 94%
+(5 / 10 / 20 years). On probation.

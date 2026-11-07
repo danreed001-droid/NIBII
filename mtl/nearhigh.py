@@ -1,7 +1,8 @@
 """Near-the-high weighting (the default plan, from Nov 2, 2026, on probation): at each trade, a held stock whose close is
 within NEAR (3%) of its highest close of the last year (LOOK sessions, the close itself included) gets MULT (2x) its
 money. It multiplies with the buying-volume and earnings-jump weightings (mtl/volweight.py, mtl/earnjump.py), and no
-stock may hold more than mtl/volweight.CAP (40%) of the account (the excess spread over the others).
+stock may hold more than mtl/volweight.CAP (50% since Nov 7, 2026; 40% before) of the account (the excess spread over the
+others).
 
 Why: stocks that are strong and also at their highs have tended to keep going (the 52-week-high effect). Strict test
 (S&P 500 members as of each date, 0.15% a side; Nov 2, 2026), together with the hot-commodity buy skip
