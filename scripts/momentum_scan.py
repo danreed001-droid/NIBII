@@ -970,7 +970,7 @@ def main():
             json.dump(ej_doc, fh_, separators=(',', ':'))
     ej = earnjump.EarnJump(prices, ej_dates)
     # ... and the near-the-high weighting (mtl/nearhigh.py, since Nov 2, 2026, on probation): a held stock within 3% of its highest
-    # close of the last year gets twice its money too, and no stock holds more than 40% of the account (mtl/volweight.CAP);
+    # close of the last year gets twice its money too, and no stock holds more than 50% of the account (mtl/volweight.CAP; 40% until Nov 7, 2026);
     # the doubling is off while SPY closes under its 150-day average (mtl/nearhigh.MA, since Nov 2, 2026, on probation)
     nh = nearhigh.NearHigh(prices)
     vw = volweight.VolWeight(prices, volumes, eligible, TOP_N, extra=[ej, nh], cap=volweight.CAP)

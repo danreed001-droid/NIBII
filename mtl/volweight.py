@@ -22,7 +22,9 @@ HIST = 252           # sessions of price history a stock needs to count
 MULT = 2.0           # a buying stock's share of the stock money, against 1 for the others
 TOP = 1 / 3          # the share of the eligible members counted as buying (the top third by the ratio)
 START = '2026-11-02'  # live from the trade at this close
-CAP = 0.40           # no stock above this share of the account (since Nov 2, 2026, with the near-the-high weighting)
+CAP = 0.50           # no stock above this share of the account (40% from Nov 2, 2026, with the near-the-high weighting; 50% since
+                     # Nov 7, 2026: 54.9% a year from 2000 vs 54.3% at 40%, worst drop -25% vs -26%, t-stat 1.7; no cap 54.9% but
+                     # up to 62% in one stock; 30-38% caps all lost, 51.4-54.0%)
 
 
 def ratio(px, vol, calendar, k, look=LOOK):

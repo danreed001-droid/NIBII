@@ -76,3 +76,9 @@ def test_unemployment_flag_needs_a_rise_and_a_weak_market():
     assert not f2.any()                            # rising unemployment alone is not enough
     s = jobwarn.state(cal, len(cal) - 1, flag, rise, gap, set(), st)
     assert s['th'] == 0.3 and s['hold'] == 21
+
+
+def test_the_live_cap_is_50_percent():
+    assert volweight.CAP == 0.50
+    w = volweight.capped({'A': 8 / 12, 'B': 1 / 12, 'C': 1 / 12, 'D': 1 / 12, 'E': 1 / 12}, volweight.CAP)
+    assert abs(w['A'] - 0.50) < 1e-9 and abs(sum(w.values()) - 1) < 1e-9 and abs(w['B'] - 0.125) < 1e-9
