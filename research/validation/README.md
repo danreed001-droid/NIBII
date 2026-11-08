@@ -634,3 +634,42 @@ years and behind in 10 (t-stat 1.7), most of the gain in 2025 (+10.6 points) and
 cost (-3.0). Wall Street tests (daily curve): 54.7% a year (34.3% after tax) vs 54.2%, Sharpe 1.58 vs 1.57, Calmar
 2.17 vs 2.09, worst drop -25.2% vs -26.0%; Monte Carlo typical 51.9% over 20 years, beats the 40% cap 77 / 87 / 94%
 (5 / 10 / 20 years). On probation.
+
+## Market fitness: when stock picking works, and which way (information only, since Nov 8, 2026)
+
+The plan's edge depends on a market that keeps producing good runners. Across 10 pools (the S&P 500 on its real member
+lists; the Nasdaq-100, the Dow and the Russell 2000 on today's lists; the UK, Germany, France, Canada, Australia and Hong
+Kong on today's index members) the readings that matter were:
+- **runner quality:** of the stocks that doubled over a year, how many gave back half the gain within the next 6 months
+  (S&P 500 about 13-16%, Russell 2000 31-33%, the foreign markets 4-22%);
+- **which approach has worked there:** the full plan's own record against a simple top-5 pick on a 12-month look-back
+  (kept while in the top 10, out to cash under the index's 10-month average) and the index.
+Runner counts alone (doublers) misled: US droughts are temporary and come just before the plan's best years.
+
+Walk-forward 2012-2026, reviewed each January from the previous 7 years, a change needing two reviews in a row
+(mtl/market_fit.py): give-back above 25% -> the index; otherwise the full plan if it beat the 12-month pick over the 7
+years, else the 12-month pick.
+
+| Pool | Selector | Always the full plan | Always the 12-month pick | Index |
+|---|---|---|---|---|
+| S&P 500 (real lists) | 67.0% | 67.0% | 10.5% | 14.7% |
+| Nasdaq-100 | 89.3% | 89.3% | 41.0% | 19.6% |
+| Dow 30 | 15.0% | 14.1% | 15.0% | 12.3% |
+| Russell 2000 | 10.4% | 4.8% | 8.3% | 10.4% |
+| UK | 14.9% | 6.1% | 15.1% | 8.0% |
+| Germany | 15.3% | 8.0% | 15.4% | 9.7% |
+| France | 9.5% | -2.0% | 9.5% | 9.4% |
+| Canada | 15.9% | 9.8% | 20.8% | 10.4% |
+| Australia | 16.2% | 8.8% | 16.2% | 9.3% |
+| Hong Kong | 18.9% | 14.6% | 17.0% | 4.4% |
+| Average (worst drop) | 27.2% (-24%) | 22.0% (-39%) | 16.9% (-29%) | 10.8% (-28%) |
+
+Earlier shapes did worse: 3+ doublers plus good quality 21.0% (the US fell to the 12-month pick in 2012-15 and
+2018-23: 30.9%); a t-stat test on the pick's edge 14.0%; quality alone 22.6% (the foreign markets went to the full plan);
+quality plus pool size 21.9% (the Nasdaq-100 went to the pick). A grid of 24 doubler cut-offs, windows and gates found
+no setting better everywhere. Reviews every 6 / 3 / 1 months averaged 26.1 / 25.6 / 25.6-26.1% with 14-54 switches
+against 5 for yearly. The foreign, Dow, Nasdaq-100 and Russell pools use today's member lists (survivorship), so their
+levels are flattered. For the live S&P 500 plan the review is information only (data/market_fitness.json, rebuilt by
+the track-record refresh; the January run is the review): it raises an alarm if two reviews in a row point away from
+the full plan and never changes the plan. At the 2026 review: give-back 13%, a typical 5 doublers, the full plan
++99.7% a year over 2019-2025 against +12.9% for the 12-month pick: healthy.

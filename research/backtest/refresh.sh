@@ -22,22 +22,24 @@ trap cleanup EXIT
 cp -r "$REPO/research/backtest/overlay/." "$WORK/engine/"
 cp "$REPO"/data/sp500.csv "$REPO"/data/sp500.asof "$REPO"/data/ndx100.csv "$REPO"/data/ndx100.asof "$WORK/engine/data/" 2>/dev/null || true
 export HARNESS_SIDE="$WORK/side" NIBII_REPO="$REPO" FROM=1998-06-01
-echo "1/6 side series (gold, bonds, dollar, VIX, rates)"
+echo "1/7 side series (gold, bonds, dollar, VIX, rates)"
 python "$REPO/research/backtest/side_data.py" "$HARNESS_SIDE"
-echo "2/6 point-in-time S&P 500 universe and prices"
+echo "2/7 point-in-time S&P 500 universe and prices"
 (cd "$WORK/engine" && python -c "import sys; sys.path[:0] = ['scripts', '.']; import robustness; robustness.load_data()" \
     > "$WORK/universe.log" 2>&1) || { tail -30 "$WORK/universe.log"; exit 1; }
 grep -E "universe:" "$WORK/universe.log" || true
 python "$REPO/research/backtest/membership.py" "$WORK/engine/data/.robust_$FROM.pkl"
-echo "3/6 daily volumes"
+echo "3/7 daily volumes"
 python "$REPO/research/backtest/volume_data.py" "$WORK/engine/data/.robust_$FROM.pkl" "$HARNESS_SIDE" > "$WORK/volume.log" 2>&1 \
     || { tail -30 "$WORK/volume.log"; exit 1; }
 tail -1 "$WORK/volume.log"
-echo "4/6 backtest from 2000"
+echo "4/7 backtest from 2000"
 (cd "$WORK/engine" && env DUMP_CURVES=NBup_boost,B1S_boost,N1_auto DUMP_DAILY=1 DUMP_SCHED=NBup_boost TAG=_track START=2000-01-03 \
     EXCLUDE=EP,CPWR ONLY=NBup,B1S,N1 python scripts/improve.py > "$WORK/backtest.log" 2>&1) || { tail -30 "$WORK/backtest.log"; exit 1; }
 grep -E "_(boost|auto): pre" "$WORK/backtest.log" || true
-echo "5/6 data/track_record.json"
+echo "5/7 data/track_record.json"
 python "$REPO/research/backtest/build_track.py" "$WORK/engine/data/curves_dump_track.json" "$REPO/data/track_record.json"
-echo "6/6 data/plan_history.json"
+echo "6/7 data/plan_history.json"
 python "$REPO/research/backtest/build_plan_history.py" "$WORK/engine/data/sched_NBup_boost_track.json" "$REPO/data/plan_history.json"
+echo "7/7 data/market_fitness.json (the yearly market-fitness review; information only)"
+python "$REPO/research/backtest/build_fitness.py" "$WORK/engine/data/.robust_$FROM.pkl" "$WORK/engine/data/curves_dump_track.json" "$REPO/data/market_fitness.json"
