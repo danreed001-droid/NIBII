@@ -673,3 +673,30 @@ levels are flattered. For the live S&P 500 plan the review is information only (
 the track-record refresh; the January run is the review): it raises an alarm if two reviews in a row point away from
 the full plan and never changes the plan. At the 2026 review: give-back 13%, a typical 5 doublers, the full plan
 +99.7% a year over 2019-2025 against +12.9% for the 12-month pick: healthy.
+
+### Update (Nov 8, 2026): the review now reads the doublers alone
+
+On the owner's request the review no longer looks at past returns. The rule (mtl/market_fit.py): give-back above 25%
+-> the index; otherwise 2 or more good doublers a month over the 7 years (doublers that kept at least half the gain over
+the next 6 months) -> the full plan, fewer -> the simple 12-month pick. Good doublers separated the markets cleanly:
+the S&P 500 read 2.9-8.2 a month at nearly every review (1.8 once, at the 2021 review, back to 5.1 a year later), the
+Nasdaq-100 1.8-3.2, Hong Kong 1.6-5.4, the thin markets 0.1-1.7, the Russell 2000 6-25 but with give-back of 30-36%.
+
+Walk-forward 2012-2026 on 13 pools (the 10 above plus Spain, Italy and Sweden from 2016):
+
+| | S&P 500 | Nasdaq-100 | Russell | UK | Germany | France | Canada | Australia | Hong Kong | Spain | Italy | Sweden | Average |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Doublers and quality (cut-off 2) | 67.0% | 87.8% | 10.4% | 15.1% | 15.3% | 9.5% | 20.8% | 16.2% | 18.6% | 11.6% | 19.2% | 13.0% | 24.6% |
+| The track-record version | 67.0% | 89.3% | 10.4% | 14.9% | 15.3% | 9.5% | 15.9% | 16.2% | 18.9% | 6.1% | 19.2% | 13.0% | 23.9% |
+| Index | 14.7% | 19.6% | 10.4% | 8.0% | 9.7% | 9.4% | 10.4% | 9.3% | 4.4% | 10.1% | 13.3% | 11.9% | 11.0% |
+
+(The Dow is 15.0% for both selectors and 12.3% for its index.) Ahead of the index in 12 of 13 pools; cut-offs of 1.5-2.5
+gave nearly the same (24.6 / 24.6 / 22.8%). The track-record version was fooled in Spain: the plan's 2008 exits made
+its 2005-2011 record look good, and it ran the full plan in 2012-2018 while the 12-month pick did better. The cut-off
+was set after seeing the readings, and Spain, Italy and Sweden were seen before this version, so this is not a fresh
+out-of-sample test.
+
+New markets (Nov 8, 2026; today's members; dividends estimated for the price indexes): Spain (IBEX 35, 35 stocks) full
+plan 9.4% a year from 2005, simple 12-month pick 10.5%, all members equal weight 11.4%, index 7.7%; Italy (FTSE MIB, 40)
+9.3% / 18.5% (worst drop -18%) / 9.6% / 7.0%; Sweden (OMX Stockholm 30, from 2010) 3.8% / 14.0% / 16.6% / 11.0%. All three
+are thin markets (typically 0 doublers); only Italy's pick clearly beat holding all members.

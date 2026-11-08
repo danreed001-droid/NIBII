@@ -3354,16 +3354,17 @@ def fitness_html(fit=None):
                '<b class="neg">Watch</b>: this review points to ' + _e(FIT_MODE.get(fit.get('choice'), '')) + '; a second review in a row would raise the alarm (')
               + _e('; '.join(fit.get('why') or [])) + '). Information only: the plan is not changed by this; you decide.')
     hist = ' · '.join(f'{x["year"]}: {"plan" if x["mode"] == "plan" else x["mode"]}' for x in rev[-8:])
-    rows = (f'<tr><td class="l w"><b>Runner quality</b><span class="msub">doublers that gave back half their gain within 6 months</span></td><td class="num"><b>{p0(r.get("giveBack"))}</b></td><td class="l m">gate {p0(gate)}: above it, picking stocks is not trusted (the Russell 2000 reads 31–33%)</td></tr>'
-            f'<tr><td class="l w"><b>Runner supply</b><span class="msub">members up 100%+ over a year, a typical month</span></td><td class="num"><b>{r.get("doublers")}</b></td><td class="l m">shown for context; it does not decide the mode</td></tr>'
-            f'<tr><td class="l w"><b>Spikiness</b><span class="msub">share of a doubler\'s gain made on its 5 biggest days</span></td><td class="num"><b>{p0(r.get("spike"))}</b></td><td class="l m">the Russell 2000 reads about 65%</td></tr>'
-            f'<tr><td class="l w"><b>Full plan, last {fit.get("win", 7)} years</b><span class="msub">a year, its backtest</span></td><td class="num"><b>{pc(r.get("plan"))}</b></td><td class="l m">against the simple 12-month top-5 pick {pc(r.get("pick"))} and the S&amp;P 500 {pc(r.get("index"))}</td></tr>')
+    good = fit.get('good', 2.0)
+    rows = (f'<tr><td class="l w"><b>Runner quality</b><span class="msub">doublers that gave back half their gain within 6 months</span></td><td class="num"><b>{p0(r.get("giveBack"))}</b></td><td class="l m">gate {p0(gate)}: above it, picking stocks is not trusted (the Russell 2000 reads 30–36%)</td></tr>'
+            f'<tr><td class="l w"><b>Good doublers</b><span class="msub">a month on average: doubled over a year and kept at least half the gain over the next 6 months</span></td><td class="num"><b>{r.get("good", "–")}</b></td><td class="l m">{good:g} or more: the full plan; fewer: a simple 12-month pick (thin markets read 0.1–1.7)</td></tr>'
+            f'<tr><td class="l w"><b>Spikiness</b><span class="msub">share of a doubler\'s gain made on its 5 biggest days</span></td><td class="num"><b>{p0(r.get("spike"))}</b></td><td class="l m">shown for context; the Russell 2000 reads about 65%</td></tr>'
+            f'<tr><td class="l w"><b>Last {fit.get("win", 7)} years</b><span class="msub">a year: the full plan\'s backtest</span></td><td class="num"><b>{pc(r.get("plan"))}</b></td><td class="l m">shown, not used: the simple 12-month pick {pc(r.get("pick"))}, the S&amp;P 500 {pc(r.get("index"))}</td></tr>')
     return ('<div class="card" style="margin-bottom:14px"><p class="chart-title">Market fitness <span class="hint">yearly review · information only</span></p>'
             f'<p class="chart-sub">Review of {_e(fit.get("review", ""))}, from the {fit.get("win", 7)} years before it, on the real S&amp;P 500 member lists. {status}</p>'
             '<div class="tablebox"><table><tbody>' + rows + '</tbody></table></div>'
-            f'<p class="note">The rule: if more than {p0(gate)} of the stocks that doubled gave back half their gain within 6 months, the index; '
-            f'otherwise the full plan if it beat the simple 12-month pick over the last {fit.get("win", 7)} years, else that pick; a change needs two reviews in a row. '
-            'Replayed walk-forward 2012–2026 on 10 markets it kept the US and the Nasdaq-100 on the full plan every year, moved thin foreign markets (UK, Germany, France, Canada, Australia) to the 12-month pick and kept the Russell 2000 on its index: 27.2% a year on average vs 22.0% for always the full plan and 10.8% for the index. '
+            f'<p class="note">The rule, from the doublers alone: if more than {p0(gate)} of the stocks that doubled gave back half their gain within 6 months, the index; '
+            f'otherwise {good:g} or more good doublers a month over the last {fit.get("win", 7)} years: the full plan, fewer: a simple 12-month pick; a change needs two reviews in a row. '
+            'Replayed walk-forward 2012–2026 on 13 markets it kept the S&amp;P 500 on the full plan every year, sent thin markets (UK, Germany, France, Canada, Australia, Spain, Italy, Sweden) to the 12-month pick and kept the Russell 2000 on its index: 24.6% a year on average vs 11.0% for the index, ahead of the index in 12 of 13. '
             'Reviews more often than yearly switched 3–10 times as often and did worse. Reviewed in January by the track-record refresh. Past reviews: ' + _e(hist) + '.</p></div>')
 
 

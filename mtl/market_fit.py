@@ -8,16 +8,21 @@ At each month-end of the history:
 - the full plan's month (its backtest curve), the simple top-5 pick on a 12-month look-back (the last month skipped,
   kept while in the top 10, COST a side on the names changed, out to cash while the index is under its 10-month
   average) and the index.
-At a review (January of year Y, data before it):
+At a review (January of year Y, data before it), from the doublers alone (no past returns):
 - quality gate: if more than GATE (25%) of the doublers gave back half their gain within 6 months, the index;
-- otherwise the full plan if it beat the simple 12-month pick over the WIN years, else the 12-month pick.
-A change of mode needs two reviews in a row.
+- otherwise supply: GOOD (2) or more good doublers a month on average (doublers that kept at least half the gain over
+  the next 6 months) -> the full plan, fewer -> the simple 12-month pick.
+A change of mode needs two reviews in a row. The plan's and the pick's past returns are shown, not used.
 
-Why: replayed walk-forward 2012-2026 on 10 pools (the S&P 500 on its real member lists, the Nasdaq-100, the Dow, the
-Russell 2000, the UK, Germany, France, Canada, Australia and Hong Kong), this rule kept the US and the Nasdaq-100 on the
-full plan every year, moved the thin foreign markets to the 12-month pick and kept the Russell 2000 (give-back 31-33%)
-on its index: 27.2% a year on average against 22.0% for always the full plan and 10.8% for the index, average worst
-drop -24% vs -39% / -28%. Reviews every 6, 3 or 1 months switched 3-10 times as often and did worse. Nov 8, 2026.
+Why: replayed walk-forward 2012-2026 on 13 pools (the S&P 500 on its real member lists, the Nasdaq-100, the Dow, the
+Russell 2000, the UK, Germany, France, Canada, Australia, Hong Kong, Spain, Italy and Sweden), this rule kept the S&P
+500 on the full plan every year (its good doublers dipped under 2 a month once, to 1.8 at the 2021 review, and the
+next review was back at 5.1, so the two-review rule kept the plan), sent the thin markets (0.1-1.7 good
+doublers) to the 12-month pick and kept the Russell 2000 (give-back 30-36%) on its index: 24.6% a year on average
+against 11.0% for the index, ahead of the index in 12 of 13 pools (the 13th held it). Cut-offs of 1.5-2.5 good
+doublers gave nearly the same; an earlier version that chose by the plan's own 7-year record was fooled in Spain (6.1%
+vs 11.6%: the plan's 2008 exits made its record look good). Reviews every 6, 3 or 1 months switched 3-10 times as
+often and did worse. Nov 8, 2026.
 
 Pure: closes {ticker: {date: close}}, a session calendar, member(t, d) -> bool, index closes {date: close}, the plan's
 curve {date: value}."""
@@ -25,6 +30,7 @@ import math
 
 WIN = 7          # years of history a review reads
 GATE = 0.25      # the quality gate: the most give-back still treated as good runners
+GOOD = 2.0       # good doublers a month (7-year average) for the full plan
 LOOK = 252       # the simple pick's look-back (12 months), the last SKIP sessions left out
 SKIP = 21
 TOP, KEEP = 5, 10
@@ -112,23 +118,26 @@ def readings(rows, events, year, win=WIN):
         return None
     ev = [e for e in events if a <= e[0] and e[1] < b]
     give = sum(1 for e in ev if e[2]) / len(ev) if len(ev) >= 10 else None
+    kept = {}
+    for e in ev:
+        if not e[2]:
+            kept[e[0]] = kept.get(e[0], 0) + 1
+    good = sum(kept.get(r['m'], 0) for r in rs) / len(rs)
     spike = sorted(e[3] for e in ev)[len(ev) // 2] if ev else None
     counts = {}
     for e in events:
         if a <= e[0] < b:
             counts[e[0]] = counts.get(e[0], 0) + 1
     dbl = sorted(counts.get(r['m'], 0) for r in rs)[len(rs) // 2]
-    return dict(year=year, giveBack=give, spike=spike, doublers=dbl, events=len(ev),
+    return dict(year=year, giveBack=give, spike=spike, doublers=dbl, good=round(good, 2), events=len(ev),
                 plan=_cagr([r['plan'] for r in rs]), pick=_cagr([r['pick'] for r in rs]), index=_cagr([r['idx'] for r in rs]))
 
 
-def choose(r, gate=GATE):
-    """'plan', 'pick' (the simple 12-month pick) or 'index' for one review's readings."""
+def choose(r, gate=GATE, good=GOOD):
+    """'plan', 'pick' (the simple 12-month pick) or 'index' for one review's readings, from the doublers alone."""
     if r is None or r['giveBack'] is None or r['giveBack'] > gate:
         return 'index'
-    if r['plan'] is not None and r['pick'] is not None and r['plan'] > r['pick']:
-        return 'plan'
-    return 'pick'
+    return 'plan' if r.get('good', 0) >= good else 'pick'
 
 
 def decide(reviews):
@@ -161,7 +170,8 @@ def summary(rows, events, years, live_mode='plan'):
     if last and last['giveBack'] is not None and last['giveBack'] > GATE:
         why.append('runner quality broke: %.0f%% of doublers gave back half their gain within 6 months (gate %.0f%%)'
                    % (last['giveBack'] * 100, GATE * 100))
-    if last and last['plan'] is not None and last['pick'] is not None and last['plan'] <= last['pick']:
-        why.append('the full plan trailed the simple 12-month pick over the last %d years' % WIN)
-    return dict(win=WIN, gate=GATE, reviews=[dict(r, choice=c, mode=m) for r, (_, c, m) in zip(rev, dec)],
+    if last and last.get('good') is not None and last['good'] < GOOD:
+        why.append('runner supply thinned: %.1f good doublers a month over the last %d years (the full plan needs %.0f)'
+                   % (last['good'], WIN, GOOD))
+    return dict(win=WIN, gate=GATE, good=GOOD, reviews=[dict(r, choice=c, mode=m) for r, (_, c, m) in zip(rev, dec)],
                 mode=mode, choice=choice, alarm=bool(mode != live_mode), watch=bool(choice != live_mode), why=why)
