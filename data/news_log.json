@@ -5077,5 +5077,45 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-08-1-europe-joins-abu-dhabi-talks",
+    "data": {
+      "addedAt": "2026-11-08",
+      "category": "Geopolitics",
+      "date": "2026-11-08",
+      "day": "Sun",
+      "direction": "Mixed",
+      "event": "France confirmed Europe will join the US-mediated Russia-Ukraine talks in Abu Dhabi (Nov 10-11); separately Russia confirmed an expanded senior delegation including Deputy FM Ryabkov for the first time, which Bloomberg says could signal openness to more substantive talks.",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 1,
+      "reaction": "Mixed signal heading into Tuesday's trilateral round: broader European involvement and a more senior Russian delegation raise hopes for progress, but no agreement yet and fighting (incl. a heavy Russian barrage on Kyiv Nov 7) continues; a weekend risk factor for oil and European defense names, with no confirmed market reaction since markets are closed.",
+      "region": "Europe/Middle East",
+      "source": "https://kyivindependent.com/europeans-will-participate-in-abu-dhabi-peace-talks-french-foreign-minister-says/",
+      "tickers": "USO, BNO, LMT, RTX, NOC",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-08-2-october-cpi-due-tuesday",
+    "data": {
+      "addedAt": "2026-11-08",
+      "category": "Macro",
+      "date": "2026-11-08",
+      "day": "Sun",
+      "direction": "Neutral",
+      "event": "October CPI is due Tuesday Nov 10 at 8:30am ET (per the BLS schedule), the next major US inflation print and a key input for the Fed's December rate decision, coming right after Friday's much-stronger-than-expected October payrolls report lifted December Fed hike odds to ~78%.",
+      "impact": "Medium",
+      "numbers": "n/a (release pending)",
+      "order": 2,
+      "reaction": "Sets up a key data risk early this week; markets head into Monday's open already repricing toward Fed hike risk rather than a cut, so a hot CPI print Tuesday could add further pressure on bonds and rate-sensitive equities.",
+      "region": "US",
+      "source": "https://thriveinmarkets.com/calendar/dates/cpi-2026/",
+      "tickers": "SPY, TLT, 10Y, DXY, IWM",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
