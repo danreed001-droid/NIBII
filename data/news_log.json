@@ -5157,5 +5157,65 @@
       "time": "Pre-market",
       "vsExp": "Payrolls +165K vs lower expected"
     }
+  },
+  {
+    "id": "2026-11-09-3-stocks-rally-dow-jumps-1104-points",
+    "data": {
+      "addedAt": "2026-11-09",
+      "category": "Market",
+      "date": "2026-11-09",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "US stocks staged a sharp broad rebound: the Dow surged 1,104.20 points (+2.15%) to close at 52,389.93, the S&P 500 gained 172.97 points (+2.34%) to 7,549.83, and the Nasdaq Composite rose 2.74%, as a steep oil-price slide eased inflation fears and last week's AI-driven selloff paused.",
+      "impact": "High",
+      "numbers": "Dow +1,104.20 (+2.15%) to 52,389.93; S&P 500 +172.97 (+2.34%) to 7,549.83; Nasdaq Composite +2.74%; 10Y yield ~4.89% (+3bp)",
+      "order": 3,
+      "reaction": "High-breadth rally (~75% of S&P names higher); small caps and cyclicals led, while Nvidia and AI megacaps lagged amid lingering governance/valuation concerns.",
+      "region": "US",
+      "source": "https://www.investing.com/news/stock-market-news/us-stocks-higher-at-close-of-trade-dow-jones-industrial-average-up-215-5013309",
+      "tickers": "DJI, SPX, IXIC, TNX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-09-4-oil-tumbles-on-eased-supply-fears",
+    "data": {
+      "addedAt": "2026-11-09",
+      "category": "Energy",
+      "date": "2026-11-09",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Oil prices tumbled Monday: December WTI crude fell 4.6% ($4.18) to $86.65/barrel and January Brent dropped 6.0% ($5.94) to $92.38/barrel. The slide eased inflation worries and was a key driver of the day's broad equity rally, though the S&P 500 energy sector ended nearly flat after paring earlier losses.",
+      "impact": "Medium",
+      "numbers": "WTI -4.6% to $86.65; Brent -6.0% to $92.38",
+      "order": 4,
+      "reaction": "Lower energy costs eased inflation concerns and lifted rate-sensitive and small-cap stocks across the market.",
+      "region": "Global",
+      "source": "https://www.investing.com/news/stock-market-news/us-stocks-higher-at-close-of-trade-dow-jones-industrial-average-up-215-5013309",
+      "tickers": "USO, XLE, CL=F, BZ=F",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-09-5-iran-talks-stalled-rubio-no-breakthrough",
+    "data": {
+      "addedAt": "2026-11-09",
+      "category": "Geopolitics",
+      "date": "2026-11-09",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Secretary of State Marco Rubio said over the weekend that US-Iran talks are not \"at the verge of a breakthrough,\" tempering hopes for an imminent deal. President Trump said he is \"highly unlikely\" to order fresh strikes while talks continue. Iran says progress requires lifting the US naval blockade, releasing seized assets, and removing sanctions.",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 5,
+      "reaction": "Oil remains sensitive to the standoff; the lack of a breakthrough keeps a geopolitical risk premium in place even as crude slid Monday on eased near-term strike risk.",
+      "region": "Middle East",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-09-202",
+      "tickers": "USO, XLE, CL=F",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
