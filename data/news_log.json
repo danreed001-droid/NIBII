@@ -5117,5 +5117,45 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-09-1-nvidia-board-probes-ceo-huang-relationship",
+    "data": {
+      "addedAt": "2026-11-09",
+      "category": "Earnings",
+      "date": "2026-11-09",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Nvidia's board announced an investigation into CEO Jensen Huang's relationship with a Megaspeed executive; shares fell 4.24% in overnight trading, and Nasdaq 100 futures dipped as much as 1% before recovering to +0.2%.",
+      "impact": "High",
+      "numbers": "NVDA -4.24% overnight; NDX futures -1% intraday low, then +0.2%; Nasdaq -10.18% over past 30 days",
+      "order": 1,
+      "reaction": "Adds pressure to the AI/semiconductor complex that sold off last week, though index futures recovered pre-open.",
+      "region": "US",
+      "source": "https://fortune.com/2026/11/09/nvidia-board-probe-jensen-huang-affair-suspected-china-spy-statements/",
+      "tickers": "SPY, QQQ, Nasdaq, NVDA",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-09-2-global-markets-and-december-fed-hike-odds",
+    "data": {
+      "addedAt": "2026-11-09",
+      "category": "Market",
+      "date": "2026-11-09",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Global markets mostly firmer into the US open: S&P 500 futures +0.39%, Nikkei +2.33%, Stoxx 600 +0.64%, FTSE 100 +0.57%, KOSPI -0.81%. Brent near $97. CME FedWatch prices an 80% chance of a December Fed hike to 4%, up from near a coin flip before Friday's +165K October payrolls.",
+      "impact": "Medium",
+      "numbers": "ES +0.39%; Nikkei +2.33%; Stoxx 600 +0.64%; FTSE +0.57%; KOSPI -0.81%; Brent ~$97; Dec hike odds ~80%",
+      "order": 2,
+      "reaction": "Equities attempt a rebound after last week's 4.3% peak-to-trough S&P drawdown, but hike odds and elevated oil keep rate and inflation risk in focus ahead of Tuesday's CPI.",
+      "region": "Global",
+      "source": "https://fortune.com/2026/11/09/nvidia-board-probe-jensen-huang-affair-suspected-china-spy-statements/",
+      "tickers": "SPY, S&P, QQQ",
+      "time": "Pre-market",
+      "vsExp": "Payrolls +165K vs lower expected"
+    }
   }
 ]
