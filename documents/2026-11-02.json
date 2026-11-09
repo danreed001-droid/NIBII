@@ -424,62 +424,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for ES=F on 2 November"
+       "structure.weekly reads uptrend for ES=F on 2 November",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral"
+       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Apple (revenue/EPS beat, Greater China miss) and Palantir (revenue +96% y/y, guidance raised) reported after the 2 November close, so any price reaction is unknown as of S; the day itself saw tech-led declines (news log). Mixed, so neutral"
+       "Apple (revenue/EPS beat, Greater China miss) and Palantir (revenue +96% y/y, guidance raised) reported after the 2 November close, so any price reaction is unknown as of S; the day itself saw tech-led declines (news log). Mixed, so neutral",
+       null
       ],
       [
        "neu",
-       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral"
+       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral"
+       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7428.25,
+     "ret": -0.020181,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -2549,62 +2564,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for ZN=F on 2 November"
+       "structure.weekly reads downtrend for ZN=F on 2 November",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral"
+       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral",
+       null
       ],
       [
        "bear",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for bond prices"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for bond prices",
+       false
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts on 2 November (Apple, Palantir after the close) have no clean directional read for this asset, so neutral"
+       "Earnings catalysts on 2 November (Apple, Palantir after the close) have no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral"
+       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral"
+       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 107.0625,
+     "ret": 0.003515,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -5185,62 +5215,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for GC=F on 2 November"
+       "structure.weekly reads downtrend for GC=F on 2 November",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral"
+       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral",
+       null
       ],
       [
        "bear",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for bond prices"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for bond prices",
+       false
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts on 2 November (Apple, Palantir after the close) have no clean directional read for this asset, so neutral"
+       "Earnings catalysts on 2 November (Apple, Palantir after the close) have no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral"
+       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral"
+       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4133.7001953125,
+     "ret": 0.043021,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -7282,62 +7327,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for DX-Y.NYB on 2 November"
+       "structure.weekly reads choppy for DX-Y.NYB on 2 November",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral"
+       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral",
+       null
       ],
       [
        "bull",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); supportive of a firmer dollar"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); supportive of a firmer dollar",
+       true
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts on 2 November (Apple, Palantir after the close) have no clean directional read for this asset, so neutral"
+       "Earnings catalysts on 2 November (Apple, Palantir after the close) have no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral"
+       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral"
+       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 102.11299896240234,
+     "ret": 0.003755,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 10,
@@ -9498,62 +9558,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for RTY=F on 2 November (latest break: LL at 2723.3)"
+       "structure.weekly reads choppy for RTY=F on 2 November (latest break: LL at 2723.3)",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral"
+       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts on 2 November (Apple, Palantir after the close) have no clean directional read for this asset, so neutral"
+       "Earnings catalysts on 2 November (Apple, Palantir after the close) have no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral"
+       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral"
+       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2778.89990234375,
+     "ret": -0.01412,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -11509,62 +11584,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for NQ=F on 2 November"
+       "structure.weekly reads choppy for NQ=F on 2 November",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 2 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral"
+       "The 10-year Treasury yield was ~4.90-4.92%, little changed, on 2 November (news log); no multi-day rate trend is established by one flat day, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 2 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 2 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Apple (revenue/EPS beat, Greater China miss) and Palantir (revenue +96% y/y, guidance raised) reported after the 2 November close, so any price reaction is unknown as of S; the day itself saw tech-led declines (news log). Mixed, so neutral"
+       "Apple (revenue/EPS beat, Greater China miss) and Palantir (revenue +96% y/y, guidance raised) reported after the 2 November close, so any price reaction is unknown as of S; the day itself saw tech-led declines (news log). Mixed, so neutral",
+       null
       ],
       [
        "neu",
-       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral"
+       "September JOLTS and factory orders (10 AM ET) and the US midterm elections fall on 3 November, after S; no released print to weigh, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral"
+       "Cross-asset on 2 November (news log): S&P 500 -0.5%, Nasdaq -1.1%, WTI ~-7.6%, dollar index at a one-week low, gold up, 10Y ~4.90% flat - mixed signals with no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 27107.25,
+     "ret": -0.038332,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 10,
