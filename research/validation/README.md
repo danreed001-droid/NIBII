@@ -769,3 +769,12 @@ Tried at the same time and not adopted (US from 2000 unless noted):
   without a 3-month cap): US 44.8-49.1%; it re-bought 10-15% higher, after the picks had already turned.
 - An index-trend exit (under the 10-month average): US 33.2-39.6%; abroad 5.8-8.3% (6-month plan) and 8.1-11.1%
   (12-month plan).
+
+Later the same day, each remaining exit was switched off on the foreign plan without rule 5 (12-month plan, 9 markets):
+rule 3 (the whipsaw switch) off made 16.07% a year vs 15.04%, better in 6 of 9 markets (Germany 14.0% to 16.8%,
+Australia 18.6% to 21.2%, Spain 9.2% to 11.9%, Canada 23.1% to 25.0% with its worst drop -39% to -28%; France worse,
+13.2% to 12.4%, its 2022 -17% to -34%), average worst drop -39.5% vs -39.3%; on the 6-month plan 12.95% vs 12.14%
+(7 of 9). After a run of losing sales it kept the whole account in gold or bonds through recoveries (the UK's 2023:
++12% without it vs +5% with it). So rule 3 is dropped from the foreign plan as well; the US plan keeps it. Rule 2 (the
+downtrend exit) stays abroad: without it the 12-month plan's average worst drop went to -47% (Australia -60%, Spain
+-65%) for 14.9% a year. Rules 8, 10 and 19 were about neutral abroad (16.2-16.6% on 7 markets vs 16.1%) and stay.
