@@ -101,7 +101,7 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
                  vol_window=63, max_corr=None, corr_window=63, risk_adj=False, exec_next=None,
                  exit_when=None, exit_daily=True, buy_when=None, buy_max_rank=None, lookback_at=None, hold_exit=None,
                  prefer=None, prefer_rank=20, prefer_mode='fill', prefer_pool='qualified',
-                 rebal_dates=None, open_end=False):
+                 rebal_dates=None, open_end=False, reorder=None):
     """prices: {ticker: {date: close}} (must include `benchmark`);
     calendar: sorted session dates. Returns dict(curve=[[date, value,
     holdings]], picks=[[date, [tickers]]], turnover=annualized fraction,
@@ -159,6 +159,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
     hold_exit: optional callable(ticker, k, entry_k) -> bool, checked every session
       for each holding (entry_k = the session it was bought); True sells it at
       the next trade and bars it for `cooldown` sessions (e.g. blowoff_exit).
+    reorder: optional callable(k, rows) -> rows: changes the ranking [(ticker, score, qualified)] best first
+      at decision session k (mtl/crashrank.py, rule 21, puts the crash rebounders first and marks them qualified).
     lookback_at: optional callable(k) -> (look, skip) to change the strength
       window by regime (e.g. 3 months while the market's 12-month return is
       negative); defaults to (look, skip).
@@ -287,6 +289,8 @@ def run_momentum(prices, calendar, start, benchmark='SPY', look=126, skip=21, to
         ranked qualifying stocks, honoring the industry cap and cooldowns."""
         lk, sk = lookback_at(k) if lookback_at else (look, skip)
         rows = score_table(prices, calendar, k, lk, sk, windows, blend, eligible, benchmark)
+        if reorder is not None:
+            rows = reorder(k, rows)
         rank_now.clear()
         rank_now.update({r[0]: i for i, r in enumerate(rows)})
         scored = [(sc, t) for t, sc, beats in rows

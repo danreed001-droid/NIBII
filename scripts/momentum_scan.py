@@ -54,7 +54,7 @@ from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl import candle, fedday, fedday_check, reentry_note, stretchwarn  # noqa: E402
-from mtl import earnjump, hotcomm, jobwarn, nearhigh, runup, volsell, volweight, volweight_check  # noqa: E402
+from mtl import crashrank, earnjump, hotcomm, jobwarn, nearhigh, runup, volsell, volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
@@ -519,6 +519,10 @@ def plan_exits(prices, volumes, cal_, fade=True, rules=None, hot=None):
     # sessions (applied after the green light, which does not set it aside, as in the backtest)
     vs_ = volsell.VolSell(prices, volumes, cal_)
     out = dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e) or vs_.sell(t, k, e))
+    # the crash-rebound ranking (mtl/crashrank.py, rule 21, since Nov 9, 2026, on probation): within 126 sessions of SPY
+    # closing 30%+ under its 1-year high, while SPY is above its 50-day average, the 10 stocks with the best rebound
+    # score (volatile, deep under their high, low priced) go to the front of the ranking; the whipsaw's count too
+    out['reorder'] = crashrank.CrashRank(prices, cal_, **crashrank.settings(LOOK)).reorder()
     if fade:
         bw = fade_buy_ok(prices, volumes, cal_)
         if hot and hot[1]:
@@ -1308,6 +1312,9 @@ def main():
     # the run-up skip (mtl/runup.py, rule 20): SPY's 6-month change, and the stocks near the top of the list it keeps out
     ru_ = runup.RunUp(prices, calendar)
     auto['boostx']['runup'] = ru_.info(K, [t_ for t_, _ in now[:15]])
+    # the crash-rebound ranking (mtl/crashrank.py, rule 21): on or off, SPY's distance from its 1-year high and its
+    # 50-day average, and (while on) the stocks it puts first
+    auto['boostx']['crashrank'] = crashrank.CrashRank(prices, calendar, **crashrank.settings(LOOK)).info(K, [t_ for t_, _ in now])
     hc_ = hotcomm.HotComm(hotcomm.themes(), comm_px or {}, calendar)
     auto['boostx']['hotcomm'] = dict(hc_.state(K), jump=hotcomm.JUMP, look=hotcomm.LOOK, since=hotcomm.START, missing=not comm_px,
                                      blocked=[t_ for t_, _ in now[:15] if hc_.blocked(t_, K)])
@@ -1425,6 +1432,7 @@ def main():
     auto['rotation']['hotcomm'] = auto['boostx'].get('hotcomm')   # the hot-commodity buy skip (rule 16), for the rules note
     auto['rotation']['volsell'] = auto['boostx'].get('volsell')   # the heavy-volume selling rule (rule 18), for the rules note
     auto['rotation']['runup'] = auto['boostx'].get('runup')   # the run-up skip (rule 20), for the rules note
+    auto['rotation']['crashrank'] = auto['boostx'].get('crashrank')   # the crash-rebound ranking (rule 21), for the rules note
     # the re-entry note (information only): back into stocks after 10+ sessions out - is the list it buys concentrated
     # in one sector (past re-entries like that beat the haven 22 of 23 times) or spread out (a coin flip)?
     auto['rotation']['renote'] = reentry_note.note(rot_modes, calendar, K, picks_bx, prices, sector_px) if sector_px else dict(show=False)
