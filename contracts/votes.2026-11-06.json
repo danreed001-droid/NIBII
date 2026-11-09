@@ -2,52 +2,52 @@
  "equities": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.hourly reads uptrend for ES=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield ~4.86% (+2bp) on 6 November (news log) has no clean directional read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (+165K, unemployment 4.1%, AHE +0.4% m/m) per the news log; a more hawkish path is a headwind for equity multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
+   ],
+   [
+    "bear",
+    "October payrolls +165K vs ~60K expected, unemployment 4.1% vs 4.2%, AHE +0.4% vs +0.3% (news log); hot data raises hike odds, though the S&P still closed +0.31%"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Cross-asset on 6 November (news log): S&P 500 7,376.86 (+0.31%), VIX 25.64 (-9.0%), Russell +0.89%, Nasdaq +1.09% - partial recovery from Thursday's rout, though Dow -0.46% and yields rose"
    ],
    [
     "bull",
@@ -56,52 +56,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for ES=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield ~4.86% (+2bp) on 6 November (news log) has no clean directional read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (+165K, unemployment 4.1%, AHE +0.4% m/m) per the news log; a more hawkish path is a headwind for equity multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls +165K vs ~60K expected, unemployment 4.1% vs 4.2%, AHE +0.4% vs +0.3% - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "bull",
@@ -110,52 +110,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for ES=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield ~4.86% (+2bp) on 6 November (news log) has no clean directional read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (+165K, unemployment 4.1%, AHE +0.4% m/m) per the news log; a more hawkish path is a headwind for equity multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls +165K vs ~60K expected, unemployment 4.1% vs 4.2%, AHE +0.4% vs +0.3% - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "bull",
@@ -167,51 +167,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for ZN=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
+   ],
+   [
+    "bear",
+    "10Y yield rose to ~4.86% on 6 November from ~4.84% (4.88% intraday), 2Y 4.52% (+5bp) after payrolls (news log); ZN=F 107.125 vs 107.33"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); a higher-for-longer policy path pressures Treasury prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
+   ],
+   [
+    "bear",
+    "October payrolls +165K vs ~60K expected, unemployment 4.1% vs 4.2% (news log); yields rose on the beat"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Cross-asset on 6 November (news log): equities rebounded (S&P +0.31%, VIX -9.0%) while 10Y yield rose to ~4.86% - risk-on plus hawkish data weighs on Treasuries"
    ],
    [
     "neu",
@@ -220,52 +220,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield rose to ~4.86% on 6 November from ~4.84% (4.88% intraday), 2Y 4.52% (+5bp) after payrolls - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); a higher-for-longer policy path pressures Treasury prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls +165K vs ~60K expected, unemployment 4.1% vs 4.2% - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "bear",
@@ -274,52 +274,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield rose to ~4.86% on 6 November from ~4.84% (4.88% intraday), 2Y 4.52% (+5bp) after payrolls - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); a higher-for-longer policy path pressures Treasury prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls +165K vs ~60K expected, unemployment 4.1% vs 4.2% - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "bear",
@@ -330,52 +330,52 @@
  "gold": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.hourly reads downtrend for GC=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
+   ],
+   [
+    "bear",
+    "10Y yield rose to ~4.86% and 2Y +5bp after payrolls (news log); higher yields raise the opportunity cost of gold"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); higher real-rate expectations weigh on non-yielding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
+   ],
+   [
+    "bear",
+    "October payrolls +165K vs ~60K expected (news log); strong data lifted yields and the dollar (DXY +0.7%)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Cross-asset on 6 November (news log): DXY +0.7% to 102.18, 10Y yield up, VIX -9.0% (less haven demand); gold ~$4,075"
    ],
    [
     "bear",
@@ -384,52 +384,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield rose to ~4.86% and 2Y +5bp after payrolls - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); higher real-rate expectations weigh on non-yielding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls +165K vs ~60K expected - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "bear",
@@ -438,52 +438,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield rose to ~4.86% and 2Y +5bp after payrolls - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); higher real-rate expectations weigh on non-yielding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls +165K vs ~60K expected - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "bear",
@@ -495,51 +495,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for DX-Y.NYB on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
+   ],
+   [
+    "bull",
+    "2Y yield +5bp to 4.52% and 10Y ~4.86% after payrolls (news log); higher US yields support the dollar"
+   ],
+   [
+    "bull",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); a hawkish path supports the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
+   ],
+   [
+    "bull",
+    "October payrolls +165K vs ~60K expected, AHE +0.4% vs +0.3% (news log); DXY +0.7% to 102.18 on the release"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Cross-asset on 6 November (news log): DXY +0.7% with US yields higher after payrolls"
    ],
    [
     "neu",
@@ -549,51 +549,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for DX-Y.NYB on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "2Y yield +5bp to 4.52% and 10Y ~4.86% after payrolls - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+   ],
+   [
+    "bull",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); a hawkish path supports the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls +165K vs ~60K expected, AHE +0.4% vs +0.3% - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
@@ -603,51 +603,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for DX-Y.NYB on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "2Y yield +5bp to 4.52% and 10Y ~4.86% after payrolls - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+   ],
+   [
+    "bull",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); a hawkish path supports the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls +165K vs ~60K expected, AHE +0.4% vs +0.3% - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
@@ -659,51 +659,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for RTY=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield ~4.86% (+2bp) on 6 November (news log) has no clean directional read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); small caps are rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
+   ],
+   [
+    "bear",
+    "October payrolls +165K vs ~60K expected (news log); hot data raises hike odds, a headwind for rate-sensitive small caps, though RTY rose 0.9%"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Cross-asset on 6 November (news log): Russell 2000 +0.89% to 2,754.11, VIX -9.0% in a partial rebound, though yields and hike odds rose"
    ],
    [
     "neu",
@@ -712,52 +712,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for RTY=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield ~4.86% (+2bp) on 6 November (news log) has no clean directional read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); small caps are rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls +165K vs ~60K expected - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "bull",
@@ -766,52 +766,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for RTY=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield ~4.86% (+2bp) on 6 November (news log) has no clean directional read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); small caps are rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings catalyst of direct relevance to this asset was identified for 6 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls +165K vs ~60K expected - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "bull",
@@ -822,52 +822,52 @@
  "qqq": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.hourly reads uptrend for NQ=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield ~4.86% (+2bp) on 6 November (news log) has no clean directional read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); long-duration growth is rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
+   ],
+   [
+    "bull",
+    "Chip earnings/guidance tailwinds on 6 November (news log): Lam Research +10.9% on a $25B buyback, IREN +19-20% on AI-cloud revenue $200M vs $71M; NVDA +4.1%, AMD +7.9%, MU +7.6% premarket after Thursday's rout; offset by software/consumer misses (TEAM -16%, DKNG -24.5%)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls beat (news log) but this asset is driven by the chip rebound on the day, so no clean read; neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Cross-asset on 6 November (news log): Nasdaq Composite +1.09%, VIX -9.0%, chips extending their bounce into the close"
    ],
    [
     "bull",
@@ -877,51 +877,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for NQ=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield ~4.86% (+2bp) on 6 November (news log) has no clean directional read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); long-duration growth is rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Chip earnings/guidance tailwinds on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls beat (news log) but this asset is driven by the chip rebound on the day, so no clean read; neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
@@ -931,51 +931,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for NQ=F on 6 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 6 November is in the sigma input (VIX 25.64, -9.0%, news log), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated high-yield OAS or credit-spread figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield ~4.86% (+2bp) on 6 November (news log) has no clean directional read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds rose to 78% (from 70%) after the October payrolls beat (news log); long-duration growth is rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated contrarian market-sentiment extreme for 6 November was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure for 6 November was obtainable, so this category is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Chip earnings/guidance tailwinds on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October payrolls beat (news log) but this asset is driven by the chip rebound on the day, so no clean read; neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset on 6 November - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
    ],
    [
     "neu",
