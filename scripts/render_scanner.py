@@ -3642,7 +3642,7 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
   <div class="pc-bar">
     <span class="seg" id="pc-pre" role="group" aria-label="Range"><button type="button" data-y="1">1Y</button><button type="button" data-y="3">3Y</button><button type="button" data-y="5">5Y</button><button type="button" data-y="10">10Y</button><button type="button" data-y="all">All</button></span>
     <label>Years <select id="pc-from" aria-label="From year"></select></label><label>to <select id="pc-to" aria-label="To year"></select></label>
-    <span class="seg" id="pc-scale" role="group" aria-label="Scale"><button type="button" data-v="linear">Linear</button><button type="button" data-v="log">Log</button></span>
+    <span class="seg" id="pc-scale" role="group" aria-label="Scale"><button type="button" data-v="linear">Linear</button><button type="button" data-v="log">Log</button><button type="button" data-v="shape" title="Each line stretched to its own low and high in the range, to compare turns">Shape</button></span>
   </div>
   <div class="legend pc-legend" id="pc-legend"></div>
   <div class="pc-wrap"><svg class="pc-axis" id="pc-axis" aria-hidden="true"></svg><div class="pc-scroll" id="pc-scroll"><div class="chart" id="pc-chart"></div></div></div>
@@ -3720,16 +3720,27 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
       for (var i = i0; i <= i1; i++) { if (a[i] == null) continue; if (base === null) base = a[i]; pts.push([T[i], a[i] / base * 100, i]); }
       return { k: l[0], name: l[1], c: l[2], cls: l[3], pts: pts };
     }).filter(function (s) { return s.pts.length; });
+    // p[3] is what gets plotted: the % change, or with Shape each line stretched to its own low (0) and high (100) in the range,
+    // on a log scale so a 10% move is the same height early and late in a long range
+    var shape = eff === 'shape';
+    ser.forEach(function (s) {
+      var mn = Infinity, mx = -Infinity;
+      s.pts.forEach(function (p) { var v = Math.log(p[1]); mn = Math.min(mn, v); mx = Math.max(mx, v); });
+      s.pts.forEach(function (p) { p[3] = !shape ? p[1] : mx > mn ? (Math.log(p[1]) - mn) / (mx - mn) * 100 : 50; });
+    });
     var lo = Infinity, hi = -Infinity;
-    ser.forEach(function (s) { s.pts.forEach(function (p) { lo = Math.min(lo, p[1]); hi = Math.max(hi, p[1]); }); });
+    ser.forEach(function (s) { s.pts.forEach(function (p) { lo = Math.min(lo, p[3]); hi = Math.max(hi, p[3]); }); });
     if (!ser.length) return;
     var log = eff === 'log', f = log ? Math.log : function (v) { return v; };
     var ticks = [];
+    if (shape) { lo = 0; hi = 100; ticks = [0, 50, 100]; }
+    else {
     if (log) {   // 1-2-5 steps, thinned to at most 8
       for (var e10 = Math.floor(Math.log10(lo)); e10 <= Math.ceil(Math.log10(hi)); e10++) [1, 2, 5].forEach(function (q) { var v = q * Math.pow(10, e10); if (v >= lo * 0.92 && v <= hi * 1.08) ticks.push(v); });
       while (ticks.length > 8) ticks = ticks.filter(function (v, j) { return j % 2 === 0; });
     }
     if (!log || ticks.length < 3) { ticks = []; var st = Math.pow(10, Math.floor(Math.log10((hi - lo) / 4 || 1))); st = (hi - lo) / st > 20 ? st * 5 : (hi - lo) / st > 8 ? st * 2 : st; for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) ticks.push(v); }
+    }
     var ya = f(Math.min(lo, ticks[0])), yb = f(Math.max(hi, ticks[ticks.length - 1]));
     function X(t) { return (t - T[i0]) / (T[i1] - T[i0] || 1) * (W - m.r) ; }
     function Y(v) { return m.t + (1 - (f(v) - ya) / (yb - ya || 1)) * (H - m.t - m.b); }
@@ -3746,19 +3757,19 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
     var g = el('g', { class: 'grid' });
     ticks.forEach(function (v) { g.appendChild(el('line', { x1: 0, x2: W - m.r, y1: Y(v), y2: Y(v) })); });
     svg.appendChild(g);
-    svg.appendChild(el('line', { class: 'base', x1: 0, x2: W - m.r, y1: Y(100), y2: Y(100) }));
+    if (!shape) svg.appendChild(el('line', { class: 'base', x1: 0, x2: W - m.r, y1: Y(100), y2: Y(100) }));
     var xg = el('g', { class: 'pc-x' }), d0 = new Date(T[i0]), d1 = new Date(T[i1]);
     if (span > 2) { for (var yr = d0.getUTCFullYear() + 1; yr <= d1.getUTCFullYear(); yr++) { var t0 = Date.UTC(yr, 0, 1), tx = el('text', { x: X(t0), y: H - 6, 'text-anchor': 'middle' }); tx.textContent = yr; xg.appendChild(tx); xg.appendChild(el('line', { x1: X(t0), x2: X(t0), y1: H - m.b, y2: H - m.b + 4, style: 'stroke:var(--muted)' })); } }
     else { for (var mo = new Date(Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1)); mo <= d1; mo = new Date(Date.UTC(mo.getUTCFullYear(), mo.getUTCMonth() + (span > 1 ? 2 : 1), 1))) { var tm = el('text', { x: X(mo.getTime()), y: H - 6, 'text-anchor': 'middle' }); tm.textContent = MON[mo.getUTCMonth()] + (mo.getUTCMonth() === 0 ? ' ' + String(mo.getUTCFullYear()).slice(2) : ''); xg.appendChild(tm); } }
     svg.appendChild(xg);
-    ser.slice().reverse().forEach(function (s) { svg.appendChild(el('path', { class: 'pl ' + s.cls, d: s.pts.map(function (p, j) { return (j ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join(''), style: 'stroke:' + s.c })); });
+    ser.slice().reverse().forEach(function (s) { svg.appendChild(el('path', { class: 'pl ' + s.cls, d: s.pts.map(function (p, j) { return (j ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[3]).toFixed(1); }).join(''), style: 'stroke:' + s.c })); });
     var cross = el('line', { class: 'cross', y1: m.t, y2: H - m.b, visibility: 'hidden' }); svg.appendChild(cross);
     var dots = ser.map(function (s) { var c = el('circle', { class: 'dotm', r: 4, style: 'fill:' + s.c, visibility: 'hidden' }); svg.appendChild(c); return c; });
     var tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true;
     box.appendChild(svg); $('pc-wrap-tip') && $('pc-wrap-tip').remove(); tip.id = 'pc-wrap-tip'; document.querySelector('#planwhere .pc-wrap').appendChild(tip);
     // the y axis stays put while the chart scrolls sideways
     var ax = $('pc-axis'); ax.innerHTML = ''; ax.setAttribute('height', H); ax.setAttribute('viewBox', '0 0 50 ' + H);
-    ticks.forEach(function (v) { var t = el('text', { x: 44, y: Y(v) + 4, 'text-anchor': 'end' }); t.textContent = chg(v); ax.appendChild(t); });
+    ticks.forEach(function (v) { var t = el('text', { x: 44, y: Y(v) + 4, 'text-anchor': 'end' }); t.textContent = shape ? (v === 100 ? 'High' : v === 0 ? 'Low' : 'Mid') : chg(v); ax.appendChild(t); });
     function at(s, t) { var a = 0, b = s.pts.length - 1; if (t < s.pts[0][0]) return null; while (a < b) { var mid = (a + b + 1) >> 1; if (s.pts[mid][0] <= t) a = mid; else b = mid - 1; } return s.pts[a]; }
     function move(e) {
       var r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * W, t = T[i0] + px / (W - m.r) * (T[i1] - T[i0]);
@@ -3770,7 +3781,7 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
         var key = document.createElement('i'); key.style.setProperty('--c', s.k === 'p' || s.k === 'k' ? 'var(--bg)' : s.c); if (s.k === 'k') key.className = 'dash'; row.appendChild(key);   // the plan's line is ink: on the ink tooltip its key is the background colour
         var b = document.createElement('b'); b.textContent = p ? chg(p[1]) : '–'; row.appendChild(b);
         row.appendChild(document.createTextNode(' ' + s.name)); tip.appendChild(row);
-        if (p) { dots[j].setAttribute('cx', X(p[0])); dots[j].setAttribute('cy', Y(p[1])); dots[j].setAttribute('visibility', 'visible'); } else dots[j].setAttribute('visibility', 'hidden');
+        if (p) { dots[j].setAttribute('cx', X(p[0])); dots[j].setAttribute('cy', Y(p[3])); dots[j].setAttribute('visibility', 'visible'); } else dots[j].setAttribute('visibility', 'hidden');
       });
       var hr = heldAt(tt), hdv = document.createElement('div'); hdv.className = 'held';
       if (hr) {
@@ -3807,7 +3818,7 @@ PLANCHART_SECTION = r'''<section id="planwhere"><p class="section-label">Where t
   $('pc-from').onchange = years; $('pc-to').onchange = years;
   var LIVE = P.live ? Date.parse(P.live + 'T12:00:00Z') : null;
   $('pc-note').textContent = 'Lines: the plan\'s value, Boost 100% (dashed: the same stock list always fully invested, never in a haven) and daily closes as % change from the start of the range (×3 and up as a multiple; one close a week before ' + (yN - __DAILY_YEARS__) + '). Gold before Nov 2004 and bonds before Jul 2002 are the gold futures and Treasury fund the backtest used. Shading: what the default plan held after each close' +
-    (LIVE ? ', the backtest of today\'s rules until ' + fmt(LIVE) + ', then the paper record\'s live decisions' : ', from the backtest of today\'s rules') + '. Hover or tap for the day; long ranges scroll sideways.';
+    (LIVE ? ', the backtest of today\'s rules until ' + fmt(LIVE) + ', then the paper record\'s live decisions' : ', from the backtest of today\'s rules') + '. Shape stretches each line to its own low and high in the range (in % moves), so turns line up whatever the size of the move; the tooltip still shows the real change. Hover or tap for the day; long ranges scroll sideways.';
   legend(); setPreset(pre === '' ? '3' : pre); draw();
   var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(draw, 150); });
 })();
