@@ -739,3 +739,33 @@ Wall Street tests (daily curve): 60.3% a year (37.8% after tax) vs 54.7%, Sharpe
 2.50, Calmar 2.39 vs 2.17, worst drop -25.2% either way, worst 3 years +19.0% a year vs +17.6%, but 22 drops of 15%+
 vs 15 and an alpha t-stat of 5.9 vs 7.0; Monte Carlo typical 57.4% over 20 years, beats v12 75 / 87 / 95% (5 / 10 /
 20 years). Most of the gain is in three episodes (2003, 2009, 2020): on probation.
+
+## The foreign plan without the lower-high exit (rule 5 dropped abroad, Nov 9, 2026; the US keeps it)
+
+Research only: the foreign plan is not traded. Strict engine, 9 markets (UK, Germany, France, Canada, Australia,
+Hong Kong, Spain, Italy, Sweden), 2005-2026 (Australia from mid-2007, Sweden from 2010), today's index members, the
+local index in place of SPY, gold and bonds in local currency, 0.15% a side.
+
+| Version | 6-month plan, average | better / worse | 12-month plan, average | better / worse | 12-month worst drop (average) |
+|---|---|---|---|---|---|
+| As it was | 10.64% | – | 13.44% | – | -38.7% |
+| Rule 5 dropped | 12.14% | 9 / 0 | 15.04% | 8 / 1 | -39.3% |
+| Rule 2 dropped | 9.99% | 3 / 6 | 12.93% | 4 / 5 | -39.6% |
+| Both dropped | 11.22% | 5 / 4 | 14.41% | 6 / 3 | -44.7% |
+
+On the 12-month plan Germany went from 10.6% to 14.0% a year (worst drop -42% to -34%), the UK 13.6% to 14.3%,
+France 10.7% to 13.2%; Canada slipped 24.0% to 23.1%. Rule 5's two weeks in a haven mostly sold dips that came back in
+these thinner markets. In the US the same change cut 60.4% to 52.0% a year from 2000 and deepened the worst drop from
+-25% to -38% (better in 5 years, worse in 11), so the US plan keeps rule 5.
+
+Tried at the same time and not adopted (US from 2000 unless noted):
+- Rule 2 loosened (any lower high; no slow-fall condition; both): US 55.6 / 57.7 / 50.8% vs 60.4%; abroad worse in 7-9
+  of 9 markets on both plans.
+- A big-drop pause (to the haven for 1-2 weeks after a one-day fall of 2.5-3 standard deviations, a 5-day one, or 7%
+  in a week): US 49.7-57.5%; it overrode the haven the plan already held in Feb-Mar 2020 (the plan made +11.6% while
+  SPY fell 19%).
+- Longer haven timers (price break 20 sessions, rule 5 four weeks, all x2 / x3): US 47.2-58.6%.
+- Back into stocks only after the index makes a higher high and a higher low (2-week or 1-month halves, with or
+  without a 3-month cap): US 44.8-49.1%; it re-bought 10-15% higher, after the picks had already turned.
+- An index-trend exit (under the 10-month average): US 33.2-39.6%; abroad 5.8-8.3% (6-month plan) and 8.1-11.1%
+  (12-month plan).

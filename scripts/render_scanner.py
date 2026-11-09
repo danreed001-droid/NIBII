@@ -596,6 +596,7 @@ __EVENTS__
 __PLANCHART__
 __WALLST__
 __FITNESS__
+__WORLD__
   <div class="two" style="margin-top:0">
     <div>
       <p class="section-label">On deck <span class="hint">ranks 6–20 · climbing ▲ / slipping ▼ vs last week · tap one to open its swing chart below it</span></p>
@@ -3839,6 +3840,253 @@ def plan_chart_html(scan):
             .replace('__PCDATA__', json.dumps(data, separators=(',', ':')).replace('</', '<\\/')))
 
 
+WORLD_PATH = os.path.join(ROOT, 'data', 'world_trend.json')
+FITWORLD_PATH = os.path.join(ROOT, 'data', 'market_fitness_world.json')
+WORLD_SECTION = r'''<section id="world"><p class="section-label">World markets <span class="hint">the S&amp;P 500 next to the DAX, the FTSE 100 and seven more, each in its own currency · information only</span></p>
+<div class="card wm">
+  <div class="wm-bar">
+    <span class="seg" id="wm-pre" role="group" aria-label="Range"><button type="button" data-y="1">1Y</button><button type="button" data-y="3">3Y</button><button type="button" data-y="5">5Y</button><button type="button" data-y="10">10Y</button><button type="button" data-y="all">All</button></span>
+    <span class="seg" id="wm-scale" role="group" aria-label="Scale"><button type="button" data-v="linear">Linear</button><button type="button" data-v="log">Log</button><button type="button" data-v="shape" title="Each line stretched to its own low and high in the range, to compare turns">Shape</button><button type="button" data-v="rel" title="Each index divided by the S&amp;P 500: rising means beating it">vs S&amp;P 500</button></span>
+  </div>
+  <div class="legend" id="wm-legend"></div>
+  <div class="wm-wrap"><div class="chart" id="wm-chart"></div></div>
+  <p class="chart-sub" id="wm-note"></p>
+</div>
+__WMTABLE__
+__WMFIT__
+<style>
+#world { --wm-0: #4a8ee0; --wm-1: #e0a43a; --wm-2: #d55181; --wm-3: #9277e6; --wm-4: #3fb8a0; --wm-5: #9aa86a; --wm-6: #e5605a; --wm-7: #f2d03b; --wm-8: #4fd1e8; --wm-9: #c3c2b7; }
+:root[data-mtl-theme="light"] #world { --wm-0: #2a78d6; --wm-1: #b7791f; --wm-2: #c2457a; --wm-3: #6d44d4; --wm-4: #13866f; --wm-5: #6b7a33; --wm-6: #c43232; --wm-7: #8a6d00; --wm-8: #0a8aa3; --wm-9: #52514e; }
+#world .wm-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-bottom: 6px; }
+#world .wm-wrap { position: relative; }
+#world .legend i.ln { width: 16px; height: 3px; border-radius: 2px; background: var(--c); display: inline-block; }
+#world .wl { fill: none; stroke-width: 1.8; stroke-linejoin: round; }
+#world .wl.us { stroke-width: 2.6; }
+#world .wm-x text, #world .wm-y text { font-size: 11px; fill: var(--muted); font-family: ui-monospace, monospace; }
+#world .tablebox { margin-top: 12px; }
+#world td.w { min-width: 150px; white-space: normal; }
+#world td.m { min-width: 220px; max-width: 380px; white-space: normal; font-size: 0.78rem; color: var(--ink-2); }
+#world .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; background: var(--c); margin-right: 6px; vertical-align: -1px; }
+#world .tr-up { color: var(--pos); font-weight: 600; } #world .tr-down { color: var(--neg); font-weight: 600; } #world .tr-mixed { color: var(--muted); font-weight: 600; }
+#world svg.sp { width: 96px; height: 24px; display: block; overflow: visible; }
+#world svg.sp polyline { fill: none; stroke: var(--ink-2); stroke-width: 1.5; }
+#world svg.sp line { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 2 2; }
+</style>
+<script type="application/json" id="wm-data">__WMDATA__</script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); }, NS = 'http://www.w3.org/2000/svg';
+  var P = JSON.parse($('wm-data').textContent), DAY = 864e5;
+  var T = P.d.map(function (d) { return Date.parse(d + 'T12:00:00Z'); });
+  var M = P.markets.map(function (m, j) { m.c = 'var(--wm-' + j + ')'; return m; });
+  var US = M.filter(function (m) { return m.t === '^GSPC'; })[0];
+  var ON = {}; M.forEach(function (m) { ON[m.t] = !!m.on; });
+  var pre = '10', scale = 'log';
+  try { var s = JSON.parse(localStorage.getItem('nibii-wm-on') || 'null'); if (s) for (var k in s) if (k in ON) ON[k] = !!s[k]; pre = localStorage.getItem('nibii-wm-range') || '10'; scale = localStorage.getItem('nibii-wm-scale') || 'log'; } catch (e) {}
+  if (scale === 'rel' && !US) scale = 'log';
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+  function fmt(t) { var d = new Date(t); return MON[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear(); }
+  function pct(v) { if (Math.abs(v) < 0.05) return '0%'; return (v > 0 ? '+' : '−') + Math.abs(v).toFixed(Math.abs(v) < 10 ? 1 : 0) + '%'; }
+  function legend() {
+    $('wm-legend').innerHTML = M.map(function (m) { return '<button type="button" class="lg" data-k="' + m.t + '" aria-pressed="' + String(ON[m.t]) + '"><i class="ln" style="--c:' + m.c + '"></i>' + m.name + '</button>'; }).join('');
+  }
+  function draw() {
+    document.querySelectorAll('#wm-pre button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-y') === pre)); });
+    document.querySelectorAll('#wm-scale button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === scale)); });
+    var i1 = T.length - 1, from = pre === 'all' ? T[0] : T[i1] - (+pre) * 365.25 * DAY, i0 = 0;
+    while (i0 < i1 && T[i0] < from) i0++;
+    var rel = scale === 'rel', shape = scale === 'shape', log = scale === 'log';
+    var ser = M.filter(function (m) { return ON[m.t]; }).map(function (m) {
+      var pts = [], base = null;
+      for (var i = i0; i <= i1; i++) {
+        var v = m.v[i]; if (v == null) continue;
+        if (rel) { if (US.v[i] == null) continue; v = v / US.v[i]; }
+        if (base === null) base = v;
+        pts.push([T[i], v / base * 100, i]);
+      }
+      var mn = Infinity, mx = -Infinity;
+      pts.forEach(function (p) { var l = Math.log(p[1]); mn = Math.min(mn, l); mx = Math.max(mx, l); });
+      pts.forEach(function (p) { p[3] = !shape ? p[1] : mx > mn ? (Math.log(p[1]) - mn) / (mx - mn) * 100 : 50; });
+      return { m: m, pts: pts };
+    }).filter(function (s) { return s.pts.length > 1; });
+    var box = $('wm-chart'); box.innerHTML = '';
+    if (!ser.length) return;
+    var W = Math.max(280, box.clientWidth), H = Math.round(Math.min(340, Math.max(220, W * 0.42))), m = { l: 46, t: 10, b: 24, r: 8 };
+    var lo = Infinity, hi = -Infinity;
+    ser.forEach(function (s) { s.pts.forEach(function (p) { lo = Math.min(lo, p[3]); hi = Math.max(hi, p[3]); }); });
+    var f = log ? Math.log : function (v) { return v; }, ticks = [];
+    if (shape) { lo = 0; hi = 100; ticks = [0, 50, 100]; }
+    else {
+      if (log) { for (var e10 = Math.floor(Math.log10(lo)); e10 <= Math.ceil(Math.log10(hi)); e10++) [1, 2, 5].forEach(function (q) { var v = q * Math.pow(10, e10); if (v >= lo * 0.92 && v <= hi * 1.08) ticks.push(v); }); }
+      if (!log || ticks.length < 3) { ticks = []; var st = Math.pow(10, Math.floor(Math.log10((hi - lo) / 4 || 1))); st = (hi - lo) / st > 20 ? st * 5 : (hi - lo) / st > 8 ? st * 2 : st; for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) ticks.push(v); }
+    }
+    var ya = f(Math.min(lo, ticks[0])), yb = f(Math.max(hi, ticks[ticks.length - 1]));
+    function X(t) { return m.l + (t - T[i0]) / (T[i1] - T[i0] || 1) * (W - m.l - m.r); }
+    function Y(v) { return m.t + (1 - (f(v) - ya) / (yb - ya || 1)) * (H - m.t - m.b); }
+    var svg = el('svg', { width: W, height: H, viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'World stock indexes from ' + fmt(T[i0]) + ' to ' + fmt(T[i1]) });
+    var g = el('g', { class: 'grid' }), ya_ = el('g', { class: 'wm-y' });
+    ticks.forEach(function (v) {
+      g.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }));
+      var tx = el('text', { x: m.l - 6, y: Y(v) + 4, 'text-anchor': 'end' }); tx.textContent = shape ? (v === 100 ? 'High' : v === 0 ? 'Low' : 'Mid') : pct(v - 100); ya_.appendChild(tx);
+    });
+    svg.appendChild(g); svg.appendChild(ya_);
+    if (!shape) svg.appendChild(el('line', { class: 'base', x1: m.l, x2: W - m.r, y1: Y(100), y2: Y(100) }));
+    var xg = el('g', { class: 'wm-x' }), d0 = new Date(T[i0]), d1 = new Date(T[i1]), span = (T[i1] - T[i0]) / (365.25 * DAY);
+    if (span > 2) { var stp = Math.max(1, Math.ceil(span * 40 / (W - m.l - m.r))); for (var yr = d0.getUTCFullYear() + 1; yr <= d1.getUTCFullYear(); yr += 1) { if (yr % stp) continue; var tx = el('text', { x: X(Date.UTC(yr, 0, 1)), y: H - 6, 'text-anchor': 'middle' }); tx.textContent = yr; xg.appendChild(tx); } }
+    else { for (var mo = new Date(Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1)); mo <= d1; mo = new Date(Date.UTC(mo.getUTCFullYear(), mo.getUTCMonth() + (span > 1 ? 3 : 2), 1))) { var tm = el('text', { x: X(mo.getTime()), y: H - 6, 'text-anchor': 'middle' }); tm.textContent = MON[mo.getUTCMonth()] + (mo.getUTCMonth() === 0 ? ' ' + String(mo.getUTCFullYear()).slice(2) : ''); xg.appendChild(tm); } }
+    svg.appendChild(xg);
+    ser.slice().reverse().forEach(function (s) { svg.appendChild(el('path', { class: 'wl' + (s.m.t === '^GSPC' ? ' us' : ''), d: s.pts.map(function (p, j) { return (j ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[3]).toFixed(1); }).join(''), style: 'stroke:' + s.m.c })); });
+    var cross = el('line', { class: 'cross', y1: m.t, y2: H - m.b, visibility: 'hidden' }); svg.appendChild(cross);
+    var dots = ser.map(function (s) { var c = el('circle', { class: 'dotm', r: 4, style: 'fill:' + s.m.c, visibility: 'hidden' }); svg.appendChild(c); return c; });
+    box.appendChild(svg);
+    var tip = $('wm-tip'); if (!tip) { tip = document.createElement('div'); tip.className = 'tip'; tip.id = 'wm-tip'; tip.hidden = true; document.querySelector('#world .wm-wrap').appendChild(tip); }
+    function at(s, i) { var a = 0, b = s.pts.length - 1; if (i < s.pts[0][2]) return null; while (a < b) { var mid = (a + b + 1) >> 1; if (s.pts[mid][2] <= i) a = mid; else b = mid - 1; } return s.pts[a]; }
+    svg.addEventListener('pointermove', function (e) {
+      var r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * W, t = T[i0] + (px - m.l) / (W - m.l - m.r) * (T[i1] - T[i0]);
+      var k = i0; while (k < i1 && T[k + 1] <= t) k++;
+      var sx = X(T[k]); cross.setAttribute('x1', sx); cross.setAttribute('x2', sx); cross.setAttribute('visibility', 'visible');
+      tip.textContent = ''; var hd = document.createElement('div'); hd.textContent = 'Week to ' + fmt(T[k]) + (rel ? ' · vs the S&P 500' : ''); hd.style.marginBottom = '4px'; tip.appendChild(hd);
+      ser.map(function (s, j) { return [s, j, at(s, k)]; }).sort(function (a, b) { return (b[2] ? b[2][1] : -1e9) - (a[2] ? a[2][1] : -1e9); }).forEach(function (x) {
+        var s = x[0], p = x[2], row = document.createElement('div'); row.className = 'row';
+        var key = document.createElement('i'); key.style.setProperty('--c', s.m.c); row.appendChild(key);
+        var b = document.createElement('b'); b.textContent = p ? pct(p[1] - 100) : '–'; row.appendChild(b);
+        row.appendChild(document.createTextNode(' ' + s.m.name)); tip.appendChild(row);
+        if (p) { dots[x[1]].setAttribute('cx', X(p[0])); dots[x[1]].setAttribute('cy', Y(p[3])); dots[x[1]].setAttribute('visibility', 'visible'); } else dots[x[1]].setAttribute('visibility', 'hidden');
+      });
+      tip.hidden = false;
+      var wr = document.querySelector('#world .wm-wrap').getBoundingClientRect(), bx = r.left - wr.left + sx / W * r.width, left = bx + 14;
+      if (left + tip.offsetWidth > wr.width) left = bx - tip.offsetWidth - 14;
+      tip.style.left = Math.max(0, left) + 'px'; tip.style.top = '8px';
+    });
+    svg.addEventListener('pointerleave', function () { tip.hidden = true; cross.setAttribute('visibility', 'hidden'); dots.forEach(function (d) { d.setAttribute('visibility', 'hidden'); }); });
+  }
+  $('wm-pre').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; pre = b.getAttribute('data-y'); try { localStorage.setItem('nibii-wm-range', pre); } catch (x) {} draw(); };
+  $('wm-scale').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; scale = b.getAttribute('data-v'); if (scale === 'rel' && !US) scale = 'log'; try { localStorage.setItem('nibii-wm-scale', scale); } catch (x) {} draw(); };
+  $('wm-legend').onclick = function (e) {
+    var b = e.target.closest('button[data-k]'); if (!b) return;
+    var k = b.getAttribute('data-k'), shown = M.filter(function (m) { return ON[m.t]; }).length;
+    if (ON[k] && shown <= 1) return;
+    ON[k] = !ON[k]; try { localStorage.setItem('nibii-wm-on', JSON.stringify(ON)); } catch (x) {}
+    legend(); draw();
+  };
+  $('wm-note').textContent = 'Weekly closes of each stock index as % change from the start of the range, in its own currency and without dividends (price indexes; the DAX already includes them). Log: the same % move is the same height early and late. Shape: each line stretched to its own low and high in the range, to compare turns. vs S&P 500: each index divided by the S&P 500, so a rising line is beating it. Tap the names to add or remove markets; hover or tap for the week. Prices to ' + fmt(T[T.length - 1]) + '.';
+  legend(); draw();
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(draw, 150); });
+})();
+</script>
+</section>
+'''
+WM_TREND = {'up': ('Up', 'above a rising 200-day average'), 'down': ('Down', 'below a falling 200-day average'),
+            'mixed': ('Mixed', 'the 200-day average and the price disagree')}
+WM_CHOICE = {'plan': 'the full plan', 'pick': 'a simple 12-month pick', 'index': 'the index'}
+
+
+def _wm_pc(x, d=1):
+    return '–' if x is None else f'<span class="{"pos" if x > 0 else "neg" if x < 0 else ""}">{x * 100:+.{d}f}%</span>'
+
+
+def _wm_table(W):
+    """The trend table under the world chart: one row per index."""
+    ms = [m for m in W.get('markets') or [] if m.get('trend')]
+    if not ms:
+        return ''
+    us = next((m['trend'] for m in ms if m['t'] == '^GSPC'), None)
+    rows = []
+    for j, m in enumerate(W['markets']):
+        tr = m.get('trend')
+        if not tr:
+            continue
+        lab, why = WM_TREND.get(tr.get('trend'), ('–', ''))
+        vs = None if not us or tr.get('m12') is None or us.get('m12') is None or m['t'] == '^GSPC' else (1 + tr['m12']) / (1 + us['m12']) - 1
+        rows.append(f'<tr><td class="l w"><i class="sw" style="--c:var(--wm-{j})"></i><b>{_e(m["name"])}</b> <span class="muted">{_e(m["country"])}</span></td>'
+                    f'<td class="l"><span class="tr-{_e(tr.get("trend"))}" title="{_e(why)}">{lab}</span></td>'
+                    f'<td class="num hide-sm">{_wm_pc(tr.get("m1"))}</td><td class="num">{_wm_pc(tr.get("m6"))}</td><td class="num">{_wm_pc(tr.get("m12"))}</td>'
+                    f'<td class="num">{"–" if m["t"] == "^GSPC" else _wm_pc(vs)}</td><td class="num hide-sm">{_wm_pc(tr.get("vsMa"))}</td><td class="num hide-sm">{_wm_pc(tr.get("offHigh"))}</td></tr>')
+    return ('<div class="tablebox"><table><thead><tr><th class="l">Index</th><th class="l">Trend</th><th class="hide-sm">1 month</th><th>6 months</th><th>12 months</th>'
+            '<th>12 months vs S&amp;P 500</th><th class="hide-sm">vs 200-day avg</th><th class="hide-sm">Off 1-year high</th></tr></thead><tbody>' + ''.join(rows) + '</tbody></table></div>'
+            '<p class="note">Trend: <b>Up</b> above a rising 200-day average, <b>Down</b> below a falling one, <b>Mixed</b> otherwise. '
+            '12 months vs S&amp;P 500: how far the index is ahead of (+) or behind (−) the S&amp;P 500 over the year, each in its own currency.</p>')
+
+
+def _wm_spark(vals):
+    """A small line of one market's good doublers a month by review year, scaled to its own range."""
+    pts = [(y, v) for y, v in vals if v is not None]
+    if len(pts) < 2:
+        return ''
+    lo, hi = min(v for _, v in pts), max(v for _, v in pts)
+    n = len(pts) - 1
+    xy = ' '.join(f'{2 + i / n * 92:.1f},{22 - (0.5 if hi == lo else (v - lo) / (hi - lo)) * 20:.1f}' for i, (_, v) in enumerate(pts))
+    title = ' · '.join(f'{y}: {v:.1f}' for y, v in pts)
+    return f'<svg class="sp" viewBox="0 0 96 24" role="img" aria-label="{_e(title)}"><title>{_e(title)}</title><polyline points="{xy}"/></svg>'
+
+
+def _wm_fit(F):
+    """The runner-quality table: the latest yearly market-fitness readings of each market."""
+    ms = F.get('markets') or []
+    if not ms:
+        return ''
+    gate, good = F.get('gate', 0.25), F.get('good', 2.0)
+    p0 = lambda x: '–' if x is None else f'{x * 100:.0f}%'
+    rows, yr = [], None
+    for m in ms:
+        rv = m.get('reviews') or []
+        if not rv:
+            continue
+        r = rv[-1]; yr = yr or r.get('year')
+        n = 500 if m['k'] == 'US' else m.get('stocks')
+        per = None if not n or r.get('good') is None else r['good'] / n * 100
+        gb = r.get('giveBack')
+        gcls = 'neg' if gb is not None and gb > gate else ''
+        ok = (r.get('good') or 0) >= good
+        rows.append(f'<tr><td class="l w"><b>{_e(m["country"])}</b> <span class="muted">{_e(m["index"])}</span></td>'
+                    f'<td class="num"><b class="{"pos" if ok else ""}">{r.get("good", 0):.1f}</b></td>'
+                    f'<td class="num">{"–" if per is None else f"{per:.1f}"}</td>'
+                    f'<td class="num"><b class="{gcls}">{p0(gb)}</b></td>'
+                    f'<td class="num hide-sm">{p0(r.get("spike"))}</td>'
+                    f'<td class="l">{_e(WM_CHOICE.get(r.get("choice"), "–"))}</td>'
+                    f'<td class="hide-sm">{_wm_spark([(x.get("year"), x.get("good")) for x in rv if (x.get("year") or 0) >= 2012])}</td></tr>')
+    if not rows:
+        return ''
+    return ('<p class="section-label" style="margin-top:14px">Runner quality by market <span class="hint">the market-fitness readings of the '
+            f'S&amp;P 500 above, for each market · {yr} review, from the {F.get("win", 7)} years before it · information only</span></p>'
+            '<div class="tablebox"><table><thead><tr><th class="l">Market</th><th>Good doublers a month</th><th>Per 100 stocks</th><th>Runner quality (give-back)</th>'
+            '<th class="hide-sm">Spikiness</th><th class="l">Review points to</th><th class="hide-sm">Good doublers by year</th></tr></thead><tbody>' + ''.join(rows) + '</tbody></table></div>'
+            f'<p class="note"><b>Good doublers a month</b>: stocks that doubled over a year and kept at least half the gain over the next 6 months, on average a month; '
+            f'{good:g} or more is enough for the full plan, fewer points to a simple 12-month pick. <b>Per 100 stocks</b>: the same, for a list of 100, so a 40-stock market can be compared with the S&amp;P 500. '
+            f'<b>Runner quality</b>: the share of doublers that gave back half their gain within 6 months; above {p0(gate)} (red), picking stocks is not trusted and the review points to the index. '
+            '<b>Spikiness</b>: the share of a doubler\'s gain made on its 5 biggest days. The line: good doublers a month at each yearly review since 2012, on its own scale (hover for the numbers). '
+            'The S&amp;P 500 uses its real member lists at each date; the other markets use their current members, so stocks that left those indexes are missing and their give-back reads a little better than it was. '
+            'Prices in local currency. Built from the backtest data; refreshed when that data is.</p>')
+
+
+def world_html():
+    """The world markets section (WORLD_SECTION): the index chart and trend table from data/world_trend.json and the
+    runner-quality table from data/market_fitness_world.json, or '' without either file."""
+    try:
+        with open(WORLD_PATH) as f:
+            W = json.load(f)
+    except (OSError, ValueError):
+        W = None
+    try:
+        with open(FITWORLD_PATH) as f:
+            F = json.load(f)
+    except (OSError, ValueError):
+        F = None
+    if not W or not W.get('markets'):
+        if not F:
+            return ''
+        return '<section id="world">' + _wm_fit(F).replace('style="margin-top:14px"', '', 1) + '</section>'
+    try:
+        tbl, fit = _wm_table(W), (_wm_fit(F) if F else '')
+    except Exception as e:   # information only: a bad file must not stop the page
+        print(f'  world section skipped: {e}', file=sys.stderr)
+        return ''
+    data = dict(d=W['d'], markets=[dict(t=m['t'], name=m['name'], country=m['country'], on=m.get('on'), v=m['v']) for m in W['markets']])
+    return (WORLD_SECTION.replace('__WMTABLE__', tbl, 1).replace('__WMFIT__', fit, 1)
+            .replace('__WMDATA__', json.dumps(data, separators=(',', ':')).replace('</', '<\\/'), 1))
+
+
 def render(scan, growth=None):
     scan = with_track_record(scan)
     # Escape "</" so a company name can never close the <script> block early.
@@ -3846,6 +4094,7 @@ def render(scan, growth=None):
     page = page.replace('__PLANCHART__', plan_chart_html(scan), 1)
     page = page.replace('__WALLST__', wallst_html(), 1)
     page = page.replace('__FITNESS__', fitness_html(), 1)
+    page = page.replace('__WORLD__', world_html(), 1)
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
