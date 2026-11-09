@@ -573,8 +573,8 @@ def test_strategy_lab_runs_the_live_plans_own_rules():
     spec.loader.exec_module(ms)
     cal = ['2026-10-14', '2026-10-15', '2026-10-16']
     prices = {'SPY': {d: 100.0 for d in cal}, 'A': {d: 10.0 for d in cal}}
-    assert set(ms.plan_exits(prices, {}, cal)) == {'hold_exit', 'buy_when', 'buy_max_rank'}
-    assert set(ms.plan_exits(prices, {}, cal, fade=False)) == {'hold_exit'}     # the list the whipsaw counts sales on
+    assert set(ms.plan_exits(prices, {}, cal)) == {'hold_exit', 'buy_when', 'buy_max_rank', 'reorder'}   # reorder: rule 21
+    assert set(ms.plan_exits(prices, {}, cal, fade=False)) == {'hold_exit', 'reorder'}     # the list the whipsaw counts sales on
     with open(os.path.join(here, '..', 'scripts', 'backtest_strategies.py')) as f:
         src = f.read()
     assert 'plan_overlay(' in src and 'plan_exits(' in src

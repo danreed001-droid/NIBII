@@ -700,3 +700,42 @@ New markets (Nov 8, 2026; today's members; dividends estimated for the price ind
 plan 9.4% a year from 2005, simple 12-month pick 10.5%, all members equal weight 11.4%, index 7.7%; Italy (FTSE MIB, 40)
 9.3% / 18.5% (worst drop -18%) / 9.6% / 7.0%; Sweden (OMX Stockholm 30, from 2010) 3.8% / 14.0% / 16.6% / 11.0%. All three
 are thin markets (typically 0 doublers); only Italy's pick clearly beat holding all members.
+
+## Crash-rebound ranking (rule 21, default since Nov 9, 2026)
+
+About 650 S&P 500 stocks doubled within a year in 2001-2025 (members as of each date, $5+). Most started as
+beaten-down, volatile, low-priced stocks right after a crash: 9.2% of members doubled over the next 12 months when SPY
+was 30%+ under its 1-year high, 0.9% when it was within 5% of it; volatility, beta, a recent big one-day gain, a deep
+fall from the high and a low share price were the strongest traits, while the 6-month change (the plan's ranking) was
+weak. The plan held 80% of the doublers that started as 6-month leaders but only 20% of the crash rebounders. The rule
+(mtl/crashrank.py): within 126 sessions of SPY closing 30%+ under its 1-year high, while SPY is above its 50-day
+average, the 10 stocks with the best rebound score (the average of their percentiles for high 3-month volatility, depth
+under their own 1-year high and low share price) go to the front of the ranking and count as qualified; the rest keep
+the plan's order and every other rule works as before.
+
+| Version (strict test, real member lists) | 2000 | 2010 | 2016 | 2020 | Worst drop | Sharpe | After tax |
+|---|---|---|---|---|---|---|---|
+| 30% crash, SPY above its 50-day average (adopted) | 60.4% | 61.9% | 82.0% | 122.5% | -25% | 1.59 | 37.7% |
+| 20% crash, SPY above its 50-day average | 60.7% | 60.3% | 80.4% | 119.4% | -25% | 1.59 | 37.9% |
+| 20% crash, at most 2 rebound picks | 59.4% | 59.6% | 79.3% | 117.4% | -25% | 1.64 | 36.9% |
+| 20% crash, no wait for SPY to turn up | 58.9% | 60.0% | 80.0% | 118.6% | -35% | 1.53 | 36.8% |
+| Before (v12) | 54.9% | 59.4% | 79.0% | 116.7% | -25% | 1.60 | 34.2% |
+
+The adopted version changes 6 years: 2009 +93.9 points, 2020 +53.9, 2003 +35.8, 2001 +27.0, 2010 +10.7 and 2002
+-12.6 (t-stat 1.5). It was on about 8% of the sessions (late 2001 to 2003, the 2009 rebound, spring-summer 2020).
+Without the turn-up check it bought into falling bear markets (2002, 2022) and the worst drop reached -35% to -45%; the
+20% versions also fired in 2022 and lost 45 points there. An early run of these tests was wrong: the new code reused a
+variable name another rule (the market-filter exit) reads, so a version that never switched on still differed; with the
+names fixed, never-on versions match the plan exactly.
+
+Abroad (UK, Germany, France, Canada, Australia, Hong Kong, Spain, Italy, Sweden; 2005-2026; today's members; the local
+index for SPY; the rule never acts in Spain, Italy or Sweden, which have too few stocks to rank): on the 6-month plan
+every version raised the average return (to 10.1-11.2% a year from 9.8%) but deepened the average worst drop by
+0.3-1.7 points, Germany's 2008-09 false bottoms the worst case (-50% to -65%). On the 12-month plan with the times
+doubled (SPY above its 100-day average, a 252-session window, settings(252)) the 30% version made 13.4% a year vs
+12.6%, better in 5 markets and worse in 1 (Hong Kong), worst drop -38.7% vs -38.8% (Germany 10.6% vs 10.2%).
+
+Wall Street tests (daily curve): 60.3% a year (37.8% after tax) vs 54.7%, Sharpe 1.58 either way, Sortino 2.57 vs
+2.50, Calmar 2.39 vs 2.17, worst drop -25.2% either way, worst 3 years +19.0% a year vs +17.6%, but 22 drops of 15%+
+vs 15 and an alpha t-stat of 5.9 vs 7.0; Monte Carlo typical 57.4% over 20 years, beats v12 75 / 87 / 95% (5 / 10 /
+20 years). Most of the gain is in three episodes (2003, 2009, 2020): on probation.
