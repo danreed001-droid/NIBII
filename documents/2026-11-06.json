@@ -338,7 +338,7 @@
       [
        "bull",
        "structure.hourly reads uptrend for ES=F on 6 November",
-       false
+       true
       ],
       [
        "neu",
@@ -393,19 +393,19 @@
       [
        "bull",
        "Cross-asset on 6 November (news log): S&P 500 7,376.86 (+0.31%), VIX 25.64 (-9.0%), Russell +0.89%, Nasdaq +1.09% - partial recovery from Thursday's rout, though Dow -0.46% and yields rose",
-       false
+       true
       ],
       [
        "bull",
        "1H structure is uptrend - last labeled swings: HL/HH/HL/HH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 7462.25,
-     "ret": 0.007867,
-     "correct": true,
-     "shadowCorrect": false,
-     "preReversionCorrect": true,
+     "maturityClose": 7557.0,
+     "ret": 0.020665,
+     "correct": false,
+     "shadowCorrect": true,
+     "preReversionCorrect": false,
      "settlementNote": "graded against ES=F",
      "provisional": true
     },
@@ -2485,8 +2485,8 @@
        null
       ]
      ],
-     "maturityClose": 107.265625,
-     "ret": 0.001313,
+     "maturityClose": 106.953125,
+     "ret": -0.001604,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5064,8 +5064,8 @@
        false
       ]
      ],
-     "maturityClose": 4136.7998046875,
-     "ret": 0.014046,
+     "maturityClose": 4129.10009765625,
+     "ret": 0.012158,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7127,8 +7127,8 @@
        null
       ]
      ],
-     "maturityClose": 101.80699920654297,
-     "ret": -0.004615,
+     "maturityClose": 101.91799926757812,
+     "ret": -0.00353,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9330,8 +9330,8 @@
        null
       ]
      ],
-     "maturityClose": 2801.800048828125,
-     "ret": 0.014704,
+     "maturityClose": 2830.199951171875,
+     "ret": 0.024989,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11215,7 +11215,7 @@
       [
        "bull",
        "structure.hourly reads uptrend for NQ=F on 6 November",
-       false
+       true
       ],
       [
        "neu",
@@ -11255,7 +11255,7 @@
       [
        "bull",
        "Chip earnings/guidance tailwinds on 6 November (news log): Lam Research +10.9% on a $25B buyback, IREN +19-20% on AI-cloud revenue $200M vs $71M; NVDA +4.1%, AMD +7.9%, MU +7.6% premarket after Thursday's rout; offset by software/consumer misses (TEAM -16%, DKNG -24.5%)",
-       false
+       true
       ],
       [
        "neu",
@@ -11270,19 +11270,19 @@
       [
        "bull",
        "Cross-asset on 6 November (news log): Nasdaq Composite +1.09%, VIX -9.0%, chips extending their bounce into the close",
-       false
+       true
       ],
       [
        "bull",
        "1H structure is uptrend - last labeled swings: HL/HH/HH/HL.",
-       false
+       true
       ]
      ],
-     "maturityClose": 27316.75,
-     "ret": 0.007719,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 27945.5,
+     "ret": 0.030914,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against NQ=F",
      "provisional": true
     },
