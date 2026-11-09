@@ -53,7 +53,7 @@ from mtl.pricebreak import apply_pricebreak, break_days, hold_days, pricebreak_s
 from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
-from mtl import candle, fedday, fedday_check, reentry_note, stretchwarn  # noqa: E402
+from mtl import candle, candlepat, fedday, fedday_check, reentry_note, stretchwarn  # noqa: E402
 from mtl import crashrank, earnjump, hotcomm, jobwarn, nearhigh, runup, volsell, volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
@@ -321,8 +321,12 @@ def chart_data(bs, sessions=90):
         if b[0] >= first and date.fromisoformat(b[0]).weekday() == 4:
             part = [(x[0],) + tuple(x[1:]) for x in bs[max(0, j + 1 - 320):j + 1]]
             fridays.append([b[0], STATE[structure_signal(part, n=3, lookback=2)['state']]])
+    # candlestick patterns completing in the window (read with the 25 sessions before it) and tonight's candle
+    # noise over the last 21 sessions (mtl/candlepat.py, information only)
+    pre = [(x[0], x[1], x[2], x[3], x[4]) for x in bs[-(sessions + 25):]]
+    pats = [p_ for p_ in candlepat.patterns(pre) if p_[0] >= first]
     return dict(c=[[b[0], round(b[1], 2), round(b[2], 2), round(b[3], 2), round(b[4], 2)] for b in window],
-                sw=swings, fri=fridays, now=STATE[sig['state']])
+                sw=swings, fri=fridays, now=STATE[sig['state']], pt=pats, nz=candlepat.noise(pre))
 
 
 def r4s(st):
@@ -894,8 +898,8 @@ def main():
                             STATE[structure_signal(daily, n=3, lookback=2)['state']]]
         if detail:
             out['spark'] = [r4(b[4]) for b in bs[-130:]][::3]
-        if detail == 'chart':
-            out['chart'] = chart_data(bs)
+        if detail in ('chart', 'chart12'):   # holdings get 12 months of candles, the ranked list 90 sessions
+            out['chart'] = chart_data(bs, 252 if detail == 'chart12' else 90)
         return out
 
     # ranks 1-20 carry the swing chart (on-deck cards open it); the next few keep a sparkline
@@ -909,7 +913,7 @@ def main():
     else:
         wnow = r['weights'][-1][1]
     for t in shown:
-        h = row(t, detail='chart')
+        h = row(t, detail='chart12')
         h['w'] = r4(wnow.get(t))
         if t not in holdings:
             h['new'] = True
@@ -1328,7 +1332,7 @@ def main():
     vw_by = {x_['t']: x_ for x_ in auto['boostx']['vw']['stocks']}
     plan_rows = []
     for t_ in vw_list:
-        h_ = row(t_, detail='chart')
+        h_ = row(t_, detail='chart12')
         h_['w'], h_['buying'] = vw_by.get(t_, {}).get('w'), vw_by.get(t_, {}).get('buying')
         h_['earnHit'] = bool((vw_by.get(t_, {}).get('earn') or {}).get('hit'))
         if signal_day and t_ not in hold_bx:

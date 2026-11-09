@@ -173,6 +173,12 @@ __DOMCSS__
 .swhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
 .swhead h3 { margin: 0; font: 600 1.05rem "Space Grotesk", system-ui, sans-serif; }
 .swhead .x { font: inherit; font-size: 0.8rem; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink-2); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.swpat { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font-size: 0.78rem; color: var(--ink-2); margin: 6px 0 2px; }
+.swpat label { max-width: 100%; }
+.swpat select { max-width: min(260px, 62vw); font: inherit; padding: 2px 6px; border-radius: 8px; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink); }
+.swpat .nzread.hot b { color: var(--neg); }
+.swpat .ptkey { color: var(--muted); }
+.ptl { font: 600 9px ui-monospace, monospace; }
 .swread { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; }
 .swread.up { background: color-mix(in srgb, var(--pos) 18%, transparent); color: var(--pos); }
 .swread.down { background: color-mix(in srgb, var(--neg) 18%, transparent); color: var(--neg); }
@@ -1600,6 +1606,24 @@ __ISSUES__
   var HB = {}; D.table.forEach(function (r) { if (r.chart) HB[r.t] = r; }); D.holdings.concat(D.planHoldings || []).forEach(function (h) { if (h.chart) HB[h.t] = h; });
   var openT = {};   // panel id -> ticker shown
   function svgEl(tag, a, txt) { var e = el(tag, a); if (txt != null) e.textContent = txt; return e; }
+  // candlestick patterns (mtl/candlepat.py) on the swing charts: a selector, the markers, and the candle-noise reading
+  var PTN = { BE: 'Bullish engulfing', SE: 'Bearish engulfing', HM: 'Hammer', SS: 'Shooting star', DJ: 'Doji', MS: 'Morning star', ES: 'Evening star', WS: 'Three white soldiers', BC: 'Three black crows', RE: 'Re-entry (two red lows, then a close above both opens)' };
+  var PTBULL = { BE: 1, HM: 1, MS: 1, WS: 1, RE: 1 }, PTBEAR = { SE: 1, SS: 1, ES: 1, BC: 1 };
+  var PTSEL = 'all';
+  try { PTSEL = localStorage.getItem('nibii-pt') || 'all'; } catch (e) {}
+  function ptShown(code) { return PTSEL === 'all' || (PTSEL === 'bull' && PTBULL[code]) || (PTSEL === 'bear' && PTBEAR[code]) || PTSEL === code; }
+  function ptBar(C) {
+    if (!C.pt) return '';
+    var opts = [['all', 'All patterns'], ['bull', 'Bullish only'], ['bear', 'Bearish only'], ['none', 'None']].concat(Object.keys(PTN).map(function (k) { return [k, PTN[k]]; }));
+    var cnt = {}; C.pt.forEach(function (p) { cnt[p[1]] = (cnt[p[1]] || 0) + 1; });
+    var sel = '<select class="ptsel" aria-label="Candle patterns">' + opts.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === PTSEL ? ' selected' : '') + '>' + o[1] + (cnt[o[0]] ? ' (' + cnt[o[0]] + ')' : '') + '</option>'; }).join('') + '</select>';
+    var N = C.nz, nz = '';
+    if (N) {
+      var hot = N.flips >= 0.65 || N.wick >= 0.6 || (N.eff != null && N.eff <= 0.08);
+      nz = '<span class="nzread' + (hot ? ' hot' : '') + '" title="Last 21 sessions. Flips: share of days whose move reverses the day before (the choppiest tenth of S&amp;P 500 stocks read 65%+). Wick: share of each day\'s range that is wick (choppiest tenth 62%+). Net: the net move over the sum of daily moves (lowest tenth 4% or less).">Candle noise, 21 sessions: flips <b>' + Math.round(N.flips * 100) + '%</b> · wick <b>' + (N.wick == null ? '–' : Math.round(N.wick * 100) + '%') + '</b> · net <b>' + (N.eff == null ? '–' : Math.round(N.eff * 100) + '%') + '</b>' + (hot ? ' · choppy' : '') + '</span>';
+    }
+    return '<div class="swpat"><label>Candle patterns ' + sel + '</label>' + nz + '<span class="ptkey">Green dot under a candle: a bullish pattern; red over it: bearish; grey: doji. Hover a day for the names.</span></div>';
+  }
   function drawSwing(t, pid) {
     var h = HB[t], C = h.chart, panel = $(pid || 'swpanel');
     var READ = { up: ['up', 'Uptrend'], down: ['down', 'Downtrend'], chop: ['chop', 'Mixed'] };
@@ -1607,11 +1631,13 @@ __ISSUES__
     var A = D.plan && D.plan.auto, counts = A && A.down.indexOf(t) >= 0;
     panel.innerHTML = '<div class="swhead"><div><h3>' + esc(t) + ' · daily swings <span class="swread ' + rd[0] + '">' + rd[1] + ' now</span></h3>' +
       '<p class="chart-sub">' + esc(h.n) + ' · last ' + C.c.length + ' sessions · ▼ swing high, ▲ swing low</p></div>' +
-      '<button type="button" class="x">Close</button></div><div class="swchart"></div>' +
+      '<button type="button" class="x">Close</button></div>' + ptBar(C) + '<div class="swchart"></div>' +
       '<p class="swnote">A swing high is the highest high of 7 days (3 before, 3 after), so it is only known 3 days later; lows likewise. ' +
       '<b>HH/LH</b> = higher/lower than the previous swing high, <b>HL/LL</b> = vs the previous swing low. Down = the last two swings are both LH/LL; up = both HH/HL; otherwise mixed. ' +
       (counts ? '<b>This holding is in a downtrend at the signal close and counts toward the auto mix (each one down moves 20% to the sleeve: 1 → 80/20, 2 → 60/40, 3+ → 40/60).</b>' : 'The auto mix moves 20% to the sleeve for each holding that reads down at Friday’s close (1 → 80/20, 2 → 60/40, 3+ → 40/60).') + '</p>';
     panel.querySelector('.x').onclick = function () { closeSwing(panel.id); };
+    var ps = panel.querySelector('.ptsel');
+    if (ps) ps.onchange = function () { PTSEL = ps.value; try { localStorage.setItem('nibii-pt', PTSEL); } catch (e) {} drawSwing(t, panel.id); };
     var box = panel.querySelector('.swchart'), W = Math.max(300, box.clientWidth), PH = Math.round(Math.min(340, Math.max(220, W * 0.42))), SH = 26, H = PH + SH + 26;
     var m = { l: 52, r: 10, t: 22, b: 8 }, n = C.c.length, step = (W - m.l - m.r) / n;
     var lo = Infinity, hi = -Infinity; C.c.forEach(function (b) { lo = Math.min(lo, b[3]); hi = Math.max(hi, b[2]); });
@@ -1633,6 +1659,15 @@ __ISSUES__
       var y0 = Y(Math.max(b[1], b[4])), y1 = Y(Math.min(b[1], b[4]));
       svg.appendChild(el('rect', { x: x - bw / 2, y: y0, width: bw, height: Math.max(1, y1 - y0), rx: Math.min(1.5, bw / 3), style: 'fill:' + col }));
     });
+    if (C.pt && PTSEL !== 'none') {
+      var ptAt = {};
+      C.pt.forEach(function (p) { if (p[0] in idx && ptShown(p[1])) (ptAt[p[0]] = ptAt[p[0]] || []).push(p[1]); });
+      Object.keys(ptAt).forEach(function (d) {
+        var i = idx[d], b = C.c[i], x = X(i), cs = ptAt[d], bull = cs.filter(function (c) { return PTBULL[c]; }), bear = cs.filter(function (c) { return PTBEAR[c]; }), dj = cs.indexOf('DJ') >= 0;
+        if (bull.length) { svg.appendChild(el('circle', { class: 'ptm', cx: x, cy: Y(b[3]) + 9, r: 3, style: 'fill:var(--pos)' })); if (step >= 6) svg.appendChild(svgEl('text', { class: 'ptl', x: x, y: Y(b[3]) + 21, 'text-anchor': 'middle', style: 'fill:var(--pos)' }, bull.join(' '))); }
+        if (bear.length || dj) { var col = bear.length ? 'var(--neg)' : 'var(--muted)'; svg.appendChild(el('circle', { class: 'ptm', cx: x, cy: Y(b[2]) - 9, r: 3, style: 'fill:' + col })); if (step >= 6) svg.appendChild(svgEl('text', { class: 'ptl', x: x, y: Y(b[2]) - 15, 'text-anchor': 'middle', style: 'fill:' + col }, bear.concat(dj ? ['DJ'] : []).join(' '))); }
+      });
+    }
     var labelAll = step >= 7, sws = C.sw.filter(function (s) { return s.d in idx; });
     sws.forEach(function (s, j) {
       var x = X(idx[s.d]), isH = s.k === 'h', down = s.l === 'LH' || s.l === 'LL', col = down ? 'var(--neg)' : 'var(--pos)';
@@ -1660,6 +1695,8 @@ __ISSUES__
       var r = svg.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width * W, i = Math.max(0, Math.min(n - 1, Math.floor((sx - m.l) / step))), b = C.c[i];
       cross.setAttribute('x1', X(i)); cross.setAttribute('x2', X(i)); cross.setAttribute('visibility', 'visible');
       var sw = C.sw.filter(function (s) { return s.d === b[0]; }).map(function (s) { return s.l; }).join(' ');
+      var pts = (C.pt || []).filter(function (p) { return p[0] === b[0]; }).map(function (p) { return PTN[p[1]] || p[1]; }).join(', ');
+      if (pts) sw = (sw ? sw + ' · ' : '') + pts;
       tip.innerHTML = '<div style="margin-bottom:3px">' + fmtDate(b[0], { weekday: 'short', month: 'short', day: 'numeric' }) + (sw ? ' · <b>' + sw + '</b>' : '') + '</div>' +
         '<div class="row">O <b>' + b[1].toFixed(2) + '</b> H <b>' + b[2].toFixed(2) + '</b></div><div class="row">L <b>' + b[3].toFixed(2) + '</b> C <b>' + b[4].toFixed(2) + '</b></div>';
       tip.hidden = false; var bx = X(i) / W * r.width, left = bx + 12; if (left + tip.offsetWidth > r.width) left = bx - tip.offsetWidth - 12;
