@@ -115,9 +115,9 @@ def build(plan_history, fresh, entries, sizes=None):
         # each basket's market size at each week, for the page's 'market size' option; the quarter-end anchors are
         # looked up on the trading calendar (the last session on or before them)
         cal = {}
-        for k in ('s', 'g'):
+        for k in ('s', 'g', 'b'):
             col_, last_ = {}, None
-            qd = sorted({x[0] for x in sizes['stocks']} | set(weeks))
+            qd = sorted({x[0] for x in sizes['stocks']} | {x[0] for x in sizes['bonds']} | set(weeks))
             ks = sorted(ff[k])
             for d in qd:
                 j = bisect_right(ks, d) - 1
@@ -157,8 +157,10 @@ def gold_spot(gld, d):
 
 def market_sizes(weeks, closes, M):
     """Each basket's market size in $ billions at each week (vs / vb / vg / vf / vc), from M (data/market_sizes.json):
-    stocks = the last quarter-end value carried by SPY's move since; bonds and cash = linear between quarter ends (flat
-    after the last); gold = above-ground tonnes x the gold price from GLD; futures = the industry's year-end assets."""
+    stocks = the last quarter-end value carried by SPY's move since; bonds = the debt (linear between quarter ends, flat
+    after the last) moved by 3/8 of TLT's price change since the last quarter end (the whole Treasury market's duration is
+    about 6 years against TLT's 16), so a bond rally or sell-off shows as value gained or lost; cash = linear between
+    quarter ends; gold = above-ground tonnes x the gold price from GLD; futures = the industry's year-end assets."""
     st = [tuple(x) for x in M['stocks']]
     sd = [x[0] for x in st]
     out = {'vs': [], 'vb': [], 'vg': [], 'vf': [], 'vc': []}
@@ -170,7 +172,13 @@ def market_sizes(weeks, closes, M):
         else:
             v = _interp(st, d)
         out['vs'].append(round(v, 1) if v is not None else None)
-        out['vb'].append(round(_interp([tuple(x) for x in M['bonds']], d), 1))
+        bd = [x[0] for x in M['bonds']]
+        jb = bisect_right(bd, d) - 1
+        bv = _interp([tuple(x) for x in M['bonds']], d)
+        b0, b1 = (closes['b'].get(bd[jb]) if jb >= 0 else None), closes['b'].get(d)
+        if b0 and b1:
+            bv *= (b1 / b0) ** 0.375
+        out['vb'].append(round(bv, 1))
         out['vc'].append(round(_interp([tuple(x) for x in M['cash']], d), 1))
         t = _interp([tuple(x) for x in M['gold_tonnes']], d)
         out['vg'].append(round(t * OZ_PER_TONNE * gold_spot(g, d) / 1e9, 1) if g else None)

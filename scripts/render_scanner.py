@@ -4178,7 +4178,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
   <li><b>Airflow</b>: money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
   <li><b>Dots</b>: the box holds a fixed number of dots, the money. Each cloud holds its share (shown next to its name); when money moves, dots fly from one cloud to another and change colour on the way. Bubbles shows solid circles with airflow; Both draws each cloud inside its bubble.</li>
   <li><b>Size by RSI or 52-week range</b>: clouds and bubbles shrink toward nothing at RSI 0 or the 52-week low and grow toward RSI 100 or the 52-week high (52 weeks of weekly closes). Cash sits in the middle.</li>
-  <li><b>Size by market size</b>: each basket at the size of its whole market, in dollars: stocks = the market value of corporate stock (Federal Reserve Z.1); bonds = US federal debt held by the public; gold = all above-ground gold (World Gold Council tonnes, approximate) at the gold price; managed futures = the industry's assets (BarclayHedge, approximate, so it is a speck); cash = money market funds. Quarterly figures from FRED (data/market_sizes.json), with stocks and gold moving with SPY and GLD in between.</li>
+  <li><b>Size by market size</b>: each basket at the size of its whole market, in dollars, and the flows become dollars too: every dot is the same amount of money, a market that lost value sends its dots to the ones that gained, losses nobody gained fly out of the box (that value is gone), and gains bigger than everyone's losses come in from the edge (new value). Sizes: stocks = the market value of corporate stock (Federal Reserve Z.1); bonds = US federal debt held by the public, moved by 3/8 of TLT's price change since the last quarter end (the whole Treasury market is about that much less sensitive to rates than TLT's long bonds); gold = all above-ground gold (World Gold Council tonnes, approximate) at the gold price; managed futures = the industry's assets (BarclayHedge, approximate, so it is a speck); cash = money market funds. Quarterly figures from FRED (data/market_sizes.json), with stocks and gold moving with SPY and GLD in between.</li>
   <li><b>RSI flow</b>: RSI above 50 draws money in, below 50 sends it out (daily: 14-day RSI at the week's close; weekly: 14-week RSI). Cash is the sidelines: money leaves it when most are above 50 and piles into it when most are below. Bubble size follows RSI too.</li>
   <li><b>1-week flow in red</b>: red streaks from the ones that fell last week to the ones that rose (or to cash if none rose), over whichever flow is showing; a solid red ring marks the week's big winners, a dashed one its big losers.</li>
   <li><span class="fb-sw" style="--c:var(--pc-stocks);margin-left:0"></span>stocks (SPY)<span class="fb-sw" style="--c:var(--pc-bonds)"></span>long bonds (TLT)<span class="fb-sw" style="--c:var(--pc-gold)"></span>gold (GLD)<span class="fb-sw" style="--c:var(--pc-futures)"></span>managed futures (DBMF, from May 2019)<span class="fb-sw" style="--c:var(--pc-cash)"></span>cash. Flows follow price moves, not fund-flow data, and the plan does not act on them (tested as a stocks / haven switch and as the haven picker: neither beat it).</li>
@@ -4215,7 +4215,7 @@ FLOWBOX_JS = r"""(function () {
   var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cv = $('fb-cv'), cx = cv.getContext('2d'), CS;
-  var t = Math.max(13, N - 260), playing = false, speed = 5, mode = 'mom', red = false, sizeBy = 'share', look = 'dots', swarm = [], frameNo = 0, parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
+  var t = Math.max(13, N - 260), playing = false, speed = 5, mode = 'mom', red = false, sizeBy = 'share', look = 'dots', swarm = [], frameNo = 0, swarmKey = '', PER = 0, parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
   var trail = document.createElement('canvas');
   try { speed = +(localStorage.getItem('nibii-flow-speed') || 5); mode = localStorage.getItem('nibii-flow-mode') || 'mom'; red = localStorage.getItem('nibii-flow-red') === '1'; sizeBy = localStorage.getItem('nibii-flow-size') || 'share'; look = localStorage.getItem('nibii-flow-look') || 'dots'; } catch (e) {}
   function col(v) { return CS.getPropertyValue(v).trim(); }
@@ -4286,19 +4286,27 @@ FLOWBOX_JS = r"""(function () {
       if (sizeBy === 'rsi') { if (a.k === 'c') return 0.5; var r = mode === 'rsiw' ? RW[a.k][ii] : A['r' + a.k][ii]; return r == null ? null : r / 100; }
       return null;
     });
-    return { on: on, n: n, r0: r0, r1: r1, r3: r3, rs: rs, S: S, S1: S1, share: share, sv: sv, mv: mv };
+    var dv = AS.map(function () { return null; });
+    if (sizeBy === 'mkt' && mtot) {
+      // flows in dollars: each market's change in value over the last month (1 week for the red layer), against the total
+      var vAt = function (a, q, j) { return on[q] && A['v' + a.k] && j >= 0 ? A['v' + a.k][j] : null; };
+      dv = AS.map(function (a, q) { var x = vAt(a, q, ii), y = vAt(a, q, ii - 4); return x != null && y != null ? x - y : null; });
+      S = dv.map(function (v) { return v == null ? 0 : v / mtot * 4; });
+      S1 = AS.map(function (a, q) { var x = vAt(a, q, ii), y = vAt(a, q, ii - 1); return x != null && y != null ? (x - y) / mtot * 8 : 0; });
+    }
+    return { on: on, n: n, r0: r0, r1: r1, r3: r3, rs: rs, S: S, S1: S1, share: share, sv: sv, mv: mv, dv: dv, mtot: mtot };
   }
   function read(tt) {
     var i = Math.max(13, Math.min(N - 1, Math.floor(tt))), j = Math.min(N - 1, i + 1), f = tt - Math.floor(tt), a = at(i), b = at(j);
     function mix(x, y) { return x.map(function (v, q) { return v == null || y[q] == null ? (f < 0.5 ? v : y[q]) : v + (y[q] - v) * f; }); }
     var o = f < 0.5 ? a : b;
-    return { mv: mix(a.mv, b.mv), sv: mix(a.sv, b.sv), share: mix(a.share, b.share), S: mix(a.S, b.S), S1: mix(a.S1, b.S1), r0: mix(a.r0, b.r0), r1: mix(a.r1, b.r1), r3: mix(a.r3, b.r3), rs: mix(a.rs, b.rs), on: o.on, n: o.n, i: f < 0.5 ? i : j };
+    return { mtot: f < 0.5 ? a.mtot : b.mtot, dv: mix(a.dv, b.dv), mv: mix(a.mv, b.mv), sv: mix(a.sv, b.sv), share: mix(a.share, b.share), S: mix(a.S, b.S), S1: mix(a.S1, b.S1), r0: mix(a.r0, b.r0), r1: mix(a.r1, b.r1), r3: mix(a.r3, b.r3), rs: mix(a.rs, b.rs), on: o.on, n: o.n, i: f < 0.5 ? i : j };
   }
   var W, H, C, CB;
   function layout() {
     var w = Math.min(820, cv.parentNode.clientWidth); var h = Math.round(Math.max(360, Math.min(560, w * 0.72)));
     var dpr = window.devicePixelRatio || 1; cv.width = w * dpr; cv.height = h * dpr; cv.style.height = h + 'px'; cv.style.width = w + 'px'; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    swarm = [];
+    swarm = []; swarmKey = '';
     drawTrend();
     W = w; H = h; trail.width = w * dpr; trail.height = h * dpr; trail.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0); lastI = -1;
     C = CB = [[W * 0.5, H * 0.27], [W * 0.18, H * 0.52], [W * 0.82, H * 0.52], [W * 0.32, H * 0.83], [W * 0.68, H * 0.83]];
@@ -4418,18 +4426,27 @@ FLOWBOX_JS = r"""(function () {
     frameNo++;
     // dots: the box holds a fixed number of dots (the money); each asset's cloud holds its share of them
     var DOTS = look !== 'bubbles', BOTH = look === 'both', rcl = null, tgt = null;
+    var MKT = sizeBy === 'mkt';
     if (DOTS) {
       var M = W < 520 ? 520 : 950;
+      if (MKT && !PER) {      // dollars per dot: the biggest total in the whole history fills the box's usual dot count
+        var mxT = 0;
+        for (var wi = 0; wi < N; wi++) { var tt = 0; AS.forEach(function (a) { var v = A['v' + a.k] && A['v' + a.k][wi]; if (v && (a.k !== 'f' || A.f[wi] != null)) tt += v; }); mxT = Math.max(mxT, tt); }
+        PER = mxT / M;
+      }
       var wv = AS.map(function (a, q) { if (!R.on[q]) return 0; if (sizeBy === 'share') return R.share[q]; if (sizeBy === 'mkt') return Math.max(0.0012, R.sv[q] || 0); var v = R.sv[q] == null ? 0.5 : Math.max(0, Math.min(1, R.sv[q])); return 0.01 + v * v; });
       var wt = wv.reduce(function (x, y) { return x + y; }, 0);
-      tgt = wv.map(function (v) { return Math.round(M * v / wt); });
+      tgt = MKT ? AS.map(function (a, q) { return R.on[q] && R.mv[q] ? Math.max(1, Math.round(R.mv[q] / PER)) : 0; }) : wv.map(function (v) { return Math.round(M * v / wt); });
+      if (MKT) M = tgt.reduce(function (x, y) { return x + y; }, 0);
       var spc = Math.min(W, H) * (W < 520 ? 0.0135 : 0.0105);
       rcl = tgt.map(function (n, q) { return R.on[q] ? Math.max(5, spc * Math.sqrt(n)) : Math.min(W, H) * 0.06; });
       // only shrink (all by one factor, keeping proportions) if the biggest cloud is wider than the box itself
       var rmx = Math.max.apply(null, rcl.filter(function (_, q) { return R.on[q]; })), fit = Math.min(1, (H - 80) / 2 / rmx, (W - 20) / 2 / rmx);
       if (fit < 1) rcl = rcl.map(function (r, q) { return R.on[q] ? Math.max(4, r * fit) : r; });
       rad = rcl;
-      if (swarm.length !== M) {
+      var skey = MKT ? 'mkt' + W : 'n' + M;
+      if (swarmKey !== skey) {
+        swarmKey = skey;
         swarm = []; var qi = 0, acc = 0;
         while (qi < Q - 1 && !tgt[qi]) qi++;
         for (var m = 0; m < M; m++) { while (qi < Q - 1 && m >= acc + tgt[qi]) { acc += tgt[qi]; qi++; while (qi < Q - 1 && !tgt[qi]) qi++; } swarm.push(newDot(qi, true)); }
@@ -4440,6 +4457,12 @@ FLOWBOX_JS = r"""(function () {
       var r = rad[q]; if (!R.on[q] || 2 * r > W - 20 || 2 * r > H - 80) return c;
       return [Math.max(10 + r, Math.min(W - 10 - r, c[0])), Math.max(70 + r, Math.min(H - 10 - r, c[1]))];
     });
+    function edgePt(x, y) {   // a point on the box's border: the nearest one to (x, y), or a random one
+      var x0 = 8, x1 = W - 8, y0 = 64, y1 = H - 8;
+      if (x == null) { var u = Math.random() * 2 * ((x1 - x0) + (y1 - y0)); if (u < x1 - x0) return [x0 + u, y0]; u -= x1 - x0; if (u < y1 - y0) return [x1, y0 + u]; u -= y1 - y0; if (u < x1 - x0) return [x1 - u, y1]; u -= x1 - x0; return [x0, y1 - u]; }
+      var dl = x - x0, dr = x1 - x, dt2 = y - y0, db = y1 - y, m = Math.min(dl, dr, dt2, db);
+      return m === dl ? [x0, y] : m === dr ? [x1, y] : m === dt2 ? [x, y0] : [x, y1];
+    }
     function newDot(q, place) {
       var d = { q: q, mig: false, r: Math.sqrt(Math.random()), a: Math.random() * Math.PI * 2 };
       if (place) { d.x = C[q][0] + Math.cos(d.a) * d.r * rcl[q]; d.y = C[q][1] + Math.sin(d.a) * d.r * rcl[q]; }
@@ -4504,9 +4527,30 @@ FLOWBOX_JS = r"""(function () {
     }
     if (DOTS) {
       var cnt = new Array(Q).fill(0);
-      swarm.forEach(function (d) { cnt[d.mig ? d.z : d.q]++; });
-      var def = cnt.map(function (c, q) { return R.on[q] && R.S[q] > 0 ? Math.max(0, tgt[q] - c) : 0; }), defT = def.reduce(function (x, y) { return x + y; }, 0);
-      if (defT > 0) {
+      swarm.forEach(function (d) { if (d.mig ? d.z >= 0 : true) cnt[d.mig ? d.z : d.q]++; });
+      var def = cnt.map(function (c, q) { return R.on[q] && (MKT || R.S[q] > 0) ? Math.max(0, tgt[q] - c) : 0; }), defT = def.reduce(function (x, y) { return x + y; }, 0);
+      if (MKT) {
+        // dollars: a market that lost value sends its dots to the ones that gained; losses nobody gained leave the box
+        // (that value is gone), and gains beyond everyone's losses come in from the edge (new value)
+        var relM = cnt.map(function (c, q) { return Math.max(0, c - (R.on[q] ? tgt[q] : 0)); }), relT = relM.reduce(function (x, y) { return x + y; }, 0);
+        var newNeed = Math.max(0, defT - relT), L3 = swarm.length;
+        for (var q5 = 0; q5 < Q; q5++) {
+          var k5 = relM[q5] > 0 ? Math.min(relM[q5], Math.ceil(relM[q5] * (reduce ? 1 : 0.035))) : 0;
+          for (var m5 = 0; m5 < L3 && k5 > 0; m5++) {
+            var d5 = swarm[(m5 * 7919 + frameNo * 31) % L3];
+            if (d5.mig || d5.q !== q5) continue;
+            k5--; d5.mig = true; d5.s = q5; d5.bow = (Math.random() - 0.5) * 1.4; d5.sp = (170 + Math.random() * 160) * sc; d5.age = 0;
+            if (defT > 0) { var z5 = pick(def, defT); def[z5]--; defT--; d5.z = z5; d5.d0 = Math.hypot(C[z5][0] - d5.x, C[z5][1] - d5.y) || 1; }
+            else { var e5 = edgePt(d5.x, d5.y); d5.z = -1; d5.tx = e5[0]; d5.ty = e5[1]; d5.d0 = Math.hypot(d5.tx - d5.x, d5.ty - d5.y) || 1; }
+          }
+        }
+        var kN = newNeed > 0 ? Math.min(newNeed, Math.ceil(newNeed * (reduce ? 1 : 0.035))) : 0;
+        for (var n5 = 0; n5 < kN && defT > 0; n5++) {
+          var z6 = pick(def, defT); def[z6]--; defT--;
+          var p6 = edgePt(null, null), d6 = { mig: true, s: -1, z: z6, x: p6[0], y: p6[1], bow: (Math.random() - 0.5) * 1.4, sp: (170 + Math.random() * 160) * sc, age: 0, r: 0.5, a: 0 };
+          d6.d0 = Math.hypot(C[z6][0] - d6.x, C[z6][1] - d6.y) || 1; swarm.push(d6);
+        }
+      } else if (defT > 0) {
         var rel = cnt.map(function (c, q) { return R.S[q] > 0 && R.on[q] ? 0 : Math.max(0, c - (R.on[q] ? tgt[q] : 0)); }), L = swarm.length;
         for (var q2 = 0; q2 < Q && defT > 0; q2++) {
           var k2 = rel[q2] > 0 ? Math.min(rel[q2], Math.ceil(rel[q2] * (reduce ? 1 : 0.035))) : 0;
@@ -4522,20 +4566,22 @@ FLOWBOX_JS = r"""(function () {
       var top = 66, mg = 8, dirs = [1, -1, 1, -1, 1];
       swarm.forEach(function (d) {
         if (d.mig) {
-          if (reduce || d.age > 8) { d.q = d.z; d.mig = false; d.r = Math.sqrt(Math.random()); d.a = Math.random() * Math.PI * 2; return; }
-          var dx = C[d.z][0] - d.x, dy = C[d.z][1] - d.y, dist = Math.hypot(dx, dy) || 1, ux = dx / dist, uy = dy / dist;
+          if (reduce || d.age > 8) { if (d.z < 0) { d.gone = true; return; } d.q = d.z; d.mig = false; d.r = Math.sqrt(Math.random()); d.a = Math.random() * Math.PI * 2; return; }
+          var gx = d.z >= 0 ? C[d.z][0] : d.tx, gy = d.z >= 0 ? C[d.z][1] : d.ty;
+          var dx = gx - d.x, dy = gy - d.y, dist = Math.hypot(dx, dy) || 1, ux = dx / dist, uy = dy / dist;
           var kk = Math.min(1, dist / d.d0), bend = d.bow * kk * kk, vx = (ux - uy * bend) * d.sp, vy = (uy + ux * bend) * d.sp;
           for (var q4 = 0; q4 < Q; q4++) {
-            if (q4 === d.z || q4 === d.s || !R.on[q4]) continue;
+            if (q4 === d.z || q4 === d.s || !R.on[q4] || (d.z < 0 && dist < 40)) continue;
             var ox = d.x - C[q4][0], oy = d.y - C[q4][1], od = Math.hypot(ox, oy) || 1, edge = rcl[q4] + 12 * sc;
             if (od < edge + 26 * sc) { var push = Math.min(1, (edge + 26 * sc - od) / (26 * sc)) * d.sp * 1.3; vx += ox / od * push; vy += oy / od * push; }
           }
           var x0 = d.x, y0 = d.y; d.x += vx * dt; d.y += vy * dt; d.age += dt;
-          var a1 = hex3(cols[d.s]), b1 = hex3(cols[d.z]), f1 = Math.pow(1 - Math.min(1, dist / d.d0), 1.4);
+          var a1 = hex3(d.s >= 0 ? cols[d.s] : col('--muted')), b1 = hex3(d.z >= 0 ? cols[d.z] : col('--muted')), f1 = Math.pow(1 - Math.min(1, dist / d.d0), 1.4);
           d.c = 'rgb(' + Math.round(a1[0] + (b1[0] - a1[0]) * f1) + ',' + Math.round(a1[1] + (b1[1] - a1[1]) * f1) + ',' + Math.round(a1[2] + (b1[2] - a1[2]) * f1) + ')';
           tc.strokeStyle = d.c.replace('rgb', 'rgba').replace(')', ',0.7)'); tc.lineWidth = 1.5 * Math.max(0.8, sc);
           tc.beginPath(); tc.moveTo(x0, y0); tc.lineTo(d.x, d.y); tc.stroke();
-          if (Math.hypot(C[d.z][0] - d.x, C[d.z][1] - d.y) < rcl[d.z] * 0.85) { d.q = d.z; d.mig = false; d.r = Math.sqrt(Math.random()) * 0.95 + 0.05; d.a = Math.atan2(d.y - C[d.q][1], d.x - C[d.q][0]); }
+          if (d.z < 0) { if (Math.hypot(gx - d.x, gy - d.y) < 8) d.gone = true; }
+          else if (Math.hypot(C[d.z][0] - d.x, C[d.z][1] - d.y) < rcl[d.z] * 0.85) { d.q = d.z; d.mig = false; d.r = Math.sqrt(Math.random()) * 0.95 + 0.05; d.a = Math.atan2(d.y - C[d.q][1], d.x - C[d.q][0]); }
         } else {
           d.a += dt * (0.18 + 0.4 * (1 - d.r)) * dirs[d.q];
           var tx = C[d.q][0] + Math.cos(d.a) * d.r * rcl[d.q], ty = C[d.q][1] + Math.sin(d.a) * d.r * rcl[d.q], f2 = Math.min(1, dt * 3);
@@ -4543,6 +4589,7 @@ FLOWBOX_JS = r"""(function () {
         }
         d.x = Math.max(mg, Math.min(W - mg, d.x)); d.y = Math.max(top, Math.min(H - mg, d.y));
       });
+      if (MKT) swarm = swarm.filter(function (d) { return !d.gone; });
     }
     lastI = R.i;
     cx.drawImage(trail, 0, 0, W, H);
@@ -4583,10 +4630,11 @@ FLOWBOX_JS = r"""(function () {
           if (sizeBy === 'mkt' && R.mv[q] != null) bits.push(money(R.mv[q]));
           if (sizeBy === 'rng' && R.sv[q] != null) bits.push(Math.round(R.sv[q] * 100) + '% of 52 wk');
           if (sizeBy === 'rsi' && R.sv[q] != null) bits.push('RSI ' + Math.round(R.sv[q] * 100));
-          if (mode === 'mom') bits.push(fmt(R.r1[q]) + ' 1 mo'); else if (sizeBy !== 'rsi') bits.push('RSI ' + Math.round(R.rs[q]));
+          if (MKT) { if (R.dv[q] != null) bits.push((R.dv[q] >= 0 ? '+' : '\u2212') + money(Math.abs(R.dv[q])) + ' 1 mo'); }
+          else if (mode === 'mom') bits.push(fmt(R.r1[q]) + ' 1 mo'); else if (sizeBy !== 'rsi') bits.push('RSI ' + Math.round(R.rs[q]));
           if (red) bits.push(fmt(R.r0[q]) + ' 1 wk');
         }
-        var share = Math.round(tgt[q] / swarm.length * 100), t1 = a.n + '  ' + share + '%', t2 = bits.join(' \u00b7 ');
+        var share = Math.round(tgt[q] / Math.max(1, tgt.reduce(function (x, y) { return x + y; }, 0)) * 100), t1 = a.n + '  ' + share + '%', t2 = bits.join(' \u00b7 ');
         cx.font = '600 13px "Space Grotesk", system-ui, sans-serif'; var w1 = cx.measureText(t1).width;
         cx.font = '500 11px ui-monospace, "SF Mono", Menlo, monospace'; var w2 = cx.measureText(t2).width;
         var bw = Math.max(w1, w2) + 16, bh = 36, bx = Math.max(6, Math.min(W - bw - 6, C[q][0] - bw / 2)), by = Math.max(64, Math.min(H - bh - 6, C[q][1] - bh / 2));
@@ -4624,12 +4672,13 @@ FLOWBOX_JS = r"""(function () {
         cx.fillText(a.k === 'c' ? (mode === 'mom' ? '0%' : 'sidelines') : lines[0] + (mode === 'mom' ? ' · ' + fmt(R.r1[q]) + ' 1 mo' : ''), C[q][0], C[q][1] + r + 31);
         return;
       }
-      if (dots && a.k !== 'c' && mode === 'mom') lines.push(fmt(R.r1[q]) + ' 1 mo');
+      if (dots && a.k !== 'c' && MKT) { if (R.dv[q] != null) lines.push((R.dv[q] >= 0 ? '+' : '\u2212') + money(Math.abs(R.dv[q])) + ' 1 mo'); }
+      else if (dots && a.k !== 'c' && mode === 'mom') lines.push(fmt(R.r1[q]) + ' 1 mo');
       else if (dots) { }
       else if (a.k === 'c') lines.push(mode === 'mom' ? '0%' : 'sidelines');
       else if (mode === 'mom') { lines.push(fmt(R.r1[q]) + ' 1 mo'); if (r > 44) lines.push(fmt(R.r3[q]) + ' 3 mo'); }
       else lines.push('RSI ' + Math.round(R.rs[q]));
-      if (dots && a.k === 'c') lines.push(mode === 'mom' ? '0%' : 'sidelines');
+      if (dots && a.k === 'c') lines.push(MKT && R.dv[q] != null ? (R.dv[q] >= 0 ? '+' : '\u2212') + money(Math.abs(R.dv[q])) + ' 1 mo' : mode === 'mom' ? '0%' : 'sidelines');
       if (red && a.k !== 'c' && (r > 40 || lines.length < 2)) lines.push(fmt(R.r0[q]) + ' 1 wk');
       var y0 = C[q][1] - 4 - (lines.length - 1) * 7;
       cx.fillStyle = '#ffffff'; cx.textAlign = 'center';
@@ -4647,12 +4696,16 @@ FLOWBOX_JS = r"""(function () {
     var w0 = cx.measureText('The plan held: ').width; cx.fillStyle = col(hh[1]); cx.beginPath(); cx.arc(16 + w0 + 6, 50, 5, 0, Math.PI * 2); cx.fill();
     cx.fillStyle = col('--ink'); cx.fillText(hh[0], 16 + w0 + 15, 54);
     cx.textAlign = 'right'; cx.fillStyle = col('--ink-2');
-    cx.fillText((mode === 'mom' ? 'Money leaning to ' : 'Strongest RSI: ') + AS[lead].n + (mode === 'mom' ? ' (' + Math.round(R.share[lead] * 100) + '%)' : ''), W - 16, 34);
+    cx.fillText(MKT && R.mtot ? 'All five: ' + money(R.mtot) : (mode === 'mom' ? 'Money leaning to ' : 'Strongest RSI: ') + AS[lead].n + (mode === 'mom' ? ' (' + Math.round(R.share[lead] * 100) + '%)' : ''), W - 16, 34);
     var note = '';
     if (mode !== 'mom') {
       var up = AS.filter(function (a, q) { return a.k !== 'c' && R.on[q] && R.rs[q] > 50; }).length, tot = AS.filter(function (a, q) { return a.k !== 'c' && R.on[q]; }).length;
       note = up === 0 ? 'All below 50: money to the sidelines' : up === tot ? 'All above 50: money off the sidelines' : '';
     } else if ([0, 1, 2].every(function (q) { return R.r1[q] < 0; })) note = 'Stocks, bonds and gold all down this month';
+    if (MKT && R.mtot) {
+      var dT = R.dv.reduce(function (x, y) { return x + (y || 0); }, 0);
+      note = (dT >= 0 ? '+' : '\u2212') + money(Math.abs(dT)) + ' in a month';
+    }
     if (note) { cx.fillStyle = col('--ink'); cx.font = '600 12px "Space Grotesk", system-ui, sans-serif'; cx.fillText(note, W - 16, 54); }
     if (red) { cx.fillStyle = hot; cx.font = '600 12px "Space Grotesk", system-ui, sans-serif'; cx.fillText('Red: last week only', W - 16, note ? 72 : 54); }
     if (seen) requestAnimationFrame(frame); else loopOn = false;
@@ -4664,7 +4717,7 @@ FLOWBOX_JS = r"""(function () {
   $('fb-play').onclick = function () { setPlay(!playing); };
   $('fb-spd').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; speed = +b.dataset.v; save('nibii-flow-speed', speed); marks(); };
   $('fb-mode').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mode = b.dataset.v; save('nibii-flow-mode', mode); marks(); };
-  $('fb-look').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; look = b.dataset.v; save('nibii-flow-look', look); swarm = []; marks(); };
+  $('fb-look').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; look = b.dataset.v; save('nibii-flow-look', look); swarm = []; swarmKey = ''; marks(); };
   $('fb-size').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; sizeBy = b.dataset.v; save('nibii-flow-size', sizeBy); marks(); };
   $('fb-red').onclick = function () { red = !red; save('nibii-flow-red', red ? '1' : '0'); marks(); };
   $('fb-jump').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; var d = b.dataset.d; if (d === 'end') t = N - 1; else { var i = 13; while (i < N - 1 && A.d[i] < d) i++; t = i; } $('fb-pos').value = Math.floor(t); parts = []; reds = []; };
