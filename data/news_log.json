@@ -5297,5 +5297,45 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-10-5-stocks-close-lower-cpi-fed-hike-fears",
+    "data": {
+      "addedAt": "2026-11-10",
+      "category": "Market",
+      "date": "2026-11-10",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "US stocks close lower as hot October CPI and Waller's hawkish December-hike signal send the 10-year Treasury yield back near 5%; losses trim part of Monday's sharp global rally.",
+      "impact": "High",
+      "numbers": "S&P 500 7,520.93 (-0.38%); Dow 52,231.89 (-0.30%); Nasdaq Composite 25,065.88 (-0.74%); 10-yr Treasury yield ~4.98-5.00% (+~12bp on the day)",
+      "order": 5,
+      "reaction": "Broad-based retreat led by tech/growth; Russell 2000 -0.69%, VIX 19.63; decline follows Monday's +2.35% S&P / +2.74% Nasdaq surge",
+      "region": "US",
+      "source": "https://journalarta.com/en/2026/11/11/stock-market-today-sp-500-slips-0-38-to-7520-93-and-nasdaq-falls-0-74-as-10-year-yield-rises-to-4-98/",
+      "tickers": "SPY, DIA, QQQ, ^TNX",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-10-6-nvidia-ceo-jensen-huang-investigation",
+    "data": {
+      "addedAt": "2026-11-10",
+      "category": "Corporate",
+      "date": "2026-11-10",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "Nvidia shares slide and chip stocks rally in rotation as the board investigates CEO Jensen Huang over an alleged affair with a suspected Chinese spy; NVDA market cap briefly dips below $4 trillion.",
+      "impact": "Medium",
+      "numbers": "NVDA -4.3% to -5.5% (sources vary); AMD +13.3%; Applied Materials +11.4%; Broadcom +8.8%",
+      "order": 6,
+      "reaction": "Board hired Wachtell, Lipton, Rosen & Katz to investigate after a weekend memo; chip peers rallied on rotation out of NVDA; Microsoft also fell on separate Anthropic workplace-tools competition news",
+      "region": "US",
+      "source": "https://siliconangle.com/2026/11/08/nvidia-ceo-jensen-huang-admits-to-having-extramarital-affair-with-suspected-chinese-spy/",
+      "tickers": "NVDA, AMD, AVGO, AMAT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
