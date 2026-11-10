@@ -4150,7 +4150,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 #flowbox .fb-sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin: 0 4px 0 8px; vertical-align: 0; }
 </style>
 <div class="fb-card">
-  <div class="fb-trendbox"><canvas id="fb-trend" role="img" aria-label="The last 6 months of SPY, TLT, GLD and DBMF, each drawn from its own 6-month low to its high"></canvas></div>
+  <div class="fb-trendbox"><canvas id="fb-trend" role="img" aria-label="The 6 months up to the animation's week for SPY, TLT, GLD and DBMF, each drawn from its own 6-month low to its high"></canvas></div>
   <div class="fb-stage"><canvas id="fb-cv" width="800" height="560" role="img" aria-label="Animated bubbles for stocks, long bonds, gold, managed futures and cash with the money flowing between them"></canvas></div>
   <div class="fb-ctl">
     <button type="button" class="fb-btn play" id="fb-play">Play</button>
@@ -4168,7 +4168,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
   </div>
 </div>
 <ul class="fb-key" style="margin-top:10px">
-  <li><b>Last 6 months, shape</b>: each line runs from its own 6-month low (bottom) to its high (top) on a log scale, so you can see where each one sits in its range; the end labels give today's spot (100% = at its 6-month high). Hover for any day.</li>
+  <li><b>6-month shape chart</b>: the 6 months up to the week the animation is on, each line from its own low (bottom) to its high (top) on a log scale; it moves with the animation, and the end labels give each one's spot (100% = at its 6-month high). Hover for any day.</li>
   <li><b>Bubble size</b>: each one's share of the "money" by recent strength, scored on its last 1 and 3 months against the others. Each frame is one week and both windows roll forward weekly, so the picture can change several times inside a month. Cash always scores 0%.</li>
   <li><b>Airflow</b>: money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
   <li><b>Dots</b>: the box holds a fixed number of dots, the money. Each cloud holds its share (shown next to its name); when money moves, dots fly from one cloud to another and change colour on the way. Bubbles shows solid circles with airflow; Both draws each cloud inside its bubble.</li>
@@ -4299,16 +4299,22 @@ FLOWBOX_JS = r"""(function () {
   }
 
   // the last 6 months, in shape: each line runs from its own 6-month low (bottom) to its high (top), on a log scale
-  var TR = $('fb-trend'), tHover = null;
+  var TR = $('fb-trend'), tHover = null, tEnd = A.dd ? A.dd.length - 1 : 0, tWeek = -1, TS = 0;
+  function trendTo(i) {      // the daily index of the animation's week (its last session)
+    var d = A.d[i], lo = 0, hi = A.dd.length - 1;
+    while (lo < hi) { var m = (lo + hi + 1) >> 1; if (A.dd[m] <= d) lo = m; else hi = m - 1; }
+    return lo;
+  }
   function drawTrend() {
     if (!TR || !A.dd || !A.dd.length) return;
     var w = Math.min(820, TR.parentNode.clientWidth), h = w < 520 ? 170 : 190, dpr = window.devicePixelRatio || 1;
     TR.width = w * dpr; TR.height = h * dpr; TR.style.width = w + 'px'; TR.style.height = h + 'px';
     var g = TR.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, h);
-    var L = 44, Rr = w < 520 ? 84 : 104, T = 30, B = 22, pw = w - L - Rr, ph = h - T - B, n = A.dd.length;
+    var L = 44, Rr = w < 520 ? 84 : 104, T = 30, B = 22, pw = w - L - Rr, ph = h - T - B;
+    TS = Math.max(0, tEnd - 125); var n = tEnd - TS + 1, DD = A.dd.slice(TS, tEnd + 1);
     var keys = [['s', 0], ['b', 1], ['g', 2], ['f', 4]], ser = [];
     keys.forEach(function (kq) {
-      var v = A['d' + kq[0]], lo = Infinity, hi = -Infinity;
+      var v = A['d' + kq[0]].slice(TS, tEnd + 1), lo = Infinity, hi = -Infinity;
       v.forEach(function (x) { if (x != null && x > 0) { lo = Math.min(lo, Math.log(x)); hi = Math.max(hi, Math.log(x)); } });
       if (!isFinite(lo)) return;
       ser.push({ q: kq[1], y: v.map(function (x) { return x == null || x <= 0 ? null : hi > lo ? (Math.log(x) - lo) / (hi - lo) : 0.5; }) });
@@ -4316,14 +4322,15 @@ FLOWBOX_JS = r"""(function () {
     function X(i) { return L + (n > 1 ? i / (n - 1) : 0) * pw; }
     function Y(v) { return T + (1 - v) * ph; }
     g.font = '600 12px "Space Grotesk", system-ui, sans-serif'; g.fillStyle = col('--ink'); g.textAlign = 'left';
-    g.fillText('Last 6 months, shape', 12, 18);
+    var de = DD[n - 1], ttl = '6 months to ' + MON[+de.slice(5, 7) - 1] + ' ' + (+de.slice(8, 10)) + ', ' + de.slice(0, 4) + ', shape';
+    g.fillText(ttl, 12, 18);
     g.font = '500 11px "Space Grotesk", system-ui, sans-serif'; g.fillStyle = col('--muted');
-    var sub = w < 520 ? 'each from its own low to high' : 'each line from its own 6-month low (bottom) to high (top)';
-    g.fillText(sub, 12 + g.measureText('Last 6 months, shape').width + 26, 18);
+    var sub = w < 520 ? '' : 'each line from its own 6-month low (bottom) to high (top)';
+    g.fillText(sub, 12 + g.measureText(ttl).width + 30, 18);
     g.strokeStyle = col('--grid'); g.lineWidth = 1; g.fillStyle = col('--muted'); g.font = '500 10px ui-monospace, "SF Mono", Menlo, monospace'; g.textAlign = 'right';
     [[1, 'High'], [0.5, 'Mid'], [0, 'Low']].forEach(function (r) { g.beginPath(); g.moveTo(L, Y(r[0]) + 0.5); g.lineTo(L + pw, Y(r[0]) + 0.5); g.stroke(); g.fillText(r[1], L - 6, Y(r[0]) + 3); });
     g.textAlign = 'center';
-    for (var i = 1; i < n; i++) if (A.dd[i].slice(5, 7) !== A.dd[i - 1].slice(5, 7)) { g.fillText(MON[+A.dd[i].slice(5, 7) - 1], X(i), h - 6); g.beginPath(); g.moveTo(X(i) + 0.5, T + ph); g.lineTo(X(i) + 0.5, T + ph + 4); g.stroke(); }
+    for (var i = 1; i < n; i++) if (DD[i].slice(5, 7) !== DD[i - 1].slice(5, 7)) { g.fillText(MON[+DD[i].slice(5, 7) - 1] + (DD[i].slice(5, 7) === '01' ? ' ' + DD[i].slice(2, 4) : ''), X(i), h - 6); g.beginPath(); g.moveTo(X(i) + 0.5, T + ph); g.lineTo(X(i) + 0.5, T + ph + 4); g.stroke(); }
     ser.forEach(function (s) {
       g.strokeStyle = col(AS[s.q].c); g.lineWidth = 2; g.lineJoin = 'round'; g.beginPath(); var on = false;
       s.y.forEach(function (v, i) { if (v == null) { on = false; return; } if (!on) { g.moveTo(X(i), Y(v)); on = true; } else g.lineTo(X(i), Y(v)); });
@@ -4344,7 +4351,7 @@ FLOWBOX_JS = r"""(function () {
       var hi2 = Math.max(0, Math.min(n - 1, tHover)), hx = X(hi2);
       g.strokeStyle = col('--muted'); g.setLineDash([3, 3]); g.beginPath(); g.moveTo(hx + 0.5, T); g.lineTo(hx + 0.5, T + ph); g.stroke(); g.setLineDash([]);
       var rows = ser.filter(function (s) { return s.y[hi2] != null; }).map(function (s) { return [AS[s.q].n + ' ' + Math.round(s.y[hi2] * 100) + '%', AS[s.q].c]; });
-      var d0 = A.dd[hi2], head = MON[+d0.slice(5, 7) - 1] + ' ' + (+d0.slice(8, 10));
+      var d0 = DD[hi2], head = MON[+d0.slice(5, 7) - 1] + ' ' + (+d0.slice(8, 10));
       g.font = '500 11px ui-monospace, "SF Mono", Menlo, monospace'; var bw = 12 + Math.max.apply(null, rows.map(function (r) { return g.measureText(r[0]).width; }).concat([g.measureText(head).width])) + 12;
       var bx = hx + 10 + bw > L + pw ? hx - 10 - bw : hx + 10, by = T + 2, bh = 18 + rows.length * 14;
       g.fillStyle = rgba(col('--surface') || col('--surface'), 0.92); g.strokeStyle = col('--hairline'); g.beginPath(); if (g.roundRect) g.roundRect(bx, by, bw, bh, 6); else g.rect(bx, by, bw, bh); g.fill(); g.stroke();
@@ -4355,7 +4362,7 @@ FLOWBOX_JS = r"""(function () {
   if (TR) {
     TR.addEventListener('pointermove', function (e) {
       var r = TR.getBoundingClientRect(), L = 44, Rr = r.width < 520 ? 84 : 104, pw = r.width - L - Rr;
-      tHover = Math.round((e.clientX - r.left - L) / pw * (A.dd.length - 1)); if (tHover < 0 || tHover > A.dd.length - 1) tHover = null; drawTrend();
+      var nn = tEnd - TS; tHover = Math.round((e.clientX - r.left - L) / pw * nn); if (tHover < 0 || tHover > nn) tHover = null; drawTrend();
     });
     TR.addEventListener('pointerleave', function () { tHover = null; drawTrend(); });
   }
@@ -4373,6 +4380,7 @@ FLOWBOX_JS = r"""(function () {
     if (playing) { t += dt * speed; if (t >= N - 1) { t = N - 1; setPlay(false); } $('fb-pos').value = Math.floor(t); }
     CS = getComputedStyle(document.documentElement);
     var R = read(t), dots = sizeBy !== 'share';
+    if (A.dd && R.i !== tWeek) { tWeek = R.i; tEnd = trendTo(R.i); drawTrend(); }
     var rad = R.share.map(function (s, q) {
       if (!R.on[q]) return Math.min(W, H) * 0.06;
       if (!dots) return radius(s, R.n);
@@ -4616,7 +4624,7 @@ FLOWBOX_JS = r"""(function () {
     if (red) { cx.fillStyle = hot; cx.font = '600 12px "Space Grotesk", system-ui, sans-serif'; cx.fillText('Red: last week only', W - 16, note ? 72 : 54); }
     if (seen) requestAnimationFrame(frame); else loopOn = false;
   }
-  function fmt(v) { return (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v * 100).toFixed(1) + '%'; }
+  function fmt(v) { return (v > 0 ? '+' : v < 0 ? '\u2212' : '') + Math.abs(v * 100).toFixed(1) + '%'; }
   function setPlay(p) { playing = p; $('fb-play').textContent = p ? 'Pause' : 'Play'; if (p && t >= N - 1) t = 13; }
   function save(k, v) { try { localStorage.setItem(k, v); } catch (x) {} }
   $('fb-play').onclick = function () { setPlay(!playing); };
