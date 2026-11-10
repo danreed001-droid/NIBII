@@ -4163,7 +4163,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
   <div class="fb-stage"><canvas id="fb-cv" width="800" height="560" role="img" aria-label="Animated bubbles for stocks, long bonds, gold, managed futures and cash with the money flowing between them"></canvas><div class="fb-flist" id="fb-flist" aria-live="polite"></div></div>
   <div class="fb-ctl">
     <button type="button" class="fb-btn play" id="fb-play">Play</button>
-    <span class="fb-seg" id="fb-spd" role="group" aria-label="Speed"><button type="button" data-v="2">Slow</button><button type="button" data-v="5">Normal</button><button type="button" data-v="14">Fast</button></span>
+    <span class="fb-seg" id="fb-spd" role="group" aria-label="Speed"><button type="button" data-v="0.5" title="2 seconds a week">Slow</button><button type="button" data-v="2" title="2 weeks a second">Normal</button><button type="button" data-v="8" title="8 weeks a second">Fast</button></span>
     <span class="fb-seg" id="fb-mode" role="group" aria-label="Flow by"><button type="button" data-v="mom">1 + 3 months</button><button type="button" data-v="rsid">RSI daily</button><button type="button" data-v="rsiw">RSI weekly</button></span>
     <span class="fb-seg" id="fb-look" role="group" aria-label="Look"><button type="button" data-v="dots">Dots</button><button type="button" data-v="bubbles">Bubbles</button><button type="button" data-v="both">Both</button></span>
     <span class="fb-seg" id="fb-size" role="group" aria-label="Size by"><button type="button" data-v="share">Size: flow share</button><button type="button" data-v="rsi">RSI</button><button type="button" data-v="rng">52-wk range</button><button type="button" data-v="mkt">Market size</button></span>
@@ -4220,9 +4220,9 @@ FLOWBOX_JS = r"""(function () {
   var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cv = $('fb-cv'), cx = cv.getContext('2d'), CS;
-  var t = Math.max(13, N - 260), playing = false, speed = 5, mode = 'mom', red = false, sizeBy = 'share', look = 'dots', swarm = [], frameNo = 0, swarmKey = '', PER = 0, lastFl = '', parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
+  var t = Math.max(13, N - 260), playing = false, speed = 0.5, mode = 'mom', red = false, sizeBy = 'share', look = 'dots', swarm = [], frameNo = 0, swarmKey = '', PER = 0, lastFl = '', parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
   var trail = document.createElement('canvas');
-  try { speed = +(localStorage.getItem('nibii-flow-speed') || 5); mode = localStorage.getItem('nibii-flow-mode') || 'mom'; red = localStorage.getItem('nibii-flow-red') === '1'; sizeBy = localStorage.getItem('nibii-flow-size') || 'share'; look = localStorage.getItem('nibii-flow-look') || 'dots'; } catch (e) {}
+  try { speed = +(localStorage.getItem('nibii-flow-speed2') || 0.5); mode = localStorage.getItem('nibii-flow-mode') || 'mom'; red = localStorage.getItem('nibii-flow-red') === '1'; sizeBy = localStorage.getItem('nibii-flow-size') || 'share'; look = localStorage.getItem('nibii-flow-look') || 'dots'; } catch (e) {}
   function col(v) { return CS.getPropertyValue(v).trim(); }
   function hex3(h) { h = h.replace('#', ''); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
   function rgba(h, a) { var c = hex3(h); return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
@@ -4850,7 +4850,7 @@ FLOWBOX_JS = r"""(function () {
   function setPlay(p) { playing = p; $('fb-play').textContent = p ? 'Pause' : 'Play'; if (p && t >= N - 1) t = 13; }
   function save(k, v) { try { localStorage.setItem(k, v); } catch (x) {} }
   $('fb-play').onclick = function () { setPlay(!playing); };
-  $('fb-spd').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; speed = +b.dataset.v; save('nibii-flow-speed', speed); marks(); };
+  $('fb-spd').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; speed = +b.dataset.v; save('nibii-flow-speed2', speed); marks(); };
   $('fb-mode').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mode = b.dataset.v; save('nibii-flow-mode', mode); marks(); };
   $('fb-look').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; look = b.dataset.v; save('nibii-flow-look', look); swarm = []; swarmKey = ''; marks(); };
   $('fb-size').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; sizeBy = b.dataset.v; save('nibii-flow-size', sizeBy); marks(); };
