@@ -4136,6 +4136,10 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 #flowbox .fb-tchips button[aria-pressed="true"] { color: var(--ink); border-color: var(--c); }
 #flowbox .fb-tchips button[aria-pressed="true"]::before { background: var(--c); }
 #flowbox .fb-trendbox canvas { display: block; margin-inline: auto; touch-action: pan-y; }
+#flowbox .fb-flist { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; padding: 8px 12px 10px; border-top: 1px solid var(--hairline); font: 500 0.75rem/1.3 ui-monospace, "SF Mono", Menlo, monospace; color: var(--ink-2); min-height: 36px; max-width: 820px; margin-inline: auto; }
+#flowbox .fb-flist b { font: 600 0.75rem "Space Grotesk", system-ui, sans-serif; color: var(--ink); margin-right: 2px; }
+#flowbox .fb-flist span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+#flowbox .fb-flist i { display: inline-block; width: 18px; height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--a), var(--b)); }
 #flowbox .fb-stage { border-radius: 10px; overflow: hidden; background: var(--surface); }
 #flowbox canvas#fb-cv { display: block; width: 100%; height: auto; margin-inline: auto; }
 #flowbox .fb-ctl { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
@@ -4156,7 +4160,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 </style>
 <div class="fb-card">
   <div class="fb-trendbox"><div class="fb-tchips" id="fb-tchips" role="group" aria-label="Show on the 6-month chart"><span>Show:</span><button type="button" data-q="0" style="--c:var(--ink)">SPY</button><button type="button" data-q="1" style="--c:var(--pc-bonds)">TLT</button><button type="button" data-q="2" style="--c:var(--pc-gold)">GLD</button><button type="button" data-q="4" style="--c:var(--pc-futures)">DBMF</button></div><canvas id="fb-trend" role="img" aria-label="The 6 months up to the animation's week for SPY, TLT, GLD and DBMF, each drawn from its own 6-month low to its high"></canvas></div>
-  <div class="fb-stage"><canvas id="fb-cv" width="800" height="560" role="img" aria-label="Animated bubbles for stocks, long bonds, gold, managed futures and cash with the money flowing between them"></canvas></div>
+  <div class="fb-stage"><canvas id="fb-cv" width="800" height="560" role="img" aria-label="Animated bubbles for stocks, long bonds, gold, managed futures and cash with the money flowing between them"></canvas><div class="fb-flist" id="fb-flist" aria-live="polite"></div></div>
   <div class="fb-ctl">
     <button type="button" class="fb-btn play" id="fb-play">Play</button>
     <span class="fb-seg" id="fb-spd" role="group" aria-label="Speed"><button type="button" data-v="2">Slow</button><button type="button" data-v="5">Normal</button><button type="button" data-v="14">Fast</button></span>
@@ -4216,7 +4220,7 @@ FLOWBOX_JS = r"""(function () {
   var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cv = $('fb-cv'), cx = cv.getContext('2d'), CS;
-  var t = Math.max(13, N - 260), playing = false, speed = 5, mode = 'mom', red = false, sizeBy = 'share', look = 'dots', swarm = [], frameNo = 0, swarmKey = '', PER = 0, parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
+  var t = Math.max(13, N - 260), playing = false, speed = 5, mode = 'mom', red = false, sizeBy = 'share', look = 'dots', swarm = [], frameNo = 0, swarmKey = '', PER = 0, lastFl = '', parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
   var trail = document.createElement('canvas');
   try { speed = +(localStorage.getItem('nibii-flow-speed') || 5); mode = localStorage.getItem('nibii-flow-mode') || 'mom'; red = localStorage.getItem('nibii-flow-red') === '1'; sizeBy = localStorage.getItem('nibii-flow-size') || 'share'; look = localStorage.getItem('nibii-flow-look') || 'dots'; } catch (e) {}
   function col(v) { return CS.getPropertyValue(v).trim(); }
@@ -4305,7 +4309,7 @@ FLOWBOX_JS = r"""(function () {
   }
   var W, H, C, CB;
   function layout() {
-    var w = Math.min(820, cv.parentNode.clientWidth); var h = Math.round(Math.max(360, Math.min(560, w * 0.72)));
+    var w = Math.min(820, cv.parentNode.clientWidth); var h = Math.round(w < 520 ? Math.max(420, w * 1.2) : Math.max(360, Math.min(560, w * 0.72)));
     var dpr = window.devicePixelRatio || 1; cv.width = w * dpr; cv.height = h * dpr; cv.style.height = h + 'px'; cv.style.width = w + 'px'; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
     swarm = []; swarmKey = '';
     drawTrend();
@@ -4419,7 +4423,7 @@ FLOWBOX_JS = r"""(function () {
       var v = R.sv[q] == null ? 0.5 : Math.max(0, Math.min(1, R.sv[q])), mx = Math.min(W, H) * 0.17, mn = Math.max(5, Math.min(W, H) * 0.012);
       return mn + (mx - mn) * Math.pow(v, 1.4);
     });
-    var sc = W / 800, cols = AS.map(function (a) { return col(a.c); }), hot = col('--neg');
+    var PH = W < 520, sc = W / 800, cols = AS.map(function (a) { return col(a.c); }), hot = col('--neg');
     var L0 = weights(R.S), L1 = weights(R.S1);
     var lead = -1, best = -Infinity;
     for (var q = 0; q < Q; q++) if (R.on[q] && R.share[q] > best) { best = R.share[q]; lead = q; }
@@ -4509,7 +4513,7 @@ FLOWBOX_JS = r"""(function () {
       if (sT < 0.01 && kT < 0.01) return;
       var m = Math.min(sT, kT);
       if (m > 0) for (s = 0; s < Q; s++) if (src[s] > 0) for (z = 0; z < Q; z++) if (snk[z] > 0) PAIRS.push({ s: s, z: z, w: m * src[s] / sT * snk[z] / kT });
-      if (MKT && DOTS) {
+      if (MKT) {
         if (sT > kT) for (s = 0; s < Q; s++) if (src[s] > 0) PAIRS.push({ s: s, z: -1, w: (sT - kT) * src[s] / sT });
         if (kT > sT) for (z = 0; z < Q; z++) if (snk[z] > 0) PAIRS.push({ s: -1, z: z, w: (kT - sT) * snk[z] / kT });
       }
@@ -4694,7 +4698,7 @@ FLOWBOX_JS = r"""(function () {
           else if (mode === 'mom') bits.push(fmt(R.r1[q]) + ' 1 mo'); else if (sizeBy !== 'rsi') bits.push('RSI ' + Math.round(R.rs[q]));
           if (red) bits.push(fmt(R.r0[q]) + ' 1 wk');
         }
-        var share = Math.round(tgt[q] / Math.max(1, tgt.reduce(function (x, y) { return x + y; }, 0)) * 100), t1 = a.n + '  ' + share + '%', t2 = bits.join(' \u00b7 ');
+        var share = Math.round(tgt[q] / Math.max(1, tgt.reduce(function (x, y) { return x + y; }, 0)) * 100), t1 = a.n + '  ' + share + '%', t2 = (PH ? bits.slice(0, 1) : bits).join(' \u00b7 ');
         cx.font = '600 13px "Space Grotesk", system-ui, sans-serif'; var w1 = cx.measureText(t1).width;
         cx.font = '500 11px ui-monospace, "SF Mono", Menlo, monospace'; var w2 = cx.measureText(t2).width;
         var bw = Math.max(w1, w2) + 16, bh = 36, bx = Math.max(6, Math.min(W - bw - 6, C[q][0] - bw / 2)), by = Math.max(64, Math.min(H - bh - 6, C[q][1] - bh / 2));
@@ -4740,6 +4744,7 @@ FLOWBOX_JS = r"""(function () {
       else lines.push('RSI ' + Math.round(R.rs[q]));
       if (dots && a.k === 'c') lines.push(MKT && R.dv[q] != null ? (R.dv[q] >= 0 ? '+' : '\u2212') + money(Math.abs(R.dv[q])) + ' 1 mo' : mode === 'mom' ? '0%' : 'sidelines');
       if (red && a.k !== 'c' && (r > 40 || lines.length < 2)) lines.push(fmt(R.r0[q]) + ' 1 wk');
+      if (PH) lines = lines.slice(0, 1);
       var y0 = C[q][1] - 4 - (lines.length - 1) * 7;
       cx.fillStyle = '#ffffff'; cx.textAlign = 'center';
       cx.font = '600 ' + Math.max(13, Math.min(20, r * 0.32)) + 'px "Space Grotesk", system-ui, sans-serif';
@@ -4768,15 +4773,23 @@ FLOWBOX_JS = r"""(function () {
       if (!out && !inn) return;
       var tipD = out ? 17 : 4, baseD = out ? 7 : 14, tx = D.x + D.ux * tipD, ty = D.y + D.uy * tipD, bx = D.x + D.ux * baseD, by = D.y + D.uy * baseD;
       cx.fillStyle = c; cx.beginPath(); cx.moveTo(tx, ty); cx.lineTo(bx + px * 6, by + py * 6); cx.lineTo(bx - px * 6, by - py * 6); cx.closePath(); cx.fill();
+      if (PH) return;
       var amt = MKT && R.dv[q] != null ? ' ' + money(Math.abs(R.dv[q])) : '';
       cx.font = '700 10px "Space Grotesk", system-ui, sans-serif'; cx.textAlign = 'center';
       var lx = D.x + D.ux * 29, ly = D.y + D.uy * 29 + 3, lt = (out ? 'OUT' : 'IN') + amt, lw = cx.measureText(lt).width + 8;
       cx.fillStyle = rgba(col('--surface'), 0.85); cx.fillRect(lx - lw / 2, ly - 10, lw, 13);
       cx.fillStyle = c; cx.fillText(lt, lx, ly);
     });
+    // the flows, listed under the box (always; on phones this is the only place they are named)
+    var fl = PAIRS.map(function (p) {
+      var nm = function (k, end) { return k >= 0 ? AS[k].n : end ? 'gone' : 'new value'; };
+      return '<span><i style="--a:' + p.c0 + ';--b:' + p.c1 + '"></i>' + nm(p.s, false) + ' \u2192 ' + nm(p.z, true) + ' ' + p.amt + '</span>';
+    }).join('');
+    var flTxt = '<b>Flows:</b>' + (fl || '<span>none this week (nothing falling into anything rising)</span>');
+    if (flTxt !== lastFl) { $('fb-flist').innerHTML = flTxt; lastFl = flTxt; }
     var placed = [];
     PAIRS.forEach(function (p, i) {
-      if (i > 5 || p.f < 0.07) return;
+      if (PH || i > 5 || p.f < 0.07) return;
       var m = bz(p, 0.5), t = (p.s >= 0 ? AS[p.s].n : 'new value') + ' \u2192 ' + (p.z >= 0 ? AS[p.z].n : 'gone') + '  ' + p.amt;
       cx.font = '600 10.5px "Space Grotesk", system-ui, sans-serif'; var tw = cx.measureText(t).width + 10, ty = m[1];
       placed.forEach(function (r) { if (Math.abs(r[0] - m[0]) < (r[2] + tw) / 2 && Math.abs(r[1] - ty) < 15) ty = r[1] + 16; });
@@ -4791,7 +4804,7 @@ FLOWBOX_JS = r"""(function () {
       cx.strokeStyle = rgba(oc, odAmt > 1 ? 0.9 : 0.4); cx.lineWidth = 4; cx.lineCap = 'round';
       cx.beginPath(); cx.moveTo(OD.x - 22, OD.y); cx.lineTo(OD.x + 22, OD.y); cx.stroke();
       cx.font = '700 10px "Space Grotesk", system-ui, sans-serif'; cx.textAlign = 'center'; cx.fillStyle = oc;
-      cx.fillText((gone ? 'OUT: value gone ' : 'IN: new value ') + money(odAmt), OD.x, OD.y - 8);
+      if (!PH) cx.fillText((gone ? 'OUT: value gone ' : 'IN: new value ') + money(odAmt), OD.x, OD.y - 8);
     }
     // header text
     var d = A.d[R.i];
@@ -4802,7 +4815,8 @@ FLOWBOX_JS = r"""(function () {
     var w0 = cx.measureText('The plan held: ').width; cx.fillStyle = col(hh[1]); cx.beginPath(); cx.arc(16 + w0 + 6, 50, 5, 0, Math.PI * 2); cx.fill();
     cx.fillStyle = col('--ink'); cx.fillText(hh[0], 16 + w0 + 15, 54);
     cx.textAlign = 'right'; cx.fillStyle = col('--ink-2');
-    cx.fillText(MKT && R.mtot ? 'All five: ' + money(R.mtot) : (mode === 'mom' ? 'Money leaning to ' : 'Strongest RSI: ') + AS[lead].n + (mode === 'mom' ? ' (' + Math.round(R.share[lead] * 100) + '%)' : ''), W - 16, 34);
+    var dTh = MKT && R.mtot ? R.dv.reduce(function (x, y) { return x + (y || 0); }, 0) : 0;
+    cx.fillText(MKT && R.mtot ? (PH ? money(R.mtot) + ' \u00b7 ' + (dTh >= 0 ? '+' : '\u2212') + money(Math.abs(dTh)) + ' 1 mo' : 'All five: ' + money(R.mtot)) : (mode === 'mom' ? 'Money leaning to ' : 'Strongest RSI: ') + AS[lead].n + (mode === 'mom' ? ' (' + Math.round(R.share[lead] * 100) + '%)' : ''), W - 16, 34);
     var note = '';
     if (mode !== 'mom') {
       var up = AS.filter(function (a, q) { return a.k !== 'c' && R.on[q] && R.rs[q] > 50; }).length, tot = AS.filter(function (a, q) { return a.k !== 'c' && R.on[q]; }).length;
@@ -4812,8 +4826,9 @@ FLOWBOX_JS = r"""(function () {
       var dT = R.dv.reduce(function (x, y) { return x + (y || 0); }, 0);
       note = (dT >= 0 ? '+' : '\u2212') + money(Math.abs(dT)) + ' in a month';
     }
+    if (PH) note = '';
     if (note) { cx.fillStyle = col('--ink'); cx.font = '600 12px "Space Grotesk", system-ui, sans-serif'; cx.fillText(note, W - 16, 54); }
-    if (red) { cx.fillStyle = hot; cx.font = '600 12px "Space Grotesk", system-ui, sans-serif'; cx.fillText('Red: last week only', W - 16, note ? 72 : 54); }
+    if (red && !PH) { cx.fillStyle = hot; cx.font = '600 12px "Space Grotesk", system-ui, sans-serif'; cx.fillText('Red: last week only', W - 16, note ? 72 : 54); }
     if (seen) requestAnimationFrame(frame); else loopOn = false;
   }
   function money(b) { return b >= 1000 ? '$' + (b / 1000).toFixed(b >= 10000 ? 0 : 1) + 'T' : '$' + Math.round(b) + 'B'; }
