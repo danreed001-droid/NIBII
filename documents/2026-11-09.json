@@ -381,8 +381,8 @@
        null
       ]
      ],
-     "maturityClose": 7539.0,
-     "ret": -0.005639,
+     "maturityClose": 7550.5,
+     "ret": -0.004122,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5060,8 +5060,8 @@
        null
       ]
      ],
-     "maturityClose": 4039.39990234375,
-     "ret": -0.025571,
+     "maturityClose": 4038.800048828125,
+     "ret": -0.025715,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7144,8 +7144,8 @@
        null
       ]
      ],
-     "maturityClose": 102.25199890136719,
-     "ret": 0.005635,
+     "maturityClose": 102.26000213623047,
+     "ret": 0.005714,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9302,7 +9302,7 @@
       [
        "bear",
        "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; small caps are rate-sensitive",
-       true
+       false
       ],
       [
        "neu",
@@ -9340,8 +9340,8 @@
        null
       ]
      ],
-     "maturityClose": 2825.5,
-     "ret": -0.007343,
+     "maturityClose": 2830.0,
+     "ret": -0.005762,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11267,7 +11267,7 @@
       [
        "bear",
        "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; long-duration growth is rate-sensitive",
-       true
+       false
       ],
       [
        "neu",
@@ -11282,7 +11282,7 @@
       [
        "bear",
        "Nvidia board announced an investigation into CEO Huang's relationship with a Megaspeed executive; NVDA -4.24% overnight on 9 November and AI megacaps lagged the rally (news log), though NDX futures recovered from -1% to +0.2% pre-open",
-       true
+       false
       ],
       [
        "neu",
@@ -11305,8 +11305,8 @@
        null
       ]
      ],
-     "maturityClose": 27792.75,
-     "ret": -0.009851,
+     "maturityClose": 27859.0,
+     "ret": -0.00749,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
