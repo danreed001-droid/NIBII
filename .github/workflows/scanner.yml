@@ -231,6 +231,19 @@ jobs:
         run: |
           python scripts/log_issue.py world "Tonight's world index refresh failed, so the world markets section shows the last closes it had (information only; the plan is unaffected)."
 
+      - name: Money flow box (stocks, bonds, gold, managed futures, cash)
+        # weekly closes, RSI and what the plan held since 2000 for the page's money flow animation (data/flow_box.json,
+        # information only); a failure keeps the last file and never blocks the dashboard
+        id: flowbox
+        continue-on-error: true
+        timeout-minutes: 5
+        run: python scripts/flow_box.py
+
+      - name: Log a failed money flow refresh
+        if: ${{ steps.flowbox.outcome == 'failure' }}
+        run: |
+          python scripts/log_issue.py flowbox "Tonight's money flow refresh failed, so the money flow animation shows the last week it had (information only; the plan is unaffected)."
+
       - name: Render the dashboard
         # after the events step, so a news feed problem it logs shows on tonight's page
         run: python scripts/render_scanner.py
@@ -239,7 +252,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/earnings_dates.json docs/scanner.html docs/events.html docs/issues.html docs/stress.html docs/forward.html data/dominoes.json data/crowding_history.json data/news_forward.json data/revisions_forward.json data/rates_forward.json data/world_trend.json data/major_events.json data/event_patterns.json data/event_forecasts.json data/headlines_log.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
+          git add data/earnings_dates.json docs/scanner.html docs/events.html docs/issues.html docs/stress.html docs/forward.html data/dominoes.json data/crowding_history.json data/news_forward.json data/revisions_forward.json data/rates_forward.json data/world_trend.json data/flow_box.json data/major_events.json data/event_patterns.json data/event_forecasts.json data/headlines_log.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0
