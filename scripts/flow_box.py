@@ -22,6 +22,41 @@ def closes(ticker, start):
     return [(i.date().isoformat(), float(c)) for i, c in zip(df.index, df['Close']) if c == c]
 
 
+SIZES = os.path.join(ROOT, 'data', 'market_sizes.json')
+FRED = {'stocks': 'BOGZ1FL893064105Q', 'bonds': 'FYGFDPUN', 'cash': 'MMMFFAQ027S'}
+
+
+def refresh_sizes():
+    """data/market_sizes.json, with its three FRED quarterly series refreshed when FRED answers (best effort: on any
+    failure the file's last values stand)."""
+    with open(SIZES) as fh:
+        M = json.load(fh)
+    try:
+        import csv
+        import io
+        import urllib.request
+        from datetime import date, timedelta
+        for key, sid in FRED.items():
+            url = f'https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}'
+            with urllib.request.urlopen(url, timeout=20) as r:
+                rows = list(csv.reader(io.StringIO(r.read().decode())))[1:]
+            pts = []
+            for d, v in rows:
+                if d < '1999-01-01' or v in ('', '.'):
+                    continue
+                y, m = int(d[:4]), int(d[5:7]) + 3
+                end = date(y + (m - 1) // 12, (m - 1) % 12 + 1, 1) - timedelta(days=1)   # FRED dates a quarter by its start
+                pts.append([end.isoformat(), round(float(v) / 1000, 1)])
+            if len(pts) > 50:
+                M[key] = pts
+        with open(SIZES, 'w') as fh:
+            json.dump(M, fh, separators=(',', ':'))
+            fh.write('\n')
+    except Exception as e:   # information only: keep the last values
+        print(f'  market sizes: FRED refresh skipped ({e})')
+    return M
+
+
 def main():
     with open(os.path.join(ROOT, 'data', 'plan_history.json')) as fh:
         ph = json.load(fh)
@@ -39,7 +74,8 @@ def main():
     fresh['DBMF'] = closes('DBMF', '2019-05-01')
     if not fresh['DBMF']:
         sys.exit('flow box: no closes for DBMF; keeping the last file')
-    doc = flowbox.build(ph, fresh, entries)
+    sizes = refresh_sizes()
+    doc = flowbox.build(ph, fresh, entries, sizes)
     doc['asOf'] = doc['d'][-1]
     with open(OUT, 'w') as fh:
         json.dump(doc, fh, separators=(',', ':'))

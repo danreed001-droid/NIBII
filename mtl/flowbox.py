@@ -9,9 +9,11 @@ week's last session):
 - d: the date; s / b / g / f: the closes of stocks, bonds, gold and managed futures (f is None before DBMF began);
 - h: what the plan held after that close, one letter per week ('s' stocks, 'g' gold, 'b' bonds, 'c' cash, 'f' futures);
 - rs / rb / rg / rf: each one's 14-day RSI (Wilder) at that close.
+- vs / vb / vg / vf / vc: with `sizes` (data/market_sizes.json), each basket's market size in $ billions (market_sizes()).
 It also keeps the daily closes (dd: dates; ds / db / dg / df; the last DAILY sessions, or all of them) for the 6-month trend
 chart, which follows the animation's week.
 The page works out the rest (the 1 + 3 month scores, the 1-week moves, a 14-week RSI) from these."""
+import math
 from bisect import bisect_right
 from datetime import date
 
@@ -74,7 +76,7 @@ def held_codes(rows, entries, days, end=None):
     return out
 
 
-def build(plan_history, fresh, entries):
+def build(plan_history, fresh, entries, sizes=None):
     """The weekly rows (see the module note). plan_history: the parsed data/plan_history.json; fresh: {'SPY'|'TLT'|'GLD'|
     'DBMF': [(date, close)]}; entries: the paper record's entries."""
     P = plan_history['prices']
@@ -109,9 +111,68 @@ def build(plan_history, fresh, entries):
             j = bisect_right(rk[k], d) - 1
             r = rs[k][rk[k][j]] if j >= 0 else None
             out['r' + k].append(round(r, 1) if r is not None else None)
+    if sizes:
+        # each basket's market size at each week, for the page's 'market size' option; the quarter-end anchors are
+        # looked up on the trading calendar (the last session on or before them)
+        cal = {}
+        for k in ('s', 'g'):
+            col_, last_ = {}, None
+            qd = sorted({x[0] for x in sizes['stocks']} | set(weeks))
+            ks = sorted(ff[k])
+            for d in qd:
+                j = bisect_right(ks, d) - 1
+                col_[d] = ff[k][ks[j]] if j >= 0 else None
+            cal[k] = col_
+        out.update(market_sizes(weeks, cal, sizes))
     # the last DAILY sessions (dd and ds / db / dg / df, forward-filled closes) for the 6-month trend chart
     tail = days[-DAILY:] if DAILY else days
     out['dd'] = tail
     for k in ('s', 'b', 'g', 'f'):
         out['d' + k] = [round(ff[k][d], 3) if ff[k][d] is not None and (k != 'f' or d >= f0) else None for d in tail]
+    return out
+
+
+OZ_PER_TONNE = 32150.7466
+
+
+def _interp(pts, d):
+    """Linear interpolation of [(date, value)] at date d; flat beyond either end."""
+    if not pts:
+        return None
+    if d <= pts[0][0]:
+        return pts[0][1]
+    if d >= pts[-1][0]:
+        return pts[-1][1]
+    j = bisect_right([p[0] for p in pts], d)
+    (a, va), (b, vb) = pts[j - 1], pts[j]
+    da, db, dd = (date.fromisoformat(x).toordinal() for x in (a, b, d))
+    return va + (vb - va) * (dd - da) / (db - da)
+
+
+def gold_spot(gld, d):
+    """The gold price an ounce from a GLD close: a share held 0.1 oz at launch (Nov 18, 2004), less its 0.4% a year fee."""
+    yrs = (date.fromisoformat(d) - date(2004, 11, 18)).days / 365.25
+    return gld / (0.1 * math.exp(-0.004 * yrs))
+
+
+def market_sizes(weeks, closes, M):
+    """Each basket's market size in $ billions at each week (vs / vb / vg / vf / vc), from M (data/market_sizes.json):
+    stocks = the last quarter-end value carried by SPY's move since; bonds and cash = linear between quarter ends (flat
+    after the last); gold = above-ground tonnes x the gold price from GLD; futures = the industry's year-end assets."""
+    st = [tuple(x) for x in M['stocks']]
+    sd = [x[0] for x in st]
+    out = {'vs': [], 'vb': [], 'vg': [], 'vf': [], 'vc': []}
+    for d in weeks:
+        s, g = closes['s'][d], closes['g'][d]
+        j = bisect_right(sd, d) - 1
+        if j >= 0 and s and closes['s'].get(sd[j]):
+            v = st[j][1] * s / closes['s'][sd[j]]
+        else:
+            v = _interp(st, d)
+        out['vs'].append(round(v, 1) if v is not None else None)
+        out['vb'].append(round(_interp([tuple(x) for x in M['bonds']], d), 1))
+        out['vc'].append(round(_interp([tuple(x) for x in M['cash']], d), 1))
+        t = _interp([tuple(x) for x in M['gold_tonnes']], d)
+        out['vg'].append(round(t * OZ_PER_TONNE * gold_spot(g, d) / 1e9, 1) if g else None)
+        out['vf'].append(round(_interp([tuple(x) for x in M['futures']], d), 1))
     return out

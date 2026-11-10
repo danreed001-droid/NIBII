@@ -4162,7 +4162,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
     <span class="fb-seg" id="fb-spd" role="group" aria-label="Speed"><button type="button" data-v="2">Slow</button><button type="button" data-v="5">Normal</button><button type="button" data-v="14">Fast</button></span>
     <span class="fb-seg" id="fb-mode" role="group" aria-label="Flow by"><button type="button" data-v="mom">1 + 3 months</button><button type="button" data-v="rsid">RSI daily</button><button type="button" data-v="rsiw">RSI weekly</button></span>
     <span class="fb-seg" id="fb-look" role="group" aria-label="Look"><button type="button" data-v="dots">Dots</button><button type="button" data-v="bubbles">Bubbles</button><button type="button" data-v="both">Both</button></span>
-    <span class="fb-seg" id="fb-size" role="group" aria-label="Size by"><button type="button" data-v="share">Size: flow share</button><button type="button" data-v="rsi">RSI</button><button type="button" data-v="rng">52-wk range</button></span>
+    <span class="fb-seg" id="fb-size" role="group" aria-label="Size by"><button type="button" data-v="share">Size: flow share</button><button type="button" data-v="rsi">RSI</button><button type="button" data-v="rng">52-wk range</button><button type="button" data-v="mkt">Market size</button></span>
     <button type="button" class="fb-btn tog" id="fb-red" aria-pressed="false">1-week flow in red</button>
     <span class="fb-seg" id="fb-jump" role="group" aria-label="Jump to"><button type="button" data-d="2007-09-01">2008 crash</button><button type="button" data-d="2019-12-01">2020</button><button type="button" data-d="2022-04-01">2022</button><button type="button" data-d="2024-10-01">2025</button><button type="button" data-d="end">Now</button></span>
   </div>
@@ -4178,6 +4178,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
   <li><b>Airflow</b>: money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
   <li><b>Dots</b>: the box holds a fixed number of dots, the money. Each cloud holds its share (shown next to its name); when money moves, dots fly from one cloud to another and change colour on the way. Bubbles shows solid circles with airflow; Both draws each cloud inside its bubble.</li>
   <li><b>Size by RSI or 52-week range</b>: clouds and bubbles shrink toward nothing at RSI 0 or the 52-week low and grow toward RSI 100 or the 52-week high (52 weeks of weekly closes). Cash sits in the middle.</li>
+  <li><b>Size by market size</b>: each basket at the size of its whole market, in dollars: stocks = the market value of corporate stock (Federal Reserve Z.1); bonds = US federal debt held by the public; gold = all above-ground gold (World Gold Council tonnes, approximate) at the gold price; managed futures = the industry's assets (BarclayHedge, approximate, so it is a speck); cash = money market funds. Quarterly figures from FRED (data/market_sizes.json), with stocks and gold moving with SPY and GLD in between.</li>
   <li><b>RSI flow</b>: RSI above 50 draws money in, below 50 sends it out (daily: 14-day RSI at the week's close; weekly: 14-week RSI). Cash is the sidelines: money leaves it when most are above 50 and piles into it when most are below. Bubble size follows RSI too.</li>
   <li><b>1-week flow in red</b>: red streaks from the ones that fell last week to the ones that rose (or to cash if none rose), over whichever flow is showing; a solid red ring marks the week's big winners, a dashed one its big losers.</li>
   <li><span class="fb-sw" style="--c:var(--pc-stocks);margin-left:0"></span>stocks (SPY)<span class="fb-sw" style="--c:var(--pc-bonds)"></span>long bonds (TLT)<span class="fb-sw" style="--c:var(--pc-gold)"></span>gold (GLD)<span class="fb-sw" style="--c:var(--pc-futures)"></span>managed futures (DBMF, from May 2019)<span class="fb-sw" style="--c:var(--pc-cash)"></span>cash. Flows follow price moves, not fund-flow data, and the plan does not act on them (tested as a stocks / haven switch and as the haven picker: neither beat it).</li>
@@ -4199,7 +4200,7 @@ def flowbox_html():
         return ''
     if not D.get('d') or len(D['d']) < 30:
         return ''
-    data = {k: D[k] for k in ('d', 's', 'b', 'g', 'f', 'h', 'rs', 'rb', 'rg', 'rf', 'dd', 'ds', 'db', 'dg', 'df') if k in D}
+    data = {k: D[k] for k in ('d', 's', 'b', 'g', 'f', 'h', 'rs', 'rb', 'rg', 'rf', 'dd', 'ds', 'db', 'dg', 'df', 'vs', 'vb', 'vg', 'vf', 'vc') if k in D}
     return (FLOWBOX_SECTION.replace('__FBASOF__', _e(D.get('asOf') or D['d'][-1]), 1)
             .replace('__FBDATA__', json.dumps(data, separators=(',', ':')).replace('</', '<\\/'), 1)
             .replace('__FBJS__', FLOWBOX_JS, 1))
@@ -4278,27 +4279,29 @@ FLOWBOX_JS = r"""(function () {
     // the 1-week layer: last week's move against cash at 0%, so only a rising week draws money in
     var S1 = AS.map(function (a, q) { return on[q] && a.k !== 'c' ? r0[q] * 5 : 0; });
     S1[3] = -S1.reduce(function (a, b) { return a + b; }, 0);
-    var sv = AS.map(function (a) {
+    var mtot = 0, mv = AS.map(function (a, q) { var v = on[q] && A['v' + a.k] ? A['v' + a.k][ii] : null; if (v) mtot += v; return v; });
+    var sv = AS.map(function (a, q) {
+      if (sizeBy === 'mkt') return mv[q] && mtot ? mv[q] / mtot : null;
       if (sizeBy === 'rng') return a.k === 'c' ? 0.5 : RG[a.k][ii];
       if (sizeBy === 'rsi') { if (a.k === 'c') return 0.5; var r = mode === 'rsiw' ? RW[a.k][ii] : A['r' + a.k][ii]; return r == null ? null : r / 100; }
       return null;
     });
-    return { on: on, n: n, r0: r0, r1: r1, r3: r3, rs: rs, S: S, S1: S1, share: share, sv: sv };
+    return { on: on, n: n, r0: r0, r1: r1, r3: r3, rs: rs, S: S, S1: S1, share: share, sv: sv, mv: mv };
   }
   function read(tt) {
     var i = Math.max(13, Math.min(N - 1, Math.floor(tt))), j = Math.min(N - 1, i + 1), f = tt - Math.floor(tt), a = at(i), b = at(j);
     function mix(x, y) { return x.map(function (v, q) { return v == null || y[q] == null ? (f < 0.5 ? v : y[q]) : v + (y[q] - v) * f; }); }
     var o = f < 0.5 ? a : b;
-    return { sv: mix(a.sv, b.sv), share: mix(a.share, b.share), S: mix(a.S, b.S), S1: mix(a.S1, b.S1), r0: mix(a.r0, b.r0), r1: mix(a.r1, b.r1), r3: mix(a.r3, b.r3), rs: mix(a.rs, b.rs), on: o.on, n: o.n, i: f < 0.5 ? i : j };
+    return { mv: mix(a.mv, b.mv), sv: mix(a.sv, b.sv), share: mix(a.share, b.share), S: mix(a.S, b.S), S1: mix(a.S1, b.S1), r0: mix(a.r0, b.r0), r1: mix(a.r1, b.r1), r3: mix(a.r3, b.r3), rs: mix(a.rs, b.rs), on: o.on, n: o.n, i: f < 0.5 ? i : j };
   }
-  var W, H, C;
+  var W, H, C, CB;
   function layout() {
     var w = Math.min(820, cv.parentNode.clientWidth); var h = Math.round(Math.max(360, Math.min(560, w * 0.72)));
     var dpr = window.devicePixelRatio || 1; cv.width = w * dpr; cv.height = h * dpr; cv.style.height = h + 'px'; cv.style.width = w + 'px'; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
     swarm = [];
     drawTrend();
     W = w; H = h; trail.width = w * dpr; trail.height = h * dpr; trail.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0); lastI = -1;
-    C = [[W * 0.5, H * 0.27], [W * 0.18, H * 0.52], [W * 0.82, H * 0.52], [W * 0.32, H * 0.83], [W * 0.68, H * 0.83]];
+    C = CB = [[W * 0.5, H * 0.27], [W * 0.18, H * 0.52], [W * 0.82, H * 0.52], [W * 0.32, H * 0.83], [W * 0.68, H * 0.83]];
     var st = $('fb-strip'), sx = st.getContext('2d'), sw = st.clientWidth || W; st.width = sw * dpr; st.height = 10 * dpr; sx.setTransform(dpr, 0, 0, dpr, 0, 0);
     for (var i = 0; i < N; i++) { sx.fillStyle = col(HELD[A.h[i]][1]); sx.fillRect(i / N * sw, 0, Math.ceil(sw / N) + 0.5, 10); }
   }
@@ -4403,6 +4406,7 @@ FLOWBOX_JS = r"""(function () {
     var rad = R.share.map(function (s, q) {
       if (!R.on[q]) return Math.min(W, H) * 0.06;
       if (!dots) return radius(s, R.n);
+      if (sizeBy === 'mkt') { var mx = Math.max.apply(null, R.sv.map(function (v) { return v || 0; })) || 1; return Math.max(4, Math.min(W, H) * 0.25 * Math.sqrt((R.sv[q] || 0) / mx)); }
       var v = R.sv[q] == null ? 0.5 : Math.max(0, Math.min(1, R.sv[q])), mx = Math.min(W, H) * 0.17, mn = Math.max(5, Math.min(W, H) * 0.012);
       return mn + (mx - mn) * Math.pow(v, 1.4);
     });
@@ -4416,11 +4420,14 @@ FLOWBOX_JS = r"""(function () {
     var DOTS = look !== 'bubbles', BOTH = look === 'both', rcl = null, tgt = null;
     if (DOTS) {
       var M = W < 520 ? 520 : 950;
-      var wv = AS.map(function (a, q) { if (!R.on[q]) return 0; if (sizeBy === 'share') return R.share[q]; var v = R.sv[q] == null ? 0.5 : Math.max(0, Math.min(1, R.sv[q])); return 0.01 + v * v; });
+      var wv = AS.map(function (a, q) { if (!R.on[q]) return 0; if (sizeBy === 'share') return R.share[q]; if (sizeBy === 'mkt') return Math.max(0.0012, R.sv[q] || 0); var v = R.sv[q] == null ? 0.5 : Math.max(0, Math.min(1, R.sv[q])); return 0.01 + v * v; });
       var wt = wv.reduce(function (x, y) { return x + y; }, 0);
       tgt = wv.map(function (v) { return Math.round(M * v / wt); });
       var spc = Math.min(W, H) * (W < 520 ? 0.0135 : 0.0105);
       rcl = tgt.map(function (n, q) { return R.on[q] ? Math.max(5, spc * Math.sqrt(n)) : Math.min(W, H) * 0.06; });
+      // only shrink (all by one factor, keeping proportions) if the biggest cloud is wider than the box itself
+      var rmx = Math.max.apply(null, rcl.filter(function (_, q) { return R.on[q]; })), fit = Math.min(1, (H - 80) / 2 / rmx, (W - 20) / 2 / rmx);
+      if (fit < 1) rcl = rcl.map(function (r, q) { return R.on[q] ? Math.max(4, r * fit) : r; });
       rad = rcl;
       if (swarm.length !== M) {
         swarm = []; var qi = 0, acc = 0;
@@ -4428,6 +4435,11 @@ FLOWBOX_JS = r"""(function () {
         for (var m = 0; m < M; m++) { while (qi < Q - 1 && m >= acc + tgt[qi]) { acc += tgt[qi]; qi++; while (qi < Q - 1 && !tgt[qi]) qi++; } swarm.push(newDot(qi, true)); }
       }
     }
+    // nudge each centre inward just enough for its cloud or bubble to sit inside the box
+    C = CB.map(function (c, q) {
+      var r = rad[q]; if (!R.on[q] || 2 * r > W - 20 || 2 * r > H - 80) return c;
+      return [Math.max(10 + r, Math.min(W - 10 - r, c[0])), Math.max(70 + r, Math.min(H - 10 - r, c[1]))];
+    });
     function newDot(q, place) {
       var d = { q: q, mig: false, r: Math.sqrt(Math.random()), a: Math.random() * Math.PI * 2 };
       if (place) { d.x = C[q][0] + Math.cos(d.a) * d.r * rcl[q]; d.y = C[q][1] + Math.sin(d.a) * d.r * rcl[q]; }
@@ -4566,8 +4578,9 @@ FLOWBOX_JS = r"""(function () {
           cx.fillStyle = col('--muted'); cx.textAlign = 'center'; cx.font = '500 11px "Space Grotesk", system-ui, sans-serif'; cx.fillText(a.n + ' (from May 2019)', C[q][0], C[q][1] + rcl[q] + 14); return;
         }
         var bits = [];
-        if (a.k === 'c') bits.push(mode === 'mom' && sizeBy === 'share' ? '0%' : 'sidelines');
+        if (a.k === 'c') bits.push(sizeBy === 'mkt' && R.mv[q] != null ? money(R.mv[q]) + ' money funds' : mode === 'mom' && sizeBy === 'share' ? '0%' : 'sidelines');
         else {
+          if (sizeBy === 'mkt' && R.mv[q] != null) bits.push(money(R.mv[q]));
           if (sizeBy === 'rng' && R.sv[q] != null) bits.push(Math.round(R.sv[q] * 100) + '% of 52 wk');
           if (sizeBy === 'rsi' && R.sv[q] != null) bits.push('RSI ' + Math.round(R.sv[q] * 100));
           if (mode === 'mom') bits.push(fmt(R.r1[q]) + ' 1 mo'); else if (sizeBy !== 'rsi') bits.push('RSI ' + Math.round(R.rs[q]));
@@ -4602,7 +4615,8 @@ FLOWBOX_JS = r"""(function () {
         if (R.S1[q] < 0) cx.setLineDash([5, 4]); cx.stroke(); cx.setLineDash([]);
       }
       var lines = [];
-      if (dots && a.k !== 'c') lines.push(sizeBy === 'rng' ? (R.sv[q] == null ? '' : Math.round(R.sv[q] * 100) + '% of 52 wk') : 'RSI ' + Math.round(R.sv[q] * 100));
+      if (dots && sizeBy === 'mkt') lines.push(R.mv[q] != null ? money(R.mv[q]) : '');
+      else if (dots && a.k !== 'c') lines.push(sizeBy === 'rng' ? (R.sv[q] == null ? '' : Math.round(R.sv[q] * 100) + '% of 52 wk') : 'RSI ' + Math.round(R.sv[q] * 100));
       if (dots && r < 38) {     // too small to write in: label it underneath
         cx.textAlign = 'center'; cx.fillStyle = col('--ink'); cx.font = '600 13px "Space Grotesk", system-ui, sans-serif';
         cx.fillText(a.n, C[q][0], C[q][1] + r + 16);
@@ -4643,6 +4657,7 @@ FLOWBOX_JS = r"""(function () {
     if (red) { cx.fillStyle = hot; cx.font = '600 12px "Space Grotesk", system-ui, sans-serif'; cx.fillText('Red: last week only', W - 16, note ? 72 : 54); }
     if (seen) requestAnimationFrame(frame); else loopOn = false;
   }
+  function money(b) { return b >= 1000 ? '$' + (b / 1000).toFixed(b >= 10000 ? 0 : 1) + 'T' : '$' + Math.round(b) + 'B'; }
   function fmt(v) { return (v > 0 ? '+' : v < 0 ? '\u2212' : '') + Math.abs(v * 100).toFixed(1) + '%'; }
   function setPlay(p) { playing = p; $('fb-play').textContent = p ? 'Pause' : 'Play'; if (p && t >= N - 1) t = 13; }
   function save(k, v) { try { localStorage.setItem(k, v); } catch (x) {} }

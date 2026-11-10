@@ -54,3 +54,14 @@ def test_build_weekly_rows():
     assert out['h'][-1] == 'g' and out['h'][0] == 's'
     assert out['dd'] == (days[-flowbox.DAILY:] if flowbox.DAILY else days)
     assert len(out['ds']) == len(out['dd']) and out['df'][0] is None and out['df'][-1] == 30.0
+
+
+def test_market_sizes():
+    M = {'stocks': [['2026-03-31', 1000.0]], 'bonds': [['2025-12-31', 100.0], ['2026-12-31', 200.0]], 'cash': [['2026-03-31', 50.0]],
+         'gold_tonnes': [['2025-12-31', 1000]], 'futures': [['2025-12-31', 3.0]]}
+    closes = {'s': {'2026-03-31': 10.0, '2026-07-01': 12.0}, 'g': {'2026-03-31': 100.0, '2026-07-01': 100.0}}
+    out = flowbox.market_sizes(['2026-07-01'], closes, M)
+    assert out['vs'] == [1200.0]                                   # the quarter-end value carried by SPY's move
+    assert 140 < out['vb'][0] < 152 and out['vc'] == [50.0] and out['vf'] == [3.0]
+    spot = flowbox.gold_spot(100.0, '2026-07-01')
+    assert abs(out['vg'][0] - 1000 * flowbox.OZ_PER_TONNE * spot / 1e9) < 0.1 and 1000 < spot < 1100
