@@ -5217,5 +5217,85 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-10-1-october-cpi-hot-04-headline-03-core",
+    "data": {
+      "addedAt": "2026-11-10",
+      "category": "Macro",
+      "date": "2026-11-10",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "October CPI hotter than expected: headline +0.4% m/m, core +0.3% m/m. Nasdaq-100 futures fell ~1% and S&P 500 futures ~0.4-0.5% after the 8:30 AM ET release, Dow futures roughly flat. Year-over-year figures n/a in sources.",
+      "impact": "High",
+      "numbers": "CPI +0.4% m/m; core +0.3% m/m; NQ -0.95% to -1.2%; ES -0.4% to -0.5%; YoY n/a",
+      "order": 1,
+      "reaction": "Hot print reverses part of Monday's rally (S&P +2.35%, Nasdaq +2.74%) and strengthens the case for a December Fed hike; tech/growth hit hardest.",
+      "region": "US",
+      "source": "https://www.cnbc.com/2026/11/09/stock-market-today-live-updates.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "Headline +0.4% vs +0.3% exp; core +0.3% vs +0.2% exp"
+    }
+  },
+  {
+    "id": "2026-11-10-2-waller-dec-hike-likely-50bp-on-table",
+    "data": {
+      "addedAt": "2026-11-10",
+      "category": "Fed",
+      "date": "2026-11-10",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "Fed Governor Waller said a December rate hike is 'likely' and he is 'leaning toward' an increase; he said a 50bp hike should be considered because 25bp risks the Fed's credibility.",
+      "impact": "High",
+      "numbers": "Dec hike 'likely'; 50bp option raised; market-implied odds n/a today",
+      "order": 2,
+      "reaction": "Hawkish Fed signal on top of hot CPI adds pressure to equities and rate-sensitive assets; Treasury yield move n/a at time of writing.",
+      "region": "US",
+      "source": "https://www.cnbc.com/2026/11/09/stock-market-today-live-updates.html",
+      "tickers": "SPY, S&P, QQQ, TLT, 10Y, Treasury",
+      "time": "Pre-market",
+      "vsExp": "50bp not previously priced; n/a"
+    }
+  },
+  {
+    "id": "2026-11-10-3-asia-surges-nikkei-kospi-europe-higher",
+    "data": {
+      "addedAt": "2026-11-10",
+      "category": "Market",
+      "date": "2026-11-10",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Asia and Europe extend Monday's global rally: Nikkei +2.87% to 60,459.58, Kospi +4.39% to 5,239.13, ASX 200 +1.1%, Hang Seng +0.38%; Stoxx 600 +0.64%, DAX +0.94%, CAC +0.88%, FTSE +0.26% at midday.",
+      "impact": "Medium",
+      "numbers": "Nikkei +2.87%; Kospi +4.39%; ASX +1.1%; HSI +0.38%; Stoxx 600 +0.64%; DAX +0.94%",
+      "order": 3,
+      "reaction": "Overseas strength is a tailwind but US futures are lower on the CPI/Waller hawkish shift.",
+      "region": "Global",
+      "source": "https://www.cnbc.com/2026/11/09/stock-market-today-live-updates.html",
+      "tickers": "SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-10-4-brent-slips-to-90-after-weekly-drop",
+    "data": {
+      "addedAt": "2026-11-10",
+      "category": "Energy",
+      "date": "2026-11-10",
+      "day": "Tue",
+      "direction": "Neutral",
+      "event": "Brent fell to roughly $90-91.5 and WTI to roughly $84.7-85.7 (-1.3% to -2.9%), extending a ~6.9% weekly decline after a 16.4% drop the prior week.",
+      "impact": "Medium",
+      "numbers": "Brent ~$89.85-$91.45; WTI ~$84.72-$85.70; Brent -6.9% wtd",
+      "order": 4,
+      "reaction": "Lower crude eases the inflation backdrop somewhat, partly offsetting the hot CPI.",
+      "region": "Global",
+      "source": "https://www.tipranks.com/news/hotter-than-expected-october-cpi-weighs-on-u-s-stocks",
+      "tickers": "",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
