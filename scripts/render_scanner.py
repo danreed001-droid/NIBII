@@ -4175,7 +4175,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 <ul class="fb-key" style="margin-top:10px">
   <li><b>6-month shape chart</b>: the 6 months up to the week the animation is on, each line from its own low (bottom) to its high (top) on a log scale; it moves with the animation, and the end labels give each one's spot (100% = at its 6-month high). Hover for any day; tap a name above it to hide or show that line (SPY is drawn in white here).</li>
   <li><b>Bubble size</b>: each one's share of the "money" by recent strength, scored on its last 1 and 3 months against the others. Each frame is one week and both windows roll forward weekly, so the picture can change several times inside a month. Cash always scores 0%.</li>
-  <li><b>Airflow</b>: the streams run in every view, from each OUT door to the IN doors. Money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
+  <li><b>Airflow</b>: each flow is one ribbon from a giver's OUT door to a taker's IN door, as wide as the flow and coloured from giver to taker, with an arrowhead where it lands and a label (from → to, and its share of the flows or, in market-size mode, its dollars); the air rides along the ribbons only. Money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
   <li><b>Doors</b>: each asset has one door, facing the middle of the box. Money leaves only through an OUT door (arrow pointing away) and arrives only through an IN door (arrow pointing in); a grey door is shut. In market-size mode the doors show the dollars, and the box's own door at the bottom shows value that vanished or new value that appeared.</li>
   <li><b>Dots</b>: the box holds a fixed number of dots, the money. Each cloud holds its share (shown next to its name); when money moves, dots fly from one cloud to another and change colour on the way. Bubbles shows solid circles with airflow; Both draws each cloud inside its bubble.</li>
   <li><b>Size by RSI or 52-week range</b>: clouds and bubbles shrink toward nothing at RSI 0 or the 52-week low and grow toward RSI 100 or the 52-week high (52 weeks of weekly closes). Cash sits in the middle.</li>
@@ -4501,6 +4501,35 @@ FLOWBOX_JS = r"""(function () {
       if (Math.hypot(DR[pt.z].x - pt.x, DR[pt.z].y - pt.y) < 6 || Math.hypot(C[pt.z][0] - pt.x, C[pt.z][1] - pt.y) < rad[pt.z] * 0.7 || pt.age > 6 || !L.snk[pt.z] || !L.src[pt.s]) pt.dead = true;
       return [x0, y0, prog];
     }
+    // flow ribbons: each falling asset's outflow split across the rising ones by how hard each pulls (dollars in
+    // market-size mode, where losses nobody gained go out of the box and gains beyond the losses come in from it)
+    var PAIRS = [];
+    (function () {
+      var src = L0.src, snk = L0.snk, sT = L0.srcT, kT = L0.snkT, s, z;
+      if (sT < 0.01 && kT < 0.01) return;
+      var m = Math.min(sT, kT);
+      if (m > 0) for (s = 0; s < Q; s++) if (src[s] > 0) for (z = 0; z < Q; z++) if (snk[z] > 0) PAIRS.push({ s: s, z: z, w: m * src[s] / sT * snk[z] / kT });
+      if (MKT && DOTS) {
+        if (sT > kT) for (s = 0; s < Q; s++) if (src[s] > 0) PAIRS.push({ s: s, z: -1, w: (sT - kT) * src[s] / sT });
+        if (kT > sT) for (z = 0; z < Q; z++) if (snk[z] > 0) PAIRS.push({ s: -1, z: z, w: (kT - sT) * snk[z] / kT });
+      }
+      var tot = PAIRS.reduce(function (a, p) { return a + p.w; }, 0);
+      PAIRS = PAIRS.filter(function (p) { return p.w >= tot * 0.04; }).sort(function (a, b) { return b.w - a.w; }).slice(0, 8);
+      tot = PAIRS.reduce(function (a, p) { return a + p.w; }, 0);
+      PAIRS.forEach(function (p, i) {
+        var A0 = p.s >= 0 ? DR[p.s] : OD, A2 = p.z >= 0 ? DR[p.z] : OD;
+        p.f = p.w / tot; p.key = p.s + '>' + p.z;
+        p.P0 = [A0.x + A0.ux * 3, A0.y + A0.uy * 3]; p.P2 = [A2.x + A2.ux * 3, A2.y + A2.uy * 3];
+        var mx = (p.P0[0] + p.P2[0]) / 2, my = (p.P0[1] + p.P2[1]) / 2, dx = p.P2[0] - p.P0[0], dy = p.P2[1] - p.P0[1], L = Math.hypot(dx, dy) || 1;
+        var side = p.s < p.z ? 1 : -1;
+        p.P1 = [mx * 0.75 + cxm * 0.25 - dy / L * L * 0.12 * side, my * 0.75 + cym * 0.25 + dx / L * L * 0.12 * side];
+        p.wd = (3 + 22 * p.f) * Math.max(0.75, sc);
+        p.c0 = p.s >= 0 ? cols[p.s] : col('--muted'); p.c1 = p.z >= 0 ? cols[p.z] : col('--muted');
+        p.amt = MKT && R.mtot ? money(p.w / 12 * R.mtot) : Math.round(p.f * 100) + '%';
+      });
+    })();
+    function bz(p, u) { var a = (1 - u) * (1 - u), b = 2 * (1 - u) * u, c = u * u; return [a * p.P0[0] + b * p.P1[0] + c * p.P2[0], a * p.P0[1] + b * p.P1[1] + c * p.P2[1]]; }
+    function bzN(p, u) { var tx = 2 * (1 - u) * (p.P1[0] - p.P0[0]) + 2 * u * (p.P2[0] - p.P1[0]), ty = 2 * (1 - u) * (p.P1[1] - p.P0[1]) + 2 * u * (p.P2[1] - p.P1[1]), l = Math.hypot(tx, ty) || 1; return [tx / l, ty / l]; }
     var tc = trail.getContext('2d'), key = mode + (red ? 'r' : '');
     if (key !== lastKey) { tc.clearRect(0, 0, W, H); parts = []; reds = []; lastKey = key; }
     tc.globalCompositeOperation = 'destination-out'; tc.fillStyle = 'rgba(0,0,0,' + (reduce ? 1 : 0.085) + ')'; tc.fillRect(0, 0, W, H);
@@ -4511,7 +4540,26 @@ FLOWBOX_JS = r"""(function () {
       list.forEach(function (pt) { if (pt.dead) { spawn(pt, L); if (pt.dead) return; } draw(pt, step(pt, dt, L)); });
     }
     if (!reduce) {
-      run(parts, (W < 520 ? 380 : 800) * (red ? 0.7 : 1) * (DOTS ? 0.6 : 1), L0, function (pt, r0) {
+      var NPR = Math.round((W < 520 ? 240 : 480) * (red ? 0.7 : 1) * (DOTS ? 0.75 : 1)), fT = PAIRS.reduce(function (a, p) { return a + p.f; }, 0);
+      while (parts.length < NPR) parts.push({ dead: true, u: Math.random() });
+      if (parts.length > NPR) parts.length = NPR;
+      parts.forEach(function (pt) {
+        var p = PAIRS[pt.k];
+        if (pt.dead || !p || p.key !== pt.key) {
+          if (!PAIRS.length) { pt.dead = true; return; }
+          var u = Math.random() * fT, k = 0; while (k < PAIRS.length - 1 && u > PAIRS[k].f) { u -= PAIRS[k].f; k++; }
+          p = PAIRS[k]; pt.k = k; pt.key = p.key; pt.u = pt.dead && pt.u != null && pt.fresh == null ? Math.random() : 0; pt.fresh = 1;
+          pt.j = (Math.random() - 0.5) * 0.9; pt.v = 0.3 + Math.random() * 0.2; pt.dead = false;
+        }
+        var u0 = pt.u; pt.u += dt * pt.v * (0.7 + 1.1 * Math.min(1, p.f * 2.5));
+        if (pt.u >= 1) { pt.dead = true; return; }
+        var a0 = bz(p, u0), a1 = bz(p, pt.u), n = bzN(p, pt.u), off = pt.j * p.wd;
+        var ca = hex3(p.c0), cb = hex3(p.c1), f = pt.u;
+        tc.strokeStyle = 'rgba(' + Math.round(ca[0] + (cb[0] - ca[0]) * f) + ',' + Math.round(ca[1] + (cb[1] - ca[1]) * f) + ',' + Math.round(ca[2] + (cb[2] - ca[2]) * f) + ',' + (red ? 0.5 : 0.85) + ')';
+        tc.lineWidth = 1.8 * Math.max(0.8, sc);
+        tc.beginPath(); tc.moveTo(a0[0] - n[1] * off, a0[1] + n[0] * off); tc.lineTo(a1[0] - n[1] * off, a1[1] + n[0] * off); tc.stroke();
+      });
+      if (false) run(parts, 0, L0, function (pt, r0) {
         var a = hex3(cols[pt.s]), b = hex3(cols[pt.z]), f = Math.pow(r0[2], 1.5), fade = Math.min(1, pt.age * 4);
         tc.strokeStyle = 'rgba(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' + Math.round(a[1] + (b[1] - a[1]) * f) + ',' + Math.round(a[2] + (b[2] - a[2]) * f) + ',' + ((red ? 0.45 : DOTS ? 0.55 : 0.8) * fade) + ')';
         tc.lineWidth = (1.3 + 1.4 * Math.min(1, (L0.src[pt.s] + L0.snk[pt.z]) * 2.5)) * Math.max(0.7, sc);
@@ -4524,7 +4572,7 @@ FLOWBOX_JS = r"""(function () {
       });
     } else if (R.i !== lastI) {
       tc.clearRect(0, 0, W, H);
-      [[L0, null, DOTS ? 35 : 60], [L1, hot, red ? 40 : 0]].forEach(function (cfg) {
+      [[L0, null, 0], [L1, hot, red ? 40 : 0]].forEach(function (cfg) {
         for (var g1 = 0; g1 < cfg[2]; g1++) {
           var p2 = {}; spawn(p2, cfg[0]); if (p2.dead) continue;
           tc.strokeStyle = rgba(cfg[1] || cols[p2.z], 0.45); tc.lineWidth = 1.4; tc.beginPath(); tc.moveTo(p2.x, p2.y);
@@ -4699,6 +4747,17 @@ FLOWBOX_JS = r"""(function () {
       cx.font = '500 ' + Math.max(10, Math.min(13, r * 0.2)) + 'px ui-monospace, "SF Mono", Menlo, monospace';
       lines.forEach(function (l, k) { cx.fillText(l, C[q][0], y0 + 17 + k * 15); });
     });
+    // the ribbons: one per flow, its width the size of the flow, coloured from giver to taker, with an arrowhead
+    PAIRS.forEach(function (p) {
+      var g = cx.createLinearGradient(p.P0[0], p.P0[1], p.P2[0], p.P2[1]);
+      g.addColorStop(0, rgba(p.c0, 0.22)); g.addColorStop(1, rgba(p.c1, 0.3));
+      cx.strokeStyle = g; cx.lineWidth = p.wd; cx.lineCap = 'butt';
+      var e = bz(p, 0.93);
+      cx.beginPath(); cx.moveTo(p.P0[0], p.P0[1]); cx.quadraticCurveTo(p.P1[0], p.P1[1], e[0], e[1]); cx.stroke();
+      var n = bzN(p, 0.93), hw = p.wd / 2 + 5, tip = p.P2;
+      cx.fillStyle = rgba(p.c1, 0.75); cx.beginPath(); cx.moveTo(tip[0], tip[1]);
+      cx.lineTo(e[0] - n[1] * hw, e[1] + n[0] * hw); cx.lineTo(e[0] + n[1] * hw, e[1] - n[0] * hw); cx.closePath(); cx.fill();
+    });
     // the doors: OUT (arrow pointing away) where money leaves, IN where it arrives, grey when shut
     AS.forEach(function (a, q) {
       if (!R.on[q]) return;
@@ -4714,6 +4773,17 @@ FLOWBOX_JS = r"""(function () {
       var lx = D.x + D.ux * 29, ly = D.y + D.uy * 29 + 3, lt = (out ? 'OUT' : 'IN') + amt, lw = cx.measureText(lt).width + 8;
       cx.fillStyle = rgba(col('--surface'), 0.85); cx.fillRect(lx - lw / 2, ly - 10, lw, 13);
       cx.fillStyle = c; cx.fillText(lt, lx, ly);
+    });
+    var placed = [];
+    PAIRS.forEach(function (p, i) {
+      if (i > 5 || p.f < 0.07) return;
+      var m = bz(p, 0.5), t = (p.s >= 0 ? AS[p.s].n : 'new value') + ' \u2192 ' + (p.z >= 0 ? AS[p.z].n : 'gone') + '  ' + p.amt;
+      cx.font = '600 10.5px "Space Grotesk", system-ui, sans-serif'; var tw = cx.measureText(t).width + 10, ty = m[1];
+      placed.forEach(function (r) { if (Math.abs(r[0] - m[0]) < (r[2] + tw) / 2 && Math.abs(r[1] - ty) < 15) ty = r[1] + 16; });
+      placed.push([m[0], ty, tw]);
+      cx.fillStyle = rgba(col('--surface'), 0.88); cx.strokeStyle = rgba(p.c1, 0.8); cx.lineWidth = 1;
+      cx.beginPath(); if (cx.roundRect) cx.roundRect(m[0] - tw / 2, ty - 9, tw, 15, 4); else cx.rect(m[0] - tw / 2, ty - 9, tw, 15); cx.fill(); cx.stroke();
+      cx.fillStyle = col('--ink'); cx.textAlign = 'center'; cx.fillText(t, m[0], ty + 2.5);
     });
     if (MKT && R.mtot) {
       var dT2 = R.dv.reduce(function (x, y) { return x + (y || 0); }, 0), gl = R.dv.reduce(function (x, y) { return x + Math.max(0, y || 0); }, 0), ls = R.dv.reduce(function (x, y) { return x + Math.max(0, -(y || 0)); }, 0);
