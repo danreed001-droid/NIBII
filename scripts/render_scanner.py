@@ -4175,7 +4175,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 <ul class="fb-key" style="margin-top:10px">
   <li><b>6-month shape chart</b>: the 6 months up to the week the animation is on, each line from its own low (bottom) to its high (top) on a log scale; it moves with the animation, and the end labels give each one's spot (100% = at its 6-month high). Hover for any day; tap a name above it to hide or show that line (SPY is drawn in white here).</li>
   <li><b>Bubble size</b>: each one's share of the "money" by recent strength, scored on its last 1 and 3 months against the others. Each frame is one week and both windows roll forward weekly, so the picture can change several times inside a month. Cash always scores 0%.</li>
-  <li><b>Airflow</b>: money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
+  <li><b>Airflow</b>: the streams run in every view, from each OUT door to the IN doors. Money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
   <li><b>Doors</b>: each asset has one door, facing the middle of the box. Money leaves only through an OUT door (arrow pointing away) and arrives only through an IN door (arrow pointing in); a grey door is shut. In market-size mode the doors show the dollars, and the box's own door at the bottom shows value that vanished or new value that appeared.</li>
   <li><b>Dots</b>: the box holds a fixed number of dots, the money. Each cloud holds its share (shown next to its name); when money moves, dots fly from one cloud to another and change colour on the way. Bubbles shows solid circles with airflow; Both draws each cloud inside its bubble.</li>
   <li><b>Size by RSI or 52-week range</b>: clouds and bubbles shrink toward nothing at RSI 0 or the 52-week low and grow toward RSI 100 or the 52-week high (52 weeks of weekly closes). Cash sits in the middle.</li>
@@ -4511,9 +4511,9 @@ FLOWBOX_JS = r"""(function () {
       list.forEach(function (pt) { if (pt.dead) { spawn(pt, L); if (pt.dead) return; } draw(pt, step(pt, dt, L)); });
     }
     if (!reduce) {
-      if (!DOTS) run(parts, (W < 520 ? 380 : 800) * (red ? 0.7 : 1), L0, function (pt, r0) {
+      run(parts, (W < 520 ? 380 : 800) * (red ? 0.7 : 1) * (DOTS ? 0.6 : 1), L0, function (pt, r0) {
         var a = hex3(cols[pt.s]), b = hex3(cols[pt.z]), f = Math.pow(r0[2], 1.5), fade = Math.min(1, pt.age * 4);
-        tc.strokeStyle = 'rgba(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' + Math.round(a[1] + (b[1] - a[1]) * f) + ',' + Math.round(a[2] + (b[2] - a[2]) * f) + ',' + ((red ? 0.45 : 0.8) * fade) + ')';
+        tc.strokeStyle = 'rgba(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' + Math.round(a[1] + (b[1] - a[1]) * f) + ',' + Math.round(a[2] + (b[2] - a[2]) * f) + ',' + ((red ? 0.45 : DOTS ? 0.55 : 0.8) * fade) + ')';
         tc.lineWidth = (1.3 + 1.4 * Math.min(1, (L0.src[pt.s] + L0.snk[pt.z]) * 2.5)) * Math.max(0.7, sc);
         tc.beginPath(); tc.moveTo(r0[0], r0[1]); tc.lineTo(pt.x, pt.y); tc.stroke();
       });
@@ -4524,7 +4524,7 @@ FLOWBOX_JS = r"""(function () {
       });
     } else if (R.i !== lastI) {
       tc.clearRect(0, 0, W, H);
-      [[L0, null, DOTS ? 0 : 60], [L1, hot, red ? 40 : 0]].forEach(function (cfg) {
+      [[L0, null, DOTS ? 35 : 60], [L1, hot, red ? 40 : 0]].forEach(function (cfg) {
         for (var g1 = 0; g1 < cfg[2]; g1++) {
           var p2 = {}; spawn(p2, cfg[0]); if (p2.dead) continue;
           tc.strokeStyle = rgba(cfg[1] || cols[p2.z], 0.45); tc.lineWidth = 1.4; tc.beginPath(); tc.moveTo(p2.x, p2.y);
