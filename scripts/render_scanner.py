@@ -475,6 +475,7 @@ __RECENT__
 __NEWSFWD__
 __DOMINOES__
 __CROWDING__
+__FLOWBOX__
 __EVENTS__
   <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
   <div class="plan">
@@ -4124,6 +4125,302 @@ def world_html():
             .replace('__WMDATA__', json.dumps(data, separators=(',', ':')).replace('</', '<\\/'), 1))
 
 
+FLOWBOX_PATH = os.path.join(ROOT, 'data', 'flow_box.json')
+FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow <span class="hint">stocks, long bonds, gold, managed futures and cash, week by week since 2000 · data to __FBASOF__ · information only</span></p>
+<style>
+#flowbox .fb-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 12px; display: grid; gap: 10px; }
+#flowbox .fb-stage { border-radius: 10px; overflow: hidden; background: var(--surface); }
+#flowbox canvas#fb-cv { display: block; width: 100%; height: auto; margin-inline: auto; }
+#flowbox .fb-ctl { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+#flowbox .fb-btn, #flowbox .fb-seg button { font: inherit; font-size: 0.8rem; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink); padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+#flowbox .fb-btn.play { background: var(--ink); color: var(--bg); border-color: var(--ink); font-weight: 600; min-width: 76px; }
+#flowbox .fb-btn.tog[aria-pressed="true"] { background: var(--neg); border-color: var(--neg); color: #fff; font-weight: 600; }
+#flowbox .fb-seg { display: inline-flex; flex-wrap: wrap; gap: 2px; border: 1px solid var(--hairline); border-radius: 999px; padding: 2px; background: var(--surface-2); }
+#flowbox .fb-seg button { border: 0; padding: 4px 10px; color: var(--ink-2); background: none; }
+#flowbox .fb-seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); font-weight: 600; }
+#flowbox button:focus-visible, #flowbox input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#flowbox .fb-time { display: grid; gap: 4px; }
+#flowbox .fb-time input { width: 100%; accent-color: var(--ink); }
+#flowbox #fb-strip { width: 100%; height: 10px; display: block; border-radius: 3px; }
+#flowbox .fb-tl { display: flex; justify-content: space-between; font: 0.7rem ui-monospace, "SF Mono", Menlo, monospace; color: var(--muted); }
+#flowbox .fb-key { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px 16px; font-size: 0.8rem; color: var(--ink-2); margin: 0; padding: 0; list-style: none; }
+#flowbox .fb-key b { color: var(--ink); }
+#flowbox .fb-sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin: 0 4px 0 8px; vertical-align: 0; }
+</style>
+<div class="fb-card">
+  <div class="fb-stage"><canvas id="fb-cv" width="800" height="560" role="img" aria-label="Animated bubbles for stocks, long bonds, gold, managed futures and cash with the money flowing between them"></canvas></div>
+  <div class="fb-ctl">
+    <button type="button" class="fb-btn play" id="fb-play">Play</button>
+    <span class="fb-seg" id="fb-spd" role="group" aria-label="Speed"><button type="button" data-v="2">Slow</button><button type="button" data-v="5">Normal</button><button type="button" data-v="14">Fast</button></span>
+    <span class="fb-seg" id="fb-mode" role="group" aria-label="Flow by"><button type="button" data-v="mom">1 + 3 months</button><button type="button" data-v="rsid">RSI daily</button><button type="button" data-v="rsiw">RSI weekly</button></span>
+    <button type="button" class="fb-btn tog" id="fb-red" aria-pressed="false">1-week flow in red</button>
+    <span class="fb-seg" id="fb-jump" role="group" aria-label="Jump to"><button type="button" data-d="2007-09-01">2008 crash</button><button type="button" data-d="2019-12-01">2020</button><button type="button" data-d="2022-04-01">2022</button><button type="button" data-d="2024-10-01">2025</button><button type="button" data-d="end">Now</button></span>
+  </div>
+  <div class="fb-time">
+    <input type="range" id="fb-pos" min="0" max="1" step="1" value="0" aria-label="Week">
+    <canvas id="fb-strip" width="800" height="10" aria-hidden="true"></canvas>
+    <div class="fb-tl"><span id="fb-t0"></span><span>strip: what the plan held</span><span id="fb-t1"></span></div>
+  </div>
+</div>
+<ul class="fb-key" style="margin-top:10px">
+  <li><b>Bubble size</b>: each one's share of the "money" by recent strength, scored on its last 1 and 3 months against the others. Each frame is one week and both windows roll forward weekly, so the picture can change several times inside a month. Cash always scores 0%.</li>
+  <li><b>Airflow</b>: air leaves each one doing worse than average in its own colour and lands in one doing better, taking on that one's colour as it arrives; the ones pulling money in glow. Faster, thicker streams mean a bigger gap.</li>
+  <li><b>RSI flow</b>: RSI above 50 draws money in, below 50 sends it out (daily: 14-day RSI at the week's close; weekly: 14-week RSI). Cash is the sidelines: money leaves it when most are above 50 and piles into it when most are below. Bubble size follows RSI too.</li>
+  <li><b>1-week flow in red</b>: red streaks from last week's worst to its best, over whichever flow is showing; a solid red ring marks the week's big winners, a dashed one its big losers.</li>
+  <li><span class="fb-sw" style="--c:var(--pc-stocks);margin-left:0"></span>stocks (SPY)<span class="fb-sw" style="--c:var(--pc-bonds)"></span>long bonds (TLT)<span class="fb-sw" style="--c:var(--pc-gold)"></span>gold (GLD)<span class="fb-sw" style="--c:var(--pc-futures)"></span>managed futures (DBMF, from May 2019)<span class="fb-sw" style="--c:var(--pc-cash)"></span>cash. Flows are relative performance, not fund-flow data, and the plan does not act on them (tested as a stocks / haven switch and as the haven picker: neither beat it).</li>
+</ul>
+<script type="application/json" id="fb-data">__FBDATA__</script>
+<script>
+__FBJS__
+</script>
+</section>
+"""
+
+
+def flowbox_html():
+    """The money flow animation (FLOWBOX_SECTION) from data/flow_box.json (scripts/flow_box.py), or '' without it."""
+    try:
+        with open(FLOWBOX_PATH) as f:
+            D = json.load(f)
+    except (OSError, ValueError):
+        return ''
+    if not D.get('d') or len(D['d']) < 30:
+        return ''
+    data = {k: D[k] for k in ('d', 's', 'b', 'g', 'f', 'h', 'rs', 'rb', 'rg', 'rf') if k in D}
+    return (FLOWBOX_SECTION.replace('__FBASOF__', _e(D.get('asOf') or D['d'][-1]), 1)
+            .replace('__FBDATA__', json.dumps(data, separators=(',', ':')).replace('</', '<\\/'), 1)
+            .replace('__FBJS__', FLOWBOX_JS, 1))
+
+
+FLOWBOX_JS = r"""(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var A = JSON.parse($('fb-data').textContent), N = A.d.length;
+  var AS = [{ k: 's', n: 'SPY', c: '--pc-stocks' }, { k: 'b', n: 'TLT', c: '--pc-bonds' }, { k: 'g', n: 'GLD', c: '--pc-gold' }, { k: 'c', n: 'Cash', c: '--pc-cash' }, { k: 'f', n: 'DBMF', c: '--pc-futures' }];
+  var Q = AS.length;
+  var HELD = { s: ['Stocks', '--pc-stocks'], g: ['Gold', '--pc-gold'], b: ['Bonds', '--pc-bonds'], c: ['Cash', '--pc-cash'], f: ['Managed futures', '--pc-futures'] };
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cv = $('fb-cv'), cx = cv.getContext('2d'), CS;
+  var t = Math.max(13, N - 260), playing = false, speed = 5, mode = 'mom', red = false, parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
+  var trail = document.createElement('canvas');
+  try { speed = +(localStorage.getItem('nibii-flow-speed') || 5); mode = localStorage.getItem('nibii-flow-mode') || 'mom'; red = localStorage.getItem('nibii-flow-red') === '1'; } catch (e) {}
+  function col(v) { return CS.getPropertyValue(v).trim(); }
+  function hex3(h) { h = h.replace('#', ''); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
+  function rgba(h, a) { var c = hex3(h); return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
+  function ret(k, i, n) { if (k === 'c' || i - n < 0) return 0; var a = A[k][i - n], b = A[k][i]; return a && b ? b / a - 1 : 0; }
+  function avail(k, i) { return k !== 'f' || (A.f[i - 13] != null); }
+  // weekly RSI (14 weeks, Wilder) from the weekly closes
+  var RW = {};
+  AS.forEach(function (a) {
+    if (a.k === 'c') return;
+    var out = new Array(N).fill(null), ag = 0, al = 0, cnt = 0, prev = null;
+    for (var i = 0; i < N; i++) {
+      var v = A[a.k][i]; if (v == null) { prev = null; cnt = 0; ag = 0; al = 0; continue; }
+      if (prev != null) {
+        var ch = v - prev, g = Math.max(ch, 0), l = Math.max(-ch, 0); cnt++;
+        if (cnt <= 14) { ag += g / 14; al += l / 14; } else { ag = (ag * 13 + g) / 14; al = (al * 13 + l) / 14; }
+        if (cnt >= 14) out[i] = al === 0 ? 100 : 100 - 100 / (1 + ag / al);
+      }
+      prev = v;
+    }
+    RW[a.k] = out;
+  });
+  function rsiAt(k, i) { if (k === 'c') return 50; var v = mode === 'rsiw' ? RW[k][i] : A['r' + k][i]; return v == null ? null : v; }
+  // one week's reading. S = flow strength: above zero pulls money in, below zero pushes it out.
+  function at(ii) {
+    var on = AS.map(function (a) { return avail(a.k, ii) && (mode === 'mom' || rsiAt(a.k, ii) != null); }), n = on.filter(Boolean).length;
+    var r0 = AS.map(function (a) { return ret(a.k, ii, 1); }), r1 = AS.map(function (a) { return ret(a.k, ii, 4); }), r3 = AS.map(function (a) { return ret(a.k, ii, 13); });
+    var rs = AS.map(function (a) { return rsiAt(a.k, ii); }), sc, S, share;
+    if (mode === 'mom') {
+      sc = AS.map(function (_, q) { return 0.5 * r1[q] + 0.5 * r3[q]; });
+      var mu = sc.reduce(function (a, b, q) { return a + (on[q] ? b : 0); }, 0) / n;
+      var ex = sc.map(function (v, q) { return on[q] ? Math.exp(7 * (v - mu)) : 0; }), tot = ex.reduce(function (a, b) { return a + b; }, 0);
+      share = ex.map(function (v) { return v / tot; }); S = share.map(function (s, q) { return on[q] ? s - 1 / n : 0; });
+    } else {
+      // RSI above 50 draws money in, below 50 sends it out; cash is the sidelines and balances the rest
+      S = AS.map(function (a, q) { return on[q] && a.k !== 'c' ? (rs[q] - 50) / 50 * 0.3 : 0; });
+      var net = S.reduce(function (a, b) { return a + b; }, 0); S[3] = -net;
+      var ex2 = AS.map(function (a, q) { return on[q] ? Math.exp(3 * (a.k === 'c' ? 0 : (rs[q] - 50) / 50)) : 0; }), t2 = ex2.reduce(function (a, b) { return a + b; }, 0);
+      share = ex2.map(function (v) { return v / t2; });
+    }
+    // the 1-week layer: each asset's last week against the average of the five
+    var m0 = r0.reduce(function (a, b, q) { return a + (on[q] ? b : 0); }, 0) / n;
+    var S1 = r0.map(function (v, q) { return on[q] ? (v - m0) * 5 : 0; });
+    return { on: on, n: n, r0: r0, r1: r1, r3: r3, rs: rs, S: S, S1: S1, share: share };
+  }
+  function read(tt) {
+    var i = Math.max(13, Math.min(N - 1, Math.floor(tt))), j = Math.min(N - 1, i + 1), f = tt - Math.floor(tt), a = at(i), b = at(j);
+    function mix(x, y) { return x.map(function (v, q) { return v == null || y[q] == null ? (f < 0.5 ? v : y[q]) : v + (y[q] - v) * f; }); }
+    var o = f < 0.5 ? a : b;
+    return { share: mix(a.share, b.share), S: mix(a.S, b.S), S1: mix(a.S1, b.S1), r0: mix(a.r0, b.r0), r1: mix(a.r1, b.r1), r3: mix(a.r3, b.r3), rs: mix(a.rs, b.rs), on: o.on, n: o.n, i: f < 0.5 ? i : j };
+  }
+  var W, H, C;
+  function layout() {
+    var w = Math.min(820, cv.parentNode.clientWidth); var h = Math.round(Math.max(360, Math.min(560, w * 0.72)));
+    var dpr = window.devicePixelRatio || 1; cv.width = w * dpr; cv.height = h * dpr; cv.style.height = h + 'px'; cv.style.width = w + 'px'; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    W = w; H = h; trail.width = w * dpr; trail.height = h * dpr; trail.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0); lastI = -1;
+    C = [[W * 0.5, H * 0.27], [W * 0.18, H * 0.52], [W * 0.82, H * 0.52], [W * 0.32, H * 0.83], [W * 0.68, H * 0.83]];
+    var st = $('fb-strip'), sx = st.getContext('2d'), sw = st.clientWidth || W; st.width = sw * dpr; st.height = 10 * dpr; sx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    for (var i = 0; i < N; i++) { sx.fillStyle = col(HELD[A.h[i]][1]); sx.fillRect(i / N * sw, 0, Math.ceil(sw / N) + 0.5, 10); }
+  }
+  function radius(share, n) { var R = Math.min(W, H) * 0.125; return Math.max(R * 0.5, Math.min(R * 1.9, R * Math.sqrt(share * n))); }
+  function weights(S) {
+    var src = S.map(function (s) { return s < -0.004 ? -s : 0; }), snk = S.map(function (s) { return s > 0.004 ? s : 0; });
+    return { src: src, snk: snk, srcT: src.reduce(function (a, b) { return a + b; }, 0), snkT: snk.reduce(function (a, b) { return a + b; }, 0) };
+  }
+  function pick(w, tot) { var u = Math.random() * tot, q = 0; while (q < w.length - 1 && (u > w[q] || !w[q])) { u -= w[q]; q++; } return q; }
+
+  var loopOn = false, seen = true;
+  function kick() { if (!loopOn) { loopOn = true; last = 0; requestAnimationFrame(frame); } }
+  function frame(now) {
+    var dt = Math.min(0.05, (now - (last || now)) / 1000); last = now;
+    if (playing) { t += dt * speed; if (t >= N - 1) { t = N - 1; setPlay(false); } $('fb-pos').value = Math.floor(t); }
+    CS = getComputedStyle(document.documentElement);
+    var R = read(t), rad = R.share.map(function (s, q) { return R.on[q] ? radius(s, R.n) : Math.min(W, H) * 0.06; });
+    var sc = W / 800, cols = AS.map(function (a) { return col(a.c); }), hot = col('--neg');
+    var L0 = weights(R.S), L1 = weights(R.S1);
+    var lead = -1, best = -Infinity;
+    for (var q = 0; q < Q; q++) if (R.on[q] && R.share[q] > best) { best = R.share[q]; lead = q; }
+    cx.clearRect(0, 0, W, H);
+
+    // airflow: every streak is aimed at one destination from birth, bows out to the side and curls in, steers round the
+    // other bubbles and ends inside it
+    function spawn(pt, L) {
+      pt.dead = true;
+      if (L.srcT < 0.01 || L.snkT < 0.01) return;
+      var s = pick(L.src, L.srcT), z = pick(L.snk, L.snkT), an = Math.atan2(C[z][1] - C[s][1], C[z][0] - C[s][0]) + (Math.random() - 0.5) * 1.6;
+      pt.x = C[s][0] + Math.cos(an) * (rad[s] + 3); pt.y = C[s][1] + Math.sin(an) * (rad[s] + 3);
+      pt.s = s; pt.z = z; pt.d0 = Math.hypot(C[z][0] - pt.x, C[z][1] - pt.y); pt.bow = (Math.random() - 0.5) * 1.5; pt.age = 0; pt.dead = false;
+      pt.sp = (90 + 520 * Math.min(1, (L.src[s] + L.snk[z]) * 2.2)) * sc * (0.8 + Math.random() * 0.4);
+    }
+    function step(pt, dt2, L) {
+      var dx = C[pt.z][0] - pt.x, dy = C[pt.z][1] - pt.y, d = Math.hypot(dx, dy) || 1, ux = dx / d, uy = dy / d;
+      var k = Math.min(1, d / pt.d0), bend = pt.bow * k * k;
+      var vx = (ux - uy * bend) * pt.sp, vy = (uy + ux * bend) * pt.sp;
+      for (var q = 0; q < Q; q++) {
+        if (q === pt.z || !R.on[q]) continue;
+        var ox = pt.x - C[q][0], oy = pt.y - C[q][1], od = Math.hypot(ox, oy) || 1, edge = rad[q] + 14 * sc;
+        if (od < edge + 30 * sc) { var push = Math.min(1, (edge + 30 * sc - od) / (30 * sc)) * pt.sp * 1.4; vx += ox / od * push; vy += oy / od * push; }
+      }
+      var x0 = pt.x, y0 = pt.y, prog = 1 - Math.min(1, d / pt.d0);
+      pt.x += vx * dt2; pt.y += vy * dt2; pt.age += dt2;
+      if (Math.hypot(C[pt.z][0] - pt.x, C[pt.z][1] - pt.y) < rad[pt.z] * 0.7 || pt.age > 6 || !L.snk[pt.z] || !L.src[pt.s]) pt.dead = true;
+      return [x0, y0, prog];
+    }
+    var tc = trail.getContext('2d'), key = mode + (red ? 'r' : '');
+    if (key !== lastKey) { tc.clearRect(0, 0, W, H); parts = []; reds = []; lastKey = key; }
+    tc.globalCompositeOperation = 'destination-out'; tc.fillStyle = 'rgba(0,0,0,' + (reduce ? 1 : 0.085) + ')'; tc.fillRect(0, 0, W, H);
+    tc.globalCompositeOperation = 'source-over'; tc.lineCap = 'round';
+    function run(list, NP, L, draw) {
+      while (list.length < NP) { var np = {}; spawn(np, L); if (!np.dead) { var adv = Math.random() * 2.5; while (adv > 0 && !np.dead) { step(np, 0.05, L); adv -= 0.05; } } list.push(np); }
+      if (list.length > NP) list.length = NP;
+      list.forEach(function (pt) { if (pt.dead) { spawn(pt, L); if (pt.dead) return; } draw(pt, step(pt, dt, L)); });
+    }
+    if (!reduce) {
+      run(parts, (W < 520 ? 380 : 800) * (red ? 0.7 : 1), L0, function (pt, r0) {
+        var a = hex3(cols[pt.s]), b = hex3(cols[pt.z]), f = Math.pow(r0[2], 1.5), fade = Math.min(1, pt.age * 4);
+        tc.strokeStyle = 'rgba(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' + Math.round(a[1] + (b[1] - a[1]) * f) + ',' + Math.round(a[2] + (b[2] - a[2]) * f) + ',' + ((red ? 0.45 : 0.8) * fade) + ')';
+        tc.lineWidth = (1.3 + 1.4 * Math.min(1, (L0.src[pt.s] + L0.snk[pt.z]) * 2.5)) * Math.max(0.7, sc);
+        tc.beginPath(); tc.moveTo(r0[0], r0[1]); tc.lineTo(pt.x, pt.y); tc.stroke();
+      });
+      if (red) run(reds, W < 520 ? 220 : 420, L1, function (pt, r0) {
+        tc.strokeStyle = rgba(hot, 0.85 * Math.min(1, pt.age * 4));
+        tc.lineWidth = (1.1 + 1.6 * Math.min(1, (L1.src[pt.s] + L1.snk[pt.z]) * 2.5)) * Math.max(0.7, sc);
+        tc.beginPath(); tc.moveTo(r0[0], r0[1]); tc.lineTo(pt.x, pt.y); tc.stroke();
+      });
+    } else if (R.i !== lastI) {
+      tc.clearRect(0, 0, W, H);
+      [[L0, null, 60], [L1, hot, red ? 40 : 0]].forEach(function (cfg) {
+        for (var g1 = 0; g1 < cfg[2]; g1++) {
+          var p2 = {}; spawn(p2, cfg[0]); if (p2.dead) continue;
+          tc.strokeStyle = rgba(cfg[1] || cols[p2.z], 0.45); tc.lineWidth = 1.4; tc.beginPath(); tc.moveTo(p2.x, p2.y);
+          for (var st2 = 0; st2 < 200 && !p2.dead; st2++) { step(p2, 0.01, cfg[0]); tc.lineTo(p2.x, p2.y); }
+          tc.stroke();
+        }
+      });
+    }
+    lastI = R.i;
+    cx.drawImage(trail, 0, 0, W, H);
+    // a soft halo on the assets pulling money in
+    AS.forEach(function (a, q) {
+      if (R.S[q] <= 0.02 || !R.on[q]) return;
+      var r = rad[q], ro = r * (1.25 + Math.min(0.6, R.S[q] * 2));
+      var g2 = cx.createRadialGradient(C[q][0], C[q][1], r, C[q][0], C[q][1], ro);
+      g2.addColorStop(0, rgba(cols[q], 0.28)); g2.addColorStop(1, rgba(cols[q], 0));
+      cx.beginPath(); cx.arc(C[q][0], C[q][1], ro, 0, Math.PI * 2); cx.fillStyle = g2; cx.fill();
+    });
+    // bubbles
+    AS.forEach(function (a, q) {
+      var c = cols[q], r = rad[q];
+      if (!R.on[q]) {
+        cx.beginPath(); cx.arc(C[q][0], C[q][1], r, 0, Math.PI * 2); cx.setLineDash([4, 4]); cx.strokeStyle = col('--hairline'); cx.lineWidth = 1.5; cx.stroke(); cx.setLineDash([]);
+        cx.fillStyle = col('--muted'); cx.textAlign = 'center'; cx.font = '500 11px "Space Grotesk", system-ui, sans-serif';
+        cx.fillText(a.n + ' (from May 2019)', C[q][0], C[q][1] + r + 14); return;
+      }
+      var g = cx.createRadialGradient(C[q][0] - r * 0.3, C[q][1] - r * 0.3, r * 0.1, C[q][0], C[q][1], r);
+      g.addColorStop(0, rgba(c, 0.95)); g.addColorStop(1, rgba(c, 0.72));
+      cx.beginPath(); cx.arc(C[q][0], C[q][1], r, 0, Math.PI * 2); cx.fillStyle = g; cx.fill();
+      cx.lineWidth = 2; cx.strokeStyle = col('--surface'); cx.stroke();
+      if (red && Math.abs(R.S1[q]) > 0.02) {   // a red ring on the week's biggest movers
+        cx.beginPath(); cx.arc(C[q][0], C[q][1], r + 4, 0, Math.PI * 2); cx.strokeStyle = rgba(hot, Math.min(0.9, Math.abs(R.S1[q]) * 4)); cx.lineWidth = 2.5;
+        if (R.S1[q] < 0) cx.setLineDash([5, 4]); cx.stroke(); cx.setLineDash([]);
+      }
+      var lines = [];
+      if (a.k === 'c') lines.push(mode === 'mom' ? '0%' : 'sidelines');
+      else if (mode === 'mom') { lines.push(fmt(R.r1[q]) + ' 1 mo'); if (r > 44) lines.push(fmt(R.r3[q]) + ' 3 mo'); }
+      else lines.push('RSI ' + Math.round(R.rs[q]));
+      if (red && a.k !== 'c' && (r > 40 || lines.length < 2)) lines.push(fmt(R.r0[q]) + ' 1 wk');
+      var y0 = C[q][1] - 4 - (lines.length - 1) * 7;
+      cx.fillStyle = '#ffffff'; cx.textAlign = 'center';
+      cx.font = '600 ' + Math.max(13, Math.min(20, r * 0.32)) + 'px "Space Grotesk", system-ui, sans-serif';
+      cx.fillText(a.n, C[q][0], y0);
+      cx.font = '500 ' + Math.max(10, Math.min(13, r * 0.2)) + 'px ui-monospace, "SF Mono", Menlo, monospace';
+      lines.forEach(function (l, k) { cx.fillText(l, C[q][0], y0 + 17 + k * 15); });
+    });
+    // header text
+    var d = A.d[R.i];
+    cx.textAlign = 'left'; cx.fillStyle = col('--ink'); cx.font = '600 ' + (W < 480 ? 20 : 26) + 'px "Space Grotesk", system-ui, sans-serif';
+    cx.fillText(MON[+d.slice(5, 7) - 1] + ' ' + (+d.slice(8, 10)) + ', ' + d.slice(0, 4), 16, 34);
+    cx.font = '500 12px "Space Grotesk", system-ui, sans-serif'; cx.fillStyle = col('--ink-2');
+    var hh = HELD[A.h[R.i]]; cx.fillText('The plan held: ', 16, 54);
+    var w0 = cx.measureText('The plan held: ').width; cx.fillStyle = col(hh[1]); cx.beginPath(); cx.arc(16 + w0 + 6, 50, 5, 0, Math.PI * 2); cx.fill();
+    cx.fillStyle = col('--ink'); cx.fillText(hh[0], 16 + w0 + 15, 54);
+    cx.textAlign = 'right'; cx.fillStyle = col('--ink-2');
+    cx.fillText((mode === 'mom' ? 'Money leaning to ' : 'Strongest RSI: ') + AS[lead].n + (mode === 'mom' ? ' (' + Math.round(R.share[lead] * 100) + '%)' : ''), W - 16, 34);
+    var note = '';
+    if (mode !== 'mom') {
+      var up = AS.filter(function (a, q) { return a.k !== 'c' && R.on[q] && R.rs[q] > 50; }).length, tot = AS.filter(function (a, q) { return a.k !== 'c' && R.on[q]; }).length;
+      note = up === 0 ? 'All below 50: money to the sidelines' : up === tot ? 'All above 50: money off the sidelines' : '';
+    } else if ([0, 1, 2].every(function (q) { return R.r1[q] < 0; })) note = 'Stocks, bonds and gold all down this month';
+    if (note) { cx.fillStyle = col('--ink'); cx.font = '600 12px "Space Grotesk", system-ui, sans-serif'; cx.fillText(note, W - 16, 54); }
+    if (red) { cx.fillStyle = hot; cx.font = '600 12px "Space Grotesk", system-ui, sans-serif'; cx.fillText('Red: last week only', W - 16, note ? 72 : 54); }
+    if (seen) requestAnimationFrame(frame); else loopOn = false;
+  }
+  function fmt(v) { return (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v * 100).toFixed(1) + '%'; }
+  function setPlay(p) { playing = p; $('fb-play').textContent = p ? 'Pause' : 'Play'; if (p && t >= N - 1) t = 13; }
+  function save(k, v) { try { localStorage.setItem(k, v); } catch (x) {} }
+  $('fb-play').onclick = function () { setPlay(!playing); };
+  $('fb-spd').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; speed = +b.dataset.v; save('nibii-flow-speed', speed); marks(); };
+  $('fb-mode').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mode = b.dataset.v; save('nibii-flow-mode', mode); marks(); };
+  $('fb-red').onclick = function () { red = !red; save('nibii-flow-red', red ? '1' : '0'); marks(); };
+  $('fb-jump').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; var d = b.dataset.d; if (d === 'end') t = N - 1; else { var i = 13; while (i < N - 1 && A.d[i] < d) i++; t = i; } $('fb-pos').value = Math.floor(t); parts = []; reds = []; };
+  $('fb-pos').max = N - 1; $('fb-pos').value = Math.floor(t);
+  $('fb-pos').oninput = function () { t = +this.value; parts = []; reds = []; };
+  function marks() {
+    document.querySelectorAll('#fb-spd button').forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.v === speed)); });
+    document.querySelectorAll('#fb-mode button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === mode)); });
+    $('fb-red').setAttribute('aria-pressed', String(red));
+  }
+  $('fb-t0').textContent = A.d[0].slice(0, 4); $('fb-t1').textContent = A.d[N - 1].slice(0, 4);
+  CS = getComputedStyle(document.documentElement); layout(); marks();
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { CS = getComputedStyle(document.documentElement); layout(); }, 150); });
+  if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { CS = getComputedStyle(document.documentElement); layout(); });
+  new MutationObserver(function () { CS = getComputedStyle(document.documentElement); layout(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-mtl-theme', 'data-theme'] });
+  if (window.IntersectionObserver) new IntersectionObserver(function (es) { seen = es[0].isIntersecting; if (seen) kick(); }).observe(cv);
+  kick();
+})();"""
+
+
 def render(scan, growth=None):
     scan = with_track_record(scan)
     # Escape "</" so a company name can never close the <script> block early.
@@ -4132,6 +4429,7 @@ def render(scan, growth=None):
     page = page.replace('__WALLST__', wallst_html(), 1)
     page = page.replace('__FITNESS__', fitness_html(), 1)
     page = page.replace('__WORLD__', world_html(), 1)
+    page = page.replace('__FLOWBOX__', flowbox_html(), 1)
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
