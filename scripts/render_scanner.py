@@ -4130,6 +4130,11 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 <style>
 #flowbox .fb-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 12px; display: grid; gap: 10px; }
 #flowbox .fb-trendbox { border-radius: 10px; overflow: hidden; background: var(--surface); border: 1px solid var(--hairline); }
+#flowbox .fb-tchips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 10px 12px 0; max-width: 820px; margin-inline: auto; font-size: 0.75rem; color: var(--muted); }
+#flowbox .fb-tchips button { font: inherit; font-size: 0.75rem; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--muted); padding: 3px 10px 3px 8px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+#flowbox .fb-tchips button::before { content: ""; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--c); background: transparent; }
+#flowbox .fb-tchips button[aria-pressed="true"] { color: var(--ink); border-color: var(--c); }
+#flowbox .fb-tchips button[aria-pressed="true"]::before { background: var(--c); }
 #flowbox .fb-trendbox canvas { display: block; margin-inline: auto; touch-action: pan-y; }
 #flowbox .fb-stage { border-radius: 10px; overflow: hidden; background: var(--surface); }
 #flowbox canvas#fb-cv { display: block; width: 100%; height: auto; margin-inline: auto; }
@@ -4150,7 +4155,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 #flowbox .fb-sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin: 0 4px 0 8px; vertical-align: 0; }
 </style>
 <div class="fb-card">
-  <div class="fb-trendbox"><canvas id="fb-trend" role="img" aria-label="The 6 months up to the animation's week for SPY, TLT, GLD and DBMF, each drawn from its own 6-month low to its high"></canvas></div>
+  <div class="fb-trendbox"><div class="fb-tchips" id="fb-tchips" role="group" aria-label="Show on the 6-month chart"><span>Show:</span><button type="button" data-q="0" style="--c:var(--ink)">SPY</button><button type="button" data-q="1" style="--c:var(--pc-bonds)">TLT</button><button type="button" data-q="2" style="--c:var(--pc-gold)">GLD</button><button type="button" data-q="4" style="--c:var(--pc-futures)">DBMF</button></div><canvas id="fb-trend" role="img" aria-label="The 6 months up to the animation's week for SPY, TLT, GLD and DBMF, each drawn from its own 6-month low to its high"></canvas></div>
   <div class="fb-stage"><canvas id="fb-cv" width="800" height="560" role="img" aria-label="Animated bubbles for stocks, long bonds, gold, managed futures and cash with the money flowing between them"></canvas></div>
   <div class="fb-ctl">
     <button type="button" class="fb-btn play" id="fb-play">Play</button>
@@ -4168,7 +4173,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
   </div>
 </div>
 <ul class="fb-key" style="margin-top:10px">
-  <li><b>6-month shape chart</b>: the 6 months up to the week the animation is on, each line from its own low (bottom) to its high (top) on a log scale; it moves with the animation, and the end labels give each one's spot (100% = at its 6-month high). Hover for any day.</li>
+  <li><b>6-month shape chart</b>: the 6 months up to the week the animation is on, each line from its own low (bottom) to its high (top) on a log scale; it moves with the animation, and the end labels give each one's spot (100% = at its 6-month high). Hover for any day; tap a name above it to hide or show that line (SPY is drawn in white here).</li>
   <li><b>Bubble size</b>: each one's share of the "money" by recent strength, scored on its last 1 and 3 months against the others. Each frame is one week and both windows roll forward weekly, so the picture can change several times inside a month. Cash always scores 0%.</li>
   <li><b>Airflow</b>: money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
   <li><b>Dots</b>: the box holds a fixed number of dots, the money. Each cloud holds its share (shown next to its name); when money moves, dots fly from one cloud to another and change colour on the way. Bubbles shows solid circles with airflow; Both draws each cloud inside its bubble.</li>
@@ -4299,6 +4304,9 @@ FLOWBOX_JS = r"""(function () {
   }
 
   // the last 6 months, in shape: each line runs from its own 6-month low (bottom) to its high (top), on a log scale
+  var tHide = {};
+  try { tHide = JSON.parse(localStorage.getItem('nibii-flow-thide') || '{}') || {}; } catch (e) {}
+  function tCol(q) { return q === 0 ? col('--ink') : col(AS[q].c); }   // SPY in white (ink) on this chart
   var TR = $('fb-trend'), tHover = null, tEnd = A.dd ? A.dd.length - 1 : 0, tWeek = -1, TS = 0;
   function trendTo(i) {      // the daily index of the animation's week (its last session)
     var d = A.d[i], lo = 0, hi = A.dd.length - 1;
@@ -4314,6 +4322,7 @@ FLOWBOX_JS = r"""(function () {
     TS = Math.max(0, tEnd - 125); var n = tEnd - TS + 1, DD = A.dd.slice(TS, tEnd + 1);
     var keys = [['s', 0], ['b', 1], ['g', 2], ['f', 4]], ser = [];
     keys.forEach(function (kq) {
+      if (tHide[kq[1]]) return;
       var v = A['d' + kq[0]].slice(TS, tEnd + 1), lo = Infinity, hi = -Infinity;
       v.forEach(function (x) { if (x != null && x > 0) { lo = Math.min(lo, Math.log(x)); hi = Math.max(hi, Math.log(x)); } });
       if (!isFinite(lo)) return;
@@ -4332,7 +4341,7 @@ FLOWBOX_JS = r"""(function () {
     g.textAlign = 'center';
     for (var i = 1; i < n; i++) if (DD[i].slice(5, 7) !== DD[i - 1].slice(5, 7)) { g.fillText(MON[+DD[i].slice(5, 7) - 1] + (DD[i].slice(5, 7) === '01' ? ' ' + DD[i].slice(2, 4) : ''), X(i), h - 6); g.beginPath(); g.moveTo(X(i) + 0.5, T + ph); g.lineTo(X(i) + 0.5, T + ph + 4); g.stroke(); }
     ser.forEach(function (s) {
-      g.strokeStyle = col(AS[s.q].c); g.lineWidth = 2; g.lineJoin = 'round'; g.beginPath(); var on = false;
+      g.strokeStyle = tCol(s.q); g.lineWidth = 2; g.lineJoin = 'round'; g.beginPath(); var on = false;
       s.y.forEach(function (v, i) { if (v == null) { on = false; return; } if (!on) { g.moveTo(X(i), Y(v)); on = true; } else g.lineTo(X(i), Y(v)); });
       g.stroke();
     });
@@ -4343,21 +4352,31 @@ FLOWBOX_JS = r"""(function () {
     var over = ends.length ? ends[ends.length - 1].y - (T + ph + 4) : 0;
     if (over > 0) ends.forEach(function (e) { e.y -= over; });
     ends.forEach(function (e) {
-      g.fillStyle = col(AS[e.q].c); g.beginPath(); g.arc(X(n - 1), Y(e.v), 3.5, 0, Math.PI * 2); g.fill();
+      g.fillStyle = tCol(e.q); g.beginPath(); g.arc(X(n - 1), Y(e.v), 3.5, 0, Math.PI * 2); g.fill();
       g.textAlign = 'left'; g.font = '600 11px ui-monospace, "SF Mono", Menlo, monospace';
       g.fillText(AS[e.q].n + ' ' + Math.round(e.v * 100) + '%', X(n - 1) + 8, e.y + 4);
     });
     if (tHover != null) {
       var hi2 = Math.max(0, Math.min(n - 1, tHover)), hx = X(hi2);
       g.strokeStyle = col('--muted'); g.setLineDash([3, 3]); g.beginPath(); g.moveTo(hx + 0.5, T); g.lineTo(hx + 0.5, T + ph); g.stroke(); g.setLineDash([]);
-      var rows = ser.filter(function (s) { return s.y[hi2] != null; }).map(function (s) { return [AS[s.q].n + ' ' + Math.round(s.y[hi2] * 100) + '%', AS[s.q].c]; });
+      var rows = ser.filter(function (s) { return s.y[hi2] != null; }).map(function (s) { return [AS[s.q].n + ' ' + Math.round(s.y[hi2] * 100) + '%', s.q]; });
       var d0 = DD[hi2], head = MON[+d0.slice(5, 7) - 1] + ' ' + (+d0.slice(8, 10));
       g.font = '500 11px ui-monospace, "SF Mono", Menlo, monospace'; var bw = 12 + Math.max.apply(null, rows.map(function (r) { return g.measureText(r[0]).width; }).concat([g.measureText(head).width])) + 12;
       var bx = hx + 10 + bw > L + pw ? hx - 10 - bw : hx + 10, by = T + 2, bh = 18 + rows.length * 14;
       g.fillStyle = rgba(col('--surface') || col('--surface'), 0.92); g.strokeStyle = col('--hairline'); g.beginPath(); if (g.roundRect) g.roundRect(bx, by, bw, bh, 6); else g.rect(bx, by, bw, bh); g.fill(); g.stroke();
       g.textAlign = 'left'; g.fillStyle = col('--ink'); g.fillText(head, bx + 8, by + 13);
-      rows.forEach(function (r, k) { g.fillStyle = col(r[1]); g.fillText(r[0], bx + 8, by + 27 + k * 14); });
+      rows.forEach(function (r, k) { g.fillStyle = tCol(r[1]); g.fillText(r[0], bx + 8, by + 27 + k * 14); });
     }
+  }
+  function tMarks() { document.querySelectorAll('#fb-tchips button').forEach(function (b) { b.setAttribute('aria-pressed', String(!tHide[b.dataset.q])); }); }
+  if ($('fb-tchips')) {
+    $('fb-tchips').onclick = function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      tHide[b.dataset.q] = !tHide[b.dataset.q];
+      try { localStorage.setItem('nibii-flow-thide', JSON.stringify(tHide)); } catch (x) {}
+      tMarks(); drawTrend();
+    };
+    tMarks();
   }
   if (TR) {
     TR.addEventListener('pointermove', function (e) {
