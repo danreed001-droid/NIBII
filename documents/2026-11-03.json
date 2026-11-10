@@ -523,8 +523,8 @@
        false
       ]
      ],
-     "maturityClose": 7528.0,
-     "ret": -0.009897,
+     "maturityClose": 7505.75,
+     "ret": -0.012823,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2656,8 +2656,8 @@
        false
       ]
      ],
-     "maturityClose": 106.375,
-     "ret": -0.00132,
+     "maturityClose": 106.0625,
+     "ret": -0.004254,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5300,8 +5300,8 @@
        false
       ]
      ],
-     "maturityClose": 4066.39990234375,
-     "ret": 0.029833,
+     "maturityClose": 4024.10009765625,
+     "ret": 0.019121,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7346,7 +7346,7 @@
       [
        "bull",
        "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish tilt for this asset",
-       false
+       true
       ],
       [
        "neu",
@@ -7384,8 +7384,8 @@
        null
       ]
      ],
-     "maturityClose": 101.97799682617188,
-     "ret": 0.000864,
+     "maturityClose": 102.38500213623047,
+     "ret": 0.004858,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9615,8 +9615,8 @@
        null
       ]
      ],
-     "maturityClose": 2821.5,
-     "ret": 0.000177,
+     "maturityClose": 2808.10009765625,
+     "ret": -0.004573,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11621,8 +11621,8 @@
        null
       ]
      ],
-     "maturityClose": 27721.75,
-     "ret": -0.021496,
+     "maturityClose": 27666.5,
+     "ret": -0.023446,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
