@@ -52,3 +52,5 @@ def test_build_weekly_rows():
     k = out['d'].index(days[44])                                   # SPY runs on from the plan history without a jump
     assert abs(out['s'][k] - 144.0) < 0.01                         # 139 at the join, then +1 a day as before
     assert out['h'][-1] == 'g' and out['h'][0] == 's'
+    assert out['dd'] == (days[-flowbox.DAILY:] if flowbox.DAILY else days)
+    assert len(out['ds']) == len(out['dd']) and out['df'][0] is None and out['df'][-1] == 30.0

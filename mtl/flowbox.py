@@ -9,6 +9,8 @@ week's last session):
 - d: the date; s / b / g / f: the closes of stocks, bonds, gold and managed futures (f is None before DBMF began);
 - h: what the plan held after that close, one letter per week ('s' stocks, 'g' gold, 'b' bonds, 'c' cash, 'f' futures);
 - rs / rb / rg / rf: each one's 14-day RSI (Wilder) at that close.
+It also keeps the daily closes (dd: dates; ds / db / dg / df; the last DAILY sessions, or all of them) for the 6-month trend
+chart, which follows the animation's week.
 The page works out the rest (the 1 + 3 month scores, the 1-week moves, a 14-week RSI) from these."""
 from bisect import bisect_right
 from datetime import date
@@ -16,6 +18,7 @@ from datetime import date
 HELD_COLS = ('stocks', 'gold', 'bonds', 'cash', 'futures')
 HELD_CODE = {'stocks': 's', 'gold': 'g', 'bonds': 'b', 'cash': 'c', 'futures': 'f'}
 MODE_CODE = {'boost': 's', 'GLD': 'g', 'TLT': 'b', 'CASH': 'c', 'DBMF': 'f'}
+DAILY = None   # sessions of daily closes kept for the page's 6-month trend chart (None: all of them)
 
 
 def rsi(closes, n=14):
@@ -106,4 +109,9 @@ def build(plan_history, fresh, entries):
             j = bisect_right(rk[k], d) - 1
             r = rs[k][rk[k][j]] if j >= 0 else None
             out['r' + k].append(round(r, 1) if r is not None else None)
+    # the last DAILY sessions (dd and ds / db / dg / df, forward-filled closes) for the 6-month trend chart
+    tail = days[-DAILY:] if DAILY else days
+    out['dd'] = tail
+    for k in ('s', 'b', 'g', 'f'):
+        out['d' + k] = [round(ff[k][d], 3) if ff[k][d] is not None and (k != 'f' or d >= f0) else None for d in tail]
     return out
