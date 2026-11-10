@@ -4153,6 +4153,8 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
     <button type="button" class="fb-btn play" id="fb-play">Play</button>
     <span class="fb-seg" id="fb-spd" role="group" aria-label="Speed"><button type="button" data-v="2">Slow</button><button type="button" data-v="5">Normal</button><button type="button" data-v="14">Fast</button></span>
     <span class="fb-seg" id="fb-mode" role="group" aria-label="Flow by"><button type="button" data-v="mom">1 + 3 months</button><button type="button" data-v="rsid">RSI daily</button><button type="button" data-v="rsiw">RSI weekly</button></span>
+    <span class="fb-seg" id="fb-look" role="group" aria-label="Look"><button type="button" data-v="dots">Dots</button><button type="button" data-v="bubbles">Bubbles</button><button type="button" data-v="both">Both</button></span>
+    <span class="fb-seg" id="fb-size" role="group" aria-label="Size by"><button type="button" data-v="share">Size: flow share</button><button type="button" data-v="rsi">RSI</button><button type="button" data-v="rng">52-wk range</button></span>
     <button type="button" class="fb-btn tog" id="fb-red" aria-pressed="false">1-week flow in red</button>
     <span class="fb-seg" id="fb-jump" role="group" aria-label="Jump to"><button type="button" data-d="2007-09-01">2008 crash</button><button type="button" data-d="2019-12-01">2020</button><button type="button" data-d="2022-04-01">2022</button><button type="button" data-d="2024-10-01">2025</button><button type="button" data-d="end">Now</button></span>
   </div>
@@ -4164,10 +4166,12 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 </div>
 <ul class="fb-key" style="margin-top:10px">
   <li><b>Bubble size</b>: each one's share of the "money" by recent strength, scored on its last 1 and 3 months against the others. Each frame is one week and both windows roll forward weekly, so the picture can change several times inside a month. Cash always scores 0%.</li>
-  <li><b>Airflow</b>: air leaves each one doing worse than average in its own colour and lands in one doing better, taking on that one's colour as it arrives; the ones pulling money in glow. Faster, thicker streams mean a bigger gap.</li>
+  <li><b>Airflow</b>: money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
+  <li><b>Dots</b>: the box holds a fixed number of dots, the money. Each cloud holds its share (shown next to its name); when money moves, dots fly from one cloud to another and change colour on the way. Bubbles shows solid circles with airflow; Both draws each cloud inside its bubble.</li>
+  <li><b>Size by RSI or 52-week range</b>: clouds and bubbles shrink toward nothing at RSI 0 or the 52-week low and grow toward RSI 100 or the 52-week high (52 weeks of weekly closes). Cash sits in the middle.</li>
   <li><b>RSI flow</b>: RSI above 50 draws money in, below 50 sends it out (daily: 14-day RSI at the week's close; weekly: 14-week RSI). Cash is the sidelines: money leaves it when most are above 50 and piles into it when most are below. Bubble size follows RSI too.</li>
-  <li><b>1-week flow in red</b>: red streaks from last week's worst to its best, over whichever flow is showing; a solid red ring marks the week's big winners, a dashed one its big losers.</li>
-  <li><span class="fb-sw" style="--c:var(--pc-stocks);margin-left:0"></span>stocks (SPY)<span class="fb-sw" style="--c:var(--pc-bonds)"></span>long bonds (TLT)<span class="fb-sw" style="--c:var(--pc-gold)"></span>gold (GLD)<span class="fb-sw" style="--c:var(--pc-futures)"></span>managed futures (DBMF, from May 2019)<span class="fb-sw" style="--c:var(--pc-cash)"></span>cash. Flows are relative performance, not fund-flow data, and the plan does not act on them (tested as a stocks / haven switch and as the haven picker: neither beat it).</li>
+  <li><b>1-week flow in red</b>: red streaks from the ones that fell last week to the ones that rose (or to cash if none rose), over whichever flow is showing; a solid red ring marks the week's big winners, a dashed one its big losers.</li>
+  <li><span class="fb-sw" style="--c:var(--pc-stocks);margin-left:0"></span>stocks (SPY)<span class="fb-sw" style="--c:var(--pc-bonds)"></span>long bonds (TLT)<span class="fb-sw" style="--c:var(--pc-gold)"></span>gold (GLD)<span class="fb-sw" style="--c:var(--pc-futures)"></span>managed futures (DBMF, from May 2019)<span class="fb-sw" style="--c:var(--pc-cash)"></span>cash. Flows follow price moves, not fund-flow data, and the plan does not act on them (tested as a stocks / haven switch and as the haven picker: neither beat it).</li>
 </ul>
 <script type="application/json" id="fb-data">__FBDATA__</script>
 <script>
@@ -4201,9 +4205,9 @@ FLOWBOX_JS = r"""(function () {
   var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cv = $('fb-cv'), cx = cv.getContext('2d'), CS;
-  var t = Math.max(13, N - 260), playing = false, speed = 5, mode = 'mom', red = false, parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
+  var t = Math.max(13, N - 260), playing = false, speed = 5, mode = 'mom', red = false, sizeBy = 'share', look = 'dots', swarm = [], frameNo = 0, parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
   var trail = document.createElement('canvas');
-  try { speed = +(localStorage.getItem('nibii-flow-speed') || 5); mode = localStorage.getItem('nibii-flow-mode') || 'mom'; red = localStorage.getItem('nibii-flow-red') === '1'; } catch (e) {}
+  try { speed = +(localStorage.getItem('nibii-flow-speed') || 5); mode = localStorage.getItem('nibii-flow-mode') || 'mom'; red = localStorage.getItem('nibii-flow-red') === '1'; sizeBy = localStorage.getItem('nibii-flow-size') || 'share'; look = localStorage.getItem('nibii-flow-look') || 'dots'; } catch (e) {}
   function col(v) { return CS.getPropertyValue(v).trim(); }
   function hex3(h) { h = h.replace('#', ''); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
   function rgba(h, a) { var c = hex3(h); return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
@@ -4225,6 +4229,19 @@ FLOWBOX_JS = r"""(function () {
     }
     RW[a.k] = out;
   });
+  // where each close sits in its last 52 weeks' range of weekly closes: 0 = at the low, 1 = at the high
+  var RG = {};
+  AS.forEach(function (a) {
+    if (a.k === 'c') return;
+    var out = new Array(N).fill(null);
+    for (var i = 0; i < N; i++) {
+      var v = A[a.k][i]; if (v == null) continue;
+      var lo = Infinity, hi = -Infinity, n = 0;
+      for (var j = Math.max(0, i - 51); j <= i; j++) { var x = A[a.k][j]; if (x == null) continue; lo = Math.min(lo, x); hi = Math.max(hi, x); n++; }
+      if (n >= 26) out[i] = hi > lo ? (v - lo) / (hi - lo) : 0.5;
+    }
+    RG[a.k] = out;
+  });
   function rsiAt(k, i) { if (k === 'c') return 50; var v = mode === 'rsiw' ? RW[k][i] : A['r' + k][i]; return v == null ? null : v; }
   // one week's reading. S = flow strength: above zero pulls money in, below zero pushes it out.
   function at(ii) {
@@ -4232,10 +4249,15 @@ FLOWBOX_JS = r"""(function () {
     var r0 = AS.map(function (a) { return ret(a.k, ii, 1); }), r1 = AS.map(function (a) { return ret(a.k, ii, 4); }), r3 = AS.map(function (a) { return ret(a.k, ii, 13); });
     var rs = AS.map(function (a) { return rsiAt(a.k, ii); }), sc, S, share;
     if (mode === 'mom') {
-      sc = AS.map(function (_, q) { return 0.5 * r1[q] + 0.5 * r3[q]; });
+      // an asset's score is the weaker of its 1 + 3 month blend and its last month, so a falling month counts as falling.
+      // Money only flows into a positive score; anything negative sends money out, and cash (0%) takes up the difference:
+      // it fills when most are falling and empties into the risers when most are rising.
+      sc = AS.map(function (a, q) { return a.k === 'c' ? 0 : Math.min(0.5 * r1[q] + 0.5 * r3[q], r1[q]); });
       var mu = sc.reduce(function (a, b, q) { return a + (on[q] ? b : 0); }, 0) / n;
       var ex = sc.map(function (v, q) { return on[q] ? Math.exp(7 * (v - mu)) : 0; }), tot = ex.reduce(function (a, b) { return a + b; }, 0);
-      share = ex.map(function (v) { return v / tot; }); S = share.map(function (s, q) { return on[q] ? s - 1 / n : 0; });
+      share = ex.map(function (v) { return v / tot; });
+      S = AS.map(function (a, q) { return on[q] && a.k !== 'c' ? sc[q] * 2 : 0; });
+      S[3] = -S.reduce(function (a, b) { return a + b; }, 0);
     } else {
       // RSI above 50 draws money in, below 50 sends it out; cash is the sidelines and balances the rest
       S = AS.map(function (a, q) { return on[q] && a.k !== 'c' ? (rs[q] - 50) / 50 * 0.3 : 0; });
@@ -4244,20 +4266,27 @@ FLOWBOX_JS = r"""(function () {
       share = ex2.map(function (v) { return v / t2; });
     }
     // the 1-week layer: each asset's last week against the average of the five
-    var m0 = r0.reduce(function (a, b, q) { return a + (on[q] ? b : 0); }, 0) / n;
-    var S1 = r0.map(function (v, q) { return on[q] ? (v - m0) * 5 : 0; });
-    return { on: on, n: n, r0: r0, r1: r1, r3: r3, rs: rs, S: S, S1: S1, share: share };
+    // the 1-week layer: last week's move against cash at 0%, so only a rising week draws money in
+    var S1 = AS.map(function (a, q) { return on[q] && a.k !== 'c' ? r0[q] * 5 : 0; });
+    S1[3] = -S1.reduce(function (a, b) { return a + b; }, 0);
+    var sv = AS.map(function (a) {
+      if (sizeBy === 'rng') return a.k === 'c' ? 0.5 : RG[a.k][ii];
+      if (sizeBy === 'rsi') { if (a.k === 'c') return 0.5; var r = mode === 'rsiw' ? RW[a.k][ii] : A['r' + a.k][ii]; return r == null ? null : r / 100; }
+      return null;
+    });
+    return { on: on, n: n, r0: r0, r1: r1, r3: r3, rs: rs, S: S, S1: S1, share: share, sv: sv };
   }
   function read(tt) {
     var i = Math.max(13, Math.min(N - 1, Math.floor(tt))), j = Math.min(N - 1, i + 1), f = tt - Math.floor(tt), a = at(i), b = at(j);
     function mix(x, y) { return x.map(function (v, q) { return v == null || y[q] == null ? (f < 0.5 ? v : y[q]) : v + (y[q] - v) * f; }); }
     var o = f < 0.5 ? a : b;
-    return { share: mix(a.share, b.share), S: mix(a.S, b.S), S1: mix(a.S1, b.S1), r0: mix(a.r0, b.r0), r1: mix(a.r1, b.r1), r3: mix(a.r3, b.r3), rs: mix(a.rs, b.rs), on: o.on, n: o.n, i: f < 0.5 ? i : j };
+    return { sv: mix(a.sv, b.sv), share: mix(a.share, b.share), S: mix(a.S, b.S), S1: mix(a.S1, b.S1), r0: mix(a.r0, b.r0), r1: mix(a.r1, b.r1), r3: mix(a.r3, b.r3), rs: mix(a.rs, b.rs), on: o.on, n: o.n, i: f < 0.5 ? i : j };
   }
   var W, H, C;
   function layout() {
     var w = Math.min(820, cv.parentNode.clientWidth); var h = Math.round(Math.max(360, Math.min(560, w * 0.72)));
     var dpr = window.devicePixelRatio || 1; cv.width = w * dpr; cv.height = h * dpr; cv.style.height = h + 'px'; cv.style.width = w + 'px'; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    swarm = [];
     W = w; H = h; trail.width = w * dpr; trail.height = h * dpr; trail.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0); lastI = -1;
     C = [[W * 0.5, H * 0.27], [W * 0.18, H * 0.52], [W * 0.82, H * 0.52], [W * 0.32, H * 0.83], [W * 0.68, H * 0.83]];
     var st = $('fb-strip'), sx = st.getContext('2d'), sw = st.clientWidth || W; st.width = sw * dpr; st.height = 10 * dpr; sx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -4276,12 +4305,40 @@ FLOWBOX_JS = r"""(function () {
     var dt = Math.min(0.05, (now - (last || now)) / 1000); last = now;
     if (playing) { t += dt * speed; if (t >= N - 1) { t = N - 1; setPlay(false); } $('fb-pos').value = Math.floor(t); }
     CS = getComputedStyle(document.documentElement);
-    var R = read(t), rad = R.share.map(function (s, q) { return R.on[q] ? radius(s, R.n) : Math.min(W, H) * 0.06; });
+    var R = read(t), dots = sizeBy !== 'share';
+    var rad = R.share.map(function (s, q) {
+      if (!R.on[q]) return Math.min(W, H) * 0.06;
+      if (!dots) return radius(s, R.n);
+      var v = R.sv[q] == null ? 0.5 : Math.max(0, Math.min(1, R.sv[q])), mx = Math.min(W, H) * 0.17, mn = Math.max(5, Math.min(W, H) * 0.012);
+      return mn + (mx - mn) * Math.pow(v, 1.4);
+    });
     var sc = W / 800, cols = AS.map(function (a) { return col(a.c); }), hot = col('--neg');
     var L0 = weights(R.S), L1 = weights(R.S1);
     var lead = -1, best = -Infinity;
     for (var q = 0; q < Q; q++) if (R.on[q] && R.share[q] > best) { best = R.share[q]; lead = q; }
     cx.clearRect(0, 0, W, H);
+    frameNo++;
+    // dots: the box holds a fixed number of dots (the money); each asset's cloud holds its share of them
+    var DOTS = look !== 'bubbles', BOTH = look === 'both', rcl = null, tgt = null;
+    if (DOTS) {
+      var M = W < 520 ? 520 : 950;
+      var wv = AS.map(function (a, q) { if (!R.on[q]) return 0; if (sizeBy === 'share') return R.share[q]; var v = R.sv[q] == null ? 0.5 : Math.max(0, Math.min(1, R.sv[q])); return 0.01 + v * v; });
+      var wt = wv.reduce(function (x, y) { return x + y; }, 0);
+      tgt = wv.map(function (v) { return Math.round(M * v / wt); });
+      var spc = Math.min(W, H) * (W < 520 ? 0.0135 : 0.0105);
+      rcl = tgt.map(function (n, q) { return R.on[q] ? Math.max(5, spc * Math.sqrt(n)) : Math.min(W, H) * 0.06; });
+      rad = rcl;
+      if (swarm.length !== M) {
+        swarm = []; var qi = 0, acc = 0;
+        while (qi < Q - 1 && !tgt[qi]) qi++;
+        for (var m = 0; m < M; m++) { while (qi < Q - 1 && m >= acc + tgt[qi]) { acc += tgt[qi]; qi++; while (qi < Q - 1 && !tgt[qi]) qi++; } swarm.push(newDot(qi, true)); }
+      }
+    }
+    function newDot(q, place) {
+      var d = { q: q, mig: false, r: Math.sqrt(Math.random()), a: Math.random() * Math.PI * 2 };
+      if (place) { d.x = C[q][0] + Math.cos(d.a) * d.r * rcl[q]; d.y = C[q][1] + Math.sin(d.a) * d.r * rcl[q]; }
+      return d;
+    }
 
     // airflow: every streak is aimed at one destination from birth, bows out to the side and curls in, steers round the
     // other bubbles and ends inside it
@@ -4317,7 +4374,7 @@ FLOWBOX_JS = r"""(function () {
       list.forEach(function (pt) { if (pt.dead) { spawn(pt, L); if (pt.dead) return; } draw(pt, step(pt, dt, L)); });
     }
     if (!reduce) {
-      run(parts, (W < 520 ? 380 : 800) * (red ? 0.7 : 1), L0, function (pt, r0) {
+      if (!DOTS) run(parts, (W < 520 ? 380 : 800) * (red ? 0.7 : 1), L0, function (pt, r0) {
         var a = hex3(cols[pt.s]), b = hex3(cols[pt.z]), f = Math.pow(r0[2], 1.5), fade = Math.min(1, pt.age * 4);
         tc.strokeStyle = 'rgba(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' + Math.round(a[1] + (b[1] - a[1]) * f) + ',' + Math.round(a[2] + (b[2] - a[2]) * f) + ',' + ((red ? 0.45 : 0.8) * fade) + ')';
         tc.lineWidth = (1.3 + 1.4 * Math.min(1, (L0.src[pt.s] + L0.snk[pt.z]) * 2.5)) * Math.max(0.7, sc);
@@ -4330,7 +4387,7 @@ FLOWBOX_JS = r"""(function () {
       });
     } else if (R.i !== lastI) {
       tc.clearRect(0, 0, W, H);
-      [[L0, null, 60], [L1, hot, red ? 40 : 0]].forEach(function (cfg) {
+      [[L0, null, DOTS ? 0 : 60], [L1, hot, red ? 40 : 0]].forEach(function (cfg) {
         for (var g1 = 0; g1 < cfg[2]; g1++) {
           var p2 = {}; spawn(p2, cfg[0]); if (p2.dead) continue;
           tc.strokeStyle = rgba(cfg[1] || cols[p2.z], 0.45); tc.lineWidth = 1.4; tc.beginPath(); tc.moveTo(p2.x, p2.y);
@@ -4339,18 +4396,103 @@ FLOWBOX_JS = r"""(function () {
         }
       });
     }
+    if (DOTS) {
+      var cnt = new Array(Q).fill(0);
+      swarm.forEach(function (d) { cnt[d.mig ? d.z : d.q]++; });
+      var def = cnt.map(function (c, q) { return R.on[q] && R.S[q] > 0 ? Math.max(0, tgt[q] - c) : 0; }), defT = def.reduce(function (x, y) { return x + y; }, 0);
+      if (defT > 0) {
+        var rel = cnt.map(function (c, q) { return R.S[q] > 0 && R.on[q] ? 0 : Math.max(0, c - (R.on[q] ? tgt[q] : 0)); }), L = swarm.length;
+        for (var q2 = 0; q2 < Q && defT > 0; q2++) {
+          var k2 = rel[q2] > 0 ? Math.min(rel[q2], Math.ceil(rel[q2] * (reduce ? 1 : 0.035))) : 0;
+          for (var m2 = 0; m2 < L && k2 > 0 && defT > 0; m2++) {
+            var dd2 = swarm[(m2 * 7919 + frameNo * 31) % L];
+            if (dd2.mig || dd2.q !== q2) continue;
+            var z2 = pick(def, defT); def[z2]--; defT--; k2--;
+            dd2.mig = true; dd2.s = q2; dd2.z = z2; dd2.d0 = Math.hypot(C[z2][0] - dd2.x, C[z2][1] - dd2.y) || 1;
+            dd2.bow = (Math.random() - 0.5) * 1.4; dd2.sp = (170 + Math.random() * 160) * sc; dd2.age = 0;
+          }
+        }
+      }
+      var top = 66, mg = 8, dirs = [1, -1, 1, -1, 1];
+      swarm.forEach(function (d) {
+        if (d.mig) {
+          if (reduce || d.age > 8) { d.q = d.z; d.mig = false; d.r = Math.sqrt(Math.random()); d.a = Math.random() * Math.PI * 2; return; }
+          var dx = C[d.z][0] - d.x, dy = C[d.z][1] - d.y, dist = Math.hypot(dx, dy) || 1, ux = dx / dist, uy = dy / dist;
+          var kk = Math.min(1, dist / d.d0), bend = d.bow * kk * kk, vx = (ux - uy * bend) * d.sp, vy = (uy + ux * bend) * d.sp;
+          for (var q4 = 0; q4 < Q; q4++) {
+            if (q4 === d.z || q4 === d.s || !R.on[q4]) continue;
+            var ox = d.x - C[q4][0], oy = d.y - C[q4][1], od = Math.hypot(ox, oy) || 1, edge = rcl[q4] + 12 * sc;
+            if (od < edge + 26 * sc) { var push = Math.min(1, (edge + 26 * sc - od) / (26 * sc)) * d.sp * 1.3; vx += ox / od * push; vy += oy / od * push; }
+          }
+          var x0 = d.x, y0 = d.y; d.x += vx * dt; d.y += vy * dt; d.age += dt;
+          var a1 = hex3(cols[d.s]), b1 = hex3(cols[d.z]), f1 = Math.pow(1 - Math.min(1, dist / d.d0), 1.4);
+          d.c = 'rgb(' + Math.round(a1[0] + (b1[0] - a1[0]) * f1) + ',' + Math.round(a1[1] + (b1[1] - a1[1]) * f1) + ',' + Math.round(a1[2] + (b1[2] - a1[2]) * f1) + ')';
+          tc.strokeStyle = d.c.replace('rgb', 'rgba').replace(')', ',0.7)'); tc.lineWidth = 1.5 * Math.max(0.8, sc);
+          tc.beginPath(); tc.moveTo(x0, y0); tc.lineTo(d.x, d.y); tc.stroke();
+          if (Math.hypot(C[d.z][0] - d.x, C[d.z][1] - d.y) < rcl[d.z] * 0.85) { d.q = d.z; d.mig = false; d.r = Math.sqrt(Math.random()) * 0.95 + 0.05; d.a = Math.atan2(d.y - C[d.q][1], d.x - C[d.q][0]); }
+        } else {
+          d.a += dt * (0.18 + 0.4 * (1 - d.r)) * dirs[d.q];
+          var tx = C[d.q][0] + Math.cos(d.a) * d.r * rcl[d.q], ty = C[d.q][1] + Math.sin(d.a) * d.r * rcl[d.q], f2 = Math.min(1, dt * 3);
+          d.x += (tx - d.x) * f2 + (Math.random() - 0.5) * 0.9; d.y += (ty - d.y) * f2 + (Math.random() - 0.5) * 0.9;
+        }
+        d.x = Math.max(mg, Math.min(W - mg, d.x)); d.y = Math.max(top, Math.min(H - mg, d.y));
+      });
+    }
     lastI = R.i;
     cx.drawImage(trail, 0, 0, W, H);
     // a soft halo on the assets pulling money in
     AS.forEach(function (a, q) {
       if (R.S[q] <= 0.02 || !R.on[q]) return;
       var r = rad[q], ro = r * (1.25 + Math.min(0.6, R.S[q] * 2));
-      var g2 = cx.createRadialGradient(C[q][0], C[q][1], r, C[q][0], C[q][1], ro);
-      g2.addColorStop(0, rgba(cols[q], 0.28)); g2.addColorStop(1, rgba(cols[q], 0));
+      var g2 = cx.createRadialGradient(C[q][0], C[q][1], DOTS ? r * 0.3 : r, C[q][0], C[q][1], ro);
+      g2.addColorStop(0, rgba(cols[q], DOTS ? 0.14 : 0.28)); g2.addColorStop(1, rgba(cols[q], 0));
       cx.beginPath(); cx.arc(C[q][0], C[q][1], ro, 0, Math.PI * 2); cx.fillStyle = g2; cx.fill();
     });
+    if (DOTS) {
+      cx.strokeStyle = col('--hairline'); cx.lineWidth = 1; cx.beginPath();
+      if (cx.roundRect) cx.roundRect(4.5, 60.5, W - 9, H - 65, 10); else cx.rect(4.5, 60.5, W - 9, H - 65);
+      cx.stroke();
+      if (BOTH) AS.forEach(function (a, q) {      // the bubble behind each cloud
+        if (!R.on[q]) return;
+        var rb = rcl[q] * 1.12, g3 = cx.createRadialGradient(C[q][0] - rb * 0.3, C[q][1] - rb * 0.3, rb * 0.1, C[q][0], C[q][1], rb);
+        g3.addColorStop(0, rgba(cols[q], 0.30)); g3.addColorStop(1, rgba(cols[q], 0.14));
+        cx.beginPath(); cx.arc(C[q][0], C[q][1], rb, 0, Math.PI * 2); cx.fillStyle = g3; cx.fill();
+        cx.strokeStyle = rgba(cols[q], 0.75); cx.lineWidth = 1.5; cx.stroke();
+      });
+      var dr = Math.max(1.5, 2.2 * Math.min(1, sc + 0.2));
+      for (var q3 = 0; q3 < Q; q3++) {
+        cx.fillStyle = cols[q3]; cx.beginPath();
+        swarm.forEach(function (d) { if (!d.mig && d.q === q3) { cx.moveTo(d.x + dr, d.y); cx.arc(d.x, d.y, dr, 0, Math.PI * 2); } });
+        cx.fill();
+      }
+      swarm.forEach(function (d) { if (d.mig && d.c) { cx.fillStyle = d.c; cx.beginPath(); cx.arc(d.x, d.y, dr * 1.25, 0, Math.PI * 2); cx.fill(); } });
+      AS.forEach(function (a, q) {
+        if (!R.on[q]) {
+          cx.beginPath(); cx.arc(C[q][0], C[q][1], rcl[q], 0, Math.PI * 2); cx.setLineDash([4, 4]); cx.strokeStyle = col('--hairline'); cx.lineWidth = 1.5; cx.stroke(); cx.setLineDash([]);
+          cx.fillStyle = col('--muted'); cx.textAlign = 'center'; cx.font = '500 11px "Space Grotesk", system-ui, sans-serif'; cx.fillText(a.n + ' (from May 2019)', C[q][0], C[q][1] + rcl[q] + 14); return;
+        }
+        var bits = [];
+        if (a.k === 'c') bits.push(mode === 'mom' && sizeBy === 'share' ? '0%' : 'sidelines');
+        else {
+          if (sizeBy === 'rng' && R.sv[q] != null) bits.push(Math.round(R.sv[q] * 100) + '% of 52 wk');
+          if (sizeBy === 'rsi' && R.sv[q] != null) bits.push('RSI ' + Math.round(R.sv[q] * 100));
+          if (mode === 'mom') bits.push(fmt(R.r1[q]) + ' 1 mo'); else if (sizeBy !== 'rsi') bits.push('RSI ' + Math.round(R.rs[q]));
+          if (red) bits.push(fmt(R.r0[q]) + ' 1 wk');
+        }
+        var share = Math.round(tgt[q] / swarm.length * 100), t1 = a.n + '  ' + share + '%', t2 = bits.join(' \u00b7 ');
+        cx.font = '600 13px "Space Grotesk", system-ui, sans-serif'; var w1 = cx.measureText(t1).width;
+        cx.font = '500 11px ui-monospace, "SF Mono", Menlo, monospace'; var w2 = cx.measureText(t2).width;
+        var bw = Math.max(w1, w2) + 16, bh = 36, bx = Math.max(6, Math.min(W - bw - 6, C[q][0] - bw / 2)), by = Math.max(64, Math.min(H - bh - 6, C[q][1] - bh / 2));
+        cx.beginPath(); if (cx.roundRect) cx.roundRect(bx, by, bw, bh, 7); else cx.rect(bx, by, bw, bh);
+        cx.fillStyle = rgba(col('--surface'), 0.82); cx.fill(); cx.strokeStyle = rgba(cols[q], 0.9); cx.lineWidth = 1.5; cx.stroke();
+        cx.textAlign = 'center'; cx.fillStyle = col('--ink'); cx.font = '600 13px "Space Grotesk", system-ui, sans-serif';
+        cx.fillText(t1, bx + bw / 2, by + 15);
+        cx.font = '500 11px ui-monospace, "SF Mono", Menlo, monospace'; cx.fillStyle = col('--ink-2');
+        cx.fillText(t2, bx + bw / 2, by + 29);
+      });
+    }
     // bubbles
-    AS.forEach(function (a, q) {
+    if (!DOTS) AS.forEach(function (a, q) {
       var c = cols[q], r = rad[q];
       if (!R.on[q]) {
         cx.beginPath(); cx.arc(C[q][0], C[q][1], r, 0, Math.PI * 2); cx.setLineDash([4, 4]); cx.strokeStyle = col('--hairline'); cx.lineWidth = 1.5; cx.stroke(); cx.setLineDash([]);
@@ -4361,14 +4503,25 @@ FLOWBOX_JS = r"""(function () {
       g.addColorStop(0, rgba(c, 0.95)); g.addColorStop(1, rgba(c, 0.72));
       cx.beginPath(); cx.arc(C[q][0], C[q][1], r, 0, Math.PI * 2); cx.fillStyle = g; cx.fill();
       cx.lineWidth = 2; cx.strokeStyle = col('--surface'); cx.stroke();
-      if (red && Math.abs(R.S1[q]) > 0.02) {   // a red ring on the week's biggest movers
+      if (red && Math.abs(R.S1[q]) > 0.06) {   // a red ring on the week's biggest movers
         cx.beginPath(); cx.arc(C[q][0], C[q][1], r + 4, 0, Math.PI * 2); cx.strokeStyle = rgba(hot, Math.min(0.9, Math.abs(R.S1[q]) * 4)); cx.lineWidth = 2.5;
         if (R.S1[q] < 0) cx.setLineDash([5, 4]); cx.stroke(); cx.setLineDash([]);
       }
       var lines = [];
-      if (a.k === 'c') lines.push(mode === 'mom' ? '0%' : 'sidelines');
+      if (dots && a.k !== 'c') lines.push(sizeBy === 'rng' ? (R.sv[q] == null ? '' : Math.round(R.sv[q] * 100) + '% of 52 wk') : 'RSI ' + Math.round(R.sv[q] * 100));
+      if (dots && r < 38) {     // too small to write in: label it underneath
+        cx.textAlign = 'center'; cx.fillStyle = col('--ink'); cx.font = '600 13px "Space Grotesk", system-ui, sans-serif';
+        cx.fillText(a.n, C[q][0], C[q][1] + r + 16);
+        cx.font = '500 11px ui-monospace, "SF Mono", Menlo, monospace'; cx.fillStyle = col('--ink-2');
+        cx.fillText(a.k === 'c' ? (mode === 'mom' ? '0%' : 'sidelines') : lines[0] + (mode === 'mom' ? ' · ' + fmt(R.r1[q]) + ' 1 mo' : ''), C[q][0], C[q][1] + r + 31);
+        return;
+      }
+      if (dots && a.k !== 'c' && mode === 'mom') lines.push(fmt(R.r1[q]) + ' 1 mo');
+      else if (dots) { }
+      else if (a.k === 'c') lines.push(mode === 'mom' ? '0%' : 'sidelines');
       else if (mode === 'mom') { lines.push(fmt(R.r1[q]) + ' 1 mo'); if (r > 44) lines.push(fmt(R.r3[q]) + ' 3 mo'); }
       else lines.push('RSI ' + Math.round(R.rs[q]));
+      if (dots && a.k === 'c') lines.push(mode === 'mom' ? '0%' : 'sidelines');
       if (red && a.k !== 'c' && (r > 40 || lines.length < 2)) lines.push(fmt(R.r0[q]) + ' 1 wk');
       var y0 = C[q][1] - 4 - (lines.length - 1) * 7;
       cx.fillStyle = '#ffffff'; cx.textAlign = 'center';
@@ -4402,6 +4555,8 @@ FLOWBOX_JS = r"""(function () {
   $('fb-play').onclick = function () { setPlay(!playing); };
   $('fb-spd').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; speed = +b.dataset.v; save('nibii-flow-speed', speed); marks(); };
   $('fb-mode').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; mode = b.dataset.v; save('nibii-flow-mode', mode); marks(); };
+  $('fb-look').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; look = b.dataset.v; save('nibii-flow-look', look); swarm = []; marks(); };
+  $('fb-size').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; sizeBy = b.dataset.v; save('nibii-flow-size', sizeBy); marks(); };
   $('fb-red').onclick = function () { red = !red; save('nibii-flow-red', red ? '1' : '0'); marks(); };
   $('fb-jump').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; var d = b.dataset.d; if (d === 'end') t = N - 1; else { var i = 13; while (i < N - 1 && A.d[i] < d) i++; t = i; } $('fb-pos').value = Math.floor(t); parts = []; reds = []; };
   $('fb-pos').max = N - 1; $('fb-pos').value = Math.floor(t);
@@ -4410,6 +4565,8 @@ FLOWBOX_JS = r"""(function () {
     document.querySelectorAll('#fb-spd button').forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.v === speed)); });
     document.querySelectorAll('#fb-mode button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === mode)); });
     $('fb-red').setAttribute('aria-pressed', String(red));
+    document.querySelectorAll('#fb-look button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === look)); });
+    document.querySelectorAll('#fb-size button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === sizeBy)); });
   }
   $('fb-t0').textContent = A.d[0].slice(0, 4); $('fb-t1').textContent = A.d[N - 1].slice(0, 4);
   CS = getComputedStyle(document.documentElement); layout(); marks();
