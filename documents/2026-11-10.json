@@ -336,62 +336,77 @@
      "votes": [
       [
        "bear",
-       "structure.hourly reads downtrend for ES=F on 10 November; RSI 44.5 and the close (7559.25) is below the 50-day (7709) though above the 200-day (7360)"
+       "structure.hourly reads downtrend for ES=F on 10 November; RSI 44.5 and the close (7559.25) is below the 50-day (7709) though above the 200-day (7360)",
+       false
       ],
       [
        "neu",
-       "Breadth on 10 November was evenly split: 246 S&P 500 advancers vs 250 decliners and the equal-weight S&P (RSP) -0.03% against the cap-weighted index's -0.38%, with Technology (-1.15%) the only large sector drag (CappNotes Closing Look); two-sided, so neutral"
+       "Breadth on 10 November was evenly split: 246 S&P 500 advancers vs 250 decliners and the equal-weight S&P (RSP) -0.03% against the cap-weighted index's -0.38%, with Technology (-1.15%) the only large sector drag (CappNotes Closing Look); two-sided, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral"
+       "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral",
+       null
       ],
       [
        "bear",
-       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); the 10Y back near 5% pressures equity valuations, and the S&P 500 fell 0.38% to 7,520.93 on the move"
+       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); the 10Y back near 5% pressures equity valuations, and the S&P 500 fell 0.38% to 7,520.93 on the move",
+       false
       ],
       [
        "bear",
-       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a more hawkish path is a headwind for equity multiples"
+       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a more hawkish path is a headwind for equity multiples",
+       false
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral",
+       null
       ],
       [
        "neu",
-       "ETF flows reported 10 November were two-sided (QQQ ~+$2.36B, IVV ~+$2.22B, VOO ~+$887M in; SPY ~-$4.19B and SOXX ~-$4.13B out, per ETF.com via CappNotes Closing Look); no clear read, so neutral"
+       "ETF flows reported 10 November were two-sided (QQQ ~+$2.36B, IVV ~+$2.22B, VOO ~+$887M in; SPY ~-$4.19B and SOXX ~-$4.13B out, per ETF.com via CappNotes Closing Look); no clear read, so neutral",
+       null
       ],
       [
        "neu",
-       "No index-level earnings catalyst dated 10 November: the day's single-stock moves were a rotation (Nvidia -4.3% on the board probe of its CEO vs AMD +13.3%, Applied Materials +11.4%, Broadcom +8.8%, per the news log), which nets out two-sided; Cisco and Applied Materials do not report until after Thursday's close, so neutral"
+       "No index-level earnings catalyst dated 10 November: the day's single-stock moves were a rotation (Nvidia -4.3% on the board probe of its CEO vs AMD +13.3%, Applied Materials +11.4%, Broadcom +8.8%, per the news log), which nets out two-sided; Cisco and Applied Materials do not report until after Thursday's close, so neutral",
+       null
       ],
       [
        "neu",
-       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
+       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral"
+       "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral",
+       null
       ],
       [
        "bear",
-       "1H structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "1H structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7616.5,
+     "ret": 0.007574,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -2413,62 +2428,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for ZN=F on 10 November; RSI 49.9, close (106.16) just above the 50-day (105.88) and below the 200-day (109.26); no directional trend read, so neutral"
+       "structure.hourly reads choppy for ZN=F on 10 November; RSI 49.9, close (106.16) just above the 50-day (105.88) and below the 200-day (109.26); no directional trend read, so neutral",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral"
+       "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral",
+       null
       ],
       [
        "bear",
-       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); ZN=F fell from 107.00 to 106.16"
+       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); ZN=F fell from 107.00 to 106.16",
+       false
       ],
       [
        "bear",
-       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a higher-for-longer (and possibly larger-step) policy path pressures Treasury prices"
+       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a higher-for-longer (and possibly larger-step) policy path pressures Treasury prices",
+       false
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral",
+       null
       ],
       [
        "bear",
-       "The $42B 10-year note auction on 10 November was soft: high yield 5.02%, a ~1bp tail to when-issued, bid-to-cover 2.46x vs a 2.60x average, weaker indirect demand and a larger dealer takedown (investingLive wrap; CappNotes Closing Look: dealers left with ~10%, the most since May); weak end-investor demand for 10-year paper"
+       "The $42B 10-year note auction on 10 November was soft: high yield 5.02%, a ~1bp tail to when-issued, bid-to-cover 2.46x vs a 2.60x average, weaker indirect demand and a larger dealer takedown (investingLive wrap; CappNotes Closing Look: dealers left with ~10%, the most since May); weak end-investor demand for 10-year paper",
+       false
       ],
       [
        "neu",
-       "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral"
+       "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
+       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral"
+       "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 106.0625,
+     "ret": -0.000883,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -5007,62 +5037,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for GC=F on 10 November; RSI 45.3 and the close (4046.0) is below both the 50-day (4213) and 200-day (4492), but the hourly swing read gives no consistent direction, so neutral"
+       "structure.hourly reads choppy for GC=F on 10 November; RSI 45.3 and the close (4046.0) is below both the 50-day (4213) and 200-day (4492), but the hourly swing read gives no consistent direction, so neutral",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread or credit-flow figure bearing on gold is available for 10 November, so neutral"
+       "No dated credit-spread or credit-flow figure bearing on gold is available for 10 November, so neutral",
+       null
       ],
       [
        "bear",
-       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); higher yields raise the opportunity cost of gold, which fell ~2% (GC=F 4145.4 to 4046.0)"
+       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); higher yields raise the opportunity cost of gold, which fell ~2% (GC=F 4145.4 to 4046.0)",
+       false
       ],
       [
        "bear",
-       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); higher real-rate expectations weigh on non-yielding gold"
+       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); higher real-rate expectations weigh on non-yielding gold",
+       false
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated fund-flow or positioning figure for this asset is available for this window, so neutral"
+       "No dated fund-flow or positioning figure for this asset is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral"
+       "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
+       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "bear",
-       "Cross-asset on 10 November: the dollar index rose ~0.58% to ~102.25 with the dollar up against every major, and silver fell ~3.5% alongside gold (investingLive wrap, CappNotes Closing Look); a stronger dollar is a headwind for dollar-priced gold"
+       "Cross-asset on 10 November: the dollar index rose ~0.58% to ~102.25 with the dollar up against every major, and silver fell ~3.5% alongside gold (investingLive wrap, CappNotes Closing Look); a stronger dollar is a headwind for dollar-priced gold",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4037.699951171875,
+     "ret": -0.002051,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -7077,62 +7122,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for DX-Y.NYB on 10 November; RSI 56.0 and the close (102.217) is above the 50-day (101.19) and 200-day (99.75), but the hourly swing read gives no consistent direction, so neutral"
+       "structure.hourly reads choppy for DX-Y.NYB on 10 November; RSI 56.0 and the close (102.217) is above the 50-day (101.19) and 200-day (99.75), but the hourly swing read gives no consistent direction, so neutral",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread or credit-flow figure bearing on the dollar is available for 10 November, so neutral"
+       "No dated credit-spread or credit-flow figure bearing on the dollar is available for 10 November, so neutral",
+       null
       ],
       [
        "bull",
-       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); the front-end repricing widens US rate support for the dollar, which rose against every major (EUR/USD -0.55%, GBP/USD -0.75%, USD/JPY +0.55% to 158.77)"
+       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); the front-end repricing widens US rate support for the dollar, which rose against every major (EUR/USD -0.55%, GBP/USD -0.75%, USD/JPY +0.55% to 158.77)",
+       true
       ],
       [
        "bull",
-       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a hawkish path supports the dollar"
+       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a hawkish path supports the dollar",
+       true
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated fund-flow or positioning figure for this asset is available for this window, so neutral"
+       "No dated fund-flow or positioning figure for this asset is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral"
+       "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
+       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral"
+       "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 102.91799926757812,
+     "ret": 0.006858,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 5,
@@ -9251,62 +9311,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for RTY=F on 10 November; RSI 51.4, close (2832.5) just below the 50-day (2844) and above the 200-day (2819); no directional trend read, so neutral"
+       "structure.hourly reads choppy for RTY=F on 10 November; RSI 51.4, close (2832.5) just below the 50-day (2844) and above the 200-day (2819); no directional trend read, so neutral",
+       null
       ],
       [
        "neu",
-       "No small-cap advance-decline count dated 10 November was obtained; the nearest reads are index-level (Russell 2000 -0.68%, S&P SmallCap 600 -0.36%, S&P 500 advancers 246 vs decliners 250, per CappNotes Closing Look), which are two-sided, so neutral"
+       "No small-cap advance-decline count dated 10 November was obtained; the nearest reads are index-level (Russell 2000 -0.68%, S&P SmallCap 600 -0.36%, S&P 500 advancers 246 vs decliners 250, per CappNotes Closing Look), which are two-sided, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral"
+       "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral",
+       null
       ],
       [
        "bear",
-       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); the sharp front-end move raises financing costs for rate-sensitive small caps; the Russell 2000 fell 0.68% to 2,821.38"
+       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); the sharp front-end move raises financing costs for rate-sensitive small caps; the Russell 2000 fell 0.68% to 2,821.38",
+       false
       ],
       [
        "bear",
-       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); small caps are rate-sensitive"
+       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); small caps are rate-sensitive",
+       false
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated small-cap fund-flow or positioning figure is available for this window, so neutral"
+       "No dated small-cap fund-flow or positioning figure is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral"
+       "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
+       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral"
+       "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2853.5,
+     "ret": 0.007414,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -11208,62 +11283,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for NQ=F on 10 November; RSI 40.3 and the close (27949.5) is below both the 50-day (29729) and 200-day (28135), but the hourly swing read gives no consistent direction, so neutral"
+       "structure.hourly reads choppy for NQ=F on 10 November; RSI 40.3 and the close (27949.5) is below both the 50-day (29729) and 200-day (28135), but the hourly swing read gives no consistent direction, so neutral",
+       null
       ],
       [
        "neu",
-       "No Nasdaq advance-decline count dated 10 November was obtained; Technology was the weakest S&P sector (-1.15%) but chip peers rallied hard against Nvidia's drop (CappNotes Closing Look, news log), a two-sided read, so neutral"
+       "No Nasdaq advance-decline count dated 10 November was obtained; Technology was the weakest S&P sector (-1.15%) but chip peers rallied hard against Nvidia's drop (CappNotes Closing Look, news log), a two-sided read, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral"
+       "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral",
+       null
       ],
       [
        "bear",
-       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); long-duration growth took the brunt, with the Nasdaq Composite -0.74% and Technology the weakest S&P sector at -1.15%"
+       "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); long-duration growth took the brunt, with the Nasdaq Composite -0.74% and Technology the weakest S&P sector at -1.15%",
+       false
       ],
       [
        "bear",
-       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); long-duration growth is rate-sensitive"
+       "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); long-duration growth is rate-sensitive",
+       false
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral",
+       null
       ],
       [
        "neu",
-       "ETF flows reported 10 November were two-sided (QQQ ~+$2.36B, IVV ~+$2.22B, VOO ~+$887M in; SPY ~-$4.19B and SOXX ~-$4.13B out, per ETF.com via CappNotes Closing Look); no clear read, so neutral"
+       "ETF flows reported 10 November were two-sided (QQQ ~+$2.36B, IVV ~+$2.22B, VOO ~+$887M in; SPY ~-$4.19B and SOXX ~-$4.13B out, per ETF.com via CappNotes Closing Look); no clear read, so neutral",
+       null
       ],
       [
        "neu",
-       "Single-stock catalysts on 10 November were two-sided for the Nasdaq-100: Nvidia -4.3% (board investigation of its CEO; market cap briefly below $4 trillion) against AMD +13.3%, Applied Materials +11.4% and Broadcom +8.8% in a chip rotation (news log); no net read, so neutral"
+       "Single-stock catalysts on 10 November were two-sided for the Nasdaq-100: Nvidia -4.3% (board investigation of its CEO; market cap briefly below $4 trillion) against AMD +13.3%, Applied Materials +11.4% and Broadcom +8.8% in a chip rotation (news log); no net read, so neutral",
+       null
       ],
       [
        "neu",
-       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
+       "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral"
+       "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 28374.75,
+     "ret": 0.015215,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 5,
