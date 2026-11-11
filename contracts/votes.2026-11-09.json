@@ -3,51 +3,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for ES=F on 9 November"
+   ],
+   [
+    "bull",
+    "Breadth on 9 November (news log): roughly 75% of S&P 500 names closed higher in the rally, with small caps and cyclicals leading"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield rose only ~3bp to ~4.89% on 9 November (news log) against a +2.3% equity day; no clear rates read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a more hawkish path is a headwind for equity multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October CPI is due Tuesday 10 November at 8:30am ET (news log); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Cross-asset on 9 November (news log): S&P 500 +2.34% to 7,549.83, Dow +2.15%, WTI -4.6% to $86.65, Brent -6.0%; the oil slide eased inflation worries, though the 10Y yield rose ~3bp to ~4.89%"
    ],
    [
     "neu",
@@ -56,52 +56,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for ES=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a more hawkish path is a headwind for equity multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bull",
@@ -110,52 +110,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for ES=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a more hawkish path is a headwind for equity multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bull",
@@ -167,51 +167,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for ZN=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
+   ],
+   [
+    "bear",
+    "10Y yield rose ~3bp to ~4.89% on 9 November (news log); ZN=F closed 107.00"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a higher-for-longer policy path pressures Treasury prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October CPI is due Tuesday 10 November at 8:30am ET (news log); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals on 9 November were mixed (oil -4.6% and a broad equity rally against a ~3bp higher 10Y yield and ~80% December-hike odds, per the news log); no clean read for this asset, so neutral"
    ],
    [
     "neu",
@@ -220,52 +220,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a higher-for-longer policy path pressures Treasury prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bear",
@@ -274,52 +274,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a higher-for-longer policy path pressures Treasury prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bear",
@@ -331,51 +331,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for GC=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
+   ],
+   [
+    "bear",
+    "10Y yield rose ~3bp to ~4.89% (news log); higher yields raise the opportunity cost of gold"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; higher real-rate expectations weigh on non-yielding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October CPI is due Tuesday 10 November at 8:30am ET (news log); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals on 9 November were mixed (oil -4.6% and a broad equity rally against a ~3bp higher 10Y yield and ~80% December-hike odds, per the news log); no clean read for this asset, so neutral"
    ],
    [
     "neu",
@@ -384,52 +384,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; higher real-rate expectations weigh on non-yielding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bear",
@@ -438,52 +438,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; higher real-rate expectations weigh on non-yielding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bear",
@@ -495,51 +495,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for DX-Y.NYB on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
+   ],
+   [
+    "bull",
+    "10Y yield rose ~3bp to ~4.89% (news log); higher US yields support the dollar"
+   ],
+   [
+    "bull",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a hawkish path supports the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October CPI is due Tuesday 10 November at 8:30am ET (news log); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals on 9 November were mixed (oil -4.6% and a broad equity rally against a ~3bp higher 10Y yield and ~80% December-hike odds, per the news log); no clean read for this asset, so neutral"
    ],
    [
     "neu",
@@ -549,51 +549,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for DX-Y.NYB on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bull",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a hawkish path supports the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "neu",
@@ -603,51 +603,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for DX-Y.NYB on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bull",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a hawkish path supports the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "neu",
@@ -659,51 +659,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for RTY=F on 9 November"
+   ],
+   [
+    "bull",
+    "Breadth on 9 November (news log): roughly 75% of S&P 500 names closed higher in the rally, with small caps and cyclicals leading"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield rose only ~3bp to ~4.89% on 9 November (news log) against a +2.3% equity day; no clear rates read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; small caps are rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October CPI is due Tuesday 10 November at 8:30am ET (news log); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Cross-asset on 9 November (news log): small caps and cyclicals led the rally as WTI fell 4.6%; S&P +2.34%, Nasdaq +2.74%, though the 10Y yield rose ~3bp"
    ],
    [
     "neu",
@@ -712,52 +712,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for RTY=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; small caps are rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bull",
@@ -766,52 +766,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for RTY=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; small caps are rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bull",
@@ -823,51 +823,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for NQ=F on 9 November"
+   ],
+   [
+    "bull",
+    "Breadth on 9 November (news log): roughly 75% of S&P 500 names closed higher in the rally, with small caps and cyclicals leading"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "10Y yield rose only ~3bp to ~4.89% on 9 November (news log) against a +2.3% equity day; no clear rates read for this asset, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; long-duration growth is rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
+   ],
+   [
+    "bear",
+    "Nvidia board announced an investigation into CEO Huang's relationship with a Megaspeed executive; NVDA -4.24% overnight on 9 November and AI megacaps lagged the rally (news log), though NDX futures recovered from -1% to +0.2% pre-open"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October CPI is due Tuesday 10 November at 8:30am ET (news log); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Cross-asset on 9 November (news log): Nasdaq Composite +2.74% as oil fell 4.6%, though Nvidia and AI megacaps lagged"
    ],
    [
     "neu",
@@ -877,51 +877,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for NQ=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; long-duration growth is rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "neu",
@@ -931,51 +931,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for NQ=F on 9 November"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; long-duration growth is rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Macro calendar is a 1-day factor only; none applies, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "neu",

@@ -410,62 +410,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for ES=F on 4 November"
+       "structure.weekly reads uptrend for ES=F on 4 November",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Apple hit a record high and $5T market cap on its fiscal Q4 report (rev $114.48B, EPS $2.10); Amazon +7.2%, Microsoft +7.1%, Alphabet +4.1% into the afternoon (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Apple hit a record high and $5T market cap on its fiscal Q4 report (rev $114.48B, EPS $2.10); Amazon +7.2%, Microsoft +7.1%, Alphabet +4.1% into the afternoon (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "Midterm uncertainty cleared as Democrats confirmed control of both chambers; ADP October +86K vs +75K est (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Midterm uncertainty cleared as Democrats confirmed control of both chambers; ADP October +86K vs +75K est (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 4 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Cross-asset on 4 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7603.5,
+     "ret": -0.015633,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -2521,62 +2536,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for ZN=F on 4 November"
+       "structure.weekly reads downtrend for ZN=F on 4 November",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bear",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish tilt for this asset"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish tilt for this asset",
+       false
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No earnings catalyst of direct relevance to Treasury futures was identified for 4 November, so neutral"
+       "No earnings catalyst of direct relevance to Treasury futures was identified for 4 November, so neutral",
+       null
       ],
       [
        "neu",
-       "Midterm clarity and a firm ADP print (+86K vs +75K est, news log) pull in opposite directions for Treasuries, so neutral"
+       "Midterm clarity and a firm ADP print (+86K vs +75K est, news log) pull in opposite directions for Treasuries, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 4 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Cross-asset on 4 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 106.0625,
+     "ret": -0.008327,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -5178,62 +5208,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for GC=F on 4 November"
+       "structure.weekly reads downtrend for GC=F on 4 November",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bear",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish tilt for this asset"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish tilt for this asset",
+       false
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No earnings catalyst of direct relevance to gold was identified for 4 November, so neutral"
+       "No earnings catalyst of direct relevance to gold was identified for 4 November, so neutral",
+       null
       ],
       [
        "neu",
-       "ADP October +86K vs +75K est (news log) is a firm labour print against a weaker-dollar backdrop; mixed for gold, so neutral"
+       "ADP October +86K vs +75K est (news log) is a firm labour print against a weaker-dollar backdrop; mixed for gold, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Gold jumped (spot +2.9% to $4,043 overnight; GC=F closed 4,082.6 vs 3,948.6) as the dollar weakened and yields eased (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Gold jumped (spot +2.9% to $4,043 overnight; GC=F closed 4,082.6 vs 3,948.6) as the dollar weakened and yields eased (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 4058.699951171875,
+     "ret": -0.005854,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -7247,62 +7292,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for DX-Y.NYB on 4 November"
+       "structure.weekly reads choppy for DX-Y.NYB on 4 November",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bull",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish tilt for this asset"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish tilt for this asset",
+       true
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No earnings catalyst of direct relevance to the dollar index was identified for 4 November, so neutral"
+       "No earnings catalyst of direct relevance to the dollar index was identified for 4 November, so neutral",
+       null
       ],
       [
        "neu",
-       "Firm ADP (+86K vs +75K est) supports the dollar but midterm clarity removed haven demand (news log); mixed, so neutral"
+       "Firm ADP (+86K vs +75K est) supports the dollar but midterm clarity removed haven demand (news log); mixed, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "DXY fell ~0.4% overnight to 101.32 (DX-Y.NYB closed 101.49 vs 101.89) as yields eased and risk appetite returned (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "DXY fell ~0.4% overnight to 101.32 (DX-Y.NYB closed 101.49 vs 101.89) as yields eased and risk appetite returned (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 102.4540023803711,
+     "ret": 0.009479,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 10,
@@ -9476,62 +9536,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for RTY=F on 4 November (last labeled break: LL at 2723.30)"
+       "structure.weekly reads choppy for RTY=F on 4 November (last labeled break: LL at 2723.30)",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield eased to ~4.89% on 4 November from ~4.96% (news log), but one day does not establish a multi-day trend and it still sits near 5%, so neutral"
+       "10Y yield eased to ~4.89% on 4 November from ~4.96% (news log), but one day does not establish a multi-day trend and it still sits near 5%, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Earnings reports on 4 November (Apple, Uber, McDonald's) were large/mega-cap names with no clear read for small caps, so neutral"
+       "Earnings reports on 4 November (Apple, Uber, McDonald's) were large/mega-cap names with no clear read for small caps, so neutral",
+       null
       ],
       [
        "neu",
-       "Midterm uncertainty cleared with Democrats winning both chambers; Russell 2000 +1.58% to 2,856.96 (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Midterm uncertainty cleared with Democrats winning both chambers; Russell 2000 +1.58% to 2,856.96 (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 4 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Cross-asset on 4 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2844.699951171875,
+     "ret": -0.008262,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -11460,62 +11535,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for NQ=F on 4 November"
+       "structure.weekly reads choppy for NQ=F on 4 November",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 4 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield eased to ~4.89% on 4 November from Tuesday's spike to ~4.96% (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 4 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 4 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "Apple hit a record high and $5T market cap on its fiscal Q4 report; Amazon +7.2%, Microsoft +7.1%, Alphabet +4.1% into the afternoon (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Apple hit a record high and $5T market cap on its fiscal Q4 report; Amazon +7.2%, Microsoft +7.1%, Alphabet +4.1% into the afternoon (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "Midterm uncertainty cleared; ADP October +86K vs +75K est (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Midterm uncertainty cleared; ADP October +86K vs +75K est (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 4 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Cross-asset on 4 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 28322.75,
+     "ret": -0.007395,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 10,
