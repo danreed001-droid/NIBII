@@ -1,6 +1,6 @@
 {
  "about": "News forward test: fixed guesses about what follows each day's news, written before the next open and scored afterwards (mtl/news_forward.py). Information only.",
- "updated": "2026-11-11T15:00:23+00:00",
+ "updated": "2026-11-11T22:01:57+00:00",
  "version": 1,
  "started": "2026-10-31",
  "minN": 20,
@@ -566,6 +566,38 @@
    "typical": 0.00524,
    "res": 0.00819,
    "hit": true
+  },
+  {
+   "d": "2026-11-11",
+   "id": "tone_tlt",
+   "asset": "TLT",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-11T22:01:57+00:00"
+  },
+  {
+   "d": "2026-11-11",
+   "id": "tone_gld",
+   "asset": "GLD",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-11T22:01:57+00:00"
+  },
+  {
+   "d": "2026-11-11",
+   "id": "tone_spy",
+   "asset": "SPY",
+   "h": 1,
+   "call": 1,
+   "at": "2026-11-11T22:01:57+00:00"
+  },
+  {
+   "d": "2026-11-11",
+   "id": "tone_qqq",
+   "asset": "QQQ",
+   "h": 2,
+   "call": 1,
+   "at": "2026-11-11T22:01:57+00:00"
   }
  ],
  "days": [
@@ -640,6 +672,15 @@
    "bearHi": 3,
    "fedBear": true,
    "calls": 8
+  },
+  {
+   "d": "2026-11-11",
+   "at": "2026-11-11T22:01:57+00:00",
+   "n": 4,
+   "tone": 4,
+   "bearHi": 0,
+   "fedBear": false,
+   "calls": 4
   }
  ],
  "summary": {
@@ -650,7 +691,7 @@
     "text": "Upbeat news day → long Treasuries lower the next day (downbeat → higher)",
     "asset": "TLT",
     "h": 1,
-    "calls": 7,
+    "calls": 8,
     "n": 7,
     "hits": 4,
     "rate": 0.571,
@@ -663,7 +704,7 @@
     "text": "Upbeat news day → gold lower the next day (downbeat → higher)",
     "asset": "GLD",
     "h": 1,
-    "calls": 7,
+    "calls": 8,
     "n": 7,
     "hits": 4,
     "rate": 0.571,
@@ -676,7 +717,7 @@
     "text": "The news tone carries into the S&P 500 the next day",
     "asset": "SPY",
     "h": 1,
-    "calls": 7,
+    "calls": 8,
     "n": 7,
     "hits": 2,
     "rate": 0.286,
@@ -689,7 +730,7 @@
     "text": "The news tone carries into the Nasdaq-100 over the next 2 days",
     "asset": "QQQ",
     "h": 2,
-    "calls": 7,
+    "calls": 8,
     "n": 6,
     "hits": 3,
     "rate": 0.5,
