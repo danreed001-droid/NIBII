@@ -582,8 +582,8 @@
        false
       ]
      ],
-     "maturityClose": 7603.5,
-     "ret": -0.018238,
+     "maturityClose": 7617.5,
+     "ret": -0.01643,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5443,8 +5443,8 @@
        false
       ]
      ],
-     "maturityClose": 4058.699951171875,
-     "ret": -0.001574,
+     "maturityClose": 4040.10009765625,
+     "ret": -0.00615,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7552,7 +7552,7 @@
       [
        "bull",
        "The Fed held on 28 October with two dissents for a hike and ~83-85% December hike odds priced (news log) - a hawkish path supports the dollar",
-       false
+       true
       ],
       [
        "neu",
@@ -7590,8 +7590,8 @@
        null
       ]
      ],
-     "maturityClose": 102.4540023803711,
-     "ret": 0.003693,
+     "maturityClose": 102.81199645996094,
+     "ret": 0.0072,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9842,8 +9842,8 @@
        false
       ]
      ],
-     "maturityClose": 2844.699951171875,
-     "ret": -0.001614,
+     "maturityClose": 2853.699951171875,
+     "ret": 0.001544,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11814,8 +11814,8 @@
        null
       ]
      ],
-     "maturityClose": 28322.75,
-     "ret": -0.040273,
+     "maturityClose": 28366.25,
+     "ret": -0.038799,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

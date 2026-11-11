@@ -5337,5 +5337,85 @@
       "time": "Market hours",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-11-1-futures-rise-on-ai-rebound-nasdaq-up-1-9",
+    "data": {
+      "addedAt": "2026-11-11",
+      "category": "Market",
+      "date": "2026-11-11",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "US futures rise as an AI/chip rebound outweighs Tuesday's hot-CPI Fed-hike fears: Nasdaq-100 futures about +1.9%, S&P 500 futures +0.8-0.9%, Dow futures about +0.1-0.3%, Russell 2000 futures +0.4%. US bond market is closed for Veterans Day; stocks trade normally.",
+      "impact": "High",
+      "numbers": "NQ ~+1.9%; ES +0.8-0.9%; YM +0.1-0.3%; RTY +0.4%; 10Y last 4.998% (cash closed)",
+      "order": 1,
+      "reaction": "Tech-led bounce after Tuesday's CPI selloff; December Fed hike still priced, Bowman says 'still work to do' on inflation.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-11-dow-sp-500-nasdaq-nvidia-treasurys-123445799.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-11-2-coreweave-beats-raises-chips-rally",
+    "data": {
+      "addedAt": "2026-11-11",
+      "category": "Earnings",
+      "date": "2026-11-11",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "CoreWeave beat Q3 estimates and raised 2026 revenue guidance to $13.0-13.3B, saying it won't issue more parent-level unsecured debt through 2027; record $133B backlog. Shares +14-17% pre-market, sparking a chip rally: Nvidia +4.9% (rebounding from two days of losses on the CEO probe; Baird cut to Neutral), Micron +6.5%, AMD +6.4%, Intel +6.2%, Broadcom +4.2%.",
+      "impact": "High",
+      "numbers": "CRWV rev $3.66B vs $3.55B est; adj EPS -$0.95 vs -$1.16 est; FY rev $13.0-13.3B vs $12.86B est; backlog $133B (+138% y/y)",
+      "order": 2,
+      "reaction": "Eases AI-infrastructure debt jitters; semis lead Nasdaq futures higher.",
+      "region": "US",
+      "source": "https://www.investing.com/news/stock-market-news/premarket-movers-coreweave-nvidia-rally-fossil-tandy-leather-jump-5018694",
+      "tickers": "CRWV, NVDA, MU, AMD, INTC, AVGO, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "Beat; guidance raised"
+    }
+  },
+  {
+    "id": "2026-11-11-3-oil-rebounds-brent-92-hormuz-mine-strikes",
+    "data": {
+      "addedAt": "2026-11-11",
+      "category": "Energy",
+      "date": "2026-11-11",
+      "day": "Wed",
+      "direction": "Mixed",
+      "event": "Oil rebounds from a two-month low: Brent back near $92 (settled $91.49 Tuesday after touching $89.16) and WTI +1.5% to about $87.3, after Iran said tankers struck mines in the Strait of Hormuz and its security chief said no talks are under way and enriched material won't leave the country.",
+      "impact": "Medium",
+      "numbers": "Brent ~$91.7-$92.8 (+0.2% to +1.4%); WTI ~$87.33 (+1.5%); 10 ships attacked in Hormuz in Nov vs 37 in Oct",
+      "order": 3,
+      "reaction": "Fading hopes of an imminent US-Iran deal put a bid back under crude; energy stocks lead Europe.",
+      "region": "Middle East",
+      "source": "https://www.benzinga.com/markets/commodities/26/11/63132511/oil-prices-rebound-iran-peace-hopes-hormuz-tanker-attacks",
+      "tickers": "",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-11-4-usd-jpy-tops-159-asia-europe-stocks-rally",
+    "data": {
+      "addedAt": "2026-11-11",
+      "category": "Market",
+      "date": "2026-11-11",
+      "day": "Wed",
+      "direction": "Mixed",
+      "event": "Overseas risk-on with a firmer dollar: MSCI Asia Pacific about +1.6% on tech, European stocks higher with the DAX near record highs. USD/JPY rose above 159.00, its highest in over two months, reviving intervention talk; EUR/USD slipped to about 1.1130. Gold +0.3% to about $4,044.",
+      "impact": "Medium",
+      "numbers": "MSCI APAC ~+1.6%; USD/JPY >159.00; EUR/USD ~1.1130; gold ~$4,044 (+0.3%); Bitcoin ~$74,007 (+0.3%)",
+      "order": 4,
+      "reaction": "Dollar bid on fully priced December Fed hike; Treasuries not trading (holiday).",
+      "region": "Global",
+      "source": "https://investinglive.com/news/investinglive-european-session-wrap-stocks-rally-dollar-climbs-as-bond-market-sits-out-post-cpi-action/",
+      "tickers": "DXY, USD, dollar, GLD, gold, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
