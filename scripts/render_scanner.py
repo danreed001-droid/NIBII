@@ -4288,13 +4288,13 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 </div>
 <div class="fb-card fb-shift" id="fb-shift" style="margin-top:12px">
   <div class="fb-shead"><p class="fb-sh-t"><b>Where the value moved</b> <span id="fb-sh-sub"></span></p>
-    <span class="fb-seg" id="fb-sh-lb" role="group" aria-label="Compare with"><button type="button" data-v="4">1 month</button><button type="button" data-v="13">3 months</button><button type="button" data-v="52">1 year</button></span>
+    <span class="fb-seg" id="fb-sh-lb" role="group" aria-label="Compare with"><button type="button" data-v="-1">Yesterday</button><button type="button" data-v="1">1 week</button><button type="button" data-v="4">1 month</button><button type="button" data-v="13">3 months</button><button type="button" data-v="52">1 year</button></span>
     <button type="button" class="fb-btn" id="fb-sh-gif" title="Record 5 seconds of this chart as a GIF to paste anywhere">Save GIF</button></div>
   <p class="fb-sh-lede" id="fb-sh-lede" aria-live="polite"></p>
   <canvas id="fb-sh-cv" role="img" aria-label="Markets that lost share of all the money since the earlier week on the left, markets that gained it on the right, with the dollars that shifted between them"></canvas>
 </div>
 <ul class="fb-key" style="margin-top:10px">
-  <li><b>Where the value moved</b>: the five markets’ combined size this week against 1 month, 3 months or 1 year earlier, with each market’s share of the total then and now. Holding the earlier mix, a market whose share fell is on the left and one whose share rose on the right; each bar is the dollars it lost or gained, and the ribbons split each loser’s dollars across the gainers in proportion, with the money riding them as dots. It follows the animation’s week. <b>Save GIF</b> records about 5 seconds of a chart (the 6-month chart and the box together, or this one) as an animated GIF you can paste into a chat.</li>
+  <li><b>Where the value moved</b>: the five markets’ combined size this week against the session before (Yesterday: each size moved back by its own last-session price change, stocks with SPY, gold with GLD, bonds with 3/8 of TLT; cash and managed futures stay flat within a week), 1 week, 1 month, 3 months or 1 year earlier, with each market’s share of the total then and now. Holding the earlier mix, a market whose share fell is on the left and one whose share rose on the right; each bar is the dollars it lost or gained, and the ribbons split each loser’s dollars across the gainers in proportion, with the money riding them as dots. It follows the animation’s week. <b>Save GIF</b> records about 5 seconds of a chart (the 6-month chart and the box together, or this one) as an animated GIF you can paste into a chat.</li>
   <li><b>6-month shape chart</b>: the 6 months up to the week the animation is on, each line from its own low (bottom) to its high (top) on a log scale; it moves with the animation, and the end labels give each one's spot (100% = at its 6-month high). Hover for any day; tap a name above it to hide or show that line (SPY is drawn in white here).</li>
   <li><b>Bubble size</b>: each one's share of the "money" by recent strength, scored on its last 1 and 3 months against the others. Each frame is one week and both windows roll forward weekly, so the picture can change several times inside a month. Cash always scores 0%.</li>
   <li><b>Airflow</b>: each flow is one ribbon from a giver's OUT door to a taker's IN door, as wide as the flow and coloured from giver to taker, with an arrowhead where it lands and a label (from → to, and its share of the flows or, in market-size mode, its dollars); the air rides along the ribbons only. Money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
@@ -4346,23 +4346,39 @@ SHIFT_JS = r"""(function () {
             { k: 'g', n: 'Gold', v: 'vg', c: '--pc-gold' }, { k: 'f', n: 'Managed futures', v: 'vf', c: '--pc-futures' },
             { k: 'c', n: 'Cash', v: 'vc', c: '--pc-cash' }];
   var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  var LBN = { 4: 'a month', 13: '3 months', 52: 'a year' };
+  var LBN = { '-1': 'the session before', 1: 'a week', 4: 'a month', 13: '3 months', 52: 'a year' };
   var cv = $('fb-sh-cv'), cx = cv.getContext('2d'), CS;
   var lb = 52, W = 0, H = 0, dpr = 1, key = '', L = null, seen = true, loopOn = false, clock = 0, last = 0;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   try { lb = +(localStorage.getItem('nibii-shift-lb') || 52) || 52; } catch (e) {}
+  if (!LBN[lb] || (lb === -1 && !A.dd)) lb = 52;
   function col(v) { return CS.getPropertyValue(v).trim(); }
   function rgba(h, a) { h = h.replace('#', ''); return 'rgba(' + parseInt(h.slice(0, 2), 16) + ',' + parseInt(h.slice(2, 4), 16) + ',' + parseInt(h.slice(4, 6), 16) + ',' + a + ')'; }
   function money(b) { b = Math.abs(b); return b >= 1000 ? '$' + (b / 1000).toFixed(b >= 10000 ? 1 : 2) + 'T' : '$' + (b >= 10 ? Math.round(b) : b.toFixed(1)) + 'B'; }
   function pc(x) { return (x * 100).toFixed(1) + '%'; }
   function day(d) { return MON[+d.slice(5, 7) - 1] + ' ' + (+d.slice(8, 10)) + ', ' + d.slice(0, 4); }
   function week() { var i = window.nibiiFlowWeek; return (i == null || i < 0 || i >= N) ? N - 1 : i; }
+  function dayIx(d) { var lo = 0, hi = A.dd.length - 1; while (lo < hi) { var m = (lo + hi + 1) >> 1; if (A.dd[m] <= d) lo = m; else hi = m - 1; } return lo; }
+  // the session before: each market's size moved back by its own price change over the last session (stocks with
+  // SPY, gold with GLD, bonds with 3/8 of TLT's move, as the sizes are carried between quarter ends; cash and managed
+  // futures have no daily price and stay flat within a week)
+  function back1(a, i) {
+    var k = dayIx(A.d[i]), now = A[a.v][i];
+    if (k < 1 || now == null) return null;
+    var r = function (x) { var p = A[x][k - 1], q = A[x][k]; return p && q ? p / q : null; };
+    if (a.k === 's') { var f = r('ds'); return f == null ? null : now * f; }
+    if (a.k === 'g') { f = r('dg'); return f == null ? null : now * f; }
+    if (a.k === 'b') { f = r('db'); return f == null ? null : now * Math.pow(f, 0.375); }
+    if (a.k === 'f' && (A.df[k - 1] == null)) return null;
+    return now;
+  }
   function compute(i) {
-    var j = Math.max(0, i - lb), rows = [], Tn = 0, Tt = 0;
+    var day1 = lb === -1, j = day1 ? i : Math.max(0, i - lb), rows = [], Tn = 0, Tt = 0;
+    var thenDate = day1 ? A.dd[Math.max(0, dayIx(A.d[i]) - 1)] : A.d[j];
     AS.forEach(function (a) {
-      var now = A[a.v][i], then = A[a.v][j];
+      var now = A[a.v][i], then = day1 ? back1(a, i) : A[a.v][j];
       if (now == null || then == null || !(now > 0) || !(then > 0)) return;
-      if (a.k === 'f' && (A.f[j] == null || A.f[i] == null)) return;   // managed futures only once DBMF trades
+      if (a.k === 'f' && (A.f[j] == null || A.f[i] == null || (day1 && then == null))) return;   // managed futures only once DBMF trades
       rows.push({ a: a, now: now, then: then }); Tn += now; Tt += then;
     });
     rows.forEach(function (r) { r.sn = r.now / Tn; r.st = r.then / Tt; r.shift = r.now - r.st * Tn; });
@@ -4370,7 +4386,7 @@ SHIFT_JS = r"""(function () {
     var gain = rows.filter(function (r) { return r.shift > 0; }).sort(function (x, y) { return y.shift - x.shift; });
     var G = gain.reduce(function (s, r) { return s + r.shift; }, 0), flows = [], big = null;
     lose.forEach(function (l) { gain.forEach(function (g) { var v = -l.shift * g.shift / (G || 1); var f = { l: l, g: g, v: v }; flows.push(f); if (!big || v > big.v) big = f; }); });
-    return { i: i, j: j, Tn: Tn, Tt: Tt, lose: lose, gain: gain, G: G, flows: flows, big: big };
+    return { i: i, j: j, thenDate: thenDate, Tn: Tn, Tt: Tt, lose: lose, gain: gain, G: G, flows: flows, big: big };
   }
   function layout() {
     var w = Math.min(860, box.clientWidth - 24); if (w < 280) w = 280;
@@ -4394,10 +4410,11 @@ SHIFT_JS = r"""(function () {
     R.x0 = xl; R.x1 = xr; R.bw = bw; R.PH = PH; R.top = top;
     L = R;
     var hd = $('fb-sh-sub'), le = $('fb-sh-lede');
-    if (hd) hd.textContent = 'week of ' + day(A.d[R.i]) + ' against ' + LBN[lb] + ' earlier (' + day(A.d[R.j]) + ')';
+    var ago = lb === -1 ? 'the session before' : LBN[lb] + ' earlier';
+    if (hd) hd.textContent = (lb === -1 ? 'close of ' : 'week of ') + day(A.d[R.i]) + ' against ' + ago + ' (' + day(R.thenDate) + ')';
     if (le) {
       var ch = R.Tn / R.Tt - 1;
-      le.textContent = 'All five markets: ' + money(R.Tn) + ' against ' + money(R.Tt) + ' (' + (ch >= 0 ? '+' : '−') + Math.abs(ch * 100).toFixed(1) + '%). Holding the mix of ' + LBN[lb] + ' earlier, ' + money(R.G) + ' of this week’s value shifted between them' +
+      le.textContent = 'All five markets: ' + money(R.Tn) + ' against ' + money(R.Tt) + ' (' + (ch >= 0 ? '+' : '−') + Math.abs(ch * 100).toFixed(1) + '%). Holding the mix of ' + ago + ', ' + money(R.G) + ' of ' + (lb === -1 ? 'that day’s' : 'this week’s') + ' value shifted between them' +
         (R.big ? '; the biggest shift was ' + R.big.l.a.n + ' → ' + R.big.g.a.n + ' (' + money(R.big.v) + ').' : '.');
     }
   }
@@ -4415,7 +4432,7 @@ SHIFT_JS = r"""(function () {
     cx.textAlign = 'right'; cx.fillText('LOST SHARE', R.x0, R.PH ? 16 : 18);
     cx.textAlign = 'left'; cx.fillText('GAINED SHARE', R.x1, R.PH ? 16 : 18);
     cx.font = '500 ' + (R.PH ? 10 : 11) + 'px ui-monospace, Menlo, monospace'; cx.textAlign = 'center';
-    cx.fillText('week of ' + day(A.d[R.i]) + ' vs ' + LBN[lb] + ' earlier', W / 2, R.PH ? 34 : 38);
+    cx.fillText((lb === -1 ? day(A.d[R.i]) + ' vs ' + day(R.thenDate) : 'week of ' + day(A.d[R.i]) + ' vs ' + LBN[lb] + ' earlier'), W / 2, R.PH ? 34 : 38);
     cx.fillText(money(R.G) + ' shifted', W / 2, R.PH ? 48 : 52);
     // ribbons
     R.flows.forEach(function (f) {
