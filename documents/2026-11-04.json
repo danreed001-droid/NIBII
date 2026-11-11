@@ -474,8 +474,8 @@
        false
       ]
      ],
-     "maturityClose": 7616.5,
-     "ret": -0.01395,
+     "maturityClose": 7667.0,
+     "ret": -0.007412,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2600,8 +2600,8 @@
        false
       ]
      ],
-     "maturityClose": 106.0625,
-     "ret": -0.008327,
+     "maturityClose": 106.015625,
+     "ret": -0.008766,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5209,7 +5209,7 @@
       [
        "bear",
        "structure.weekly reads downtrend for GC=F on 4 November",
-       false
+       true
       ],
       [
        "neu",
@@ -5234,7 +5234,7 @@
       [
        "bear",
        "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish tilt for this asset",
-       false
+       true
       ],
       [
        "neu",
@@ -5269,11 +5269,11 @@
       [
        "bear",
        "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 4037.699951171875,
-     "ret": -0.010998,
+     "maturityClose": 4000.39990234375,
+     "ret": -0.020134,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7356,8 +7356,8 @@
        null
       ]
      ],
-     "maturityClose": 102.91799926757812,
-     "ret": 0.01405,
+     "maturityClose": 102.91200256347656,
+     "ret": 0.013991,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9600,8 +9600,8 @@
        null
       ]
      ],
-     "maturityClose": 2853.5,
-     "ret": -0.005194,
+     "maturityClose": 2859.10009765625,
+     "ret": -0.003242,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11599,8 +11599,8 @@
        null
       ]
      ],
-     "maturityClose": 28374.75,
-     "ret": -0.005572,
+     "maturityClose": 28687.0,
+     "ret": 0.005371,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

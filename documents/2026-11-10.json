@@ -400,8 +400,8 @@
        false
       ]
      ],
-     "maturityClose": 7616.5,
-     "ret": 0.007574,
+     "maturityClose": 7667.0,
+     "ret": 0.014254,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2492,8 +2492,8 @@
        null
       ]
      ],
-     "maturityClose": 106.0625,
-     "ret": -0.000883,
+     "maturityClose": 106.015625,
+     "ret": -0.001325,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5058,12 +5058,12 @@
       [
        "bear",
        "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); higher yields raise the opportunity cost of gold, which fell ~2% (GC=F 4145.4 to 4046.0)",
-       false
+       true
       ],
       [
        "bear",
        "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); higher real-rate expectations weigh on non-yielding gold",
-       false
+       true
       ],
       [
        "neu",
@@ -5093,7 +5093,7 @@
       [
        "bear",
        "Cross-asset on 10 November: the dollar index rose ~0.58% to ~102.25 with the dollar up against every major, and silver fell ~3.5% alongside gold (investingLive wrap, CappNotes Closing Look); a stronger dollar is a headwind for dollar-priced gold",
-       false
+       true
       ],
       [
        "neu",
@@ -5101,8 +5101,8 @@
        null
       ]
      ],
-     "maturityClose": 4037.699951171875,
-     "ret": -0.002051,
+     "maturityClose": 4000.39990234375,
+     "ret": -0.01127,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7186,8 +7186,8 @@
        null
       ]
      ],
-     "maturityClose": 102.91799926757812,
-     "ret": 0.006858,
+     "maturityClose": 102.91200256347656,
+     "ret": 0.006799,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9375,8 +9375,8 @@
        null
       ]
      ],
-     "maturityClose": 2853.5,
-     "ret": 0.007414,
+     "maturityClose": 2859.10009765625,
+     "ret": 0.009391,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11347,8 +11347,8 @@
        null
       ]
      ],
-     "maturityClose": 28374.75,
-     "ret": 0.015215,
+     "maturityClose": 28687.0,
+     "ret": 0.026387,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
