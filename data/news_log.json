@@ -5417,5 +5417,45 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-11-5-stocks-close-higher-sp500-nasdaq-dow",
+    "data": {
+      "addedAt": "2026-11-11",
+      "category": "Market",
+      "date": "2026-11-11",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "US stocks closed sharply higher on Veterans Day (bond market closed, equities traded): S&P 500 +1.31% to 7,619.38, Nasdaq Composite +1.60% to 25,466.19, Dow +0.49% to 52,486.49, Russell 2000 +0.88% to 2,846.26. Apple hit a fresh record above $355, market cap ~$5.16T (+31% YTD). Nvidia rebounded 2.9% to $173.73 (faded from a near-5% pre-market pop) even after Baird cut its price target to $200 and downgraded to Neutral on CEO-probe and China-chip-export-curb worries; AMD +7.3% to $552.90, Broadcom +4.0% to $345.22.",
+      "impact": "High",
+      "numbers": "S&P 500 7,619.38 (+98.45, +1.31%); Dow 52,486.49 (+254.60, +0.49%); Nasdaq 25,466.19 (+400.31, +1.60%); Russell 2000 2,846.26 (+24.88, +0.88%); 10Y n/a (holiday; last print 4.998%)",
+      "order": 5,
+      "reaction": "CoreWeave's beat-and-raise extended the AI-trade rebound into the close, outweighing a Baird downgrade of Nvidia; broad gains across megacaps and chipmakers.",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-11-2026",
+      "tickers": "SPY, QQQ, DIA, IWM, AAPL, NVDA, AMD, AVGO",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-11-6-marvell-to-acquire-lumentum-all-stock",
+    "data": {
+      "addedAt": "2026-11-11",
+      "category": "Deals",
+      "date": "2026-11-11",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "Marvell Technology (MRVL) agreed to acquire optical-components maker Lumentum (LITE) in an all-stock deal, offering 4.5 MRVL shares per LITE share. Lumentum shares rose about 12% on the news, recovering alongside the broader AI-infrastructure/chip rally.",
+      "impact": "Medium",
+      "numbers": "Exchange ratio: 4.5 MRVL shares per LITE share; LITE +12.3%",
+      "order": 6,
+      "reaction": "Consolidation play in the AI/optical-networking supply chain adds to the day's chip-sector rally.",
+      "region": "US",
+      "source": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-11-2026",
+      "tickers": "MRVL, LITE",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
