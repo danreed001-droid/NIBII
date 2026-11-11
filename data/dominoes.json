@@ -1,15 +1,15 @@
 {
  "about": "The dominoes card (mtl/dominoes.py, scripts/dominoes.py). Information only.",
- "updated": "2026-11-11T15:00:10+00:00",
- "asOf": "2026-11-10",
- "spxOff": -0.0381,
+ "updated": "2026-11-11T22:01:56+00:00",
+ "asOf": "2026-11-11",
+ "spxOff": -0.0255,
  "count": 1,
  "dominoes": [
   {
    "key": "tech",
    "label": "Tech",
    "on": false,
-   "value": -0.0918,
+   "value": -0.0773,
    "line": 0.1,
    "how": "off"
   },
@@ -17,7 +17,7 @@
    "key": "small",
    "label": "Small caps",
    "on": false,
-   "value": -0.0805,
+   "value": -0.0724,
    "line": 0.1,
    "how": "off"
   },
@@ -65,7 +65,7 @@
    "key": "oil",
    "label": "Oil shock",
    "on": true,
-   "value": 0.6459,
+   "value": 0.6351,
    "line": 0.5,
    "how": "oil"
   }
@@ -124,26 +124,49 @@
  "normal10": 0.215,
  "matches": [
   {
-   "d": "2021-10-13",
+   "d": "2021-05-18",
    "on": [
     "oil"
    ],
-   "infl": 0.0515,
-   "spxOff": -0.0382,
+   "infl": 0.0413,
+   "spxOff": -0.0248,
    "then": [
-    "Evergrande debt crisis (Sep 2021)",
     "Inflation tops 4% (May 2021)",
     "Archegos collapse forces block sales (Mar 2021)",
-    "Dollar down 10% in a year (Mar 2021)"
+    "Dollar down 10% in a year (Mar 2021)",
+    "Oil up 50% in a year (Mar 2021)"
    ],
    "next": {
-    "fall6": -0.0443,
-    "spx6": 0.019,
-    "spx12": -0.159,
-    "bonds6": -0.1419,
-    "bonds12": -0.2917,
-    "gold6": 0.1059,
-    "gold12": -0.0656
+    "fall6": -0.0029,
+    "spx6": 0.1344,
+    "spx12": -0.0094,
+    "bonds6": 0.0674,
+    "bonds12": -0.1431,
+    "gold6": -0.0007,
+    "gold12": -0.0263
+   }
+  },
+  {
+   "d": "2021-12-06",
+   "on": [
+    "oil"
+   ],
+   "infl": 0.0624,
+   "spxOff": -0.024,
+   "then": [
+    "Powell drops \"transitory\": inflation fight begins (Nov 2021)",
+    "Omicron variant (Nov 2021)",
+    "Evergrande debt crisis (Sep 2021)",
+    "Inflation tops 4% (May 2021)"
+   ],
+   "next": {
+    "fall6": -0.1505,
+    "spx6": -0.0939,
+    "spx12": -0.1416,
+    "bonds6": -0.2248,
+    "bonds12": -0.2685,
+    "gold6": 0.0408,
+    "gold12": 0.0016
    }
   },
   {
@@ -170,29 +193,10 @@
    }
   },
   {
-   "d": "1993-04-29",
-   "on": [],
-   "infl": 0.0302,
-   "spxOff": -0.0382,
-   "then": [
-    "Dollar up 10% in a year (Dec 1992)",
-    "Dollar down 10% in a year (Jun 1992)"
-   ],
-   "next": {
-    "fall6": 0.0008,
-    "spx6": 0.0586,
-    "spx12": 0.0233,
-    "bonds6": 0.106,
-    "bonds12": 0.0143,
-    "gold6": null,
-    "gold12": null
-   }
-  },
-  {
-   "d": "1991-10-11",
+   "d": "1991-09-26",
    "on": [],
    "infl": 0.038,
-   "spxOff": -0.0383,
+   "spxOff": -0.0256,
    "then": [
     "Dollar up 10% in a year (Aug 1991)",
     "Inflation turns down (Mar 1991)",
@@ -200,36 +204,34 @@
     "Recession signal (Dec 1990)"
    ],
    "next": {
-    "fall6": -0.0163,
-    "spx6": 0.0599,
-    "spx12": 0.0556,
-    "bonds6": 0.0402,
-    "bonds12": 0.1197,
+    "fall6": -0.0292,
+    "spx6": 0.0553,
+    "spx12": 0.0827,
+    "bonds6": 0.0297,
+    "bonds12": 0.1319,
     "gold6": null,
     "gold12": null
    }
   },
   {
-   "d": "2010-02-18",
-   "on": [
-    "oil"
-   ],
-   "infl": 0.0262,
-   "spxOff": -0.0378,
+   "d": "2011-05-17",
+   "on": [],
+   "infl": 0.0308,
+   "spxOff": -0.0254,
    "then": [
-    "Oil up 50% in a year (Nov 2009)",
-    "Dollar down 10% in a year (Oct 2009)",
-    "Credit cracking (Jul 2009)",
-    "Bank stress-test results released (May 2009)"
+    "Dollar down 10% in a year (Apr 2011)",
+    "Japan earthquake / Fukushima (Mar 2011)",
+    "QE2 announced (Nov 2010)",
+    "Bernanke hints QE2 (Aug 2010)"
    ],
    "next": {
-    "fall6": -0.0761,
-    "spx6": -0.0114,
-    "spx12": 0.2074,
-    "bonds6": 0.173,
-    "bonds12": 0.0491,
-    "gold6": 0.0999,
-    "gold12": 0.2296
+    "fall6": -0.1729,
+    "spx6": -0.0581,
+    "spx12": -0.0031,
+    "bonds6": 0.2044,
+    "bonds12": 0.2707,
+    "gold6": 0.2014,
+    "gold12": 0.0381
    }
   }
  ],
@@ -244,108 +246,108 @@
  },
  "expect": {
   "count": 1,
-  "lo": -0.0881,
+  "lo": -0.0755,
   "hi": 0.0,
   "same": {
-   "days": 2389,
+   "days": 2375,
    "stretches": 50,
    "1": {
-    "med": 0.013,
-    "p10": -0.034,
-    "p90": 0.0441,
-    "up": 0.6818,
-    "fall5": 0.0953,
-    "fall10": 0.0206,
-    "bonds": 0.0064,
+    "med": 0.0128,
+    "p10": -0.0341,
+    "p90": 0.0437,
+    "up": 0.6802,
+    "fall5": 0.0955,
+    "fall10": 0.0207,
+    "bonds": 0.0065,
     "gold": 0.0163
    },
    "3": {
     "med": 0.0342,
-    "p10": -0.0592,
-    "p90": 0.089,
-    "up": 0.726,
-    "fall5": 0.2562,
-    "fall10": 0.1061,
+    "p10": -0.06,
+    "p90": 0.0889,
+    "up": 0.7248,
+    "fall5": 0.2578,
+    "fall10": 0.1068,
     "bonds": 0.0153,
-    "gold": 0.0431
+    "gold": 0.0435
    },
    "6": {
-    "med": 0.0542,
-    "p10": -0.0459,
-    "p90": 0.1493,
-    "up": 0.7379,
-    "fall5": 0.3899,
-    "fall10": 0.2008,
-    "bonds": 0.0406,
-    "gold": 0.1004
+    "med": 0.054,
+    "p10": -0.0461,
+    "p90": 0.1487,
+    "up": 0.7362,
+    "fall5": 0.392,
+    "fall10": 0.2021,
+    "bonds": 0.0416,
+    "gold": 0.1005
    }
   },
   "all": {
-   "days": 7694,
-   "stretches": 12,
+   "days": 7450,
+   "stretches": 13,
    "1": {
-    "med": 0.0124,
-    "p10": -0.036,
-    "p90": 0.0471,
-    "up": 0.6565,
-    "fall5": 0.1171,
-    "fall10": 0.0193,
-    "bonds": 0.0057,
-    "gold": 0.0056
+    "med": 0.0123,
+    "p10": -0.0351,
+    "p90": 0.0461,
+    "up": 0.6556,
+    "fall5": 0.112,
+    "fall10": 0.0153,
+    "bonds": 0.0056,
+    "gold": 0.0052
    },
    "3": {
-    "med": 0.0319,
-    "p10": -0.0454,
-    "p90": 0.0919,
-    "up": 0.7285,
-    "fall5": 0.2558,
-    "fall10": 0.086,
-    "bonds": 0.0163,
-    "gold": 0.0255
+    "med": 0.0311,
+    "p10": -0.0453,
+    "p90": 0.0909,
+    "up": 0.7258,
+    "fall5": 0.2527,
+    "fall10": 0.0816,
+    "bonds": 0.0164,
+    "gold": 0.0254
    },
    "6": {
-    "med": 0.0573,
-    "p10": -0.0499,
-    "p90": 0.1531,
-    "up": 0.78,
-    "fall5": 0.3629,
-    "fall10": 0.1629,
-    "bonds": 0.0386,
-    "gold": 0.0491
+    "med": 0.0568,
+    "p10": -0.0497,
+    "p90": 0.1515,
+    "up": 0.779,
+    "fall5": 0.3597,
+    "fall10": 0.1584,
+    "bonds": 0.0387,
+    "gold": 0.048
    }
   },
   "other": {
-   "days": 1343,
-   "stretches": 43,
+   "days": 1160,
+   "stretches": 40,
    "1": {
-    "med": 0.0171,
-    "p10": -0.0569,
-    "p90": 0.0549,
-    "up": 0.6297,
-    "fall5": 0.2286,
-    "fall10": 0.0555,
-    "bonds": 0.0072,
-    "gold": 0.0069
+    "med": 0.0165,
+    "p10": -0.054,
+    "p90": 0.0518,
+    "up": 0.6276,
+    "fall5": 0.2161,
+    "fall10": 0.0347,
+    "bonds": 0.0073,
+    "gold": 0.0043
    },
    "3": {
-    "med": 0.0416,
-    "p10": -0.0747,
-    "p90": 0.1014,
-    "up": 0.7081,
-    "fall5": 0.3776,
-    "fall10": 0.1804,
-    "bonds": 0.0206,
-    "gold": 0.0322
+    "med": 0.0392,
+    "p10": -0.078,
+    "p90": 0.0987,
+    "up": 0.6998,
+    "fall5": 0.3724,
+    "fall10": 0.1629,
+    "bonds": 0.0213,
+    "gold": 0.0324
    },
    "6": {
-    "med": 0.0583,
-    "p10": -0.1028,
-    "p90": 0.1754,
-    "up": 0.7157,
-    "fall5": 0.4905,
-    "fall10": 0.2729,
-    "bonds": 0.0408,
-    "gold": 0.0684
+    "med": 0.0557,
+    "p10": -0.1061,
+    "p90": 0.1703,
+    "up": 0.7095,
+    "fall5": 0.4842,
+    "fall10": 0.2526,
+    "bonds": 0.0399,
+    "gold": 0.0669
    }
   },
   "otherLabel": "3+"
