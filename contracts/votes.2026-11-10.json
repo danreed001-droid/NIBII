@@ -2,52 +2,52 @@
  "equities": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.hourly reads downtrend for ES=F on 10 November; RSI 44.5 and the close (7559.25) is below the 50-day (7709) though above the 200-day (7360)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth on 10 November was evenly split: 246 S&P 500 advancers vs 250 decliners and the equal-weight S&P (RSP) -0.03% against the cap-weighted index's -0.38%, with Technology (-1.15%) the only large sector drag (CappNotes Closing Look); two-sided, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral"
+   ],
+   [
+    "bear",
+    "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); the 10Y back near 5% pressures equity valuations, and the S&P 500 fell 0.38% to 7,520.93 on the move"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a more hawkish path is a headwind for equity multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "ETF flows reported 10 November were two-sided (QQQ ~+$2.36B, IVV ~+$2.22B, VOO ~+$887M in; SPY ~-$4.19B and SOXX ~-$4.13B out, per ETF.com via CappNotes Closing Look); no clear read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No index-level earnings catalyst dated 10 November: the day's single-stock moves were a rotation (Nvidia -4.3% on the board probe of its CEO vs AMD +13.3%, Applied Materials +11.4%, Broadcom +8.8%, per the news log), which nets out two-sided; Cisco and Applied Materials do not report until after Thursday's close, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral"
    ],
    [
     "bear",
@@ -56,52 +56,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for ES=F on 10 November; last labeled weekly swings HL/HH/HL/HH, though RSI is 44.5 and the close is below the 50-day (7709)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a more hawkish path is a headwind for equity multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "ETF flows reported 10 November were two-sided (QQQ ~+$2.36B, IVV ~+$2.22B, VOO ~+$887M in; SPY ~-$4.19B and SOXX ~-$4.13B out, per ETF.com via CappNotes Closing Look); no clear read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Cisco and Applied Materials report after the close on Thursday 12 November (CappNotes Closing Look calendar); binary single-stock events with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI is due Friday 13 November at 8:30am ET, inside this window (CappNotes Closing Look calendar); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bull",
@@ -110,52 +110,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for ES=F on 10 November; last labeled weekly swings HL/HH/HL/HH, though RSI is 44.5 and the close is below the 50-day (7709)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a more hawkish path is a headwind for equity multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "ETF flows reported 10 November were two-sided (QQQ ~+$2.36B, IVV ~+$2.22B, VOO ~+$887M in; SPY ~-$4.19B and SOXX ~-$4.13B out, per ETF.com via CappNotes Closing Look); no clear read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nvidia reports after the close on Tuesday 17 November (per the 10 November close report cited in the news log), inside this window; a binary event with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI (Friday 13 November) falls inside this window, and no later dated release schedule was obtained; a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bull",
@@ -167,51 +167,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for ZN=F on 10 November; RSI 49.9, close (106.16) just above the 50-day (105.88) and below the 200-day (109.26); no directional trend read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral"
+   ],
+   [
+    "bear",
+    "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); ZN=F fell from 107.00 to 106.16"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a higher-for-longer (and possibly larger-step) policy path pressures Treasury prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
+   ],
+   [
+    "bear",
+    "The $42B 10-year note auction on 10 November was soft: high yield 5.02%, a ~1bp tail to when-issued, bid-to-cover 2.46x vs a 2.60x average, weaker indirect demand and a larger dealer takedown (investingLive wrap; CappNotes Closing Look: dealers left with ~10%, the most since May); weak end-investor demand for 10-year paper"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral"
    ],
    [
     "neu",
@@ -220,52 +220,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 10 November; last labeled weekly swings LH/LL/LH/LL, and the close is below the 200-day (109.26)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a higher-for-longer (and possibly larger-step) policy path pressures Treasury prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The soft 10 November 10-year auction is a 1-day flow fact; no dated positioning figure covering this window (e.g. CFTC or fund flows) was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated earnings catalyst applies to this asset over this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI is due Friday 13 November at 8:30am ET, inside this window (CappNotes Closing Look calendar); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bear",
@@ -274,52 +274,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 10 November; last labeled weekly swings LH/LL/LH/LL, and the close is below the 200-day (109.26)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a higher-for-longer (and possibly larger-step) policy path pressures Treasury prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The soft 10 November 10-year auction is a 1-day flow fact; no dated positioning figure covering this window (e.g. CFTC or fund flows) was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated earnings catalyst applies to this asset over this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI (Friday 13 November) falls inside this window, and no later dated release schedule was obtained; a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bear",
@@ -331,51 +331,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for GC=F on 10 November; RSI 45.3 and the close (4046.0) is below both the 50-day (4213) and 200-day (4492), but the hourly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bearing on gold is available for 10 November, so neutral"
+   ],
+   [
+    "bear",
+    "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); higher yields raise the opportunity cost of gold, which fell ~2% (GC=F 4145.4 to 4046.0)"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); higher real-rate expectations weigh on non-yielding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure for this asset is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Cross-asset on 10 November: the dollar index rose ~0.58% to ~102.25 with the dollar up against every major, and silver fell ~3.5% alongside gold (investingLive wrap, CappNotes Closing Look); a stronger dollar is a headwind for dollar-priced gold"
    ],
    [
     "neu",
@@ -384,52 +384,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 10 November; last labeled weekly swings LH/LL/LH/LL, and the close is below the 50-day (4213) and 200-day (4492)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); higher real-rate expectations weigh on non-yielding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure for this asset is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated earnings catalyst applies to this asset over this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI is due Friday 13 November at 8:30am ET, inside this window (CappNotes Closing Look calendar); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bear",
@@ -438,52 +438,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 10 November; last labeled weekly swings LH/LL/LH/LL, and the close is below the 50-day (4213) and 200-day (4492)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); higher real-rate expectations weigh on non-yielding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure for this asset is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated earnings catalyst applies to this asset over this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI (Friday 13 November) falls inside this window, and no later dated release schedule was obtained; a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bear",
@@ -495,51 +495,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for DX-Y.NYB on 10 November; RSI 56.0 and the close (102.217) is above the 50-day (101.19) and 200-day (99.75), but the hourly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bearing on the dollar is available for 10 November, so neutral"
+   ],
+   [
+    "bull",
+    "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); the front-end repricing widens US rate support for the dollar, which rose against every major (EUR/USD -0.55%, GBP/USD -0.75%, USD/JPY +0.55% to 158.77)"
+   ],
+   [
+    "bull",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a hawkish path supports the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure for this asset is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral"
    ],
    [
     "neu",
@@ -549,51 +549,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for DX-Y.NYB on 10 November; the close is above the 50-day (101.19) and 200-day (99.75) but the weekly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bull",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a hawkish path supports the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure for this asset is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated earnings catalyst applies to this asset over this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI is due Friday 13 November at 8:30am ET, inside this window (CappNotes Closing Look calendar); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "neu",
@@ -603,51 +603,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for DX-Y.NYB on 10 November; the close is above the 50-day (101.19) and 200-day (99.75) but the weekly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bull",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); a hawkish path supports the dollar"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated fund-flow or positioning figure for this asset is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated earnings catalyst applies to this asset over this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI (Friday 13 November) falls inside this window, and no later dated release schedule was obtained; a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "neu",
@@ -659,51 +659,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for RTY=F on 10 November; RSI 51.4, close (2832.5) just below the 50-day (2844) and above the 200-day (2819); no directional trend read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No small-cap advance-decline count dated 10 November was obtained; the nearest reads are index-level (Russell 2000 -0.68%, S&P SmallCap 600 -0.36%, S&P 500 advancers 246 vs decliners 250, per CappNotes Closing Look), which are two-sided, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral"
+   ],
+   [
+    "bear",
+    "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); the sharp front-end move raises financing costs for rate-sensitive small caps; the Russell 2000 fell 0.68% to 2,821.38"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); small caps are rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated small-cap fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts are a 1-day factor only; none dated 10 November applies to this asset, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral"
    ],
    [
     "neu",
@@ -712,52 +712,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for RTY=F on 10 November; last labeled weekly swings HL/HH/HL/HH, though the close is just below the 50-day (2844)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); small caps are rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated small-cap fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated earnings catalyst applies to this asset over this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI is due Friday 13 November at 8:30am ET, inside this window (CappNotes Closing Look calendar); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bull",
@@ -766,52 +766,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for RTY=F on 10 November; last labeled weekly swings HL/HH/HL/HH, though the close is just below the 50-day (2844)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); small caps are rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated small-cap fund-flow or positioning figure is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated earnings catalyst applies to this asset over this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI (Friday 13 November) falls inside this window, and no later dated release schedule was obtained; a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "bull",
@@ -823,51 +823,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for NQ=F on 10 November; RSI 40.3 and the close (27949.5) is below both the 50-day (29729) and 200-day (28135), but the hourly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Nasdaq advance-decline count dated 10 November was obtained; Technology was the weakest S&P sector (-1.15%) but chip peers rallied hard against Nvidia's drop (CappNotes Closing Look, news log), a two-sided read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit on 10 November was two-sided: HYG -0.43% and LQD -0.75% fell with rates, while the latest high-yield spread print (334bp, dated 9 November, down from 342bp on 6 November; investment-grade 91bp) showed no widening (CappNotes Closing Look); no clear read, so neutral"
+   ],
+   [
+    "bear",
+    "On 10 November the 2Y yield rose ~17-19bp to ~4.73% and the 10Y ~10-12bp to ~4.98-4.99%, briefly above 5% (investingLive wrap, CappNotes Closing Look, news log); long-duration growth took the brunt, with the Nasdaq Composite -0.74% and Technology the weakest S&P sector at -1.15%"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); long-duration growth is rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "ETF flows reported 10 November were two-sided (QQQ ~+$2.36B, IVV ~+$2.22B, VOO ~+$887M in; SPY ~-$4.19B and SOXX ~-$4.13B out, per ETF.com via CappNotes Closing Look); no clear read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Single-stock catalysts on 10 November were two-sided for the Nasdaq-100: Nvidia -4.3% (board investigation of its CEO; market cap briefly below $4 trillion) against AMD +13.3%, Applied Materials +11.4% and Broadcom +8.8% in a chip rotation (news log); no net read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Wednesday 11 November is Veterans Day: US stocks trade but the cash Treasury market is closed and no top-tier US data is scheduled (jobless claims and existing home sales Thursday 12 November, October PPI Friday 13 November, per CappNotes Closing Look); no scheduled 1-day catalyst, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals on 10 November were mixed (dollar index +0.58% to ~102.25 and the 10Y yield near 5% against a slightly lower WTI at ~$86 and a strong overseas session, Nikkei +2.87%, per CappNotes Closing Look and the news log); no clean read for this asset, so neutral"
    ],
    [
     "neu",
@@ -877,51 +877,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for NQ=F on 10 November; the close is below the 50-day (29729) and 200-day (28135) but the weekly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); long-duration growth is rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "ETF flows reported 10 November were two-sided (QQQ ~+$2.36B, IVV ~+$2.22B, VOO ~+$887M in; SPY ~-$4.19B and SOXX ~-$4.13B out, per ETF.com via CappNotes Closing Look); no clear read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Cisco and Applied Materials report after the close on Thursday 12 November (CappNotes Closing Look calendar); binary single-stock events with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI is due Friday 13 November at 8:30am ET, inside this window (CappNotes Closing Look calendar); a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "neu",
@@ -931,51 +931,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for NQ=F on 10 November; the close is below the 50-day (29729) and 200-day (28135) but the weekly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context for 10 November is in the sigma input (VIX closed 19.46), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No horizon-wide dated credit-spread or credit-flow figure is available beyond the 1-day read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+   ],
+   [
+    "bear",
+    "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); long-duration growth is rate-sensitive"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for 10 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "ETF flows reported 10 November were two-sided (QQQ ~+$2.36B, IVV ~+$2.22B, VOO ~+$887M in; SPY ~-$4.19B and SOXX ~-$4.13B out, per ETF.com via CappNotes Closing Look); no clear read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nvidia reports after the close on Tuesday 17 November (per the 10 November close report cited in the news log), inside this window; a binary event with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "October PPI (Friday 13 November) falls inside this window, and no later dated release schedule was obtained; a binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
    ],
    [
     "neu",
