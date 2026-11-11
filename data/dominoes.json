@@ -1,6 +1,6 @@
 {
  "about": "The dominoes card (mtl/dominoes.py, scripts/dominoes.py). Information only.",
- "updated": "2026-11-10T23:21:16+00:00",
+ "updated": "2026-11-11T15:00:10+00:00",
  "asOf": "2026-11-10",
  "spxOff": -0.0381,
  "count": 1,
@@ -25,7 +25,7 @@
    "key": "banks",
    "label": "Banks",
    "on": false,
-   "value": -0.0763,
+   "value": -0.0783,
    "line": 0.1,
    "how": "off"
   },
@@ -33,7 +33,7 @@
    "key": "transport",
    "label": "Transports",
    "on": false,
-   "value": -0.066,
+   "value": -0.0657,
    "line": 0.1,
    "how": "off"
   },
@@ -41,7 +41,7 @@
    "key": "junk",
    "label": "Junk bonds",
    "on": false,
-   "value": -0.013,
+   "value": -0.0168,
    "line": 0.03,
    "how": "off"
   },
