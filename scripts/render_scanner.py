@@ -446,6 +446,21 @@ footer li { margin-bottom: 6px; }
 .refresh-bar .note { margin: 0; }
 .refresh-bar a.btn { text-decoration: none; display: inline-block; }
 .refresh-help { text-align: center; max-width: 62ch; margin: 0 auto 12px; }
+.wr { margin: 14px 0; border-left: 4px solid var(--hairline); }
+.wr.differ { border-left-color: var(--neg); }
+.wr.haven { border-left-color: var(--accent); }
+.wr .wr-status { font-weight: 600; font-size: 1rem; margin: 2px 0 8px; }
+.wr.differ .wr-status { color: var(--neg); }
+.wr ul { list-style: none; margin: 4px 0 8px; padding: 0; }
+.wr li { margin: 3px 0; padding-left: 22px; position: relative; font-size: 0.9rem; }
+.wr li::before { position: absolute; left: 0; width: 18px; text-align: center; font-weight: 700; }
+.wr li.y::before { content: "\2713"; color: var(--neg); }
+.wr li.n::before { content: "\2013"; color: var(--muted); }
+.wr li.w::before { content: "!"; color: var(--neg); }
+.wr li.i::before { content: "\2022"; color: var(--muted); }
+.wr li.w { color: var(--ink); font-weight: 600; }
+.wr .wr-h { font-size: 0.78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-top: 10px; }
+.wr .note { color: var(--muted); font-size: 0.8rem; margin: 6px 0 0; }
 </style>
 
 <div class="masthead"><div class="masthead-inner">
@@ -470,6 +485,7 @@ footer li { margin-bottom: 6px; }
   <div class="holdings" id="holdings"></div>
   <div class="card optcheck" id="optcheck" hidden></div>
   <div class="card swpanel" id="swpanel" hidden></div>
+__WATCHRULE__
 
 __RECENT__
 __NEWSFWD__
@@ -4126,6 +4142,93 @@ def world_html():
 
 
 FLOWBOX_PATH = os.path.join(ROOT, 'data', 'flow_box.json')
+PAPER_PATH = os.path.join(ROOT, 'data', 'paper_ledger.json')
+
+
+def _wr_date(d):
+    """'Nov 10, 2026' from an ISO date."""
+    from datetime import date as _dt
+    x = _dt.fromisoformat(d)
+    return x.strftime('%b ') + str(x.day) + x.strftime(', %Y')
+
+
+def watchrule_html():
+    """The watch rule and the lessons from the owner's review picks (mtl/watchrule.py), from data/flow_box.json's daily
+    closes and the paper record's latest decision; '' without the data. Information only."""
+    try:
+        with open(FLOWBOX_PATH) as f:
+            D = json.load(f)
+        try:
+            with open(PAPER_PATH) as f:
+                entries = json.load(f).get('entries') or []
+        except (OSError, ValueError):
+            entries = []
+        from mtl import watchrule
+        W = watchrule.compute(D, entries)
+    except Exception as e:   # information only: the page builds without it
+        print(f'  watch rule skipped ({e})')
+        return ''
+    H = watchrule.HAVEN_NAME
+    held = 'stocks' if W['plan'] == 's' else H.get(W['plan'], W['plan'])
+    pct = lambda v, d=1: ('+' if v >= 0 else '−') + f'{abs(v) * 100:.{d}f}%'
+    if W['verdict'] == 'differ':
+        status = f"Different from the plan: the watch rule says step out of stocks into {H[W['rule']]}; the plan holds stocks."
+    elif W['verdict'] == 'haven':
+        status = f"Both out of stocks: the watch rule prefers {H[W['rule']]}, the plan holds {held}."
+    elif W['rule']:
+        status = f"Agrees with the plan: both in {H[W['rule']]}."
+    else:
+        status = f"Agrees with the plan: the watch rule has no haven call, so the plan's own decision stands ({held})."
+    c, b = W['conds'], W['back']
+    li = lambda ok, t: f'<li class="{"y" if ok else "n"}">{t}</li>'
+    out = ''.join([
+        li(c['cross'], f"SPY's 50-day average under its 200-day ({W['spy50']:.1f} against {W['spy200']:.1f})"),
+        li(c['gold'], f"Gold up over the last month ({pct(W['gold1m'])})" if W['gold1m'] is not None else 'Gold up over the last month'),
+        li(c['chan'], f"SPY closes under the channel drawn from its recent 5% swings (position {W['chan5']:.2f}; 0 is the lower line, 1 the upper)" if W['chan5'] is not None else "SPY closes under its 5% swing channel")])
+    back = ''.join([
+        li(b['chan'], f"SPY in the upper half of its 3% swing channel (position {W['chan3']:.2f})" if W['chan3'] is not None else 'SPY in the upper half of its 3% swing channel'),
+        li(b['high'], f"SPY closes above its last 3% swing high ({W['lastHigh3']:.2f})" if W['lastHigh3'] else 'SPY closes above its last 3% swing high')])
+    last = ''
+    if W['switches']:
+        dte, frm, to = W['switches'][-1]
+        last = (f"Last call: back to the plan on {_wr_date(dte)} (from {H.get(frm, frm)})." if to is None
+                else f"Last call: out of stocks into {H[to]} on {_wr_date(dte)}.")
+    if W['rule']:
+        now = f'<p class="wr-h">Back to the plan when either holds (after at least 3 sessions)</p><ul>{back}</ul>'
+    else:
+        now = f'<p class="wr-h">Out of stocks when all three hold (now: {sum(c.values())} of 3)</p><ul>{out}</ul>' \
+              f'<p class="note">Haven if it fires today: {H[W["havenNow"]]} (TLT while above its 50-day average, else the haven up most over a month, else cash).</p>'
+    # lessons from the review picks
+    les = []
+    tlt = f"TLT is {'above' if W['tltUp'] else 'under'} its 50-day average and {pct(W['tlt1m'])} this month" if W['tlt1m'] is not None else 'TLT'
+    if W['plan'] == 'c':
+        les.append(('w', f"Leave for TLT, not cash: the plan is in cash. Your cash calls lost in 5 of 7 and cost about 2 points a year; {tlt}."))
+    elif W['tltUp']:
+        les.append(('i', f"Leave for TLT, not cash: {tlt}, so it is the haven your TLT calls earned on (66.0% a year with TLT calls only)."))
+    else:
+        les.append(('i', f"Leave for TLT, not cash: {tlt}; when TLT was falling, your gold and DBMF calls roughly broke even."))
+    near = f"SPY is {abs(W['dd252']) * 100:.1f}% under its 1-year high" if W['dd252'] is not None else 'SPY'
+    if W['pull'] == 'deep':
+        les.append(('i', f"Act early near the highs: {near}. Calls this deep in a fall added nothing in your picks (60.2% a year against 64.4% for calls within 10% of the high)."))
+    elif W['pull'] == 'early':
+        les.append(('w', f"Act early near the highs: a pullback signal is on, day {W['pullAge']} ({near}, RSI {W['rsi']:.0f}, {pct(W['spy5'])} over the week, low in its short channel). This is when your calls worked best."))
+    elif W['pull'] == 'late':
+        les.append(('w', f"Act early near the highs: the pullback signal has been on for {W['pullAge']} sessions ({near})."))
+    else:
+        les.append(('i', f"Act early near the highs: no pullback signal ({near}, RSI {W['rsi']:.0f}, {pct(W['spy5'])} over the week, at {W['chan3'] * 100:.0f}% of its short channel). The signal is RSI under 50, a down week and the lower 40% of the short channel, within 10% of the high." if W['chan3'] is not None and W['rsi'] is not None else f"Act early near the highs: no pullback signal ({near})."))
+    if W['pull'] == 'late':
+        les.append(('w', f"A call a week late is worse than no call: this signal is {W['pullAge']} sessions old. Your calls moved 5 sessions later made 57.1% a year against 64.1%, below the plan."))
+    elif W['pull'] == 'early':
+        les.append(('i', f"A call a week late is worse than no call: the signal is {W['pullAge']} session{'s' if W['pullAge'] != 1 else ''} old, so a call now is on time; after 5 sessions it is late."))
+    else:
+        les.append(('i', "A call a week late is worse than no call: there is no signal to time now. Your calls moved 5 sessions later made 57.1% a year against 64.1%."))
+    lessons = ''.join(f'<li class="{k}">{_e(t)}</li>' for k, t in les)
+    return (f'<section class="card wr {W["verdict"]}" id="watchrule"><p class="section-label" style="margin-top:0">Watch rule and lessons from your review picks '
+            f'<span class="hint">information only · data to {_e(_wr_date(W["asOf"]))} · the plan decides the trade</span></p>'
+            f'<p class="wr-status">{_e(status)}</p>{now}<p class="note">{_e(last)} Strict test from 2000: 63.2% a year against the plan\'s 60.4% '
+            '(worst drop −26%, t 1.38, better in 8 years and worse in 4). Since 2002 it was out of stocks on 5% of days and overruled the plan\'s stocks 30 times (2% of days). It is the best of 425,355 rules '
+            'tried on your picks, so most of that margin is selection: watch list only.</p>'
+            f'<p class="wr-h">Lessons from your review picks</p><ul>{lessons}</ul></section>')
 FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow <span class="hint">stocks, long bonds, gold, managed futures and cash, week by week since 2000 · data to __FBASOF__ · information only</span></p>
 <style>
 #flowbox .fb-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; padding: 12px; display: grid; gap: 10px; }
@@ -4886,6 +4989,7 @@ def render(scan, growth=None):
     page = page.replace('__FLOWBOX__', flowbox_html(), 1)
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
+    page = page.replace('__WATCHRULE__', watchrule_html(), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
     page = page.replace('__NEWSFWD__', news_forward_html(), 1)
     page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS + '\n' + NFW_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
