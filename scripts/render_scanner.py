@@ -4259,6 +4259,12 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 #flowbox .fb-tl { display: flex; justify-content: space-between; font: 0.7rem ui-monospace, "SF Mono", Menlo, monospace; color: var(--muted); }
 #flowbox .fb-key { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px 16px; font-size: 0.8rem; color: var(--ink-2); margin: 0; padding: 0; list-style: none; }
 #flowbox .fb-key b { color: var(--ink); }
+#flowbox .fb-shead { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+#flowbox .fb-sh-t { margin: 0; flex: 1 1 240px; font-size: 0.9rem; color: var(--ink); }
+#flowbox .fb-sh-t span { color: var(--muted); font-size: 0.78rem; }
+#flowbox .fb-sh-lede { margin: 0; font-size: 0.82rem; color: var(--ink-2); max-width: 90ch; }
+#flowbox #fb-sh-cv { display: block; margin-inline: auto; max-width: 100%; }
+#flowbox .fb-btn:disabled { opacity: 0.7; cursor: progress; }
 #flowbox .fb-sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin: 0 4px 0 8px; vertical-align: 0; }
 </style>
 <div class="fb-card">
@@ -4271,6 +4277,7 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
     <span class="fb-seg" id="fb-look" role="group" aria-label="Look"><button type="button" data-v="dots">Dots</button><button type="button" data-v="bubbles">Bubbles</button><button type="button" data-v="both">Both</button></span>
     <span class="fb-seg" id="fb-size" role="group" aria-label="Size by"><button type="button" data-v="share">Size: flow share</button><button type="button" data-v="rsi">RSI</button><button type="button" data-v="rng">52-wk range</button><button type="button" data-v="mkt">Market size</button></span>
     <button type="button" class="fb-btn tog" id="fb-red" aria-pressed="false">1-week flow in red</button>
+    <button type="button" class="fb-btn" id="fb-gif" title="Record 5 seconds of the chart and the box as a GIF to paste anywhere">Save GIF</button>
     <span class="fb-seg" id="fb-jump" role="group" aria-label="Jump to"><button type="button" data-d="2007-09-01">2008 crash</button><button type="button" data-d="2019-12-01">2020</button><button type="button" data-d="2022-04-01">2022</button><button type="button" data-d="2024-10-01">2025</button><button type="button" data-d="end">Now</button></span>
   </div>
   <div class="fb-time">
@@ -4279,7 +4286,15 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
     <div class="fb-tl"><span id="fb-t0"></span><span>strip: what the plan held</span><span id="fb-t1"></span></div>
   </div>
 </div>
+<div class="fb-card fb-shift" id="fb-shift" style="margin-top:12px">
+  <div class="fb-shead"><p class="fb-sh-t"><b>Where the value moved</b> <span id="fb-sh-sub"></span></p>
+    <span class="fb-seg" id="fb-sh-lb" role="group" aria-label="Compare with"><button type="button" data-v="4">1 month</button><button type="button" data-v="13">3 months</button><button type="button" data-v="52">1 year</button></span>
+    <button type="button" class="fb-btn" id="fb-sh-gif" title="Record 5 seconds of this chart as a GIF to paste anywhere">Save GIF</button></div>
+  <p class="fb-sh-lede" id="fb-sh-lede" aria-live="polite"></p>
+  <canvas id="fb-sh-cv" role="img" aria-label="Markets that lost share of all the money since the earlier week on the left, markets that gained it on the right, with the dollars that shifted between them"></canvas>
+</div>
 <ul class="fb-key" style="margin-top:10px">
+  <li><b>Where the value moved</b>: the five markets’ combined size this week against 1 month, 3 months or 1 year earlier, with each market’s share of the total then and now. Holding the earlier mix, a market whose share fell is on the left and one whose share rose on the right; each bar is the dollars it lost or gained, and the ribbons split each loser’s dollars across the gainers in proportion, with the money riding them as dots. It follows the animation’s week. <b>Save GIF</b> records about 5 seconds of a chart (the 6-month chart and the box together, or this one) as an animated GIF you can paste into a chat.</li>
   <li><b>6-month shape chart</b>: the 6 months up to the week the animation is on, each line from its own low (bottom) to its high (top) on a log scale; it moves with the animation, and the end labels give each one's spot (100% = at its 6-month high). Hover for any day; tap a name above it to hide or show that line (SPY is drawn in white here).</li>
   <li><b>Bubble size</b>: each one's share of the "money" by recent strength, scored on its last 1 and 3 months against the others. Each frame is one week and both windows roll forward weekly, so the picture can change several times inside a month. Cash always scores 0%.</li>
   <li><b>Airflow</b>: each flow is one ribbon from a giver's OUT door to a taker's IN door, as wide as the flow and coloured from giver to taker, with an arrowhead where it lands and a label (from → to, and its share of the flows or, in market-size mode, its dollars); the air rides along the ribbons only. Money only flows into one that is rising (its last month and its 1 + 3 month score both positive). Anything falling sends money out, in its own colour, to the risers or to cash; with nothing rising it all goes to cash, and when most are rising cash empties into them. The ones pulling money in glow.</li>
@@ -4294,6 +4309,12 @@ FLOWBOX_SECTION = r"""<section id="flowbox"><p class="section-label">Money flow 
 <script type="application/json" id="fb-data">__FBDATA__</script>
 <script>
 __FBJS__
+</script>
+<script>
+__SHIFTJS__
+</script>
+<script>
+__GIFJS__
 </script>
 </section>
 """
@@ -4311,8 +4332,247 @@ def flowbox_html():
     data = {k: D[k] for k in ('d', 's', 'b', 'g', 'f', 'h', 'rs', 'rb', 'rg', 'rf', 'dd', 'ds', 'db', 'dg', 'df', 'vs', 'vb', 'vg', 'vf', 'vc') if k in D}
     return (FLOWBOX_SECTION.replace('__FBASOF__', _e(D.get('asOf') or D['d'][-1]), 1)
             .replace('__FBDATA__', json.dumps(data, separators=(',', ':')).replace('</', '<\\/'), 1)
-            .replace('__FBJS__', FLOWBOX_JS, 1))
+            .replace('__FBJS__', FLOWBOX_JS, 1).replace('__SHIFTJS__', SHIFT_JS, 1).replace('__GIFJS__', GIF_JS, 1))
 
+
+SHIFT_JS = r"""(function () {
+  // "Where the value moved": which markets lost share of all the money since an earlier week and which gained it,
+  // with the dollars that shifted between them (holding the earlier mix), following the money flow animation's week.
+  var $ = function (id) { return document.getElementById(id); };
+  var A = JSON.parse($('fb-data').textContent), N = A.d.length;
+  var box = $('fb-shift');
+  if (!A.vs || !box) { if (box) box.hidden = true; return; }
+  var AS = [{ k: 's', n: 'Stocks', v: 'vs', c: '--pc-stocks' }, { k: 'b', n: 'Bonds', v: 'vb', c: '--pc-bonds' },
+            { k: 'g', n: 'Gold', v: 'vg', c: '--pc-gold' }, { k: 'f', n: 'Managed futures', v: 'vf', c: '--pc-futures' },
+            { k: 'c', n: 'Cash', v: 'vc', c: '--pc-cash' }];
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var LBN = { 4: 'a month', 13: '3 months', 52: 'a year' };
+  var cv = $('fb-sh-cv'), cx = cv.getContext('2d'), CS;
+  var lb = 52, W = 0, H = 0, dpr = 1, key = '', L = null, seen = true, loopOn = false, clock = 0, last = 0;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try { lb = +(localStorage.getItem('nibii-shift-lb') || 52) || 52; } catch (e) {}
+  function col(v) { return CS.getPropertyValue(v).trim(); }
+  function rgba(h, a) { h = h.replace('#', ''); return 'rgba(' + parseInt(h.slice(0, 2), 16) + ',' + parseInt(h.slice(2, 4), 16) + ',' + parseInt(h.slice(4, 6), 16) + ',' + a + ')'; }
+  function money(b) { b = Math.abs(b); return b >= 1000 ? '$' + (b / 1000).toFixed(b >= 10000 ? 1 : 2) + 'T' : '$' + (b >= 10 ? Math.round(b) : b.toFixed(1)) + 'B'; }
+  function pc(x) { return (x * 100).toFixed(1) + '%'; }
+  function day(d) { return MON[+d.slice(5, 7) - 1] + ' ' + (+d.slice(8, 10)) + ', ' + d.slice(0, 4); }
+  function week() { var i = window.nibiiFlowWeek; return (i == null || i < 0 || i >= N) ? N - 1 : i; }
+  function compute(i) {
+    var j = Math.max(0, i - lb), rows = [], Tn = 0, Tt = 0;
+    AS.forEach(function (a) {
+      var now = A[a.v][i], then = A[a.v][j];
+      if (now == null || then == null || !(now > 0) || !(then > 0)) return;
+      if (a.k === 'f' && (A.f[j] == null || A.f[i] == null)) return;   // managed futures only once DBMF trades
+      rows.push({ a: a, now: now, then: then }); Tn += now; Tt += then;
+    });
+    rows.forEach(function (r) { r.sn = r.now / Tn; r.st = r.then / Tt; r.shift = r.now - r.st * Tn; });
+    var lose = rows.filter(function (r) { return r.shift < 0; }).sort(function (x, y) { return x.shift - y.shift; });
+    var gain = rows.filter(function (r) { return r.shift > 0; }).sort(function (x, y) { return y.shift - x.shift; });
+    var G = gain.reduce(function (s, r) { return s + r.shift; }, 0), flows = [], big = null;
+    lose.forEach(function (l) { gain.forEach(function (g) { var v = -l.shift * g.shift / (G || 1); var f = { l: l, g: g, v: v }; flows.push(f); if (!big || v > big.v) big = f; }); });
+    return { i: i, j: j, Tn: Tn, Tt: Tt, lose: lose, gain: gain, G: G, flows: flows, big: big };
+  }
+  function layout() {
+    var w = Math.min(860, box.clientWidth - 24); if (w < 280) w = 280;
+    var PH = w < 560, h = PH ? 430 : 400;
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (W !== w || H !== h) { W = w; H = h; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); cv.style.width = W + 'px'; cv.style.height = H + 'px'; }
+    var R = compute(week()), top = PH ? 74 : 64, bot = PH ? 34 : 20, gap = 10;
+    var xl = Math.round(W * (PH ? 0.34 : 0.33)), xr = Math.round(W * (PH ? 0.66 : 0.67)), bw = 10;
+    var nl = R.lose.length, ng = R.gain.length, avail = H - top - bot - gap * (Math.max(nl, ng) - 1);
+    var sc = R.G > 0 ? avail / R.G : 0;
+    function place(list, x) {
+      var y = top, used = list.reduce(function (s, r) { return s + Math.max(3, Math.abs(r.shift) * sc); }, 0) + gap * (list.length - 1);
+      y = top + Math.max(0, (H - top - bot - used) / 2);
+      list.forEach(function (r) { r.h = Math.max(3, Math.abs(r.shift) * sc); r.x = x; r.y = y; r.off = 0; y += r.h + gap; });
+    }
+    place(R.lose, xl - bw); place(R.gain, xr);
+    R.flows.forEach(function (f) {
+      f.w = Math.max(0.6, f.v * sc); f.y0 = f.l.y + f.l.off + f.w / 2; f.l.off += f.w;
+    });
+    R.gain.forEach(function (g) { R.flows.filter(function (f) { return f.g === g; }).forEach(function (f) { f.y1 = g.y + g.off + f.w / 2; g.off += f.w; }); });
+    R.x0 = xl; R.x1 = xr; R.bw = bw; R.PH = PH; R.top = top;
+    L = R;
+    var hd = $('fb-sh-sub'), le = $('fb-sh-lede');
+    if (hd) hd.textContent = 'week of ' + day(A.d[R.i]) + ' against ' + LBN[lb] + ' earlier (' + day(A.d[R.j]) + ')';
+    if (le) {
+      var ch = R.Tn / R.Tt - 1;
+      le.textContent = 'All five markets: ' + money(R.Tn) + ' against ' + money(R.Tt) + ' (' + (ch >= 0 ? '+' : '−') + Math.abs(ch * 100).toFixed(1) + '%). Holding the mix of ' + LBN[lb] + ' earlier, ' + money(R.G) + ' of this week’s value shifted between them' +
+        (R.big ? '; the biggest shift was ' + R.big.l.a.n + ' → ' + R.big.g.a.n + ' (' + money(R.big.v) + ').' : '.');
+    }
+  }
+  function bez(f, u) {   // centre line of a ribbon: a cubic from the loser's right edge to the gainer's left edge
+    var x0 = L.x0, x1 = L.x1, m = (x0 + x1) / 2, a = 1 - u;
+    return [a * a * a * x0 + 3 * a * a * u * m + 3 * a * u * u * m + u * u * u * x1, a * a * a * f.y0 + 3 * a * a * u * f.y0 + 3 * a * u * u * f.y1 + u * u * u * f.y1];
+  }
+  function draw() {
+    CS = getComputedStyle(document.documentElement);
+    var k = week() + ':' + lb + ':' + box.clientWidth;
+    if (k !== key) { key = k; layout(); }
+    var R = L, ink = col('--ink'), mut = col('--muted'), fs = R.PH ? 10.5 : 11.5;
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, W, H);
+    cx.font = '600 ' + (R.PH ? 10 : 11) + 'px ui-monospace, Menlo, monospace'; cx.fillStyle = mut; cx.textBaseline = 'alphabetic';
+    cx.textAlign = 'right'; cx.fillText('LOST SHARE', R.x0, R.PH ? 16 : 18);
+    cx.textAlign = 'left'; cx.fillText('GAINED SHARE', R.x1, R.PH ? 16 : 18);
+    cx.font = '500 ' + (R.PH ? 10 : 11) + 'px ui-monospace, Menlo, monospace'; cx.textAlign = 'center';
+    cx.fillText('week of ' + day(A.d[R.i]) + ' vs ' + LBN[lb] + ' earlier', W / 2, R.PH ? 34 : 38);
+    cx.fillText(money(R.G) + ' shifted', W / 2, R.PH ? 48 : 52);
+    // ribbons
+    R.flows.forEach(function (f) {
+      var c0 = col(f.l.a.c), c1 = col(f.g.a.c), g = cx.createLinearGradient(R.x0, 0, R.x1, 0);
+      g.addColorStop(0, rgba(c0, 0.5)); g.addColorStop(1, rgba(c1, 0.5));
+      var m = (R.x0 + R.x1) / 2, hw = f.w / 2;
+      cx.beginPath(); cx.moveTo(R.x0, f.y0 - hw); cx.bezierCurveTo(m, f.y0 - hw, m, f.y1 - hw, R.x1, f.y1 - hw);
+      cx.lineTo(R.x1, f.y1 + hw); cx.bezierCurveTo(m, f.y1 + hw, m, f.y0 + hw, R.x0, f.y0 + hw); cx.closePath();
+      cx.fillStyle = g; cx.fill();
+    });
+    // the money riding the ribbons: dotted lines moving from the loser to the gainer
+    cx.fillStyle = 'rgba(255,255,255,0.85)';
+    R.flows.forEach(function (f) {
+      if (f.w < 1.2) return;
+      var r = Math.max(1, Math.min(2.6, Math.sqrt(f.w) * 0.5)), n = Math.max(6, Math.round((R.x1 - R.x0) / 16)), sh = (clock * 0.12) % 1;
+      for (var q = 0; q < n; q++) { var u = (q / n + sh) % 1, p = bez(f, u); cx.beginPath(); cx.arc(p[0], p[1], r, 0, 6.2832); cx.fill(); }
+    });
+    // nodes and labels
+    function node(r, left) {
+      cx.fillStyle = col(r.a.c); cx.fillRect(r.x, r.y, R.bw, r.h);
+      var tx = left ? r.x - 8 : r.x + R.bw + 8, ty = r.ly + 4, mid = r.y + r.h / 2;
+      if (Math.abs(r.ly - mid) > 6) { cx.strokeStyle = mut; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(left ? r.x - 2 : r.x + R.bw + 2, mid); cx.lineTo(left ? r.x - 6 : r.x + R.bw + 6, r.ly); cx.stroke(); }
+      cx.textAlign = left ? 'right' : 'left';
+      cx.fillStyle = ink; cx.font = '600 ' + (fs + 1) + 'px "Space Grotesk", system-ui, sans-serif'; cx.fillText(r.a.n, tx, ty - (R.PH ? 12 : 7));
+      cx.font = '500 ' + fs + 'px ui-monospace, Menlo, monospace';
+      var v = (left ? '−' : '+') + money(r.shift), s = pc(r.st) + ' → ' + pc(r.sn);
+      if (R.PH) { cx.fillText(v, tx, ty + 1); cx.fillStyle = col('--ink-2') || ink; cx.fillText(s, tx, ty + 13); }
+      else { cx.fillText(v + ' · ' + s + ' of all', tx, ty + 7); }
+    }
+    function spread(list) {   // label lines: at each bar's middle, pushed apart so they never overlap, kept inside the canvas
+      var gapL = R.PH ? 40 : 30, lo = R.top + 4, hi = H - (R.PH ? 30 : 16);
+      list.forEach(function (r) { r.ly = r.y + r.h / 2; });
+      for (var q = 1; q < list.length; q++) list[q].ly = Math.max(list[q].ly, list[q - 1].ly + gapL);
+      if (list.length && list[list.length - 1].ly > hi) { list[list.length - 1].ly = hi; for (q = list.length - 2; q >= 0; q--) list[q].ly = Math.min(list[q].ly, list[q + 1].ly - gapL); }
+      list.forEach(function (r) { r.ly = Math.max(lo, r.ly); });
+    }
+    spread(R.lose); spread(R.gain);
+    R.lose.forEach(function (r) { node(r, true); }); R.gain.forEach(function (r) { node(r, false); });
+    if (!R.flows.length) { cx.textAlign = 'center'; cx.fillStyle = mut; cx.fillText('No change in the mix.', W / 2, H / 2); }
+  }
+  function frame(now) {
+    var dt = Math.min(0.05, (now - (last || now)) / 1000); last = now;
+    if (!reduce) clock += dt;
+    draw();
+    if (seen) requestAnimationFrame(frame); else loopOn = false;
+  }
+  function kick() { if (!loopOn) { loopOn = true; last = 0; requestAnimationFrame(frame); } }
+  var seg = $('fb-sh-lb');
+  function setLb(v) { lb = v; key = ''; [].forEach.call(seg.querySelectorAll('button'), function (b) { b.setAttribute('aria-pressed', String(+b.dataset.v === lb)); }); try { localStorage.setItem('nibii-shift-lb', String(lb)); } catch (e) {} kick(); }
+  seg.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) setLb(+b.dataset.v); });
+  setLb(lb);
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { seen = es[0].isIntersecting; if (seen) kick(); }).observe(cv);
+  window.addEventListener('resize', function () { key = ''; kick(); });
+  window.nibiiShiftCanvas = cv;
+  kick();
+})();
+"""
+
+GIF_JS = r"""(function () {
+  // Save GIF: records about 5 seconds of an animation from its canvases and downloads it as an animated GIF
+  // (a 256-colour palette built from the recorded frames, LZW-coded; nothing leaves the browser).
+  function palette(frames) {
+    var hist = new Uint32Array(65536), i, f, d;
+    for (f = 0; f < frames.length; f += 2) { d = frames[f]; for (i = 0; i < d.length; i += 16) hist[((d[i] >> 3) << 11) | ((d[i + 1] >> 2) << 5) | (d[i + 2] >> 3)]++; }
+    var keys = [];
+    for (i = 0; i < 65536; i++) if (hist[i]) keys.push(i);
+    keys.sort(function (a, b) { return hist[b] - hist[a]; });
+    keys = keys.slice(0, 256);
+    var pal = keys.map(function (k) { return [((k >> 11) << 3) + 4, (((k >> 5) & 63) << 2) + 2, ((k & 31) << 3) + 4]; });
+    while (pal.length < 256) pal.push([0, 0, 0]);
+    return pal;
+  }
+  function lzw(ix, out) {
+    var minc = 8, clear = 256, eoi = 257, size = 9, next = 258, cur = 0, sh = 0, bytes = [];
+    var tab = lzw.tab || (lzw.tab = new Int32Array(1 << 20)), gen = lzw.gen || (lzw.gen = new Int32Array(1 << 20)), g = (lzw.g = (lzw.g || 0) + 1);
+    function emit(c) { cur |= c << sh; sh += size; while (sh >= 8) { bytes.push(cur & 255); cur >>>= 8; sh -= 8; } }
+    emit(clear);
+    var ib = ix[0];
+    for (var i = 1; i < ix.length; i++) {
+      var k = ix[i], key = (ib << 8) | k;
+      if (gen[key] === g) { ib = tab[key]; continue; }
+      emit(ib);
+      if (next === 4096) { emit(clear); next = 258; size = 9; g = (lzw.g = lzw.g + 1); }
+      else { if (next >= (1 << size)) size++; tab[key] = next++; gen[key] = g; }
+      ib = k;
+    }
+    emit(ib); emit(eoi);
+    if (sh > 0) bytes.push(cur & 255);
+    out.push(minc);
+    for (var p = 0; p < bytes.length; p += 255) { var n = Math.min(255, bytes.length - p); out.push(n); for (var q = 0; q < n; q++) out.push(bytes[p + q]); }
+    out.push(0);
+  }
+  function encode(frames, w, h, delay) {
+    var pal = palette(frames), map = new Int16Array(65536).fill(-1), out = [], i;
+    function idx(r, g, b) {
+      var k = ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3), m = map[k];
+      if (m >= 0) return m;
+      var best = 0, bd = 1e9;
+      for (var p = 0; p < 256; p++) { var c = pal[p], d = (c[0] - r) * (c[0] - r) * 2 + (c[1] - g) * (c[1] - g) * 4 + (c[2] - b) * (c[2] - b) * 3; if (d < bd) { bd = d; best = p; } }
+      map[k] = best; return best;
+    }
+    function u16(v) { out.push(v & 255, (v >> 8) & 255); }
+    'GIF89a'.split('').forEach(function (c) { out.push(c.charCodeAt(0)); });
+    u16(w); u16(h); out.push(0xF7, 0, 0);
+    pal.forEach(function (c) { out.push(c[0], c[1], c[2]); });
+    out.push(0x21, 0xFF, 0x0B); 'NETSCAPE2.0'.split('').forEach(function (c) { out.push(c.charCodeAt(0)); }); out.push(3, 1, 0, 0, 0);
+    var ix = new Uint8Array(w * h);
+    frames.forEach(function (d) {
+      out.push(0x21, 0xF9, 4, 0x04); u16(delay); out.push(0, 0);
+      out.push(0x2C); u16(0); u16(0); u16(w); u16(h); out.push(0);
+      for (i = 0; i < w * h; i++) ix[i] = idx(d[i * 4], d[i * 4 + 1], d[i * 4 + 2]);
+      lzw(ix, out);
+    });
+    out.push(0x3B);
+    return new Uint8Array(out);
+  }
+  // record(button, paint, w, h, name): paint(ctx, w, h) draws one frame; 5 seconds at 10 frames a second
+  function record(btn, paint, w, h, name) {
+    if (btn.disabled) return;
+    var fps = 10, total = 50, frames = [], c = document.createElement('canvas'), label = btn.textContent;
+    c.width = w; c.height = h;
+    var x = c.getContext('2d', { willReadFrequently: true });
+    btn.disabled = true;
+    var iv = setInterval(function () {
+      try { paint(x, w, h); frames.push(x.getImageData(0, 0, w, h).data); }
+      catch (e) { clearInterval(iv); btn.disabled = false; btn.textContent = label; return; }
+      btn.textContent = 'Recording… ' + Math.ceil((total - frames.length) / fps) + 's';
+      if (frames.length < total) return;
+      clearInterval(iv); btn.textContent = 'Making GIF…';
+      setTimeout(function () {
+        var blob = new Blob([encode(frames, w, h, Math.round(100 / fps))], { type: 'image/gif' }), a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+        setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 5000);
+        btn.disabled = false; btn.textContent = label;
+      }, 30);
+    }, 1000 / fps);
+  }
+  function bg() { return getComputedStyle(document.documentElement).getPropertyValue('--surface').trim() || '#111'; }
+  function stack(cs, width) {   // the given canvases one under another, scaled to one width
+    cs = cs.filter(function (c) { return c && c.width && c.height && c.offsetParent !== null; });
+    var hs = cs.map(function (c) { return Math.round(c.height * width / c.width); });
+    var h = hs.reduce(function (s, v) { return s + v; }, 0);
+    return { w: width, h: h - (h % 2), paint: function (x, w, hh) { x.fillStyle = bg(); x.fillRect(0, 0, w, hh); var y = 0; cs.forEach(function (c, i) { x.drawImage(c, 0, y, w, hs[i]); y += hs[i]; }); } };
+  }
+  function stamp() { var d = document.getElementById('fb-data'); try { var A = JSON.parse(d.textContent); var i = window.nibiiFlowWeek; return A.d[(i == null ? A.d.length - 1 : i)]; } catch (e) { return 'week'; } }
+  var b1 = document.getElementById('fb-gif'), b2 = document.getElementById('fb-sh-gif');
+  if (b1) b1.addEventListener('click', function () {
+    var s = stack([document.getElementById('fb-trend'), document.getElementById('fb-cv')], Math.min(600, document.getElementById('fb-cv').clientWidth || 600));
+    record(b1, s.paint, s.w, s.h, 'money-flow-' + stamp() + '.gif');
+  });
+  if (b2) b2.addEventListener('click', function () {
+    var c = document.getElementById('fb-sh-cv'), s = stack([c], Math.min(640, c.clientWidth || 640));
+    record(b2, s.paint, s.w, s.h, 'value-shift-' + stamp() + '.gif');
+  });
+  window.nibiiGifEncode = encode;
+})();
+"""
 
 FLOWBOX_JS = r"""(function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -4518,6 +4778,7 @@ FLOWBOX_JS = r"""(function () {
     if (playing) { t += dt * speed; if (t >= N - 1) { t = N - 1; setPlay(false); } $('fb-pos').value = Math.floor(t); }
     CS = getComputedStyle(document.documentElement);
     var R = read(t), dots = sizeBy !== 'share';
+    window.nibiiFlowWeek = R.i;
     if (A.dd && R.i !== tWeek) { tWeek = R.i; tEnd = trendTo(R.i); drawTrend(); }
     var rad = R.share.map(function (s, q) {
       if (!R.on[q]) return Math.min(W, H) * 0.06;
