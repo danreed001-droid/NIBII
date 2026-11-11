@@ -1,0 +1,695 @@
+{
+ "name": "Human review picks",
+ "saved": "2026-11-11",
+ "meaning": {
+  "stocks": "back to the plan from that date (its own picks, exits and re-entries)",
+  "TLT / gold / DBMF / cash / half DBMF": "out of stocks into that holding until your next call",
+  "scope": "a year's calls run from its first call to the year's last trading day; the plan decides everything outside them",
+  "timing": "decided at that day's close, traded at the next close",
+  "same date twice": "the later entry wins"
+ },
+ "result": {
+  "test": "strict test (S&P members as of each date, 0.15% a trade), from 2000-01-03, before tax",
+  "yours_cagr_pct": 63.7,
+  "yours_worst_drop_pct": -24.9,
+  "yours_sharpe": 1.77,
+  "plan_cagr_pct": 60.4,
+  "plan_worst_drop_pct": -25.2,
+  "plan_sharpe": 1.59,
+  "by_year_pct": {
+   "2000": {
+    "yours": 60.2,
+    "plan": 56.7
+   },
+   "2001": {
+    "yours": 90.3,
+    "plan": 30.7
+   },
+   "2002": {
+    "yours": 12.8,
+    "plan": 14.8
+   },
+   "2003": {
+    "yours": 126.8,
+    "plan": 129.0
+   },
+   "2004": {
+    "yours": 48.2,
+    "plan": 58.3
+   },
+   "2005": {
+    "yours": 66.4,
+    "plan": 75.0
+   },
+   "2006": {
+    "yours": -5.5,
+    "plan": -14.1
+   },
+   "2007": {
+    "yours": 88.2,
+    "plan": 55.3
+   },
+   "2008": {
+    "yours": 49.9,
+    "plan": 58.0
+   },
+   "2009": {
+    "yours": 157.7,
+    "plan": 193.1
+   },
+   "2010": {
+    "yours": 57.8,
+    "plan": 53.0
+   },
+   "2011": {
+    "yours": 2.2,
+    "plan": 10.9
+   },
+   "2012": {
+    "yours": 41.1,
+    "plan": 29.7
+   },
+   "2013": {
+    "yours": 75.4,
+    "plan": 75.4
+   },
+   "2014": {
+    "yours": 22.0,
+    "plan": 12.6
+   },
+   "2015": {
+    "yours": 14.7,
+    "plan": 16.1
+   },
+   "2016": {
+    "yours": 48.6,
+    "plan": 42.4
+   },
+   "2017": {
+    "yours": 30.5,
+    "plan": 30.5
+   },
+   "2018": {
+    "yours": 20.7,
+    "plan": 15.7
+   },
+   "2019": {
+    "yours": 41.9,
+    "plan": 29.2
+   },
+   "2020": {
+    "yours": 241.6,
+    "plan": 223.8
+   },
+   "2021": {
+    "yours": 41.8,
+    "plan": 41.8
+   },
+   "2022": {
+    "yours": 86.0,
+    "plan": 96.8
+   },
+   "2023": {
+    "yours": 83.9,
+    "plan": 57.6
+   },
+   "2024": {
+    "yours": 124.0,
+    "plan": 119.7
+   },
+   "2025": {
+    "yours": 154.3,
+    "plan": 154.3
+   },
+   "2026": {
+    "yours": 126.8,
+    "plan": 197.4
+   }
+  }
+ },
+ "years_marked": [
+  "2000",
+  "2001",
+  "2002",
+  "2003",
+  "2004",
+  "2005",
+  "2006",
+  "2007",
+  "2008",
+  "2010",
+  "2011",
+  "2012",
+  "2013",
+  "2014",
+  "2015",
+  "2016",
+  "2017",
+  "2018",
+  "2019",
+  "2020",
+  "2021",
+  "2022",
+  "2023",
+  "2024",
+  "2025",
+  "2026"
+ ],
+ "replaced_entries": [
+  "2008-01-02 gold, replaced by your later TLT call",
+  "2017-02-07 cash, replaced by your later stocks call",
+  "2026-04-07 stocks, replaced by your later cash call"
+ ],
+ "calls": [
+  {
+   "date": "2000-03-01",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2000-05-24",
+   "hold": "stocks",
+   "why": "Near the bottom of the Apr-Jun channel, lows making higher lows (late July too)"
+  },
+  {
+   "date": "2000-09-08",
+   "hold": "cash",
+   "why": "Break in the up trend channel, early Sep"
+  },
+  {
+   "date": "2000-10-02",
+   "hold": "TLT",
+   "why": "October into bonds"
+  },
+  {
+   "date": "2000-10-27",
+   "hold": "stocks",
+   "why": "Late Oct back to stocks"
+  },
+  {
+   "date": "2000-11-10",
+   "hold": "TLT",
+   "why": "Channel broken again, back into bonds"
+  },
+  {
+   "date": "2001-01-02",
+   "hold": "TLT",
+   "why": "SPY in a down trend channel; bonds (or gold)"
+  },
+  {
+   "date": "2001-04-05",
+   "hold": "stocks",
+   "why": "Down channel broken in early April"
+  },
+  {
+   "date": "2001-05-23",
+   "hold": "TLT",
+   "why": "Claude's fill-in: first close below the Apr-May up channel"
+  },
+  {
+   "date": "2001-10-01",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2001-10-12",
+   "hold": "stocks",
+   "why": "Recovery confirmation in Oct"
+  },
+  {
+   "date": "2002-01-02",
+   "hold": "TLT",
+   "why": "SPY down, many days of outflows; bonds and gold trending up"
+  },
+  {
+   "date": "2002-08-06",
+   "hold": "stocks",
+   "why": "Early August into stocks and stay"
+  },
+  {
+   "date": "2002-09-10",
+   "hold": "gold",
+   "why": ""
+  },
+  {
+   "date": "2002-10-15",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2003-01-01",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2003-01-22",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2003-03-12",
+   "hold": "stocks",
+   "why": "Near the low; bonds near their high"
+  },
+  {
+   "date": "2004-01-02",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2004-04-28",
+   "hold": "cash",
+   "why": ""
+  },
+  {
+   "date": "2004-05-07",
+   "hold": "cash",
+   "why": "Stocks struggling, rounded top with a lower high; bonds and gold had trended down"
+  },
+  {
+   "date": "2004-05-25",
+   "hold": "stocks",
+   "why": "Broke the down channel"
+  },
+  {
+   "date": "2005-03-15",
+   "hold": "cash",
+   "why": ""
+  },
+  {
+   "date": "2005-04-12",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2005-09-01",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2005-09-15",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2005-09-19",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2005-09-21",
+   "hold": "gold",
+   "why": "Rounded top with lower highs again; gold in between"
+  },
+  {
+   "date": "2005-09-22",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2005-09-26",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2005-09-30",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2005-11-02",
+   "hold": "stocks",
+   "why": "Back into stocks early Nov"
+  },
+  {
+   "date": "2006-05-12",
+   "hold": "TLT",
+   "why": "SPY broke its up channel; bonds low and breaking their down channel"
+  },
+  {
+   "date": "2006-07-19",
+   "hold": "stocks",
+   "why": "Higher low formed; SPY preferred over other assets"
+  },
+  {
+   "date": "2007-07-23",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2007-08-20",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2007-11-05",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2007-11-09",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2008-01-01",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2008-01-02",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2008-03-17",
+   "hold": "stocks",
+   "why": "Gold flow out, stock flow in"
+  },
+  {
+   "date": "2008-06-02",
+   "hold": "cash",
+   "why": "Broke the Mar-May channel, below the 2007 high"
+  },
+  {
+   "date": "2008-06-23",
+   "hold": "gold",
+   "why": "Gold until its flow goes out"
+  },
+  {
+   "date": "2008-07-21",
+   "hold": "stocks",
+   "why": "Gold flow out, stock inflow good again"
+  },
+  {
+   "date": "2008-08-29",
+   "hold": "TLT",
+   "why": "Out of stocks Sep 1; bond flow steady to year end"
+  },
+  {
+   "date": "2010-01-04",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2010-02-17",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2010-05-03",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2010-05-06",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2010-05-10",
+   "hold": "TLT",
+   "why": "Tlt trending up and spy had whipsawed..spy sending dotted ding dien"
+  },
+  {
+   "date": "2010-07-09",
+   "hold": "stocks",
+   "why": "Get back in stock the rest of the year"
+  },
+  {
+   "date": "2011-08-08",
+   "hold": "TLT",
+   "why": "Spy falls in some bad news events...in bonds for about 4 weeks and ten back in stockd"
+  },
+  {
+   "date": "2011-09-13",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2012-05-07",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2012-05-15",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2012-06-08",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2012-06-18",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2013-09-11",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2014-10-01",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2014-10-22",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2015-01-14",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2015-07-23",
+   "hold": "TLT",
+   "why": "For at least three first half of that yesr"
+  },
+  {
+   "date": "2015-08-26",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2016-02-18",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2016-10-10",
+   "hold": "cash",
+   "why": ""
+  },
+  {
+   "date": "2016-11-09",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2017-01-16",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2017-01-19",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2017-01-23",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2017-01-25",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2017-02-07",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2017-03-22",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2017-05-01",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2018-02-19",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2018-03-21",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2018-04-16",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2018-10-09",
+   "hold": "gold",
+   "why": ""
+  },
+  {
+   "date": "2019-05-15",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2019-06-03",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2020-01-02",
+   "hold": "stocks",
+   "why": "Start of year, as run"
+  },
+  {
+   "date": "2020-02-24",
+   "hold": "TLT",
+   "why": "SPY flow out, long up channel broken; bond flow positive"
+  },
+  {
+   "date": "2020-03-27",
+   "hold": "stocks",
+   "why": "SPY flow back after the deep drop"
+  },
+  {
+   "date": "2020-09-03",
+   "hold": "cash",
+   "why": "Out early Sep (haven not named, cash used)"
+  },
+  {
+   "date": "2020-09-25",
+   "hold": "stocks",
+   "why": "Back in late Sep; higher highs and higher lows"
+  },
+  {
+   "date": "2021-07-01",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2022-01-03",
+   "hold": "stocks",
+   "why": "Start of year, as run"
+  },
+  {
+   "date": "2022-01-28",
+   "hold": "DBMF",
+   "why": "Out until the point-7 entry"
+  },
+  {
+   "date": "2022-05-13",
+   "hold": "stocks",
+   "why": "Point 7"
+  },
+  {
+   "date": "2022-06-10",
+   "hold": "DBMF",
+   "why": "SPY outflow back"
+  },
+  {
+   "date": "2022-06-17",
+   "hold": "stocks",
+   "why": "Point 10"
+  },
+  {
+   "date": "2022-08-26",
+   "hold": "DBMF",
+   "why": "SPY flow out, broke the Jun-Aug up channel"
+  },
+  {
+   "date": "2022-09-15",
+   "hold": "half DBMF",
+   "why": "Split DBMF and stocks"
+  },
+  {
+   "date": "2022-10-21",
+   "hold": "stocks",
+   "why": "Broke the Aug-Oct channel upward"
+  },
+  {
+   "date": "2022-12-15",
+   "hold": "gold",
+   "why": "Gold for the last 2 weeks"
+  },
+  {
+   "date": "2023-06-02",
+   "hold": "stocks",
+   "why": "TLT at its falling resistance; flow into SPY from both views"
+  },
+  {
+   "date": "2023-09-08",
+   "hold": "DBMF",
+   "why": "Flow into DBMF, out of SPY on both views"
+  },
+  {
+   "date": "2023-10-06",
+   "hold": "stocks",
+   "why": "SPY at the bottom of its falling channel; expecting a rebound"
+  },
+  {
+   "date": "2023-10-13",
+   "hold": "gold",
+   "why": "SPY at the top of a falling channel; gold has share and market flow"
+  },
+  {
+   "date": "2023-10-31",
+   "hold": "stocks",
+   "why": "SPY at channel bottom; stocks usually do better, counting on a rebound"
+  },
+  {
+   "date": "2024-05-15",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2024-07-15",
+   "hold": "TLT",
+   "why": ""
+  },
+  {
+   "date": "2024-08-12",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2025-06-01",
+   "hold": "stocks",
+   "why": ""
+  },
+  {
+   "date": "2026-03-01",
+   "hold": "cash",
+   "why": ""
+  },
+  {
+   "date": "2026-04-07",
+   "hold": "cash",
+   "why": ""
+  },
+  {
+   "date": "2026-04-10",
+   "hold": "stocks",
+   "why": ""
+  }
+ ]
+}
