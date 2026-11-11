@@ -1,6 +1,6 @@
 {
  "about": "The dominoes card (mtl/dominoes.py, scripts/dominoes.py). Information only.",
- "updated": "2026-11-11T22:01:56+00:00",
+ "updated": "2026-11-11T22:20:07+00:00",
  "asOf": "2026-11-11",
  "spxOff": -0.0255,
  "count": 1,
@@ -278,7 +278,7 @@
     "up": 0.7362,
     "fall5": 0.392,
     "fall10": 0.2021,
-    "bonds": 0.0416,
+    "bonds": 0.0415,
     "gold": 0.1005
    }
   },
