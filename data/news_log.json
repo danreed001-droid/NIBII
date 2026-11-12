@@ -5537,5 +5537,45 @@
       "time": "Pre-market",
       "vsExp": "Mixed: NBIS target delayed; WWW and TNK beat; YETI guide cut"
     }
+  },
+  {
+    "id": "2026-11-12-5-nvidia-huang-resignation-confirmed-kress-ceo",
+    "data": {
+      "addedAt": "2026-11-12",
+      "category": "Corporate",
+      "date": "2026-11-12",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Nvidia confirmed Jensen Huang's resignation as CEO, president and director, effective immediately, following the board's investigation into his alleged affairs (including with a suspected Chinese spy). CFO Colette Kress becomes interim CEO while retaining the CFO title; independent director Harvey C. Jones becomes the board's first chair. No permanent successor has been named; Nvidia still reports Q3 results on Nov 17.",
+      "impact": "High",
+      "numbers": "NVDA closed -4.34% to $166.19 (vs $173.73 prior close; intraday low -14.35% to $148.80); Philadelphia Semiconductor Index (SOX) -0.54% to 10,506.67, 24 of 30 constituents lower",
+      "order": 5,
+      "reaction": "Stock clawed back roughly two-thirds of its steepest intraday loss after Kress was named interim CEO; CoreWeave fell further (~7%), while AMD (+4.8%) and Broadcom (+5.3%) rose on rotation within AI/semis.",
+      "region": "US",
+      "source": "https://www.tradingkey.com/analysis/stocks/us-stocks/262303336-us-stock-nvidia-ceo-jensen-huang-resigns-nasdaq-falls-tradingkey",
+      "tickers": "NVDA, SOX, CRWV, AMD, AVGO, QQQ",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-12-6-market-closes-lower-nvidia-shakeup-rate-jitters",
+    "data": {
+      "addedAt": "2026-11-12",
+      "category": "Market",
+      "date": "2026-11-12",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "US stocks closed lower for a second straight session as the Nvidia leadership shake-up and rate-hike jitters weighed on growth and small-cap stocks; the S&P 500 had opened down nearly 1% before paring losses through the day.",
+      "impact": "Medium",
+      "numbers": "S&P 500 7,592.40 (-26.98, -0.4%); Dow 52,297.09 (-189.40, -0.4%); Nasdaq Composite 25,366.09 (-100.10, -0.4%); Russell 2000 2,799.06 (-47.20, -1.7%); 10-year Treasury yield ~5.00% (little changed)",
+      "order": 6,
+      "reaction": "Broad-based weakness led by small caps and semis; October PPI due Friday and the December Fed decision stay in focus with a hike still seen as possible.",
+      "region": "US",
+      "source": "https://krmg.com/2026/11/12/how-major-us-stock-indexes-fared-thursday-11-12-2026/",
+      "tickers": "SPY, DIA, QQQ, IWM, TLT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
   }
 ]
