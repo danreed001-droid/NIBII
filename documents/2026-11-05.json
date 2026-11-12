@@ -428,62 +428,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for ES=F on 5 November"
+       "structure.weekly reads uptrend for ES=F on 5 November",
+       true
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral",
+       null
       ],
       [
        "bull",
-       "Vanda Research: retail investors were net sellers of ~$358M on 5 November, the heaviest since March 2020 (news log); capitulation-style retail selling is a contrarian positive for the next week"
+       "Vanda Research: retail investors were net sellers of ~$358M on 5 November, the heaviest since March 2020 (news log); capitulation-style retail selling is a contrarian positive for the next week",
+       true
       ],
       [
        "neu",
-       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral"
+       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral"
+       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7618.25,
+     "ret": 0.031829,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -2511,62 +2526,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for ZN=F on 5 November"
+       "structure.weekly reads downtrend for ZN=F on 5 November",
+       true
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bear",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot; strong ADP lifted December hike odds (FXStreet, news log); hawkish tilt for this asset"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot; strong ADP lifted December hike odds (FXStreet, news log); hawkish tilt for this asset",
+       true
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 5 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 5 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral"
+       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral"
+       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 106.171875,
+     "ret": -0.010773,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -5133,62 +5163,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for GC=F on 5 November"
+       "structure.weekly reads downtrend for GC=F on 5 November",
+       true
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bear",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot; strong ADP lifted December hike odds (FXStreet, news log); hawkish tilt for this asset"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot; strong ADP lifted December hike odds (FXStreet, news log); hawkish tilt for this asset",
+       true
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 5 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 5 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral"
+       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral"
+       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 3944.5,
+     "ret": -0.040641,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -7195,62 +7240,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for DX-Y.NYB on 5 November"
+       "structure.weekly reads choppy for DX-Y.NYB on 5 November",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bull",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot; strong ADP lifted December hike odds (FXStreet, news log); hawkish tilt for this asset"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot; strong ADP lifted December hike odds (FXStreet, news log); hawkish tilt for this asset",
+       true
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 5 November was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 5 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral"
+       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral"
+       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 102.88400268554688,
+     "ret": 0.012977,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 10,
@@ -9404,62 +9464,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for RTY=F on 5 November"
+       "structure.weekly reads uptrend for RTY=F on 5 November",
+       true
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral",
+       null
       ],
       [
        "bull",
-       "Vanda Research: retail investors were net sellers of ~$358M on 5 November, the heaviest since March 2020 (news log); capitulation-style retail selling is a contrarian positive for the next week"
+       "Vanda Research: retail investors were net sellers of ~$358M on 5 November, the heaviest since March 2020 (news log); capitulation-style retail selling is a contrarian positive for the next week",
+       true
       ],
       [
        "neu",
-       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral"
+       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral"
+       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2854.0,
+     "ret": 0.043167,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -11373,62 +11448,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for NQ=F on 5 November"
+       "structure.weekly reads choppy for NQ=F on 5 November",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 5 November is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 5 November was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "10Y yield fell 6bp to 4.837% on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 5 November was obtained, so neutral",
+       null
       ],
       [
        "bull",
-       "Vanda Research: retail investors were net sellers of ~$358M on 5 November, the heaviest since March 2020 (news log); capitulation-style retail selling is a contrarian positive for the next week"
+       "Vanda Research: retail investors were net sellers of ~$358M on 5 November, the heaviest since March 2020 (news log); capitulation-style retail selling is a contrarian positive for the next week",
+       true
       ],
       [
        "neu",
-       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral"
+       "No earnings catalyst of direct relevance to this asset was identified for 5 November, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral"
+       "Weekly jobless claims (consensus ~197K vs 194K prior) were due 5 November but no actual print is in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D"
+       "Cross-asset read on 5 November (news log) - a one-day reaction that does not set a multi-week direction, so neutral beyond 1D",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 28295.5,
+     "ret": 0.054484,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 10,
