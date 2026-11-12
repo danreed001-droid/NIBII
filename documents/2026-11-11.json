@@ -341,7 +341,7 @@
       [
        "bull",
        "Breadth on 11 November was broadly positive: NYSE advancers led decliners 1.48-to-1 and Nasdaq 1.77-to-1, the S&P 500 logged 17 new 52-week highs and no new lows, and equal-weight RSP rose 0.80% alongside the index's +1.31% (CappNotes Closing Look, 11 November)",
-       true
+       false
       ],
       [
        "neu",
@@ -399,8 +399,8 @@
        null
       ]
      ],
-     "maturityClose": 7654.25,
-     "ret": 0.005848,
+     "maturityClose": 7615.0,
+     "ret": 0.00069,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5078,8 +5078,8 @@
        null
       ]
      ],
-     "maturityClose": 3878.39990234375,
-     "ret": -0.026653,
+     "maturityClose": 3886.39990234375,
+     "ret": -0.024645,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7170,8 +7170,8 @@
        null
       ]
      ],
-     "maturityClose": 103.22799682617188,
-     "ret": 0.003744,
+     "maturityClose": 103.18099975585938,
+     "ret": 0.003287,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9307,7 +9307,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 11 November: CME FedWatch had a December hike fully priced with a ~10.4% chance of 50bp (Kalshi 85.5% for 25bp, 11.5% larger), and Fed speakers leaned further hawkish - Dallas Fed's Logan sees two more quarter-point hikes, Chicago's Goolsbee called October CPI 'borderline disturbing', Philadelphia's Paulson said further gradual tightening seems appropriate (CappNotes Closing Look, 11 November); tighter policy is a headwind for rate-sensitive, floating-rate-indebted small caps",
-       false
+       true
       ],
       [
        "neu",
@@ -9345,8 +9345,8 @@
        null
       ]
      ],
-     "maturityClose": 2832.199951171875,
-     "ret": -0.006002,
+     "maturityClose": 2809.5,
+     "ret": -0.013968,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11260,7 +11260,7 @@
       [
        "bull",
        "Breadth on 11 November favoured tech: Nasdaq advancers led decliners 1.77-to-1, Technology was the top S&P sector (+3.23%) and the Philadelphia Semiconductor Index rose over 5% as the Nasdaq-100 gained 2.28% (CappNotes Closing Look, 11 November; TradingKey)",
-       true
+       false
       ],
       [
        "neu",
@@ -11318,8 +11318,8 @@
        null
       ]
      ],
-     "maturityClose": 28518.25,
-     "ret": 0.009755,
+     "maturityClose": 28353.5,
+     "ret": 0.003921,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
