@@ -341,7 +341,7 @@
       [
        "bull",
        "Breadth on 11 November was broadly positive: NYSE advancers led decliners 1.48-to-1 and Nasdaq 1.77-to-1, the S&P 500 logged 17 new 52-week highs and no new lows, and equal-weight RSP rose 0.80% alongside the index's +1.31% (CappNotes Closing Look, 11 November)",
-       false
+       true
       ],
       [
        "neu",
@@ -399,8 +399,8 @@
        null
       ]
      ],
-     "maturityClose": 7583.25,
-     "ret": -0.003482,
+     "maturityClose": 7654.25,
+     "ret": 0.005848,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2438,7 +2438,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 11 November: CME FedWatch had a December hike fully priced with a ~10.4% chance of 50bp (Kalshi 85.5% for 25bp, 11.5% larger), and Fed speakers leaned further hawkish - Dallas Fed's Logan sees two more quarter-point hikes, Chicago's Goolsbee called October CPI 'borderline disturbing', Philadelphia's Paulson said further gradual tightening seems appropriate (CappNotes Closing Look, 11 November); more hikes priced is bearish for note prices",
-       false
+       true
       ],
       [
        "neu",
@@ -2476,8 +2476,8 @@
        null
       ]
      ],
-     "maturityClose": 105.921875,
-     "ret": -0.002061,
+     "maturityClose": 105.390625,
+     "ret": -0.007066,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5078,8 +5078,8 @@
        null
       ]
      ],
-     "maturityClose": 3907.60009765625,
-     "ret": -0.019324,
+     "maturityClose": 3878.39990234375,
+     "ret": -0.026653,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7132,7 +7132,7 @@
       [
        "bull",
        "Fed-path pricing stayed hawkish on 11 November: CME FedWatch had a December hike fully priced with a ~10.4% chance of 50bp (Kalshi 85.5% for 25bp, 11.5% larger), and Fed speakers leaned further hawkish - Dallas Fed's Logan sees two more quarter-point hikes, Chicago's Goolsbee called October CPI 'borderline disturbing', Philadelphia's Paulson said further gradual tightening seems appropriate (CappNotes Closing Look, 11 November); a further tightening path supports the dollar's rate advantage",
-       false
+       true
       ],
       [
        "neu",
@@ -7170,8 +7170,8 @@
        null
       ]
      ],
-     "maturityClose": 102.88300323486328,
-     "ret": 0.000389,
+     "maturityClose": 103.22799682617188,
+     "ret": 0.003744,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9345,8 +9345,8 @@
        null
       ]
      ],
-     "maturityClose": 2839.699951171875,
-     "ret": -0.003369,
+     "maturityClose": 2832.199951171875,
+     "ret": -0.006002,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11260,7 +11260,7 @@
       [
        "bull",
        "Breadth on 11 November favoured tech: Nasdaq advancers led decliners 1.77-to-1, Technology was the top S&P sector (+3.23%) and the Philadelphia Semiconductor Index rose over 5% as the Nasdaq-100 gained 2.28% (CappNotes Closing Look, 11 November; TradingKey)",
-       false
+       true
       ],
       [
        "neu",
@@ -11318,8 +11318,8 @@
        null
       ]
      ],
-     "maturityClose": 28066.75,
-     "ret": -0.006232,
+     "maturityClose": 28518.25,
+     "ret": 0.009755,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
