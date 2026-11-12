@@ -583,8 +583,8 @@
        false
       ]
      ],
-     "maturityClose": 7618.25,
-     "ret": -0.007265,
+     "maturityClose": 7597.25,
+     "ret": -0.010001,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2737,8 +2737,8 @@
        false
       ]
      ],
-     "maturityClose": 106.171875,
-     "ret": -0.005124,
+     "maturityClose": 105.921875,
+     "ret": -0.007467,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5360,7 +5360,7 @@
       [
        "bear",
        "structure.weekly reads downtrend for GC=F on 29 October",
-       false
+       true
       ],
       [
        "neu",
@@ -5385,7 +5385,7 @@
       [
        "bear",
        "The Fed held at 3.75%-4.00% on 28 October in a 10-2 vote with two dissents favoring a hike (news log); a hawkish path pressures note prices and gold and supports the dollar",
-       false
+       true
       ],
       [
        "neu",
@@ -5420,11 +5420,11 @@
       [
        "bear",
        "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 3944.5,
-     "ret": -0.016653,
+     "maturityClose": 3897.10009765625,
+     "ret": -0.02847,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7570,8 +7570,8 @@
        null
       ]
      ],
-     "maturityClose": 102.88400268554688,
-     "ret": 0.011314,
+     "maturityClose": 102.89700317382812,
+     "ret": 0.011442,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9815,8 +9815,8 @@
        false
       ]
      ],
-     "maturityClose": 2854.0,
-     "ret": 0.00014,
+     "maturityClose": 2841.89990234375,
+     "ret": -0.0041,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11771,7 +11771,7 @@
       [
        "bear",
        "Alphabet fell ~12-13% on its Q3 miss and negative free cash flow, dragging the Nasdaq Composite -1.38% (news log); Amazon/Intel reported after the close with reaction not yet known",
-       false
+       true
       ],
       [
        "neu",
@@ -11794,8 +11794,8 @@
        null
       ]
      ],
-     "maturityClose": 28295.5,
-     "ret": -0.0199,
+     "maturityClose": 28133.5,
+     "ret": -0.025511,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
