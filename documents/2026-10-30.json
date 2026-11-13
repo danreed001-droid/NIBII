@@ -504,62 +504,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for ES=F on 30 October"
+       "structure.weekly reads uptrend for ES=F on 30 October",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "Wall Street closed sharply lower on 30 October: S&P 500 7,559.67 (-2.08%) on Amazon, Intel and Reddit earnings (news log)"
+       "Wall Street closed sharply lower on 30 October: S&P 500 7,559.67 (-2.08%) on Amazon, Intel and Reddit earnings (news log)",
+       false
       ],
       [
        "neu",
-       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
+       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset on 30 October: S&P 500 -2.08%, Nasdaq -2.92%, 10Y yield ~4.92% (-7bp) per the news log - risk-off with a bid in Treasuries, but no clean directional read for this asset beyond that, so neutral"
+       "Cross-asset on 30 October: S&P 500 -2.08%, Nasdaq -2.92%, 10Y yield ~4.92% (-7bp) per the news log - risk-off with a bid in Treasuries, but no clean directional read for this asset beyond that, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7548.25,
+     "ret": -0.008701,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     }
    ],
    "structure": {
@@ -2608,62 +2623,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for ZN=F on 30 October"
+       "structure.weekly reads downtrend for ZN=F on 30 October",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral",
+       null
       ],
       [
        "bear",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset",
+       false
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No earnings-specific read for Treasuries, so neutral"
+       "No earnings-specific read for Treasuries, so neutral",
+       null
       ],
       [
        "neu",
-       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
+       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
+       "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 105.3125,
+     "ret": -0.012454,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     }
    ],
    "structure": {
@@ -5258,62 +5288,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for GC=F on 30 October"
+       "structure.weekly reads downtrend for GC=F on 30 October",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral",
+       null
       ],
       [
        "bear",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset",
+       false
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No earnings-specific read for gold, so neutral"
+       "No earnings-specific read for gold, so neutral",
+       null
       ],
       [
        "neu",
-       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
+       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
+       "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 3877.300048828125,
+     "ret": -0.001956,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     }
    ],
    "structure": {
@@ -7369,62 +7414,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for DX-Y.NYB on 30 October"
+       "structure.weekly reads choppy for DX-Y.NYB on 30 October",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral",
+       null
       ],
       [
        "bull",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for this asset",
+       true
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "No earnings-specific read for the dollar, so neutral"
+       "No earnings-specific read for the dollar, so neutral",
+       null
       ],
       [
        "neu",
-       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
+       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
+       "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 103.37699890136719,
+     "ret": 0.013858,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     }
    ],
    "structure": {
@@ -9612,62 +9672,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for RTY=F on 30 October"
+       "structure.weekly reads uptrend for RTY=F on 30 October",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 30 October selloff was Big Tech/earnings-led; the news log has no small-cap-specific catalyst, so neutral"
+       "The 30 October selloff was Big Tech/earnings-led; the news log has no small-cap-specific catalyst, so neutral",
+       null
       ],
       [
        "neu",
-       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
+       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
+       "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2778.699951171875,
+     "ret": -0.015309,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     }
    ],
    "structure": {
@@ -11583,62 +11658,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for NQ=F on 30 October"
+       "structure.weekly reads choppy for NQ=F on 30 October",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility index/implied-vol context for 30 October is in the sigma input, but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral."
+       "No dated high-yield OAS or credit-spread figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "neu",
-       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral"
+       "The 10-year Treasury yield closed ~4.92% (-7bp) on 30 October (news log); one day does not give a multi-day rate trend, so neutral",
+       null
       ],
       [
        "neu",
-       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral"
+       "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); no clean directional read for this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral"
+       "No dated contrarian market-sentiment extreme for 30 October was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral."
+       "No dated positioning or flow figure for 30 October was obtainable, so this category is neutral.",
+       null
       ],
       [
        "bear",
-       "Nasdaq Composite fell 2.92% to 25,420.96 on 30 October, led by Intel (-29.26%) and Amazon/Reddit results (news log)"
+       "Nasdaq Composite fell 2.92% to 25,420.96 on 30 October, led by Intel (-29.26%) and Amazon/Reddit results (news log)",
+       false
       ],
       [
        "neu",
-       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral"
+       "September core PCE ran hot (news log) but the print has no clean directional read for this asset on its own, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic for this window was obtained, so neutral"
+       "No dated seasonality statistic for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral"
+       "No clean cross-asset read for this asset on 30 October (S&P 500 -2.08%, Nasdaq -2.92%, 10Y ~4.92% per the news log), so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 27829.75,
+     "ret": -0.024989,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     }
    ],
    "structure": {
