@@ -340,7 +340,7 @@
       [
        "bear",
        "Breadth was poor on 12 November: 123 S&P 500 members advanced and 377 declined, equal-weight RSP fell 0.87% against the cap-weighted index's -0.35%, the Russell 2000 fell 1.66% and 10 of 11 sectors finished lower (CappNotes Closing Look, 12 November; Investrade Market Review, 12 November); a broad, small-cap-led decline is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -355,12 +355,12 @@
       [
        "bear",
        "On 12 November, the first cash session after Veterans Day, the 2-year yield rose about 15bp to 4.88% and the 10-year about 12bp to 5.10% (from 4.98% on 10 November), back above 5%; the 30-year auction tailed (5.441% high yield vs 5.437% when-issued, bid-to-cover 2.36 vs 2.54) (CappNotes Closing Look, 12 November; Investrade Market Review, 12 November); a 12bp jump in the 10-year to above 5% pressures equity multiples",
-       false
+       true
       ],
       [
        "bear",
        "Fed-path pricing turned more hawkish on 12 November: CME FedWatch had a December hike fully priced with about a 13% chance of 50bp (up from ~10.4% on 11 November), Kalshi 87% for 25bp, 12% larger, 3% hold, and Cleveland Fed's Hammack said policy needs to become restrictive through smaller, more frequent hikes (CappNotes Closing Look, 12 November); more tightening priced is a headwind for equity multiples",
-       false
+       true
       ],
       [
        "neu",
@@ -390,7 +390,7 @@
       [
        "bear",
        "WTI rose 2.55% to $88.74 and Brent 3.30% to $95.82 on 12 November (CappNotes Closing Look, 12 November); oil is this asset's dominant 21-session driver (corr -0.483), so a 2.5-3.3% oil jump is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -398,8 +398,8 @@
        null
       ]
      ],
-     "maturityClose": 7643.0,
-     "ret": 9.8e-05,
+     "maturityClose": 7548.25,
+     "ret": -0.0123,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2490,8 +2490,8 @@
        null
       ]
      ],
-     "maturityClose": 105.125,
-     "ret": -0.001336,
+     "maturityClose": 105.3125,
+     "ret": 0.000445,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5083,8 +5083,8 @@
        false
       ]
      ],
-     "maturityClose": 3890.699951171875,
-     "ret": 0.001313,
+     "maturityClose": 3877.300048828125,
+     "ret": -0.002136,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7132,12 +7132,12 @@
       [
        "bull",
        "On 12 November, the first cash session after Veterans Day, the 2-year yield rose about 15bp to 4.88% and the 10-year about 12bp to 5.10% (from 4.98% on 10 November), back above 5%; the 30-year auction tailed (5.441% high yield vs 5.437% when-issued, bid-to-cover 2.36 vs 2.54) (CappNotes Closing Look, 12 November; Investrade Market Review, 12 November); the front-end repricing widens US rate support, and 10Y is this asset's dominant 21-session driver (corr +0.529)",
-       false
+       true
       ],
       [
        "bull",
        "Fed-path pricing turned more hawkish on 12 November: CME FedWatch had a December hike fully priced with about a 13% chance of 50bp (up from ~10.4% on 11 November), Kalshi 87% for 25bp, 12% larger, 3% hold, and Cleveland Fed's Hammack said policy needs to become restrictive through smaller, more frequent hikes (CappNotes Closing Look, 12 November); a further tightening path supports the dollar's rate advantage",
-       false
+       true
       ],
       [
        "neu",
@@ -7175,8 +7175,8 @@
        null
       ]
      ],
-     "maturityClose": 103.26100158691406,
-     "ret": 0.000882,
+     "maturityClose": 103.37699890136719,
+     "ret": 0.002006,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9305,12 +9305,12 @@
       [
        "bear",
        "structure.hourly reads downtrend for RTY=F on 12 November (last labeled hourly swings LL/LH/LL/LL); RSI 48.94, close (2813.4) below the 50-day (2840.06) and below the 200-day (2820.72)",
-       false
+       true
       ],
       [
        "bear",
        "Small caps led the decline on 12 November: the Russell 2000 fell 1.66% to 2,799.06, the S&P SmallCap 600 -1.21% and MidCap 400 -1.23%, with 377 of 500 S&P members lower (CappNotes Closing Look, 12 November); a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -9325,12 +9325,12 @@
       [
        "bear",
        "On 12 November, the first cash session after Veterans Day, the 2-year yield rose about 15bp to 4.88% and the 10-year about 12bp to 5.10% (from 4.98% on 10 November), back above 5%; the 30-year auction tailed (5.441% high yield vs 5.437% when-issued, bid-to-cover 2.36 vs 2.54) (CappNotes Closing Look, 12 November; Investrade Market Review, 12 November); the front-end jump raises financing costs for rate-sensitive small caps, which fell most",
-       false
+       true
       ],
       [
        "bear",
        "Fed-path pricing turned more hawkish on 12 November: CME FedWatch had a December hike fully priced with about a 13% chance of 50bp (up from ~10.4% on 11 November), Kalshi 87% for 25bp, 12% larger, 3% hold, and Cleveland Fed's Hammack said policy needs to become restrictive through smaller, more frequent hikes (CappNotes Closing Look, 12 November); more tightening priced weighs on rate-sensitive small caps",
-       false
+       true
       ],
       [
        "neu",
@@ -9360,19 +9360,19 @@
       [
        "bear",
        "WTI rose 2.55% to $88.74 and Brent 3.30% to $95.82 on 12 November (CappNotes Closing Look, 12 November); oil is this asset's dominant 21-session driver (corr -0.467), so the oil jump is a 1-day headwind",
-       false
+       true
       ],
       [
        "bear",
        "1H structure is downtrend - last labeled swings: LL/LH/LL/LL.",
-       false
+       true
       ]
      ],
-     "maturityClose": 2810.89990234375,
-     "ret": -0.000889,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 2778.699951171875,
+     "ret": -0.012334,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against RTY=F",
      "provisional": true
     },
@@ -11282,7 +11282,7 @@
       [
        "bear",
        "Breadth was poor on 12 November: 123 S&P 500 members advanced and 377 declined, and the Philadelphia Semiconductor Index fell 0.54% with 24 of 30 constituents lower (CappNotes Closing Look, 12 November; news log); a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -11297,12 +11297,12 @@
       [
        "bear",
        "On 12 November, the first cash session after Veterans Day, the 2-year yield rose about 15bp to 4.88% and the 10-year about 12bp to 5.10% (from 4.98% on 10 November), back above 5%; the 30-year auction tailed (5.441% high yield vs 5.437% when-issued, bid-to-cover 2.36 vs 2.54) (CappNotes Closing Look, 12 November; Investrade Market Review, 12 November); long-duration growth is the most rate-sensitive equity segment, and 10Y is this asset's dominant 21-session driver",
-       false
+       true
       ],
       [
        "bear",
        "Fed-path pricing turned more hawkish on 12 November: CME FedWatch had a December hike fully priced with about a 13% chance of 50bp (up from ~10.4% on 11 November), Kalshi 87% for 25bp, 12% larger, 3% hold, and Cleveland Fed's Hammack said policy needs to become restrictive through smaller, more frequent hikes (CappNotes Closing Look, 12 November); more tightening priced is a headwind for long-duration growth",
-       false
+       true
       ],
       [
        "neu",
@@ -11340,8 +11340,8 @@
        null
       ]
      ],
-     "maturityClose": 28410.0,
-     "ret": -0.004851,
+     "maturityClose": 27829.75,
+     "ret": -0.025176,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
