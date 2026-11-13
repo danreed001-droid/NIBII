@@ -1,30 +1,30 @@
 {
  "minSamples": 15,
- "settledHorizons": 516,
+ "settledHorizons": 534,
  "byAsset": {
   "equities": {
    "Earnings": {
-    "n": 85,
-    "agree": 34,
-    "rate": 0.4,
+    "n": 94,
+    "agree": 35,
+    "rate": 0.372,
     "reliable": true
    },
    "Rates": {
-    "n": 87,
+    "n": 88,
     "agree": 18,
-    "rate": 0.207,
+    "rate": 0.205,
     "reliable": true
    },
    "Market": {
-    "n": 487,
-    "agree": 106,
-    "rate": 0.218,
+    "n": 509,
+    "agree": 109,
+    "rate": 0.214,
     "reliable": true
    },
    "Macro": {
-    "n": 73,
+    "n": 78,
     "agree": 21,
-    "rate": 0.288,
+    "rate": 0.269,
     "reliable": true
    },
    "Geopolitics": {
@@ -40,19 +40,19 @@
     "reliable": true
    },
    "Fed": {
-    "n": 59,
+    "n": 63,
     "agree": 14,
-    "rate": 0.237,
+    "rate": 0.222,
     "reliable": true
    },
    "Energy": {
-    "n": 70,
+    "n": 71,
     "agree": 15,
-    "rate": 0.214,
+    "rate": 0.211,
     "reliable": true
    },
    "Policy": {
-    "n": 12,
+    "n": 14,
     "agree": 1,
     "rate": null,
     "reliable": false
@@ -60,9 +60,9 @@
   },
   "bonds": {
    "Macro": {
-    "n": 92,
+    "n": 94,
     "agree": 6,
-    "rate": 0.065,
+    "rate": 0.064,
     "reliable": true
    },
    "Policy": {
@@ -72,21 +72,21 @@
     "reliable": false
    },
    "Rates": {
-    "n": 110,
+    "n": 112,
     "agree": 9,
-    "rate": 0.082,
+    "rate": 0.08,
     "reliable": true
    },
    "Market": {
-    "n": 411,
+    "n": 429,
     "agree": 16,
-    "rate": 0.039,
+    "rate": 0.037,
     "reliable": true
    },
    "Fed": {
-    "n": 116,
+    "n": 120,
     "agree": 5,
-    "rate": 0.043,
+    "rate": 0.042,
     "reliable": true
    },
    "Energy": {
@@ -102,7 +102,7 @@
     "reliable": true
    },
    "Earnings": {
-    "n": 16,
+    "n": 17,
     "agree": 0,
     "rate": 0.0,
     "reliable": true
@@ -128,9 +128,9 @@
     "reliable": true
    },
    "Market": {
-    "n": 36,
+    "n": 37,
     "agree": 4,
-    "rate": 0.111,
+    "rate": 0.108,
     "reliable": true
    },
    "Geopolitics": {
@@ -142,21 +142,21 @@
   },
   "dollar": {
    "Rates": {
-    "n": 47,
-    "agree": 3,
-    "rate": 0.064,
+    "n": 49,
+    "agree": 5,
+    "rate": 0.102,
     "reliable": true
    },
    "Macro": {
-    "n": 27,
+    "n": 29,
     "agree": 7,
-    "rate": 0.259,
+    "rate": 0.241,
     "reliable": true
    },
    "Fed": {
-    "n": 93,
+    "n": 94,
     "agree": 22,
-    "rate": 0.237,
+    "rate": 0.234,
     "reliable": true
    },
    "Market": {
@@ -174,19 +174,19 @@
     "reliable": true
    },
    "Market": {
-    "n": 132,
-    "agree": 31,
-    "rate": 0.235,
+    "n": 143,
+    "agree": 33,
+    "rate": 0.231,
     "reliable": true
    },
    "Earnings": {
-    "n": 17,
+    "n": 18,
     "agree": 3,
-    "rate": 0.176,
+    "rate": 0.167,
     "reliable": true
    },
    "Macro": {
-    "n": 8,
+    "n": 10,
     "agree": 1,
     "rate": null,
     "reliable": false
@@ -200,33 +200,33 @@
     "reliable": true
    },
    "Market": {
-    "n": 484,
-    "agree": 190,
-    "rate": 0.393,
+    "n": 503,
+    "agree": 196,
+    "rate": 0.39,
     "reliable": true
    },
    "Macro": {
-    "n": 49,
-    "agree": 24,
-    "rate": 0.49,
+    "n": 52,
+    "agree": 25,
+    "rate": 0.481,
     "reliable": true
    },
    "Earnings": {
-    "n": 180,
-    "agree": 88,
-    "rate": 0.489,
+    "n": 189,
+    "agree": 93,
+    "rate": 0.492,
     "reliable": true
    },
    "Rates": {
-    "n": 51,
-    "agree": 27,
-    "rate": 0.529,
+    "n": 52,
+    "agree": 28,
+    "rate": 0.538,
     "reliable": true
    },
    "Fed": {
-    "n": 22,
-    "agree": 17,
-    "rate": 0.773,
+    "n": 25,
+    "agree": 18,
+    "rate": 0.72,
     "reliable": true
    },
    "Tech": {
@@ -242,13 +242,13 @@
     "reliable": true
    },
    "Energy": {
-    "n": 33,
-    "agree": 12,
-    "rate": 0.364,
+    "n": 34,
+    "agree": 13,
+    "rate": 0.382,
     "reliable": true
    },
    "Policy": {
-    "n": 12,
+    "n": 14,
     "agree": 1,
     "rate": null,
     "reliable": false
