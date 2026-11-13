@@ -1,7 +1,7 @@
 {
  "about": "Analyst-revisions forward test: do the ranked stocks with the biggest rises in estimates beat the rest over the next 4 weeks? (mtl/revisions_forward.py). Information only.",
- "updated": "2026-11-12T23:37:52+00:00",
- "asOf": "2026-11-12",
+ "updated": "2026-11-13T17:34:27+00:00",
+ "asOf": "2026-11-13",
  "started": "2026-10-31",
  "minN": 20,
  "h": 20,
@@ -56,18 +56,30 @@
    "d": "2026-10-16",
    "calls": {
     "top25": {
-     "waiting": true,
      "n_a": 12,
-     "n_b": 13
+     "n_b": 13,
+     "a": -0.15057,
+     "b": -0.0965,
+     "edge": -0.05407,
+     "hit": false
     },
     "top10": {
-     "waiting": true,
      "n_a": 5,
-     "n_b": 5
+     "n_b": 5,
+     "a": -0.15332,
+     "b": -0.05927,
+     "edge": -0.09405,
+     "hit": false
     },
     "cut": {
-     "waiting": true,
-     "n_a": 1
+     "n_a": 1,
+     "a": -0.01247,
+     "b": -0.01515,
+     "edge": -0.00268,
+     "hit": false,
+     "names": [
+      "CRWD"
+     ]
     }
    }
   },
@@ -136,33 +148,33 @@
     "id": "top25",
     "text": "Of the top 25 ranked stocks, the half with the bigger rise in analysts' estimates beats the other half over the next 4 weeks",
     "calls": 5,
-    "n": 1,
+    "n": 2,
     "hits": 0,
     "rate": 0.0,
-    "p": 1.0,
-    "avg": -0.1024,
+    "p": 0.5,
+    "avg": -0.07823,
     "verdict": "too few"
    },
    {
     "id": "top10",
     "text": "Of the top 10 ranked, the 5 with the bigger rise in estimates beat the other 5 over the next 4 weeks",
     "calls": 5,
-    "n": 1,
+    "n": 2,
     "hits": 0,
     "rate": 0.0,
-    "p": 1.0,
-    "avg": -0.27009,
+    "p": 0.5,
+    "avg": -0.18207,
     "verdict": "too few"
    },
    {
     "id": "cut",
     "text": "Ranked stocks whose estimates were cut trail the S&P 500 over the next 4 weeks",
     "calls": 5,
-    "n": 1,
+    "n": 2,
     "hits": 1,
-    "rate": 1.0,
+    "rate": 0.5,
     "p": 1.0,
-    "avg": 0.22222,
+    "avg": 0.10977,
     "verdict": "too few"
    }
   ]

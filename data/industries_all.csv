@@ -536,6 +536,7 @@ ATLO,Major Banks
 ATLQ,Blank Checks
 ATLQR,Blank Checks
 ATLQU,Blank Checks
+ATLQW,Blank Checks
 ATLX,Mining & Quarrying of Nonmetallic Minerals (No Fuels)
 ATMU,Auto Parts:O.E.M.
 ATNI,Telecommunications Equipment
@@ -1077,7 +1078,7 @@ CANF,Biotechnology: Pharmaceutical Preparations
 CANG,Finance: Consumer Services
 CAPL,Oil Refining/Marketing
 CAPR,Biotechnology: Pharmaceutical Preparations
-CAPS,RETAIL: Building Materials
+CAPS,Biotechnology: Pharmaceutical Preparations
 CAR,Rental/Leasing Companies
 CARE,Major Banks
 CARG,EDP Services
@@ -1293,7 +1294,6 @@ CLDT,Real Estate Investment Trusts
 CLDX,Biotechnology: In Vitro & In Vivo Diagnostic Substances
 CLF,Metal Mining
 CLFD,Telecommunications Equipment
-CLGN,Industrial Specialties
 CLH,Environmental Services
 CLIK,Diversified Commercial Services
 CLIR,Industrial Machinery/Components
@@ -1474,6 +1474,7 @@ CRM,Computer Software: Prepackaged Software
 CRMD,Biotechnology: Pharmaceutical Preparations
 CRML,Metal Mining
 CRMLW,Metal Mining
+CRMN,Engineering & Construction
 CRMT,Retail-Auto Dealers and Gas Stations
 CRNC,Computer Software: Prepackaged Software
 CRNT,Radio And Television Broadcasting And Communications Equipment
@@ -1512,6 +1513,7 @@ CSWC,Textiles
 CSX,Railroads
 CTAA,Blank Checks
 CTAAR,Blank Checks
+CTAAU,Blank Checks
 CTAS,Garments and Clothing
 CTBI,Major Banks
 CTEV,Business Services
@@ -1822,6 +1824,7 @@ DY,Water Sewer Pipeline Comm & Power Line Construction
 DYAI,Biotechnology: Biological Products (No Diagnostic Substances)
 DYN,Biotechnology: Pharmaceutical Preparations
 DYOR,Blank Checks
+DYORU,Blank Checks
 DYORW,Blank Checks
 E,Oil & Gas Production
 EAD,Finance/Investors Services
@@ -1850,6 +1853,7 @@ ECOR,Biotechnology: Electromedical & Electrotherapeutic Apparatus
 ECPG,Finance Companies
 ECVT,Major Chemicals
 ECX,EDP Services
+ECXWW,EDP Services
 ED,Power Generation
 EDBL,Farming/Seeds/Milling
 EDBLW,Farming/Seeds/Milling
@@ -1884,6 +1888,7 @@ EGBN,Major Banks
 EGG,Professional Services
 EGHA,Finance/Investors Services
 EGHAR,Finance/Investors Services
+EGHAU,Finance/Investors Services
 EGHT,EDP Services
 EGO,Precious Metals
 EGP,Real Estate Investment Trusts
@@ -2245,6 +2250,7 @@ FLY,Military/Government/Technical
 FLYE,Aerospace
 FLYW,Business Services
 FLYX,Transportation Services
+FLYX-WS,Transportation Services
 FMAC,Blank Checks
 FMACR,Blank Checks
 FMACU,Blank Checks
@@ -2838,7 +2844,6 @@ HTT,Finance: Consumer Services
 HTZ,Rental/Leasing Companies
 HTZWW,Rental/Leasing Companies
 HUBB,Electrical Products
-HUBC,Computer Communications Equipment
 HUBCW,Computer Communications Equipment
 HUBCZ,Computer Communications Equipment
 HUBG,Integrated Freight & Logistics
@@ -3485,6 +3490,7 @@ LPAAU,Blank Checks
 LPAAW,Blank Checks
 LPBBW,Blank Checks
 LPCN,Biotechnology: Pharmaceutical Preparations
+LPCVU,Blank Checks
 LPG,Marine Transportation
 LPL,Industrial Machinery/Components
 LPLA,Investment Bankers/Brokers/Service
@@ -3508,6 +3514,7 @@ LTBR,Major Chemicals
 LTC,Real Estate Investment Trusts
 LTGO,Biotechnology: Pharmaceutical Preparations
 LTGR,Blank Checks
+LTGRU,Blank Checks
 LTH,Hotels/Resorts
 LTM,Air Freight/Delivery Services
 LTRN,Biotechnology: Pharmaceutical Preparations
@@ -4252,6 +4259,7 @@ O,Real Estate Investment Trusts
 OABI,Biotechnology: Commercial Physical & Biological Resarch
 OABIW,Biotechnology: Commercial Physical & Biological Resarch
 OACC,Blank Checks
+OACCW,Blank Checks
 OBA,Blank Checks
 OBAI,Telecommunications Equipment
 OBAWW,Blank Checks
@@ -4406,6 +4414,7 @@ OSW,Hotels/Resorts
 OTEX,EDP Services
 OTGA,Blank Checks
 OTGAU,Blank Checks
+OTGAW,Blank Checks
 OTIS,Consumer Electronics/Appliances
 OTLK,Biotechnology: Biological Products (No Diagnostic Substances)
 OTLY,Packaged Foods
@@ -4770,7 +4779,6 @@ PTEN,Oil & Gas Production
 PTGX,Biotechnology: Pharmaceutical Preparations
 PTHS,Biotechnology: Biological Products (No Diagnostic Substances)
 PTIV,Finance: Consumer Services
-PTLE,Oil Refining/Marketing
 PTLO,Restaurants
 PTN,Biotechnology: Pharmaceutical Preparations
 PTON,Recreational Games/Products/Toys
@@ -5651,6 +5659,7 @@ TBBK,Major Banks
 TBCH,Telecommunications Equipment
 TBCV,Blank Checks
 TBCVU,Blank Checks
+TBCVW,Blank Checks
 TBI,Professional Services
 TBLA,Computer Software: Programming Data Processing
 TBLD,Investment Managers
@@ -6029,6 +6038,7 @@ UVV,Farming/Seeds/Milling
 UWMC,Finance: Consumer Services
 UXIN,Business Services
 UYSC,Blank Checks
+UYSCR,Blank Checks
 UZD,Telecommunications Equipment
 UZE,Telecommunications Equipment
 UZF,Telecommunications Equipment
