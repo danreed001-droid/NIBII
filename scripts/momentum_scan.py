@@ -53,7 +53,7 @@ from mtl.pricebreak import apply_pricebreak, break_days, hold_days, pricebreak_s
 from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
-from mtl import candle, candlepat, fedday, fedday_check, reentry_note, stretchwarn  # noqa: E402
+from mtl import candle, candlepat, fedday, fedday_check, reentry_note, resistline, stretchwarn  # noqa: E402
 from mtl import crashrank, earnjump, hotcomm, jobwarn, nearhigh, runup, volsell, volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
@@ -616,6 +616,14 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
     # stronger of TLT / GLD over 3 months if it is up, else DBMF managed futures (mtl/rotation.py no_bills)
     modes, why, half = no_bills(modes, why, half, whip_px, calendar)
+    # ... and the resistance-line exit: on a week's last close, SPY within 10% of its 1-year high, a 2%+ down day in the
+    # last two weeks, and SPY back up to a falling line through its lower highs (4+ touches) and closing under it -> TLT if
+    # it is up over 3 months, else cash (nothing bought), where the plan holds stocks, until a week closes 0.5% above the line or two weeks at most
+    # (mtl/resistline.py, rule 22, since Nov 13, 2026, on probation); after the no-T-bills swap so the cash stays cash
+    rl_days, rl_log = resistline.out_days(spy_bars, calendar, start, in_stocks=lambda d_: modes.get(d_, 'boost') == 'boost',
+                                          week_closed=week_closed,
+                                          dest=lambda k_: bills_pick(whip_px, calendar, k_, assets=('TLT',), fallback=None))
+    modes, why, half, rl_held = resistline.apply_resist(modes, why, half, rl_days, calendar)
     # ... and the price-break haven rule: the day SPY closes under its 100-day average with that average and its 7-day
     # average both lower than 5 sessions ago, the haven pick (as above) for the next 10 sessions wherever the plan would
     # hold stocks (mtl/pricebreak.py)
@@ -633,7 +641,7 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
                 pb_breaks=pb_breaks, pb_held=pb_held, fd_held=fd_held, fd_before=fd_before, upcoming=upcoming,
                 sw_counts=sw_counts, sw_z=sw_z, sw_starts=sw_starts, sw_held=sw_held,
                 jw_flag=jw_flag, jw_rise=jw_rise, jw_gap=jw_gap, jw_starts=jw_starts, jw_held=jw_held,
-                cd_days=cd_days, cd_sig=cd_sig, cd_held=cd_held)
+                cd_days=cd_days, cd_sig=cd_sig, cd_held=cd_held, rl_days=rl_days, rl_log=rl_log, rl_held=rl_held)
 
 
 def last_closed_session(now=None):
@@ -1424,6 +1432,8 @@ def main():
     auto['rotation']['reentry'] = re_
     # the candle re-entry rule (mtl/candle.py, rule 19): tonight's reading, whether it holds stocks next session, the signals
     auto['rotation']['candle'] = candle.candle_state(bench['SPY'], calendar, K, ov['cd_held'], ov['cd_sig'])
+    # the resistance-line exit (mtl/resistline.py, rule 22): tonight's reading, whether it holds cash, its stretches
+    auto['rotation']['resist'] = resistline.state(bench['SPY'], calendar, K, ov['rl_held'], ov['rl_log'])
     # the Fed-day hold (mtl/fedday.py): whether tonight's decision is held in stocks, the next decision day, and
     # whether data/fomc_dates.json still covers the months ahead
     fed_ = fedday.load()

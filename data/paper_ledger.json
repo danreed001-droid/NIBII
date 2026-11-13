@@ -1110,6 +1110,40 @@
     "scripts/momentum_scan.py (settings)": "cbf4fa481fcc"
    },
    "what": "Rule 21, the crash-rebound ranking (mtl/crashrank.py): within 126 sessions of SPY closing 30%+ under its 1-year high, while SPY is above its 50-day average, the 10 most volatile, deepest-under-their-high, lowest-priced stocks go to the front of the ranking. Strict test: 60.4% a year from 2000 vs 54.9%, the same -25% worst drop, better in 5 years and worse in 1 (t-stat 1.5); on about 8% of the time (2001-03, 2009, 2020); abroad on the 12-month plan with doubled times +0.9 points a year, better in 5 markets and worse in 1; on probation"
+  },
+  {
+   "since": "2026-11-13",
+   "fingerprint": "303f9f4083620bee",
+   "files": {
+    "mtl/momentum.py": "94e6606d6eb2",
+    "mtl/rotation.py": "abbce15386b6",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/reentry.py": "e28fdda2a329",
+    "mtl/pricebreak.py": "20d70e5b7401",
+    "mtl/fractal.py": "936e82e39874",
+    "mtl/narrow.py": "2afdaea019ae",
+    "mtl/lowerhigh.py": "f950e464a79f",
+    "mtl/fedday.py": "9803dbb7512f",
+    "mtl/stretchwarn.py": "4cb17a8dce40",
+    "mtl/dominoes.py": "aa3f0ad9b0a6",
+    "mtl/nearhigh.py": "4dfd694efe3d",
+    "mtl/hotcomm.py": "1b98b2db540a",
+    "mtl/jobwarn.py": "473f94c1a8c6",
+    "mtl/volsell.py": "0920ad8ba1b4",
+    "mtl/candle.py": "6012fd33218c",
+    "mtl/runup.py": "9a3cfa8d5314",
+    "mtl/crashrank.py": "eb8d3f8859c4",
+    "mtl/resistline.py": "e034c7ec4fb1",
+    "mtl/volweight.py": "aa3ab73e5dbb",
+    "mtl/earnjump.py": "d90a7ad5e130",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "7d98e9b96862",
+    "mtl/fade.py": "eed144f30a67",
+    "mtl/calendar_nyse.py": "f968ab11e45a",
+    "scripts/momentum_scan.py (settings)": "cbf4fa481fcc"
+   },
+   "what": "Rule 22, the resistance-line exit (mtl/resistline.py): on a week's last close, with SPY within 10% of its 1-year high and a 2%+ down day in the last two weeks, SPY back up to a falling line through its lower highs (4+ touches) and closing under it -> TLT if TLT is up over 3 months, else cash, where the plan holds stocks, until a week closes 0.5% above the line or two weeks at most. Strict test: 61.6% a year from 2000 vs 60.4%, worst drop -25% both, 5 signals since 2000; on probation"
   }
  ]
 }
