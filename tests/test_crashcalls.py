@@ -36,3 +36,18 @@ def test_ineligible_stocks_are_left_out():
     cal, px = _market(True)
     W = crashcalls.watch(px, cal, lambda t, d: t != 'AAA', cal.index('2020-04-20'))
     assert all(r['t'] != 'AAA' for r in W['rows'] + W['near'])
+
+
+def test_normal_market_lists_big_winners_turned_oversold():
+    cal = [f"2021-{m:02d}-{d:02d}" for m in range(1, 13) for d in range(1, 29)]
+    px = {'SPY': {d: 400.0 for d in cal}}
+    up = {}
+    for i, d in enumerate(cal):           # doubles over the year, then a sharp two-week dip
+        up[d] = 50 * (3.0 ** (i / len(cal))) * (0.85 if i >= len(cal) - 10 else 1.0)
+    px['WIN'] = up
+    px['FLAT'] = {d: 100.0 + (i % 3) for i, d in enumerate(cal)}
+    W = crashcalls.watch(px, cal, lambda t, d: True)
+    assert not W['on'] and W['normal']['on']
+    assert [r['t'] for r in W['normal']['rows']] == ['WIN']
+    r = W['normal']['rows'][0]
+    assert r['up'] >= 0.8 and r['rsi'] <= 41
