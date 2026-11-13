@@ -4599,7 +4599,7 @@ FLOWBOX_JS = r"""(function () {
   var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cv = $('fb-cv'), cx = cv.getContext('2d'), CS;
-  var t = Math.max(13, N - 260), playing = false, speed = 0.5, mode = 'mom', red = false, sizeBy = 'share', look = 'dots', swarm = [], frameNo = 0, swarmKey = '', PER = 0, lastFl = '', parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
+  var t = N - 1, playing = false, speed = 0.5, mode = 'mom', red = false, sizeBy = 'share', look = 'dots', swarm = [], frameNo = 0, swarmKey = '', PER = 0, lastFl = '', parts = [], reds = [], last = 0, lastI = -1, lastKey = '';
   var trail = document.createElement('canvas');
   try { speed = +(localStorage.getItem('nibii-flow-speed2') || 0.5); mode = localStorage.getItem('nibii-flow-mode') || 'mom'; red = localStorage.getItem('nibii-flow-red') === '1'; sizeBy = localStorage.getItem('nibii-flow-size') || 'share'; look = localStorage.getItem('nibii-flow-look') || 'dots'; } catch (e) {}
   function col(v) { return CS.getPropertyValue(v).trim(); }
@@ -5227,7 +5227,7 @@ FLOWBOX_JS = r"""(function () {
   }
   function money(b) { return b >= 1000 ? '$' + (b / 1000).toFixed(b >= 10000 ? 0 : 1) + 'T' : '$' + Math.round(b) + 'B'; }
   function fmt(v) { return (v > 0 ? '+' : v < 0 ? '\u2212' : '') + Math.abs(v * 100).toFixed(1) + '%'; }
-  function setPlay(p) { playing = p; $('fb-play').textContent = p ? 'Pause' : 'Play'; if (p && t >= N - 1) t = 13; }
+  function setPlay(p) { playing = p; $('fb-play').textContent = p ? 'Pause' : 'Play'; if (p && t >= N - 1) t = Math.max(13, N - 260); }
   function save(k, v) { try { localStorage.setItem(k, v); } catch (x) {} }
   $('fb-play').onclick = function () { setPlay(!playing); };
   $('fb-spd').onclick = function (e) { var b = e.target.closest('button'); if (!b) return; speed = +b.dataset.v; save('nibii-flow-speed2', speed); marks(); };
