@@ -1657,6 +1657,12 @@ def main():
             log_revisions(REVISIONS_LOG, as_of, revs, {t: rank.get(t) for t in revs})
     signal_date = date.fromisoformat(as_of if signal_day else week_end_session(today))   # this week's last NYSE session
     trade_date = next_trading_day(signal_date)
+    try:   # the crash-call watch list (information only): oversold S&P stocks while SPY is 20%+ under its high
+        from mtl import crashcalls
+        crash_watch = crashcalls.watch(prices, calendar, eligible, K)
+    except Exception as e:   # noqa: BLE001 - information only; the page leaves the card out
+        print(f"  crash-call watch skipped: {e}", file=sys.stderr)
+        crash_watch = None
     payload = dict(
         generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'), asOf=as_of,
         # the page turns red after this: the next session's run (22:20 UTC, a backup at 02:20) should be in by then
@@ -1690,6 +1696,7 @@ def main():
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
         monthly=monthly,
         option=option_check(held_rows, bars, as_of, calendar, signal_day),
+        crashCalls=crash_watch,   # the crash-call watch list (information only, mtl/crashcalls.py)
         plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto, you2=you2, paper=paper),
         dataIssues=data_issues)
     with open(OUT, 'w') as f:

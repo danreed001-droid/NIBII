@@ -461,6 +461,10 @@ footer li { margin-bottom: 6px; }
 .wr li.w { color: var(--ink); font-weight: 600; }
 .wr .wr-h { font-size: 0.78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-top: 10px; }
 .wr .note { color: var(--muted); font-size: 0.8rem; margin: 6px 0 0; }
+.cc-t { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+.cc-t th, .cc-t td { padding: 4px 8px; border-bottom: 1px solid var(--hairline); text-align: left; white-space: nowrap; }
+.cc-t .r { text-align: right; font-family: ui-monospace, monospace; }
+.cc-t th { color: var(--muted); font-weight: 500; font-size: 0.75rem; }
 </style>
 
 <div class="masthead"><div class="masthead-inner">
@@ -486,6 +490,7 @@ footer li { margin-bottom: 6px; }
   <div class="card optcheck" id="optcheck" hidden></div>
   <div class="card swpanel" id="swpanel" hidden></div>
 __WATCHRULE__
+__CRASHCALLS__
 
 __RECENT__
 __NEWSFWD__
@@ -4152,6 +4157,45 @@ def _wr_date(d):
     return x.strftime('%b ') + str(x.day) + x.strftime(', %Y')
 
 
+def crashcalls_html(W):
+    """The crash-call watch list (mtl/crashcalls.py): S&P stocks with RSI 30 or lower while SPY is 20%+ under its 1-year
+    high; '' without the data. Information only."""
+    if not W or W.get('dd') is None:
+        return ''
+    pct = lambda v, d=1: ('+' if v >= 0 else '−') + f'{abs(v) * 100:.{d}f}%'
+    dd = abs(W['dd']) * 100
+    if W['on']:
+        status = (f"On: SPY is {dd:.1f}% under its 1-year high ({W['spy']:.2f} against {W['spyHigh']:.2f}). "
+                  f"{W['count']} S&P stock{'s have' if W['count'] != 1 else ' has'} a 14-day RSI of {W['rsiMax']:.0f} or lower.")
+        cls = 'differ'
+    else:
+        status = (f"Off: SPY is {dd:.1f}% under its 1-year high ({W['spy']:.2f} against {W['spyHigh']:.2f}); "
+                  f"the list switches on at {W['drop'] * 100:.0f}%.")
+        cls = 'agree'
+    def tr(x):
+        return (f"<tr><td><b>{_e(x['t'])}</b></td><td class=\"r\">{x['rsi']:.1f}</td><td class=\"r\">{pct(x['off'], 0)}</td>"
+                f"<td class=\"r\">{x['vol'] * 100:.0f}%</td><td class=\"r\">{pct(x['r21'], 1) if x['r21'] is not None else ''}</td></tr>")
+    head = ('<tr><th>Stock</th><th class="r">RSI</th><th class="r">Under its 1-yr high</th><th class="r">3-mo volatility</th>'
+            '<th class="r">Last month</th></tr>')
+    if W['on'] and W['rows']:
+        body = (f'<p class="wr-h">The list: lowest RSI first</p><div style="overflow-x:auto"><table class="cc-t">{head}'
+                + ''.join(tr(x) for x in W['rows']) + '</table></div>'
+                + f"<p class=\"note\">The idea for each: a 90-day at-the-money call, sold about two months ({W['hold']} sessions) later. "
+                'Check the real option price first: a crash makes calls much dearer than the study assumed.</p>')
+    else:
+        near = W.get('near') or []
+        body = ('<p class="wr-h">Lowest RSIs tonight (for reference; nothing is on the list)</p>'
+                + '<p class="note">' + _e(', '.join(f"{x['t']} {x['rsi']:.0f}" for x in near)) + '</p>' if near else '')
+    return (f'<section class="card wr {cls}" id="crashcalls"><p class="section-label" style="margin-top:0">Crash-call watch list '
+            f'<span class="hint">information only · data to {_e(_wr_date(W["asOf"]))} · not part of the plan</span></p>'
+            f'<p class="wr-status">{_e(status)}</p>{body}'
+            '<p class="note">From the option study (2000–2026, S&amp;P members as of each date): a call on a stock with RSI 30 or '
+            'lower while SPY was 20%+ under its high, sold about two months later, paid +41% per $1 of premium on 2000–12 and '
+            '+103% on 2013–26. It fired in about 97 weeks over 7 falls (2001–03, 2008–09, 2020, 2022); 2008 lost (−34%) because the '
+            'market kept falling; waiting for SPY to turn up made it worse. Calls were priced from each stock’s realized '
+            'volatility + 10 points (no historical option prices), so treat it as a watch list, not a signal to trade.</p></section>')
+
+
 def watchrule_html():
     """The watch rule and the lessons from the owner's review picks (mtl/watchrule.py), from data/flow_box.json's daily
     closes and the paper record's latest decision; '' without the data. Information only."""
@@ -5267,6 +5311,7 @@ def render(scan, growth=None):
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__WATCHRULE__', watchrule_html(), 1)
+    page = page.replace('__CRASHCALLS__', crashcalls_html(scan.get('crashCalls')), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
     page = page.replace('__NEWSFWD__', news_forward_html(), 1)
     page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS + '\n' + NFW_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
