@@ -8,7 +8,14 @@ a crash, can cut that a lot. The lower the RSI the better (no sweet spot in betw
 50-day average made it worse; it fired in about 97 weeks over 7 falls (2001-03, 2008-09, 2020, 2022), and 2008 lost
 in every version (-34% at these settings).
 
-watch(prices, calendar, eligible, k) -> {on, spy, spyHigh, dd, rows: [{t, rsi, off, vol, r21}], near: [...]}:
+The second list, a big winner just turned oversold in a normal market (same study): a stock at least UP_MIN (80%) above
+its lowest close of the last year with a 14-day RSI at or below RSI_WIN (41), while SPY is within NORMAL (10%) of its
+1-year high. A 90-day at-the-money call sold at 4x, else held to expiry, paid +25% per $1 on 2000-2012 and +30% on
+2013-2026, positive in 14 of 21 years; with options 10 volatility points dearer, about +9% / +5% (selling at 5x with a -50%
+stop and a two-month limit).
+
+watch(prices, calendar, eligible, k) -> {on, spy, spyHigh, dd, rows: [{t, rsi, off, vol, r21, up}], near: [...],
+normal: {on, rows, count}}:
 - on: SPY at least DROP under its 252-session high at session k;
 - rows (while on): the eligible stocks with 14-day RSI <= RSI_MAX, lowest RSI first;
 - near (always): the lowest RSIs tonight, so the page shows what the list would hold."""
@@ -20,6 +27,9 @@ DROP = 0.20
 RSI_MAX = 30.0
 HOLD = 42          # sessions: sell about two months in
 MAX_ROWS = 25
+NORMAL = 0.10      # SPY within this of its 1-year high: the normal-market list is on
+UP_MIN = 0.80      # the stock this far above its 1-year low
+RSI_WIN = 41.0
 
 
 def _closes(px, calendar, k, n):
@@ -51,12 +61,16 @@ def watch(prices, calendar, eligible, k=None):
         lr = [math.log(c[i] / c[i - 1]) for i in range(len(c) - 63, len(c))]
         m = sum(lr) / len(lr)
         vol = math.sqrt(sum((x - m) ** 2 for x in lr) / (len(lr) - 1)) * math.sqrt(252)
-        hi_t = max(v for v in c if v)
+        hi_t = max(v for v in c if v); lo_t = min(v for v in c if v)
         rows.append(dict(t=t, rsi=round(r, 1), off=round(c[-1] / hi_t - 1, 4), vol=round(vol, 3),
-                         r21=round(c[-1] / c[-22] - 1, 4) if c[-22] else None))
+                         r21=round(c[-1] / c[-22] - 1, 4) if c[-22] else None, up=round(c[-1] / lo_t - 1, 4)))
     rows.sort(key=lambda x: x['rsi'])
     on = dd is not None and dd <= -DROP
     hits = [x for x in rows if x['rsi'] <= RSI_MAX]
+    n_on = dd is not None and dd > -NORMAL
+    wins = [x for x in rows if x['rsi'] <= RSI_WIN and x['up'] >= UP_MIN]
     return dict(asOf=d, on=on, spy=round(spy[-1], 2) if spy else None, spyHigh=round(hi, 2) if hi else None,
                 dd=round(dd, 4) if dd is not None else None, drop=DROP, rsiMax=RSI_MAX, hold=HOLD,
-                count=len(hits), rows=hits[:MAX_ROWS] if on else [], near=rows[:8])
+                count=len(hits), rows=hits[:MAX_ROWS] if on else [], near=rows[:8],
+                normal=dict(on=n_on, upMin=UP_MIN, rsiMax=RSI_WIN, within=NORMAL, count=len(wins),
+                            rows=wins[:MAX_ROWS] if n_on else []))

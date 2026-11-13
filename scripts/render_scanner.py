@@ -4186,10 +4186,28 @@ def crashcalls_html(W):
         near = W.get('near') or []
         body = ('<p class="wr-h">Lowest RSIs tonight (for reference; nothing is on the list)</p>'
                 + '<p class="note">' + _e(', '.join(f"{x['t']} {x['rsi']:.0f}" for x in near)) + '</p>' if near else '')
-    return (f'<section class="card wr {cls}" id="crashcalls"><p class="section-label" style="margin-top:0">Crash-call watch list '
+    Nm = W.get('normal') or {}
+    if Nm:
+        if Nm.get('on'):
+            nst = (f"On: SPY is within {Nm['within'] * 100:.0f}% of its 1-year high. {Nm['count']} S&P stock"
+                   f"{'s are' if Nm['count'] != 1 else ' is'} {Nm['upMin'] * 100:.0f}%+ above {'their' if Nm['count'] != 1 else 'its'} 1-year low with an RSI of {Nm['rsiMax']:.0f} or lower.")
+        else:
+            nst = f"Off: SPY is more than {Nm['within'] * 100:.0f}% under its 1-year high (that is the crash list's ground)."
+        nhead = ('<tr><th>Stock</th><th class="r">RSI</th><th class="r">Above its 1-yr low</th><th class="r">Under its 1-yr high</th>'
+                 '<th class="r">3-mo volatility</th><th class="r">Last month</th></tr>')
+        ntr = lambda x: (f"<tr><td><b>{_e(x['t'])}</b></td><td class=\"r\">{x['rsi']:.1f}</td><td class=\"r\">{pct(x['up'], 0)}</td>"
+                         f"<td class=\"r\">{pct(x['off'], 0)}</td><td class=\"r\">{x['vol'] * 100:.0f}%</td>"
+                         f"<td class=\"r\">{pct(x['r21'], 1) if x['r21'] is not None else ''}</td></tr>")
+        nbody = (f'<div style="overflow-x:auto"><table class="cc-t">{nhead}' + ''.join(ntr(x) for x in Nm['rows']) + '</table></div>'
+                 if Nm.get('rows') else '')
+        body += (f'<p class="wr-h" style="margin-top:14px">Big winners turned oversold (normal market)</p><p class="wr-status" style="font-size:0.92rem">{_e(nst)}</p>{nbody}'
+                 '<p class="note">The idea for each: a 90-day at-the-money call, sold at 4x, else held to expiry; if the option is pricey, '
+                 'add a \u221250% stop and sell by about two months. In the study it paid +25% per $1 on 2000\u201312 and +30% on 2013\u201326, '
+                 'positive in 14 of 21 years, but only about +5\u20139% with options 10 volatility points dearer: check the real price.</p>')
+    return (f'<section class="card wr {cls}" id="crashcalls"><p class="section-label" style="margin-top:0">Option watch list '
             f'<span class="hint">information only · data to {_e(_wr_date(W["asOf"]))} · not part of the plan</span></p>'
-            f'<p class="wr-status">{_e(status)}</p>{body}'
-            '<p class="note">From the option study (2000–2026, S&amp;P members as of each date): a call on a stock with RSI 30 or '
+            f'<p class="wr-h">Crash calls (SPY 20%+ under its high)</p><p class="wr-status">{_e(status)}</p>{body}'
+            '<p class="note">Crash calls, from the option study (2000–2026, S&amp;P members as of each date): a call on a stock with RSI 30 or '
             'lower while SPY was 20%+ under its high, sold about two months later, paid +41% per $1 of premium on 2000–12 and '
             '+103% on 2013–26. It fired in about 97 weeks over 7 falls (2001–03, 2008–09, 2020, 2022); 2008 lost (−34%) because the '
             'market kept falling; waiting for SPY to turn up made it worse. Calls were priced from each stock’s realized '
