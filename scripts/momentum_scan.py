@@ -1665,6 +1665,11 @@ def main():
                 r_['rev'] = revs[r_['t']]
         if signal_day and revs:
             log_revisions(REVISIONS_LOG, as_of, revs, {t: rank.get(t) for t in revs})
+    # the next earnings date of every stock the plans hold (Yahoo; information only): the cards flag a report within a week
+    if '--no-earnings' not in sys.argv:
+        for r_ in held_rows + plan_rows:
+            e_ = next_earnings(r_['t'])
+            r_['earn'] = e_ if e_ and e_[:10] >= as_of else None
     signal_date = date.fromisoformat(as_of if signal_day else week_end_session(today))   # this week's last NYSE session
     trade_date = next_trading_day(signal_date)
     payload = dict(

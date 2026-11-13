@@ -158,6 +158,8 @@ __DOMCSS__
 .tag.buy { color: var(--pos); border-color: color-mix(in srgb, var(--pos) 50%, transparent); }
 .tag.sell { color: var(--neg); border-color: color-mix(in srgb, var(--neg) 50%, transparent); }
 .tag.ndx { font-size: 0.64rem; padding: 1px 6px; color: var(--muted); letter-spacing: 0.04em; }
+.tag.earn { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
+.hold.earn-soon { border: 3px solid var(--gold); padding: 12px 12px 10px; }
 
 /* holdings */
 .holdings { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 16px; }
@@ -1620,15 +1622,21 @@ __ISSUES__
     var b = v.up30 != null ? '<span class="small muted"> ↑' + v.up30 + ' ↓' + v.down30 + '</span>' : '';
     return '<span style="white-space:nowrap">' + a + b + '</span>';
   }
+  function earnIn(h) {   // whole days from the prices' date to the next earnings report, or null
+    if (!h.earn || !D.asOf) return null;
+    return Math.round((Date.parse(h.earn.slice(0, 10)) - Date.parse(D.asOf.slice(0, 10))) / 864e5);
+  }
   function holdCard(h, plan) {
+    var en = earnIn(h), soon = en != null && en >= 0 && en <= 7;
     var tap = h.chart ? ' data-t="' + esc(h.t) + '" tabindex="0" role="button" aria-expanded="false" aria-controls="swpanel" aria-label="' + esc(h.t) + ': show swing chart"' : '';
-    return '<article class="hold"' + tap + '><div class="hold-top"><span class="rank">#' + (h.rank || '–') + '</span><span>' + (h.new ? '<span class="tag buy">buy Mon</span> ' : '') + (h.ndx ? '<span class="tag ndx" title="Nasdaq-100 only">NDX</span>' : '') + '</span></div>' +
+    return '<article class="hold' + (soon ? ' earn-soon' : '') + '"' + tap + '><div class="hold-top"><span class="rank">#' + (h.rank || '–') + '</span><span>' + (soon ? '<span class="tag earn" title="Earnings report within a week: the big move often comes on the report">' + (en === 0 ? 'Earnings today' : 'Earnings in ' + en + 'd') + '</span> ' : '') + (h.new ? '<span class="tag buy">buy Mon</span> ' : '') + (h.ndx ? '<span class="tag ndx" title="Nasdaq-100 only">NDX</span>' : '') + '</span></div>' +
       '<div><div class="tk">' + esc(h.t) + (plan && h.w ? ' <span class="small"><b>' + Math.round(h.w * PART * 1000) / 10 + '%</b></span>' + (h.buying ? ' <span class="tag buy" title="more buying than selling volume: twice the money (rule 12)">2× vol</span>' : '') + (h.earnHit ? ' <span class="tag buy" title="jumped 3%+ on its last earnings report within 3 months: twice the money (rule 13)">2× earnings</span>' : '') : '') + '</div><div class="nm" title="' + esc(h.n) + '">' + esc(h.n) + '</div></div>' +
       '<div><div class="big ' + tone(h.score) + '">' + pct(h.score, 0) + '</div><div class="small">6-1m · ' + pct(h.vsSpy, 0) + ' vs SPY</div></div>' +
       spark(h.spark, 200, 44) +
       '<div class="kv"><span>Held</span><b>' + (h.new ? 'new' : (h.weeks || 0) + ' wk') + '</b><span>Since buy</span><b class="' + tone(h.sinceRet) + '">' + pct(h.sinceRet) + '</b>' +
       '<span>1 month</span><b class="' + tone(h.r1m) + '">' + pct(h.r1m) + '</b><span>Off high</span><b>' + pct(h.offHigh) + '</b>' +
-      '<span title="Analysts’ estimate of this year’s earnings: change over 90 days · raised / cut in the last 30 days">Estimates</span><b>' + revCell(h.rev) + '</b></div>' +
+      '<span title="Analysts’ estimate of this year’s earnings: change over 90 days · raised / cut in the last 30 days">Estimates</span><b>' + revCell(h.rev) + '</b>' +
+      '<span title="Next earnings report (Yahoo)">Earnings</span><b style="white-space:nowrap' + (soon ? ';color:var(--gold)' : '') + '">' + (en == null ? '–' : fmtDate(h.earn.slice(0, 10), { month: 'short', day: 'numeric' }) + ' · ' + en + 'd') + '</b></div>' +
       '<div style="display:flex;justify-content:space-between;align-items:center"><span class="small">' + esc(h.sec) + '</span>' + trend(h.trend) + '</div>' +
       (h.chart ? '<div class="chart-hint">Swing chart ›</div>' : '') + '</article>';
   }
