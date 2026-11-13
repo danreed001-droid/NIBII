@@ -5904,7 +5904,9 @@ def main():
                 # last close, SPY within 10% of its 1-year high, a 2%+ down day in the last 10 sessions, and SPY back up to a
                 # falling line through its lower highs (4+ touches) closing under it -> where the plan holds stocks, TLT if it is
                 # up over 63 sessions at that close, else cash at 0%, until a week closes 0.5% above the line or 2 weeks at most
-                from mtl import resistline as _rl
+                import importlib.util as _iu
+                _sp = _iu.spec_from_file_location('resistline', os.path.join(os.environ.get('NIBII_REPO', '/home/user/NIBII'), 'mtl', 'resistline.py'))
+                _rl = _iu.module_from_spec(_sp); _sp.loader.exec_module(_rl)
                 if 'CASH0' not in px_all:
                     px_all['CASH0'] = {d_: 1.0 for d_ in cal}
                 B2_ = [tuple(b_) for b_ in bars_src['SPY']]
