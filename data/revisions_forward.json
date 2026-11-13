@@ -1,6 +1,6 @@
 {
  "about": "Analyst-revisions forward test: do the ranked stocks with the biggest rises in estimates beat the rest over the next 4 weeks? (mtl/revisions_forward.py). Information only.",
- "updated": "2026-11-13T17:54:24+00:00",
+ "updated": "2026-11-13T19:24:00+00:00",
  "asOf": "2026-11-13",
  "started": "2026-10-31",
  "minN": 20,
@@ -58,24 +58,24 @@
     "top25": {
      "n_a": 12,
      "n_b": 13,
-     "a": -0.15013,
-     "b": -0.09614,
-     "edge": -0.05399,
+     "a": -0.14335,
+     "b": -0.08889,
+     "edge": -0.05445,
      "hit": false
     },
     "top10": {
      "n_a": 5,
      "n_b": 5,
-     "a": -0.15306,
-     "b": -0.05993,
-     "edge": -0.09312,
+     "a": -0.14725,
+     "b": -0.05331,
+     "edge": -0.09394,
      "hit": false
     },
     "cut": {
      "n_a": 1,
-     "a": -0.01198,
-     "b": -0.01465,
-     "edge": -0.00266,
+     "a": 0.00141,
+     "b": -0.01295,
+     "edge": -0.01436,
      "hit": false,
      "names": [
       "CRWD"
@@ -152,7 +152,7 @@
     "hits": 0,
     "rate": 0.0,
     "p": 0.5,
-    "avg": -0.0782,
+    "avg": -0.07842,
     "verdict": "too few"
    },
    {
@@ -163,7 +163,7 @@
     "hits": 0,
     "rate": 0.0,
     "p": 0.5,
-    "avg": -0.1816,
+    "avg": -0.18201,
     "verdict": "too few"
    },
    {
@@ -174,7 +174,7 @@
     "hits": 1,
     "rate": 0.5,
     "p": 1.0,
-    "avg": 0.10978,
+    "avg": 0.10393,
     "verdict": "too few"
    }
   ]
