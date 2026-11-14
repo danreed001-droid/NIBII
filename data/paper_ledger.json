@@ -469,6 +469,24 @@
    "at": "2026-11-12T23:34:02+00:00",
    "fp": "23f776abebd01d7c",
    "src": "scanner run"
+  },
+  {
+   "d": "2026-11-13",
+   "mode": "CASH",
+   "half": null,
+   "list": [
+    "DELL",
+    "HPE",
+    "IDXX",
+    "MRNA",
+    "VRT"
+   ],
+   "w": {
+    "CASH": 1.0
+   },
+   "at": "2026-11-13T22:04:08+00:00",
+   "fp": "303f9f4083620bee",
+   "src": "scanner run"
   }
  ],
  "updates": [
