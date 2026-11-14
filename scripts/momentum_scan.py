@@ -54,7 +54,7 @@ from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl import candle, candlepat, fedday, fedday_check, reentry_note, resistline, stretchwarn  # noqa: E402
-from mtl import crashrank, earnjump, hotcomm, jobwarn, nearhigh, runup, volsell, volweight, volweight_check  # noqa: E402
+from mtl import crashrank, earnjump, earnsell, fallgroup, hotcomm, jobwarn, nearhigh, runup, volsell, volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
@@ -507,7 +507,7 @@ def plan_rules(spy_bars, calendar, start):
     return dict(frozen=frozen, green=green, log=log)
 
 
-def plan_exits(prices, volumes, cal_, fade=True, rules=None, hot=None):
+def plan_exits(prices, volumes, cal_, fade=True, rules=None, hot=None, earn=None, group=None):
     """The default plan's stock part on top of the Boost list (scripts/backtest_strategies.py runs the same): the
     blow-off exit (a holding whose last month's gain is more than BLOWOFF times the 5 months before it is sold and
     barred for 4 weeks, only while SPY is below its BLOWOFF_MA-session average), the surge exit (a 5%+ up close on
@@ -516,13 +516,19 @@ def plan_exits(prices, volumes, cal_, fade=True, rules=None, hot=None):
     leaves the top 5 or stops fading), and with `rules` (plan_rules) the two-scale buy rules on top of it: no new buys
     in a buy freeze, and the green light setting the filters aside (mtl/fractal.py, since Oct 26, 2026). fade=False is the list the whipsaw half-switch counts sales on.
     hot: (themes, commodity closes) for the hot-commodity buy skip (mtl/hotcomm.py, since Nov 2, 2026): no new metals /
-    energy buy while copper / oil is up 50%+ over 6 months, applied with the fading filter (the green light sets both aside)."""
+    energy buy while copper / oil is up 50%+ over 6 months, applied with the fading filter (the green light sets both aside).
+    earn: report dates {ticker: [[date, 'bmo'|'amc']]} for the near-high earnings sell (mtl/earnsell.py, rule 23, since Nov 14,
+    2026; it sells in the whipsaw's list too, as the other exits); group: (bars, industries) for the falling stock-and-industry
+    skip (mtl/fallgroup.py, rule 24, since Nov 14, 2026), a buy filter, so only with `fade`."""
     blow_, surge_ = blowoff_exit(prices, cal_, BLOWOFF, market='SPY', ma=BLOWOFF_MA), surge_exit(prices, volumes, cal_, SURGE_UP, SURGE_VOL, SURGE_DELAY)
     # ... and the heavy-volume selling rule (mtl/volsell.py, since Nov 3, 2026, on probation): a holding that closes 6%+
     # down on 4x+ its 50-day volume is sold at the next close; no new buy after a 4x+ volume down close in the last 5
     # sessions (applied after the green light, which does not set it aside, as in the backtest)
     vs_ = volsell.VolSell(prices, volumes, cal_)
-    out = dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e) or vs_.sell(t, k, e))
+    # ... and the near-high earnings sell (mtl/earnsell.py, rule 23, since Nov 14, 2026, on probation): a holding that fell 3%+
+    # on its earnings report from within 5% of its 52-week high, then fell 3%+ on a day or made a new low within 10 sessions
+    es_ = earnsell.EarnSell(prices, earn, cal_) if earn else None
+    out = dict(hold_exit=lambda t, k, e=None: blow_(t, k, e) or surge_(t, k, e) or vs_.sell(t, k, e) or bool(es_ and es_.sell(t, k, e)))
     # the crash-rebound ranking (mtl/crashrank.py, rule 21, since Nov 9, 2026, on probation): within 126 sessions of SPY
     # closing 30%+ under its 1-year high, while SPY is above its 50-day average, the 10 stocks with the best rebound
     # score (volatile, deep under their high, low priced) go to the front of the ranking; the whipsaw's count too
@@ -537,6 +543,10 @@ def plan_exits(prices, volumes, cal_, fade=True, rules=None, hot=None):
         # ... and the run-up skip (mtl/runup.py, rule 20, since Nov 6, 2026, on probation): while SPY is down over 6 months,
         # no new buy of a stock up 50%+ in 2 months (after the green light, which does not set it aside)
         bw = runup.RunUp(prices, cal_).buy_ok(bw)
+        # ... and the falling stock-and-industry skip (mtl/fallgroup.py, rule 24, since Nov 14, 2026, on probation): no new buy of a
+        # stock making lower highs and lower lows with its industry, unless it is at an extreme low, its channel low or broke out
+        if group:
+            bw = fallgroup.FallGroup(group[0], prices, group[1], cal_).buy_ok(bw)
         out.update(buy_when=bw, buy_max_rank=TOP_N)
     return out
 
@@ -993,13 +1003,15 @@ def main():
     vw = volweight.VolWeight(prices, volumes, eligible, TOP_N, extra=[ej, nh], cap=volweight.CAP)
     # ... and the hot-commodity buy skip (mtl/hotcomm.py, since Nov 2, 2026, on probation)
     hot_in = (hotcomm.themes(), comm_px) if comm_px else None
-    rbx, hold_bx, after_bx = boost_run(lambda cal_: dict(plan_exits(prices, volumes, cal_, rules=fz_rules, hot=hot_in), weighting=vw.fn(cal_)))
+    # ... and rules 23 and 24 (mtl/earnsell.py, mtl/fallgroup.py, since Nov 14, 2026, on probation)
+    fg_in = (bars, fallgroup.load_industries(ROOT))
+    rbx, hold_bx, after_bx = boost_run(lambda cal_: dict(plan_exits(prices, volumes, cal_, rules=fz_rules, hot=hot_in, earn=ej_dates, group=fg_in), weighting=vw.fn(cal_)))
     picks_bx = rbx['picks']
     # the whipsaw half-switch reads the same list with the fading-energy filter off (since Oct 16, 2026): a stock the filter
     # skipped counts as if it had been bought and later sold, so the filter changes which stocks are bought, never when
     # half the account steps out (an empty slot is not a sale)
     picks_whip = run_momentum(prices, calendar, START, prefer=booster(gaps, calendar), **boost_kw,
-                              **plan_exits(prices, volumes, calendar, fade=False))['picks']
+                              **plan_exits(prices, volumes, calendar, fade=False, earn=ej_dates))['picks']
 
     strat = [[d, v] for d, v, _ in r['curve']]
     strat_b = [[d, v] for d, v, _ in rb['curve']]
@@ -1322,6 +1334,15 @@ def main():
                                      spyGap=round(_vg, 4) if _vg is not None else None, rising=vsl_.rising(K),
                                      held={t_: vsl_.info(t_, K) for t_ in vw_list},
                                      blocked=[t_ for t_, _ in now[:15] if vsl_.blocked(t_, K)])
+    # rules 23 and 24 (mtl/earnsell.py, mtl/fallgroup.py): each holding's near-high earnings drop on watch, and the stocks near
+    # the top of the list the falling stock-and-industry skip keeps out (with why the others pass)
+    es_now = earnsell.EarnSell(prices, ej_dates, calendar)
+    auto['boostx']['earnsell'] = dict(near=earnsell.NEAR, drop=earnsell.DROP, confirm=earnsell.CONFIRM, window=earnsell.WINDOW,
+                                      since=earnsell.START, held={t_: es_now.info(t_, K) for t_ in vw_list if es_now.info(t_, K)})
+    fg_now = fallgroup.FallGroup(bars, prices, fg_in[1], calendar)
+    fg_read = {t_: fg_now.reading(t_, K) for t_, _ in now[:15]}
+    auto['boostx']['fallgroup'] = dict(since=fallgroup.START, blocked=[t_ for t_, r_ in fg_read.items() if r_ and r_['skip']],
+                                       passed={t_: r_['why'] for t_, r_ in fg_read.items() if r_ and not r_['skip']})
     # the run-up skip (mtl/runup.py, rule 20): SPY's 6-month change, and the stocks near the top of the list it keeps out
     ru_ = runup.RunUp(prices, calendar)
     auto['boostx']['runup'] = ru_.info(K, [t_ for t_, _ in now[:15]])
@@ -1448,6 +1469,8 @@ def main():
     auto['rotation']['volsell'] = auto['boostx'].get('volsell')   # the heavy-volume selling rule (rule 18), for the rules note
     auto['rotation']['runup'] = auto['boostx'].get('runup')   # the run-up skip (rule 20), for the rules note
     auto['rotation']['crashrank'] = auto['boostx'].get('crashrank')   # the crash-rebound ranking (rule 21), for the rules note
+    auto['rotation']['earnsell'] = auto['boostx'].get('earnsell')     # the near-high earnings sell (rule 23), for the rules note
+    auto['rotation']['fallgroup'] = auto['boostx'].get('fallgroup')   # the falling stock-and-industry skip (rule 24), for the rules note
     # the re-entry note (information only): back into stocks after 10+ sessions out - is the list it buys concentrated
     # in one sector (past re-entries like that beat the haven 22 of 23 times) or spread out (a coin flip)?
     auto['rotation']['renote'] = reentry_note.note(rot_modes, calendar, K, picks_bx, prices, sector_px) if sector_px else dict(show=False)
