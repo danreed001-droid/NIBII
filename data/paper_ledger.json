@@ -1162,6 +1162,40 @@
     "scripts/momentum_scan.py (settings)": "cbf4fa481fcc"
    },
    "what": "Rule 22, the resistance-line exit (mtl/resistline.py): on a week's last close, with SPY within 10% of its 1-year high and a 2%+ down day in the last two weeks, SPY back up to a falling line through its lower highs (4+ touches) and closing under it -> TLT if TLT is up over 3 months, else cash, where the plan holds stocks, until a week closes 0.5% above the line or two weeks at most. Strict test: 61.6% a year from 2000 vs 60.4%, worst drop -25% both, 5 signals since 2000; on probation"
+  },
+  {
+   "since": "2026-11-14",
+   "fingerprint": "fa72354f8903af03",
+   "files": {
+    "mtl/momentum.py": "94e6606d6eb2",
+    "mtl/rotation.py": "abbce15386b6",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/reentry.py": "e28fdda2a329",
+    "mtl/pricebreak.py": "20d70e5b7401",
+    "mtl/fractal.py": "936e82e39874",
+    "mtl/narrow.py": "2afdaea019ae",
+    "mtl/lowerhigh.py": "f950e464a79f",
+    "mtl/fedday.py": "9803dbb7512f",
+    "mtl/stretchwarn.py": "4cb17a8dce40",
+    "mtl/dominoes.py": "aa3f0ad9b0a6",
+    "mtl/nearhigh.py": "4dfd694efe3d",
+    "mtl/hotcomm.py": "1b98b2db540a",
+    "mtl/jobwarn.py": "473f94c1a8c6",
+    "mtl/volsell.py": "0920ad8ba1b4",
+    "mtl/candle.py": "6012fd33218c",
+    "mtl/runup.py": "9a3cfa8d5314",
+    "mtl/crashrank.py": "eb8d3f8859c4",
+    "mtl/resistline.py": "5cec2935942d",
+    "mtl/volweight.py": "aa3ab73e5dbb",
+    "mtl/earnjump.py": "d90a7ad5e130",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "7d98e9b96862",
+    "mtl/fade.py": "eed144f30a67",
+    "mtl/calendar_nyse.py": "f968ab11e45a",
+    "scripts/momentum_scan.py (settings)": "cbf4fa481fcc"
+   },
+   "what": "Rule 22 reworked from the owner's chart reading (mtl/resistline.py): the line must fall at least 0.03% of its first top a session (no flat lines); the Friday test arms the exit and the exit is the first red candle closing lower still under the line (within 5 sessions); back in on a daily close 0.3% over the line (or two weeks at most). Strict test: 61.5% a year from 2000 vs 60.4% without rule 22, ahead in 3 years and behind in none (the first version 61.7%, behind in 2024); abroad about even (+0.01 / -0.25 points) where the first version lost (-0.23 / -0.58); Nov 13, 2026's cash call is the same under both; on probation"
   }
  ]
 }

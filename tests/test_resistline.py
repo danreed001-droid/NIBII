@@ -1,4 +1,5 @@
-"""The resistance-line exit (mtl/resistline.py, rule 22): out of stocks on a Friday test of a falling line near the high."""
+"""The resistance-line exit (mtl/resistline.py, rule 22): a Friday test of a clearly falling line near the high arms it;
+out on the first red candle closing lower under the line; back in on a daily close 0.3% over the line or after two weeks."""
 from datetime import date, timedelta
 
 from mtl import resistline as R
@@ -15,7 +16,7 @@ def _cal(n):
     return out
 
 
-def _bars(n=K + 1, top=100.0, after=None):
+def _bars(n=K + 1, top=100.0, after=None, green=False):
     """Rise to `top`, then lower highs on a falling line (pivots at 270, 290, 310), a 3% down day at 318 and a Friday
     test of the line at K; after: closes as a share of the line for sessions after K."""
     line = lambda i: 99.5 - 0.05 * (i - 270)
@@ -30,7 +31,7 @@ def _bars(n=K + 1, top=100.0, after=None):
         elif 318 <= i < K:
             v = line(i) * (0.94 + 0.01 * (i - 318))
         elif i == K:
-            v = line(i) * 0.995
+            v = line(i) * 0.985
         elif i > K:
             v = line(i) * (after if after is not None else 0.97)
         else:
@@ -40,8 +41,10 @@ def _bars(n=K + 1, top=100.0, after=None):
     for p in (270, 290, 310):
         h[p] = line(p)
     h[K] = line(K) * 0.999
+    o = list(c)
+    o[K] = c[K] * (0.996 if green else 1.004)      # the test day: a red candle closing lower (or green)
     cal = _cal(n)
-    return [(cal[i], c[i], h[i], c[i] * 0.99, c[i]) for i in range(n)], cal
+    return [(cal[i], o[i], h[i], c[i] * 0.99, c[i]) for i in range(n)], cal
 
 
 def test_fires_on_a_friday_test_near_the_high():
@@ -49,7 +52,7 @@ def test_fires_on_a_friday_test_near_the_high():
     r = R.reading(*R._series(bars, cal), K)
     assert r['signal'] and r['line']['touches'] >= R.TOUCHES and r['bigDrop'] and r['near']
     days, log = R.out_days(bars, cal, start=cal[0], dest=lambda k: 'TLT')
-    assert log == [dict(date=cal[K], to='TLT', line=log[0]['line'], touches=log[0]['touches'], back=None)]
+    assert log == [dict(date=cal[K], test=cal[K], to='TLT', line=log[0]['line'], touches=log[0]['touches'], back=None)]
     assert days == {cal[K]: 'TLT'}
 
 
@@ -68,9 +71,25 @@ def test_back_after_two_weeks_or_a_break():
     bars, cal = _bars(n=K + 12)            # stays under the line: back at the second week's end
     days, log = R.out_days(bars, cal, start=cal[0])
     assert log[0]['back'] == cal[K + 10] and len(days) == 10 and set(days.values()) == {'CASH'}
-    bars, cal = _bars(n=K + 12, after=1.01)   # closes 1% above the line: back at the first week's end
+    bars, cal = _bars(n=K + 12, after=1.01)   # the next day closes 1% over the line: back that day
     days, log = R.out_days(bars, cal, start=cal[0])
-    assert log[0]['back'] == cal[K + 5] and len(days) == 5
+    assert log[0]['back'] == cal[K + 1] and len(days) == 1
+
+
+def test_waits_for_a_red_candle():
+    bars, cal = _bars(n=K + 3, green=True)    # the test day is green and the next two don't close lower in red
+    days, log = R.out_days(bars, cal, start=cal[0])
+    assert not days and log == [dict(date=cal[K], armed=True, line=log[0]['line'], touches=log[0]['touches'], back=None)]
+
+
+def test_not_on_a_flat_line():
+    bars, cal = _bars()
+    old = R.MIN_SLOPE
+    try:
+        R.MIN_SLOPE = 0.01                    # a line must fall 1% a session: this one (about 0.05%) is too flat
+        assert not R.reading(*R._series(bars, cal), K)['signal']
+    finally:
+        R.MIN_SLOPE = old
 
 
 def test_apply_only_where_the_plan_holds_stocks():

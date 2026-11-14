@@ -617,9 +617,10 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # stronger of TLT / GLD over 3 months if it is up, else DBMF managed futures (mtl/rotation.py no_bills)
     modes, why, half = no_bills(modes, why, half, whip_px, calendar)
     # ... and the resistance-line exit: on a week's last close, SPY within 10% of its 1-year high, a 2%+ down day in the
-    # last two weeks, and SPY back up to a falling line through its lower highs (4+ touches) and closing under it -> TLT if
-    # it is up over 3 months, else cash (nothing bought), where the plan holds stocks, until a week closes 0.5% above the line or two weeks at most
-    # (mtl/resistline.py, rule 22, since Nov 13, 2026, on probation); after the no-T-bills swap so the cash stays cash
+    # last two weeks, and SPY back up to a clearly falling line through its lower highs (4+ touches) closing under it arms
+    # it; out on the first red candle closing lower under the line (within 5 sessions) -> TLT if it is up over 3 months,
+    # else cash (nothing bought), where the plan holds stocks, until a daily close 0.3% over the line or two weeks at most
+    # (mtl/resistline.py, rule 22, since Nov 13, 2026, reworked Nov 14, on probation); after the no-T-bills swap
     rl_days, rl_log = resistline.out_days(spy_bars, calendar, start, in_stocks=lambda d_: modes.get(d_, 'boost') == 'boost',
                                           week_closed=week_closed,
                                           dest=lambda k_: bills_pick(whip_px, calendar, k_, assets=('TLT',), fallback=None))

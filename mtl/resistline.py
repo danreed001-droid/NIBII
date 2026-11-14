@@ -1,28 +1,32 @@
-"""The resistance-line exit (rule 22 of the default plan, from the close of Nov 13, 2026, on probation): when SPY, near
-its high and just after a sharp down day, comes back up to a falling line through its recent lower highs and closes
-under it on a Friday, the plan steps out of stocks for up to two weeks: into TLT if TLT is rising, else cash.
+"""The resistance-line exit (rule 22 of the default plan, from the close of Nov 13, 2026, on probation; reworked Nov 14, 2026
+from the owner's chart reading): when SPY, near its high and just after a sharp down day, comes back up to a clearly falling
+line through its recent lower highs and is turned back there, the plan steps out of stocks until the line breaks: into TLT if
+TLT is rising, else cash.
 
-On SPY's daily bars (dividend-adjusted, as the plan reads them), at the close of session k, the last session of a week:
+On SPY's daily bars (dividend-adjusted, as the plan reads them):
 - swing highs: a session whose high is the highest of the W (3) sessions either side of it (known W sessions later);
-- a falling line runs through two swing highs within the LOOK (120) sessions to k, the first higher than the second and
-  at least MIN_SPAN (15) sessions before k, and no close since the first one is more than TOL (0.6%) above the line;
-- the line counts TOUCHES (4) or more: the swing highs since its start within TOL of it, plus session k itself;
-- session k tests it: its high is within TOL of the line (or above it) and its close is under the line;
-- SPY closes within NEAR (10%) of its highest close of the last 252 sessions (a pullback near the highs, not a bear
-  market), and one of the last DROP_DAYS (10) sessions closed DROP (2%) or more down.
-Then, where the plan would hold stocks, it holds TLT if TLT is up over the last 3 months (63 sessions) at that close,
-else cash (nothing bought), from that decision; at the close of each later
-week's last session it goes back to the plan when SPY closes BREAK (0.5%) or more above the line, or after MAX_WEEKS (2)
-weeks at the latest. While it is out a new signal can't start. Applied after the no-T-bills swap (so the cash stays
-cash) and before the price-break rule and the Fed-day hold. Decided at the close, traded at the next close.
+- a falling line runs through two swing highs within the LOOK (120) sessions, the first higher than the second and at least
+  MIN_SPAN (15) sessions before the test, falling at least MIN_SLOPE (0.03%) of its first top a session (not a flat line),
+  and no close since the first one is more than TOL (0.6%) above the line;
+- the line counts TOUCHES (4) or more: the swing highs since its start within TOL of it, plus the test day;
+- the test, at the close of a week's last session: the high is within TOL of the line (or above it) and the close is under
+  it, SPY closes within NEAR (10%) of its highest close of the last 252 sessions, and one of the last DROP_DAYS (10) sessions
+  closed DROP (2%) or more down.
+The test arms the exit. The exit is the first red candle (a close under its open and under the close before) that is still
+under the line, from the test day on, within RED_WAIT (5) sessions; a close more than TOL over the line first calls it off.
+Then, where the plan would hold stocks, it holds TLT if TLT is up over the last 3 months (63 sessions) at the exit close,
+else cash (nothing bought), from that decision until the first daily close BREAK (0.3%) or more above the line, or after
+MAX_WEEKS (2) weeks at the latest. While it is out a new signal can't start. Applied after the no-T-bills swap (so the cash
+stays cash) and before the price-break rule and the Fed-day hold. Decided at the close, traded at the next close.
 
-Why: the owner's idea from SPY's chart on Nov 13, 2026 (a falling line from the Oct 6 high touched 4-5 times, the -4.4%
-day on Nov 5, SPY back up to the line on a Friday) and the human-review lesson "act early in a pullback near the highs,
-not deep in a bear market". Strict test (S&P 500 members as of each date, 0.15% a side; Nov 13, 2026): AUDIT below.
-In the research replay it fired 5 times since 2000 (Mar 2000, Dec 2007, Nov and Dec 2011, Sep 2024) and helped in 4;
-without the near-the-high condition every one of 144 versions did worse than the plan (the same setup after a crash, as
-in Apr 2003, Apr 2009, Apr 2020 and Apr 2025, is the start of a rebound), and with it only 28 of 128 nearby versions
-were ahead. Very few cases and settings chosen after looking: on probation.
+Why: the owner's idea from SPY's chart on Nov 13, 2026 (a falling line from the Oct 6 high touched 4-5 times, the -4.4% day
+on Nov 5, SPY back up to the line and a red Friday) and the human-review lesson "act early in a pullback near the highs, not
+deep in a bear market"; the clearly falling line, the red candle and the way back on a break are the owner's reading of the
+past signals (Nov 14, 2026). Strict test (S&P 500 members as of each date, 0.15% a side): AUDIT below. It fired 4 times since
+2000 with the plan in stocks (Mar 2000, Dec 2007, Nov and Dec 2011); the flat Sep 2024 line no longer counts. Tested abroad
+(9 markets, the foreign plan): about even (+0.01 / -0.25 points a year on the 6- / 12-month plans) where the first version
+lost -0.23 / -0.58; a lower-low condition and re-tests helped the US but lost abroad and were left out. Very few cases:
+on probation.
 
 Pure: SPY's bars [(date, open, high, low, close)] in calendar order, the session calendar."""
 from datetime import date
@@ -35,25 +39,28 @@ MIN_SPAN = 15
 NEAR = 0.10
 DROP = 0.02
 DROP_DAYS = 10
-BREAK = 0.005
+BREAK = 0.003
 MAX_WEEKS = 2
+MIN_SLOPE = 0.0003    # the line falls at least 0.03% of its first top a session (since Nov 14, 2026)
+RED_WAIT = 5          # sessions from the test to wait for the red candle (since Nov 14, 2026)
 HIGH = 252
 START = '2026-11-13'
-AUDIT = ('61.6% a year from 2000 vs 60.4% without it, 62.8% vs 61.9% from 2010, 81.3% vs 82.0% from 2016, 121.2% vs 122.5% '
-         'from 2020, worst drop -25% both, ahead in 3 years and behind in 1 (t-stat 1.4); cash every time 61.2%, TLT every '
-         'time 61.6% (TLT was rising at every past signal); Sep 2024 is the miss that costs the 2016 and 2020 starts')
+AUDIT = ('61.5% a year from 2000 vs 60.4% without it, 63.3% vs 61.9% from 2010, 82.0% from 2016 and 122.5% from 2020 '
+         '(the same as without it), worst drop -25% both, ahead in 3 years and behind in none (t-stat 1.6); the first '
+         'version (Nov 13): 61.7%, behind in 2024')
 
 
-def _series(bars, calendar):
-    """(highs, closes) aligned to the calendar, carried over a missing session."""
+def _series(bars, calendar, opens=False):
+    """(highs, closes) aligned to the calendar, carried over a missing session; with opens=True (highs, closes, opens)."""
     by = {b[0][:10]: b for b in bars}
-    h, c, lh, lc = [], [], None, None
+    h, c, o, lh, lc, lo = [], [], [], None, None, None
     for d in calendar:
         if d in by:
-            lh, lc = by[d][2], by[d][4]
+            lh, lc, lo = by[d][2], by[d][4], by[d][1]
         h.append(lh)
         c.append(lc)
-    return h, c
+        o.append(lo)
+    return (h, c, o) if opens else (h, c)
 
 
 def week_ends(calendar, week_closed=True):
@@ -93,7 +100,7 @@ def reading(h, c, k, touches=TOUCHES, near=NEAR, drop=DROP, drop_days=DROP_DAYS,
     """At session k: dict(line, touches, dd, bigDrop, near, signal) (line: the strongest line tested, or None)."""
     if k < max(LOOK, high) or c[k] is None:
         return None
-    ls = [x for x in lines_at(h, c, k) if x[0] >= touches]
+    ls = [x for x in lines_at(h, c, k) if x[0] >= touches and -x[3] / h[x[1]] >= MIN_SLOPE]
     best = max(ls, key=lambda x: (x[0], -x[1])) if ls else None
     win = [x for x in c[k - high + 1:k + 1] if x is not None]
     dd = c[k] / max(win) - 1
@@ -109,7 +116,7 @@ def out_days(bars, calendar, start=START, in_stocks=lambda d: True, week_closed=
     """(days, log): {decision day: holding} from `start` on where the rule holds TLT or cash (dest(k), picked at the
     signal's close for the whole stretch), and its stretches [{date, to, line, touches, back}] (back: the decision day it
     went back to the plan, None while still out)."""
-    h, c = _series(bars, calendar)
+    h, c, o = _series(bars, calendar, opens=True)
     ends = week_ends(calendar, week_closed)
     days, log, k, n = {}, [], 0, len(calendar)
     while k < n:
@@ -122,18 +129,42 @@ def out_days(bars, calendar, start=START, in_stocks=lambda d: True, week_closed=
             continue
         L = r['line']
         a, m = L['fromDate'], L['slope']
+        # the test arms the exit: out on the first red candle (close under its open and under the close before) still under
+        # the line within RED_WAIT sessions; a close more than TOL over the line first calls it off
+        fired, open_ = None, False
+        for j0 in range(k, min(n, k + RED_WAIT + 1)):
+            ln = h[a] + m * (j0 - a)
+            if c[j0] is None or o[j0] is None:
+                continue
+            if c[j0] > ln * (1 + TOL):
+                break
+            if c[j0] < o[j0] and c[j0] < c[j0 - 1] and c[j0] < ln:
+                fired = j0
+                break
+        else:
+            open_ = k + RED_WAIT >= n - 1          # still waiting at the end of the data
+        if fired is None:
+            if open_:
+                log.append(dict(date=calendar[k], armed=True, line=L['at'], touches=L['touches'], back=None))
+                break
+            k += 1
+            continue
+        tested, k = k, fired
         j, weeks, back, to = k, 0, None, dest(k)
         while True:
             days[calendar[j]] = to
             j += 1
             if j >= n:
                 break
+            if c[j] > (h[a] + m * (j - a)) * (1 + BREAK):          # a daily close BREAK over the line: back to the plan
+                back = j
+                break
             if j in ends:
                 weeks += 1
-                if c[j] > (h[a] + m * (j - a)) * (1 + BREAK) or weeks >= MAX_WEEKS:
+                if weeks >= MAX_WEEKS:
                     back = j
                     break
-        log.append(dict(date=calendar[k], to=to, line=L['at'], touches=L['touches'], back=calendar[back] if back is not None else None))
+        log.append(dict(date=calendar[k], test=calendar[tested], to=to, line=L['at'], touches=L['touches'], back=calendar[back] if back is not None else None))
         k = (back if back is not None else n) + 1
     return days, log
 
@@ -170,5 +201,7 @@ def state(bars, calendar, k, held, log, n=6):
         L['fromDate'], L['viaDate'] = calendar[L['fromDate']], calendar[L['viaDate']]
         L['slope'] = round(L['slope'], 3)
         r = dict(r, line=L)
-    return dict(r, active=calendar[k] in held, log=list(log)[::-1][:n], touches=TOUCHES, near=NEAR, drop=DROP,
-                maxWeeks=MAX_WEEKS, since=START)
+    armed = next((x for x in list(log)[::-1] if x.get('armed')), None)
+    return dict(r, active=calendar[k] in held, armed=armed['date'] if armed else None, redWait=RED_WAIT,
+                log=[x for x in list(log)[::-1] if not x.get('armed')][:n], touches=TOUCHES, near=NEAR, drop=DROP,
+                maxWeeks=MAX_WEEKS, since=START, minSlope=MIN_SLOPE, brk=BREAK)
