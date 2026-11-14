@@ -52,7 +52,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from momentum_scan import blocked_dates, fetch, plan_exits, plan_overlay, plan_rules  # noqa: E402
-from mtl import fractal  # noqa: E402
+from mtl import earnjump, fallgroup, fractal  # noqa: E402
 from mtl import ignition as ig  # noqa: E402
 from mtl.backtest import curve_stats  # noqa: E402
 from mtl.momentum import run_momentum  # noqa: E402
@@ -203,7 +203,9 @@ def main():
     force = dict(prefer_mode='force', prefer_rank=None, prefer_pool='all', open_end=True)
     universe = {t: p for t, p in prices.items() if t in names or t in wl or t == 'SPY'}
     rules = plan_rules(bench['SPY'], cal, min(STARTS.values()))   # the two-scale buy rules (mtl/fractal.py, Oct 24, 2026)
-    exits = plan_exits(universe, D['vols'], cal, rules=rules)
+    # rules 23 and 24 (mtl/earnsell.py, mtl/fallgroup.py, since Nov 14, 2026), as the live plan
+    earn_ = earnjump.load()
+    exits = plan_exits(universe, D['vols'], cal, rules=rules, earn=earn_, group=(bars, fallgroup.load_industries(ROOT)))
 
     spy_c = [prices['SPY'].get(d) for d in cal]
     above = {}
@@ -243,7 +245,7 @@ def main():
     # re-entry rule, no T-bills and the price-break rule
     A = D['assets']
     whip_px = {**filled({t: {b[0]: b[4] for b in bs} for t, bs in A.items() if bs}, cal), 'SPY': prices['SPY']}
-    shadow = plan_exits(universe, D['vols'], cal, fade=False)    # the whipsaw counts sales with the fading-energy filter off
+    shadow = plan_exits(universe, D['vols'], cal, fade=False, earn=earn_)    # the whipsaw counts sales with the fading-energy filter off
 
     out = {}
     for label, start in STARTS.items():
