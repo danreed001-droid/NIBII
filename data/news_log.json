@@ -5657,5 +5657,85 @@
       "time": "Pre-market",
       "vsExp": "Cerebras guidance raised"
     }
+  },
+  {
+    "id": "2026-11-14-1-huang-agrees-to-testify-before-congress",
+    "data": {
+      "addedAt": "2026-11-14",
+      "category": "Policy",
+      "date": "2026-11-14",
+      "day": "Sat",
+      "direction": "Mixed",
+      "event": "Heading into next week, House Foreign Affairs Chair Brian Mast said Jensen Huang agreed on the night of Nov 11 to testify before Congress on national-security concerns tied to his admitted relationship with a suspected Chinese intelligence asset; Mast cited a session 'before Thanksgiving' but no date, committee, or public/closed-door format was confirmed as of the weekend. Huang resigned as Nvidia CEO Nov 11 (effective immediately); CFO Colette Kress is interim CEO, and the board's Wachtell-led investigation has reported no findings yet.",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 1,
+      "reaction": "Overhang carries into the week: NVDA and the AI-chip complex (AMD, AVGO, CoreWeave, Nebius) stay headline-sensitive to further Huang/Congress developments ahead of Nvidia's fiscal Q3 report after the close Tue Nov 17.",
+      "region": "US / China",
+      "source": "https://fourweekmba.com/ai-nvidia-ceo-subpoena-threat-53-days-left-in-this-congress/",
+      "tickers": "NVDA, AMD, AVGO, CRWV, NBIS, QQQ",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-14-2-anthropic-ipo-pricing-nov-18-trading-nov-19",
+    "data": {
+      "addedAt": "2026-11-14",
+      "category": "Deals",
+      "date": "2026-11-14",
+      "day": "Sat",
+      "direction": "Bullish",
+      "event": "Anthropic's IPO remains on track to price Tue Nov 18 (EST) and begin trading on Nasdaq as 'ANT' Wed Nov 19, per the company's IPO site and CNBC reporting. The Nov 10 S-1/A set a $70-$78/share range (825M Class A shares; ~$1.25-1.4T reported valuation target); Bloomberg reported the book was multiple-times oversubscribed through Nov 13, with bankers said to be weighing pricing above range toward ~$1.5T. A trademark suit over the 'Mythos' name was filed against Anthropic Nov 13 in the Eastern District of Virginia; Anthropic says it disagrees and will defend itself.",
+      "impact": "Medium",
+      "numbers": "Filed range $70-$78/share; ~$1.25-1.4T filed valuation target vs. reported ~$1.5T talk; ~$131.8B cash & short-term investments as of Sep 30",
+      "order": 2,
+      "reaction": "A well-received pricing Tue would be a positive read-through for AI-infrastructure sentiment (CoreWeave, Nebius, Nvidia-linked suppliers) heading into Nvidia's Nov 17 earnings; the trademark suit is a minor, non-market-moving overhang.",
+      "region": "US",
+      "source": "https://fourweekmba.com/ai-anthropics-ipo-day-by-day-pricing-18-nov-trading-19-nov/",
+      "tickers": "ANT, CRWV, NBIS, NVDA, MSFT, GOOGL",
+      "time": "Weekend",
+      "vsExp": "Demand (multiple-times oversubscribed, possible pricing above range) running ahead of the initial $70-78 band"
+    }
+  },
+  {
+    "id": "2026-11-15-1-week-ahead-nvidia-earnings-ipo-apec-catalysts",
+    "data": {
+      "addedAt": "2026-11-15",
+      "category": "Macro",
+      "date": "2026-11-15",
+      "day": "Sun",
+      "direction": "Neutral",
+      "event": "Heading into the week of Nov 16, three catalysts converge within 48 hours: Nvidia reports fiscal Q3 results after the close Tue Nov 17 -- its first earnings since Jensen Huang's abrupt Nov 11 resignation as CEO (interim CEO Colette Kress) -- House committee chairs have asked Huang for a closed-door Capitol Hill briefing on Nov 18 over his admitted contact with a suspected Chinese intelligence asset (date/format still unconfirmed), and Anthropic's IPO is slated to price Tue Nov 18 and begin trading on Nasdaq as 'ANT' Wed Nov 19.",
+      "impact": "High",
+      "numbers": "n/a",
+      "order": 1,
+      "reaction": "Sets up the heaviest catalyst stretch of November for the AI trade; Nvidia guidance and any fresh Huang/Congress headlines are likely to be the swing factors for mega-cap tech into Thanksgiving week.",
+      "region": "US",
+      "source": "https://pro.thestreet.com/portfolio/anthropics-pending-ipo-will-be-a-must-watch-event-for-investors",
+      "tickers": "NVDA, ANT, AMD, AVGO, CRWV, NBIS, QQQ, SPY",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-15-2-apec-shenzhen-trump-xi-meeting-nov-18-19",
+    "data": {
+      "addedAt": "2026-11-15",
+      "category": "Geopolitics",
+      "date": "2026-11-15",
+      "day": "Sun",
+      "direction": "Neutral",
+      "event": "The APEC leaders' summit runs Nov 18-19 in Shenzhen, China, where President Trump and President Xi Jinping are set for their third meeting of 2026 (after the May Beijing state visit and September Washington state visit). The two sides extended their trade truce to Jan 10, 2027 at the September meeting; Trump has said he will see Xi again at the December G20 in Miami.",
+      "impact": "Medium",
+      "numbers": "n/a",
+      "order": 2,
+      "reaction": "Limited near-term tariff risk given the truce extension, but any new trade, tech-export, or Taiwan-related headlines out of the summit could move China-exposed and chip names early in the week.",
+      "region": "US / China",
+      "source": "https://www.roic.ai/news/trump-sets-november-apec-and-december-g20-meetings-with-xi-as-trade-truce-faces-january-deadline-09-25-2026",
+      "tickers": "FXI, SPY, DXY, CL=F",
+      "time": "Weekend",
+      "vsExp": "n/a"
+    }
   }
 ]
