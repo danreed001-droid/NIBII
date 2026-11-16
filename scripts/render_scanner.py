@@ -6328,7 +6328,8 @@ CLOCK_CSS = """.mclock { max-width: 620px; margin: 0 auto; }
 .mclock-key { font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
 .mclock-tbl { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 6px; }
 .mclock-tbl th { color: var(--muted); font-weight: 600; font-size: 0.72rem; text-align: left; padding: 3px 6px; border-bottom: 1px solid var(--hairline); }
-.mclock-tbl td { padding: 4px 6px; border-bottom: 1px solid var(--hairline); white-space: nowrap; text-align: left; }"""
+.mclock-tbl td { padding: 4px 6px; border-bottom: 1px solid var(--hairline); white-space: nowrap; text-align: left; }
+@media (max-width: 520px) { .mclock-tbl td, .mclock-tbl th { white-space: normal; padding: 4px 3px; } .mclock-tbl { font-size: 0.76rem; } }"""
 
 CLOCK_JS = r"""(function () {
   var el = document.getElementById('mclock-data'); if (!el) return;
@@ -6431,7 +6432,9 @@ def clock_html(scan):
             '<p class="mclock-key">The big hand is the market’s mood: up = good sentiment (stocks and oil rising while gold and bonds fall), down = fear '
             '(the reverse); right = improving, left = worsening. Each small dial is one market: short coloured hand = daily, long silver hand = weekly, '
             'thin red hand = monthly. Hands travel clockwise round the same cycle: turning up (green) → rallying (yellow) → rolling over (orange) → '
-            'falling (red). Cycle = the 14-day RSI’s level and its recent change on that time scale.</p></div>\n'
+            'falling (red). Cycle = the 14-day RSI’s level and its recent change on that time scale. Any session back to Aug 2000 can be picked '
+            '(gold futures stand in for the gold fund before Nov 2004, a long-term Treasury fund for the bond fund before Jul 2002; '
+            'gold’s and crude’s monthly hands start late 2001).</p></div>\n'
             f'  <script type="application/json" id="mclock-data">{js}</script>\n  <script>{CLOCK_JS}</script>\n')
 
 

@@ -19,6 +19,8 @@ def test_build_reads_each_scale_and_the_mood():
     up = {d: 100 * 1.002 ** i * (1 + 0.01 * sin(i / 3)) for i, d in enumerate(cal)}     # stocks and oil rising
     dn = {d: 100 * 0.999 ** i * (1 + 0.01 * sin(i / 4)) for i, d in enumerate(cal)}     # gold and bonds sliding
     out = MC.build({'SPY': up, 'OIL': up, 'GLD': dn, 'TLT': dn}, cal, days=60)
+    full = MC.build({'SPY': up, 'OIL': up, 'GLD': dn, 'TLT': dn}, cal)
+    assert full['dates'][0] == cal[0] and full['dates'][-60:] == out['dates']
     assert len(out['dates']) == 60 and out['dates'][-1] == cal[-1]
     spy = next(a for a in out['assets'] if a['key'] == 'SPY')
     assert all(v is not None for v in spy['d'] + spy['w'] + spy['m'])
@@ -30,3 +32,24 @@ def test_short_history_is_skipped():
     cal = _cal(100)
     out = MC.build({'SPY': {d: 1.0 + i for i, d in enumerate(cal)}}, cal)
     assert out['assets'] == [] and out['mood'][-1] is None
+
+
+def test_splice_joins_a_proxy_before_the_fund_starts():
+    fund = {'2020-01-03': 10.0, '2020-01-06': 11.0}
+    proxy = {'2020-01-01': 50.0, '2020-01-02': 45.0, '2020-01-03': 50.0, '2020-01-06': 60.0}
+    s = MC.splice(fund, proxy)
+    assert s['2020-01-01'] == 10.0 and s['2020-01-02'] == 9.0 and s['2020-01-06'] == 11.0     # rescaled at Jan 3; the fund wins after
+    assert MC.splice({}, proxy) == proxy and MC.splice(fund, {}) == fund
+
+
+def test_weekly_reading_matches_a_direct_recompute():
+    cal = _cal(500)
+    px = {d: 100 * (1 + 0.05 * sin(i / 9)) * 1.0005 ** i for i, d in enumerate(cal)}
+    c = [px[d] for d in cal]
+    k = 480
+    fast = MC._scale_angles(c, cal, [k], 'w', 3)[0]
+    keys = [MC._period_key(d, 'w') for d in cal]
+    ends = [i for i in range(len(cal)) if i + 1 == len(cal) or keys[i + 1] != keys[i]]
+    pts = [c[i] for i in ends if i < k and keys[i] != keys[k]] + [c[k]]
+    r = MC.rsi(pts)
+    assert abs(((fast - MC.angle(r[-1], r[-1] - r[-4]) + 180) % 360) - 180) <= 1
