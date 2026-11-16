@@ -412,62 +412,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for ES=F on 9 November"
+       "structure.weekly reads uptrend for ES=F on 9 November",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
+       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral",
+       null
       ],
       [
        "bear",
-       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a more hawkish path is a headwind for equity multiples"
+       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a more hawkish path is a headwind for equity multiples",
+       false
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated fund-flow or positioning figure is available for this window, so neutral"
+       "No dated fund-flow or positioning figure is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
+       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Macro calendar is a 1-day factor only; none applies, so neutral"
+       "Macro calendar is a 1-day factor only; none applies, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7540.0,
+     "ret": -0.005507,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -2495,62 +2510,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for ZN=F on 9 November"
+       "structure.weekly reads downtrend for ZN=F on 9 November",
+       true
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
+       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral",
+       null
       ],
       [
        "bear",
-       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a higher-for-longer policy path pressures Treasury prices"
+       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a higher-for-longer policy path pressures Treasury prices",
+       true
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated fund-flow or positioning figure is available for this window, so neutral"
+       "No dated fund-flow or positioning figure is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
+       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Macro calendar is a 1-day factor only; none applies, so neutral"
+       "Macro calendar is a 1-day factor only; none applies, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 105.265625,
+     "ret": -0.016209,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -5089,62 +5119,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for GC=F on 9 November"
+       "structure.weekly reads downtrend for GC=F on 9 November",
+       true
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
+       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral",
+       null
       ],
       [
        "bear",
-       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; higher real-rate expectations weigh on non-yielding gold"
+       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; higher real-rate expectations weigh on non-yielding gold",
+       true
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated fund-flow or positioning figure is available for this window, so neutral"
+       "No dated fund-flow or positioning figure is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
+       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Macro calendar is a 1-day factor only; none applies, so neutral"
+       "Macro calendar is a 1-day factor only; none applies, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 3838.199951171875,
+     "ret": -0.074106,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -7172,62 +7217,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for DX-Y.NYB on 9 November"
+       "structure.weekly reads choppy for DX-Y.NYB on 9 November",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
+       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral",
+       null
       ],
       [
        "bull",
-       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a hawkish path supports the dollar"
+       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a hawkish path supports the dollar",
+       true
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated fund-flow or positioning figure is available for this window, so neutral"
+       "No dated fund-flow or positioning figure is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
+       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Macro calendar is a 1-day factor only; none applies, so neutral"
+       "Macro calendar is a 1-day factor only; none applies, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 103.40499877929688,
+     "ret": 0.016975,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 10,
@@ -9367,62 +9427,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for RTY=F on 9 November"
+       "structure.weekly reads uptrend for RTY=F on 9 November",
+       false
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
+       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral",
+       null
       ],
       [
        "bear",
-       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; small caps are rate-sensitive"
+       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; small caps are rate-sensitive",
+       true
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated fund-flow or positioning figure is available for this window, so neutral"
+       "No dated fund-flow or positioning figure is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
+       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Macro calendar is a 1-day factor only; none applies, so neutral"
+       "Macro calendar is a 1-day factor only; none applies, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2782.699951171875,
+     "ret": -0.022379,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -11331,62 +11406,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for NQ=F on 9 November"
+       "structure.weekly reads choppy for NQ=F on 9 November",
+       null
       ],
       [
        "neu",
-       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral"
+       "Breadth is not obtainable for a single futures or currency contract; no dated advance-decline count exists, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "Volatility context for 9 November is in the sigma input (VIX 19.92), but no print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral"
+       "No dated credit-spread or credit-flow figure for 9 November is available in the news log, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral"
+       "Rates are a 1-day catalyst only; no horizon-wide dated rates fact beyond the Fed-path vote, so neutral",
+       null
       ],
       [
        "bear",
-       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; long-duration growth is rate-sensitive"
+       "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; long-duration growth is rate-sensitive",
+       false
       ],
       [
        "neu",
-       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral"
+       "No dated sentiment or contrarian-positioning reading naming an extreme is available for 9 November, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated fund-flow or positioning figure is available for this window, so neutral"
+       "No dated fund-flow or positioning figure is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral"
+       "Earnings catalysts are a 1-day factor only; none dated 9 November applies to this asset, so neutral",
+       null
       ],
       [
        "neu",
-       "Macro calendar is a 1-day factor only; none applies, so neutral"
+       "Macro calendar is a 1-day factor only; none applies, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated read, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 27698.0,
+     "ret": -0.013226,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 10,
