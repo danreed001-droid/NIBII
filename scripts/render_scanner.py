@@ -6448,13 +6448,20 @@ CLOCK_JS = r"""(function () {
     });
     if (!LN.length) sv += '<text x="' + ((L + W - R) / 2) + '" y="' + (top + h / 2) + '" text-anchor="middle" class="mt-v">no plan line for these dates</text>';
     // the sectors' RSI as heat ridges, highest RSI on top
+    var HV = {GLD: '--pc-gold', TLT: '--pc-bonds', DBMF: '--pc-futures'};   // the havens: their own group under the sectors
     var ts = Object.keys(RS).filter(function (t) { return t !== 'SPY' && RS[t][s0] != null && RS[t][e] != null; }), MV = {};
     ts.forEach(function (t) { MV[t] = (LEV[t][e] / LEV[t][s0] - 1) * 100; });
     ts.sort(TV !== 'rsi' ? function (a, b) { return MV[b] - MV[a]; } : function (a, b) { return RS[b][e] - RS[a][e]; });
     var both = TV === 'both', Xfull = X, half = (W - L - R - 16) / 2;
     var Xl = function (i) { return L + half * (i - s0) / Math.max(1, n - 1); }, Xr = function (i) { return L + half + 16 + half * (i - s0) / Math.max(1, n - 1); };
-    var t0 = top + h + 50, row = 25, amp = 34, H = t0 + row * ts.length + 22, defs = '';
-    var base = function (k) { return t0 + row * k + 8; }, Yv = function (k, v) { return base(k) - (Math.max(10, Math.min(92, v)) - 10) / 82 * amp; };
+    var sec = ts.filter(function (t) { return !HV[t]; }), hav = ts.filter(function (t) { return HV[t]; });
+    ts = sec.concat(hav);
+    var gap = hav.length && sec.length ? 0.9 : 0, rk = function (k) { return k + (k >= sec.length ? gap : 0); };
+    var t0 = top + h + 50, row = 25, amp = 34, H = t0 + row * (ts.length + gap) + 22, defs = '';
+    if (gap) sv += '<text x="' + (L - 6) + '" y="' + (t0 + row * (sec.length + gap) - 13).toFixed(1) + '" text-anchor="end" class="mt-v">Havens</text>' +
+      '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + (t0 + row * (sec.length + gap) - 17).toFixed(1) + '" y2="' + (t0 + row * (sec.length + gap) - 17).toFixed(1) + '" class="mt-g"/>';
+    var nm = function (t, x, y) { return '<text x="' + x + '" y="' + y + '" text-anchor="end" class="mt-l"' + (HV[t] ? ' style="fill:var(' + HV[t] + ')"' : '') + '>' + esc(TNAME[t] || t) + '</text>'; };
+    var base = function (k) { return t0 + row * rk(k) + 8; }, Yv = function (k, v) { return base(k) - (Math.max(10, Math.min(92, v)) - 10) / 82 * amp; };
     sv += '<text x="' + (L - 6) + '" y="' + (t0 - 12) + '" text-anchor="end" class="mt-v">' + (TV === 'px' ? 'Sector move' : TV === 'rsi' ? 'Sector RSI' : 'Sector') + '</text><text x="' + (W - R + 8) + '" y="' + (t0 - 12) + '" class="mt-v">' + (TV !== 'rsi' ? 'move · RSI' : 'RSI · move') + '</text>' +
       (both ? '<text x="' + Xl(s0) + '" y="' + (t0 - 12) + '" class="mt-v">RSI</text><text x="' + Xr(s0) + '" y="' + (t0 - 12) + '" class="mt-v">Price move, dashed = trend</text>' : '');
     if (TV !== 'rsi') {
@@ -6462,7 +6469,7 @@ CLOCK_JS = r"""(function () {
       ts.forEach(function (t, k) {
         var big = 3;
         for (var i = s0; i <= e; i++) big = Math.max(big, Math.abs((LEV[t][i] / LEV[t][s0] - 1) * 100));
-        var mid = t0 + row * k - 4, Yp = function (v) { return mid - v / big * 11.5; }, pl = '', ab = 'M' + X(s0).toFixed(1) + ',' + mid, be = ab, sx = 0, sy = 0, sxx = 0, sxy = 0, m = 0;
+        var mid = t0 + row * rk(k) - 4, Yp = function (v) { return mid - v / big * 11.5; }, pl = '', ab = 'M' + X(s0).toFixed(1) + ',' + mid, be = ab, sx = 0, sy = 0, sxx = 0, sxy = 0, m = 0;
         for (var i = s0; i <= e; i++) { var v = (LEV[t][i] / LEV[t][s0] - 1) * 100, yy = Yp(v), x = X(i).toFixed(1);
           pl += (i > s0 ? ' L' : 'M') + x + ',' + yy.toFixed(1); ab += ' L' + x + ',' + Math.min(yy, mid).toFixed(1); be += ' L' + x + ',' + Math.max(yy, mid).toFixed(1);
           sx += i; sy += v; sxx += i * i; sxy += i * v; m++; }
@@ -6472,7 +6479,7 @@ CLOCK_JS = r"""(function () {
           '<path d="' + ab + '" class="mt-pu"/><path d="' + be + '" class="mt-pd"/>' +
           '<line x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="' + Yp(a_ + b_ * s0).toFixed(1) + '" y2="' + Yp(a_ + b_ * e).toFixed(1) + '" class="mt-tr"/>' +
           '<path d="' + pl + '" class="mt-rl"/>' +
-          '<text x="' + (L - 6) + '" y="' + (mid + 4) + '" text-anchor="end" class="mt-l">' + esc(TNAME[t] || t) + '</text>' +
+          nm(t, L - 6, mid + 4) +
           '<text x="' + (W - R + 8) + '" y="' + (mid + 4) + '" class="mt-l"><tspan class="' + (mv >= 0 ? 'mt-up' : 'mt-dn') + '">' + pct(mv) + '</tspan> <tspan class="' + (r > 70 ? 'mt-hot' : r < 30 ? 'mt-cold' : 'mt-v') + '">RSI ' + r + '</tspan></text>';
       });
     }
@@ -6487,7 +6494,7 @@ CLOCK_JS = r"""(function () {
       sv += '<path d="' + p + ' L' + X(e).toFixed(1) + ',' + b + ' L' + X(s0).toFixed(1) + ',' + b + ' Z" fill="url(#mt-' + k + ')"/>' +
         '<line x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="' + Yv(k, 70).toFixed(1) + '" y2="' + Yv(k, 70).toFixed(1) + '" class="mt-70"/>' +
         '<path d="' + p + '" class="mt-rl"/><line x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="' + b + '" y2="' + b + '" class="mt-b"/>' +
-        (both ? '' : '<text x="' + (L - 6) + '" y="' + (b - 4) + '" text-anchor="end" class="mt-l">' + esc(TNAME[t] || t) + '</text>' +
+        (both ? '' : nm(t, L - 6, b - 4) +
         '<text x="' + (W - R + 8) + '" y="' + (b - 4) + '" class="mt-l"><tspan class="' + (r > 70 ? 'mt-hot' : r < 30 ? 'mt-cold' : 'mt-n') + '">' + r + '</tspan> <tspan class="' + (mv >= 0 ? 'mt-up' : 'mt-dn') + '">' + pct(mv) + '</tspan></text>');
     }); }
     X = Xfull;
@@ -6651,7 +6658,8 @@ def clock_html(scan):
             'from the market events list. The tile beside the clock: the plan and the S&amp;P 500 over the chosen window ending on the clock’s '
             'date (dashed = straight-line trend), shaded by what the plan held (the strip under them; “holding now” = after the latest close), then each sector’s RSI as heat ridges (green under 30, slate in the middle, amber rising, '
             'red over 70), highest on top, with its price move over the window; Price switches the sectors to their price moves from the '
-            'window’s start (green above it, red below, each row on its own scale, dashed = straight-line trend), biggest gain on top; Both shows the two side by side.</p></div>\n'
+            'window’s start (green above it, red below, each row on its own scale, dashed = straight-line trend), biggest gain on top; Both shows the two side by side. Under the sectors, the havens: gold (gold futures before the fund), '
+            'long bonds (a long-term Treasury fund before TLT) and managed futures (DBMF, from May 2019).</p></div>\n'
             f'  <script type="application/json" id="mclock-data">{js}</script>\n  <script>{CLOCK_JS}</script>\n')
 
 

@@ -1744,12 +1744,14 @@ def main():
     try:   # the market chronograph above the market events (mtl/marketclock.py; information only): its own long history from
         # 1999 (gold futures before GLD, the Vanguard long-term Treasury fund before TLT), so the page's date picker reaches back to 2000
         ck_ = {t_: {b[0]: b[4] for b in bs if b[4] and b[0] <= as_of} for t_, bs in
-               fetch(['SPY', 'GLD', 'GC=F', 'TLT', 'VUSTX', 'CL=F'] + [k for k, _ in marketclock.TREND], start='1999-01-01',
+               fetch(['SPY', 'GLD', 'GC=F', 'TLT', 'VUSTX', 'CL=F', 'DBMF'] + [k for k, _ in marketclock.TREND], start='1999-01-01',
                      adjusted=True).items() if bs}
         ck_cal = sorted(ck_.get('SPY') or {})
         payload['marketClock'] = marketclock.build({'SPY': ck_.get('SPY') or {}, 'GLD': marketclock.splice(ck_.get('GLD'), ck_.get('GC=F')),
                                                     'TLT': marketclock.splice(ck_.get('TLT'), ck_.get('VUSTX')), 'OIL': ck_.get('CL=F') or {}}, ck_cal)
-        payload['marketClock']['trend'] = marketclock.trend_lines(ck_, payload['marketClock']['dates'])   # the tile beside it
+        payload['marketClock']['trend'] = marketclock.trend_lines(   # the tile beside it (gold and bonds spliced as on the clock)
+            dict(ck_, GLD=marketclock.splice(ck_.get('GLD'), ck_.get('GC=F')), TLT=marketclock.splice(ck_.get('TLT'), ck_.get('VUSTX'))),
+            payload['marketClock']['dates'])
     except Exception as e:
         print(f"  market clock failed: {e}", file=sys.stderr)
     try:   # heavy-volume break warning on the holding cards (information only, mtl/volbreak.py)

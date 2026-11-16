@@ -49,6 +49,9 @@ TREND = (('XLK', 'Tech'), ('XLC', 'Comm services'), ('XLY', 'Discretionary'), ('
          ('XLRE', 'Real estate'), ('XLU', 'Utilities'))
 
 
+HAVENS = (('GLD', 'Gold'), ('TLT', 'Long bonds'), ('DBMF', 'Futures'))   # under the sectors in the tile (DBMF: managed futures)
+
+
 def bps(px, dates):
     """Each date's move in basis points (int) from the date before, on `dates` (prices carried over gaps): None before the
     first price, 0 on it. The page chains them back into a line for any window (compact: about 4 bytes a day)."""
@@ -61,8 +64,8 @@ def bps(px, dates):
 
 
 def trend_lines(closes, dates):
-    """dict(names=[[key, name]], r={key: bps(...)}) for the sector funds and 'SPY' in closes."""
-    keys = [(k, n) for k, n in TREND + (('SPY', 'S&P 500'),) if closes.get(k)]
+    """dict(names=[[key, name]], r={key: bps(...)}) for the sector funds, the havens and 'SPY' in closes."""
+    keys = [(k, n) for k, n in TREND + HAVENS + (('SPY', 'S&P 500'),) if closes.get(k)]
     return dict(names=[list(x) for x in keys], r={k: bps(closes[k], dates) for k, _ in keys})
 
 

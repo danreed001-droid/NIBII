@@ -68,8 +68,10 @@ def test_news_keeps_support_and_shock_events_only():
 
 def test_trend_lines_chain_back_to_the_closes():
     dates = ['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-06']
-    out = MC.trend_lines({'XLK': {'2020-01-02': 100.0, '2020-01-03': 101.5, '2020-01-06': 99.0}, 'SPY': {}}, dates)
-    assert out['names'] == [['XLK', 'Tech']] and out['r']['XLK'] == [None, 0, 150, -246]
+    out = MC.trend_lines({'XLK': {'2020-01-02': 100.0, '2020-01-03': 101.5, '2020-01-06': 99.0}, 'SPY': {},
+                          'GLD': {'2020-01-03': 50.0, '2020-01-06': 51.0}}, dates)
+    assert out['names'] == [['XLK', 'Tech'], ['GLD', 'Gold']] and out['r']['XLK'] == [None, 0, 150, -246]
+    assert out['r']['GLD'] == [None, None, 0, 200]
     v = 1.0
     for r in out['r']['XLK'][2:]:
         v *= 1 + r / 1e4
