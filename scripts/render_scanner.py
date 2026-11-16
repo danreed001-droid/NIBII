@@ -5884,12 +5884,16 @@ SRSI_JS = r"""(function () {
   var D = JSON.parse(document.getElementById('srsi-data').textContent), H = D.hist, dates = H.dates;
   var root = document.getElementById('srsi'), inp = document.getElementById('srsi-date'), frm = document.getElementById('srsi-from');
   var NS = 'http://www.w3.org/2000/svg';
+  var ORIG = {sectors: H.sectors, r6s: H.r6s, names: D.names, short: D.short, colors: D.colors};
+  var TPAL = ['#5b8fd1', '#c9725f', '#d4a24c', '#8fa86b', '#b57fb3', '#6aa6a0', '#d08aa0', '#7d8aa8', '#c4a77c', '#a0785a', '#7fb07a', '#e0b54a'];
   function esc(x) { return String(x).replace(/[&<>"]/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); }
   function fd(d) { var p = d.split('-'); return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1] - 1] + ' ' + (+p[2]); }
   inp.min = frm.min = dates[0]; inp.max = frm.max = dates[dates.length - 1]; inp.value = inp.max; frm.value = dates[Math.max(0, dates.length - 30)];
   function endIdx() { var v = inp.value, k = dates.length - 1; while (k > 0 && dates[k] > v) k--; return k; }
   function startIdx(e) { var v = frm.value, k = 0; while (k < e && dates[k] < v) k++; return Math.min(k, Math.max(0, e - 4)); }
-  var SM = {}; Object.keys(H.sectors).forEach(function (t) { var v = H.sectors[t]; SM[t] = v.map(function (x, i) { var a = v.slice(Math.max(0, i - 4), i + 1).filter(function (y) { return y != null; }); return x == null || a.length < 5 ? null : a.reduce(function (p, q) { return p + q; }, 0) / a.length; }); });
+  var SM = {};
+  function prepSM() { SM = {}; Object.keys(H.sectors).forEach(function (t) { var v = H.sectors[t]; SM[t] = v.map(function (x, i) { var a = v.slice(Math.max(0, i - 4), i + 1).filter(function (y) { return y != null; }); return x == null || a.length < 5 ? null : a.reduce(function (p, q) { return p + q; }, 0) / a.length; }); }); }
+  prepSM();
   var focus = null;
   function flow(e, n) {   // the 5-day average, at most ~30 points (every 2nd or 3rd session over longer periods)
     var st = Math.max(1, Math.ceil(n / 30)), idx = [];
@@ -5901,7 +5905,7 @@ SRSI_JS = r"""(function () {
   function flow0(e, n) {
     var ts = Object.keys(H.sectors).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (H.sectors[t][i] == null) return false; return true; });
     if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
-    var W = 1000, L = 150, R = 205, top = 66, row = 34, Hh = top + row * ts.length + 26, s0 = e - n + 1;
+    var W = 1000, L = Math.max(150, 12 + 7.4 * Math.max.apply(null, ts.map(function (t) { return D.short[t].length + 4; }))), R = Math.max(205, 40 + 7.2 * Math.max.apply(null, ts.map(function (t) { return (t.length <= 4 ? D.names[t] : D.short[t]).length + 4; }))), top = 66, row = 34, Hh = top + row * ts.length + 26, s0 = e - n + 1;
     var X = function (i) { return L + (W - L - R) * i / (n - 1); }, rank = [];
     for (var i = 0; i < n; i++) { var o = ts.slice().sort(function (a, b) { return H.sectors[b][s0 + i] - H.sectors[a][s0 + i]; }); var r = {}; o.forEach(function (t, k) { r[t] = k; }); rank.push(r); }
     var Y = function (i, t) { return top + row * rank[i][t] + row / 2; }, th = function (v) { return 6 + 22 * Math.max(0, Math.min(100, v)) / 100; };
@@ -5922,7 +5926,7 @@ SRSI_JS = r"""(function () {
       out.push('<path d="' + d + ' Z" fill="' + D.colors[t] + '" class="fl-r" data-t="' + t + '"><title>' + esc(tip) + '</title></path>');
       var b = v[n - 1], cls = b > 70 ? ' fl-ob' : b < 30 ? ' fl-os' : '';
       out.push('<text x="' + (L - 10) + '" y="' + (Y(0, t) + 4).toFixed(1) + '" text-anchor="end" class="fl-l" data-t="' + t + '">' + esc(D.short[t]) + ' <tspan class="fl-v">' + Math.round(v[0]) + '</tspan></text>' +
-               '<text x="' + (W - R + 10) + '" y="' + (Y(n - 1, t) + 4).toFixed(1) + '" class="fl-l" data-t="' + t + '"><tspan class="fl-n' + cls + '">' + Math.round(b) + '</tspan> ' + esc(D.names[t]) + ' <tspan class="fl-v">' + t + '</tspan></text>');
+               '<text x="' + (W - R + 10) + '" y="' + (Y(n - 1, t) + 4).toFixed(1) + '" class="fl-l" data-t="' + t + '"><tspan class="fl-n' + cls + '">' + Math.round(b) + '</tspan> ' + esc(t.length <= 4 ? D.names[t] : D.short[t]) + (t.length <= 4 ? ' <tspan class="fl-v">' + t + '</tspan>' : '') + '</text>');
     });
     out.push('<text x="' + (L - 10) + '" y="14" text-anchor="end" class="fl-v">RSI ' + fd(dates[s0]) + '</text><text x="' + (W - R + 10) + '" y="14" class="fl-v">RSI ' + fd(dates[e]) + '</text></svg>');
     return out.join('');
@@ -5938,17 +5942,17 @@ SRSI_JS = r"""(function () {
     var ts = Object.keys(H.sectors).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (H.sectors[t][i] == null) return false; return true; });
     if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
     ts.sort(function (a, b) { return H.sectors[b][e] - H.sectors[a][e]; });
-    var heat = view.value === 'heat', W = 1000, L = 120, R = 150, top = heat ? 70 : 64, row = heat ? 40 : 46, amp = heat ? 74 : 62, s0 = e - n + 1, Hh = top + row * ts.length + 30;
+    var heat = view.value === 'heat', W = 1000, L = Math.max(120, 12 + 7.4 * Math.max.apply(null, ts.map(function (t) { return D.short[t].length; }))), R = 150, top = heat ? 70 : 64, row = heat ? 40 : 46, amp = heat ? 74 : 62, s0 = e - n + 1, Hh = top + row * ts.length + 30;
     var X = function (i) { return L + (W - L - R) * i / (n - 1); }, base = function (k) { return top + row * k + 8; };
     var Yv = function (k, v) { return base(k) - (Math.max(20, Math.min(92, v)) - 20) / 72 * amp; };
     var out = ['<svg class="ridges" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Sector RSI ridgelines"><defs><filter id="rg-glow" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'];
     ts.forEach(function (t, k) {
       if (heat) {
-        out.push('<linearGradient id="rg-' + t + '" x1="' + X(0) + '" x2="' + X(n - 1) + '" y1="0" y2="0" gradientUnits="userSpaceOnUse">');
+        out.push('<linearGradient id="rg-' + k + '" x1="' + X(0) + '" x2="' + X(n - 1) + '" y1="0" y2="0" gradientUnits="userSpaceOnUse">');
         var stp = Math.max(1, Math.floor(n / 160));
         for (var i = 0; i < n; i += stp) out.push('<stop offset="' + (i / (n - 1)).toFixed(4) + '" stop-color="' + rcol(H.sectors[t][s0 + i]) + '"/>');
         out.push('<stop offset="1" stop-color="' + rcol(H.sectors[t][e]) + '"/></linearGradient>');
-      } else out.push('<linearGradient id="rg-' + t + '" x1="0" x2="0" y1="' + Yv(k, 92).toFixed(1) + '" y2="' + base(k) + '" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + D.colors[t] + '" stop-opacity=".95"/><stop offset="1" stop-color="' + D.colors[t] + '" stop-opacity=".08"/></linearGradient>');
+      } else out.push('<linearGradient id="rg-' + k + '" x1="0" x2="0" y1="' + Yv(k, 92).toFixed(1) + '" y2="' + base(k) + '" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + D.colors[t] + '" stop-opacity=".95"/><stop offset="1" stop-color="' + D.colors[t] + '" stop-opacity=".08"/></linearGradient>');
     });
     out.push('</defs>');
     var step = Math.max(1, Math.ceil(n / 8));
@@ -5961,7 +5965,7 @@ SRSI_JS = r"""(function () {
       var hot = 'M' + X(0).toFixed(1) + ',' + y70.toFixed(1), cold = 'M' + X(0).toFixed(1) + ',' + Yv(k, 30).toFixed(1), y30 = Yv(k, 30);
       for (var i = 0; i < n; i++) { var yy = Yv(k, v[i]); hot += ' L' + X(i).toFixed(1) + ',' + Math.min(yy, y70).toFixed(1); cold += ' L' + X(i).toFixed(1) + ',' + Math.max(yy, y30).toFixed(1); }
       hot += ' L' + X(n - 1).toFixed(1) + ',' + y70.toFixed(1) + ' Z'; cold += ' L' + X(n - 1).toFixed(1) + ',' + y30.toFixed(1) + ' Z';
-      out.push('<path d="' + p + ' L' + X(n - 1).toFixed(1) + ',' + b + ' L' + X(0).toFixed(1) + ',' + b + ' Z" fill="url(#rg-' + t + ')" class="rg-f"/>' +
+      out.push('<path d="' + p + ' L' + X(n - 1).toFixed(1) + ',' + b + ' L' + X(0).toFixed(1) + ',' + b + ' Z" fill="url(#rg-' + k + ')" class="rg-f"/>' +
                (heat ? '' : '<path d="' + hot + '" class="rg-hot" filter="url(#rg-glow)"/><path d="' + cold + '" class="rg-cold" filter="url(#rg-glow)"/>') +
                '<line x1="' + X(0).toFixed(1) + '" x2="' + X(n - 1).toFixed(1) + '" y1="' + y70.toFixed(1) + '" y2="' + y70.toFixed(1) + '" class="rg-70"/>' +
                '<path d="' + p + '" class="rg-l" filter="url(#rg-glow)"/><line x1="' + X(0).toFixed(1) + '" x2="' + X(n - 1).toFixed(1) + '" y1="' + b + '" y2="' + b + '" class="rg-b"/>');
@@ -5990,7 +5994,7 @@ SRSI_JS = r"""(function () {
     var G = gaps(), ts = Object.keys(G).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (G[t][i] == null) return false; return true; });
     if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
     ts.sort(function (a, b) { return G[b][e] - G[a][e]; });
-    var W = 1000, L = 120, R = 150, top = 30, row = 52, amp = 22, cap = 26, s0 = e - n + 1, Hh = top + row * ts.length + 30;
+    var W = 1000, L = Math.max(120, 12 + 7.4 * Math.max.apply(null, ts.map(function (t) { return D.short[t].length; }))), R = 150, top = 30, row = 52, amp = 22, cap = 26, s0 = e - n + 1, Hh = top + row * ts.length + 30;
     var X = function (i) { return L + (W - L - R) * i / (n - 1); }, mid = function (k) { return top + row * k + row / 2; };
     var Yg = function (k, g) { return mid(k) - Math.max(-cap, Math.min(cap, g)) / cap * amp; };
     var out = ['<svg class="ridges vso" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Sector RSI against the other sectors"><defs><filter id="vs-glow" x="-5%" y="-40%" width="110%" height="180%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
@@ -6030,7 +6034,9 @@ SRSI_JS = r"""(function () {
     svg.addEventListener('mousemove', at); svg.addEventListener('touchstart', function (ev) { at(ev.touches[0]); }, {passive: true});
     svg.addEventListener('mouseleave', function () { tip.hidden = true; xl.setAttribute('x1', -9); xl.setAttribute('x2', -9); });
   }
-  var R3 = {}; Object.keys(H.sectors).forEach(function (t) { var v = H.sectors[t]; R3[t] = v.map(function (x, i) { if (x == null || i < 2 || v[i - 1] == null || v[i - 2] == null) return null; return (x + v[i - 1] + v[i - 2]) / 3; }); });
+  var R3 = {};
+  function prepR3() { R3 = {}; Object.keys(H.sectors).forEach(function (t) { var v = H.sectors[t]; R3[t] = v.map(function (x, i) { if (x == null || i < 2 || v[i - 1] == null || v[i - 2] == null) return null; return (x + v[i - 1] + v[i - 2]) / 3; }); }); }
+  prepR3();
   function rotation(e) {   // x: RSI (3-day average), y: its change over 5 sessions; a 10-session tail ending at e
     var T = 10, ts = Object.keys(R3).filter(function (t) { for (var i = e - T - 4; i <= e; i++) if (i < 0 || R3[t][i] == null) return false; return true; });
     if (!ts.length) return '<p class="muted">Not enough history before that date.</p>';
@@ -6091,13 +6097,24 @@ SRSI_JS = r"""(function () {
   function at(series, e, r6) { var a = series[e], b = series[e - D.back]; return a == null || b == null ? null : {now: a, was: b, r6: r6 ? r6[e] : null}; }
   function draw() {
     var e = endIdx(), a = startIdx(e), n = e - a + 1, s = [], th = [];
-    Object.keys(H.sectors).forEach(function (t) { var x = at(H.sectors[t], e, (H.r6s || {})[t]); if (x) { x.label = D.names[t] + ' (' + t + ')'; s.push(x); } });
+    H = Object.assign({}, H, {sectors: ORIG.sectors, r6s: ORIG.r6s}); D.names = ORIG.names; D.short = ORIG.short; D.colors = ORIG.colors;
+    Object.keys(ORIG.sectors).forEach(function (t) { var x = at(H.sectors[t], e, (H.r6s || {})[t]); if (x) { x.label = D.names[t] + ' (' + t + ')'; s.push(x); } });
     Object.keys(H.themes).forEach(function (g) { var x = at(H.themes[g], e, (H.r6t || {})[g]); if (x) { x.label = g + ' (' + H.n[g] + ')'; th.push(x); } });
     s.sort(function (a, b) { return b.now - a.now; }); th.sort(function (a, b) { return a.now - b.now; });
     var os = th.filter(function (r) { return r.now < 30; }).length, ob = th.filter(function (r) { return r.now > 70; }).length;
-    var vw = view.value, chart = vw === 'vs' ? '<h4>S&amp;P 500 sectors against each other: RSI vs the median sector, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap rgwrap">' + vsOthers(e, Math.min(n, e + 1)) + '</div>' : vw === 'ranks' ? '<h4>S&amp;P 500 sectors: RSI rank, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap">' + flow(e, Math.min(n, e + 1)) + '</div>'
-      : '<h4>S&amp;P 500 sectors: RSI, ' + fd(dates[a]) + ' to ' + fd(dates[e]) + ' (' + n + ' sessions)</h4><div class="flowwrap rgwrap">' + ridges(e, Math.min(n, e + 1)) + '</div>';
-    chart += '<h4 style="margin-top:14px">Rotation map: the last 10 sessions to ' + fd(dates[e]) + '</h4><p class="muted" style="font-size:.78rem;margin:0 0 4px">Each dot is a sector tonight (or on the "to" date): across, its RSI; up, how fast it rose over 5 sessions. Next to each name: its RSI, then its 6-month return. The tail is its path over the last 10 sessions, fading into the past: a sector sliding down and left is failing against the others.</p><div class="flowwrap">' + rotation(e) + '</div>';
+    var GL = 'S&amp;P 500 sectors', ONE = 'sector';
+    if (grp.value === 'themes') {
+      var r6 = H.r6t || {}, ok = Object.keys(H.themes).filter(function (g) { return r6[g] && r6[g][e] != null && H.themes[g][Math.max(0, a - 25)] != null; });
+      ok.sort(function (x, y) { return r6[y][e] - r6[x][e]; });
+      var pick = ok.slice(0, 6).concat(ok.slice(-6)), sub = {}, sr6 = {}, nm = {}, sh = {}, co = {};
+      pick.forEach(function (g, k) { sub[g] = H.themes[g]; sr6[g] = r6[g]; nm[g] = g + ' (' + H.n[g] + ' stocks)'; sh[g] = g.length > 24 ? g.slice(0, 23) + '…' : g; co[g] = TPAL[k % TPAL.length]; });
+      H = Object.assign({}, H, {sectors: sub, r6s: sr6}); D.names = nm; D.short = sh; D.colors = co;
+      GL = 'Themes (the 6 best and 6 worst 6-month returns on ' + fd(dates[e]) + ')'; ONE = 'theme';
+    }
+    prepSM(); prepR3(); gaps.v = null; focus = null;
+    var vw = view.value, chart = vw === 'vs' ? '<h4>' + GL + ' against each other: RSI vs the median ' + ONE + ', ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap rgwrap">' + vsOthers(e, Math.min(n, e + 1)) + '</div>' : vw === 'ranks' ? '<h4>' + GL + ': RSI rank, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap">' + flow(e, Math.min(n, e + 1)) + '</div>'
+      : '<h4>' + GL + ': RSI, ' + fd(dates[a]) + ' to ' + fd(dates[e]) + ' (' + n + ' sessions)</h4><div class="flowwrap rgwrap">' + ridges(e, Math.min(n, e + 1)) + '</div>';
+    chart += '<h4 style="margin-top:14px">Rotation map: the last 10 sessions to ' + fd(dates[e]) + '</h4><p class="muted" style="font-size:.78rem;margin:0 0 4px">Each dot is a ' + ONE + ' tonight (or on the "to" date): across, its RSI; up, how fast it rose over 5 sessions. Next to each name: its RSI, then its 6-month return. The tail is its path over the last 10 sessions, fading into the past: a ' + ONE + ' sliding down and left is failing against the others.</p><div class="flowwrap">' + rotation(e) + '</div>';
     root.innerHTML = chart +
       '<h4 style="margin-top:12px">Sectors on ' + fd(dates[e]) + '</h4>' + AX + '<div class="grid">' + rows(s) + '</div>' +
       '<div class="cols"><div><h4>Lowest RSI themes</h4><div class="grid">' + rows(th.slice(0, 8)) + '</div></div><div><h4>Highest RSI themes</h4><div class="grid">' + rows(th.slice(-8).reverse()) + '</div></div></div>' +
@@ -6118,7 +6135,8 @@ SRSI_JS = r"""(function () {
       el.addEventListener('click', function () { var k = focus.indexOf(t); if (k >= 0) focus.splice(k, 1); else focus.push(t); paint(); });
     });
   }
-  var view = document.getElementById('srsi-view');
+  var view = document.getElementById('srsi-view'), grp = document.getElementById('srsi-grp');
+  grp.addEventListener('change', draw);
   inp.addEventListener('change', draw); frm.addEventListener('change', draw); view.addEventListener('change', draw);
   document.querySelectorAll('.srsi-q [data-n]').forEach(function (b) { b.addEventListener('click', function () { var e = endIdx(); frm.value = dates[Math.max(0, e - +b.getAttribute('data-n') + 1)]; draw(); }); });
   document.getElementById('srsi-today').addEventListener('click', function () { inp.value = inp.max; frm.value = dates[Math.max(0, dates.length - 30)]; draw(); });
@@ -6149,6 +6167,7 @@ def sector_rsi_html(scan):
             f'  <div class="card srsi"><div class="srsi-ctl"><label>From <input type="date" id="srsi-from"></label> <label>to <input type="date" id="srsi-date"></label> '
             f'<span class="srsi-q"><button type="button" class="bt" data-n="30">30 days</button><button type="button" class="bt" data-n="60">60</button><button type="button" class="bt" data-n="90">90</button>'
             f'<button type="button" class="bt" data-n="250">1 year</button></span> '
+            f'<label>show <select id="srsi-grp"><option value="sectors" selected>Sectors</option><option value="themes">Themes</option></select></label> '
             f'<label>view <select id="srsi-view"><option value="heat" selected>Heat ridges</option><option value="vs">Vs other sectors</option><option value="ranks">Ranks</option></select></label> '
             f'<button type="button" class="bt" id="srsi-today">Latest</button></div>'
             f'<div id="srsi"></div></div>\n'
