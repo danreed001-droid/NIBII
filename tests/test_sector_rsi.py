@@ -43,3 +43,12 @@ def test_index_ignores_huge_moves():
     ix = SR.industry_index(px, ['A', 'B', 'C', 'D'], cal)
     assert abs(ix[1] - 1.075) < 1e-9    # day 1: A flat, B/C/D +10%: average of 4
     assert abs(ix[2] / ix[1] - 1) < 1e-9   # day 2: A +200% left out, the rest flat
+
+
+def test_weekly_history_for_the_flow_chart():
+    cal = _cal(120)
+    up = {d: 100 * 1.01 ** i for i, d in enumerate(cal)}
+    dn = {d: 100 * 0.99 ** i for i, d in enumerate(cal)}
+    h = SR.build({'XLK': up, 'XLE': dn}, {}, {}, cal)['hist']
+    assert len(h['dates']) == SR.WEEKS and h['dates'][-1] == cal[-1] and h['dates'][-2] == cal[-6]
+    assert len(h['series']['XLK']) == SR.WEEKS and h['series']['XLK'][-1] > h['series']['XLE'][-1]

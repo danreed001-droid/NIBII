@@ -5845,7 +5845,70 @@ SRSI_CSS = """.srsi .grid { display: grid; grid-template-columns: minmax(130px, 
 .srsi .ax span { position: relative; height: 1.1em; } .srsi .ax i { position: absolute; transform: translateX(-50%); font-style: normal; white-space: nowrap; }
 .srsi .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 26px; margin-top: 14px; }
 .srsi h4 { font-size: 0.82rem; margin: 0 0 6px; font-weight: 600; }
+.srsi .flow { width: 100%; height: auto; display: block; margin: 2px 0 6px; }
+.srsi .flowwrap { overflow-x: auto; } .srsi .flowwrap .flow { min-width: 640px; }
+.srsi .fl-r { opacity: .82; stroke: var(--surface); stroke-width: 1.2; } .srsi .fl-r:hover { opacity: 1; }
+.srsi .fl-g { stroke: var(--hairline); stroke-width: 1; stroke-dasharray: 2 4; }
+.srsi .fl-pill { fill: var(--ink); } .srsi .fl-d { fill: var(--surface); font-size: 10.5px; font-weight: 600; }
+.srsi .fl-l { fill: var(--ink-2); font-size: 12.5px; } .srsi .fl-v { fill: var(--muted); font-size: 11px; }
+.srsi .fl-n { fill: var(--ink); font-weight: 600; } .srsi .fl-n.fl-ob { fill: var(--neg); } .srsi .fl-n.fl-os { fill: var(--pos); }
 @media (max-width: 760px) { .srsi .cols { grid-template-columns: 1fr; } .srsi .grid, .srsi .ax { grid-template-columns: minmax(104px, 140px) 1fr 62px; } .srsi .ax .w { display: none; } }"""
+
+
+SRSI_SHORT = {'XLK': 'Tech', 'XLC': 'Comm services', 'XLY': 'Discretionary', 'XLP': 'Staples', 'XLE': 'Energy', 'XLF': 'Financials',
+              'XLV': 'Health care', 'XLI': 'Industrials', 'XLB': 'Materials', 'XLRE': 'Real estate', 'XLU': 'Utilities'}
+SRSI_COLORS = {'XLK': '#5b8fd1', 'XLC': '#c9725f', 'XLY': '#d4a24c', 'XLP': '#8fa86b', 'XLE': '#a0785a', 'XLF': '#6aa6a0',
+               'XLV': '#b57fb3', 'XLI': '#7d8aa8', 'XLB': '#c4a77c', 'XLRE': '#d08aa0', 'XLU': '#7fb07a'}
+
+
+def _srsi_flow(D):
+    """The sectors' RSI over the last weeks as ribbons: each week the sectors are stacked by RSI (highest on top), so a
+    ribbon climbs or sinks as its RSI rank changes; its thickness is its RSI. '' without the history."""
+    H = D.get('hist') or {}
+    dates, ser = H.get('dates') or [], H.get('series') or {}
+    if len(dates) < 2 or not ser:
+        return ''
+    names = {r['t']: r['name'] for r in D.get('sectors') or []}
+    ts = list(ser)
+    n, W = len(dates), 1000
+    L, R, top, row = 150, 205, 66, 34
+    Hh = top + row * len(ts) + 26
+    X = [L + (W - L - R) * i / (n - 1) for i in range(n)]
+    rank = []
+    for i in range(n):
+        order = sorted(ts, key=lambda t: -ser[t][i])
+        rank.append({t: k for k, t in enumerate(order)})
+    Y = lambda i, t: top + row * rank[i][t] + row / 2
+    th = lambda v: 6 + 22 * max(0.0, min(100.0, v)) / 100
+    out = [f'<svg class="flow" viewBox="0 0 {W} {Hh}" role="img" aria-label="Sector RSI ranks over the last {n} weeks">']
+    for i, d in enumerate(dates):
+        lbl = date.fromisoformat(d).strftime('%b %-d')
+        out.append(f'<line x1="{X[i]:.1f}" x2="{X[i]:.1f}" y1="{top - 8}" y2="{Hh - 22}" class="fl-g"/>'
+                   f'<rect x="{X[i] - 25:.1f}" y="{top - 34}" width="50" height="18" rx="9" class="fl-pill"/>'
+                   f'<text x="{X[i]:.1f}" y="{top - 21}" text-anchor="middle" class="fl-d">{lbl}</text>')
+    for t in sorted(ts, key=lambda t: rank[-1][t], reverse=True):
+        v = ser[t]
+        up = [(X[i], Y(i, t) - th(v[i]) / 2) for i in range(n)]
+        dn = [(X[i], Y(i, t) + th(v[i]) / 2) for i in range(n)]
+        dpath = f'M{up[0][0]:.1f},{up[0][1]:.1f}'
+        for i in range(1, n):
+            mx = (up[i - 1][0] + up[i][0]) / 2
+            dpath += f' C{mx:.1f},{up[i - 1][1]:.1f} {mx:.1f},{up[i][1]:.1f} {up[i][0]:.1f},{up[i][1]:.1f}'
+        dpath += f' L{dn[-1][0]:.1f},{dn[-1][1]:.1f}'
+        for i in range(n - 1, 0, -1):
+            mx = (dn[i - 1][0] + dn[i][0]) / 2
+            dpath += f' C{mx:.1f},{dn[i][1]:.1f} {mx:.1f},{dn[i - 1][1]:.1f} {dn[i - 1][0]:.1f},{dn[i - 1][1]:.1f}'
+        dpath += ' Z'
+        col = SRSI_COLORS.get(t, '#888')
+        tip = f"{names.get(t, t)} ({t}): RSI " + ', '.join(f"{date.fromisoformat(d).strftime('%b %-d')} {x:.0f}" for d, x in zip(dates, v))
+        out.append(f'<path d="{dpath}" fill="{col}" class="fl-r"><title>{html.escape(tip)}</title></path>')
+        a, b = v[0], v[-1]
+        cls = 'fl-ob' if b > 70 else 'fl-os' if b < 30 else ''
+        out.append(f'<text x="{L - 10}" y="{Y(0, t) + 4:.1f}" text-anchor="end" class="fl-l">{html.escape(SRSI_SHORT.get(t, t))} <tspan class="fl-v">{a:.0f}</tspan></text>'
+                   f'<text x="{W - R + 10}" y="{Y(n - 1, t) + 4:.1f}" class="fl-l"><tspan class="fl-n {cls}">{b:.0f}</tspan> {html.escape(names.get(t, t))} <tspan class="fl-v">{t}</tspan></text>')
+    out.append(f'<text x="{L - 10}" y="14" text-anchor="end" class="fl-v">RSI then</text>'
+               f'<text x="{W - R + 10}" y="14" class="fl-v">RSI tonight</text></svg>')
+    return ''.join(out)
 
 
 def _srsi_rows(rows, back, label):
@@ -5875,7 +5938,14 @@ def sector_rsi_html(scan, show=8):
     ax = '<div class="ax"><span></span><span><i class="w" style="left:0;transform:none">0</i><i style="left:30%">30</i><i class="w" style="left:15%">oversold</i><i style="left:50%">50</i><i style="left:70%">70</i><i class="w" style="left:85%">overbought</i><i class="w" style="left:100%;transform:translateX(-100%)">100</i></span><span></span></div>'
     body = ''
     if secs:
-        body += ('<h4>S&amp;P 500 sectors</h4>' + ax + '<div class="grid">'
+        fl = _srsi_flow(D)
+        if fl:
+            nw = len((D.get('hist') or {}).get('dates') or [])
+            body += (f'<h4>S&amp;P 500 sectors: RSI rank, last {nw} weeks</h4><p class="muted" style="font-size:.78rem;margin:0 0 4px">Each week the '
+                     f'sectors are stacked by 14-day RSI, highest on top; a ribbon rises or sinks as its RSI rank changes, and is thicker the higher '
+                     f'its RSI. Left: RSI {nw - 1} weeks ago; right: tonight (red over 70, green under 30). Hover a ribbon for its weekly readings.</p>'
+                     f'<div class="flowwrap">{fl}</div>')
+        body += ('<h4 style="margin-top:12px">Sectors tonight</h4>' + ax + '<div class="grid">'
                  + _srsi_rows(secs, b, lambda r: f"{r['name']} ({r['t']})") + '</div>')
     if th:
         lo_, hi_ = th[:show], sorted(th[-show:], key=lambda r: -r['rsi'])

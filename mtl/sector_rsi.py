@@ -12,6 +12,7 @@ PERIOD = 14
 BACK = 5            # sessions back for the "was" marker
 SPAN = 120          # sessions of closes used (enough for the RSI to settle)
 MIN_STOCKS = 4      # an industry needs at least this many priced members
+WEEKS = 13          # weekly points for the sector flow chart (every 5th session back from tonight)
 
 
 def _carried(px, cal):
@@ -72,6 +73,19 @@ def build(fund_px, prices, industries, calendar, universe=None):
         r = _row(industry_index(prices, ts, cal))
         if r:
             themes.append(dict(name=g, n=len(ts), **r))
+    hist = dict(dates=[], series={})
+    for t in FUNDS:
+        c = [x for x in _carried(fund_px.get(t) or {}, cal)] if fund_px.get(t) else []
+        if sum(1 for x in c if x) < PERIOD + 5 * WEEKS:
+            continue
+        r = rsi_series([x for x in c if x], PERIOD)
+        idx = [len(r) - 1 - 5 * w for w in range(WEEKS)][::-1]
+        if any(r[i] is None for i in idx):
+            continue
+        hist['series'][t] = [round(r[i], 1) for i in idx]
+        if not hist['dates']:
+            off = len(cal) - len(r)
+            hist['dates'] = [cal[off + i] for i in idx]
     sectors.sort(key=lambda x: -x['rsi'])
     themes.sort(key=lambda x: x['rsi'])
-    return dict(asOf=calendar[-1] if calendar else None, period=PERIOD, back=BACK, sectors=sectors, themes=themes)
+    return dict(asOf=calendar[-1] if calendar else None, period=PERIOD, back=BACK, sectors=sectors, themes=themes, hist=hist)
