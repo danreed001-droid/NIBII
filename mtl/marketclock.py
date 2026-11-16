@@ -25,6 +25,24 @@ MOOD_LOOK = 20
 MOOD_Z = 252
 
 
+# Major events (data/major_events.json types) that read as policy support or as a shock, for the clock's news line
+SUPPORT = ('QE / backstop', 'Fed cut', 'Emergency Fed cut', 'Rescue / fiscal', 'Trade relief', 'Good news')
+SHOCK = ('War / terror', 'Bank / credit failure', 'Crash / glitch', 'Debt crisis / shutdown', 'Fed hike / hawkish',
+         'Oil shock', 'Pandemic / disaster', 'Trade war / China', 'Inflation / yields')
+
+
+def news(events):
+    """[[date, +1 support / -1 shock, type, what]] for the major events of a support or shock type, oldest first."""
+    out = []
+    for e in events or []:
+        t = e.get('type')
+        tone = 1 if t in SUPPORT else -1 if t in SHOCK else 0
+        if tone and e.get('d') and e.get('what'):
+            w = e['what'] if len(e['what']) <= 110 else e['what'][:107].rstrip() + '…'
+            out.append([e['d'], tone, t, w])
+    return sorted(out)
+
+
 def _carry(px, cal):
     out, last = [], None
     for d in cal:
