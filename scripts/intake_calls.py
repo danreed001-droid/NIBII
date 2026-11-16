@@ -9,7 +9,9 @@ edit per week wins ('at'); a removed call is kept as {m: 'del'}. The same block 
 "warn": {date: {c: 'out' | 'stay', at, note}} - the viewer's call on a downtrend-warning
 day (stay in stocks, or out into bonds and gold), scored 3 months later by the daily scan. And
 "you2": {date: {stocks: [tickers], note, at}} - the viewer's own stock list for You-2 (the default plan's
-timing on the viewer's stocks, mtl/you2.py), from that date's close on; {m: 'del'} removes one.
+timing on the viewer's stocks, mtl/you2.py), from that date's close on; {m: 'del'} removes one. And
+"plans": {name: {date: {stocks, note, at}}} - the viewer's own named plans, each like You-2 (up to 10 plans; a name
+is 1-30 letters, digits, spaces or - _ & ').
 
 Usage:
     ISSUE_BODY="..." python scripts/intake_calls.py      # prints how many calls changed
@@ -89,6 +91,23 @@ def parse_you2(body):
     return out
 
 
+PLAN_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9 _&'\-]{0,29}$")
+MAX_PLANS = 10
+
+
+def parse_plans(body):
+    """Named plans {name: {date: {stocks, note, at}}} (or {m: 'del'} entries) from the issue body (or {})."""
+    p = block(body).get('plans')
+    out = {}
+    for nm, ent in (p.items() if isinstance(p, dict) else []):
+        if not (isinstance(nm, str) and PLAN_NAME.match(nm.strip())):
+            continue
+        got = parse_you2('```json\n' + json.dumps({'you2': ent}) + '\n```')
+        if got:
+            out[nm.strip()] = got
+    return dict(list(out.items())[:MAX_PLANS])
+
+
 def parse(body):
     """The calls map from the issue body's ```json block (or {})."""
     data = block(body)
@@ -128,19 +147,32 @@ def main():
     y_in = parse_you2(os.environ.get('ISSUE_BODY', ''))
     y_cur = {k: c for k, c in (doc.get('you2') or {}).items() if isinstance(c, dict) and (c.get('stocks') or c.get('m') == 'del')}
     y_merged, y_changed = merge(y_cur, y_in)
-    if changed or w_changed or y_changed:
+    p_in = parse_plans(os.environ.get('ISSUE_BODY', ''))
+    p_cur = {nm: {k: c for k, c in ent.items() if isinstance(c, dict) and (c.get('stocks') or c.get('m') == 'del')}
+             for nm, ent in (doc.get('plans') or {}).items() if isinstance(ent, dict)}
+    p_merged, p_changed = dict(p_cur), []
+    for nm, ent in p_in.items():
+        if nm not in p_merged and len(p_merged) >= MAX_PLANS:
+            continue
+        m_, ch_ = merge(p_merged.get(nm, {}), ent)
+        p_merged[nm] = m_
+        p_changed += [f'{nm} {k}' for k in ch_]
+    if changed or w_changed or y_changed or p_changed:
         out = {'app': 'nibii-calls', 'v': 1, 'calls': merged}
         if w_merged:
             out['warn'] = w_merged
         if y_merged:
             out['you2'] = y_merged
+        if p_merged:
+            out['plans'] = p_merged
         with open(PATH, 'w') as f:
             json.dump(out, f, indent=1)
             f.write('\n')
-    print(len(changed) + len(w_changed) + len(y_changed))
+    print(len(changed) + len(w_changed) + len(y_changed) + len(p_changed))
     print(f"calls received {len(incoming)}, changed {len(changed)}: {', '.join(changed) or '-'}; "
           f"warning calls received {len(w_in)}, changed {len(w_changed)}: {', '.join(w_changed) or '-'}; "
-          f"You-2 lists received {len(y_in)}, changed {len(y_changed)}: {', '.join(y_changed) or '-'}", file=sys.stderr)
+          f"You-2 lists received {len(y_in)}, changed {len(y_changed)}: {', '.join(y_changed) or '-'}; "
+          f"plan lists changed {len(p_changed)}: {', '.join(p_changed) or '-'}", file=sys.stderr)
 
 
 if __name__ == '__main__':

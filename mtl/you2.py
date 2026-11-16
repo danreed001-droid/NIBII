@@ -17,12 +17,41 @@ YOU2_START = '2026-10-14'
 YOU2_MAX = 10          # stocks in one list
 
 
-def entries_of(doc):
-    """{date: [tickers]} from docs/my_calls.json's "you2" block (deleted entries left out)."""
+def _source(doc, name=None):
+    """The dated entries of You-2 (name None) or of the viewer's named plan `name` (docs/my_calls.json "plans")."""
+    if name is None:
+        return (doc or {}).get('you2') or {}
+    return ((doc or {}).get('plans') or {}).get(name) or {}
+
+
+def entries_of(doc, name=None):
+    """{date: [tickers]} from docs/my_calls.json's "you2" block, or a named plan's (deleted entries left out)."""
     out = {}
-    for d, e in ((doc or {}).get('you2') or {}).items():
+    for d, e in _source(doc, name).items():
         if isinstance(e, dict) and e.get('m') != 'del' and e.get('stocks'):
             out[d] = [t for t in e['stocks']][:YOU2_MAX]
+    return out
+
+
+def notes_of(doc, name=None):
+    """{date: note} for the entries of You-2 or a named plan (the viewer's reason for each list)."""
+    return {d: str(e.get('note') or '') for d, e in _source(doc, name).items() if isinstance(e, dict) and e.get('stocks')}
+
+
+def plan_names(doc):
+    """The viewer's named plans with at least one live list, in the order first saved."""
+    out = []
+    for nm, ent in ((doc or {}).get('plans') or {}).items():
+        if isinstance(ent, dict) and entries_of(doc, nm):
+            out.append((min(entries_of(doc, nm)), nm))
+    return [nm for _, nm in sorted(out)]
+
+
+def tickers_of(doc):
+    """Every ticker on any list of You-2 or a named plan."""
+    out = {t for l in entries_of(doc).values() for t in l}
+    for nm in plan_names(doc):
+        out |= {t for l in entries_of(doc, nm).values() for t in l}
     return out
 
 
@@ -101,12 +130,15 @@ def holding(modes, half, calendar, k):
     return (h if WHIP_SHARE >= 1 else f'stocks+{h}') if h else 'stocks'
 
 
-def block(doc, prices, asset_px, calendar, modes, half, plan_curve, spy_px, k, start=YOU2_START, skip=None, why=None):
+def block(doc, prices, asset_px, calendar, modes, half, plan_curve, spy_px, k, start=YOU2_START, skip=None, why=None, name=None):
     """The dashboard's You-2 payload at calendar[k]: the entries, today's list, what it holds now and what it
     will hold after the next close, and its value since `start` next to the default plan's and SPY's.
     skip(t, k): the fading-energy filter (stocks on today's list it flags are listed under `fading`, with
-    why(t, k) -> (volume ratio, swing ratio) when given)."""
-    entries = entries_of(doc)
+    why(t, k) -> (volume ratio, swing ratio) when given). name: a named plan of the viewer's instead of You-2.
+    Each entry is [date, tickers, note, its return, the default plan's return] over the span the list was held
+    (from the date's close to the next list's date or today; None before it is traded)."""
+    entries = entries_of(doc, name)
+    notes = notes_of(doc, name)
     day = calendar[k]
 
     def rebase(c):
@@ -119,10 +151,36 @@ def block(doc, prices, asset_px, calendar, modes, half, plan_curve, spy_px, k, s
             vr, sr = why(t, k) if why else (None, None)
             fading.append(dict(t=t, vol=None if vr is None else round(vr, 3), swing=None if sr is None else round(sr, 3)))
     nxt = modes.get(day, 'boost')
-    return dict(start=start, entries=[[d, entries[d]] for d in sorted(entries)], stocks=active_list(entries, day),
+    pc = rebase(plan_curve)
+
+    def span(c, a, b):
+        pts = [v for d, v in c if a <= d <= b]
+        return round(pts[-1] / pts[0] - 1, 4) if len(pts) >= 2 and pts[0] else None
+    ds_ = sorted(entries)
+    cal_k = calendar[:k + 1]
+
+    def traded(d):   # a list decided at d's close is bought at the next session's close
+        nxt = [x for x in cal_k if x > d]
+        return nxt[0] if nxt else None
+    rows = []
+    for i, d in enumerate(ds_):
+        a = traded(d)
+        b = (traded(ds_[i + 1]) or day) if i + 1 < len(ds_) else day
+        rows.append([d, entries[d], notes.get(d, ''), span(curve, a, b) if a else None, span(pc, a, b) if a else None])
+    return dict(start=start, entries=rows, stocks=active_list(entries, day),
                 holds=holding(modes, half, calendar, k),
                 next='stocks' if nxt == 'boost' and not (half or {}).get(day) else
                 ((half[day] if WHIP_SHARE >= 1 else 'stocks+' + half[day]) if nxt == 'boost' else ('cash' if nxt == CASH else nxt)),
-                curve=[[d, round(v, 4)] for d, v in curve], plan=rebase(plan_curve),
+                curve=[[d, round(v, 4)] for d, v in curve], plan=pc,
                 spy=rebase([[d, spy_px[d]] for d in calendar if d in spy_px]),
                 missing=sorted({t for l in entries.values() for t in l if not prices.get(t, {}).get(day)}), fading=fading)
+
+
+def plans_block(doc, prices, asset_px, calendar, modes, half, plan_curve, spy_px, k, skip=None, why=None):
+    """{name: block} for each of the viewer's named plans, each from its first list's date."""
+    out = {}
+    for nm in plan_names(doc):
+        st = min(entries_of(doc, nm))
+        if st <= calendar[k]:
+            out[nm] = block(doc, prices, asset_px, calendar, modes, half, plan_curve, spy_px, k, start=st, skip=skip, why=why, name=nm)
+    return out

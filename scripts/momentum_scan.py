@@ -55,7 +55,7 @@ from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl import candle, candlepat, fedday, fedday_check, reentry_note, resistline, stretchwarn  # noqa: E402
 from mtl import crashrank, earnjump, earnsell, fallgroup, hotcomm, jobwarn, nearhigh, runup, sector_rsi, volbreak, volsell, volweight, volweight_check  # noqa: E402
-from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
+from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries, plans_block, tickers_of as you2_tickers  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
 from mtl.fade import SWING_TH as FADE_SWING, VOL_TH as FADE_VOL, buy_ok as fade_buy_ok, fading as fade_check, ratios as fade_ratios  # noqa: E402
@@ -1580,7 +1580,7 @@ def main():
             you2_doc = json.load(fh) or {}
     except (OSError, ValueError):
         you2_doc = {}
-    you2_px, you2_t = dict(prices), {t for l in you2_entries(you2_doc).values() for t in l}
+    you2_px, you2_t = dict(prices), you2_tickers(you2_doc)   # You-2's and the named plans' tickers
     if you2_t - set(prices):
         try:
             for t, bs in fetch(sorted(you2_t - set(prices)), start=(date.fromisoformat(as_of) - timedelta(days=400)).isoformat(), volumes=volumes).items():   # a year back: the fading check
@@ -1591,6 +1591,12 @@ def main():
     you2_fade = fade_check(you2_px, volumes, calendar)
     you2 = you2_block(you2_doc, you2_px, whip_px, calendar, rot_modes, whip_half, plans['rotation'], prices['SPY'], K,
                       skip=you2_fade, why=lambda t_, k_: fade_ratios(you2_px, volumes, calendar, t_, k_))
+    # the viewer's own named plans (docs/my_calls.json "plans"): each a stock list timed like You-2, with the viewer's notes
+    my_plans = plans_block(you2_doc, you2_px, whip_px, calendar, rot_modes, whip_half, plans['rotation'], prices['SPY'], K,
+                           skip=you2_fade, why=lambda t_, k_: fade_ratios(you2_px, volumes, calendar, t_, k_))
+    # the viewer's weekly calls with their notes, for the page's "Your plans and why" log
+    my_calls = [[d_, c_.get('m'), str(c_.get('note') or '')] for d_, c_ in sorted((you2_doc.get('calls') or {}).items())
+                if isinstance(c_, dict) and c_.get('m') and c_.get('m') != 'del']
 
     # Paper record (mtl/paper.py): log tonight's decision for the next close - only in the scheduled scanner
     # run (PAPER_LEDGER_WRITE=1) and only after the close - then score the ledger and replay each logged day
@@ -1729,7 +1735,7 @@ def main():
         human=dict(days=human_days, weeks=human_weeks, mine=mine),
         monthly=monthly,
         option=option_check(held_rows, bars, as_of, calendar, signal_day),
-        plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto, you2=you2, paper=paper),
+        plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto, you2=you2, myPlans=my_plans, myCalls=my_calls, paper=paper),
         dataIssues=data_issues)
     try:   # sector and theme RSI, shown above the news on the scanner page (information only, mtl/sector_rsi.py)
         payload['sectorRsi'] = sector_rsi.build(sector_px, prices, fallgroup.load_industries(ROOT), calendar, universe=[t for t in prices if t in sp])

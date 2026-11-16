@@ -431,6 +431,24 @@ tbody tr:last-child td { border-bottom: 0; }
 #y2-in { width: 100%; font: 0.9rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 8px 10px; margin: 4px 0 8px; box-sizing: border-box; }
 #y2-chart svg, #pp-chart svg { width: 100%; height: auto; display: block; }
 #y2-log { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
+.why-note, #mp-in, #mp-name, #mp-pick { width: 100%; font: inherit; font-size: 0.84rem; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 8px 10px; margin: 4px 0 8px; box-sizing: border-box; }
+.why-note { min-height: 52px; resize: vertical; }
+#mp-in { font: 0.9rem ui-monospace, monospace; }
+.mp-one { border-top: 1px solid var(--hairline); padding-top: 8px; margin-top: 8px; }
+.mp-one:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
+.mp-one svg { width: 100%; height: auto; display: block; }
+.tbl-wrap { overflow-x: auto; }
+table.mylog { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+table.mylog th, table.mylog td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+table.mylog td.why { color: var(--ink-2); min-width: 14em; }
+table.mylog td.num { white-space: nowrap; }
+@media (max-width: 640px) {
+  table.mylog thead { display: none; }
+  table.mylog tr { display: block; border-bottom: 1px solid var(--hairline); padding: 6px 0; }
+  table.mylog td { display: block; border: 0; padding: 2px 0; }
+  table.mylog td::before { content: attr(data-l); color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 6px; }
+  table.mylog td.why { min-width: 0; }
+}
 #sync-token { flex: 1 1 180px; min-width: 0; font: 0.84rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 6px 8px; }
 .sync code { font-size: 0.74rem; }
 .rec-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; margin: 8px 0 10px; }
@@ -575,6 +593,7 @@ __EVENTS__
       <div id="y2-now"></div>
       <label class="note" for="y2-in">Your stocks (up to 10 tickers, commas or spaces)</label>
       <input id="y2-in" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="DELL, MRNA, MU, AMD, HPE">
+      <textarea id="y2-note" class="why-note" maxlength="300" placeholder="Why? (optional, e.g. tech is breaking out, earnings beat, I trust these more than the plan's picks)"></textarea>
       <div class="call-actions"><a class="btn" id="y2-submit" target="_blank" rel="noopener">Save to repo ↗</a><span id="y2-status" role="status"></span></div>
       <p class="note">Saving opens a filled-in GitHub issue: tap <b>Create</b> and the repo records the list within a minute. The list is bought in equal weights at the next close after the day you save it. From then on You-2 follows the default plan: in your stocks while the plan holds the Boost list, in gold, bonds or cash (or half in one) whenever the plan is, and back in your stocks when the plan is (the rebound rule included). Switches happen at the same closes as the plan’s.</p>
     </div>
@@ -585,6 +604,29 @@ __EVENTS__
       <div id="y2-log"></div>
     </div>
   </div>
+
+  <p class="section-label">My plans <span class="hint">your own named stock lists, each on the default plan’s timing, with your reasons</span></p>
+  <div class="plan">
+    <div class="card" id="myplans">
+      <p class="chart-title">Make or change a plan</p>
+      <label class="note" for="mp-pick">Plan</label>
+      <select id="mp-pick"></select>
+      <input id="mp-name" type="text" maxlength="30" autocomplete="off" placeholder="Name of the new plan, e.g. Tech rebound">
+      <label class="note" for="mp-in">Its stocks (up to 10 tickers, commas or spaces)</label>
+      <input id="mp-in" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="NVDA, AVGO, MU">
+      <textarea id="mp-note" class="why-note" maxlength="300" placeholder="Why? (e.g. semis held their lows while the plan sold them; I expect a rebound into earnings)"></textarea>
+      <div class="call-actions"><a class="btn" id="mp-submit" target="_blank" rel="noopener">Save to repo ↗</a><span id="mp-status" role="status"></span></div>
+      <p class="note">Each plan works like You-2: its stocks in equal weights from the next close after you save, in gold, bonds or cash whenever the default plan is, and back in its stocks when the plan is. Save a new list for a plan whenever you change your mind; each list keeps your reason. Up to 10 plans.</p>
+    </div>
+    <div class="card">
+      <p class="chart-title">My plans record</p>
+      <p class="chart-sub">$100 from each plan’s first list, next to the default plan and SPY over the same time</p>
+      <div id="mp-list"></div>
+    </div>
+  </div>
+
+  <p class="section-label">Your plans and why <span class="hint">every call and list you’ve made, with your reason and how it went</span></p>
+  <div class="card" id="mylog"><div class="tbl-wrap"><table class="mylog"><thead><tr><th>Date</th><th>Plan</th><th>What</th><th>Why</th><th>Since then</th></tr></thead><tbody id="mylog-body"></tbody></table></div><p class="note" id="mylog-note"></p></div>
 
   <p class="section-label">Paper record <span class="hint">the default plan, frozen and logged every evening · since Oct 14, 2026</span></p>
   <div class="plan">
@@ -1525,7 +1567,7 @@ __ISSUES__
     function tickers() { return (inp.value || '').toUpperCase().split(/[\s,;]+/).filter(function (t) { return /^[A-Z][A-Z0-9.\-]{0,9}$/.test(t); }).filter(function (t, i, a) { return a.indexOf(t) === i; }).slice(0, 10); }
     function update() {
       var t = tickers(), day = today();
-      var block = {}; block[day] = { stocks: t, note: '', at: new Date().toISOString() };
+      var block = {}; block[day] = { stocks: t, note: ($('y2-note').value || '').trim().slice(0, 300), at: new Date().toISOString() };
       var body = 'You-2 list from the Top 5 dashboard. Leave the block below as-is: the Calls intake workflow records it in docs/my_calls.json and closes this issue.\n\n```json\n' + JSON.stringify({ you2: block }) + '\n```\n';
       sub.href = 'https://github.com/danreed001-droid/NIBII/issues/new?title=' + encodeURIComponent('calls you2 ' + day) + '&body=' + encodeURIComponent(body);
       var same = Y && (Y.stocks || []).join(',') === t.join(',');
@@ -1546,10 +1588,80 @@ __ISSUES__
       else {
         $('y2-chart').innerHTML = miniLines([['You-2', C, 'var(--s-ccalls)'], ['Default plan', Y.plan || [], 'var(--s-rot)'], ['SPY', Y.spy || [], 'var(--s-spy)']], 'You-2 vs the default plan and SPY since the start');
       }
-      $('y2-log').innerHTML = 'Your lists: ' + (Y.entries || []).map(function (e) { return fmtDate(e[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ': ' + esc(e[1].join(', ')); }).join(' · ');
+      $('y2-log').innerHTML = 'Your lists: ' + (Y.entries || []).map(function (e) { return fmtDate(e[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ': ' + esc(e[1].join(', ')) + (e[2] ? ' <i>(“' + esc(e[2]) + '”)</i>' : ''); }).join(' · ');
     }
     inp.addEventListener('input', update);
+    $('y2-note').addEventListener('input', update);
     update();
+  })();
+
+  // My plans: the viewer's named stock lists (mtl/you2.plans_block; docs/my_calls.json "plans")
+  (function () {
+    if (!$('myplans')) return;
+    var MP = (D.plan && D.plan.myPlans) || {}, names = Object.keys(MP);
+    var pick = $('mp-pick'), nm = $('mp-name'), inp = $('mp-in'), note = $('mp-note'), sub = $('mp-submit');
+    var md = { month: 'short', day: 'numeric', year: 'numeric' }, COL = ['var(--s-ccalls)', 'var(--s-boost)', 'var(--s-b100)', 'var(--s-cush)', 'var(--s-qqq)', 'var(--s-monb)', 'var(--s-strat)', 'var(--s-mon)', 'var(--s-spmo)', 'var(--s-calls)'];
+    var hn = { stocks: 'its stocks', cash: 'cash', CASH: 'cash', DBMF: 'DBMF (managed futures)', TLT: 'TLT (Treasuries)', GLD: 'GLD (gold)', BIL: 'T-bills' };
+    function hname(h) { if (!h) return '–'; if (h.indexOf('stocks+') === 0) return 'half its stocks, half ' + (hn[h.slice(7)] || h.slice(7)); return hn[h] || h; }
+    function today() { try { return new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); } catch (e) { return new Date().toISOString().slice(0, 10); } }
+    function tickers() { return (inp.value || '').toUpperCase().split(/[\s,;]+/).filter(function (t) { return /^[A-Z][A-Z0-9.\-]{0,9}$/.test(t); }).filter(function (t, i, a) { return a.indexOf(t) === i; }).slice(0, 10); }
+    pick.innerHTML = names.map(function (n) { return '<option value="' + esc(n) + '">' + esc(n) + '</option>'; }).join('') + '<option value="">＋ New plan</option>';
+    function plan() { return pick.value; }
+    function name() { return plan() || (nm.value || '').trim(); }
+    function load() {
+      var p = MP[plan()];
+      nm.style.display = plan() ? 'none' : '';
+      inp.value = p ? (p.stocks || []).join(', ') : '';
+      note.value = '';
+      update();
+    }
+    function update() {
+      var t = tickers(), day = today(), n = name(), okName = /^[A-Za-z0-9][A-Za-z0-9 _&'\-]{0,29}$/.test(n);
+      var full = !plan() && names.length >= 10;
+      var block = {}; block[n] = {}; block[n][day] = { stocks: t, note: (note.value || '').trim().slice(0, 300), at: new Date().toISOString() };
+      var body = 'My plans list from the Top 5 dashboard. Leave the block below as-is: the Calls intake workflow records it in docs/my_calls.json and closes this issue.\n\n```json\n' + JSON.stringify({ plans: block }) + '\n```\n';
+      sub.href = 'https://github.com/danreed001-droid/NIBII/issues/new?title=' + encodeURIComponent('calls plans ' + n + ' ' + day) + '&body=' + encodeURIComponent(body);
+      var cur = MP[plan()], same = cur && (cur.stocks || []).join(',') === t.join(',') && !note.value.trim();
+      var msg = full ? 'You have 10 plans: change one of them' : !okName ? 'Give the plan a name (letters, digits, spaces)' : !t.length ? 'Enter at least one ticker' : same ? 'Same as this plan’s current list' : n + ': ' + t.join(', ');
+      $('mp-status').textContent = msg;
+      var ok = !full && okName && t.length && !same;
+      sub.style.pointerEvents = ok ? '' : 'none';
+      sub.style.opacity = ok ? '' : '0.5';
+    }
+    pick.addEventListener('change', load); [nm, inp, note].forEach(function (x) { x.addEventListener('input', update); });
+    load();
+    var last = function (c) { return c && c.length ? c[c.length - 1][1] : null; };
+    $('mp-list').innerHTML = names.length ? names.map(function (n, i) {
+      var P = MP[n], yv = last(P.curve), pv = last(P.plan), sv = last(P.spy), C = P.curve || [];
+      return '<div class="mp-one"><p><b>' + esc(n) + '</b> · since ' + fmtDate(P.start, md) + ' · holds <b>' + esc(hname(P.holds)) + '</b>' + (P.next && P.next !== P.holds ? ' (after the next close: ' + esc(hname(P.next)) + ')' : '') +
+        ' · stocks: ' + esc((P.stocks || []).join(', ') || '–') +
+        (yv != null ? '<br>' + esc(n) + ' ' + pct(yv - 1) + ', the default plan ' + pct(pv != null ? pv - 1 : null) + ', SPY ' + pct(sv != null ? sv - 1 : null) + ' over the same time' : '') +
+        (P.missing && P.missing.length ? ' <span class="neg">No price for ' + esc(P.missing.join(', ')) + ': check the ticker.</span>' : '') + '</p>' +
+        (C.length >= 2 ? miniLines([[n, C, COL[i % COL.length]], ['Default plan', P.plan || [], 'var(--s-rot)'], ['SPY', P.spy || [], 'var(--s-spy)']], n + ' vs the default plan and SPY') : '<p class="note">Its chart starts after the first closes.</p>') + '</div>';
+    }).join('') : '<p class="note">No plans yet. Pick ＋ New plan, give it a name, its stocks and why, and save it.</p>';
+  })();
+
+  // Your plans and why: every weekly call, You-2 list and named-plan list with the viewer's reason
+  (function () {
+    if (!$('mylog')) return;
+    var md = { month: 'short', day: 'numeric', year: 'numeric' }, rows = [];
+    var CL = { rotation: 'Follow the default plan', gold: '100% gold', bonds: '100% bonds', mf: '100% managed futures', auto: 'Auto mix', boost: 'Auto + news boost', boost100: 'Boost 100% (all stocks)', cushion: 'Boost + cushion', steps: 'Steps mix', cash: 'Cash', custom: 'Custom mix' };
+    var C = (D.plan && D.plan.myCalls) || [];
+    C.forEach(function (c, i) { rows.push({ d: c[0], plan: 'Your weekly call', what: CL[c[1]] || c[1], why: c[2], since: i + 1 < C.length ? 'in force until ' + fmtDate(C[i + 1][0], md) : 'in force now' }); });
+    function lists(label, P) {
+      (P && P.entries || []).forEach(function (e) {
+        rows.push({ d: e[0], plan: label, what: e[1].join(', '), why: e[2], since: e[3] == null ? 'not traded yet' : pct(e[3]) + ' (default plan ' + pct(e[4]) + ')', good: e[3] != null && e[4] != null ? e[3] >= e[4] : null });
+      });
+    }
+    lists('You-2', D.plan && D.plan.you2);
+    var MP = (D.plan && D.plan.myPlans) || {};
+    Object.keys(MP).forEach(function (n) { lists(n, MP[n]); });
+    rows.sort(function (a, b) { return a.d < b.d ? 1 : a.d > b.d ? -1 : 0; });
+    $('mylog-body').innerHTML = rows.map(function (r) {
+      return '<tr><td class="num" data-l="Date">' + fmtDate(r.d, md) + '</td><td data-l="Plan">' + esc(r.plan) + '</td><td data-l="What">' + esc(r.what) + '</td><td class="why" data-l="Why">' + (r.why ? '“' + esc(r.why) + '”' : '<span class="muted">no note</span>') + '</td><td class="num' + (r.good == null ? '' : r.good ? ' pos' : ' neg') + '" data-l="Since then">' + r.since + '</td></tr>';
+    }).join('') || '<tr><td colspan="5" class="muted">Nothing yet.</td></tr>';
+    var nn = rows.filter(function (r) { return !r.why; }).length;
+    $('mylog-note').textContent = 'A stock list’s “since then” runs from the close after you saved it to your next list for that plan (or today), with the default plan over the same days. Weekly calls are saved under Your calls above.' + (nn ? ' ' + nn + ' of ' + rows.length + ' have no note yet: add your reason when you save the next one.' : '');
   })();
 
   // Paper record: the default plan's frozen, time-stamped forward test (mtl/paper.py; data/paper_ledger.json)
