@@ -54,3 +54,47 @@ def test_fading_stock_waits_in_cash_until_a_week_end_check_clears_it():
     assert abs(c[cal[6]] - (0.5 + 0.5 * 1.1)) < 1e-9                 # then its half rises with it
     plain = dict(you2.picks_curve(entries, px, cal, cal[0]))
     assert plain[cal[3]] > 1.0                                       # without the filter BBB's half rose
+
+
+def _intake():
+    spec = importlib.util.spec_from_file_location('intake', os.path.join(os.path.dirname(__file__), '..', 'scripts', 'intake_calls.py'))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+def test_named_plans_get_their_own_record_and_notes():
+    doc = {'you2': DOC['you2'],
+           'plans': {'Tech rebound': {CAL[1]: {'stocks': ['AAA'], 'note': 'semis held their lows', 'at': 'x'},
+                                      CAL[4]: {'stocks': ['BBB'], 'note': 'took profits', 'at': 'y'}},
+                     'Empty': {CAL[2]: {'m': 'del', 'at': 'z'}}}}
+    assert you2.plan_names(doc) == ['Tech rebound'] and you2.tickers_of(doc) == {'AAA', 'BBB'}
+    mp = you2.plans_block(doc, PX, GLD, CAL, {d: 'boost' for d in CAL}, {}, [[d, 1.0] for d in CAL], {d: 1.0 for d in CAL}, 6)
+    p = mp['Tech rebound']
+    assert p['start'] == CAL[1] and p['stocks'] == ['BBB']
+    (d1, s1, n1, r1, pr1), (d2, s2, n2, r2, pr2) = p['entries']
+    assert (d1, s1, n1) == (CAL[1], ['AAA'], 'semis held their lows') and n2 == 'took profits'
+    assert abs(r1 - (1.1 ** 3 - 1)) < 2e-3 and pr1 == 0.0      # AAA held from CAL[2]'s close to CAL[5]'s: +33%; the plan flat
+    assert abs(r2) < 1e-9                                       # BBB (flat) from CAL[5]'s close
+    # You-2's block carries its notes too
+    assert you2.block(doc, PX, GLD, CAL, {d: 'boost' for d in CAL}, {}, [[d, 1.0] for d in CAL], {d: 1.0 for d in CAL}, 6, start=CAL[0])['entries'][0][2] == ''
+
+
+def test_intake_reads_named_plans_and_rejects_bad_names():
+    m = _intake()
+    body = ('```json\n{"plans": {"Tech rebound": {"2026-10-15": {"stocks": ["nvda", "MU"], "note": "semis held", "at": "2026-10-15T14:00:00Z"}},'
+            ' "<script>": {"2026-10-15": {"stocks": ["AAA"]}}, "Ok name": {"bad-date": {"stocks": ["AAA"]}}}}\n```')
+    assert m.parse_plans(body) == {'Tech rebound': {'2026-10-15': {'stocks': ['NVDA', 'MU'], 'note': 'semis held', 'at': '2026-10-15T14:00:00Z'}}}
+
+
+def test_intake_merges_plans_into_my_calls(tmp_path, monkeypatch):
+    m = _intake()
+    path = tmp_path / 'my_calls.json'
+    path.write_text('{"app": "nibii-calls", "v": 1, "calls": {}, "you2": {"2026-10-14": {"stocks": ["DELL"], "note": "", "at": "a"}}}')
+    monkeypatch.setattr(m, 'PATH', str(path))
+    monkeypatch.setenv('ISSUE_BODY', '```json\n{"plans": {"Defensive": {"2026-11-16": {"stocks": ["KO", "PG"], "note": "rates rising", "at": "2026-11-16T15:00:00Z"}}}}\n```')
+    m.main()
+    import json as _j
+    doc = _j.loads(path.read_text())
+    assert doc['plans'] == {'Defensive': {'2026-11-16': {'stocks': ['KO', 'PG'], 'note': 'rates rising', 'at': '2026-11-16T15:00:00Z'}}}
+    assert doc['you2']['2026-10-14']['stocks'] == ['DELL']
