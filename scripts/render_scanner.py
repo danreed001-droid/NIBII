@@ -6398,6 +6398,13 @@ CLOCK_JS = r"""(function () {
     return 'rgb(240,70,60)';
   }
   function pct(v) { return (v >= 0 ? '+' : '') + (Math.abs(v) < 0.1 ? v.toFixed(1) : Math.abs(v) < 10 ? v.toFixed(1) : Math.round(v)) + '%'; }
+  var HK = [['Stocks', '--pc-stocks'], ['Gold', '--pc-gold'], ['Bonds', '--pc-bonds'], ['Cash', '--pc-cash'], ['Managed futures', '--pc-futures']];
+  function heldAt(d, incl) {   // the plan's holdings through session d (bought at an earlier close); incl: after d's own close
+    var H_ = (TR && TR.held) || [], got = null;
+    for (var i = 0; i < H_.length; i++) { if (incl ? H_[i][0] > d : H_[i][0] >= d) break; got = H_[i]; }
+    return got;
+  }
+  function mix(r) { return r ? HK.map(function (k, j) { return [k, r[j + 1]]; }).filter(function (q) { return q[1] > 0.004; }) : []; }
   function trendTile() {
     var box = document.getElementById('mclock-trend'); if (!box || !TR) return;
     var e = cur, n = Math.min(TN, e + 1), s0 = e - n + 1, W = 520, L = 92, R = 112;
@@ -6409,7 +6416,23 @@ CLOCK_JS = r"""(function () {
     LN.forEach(function (q) { for (var i = s0; i <= e; i++) { var v = LEV[q[0]][i]; if (v != null) { v = (v / LEV[q[0]][s0] - 1) * 100; lo = Math.min(lo, v); hi = Math.max(hi, v); } } });
     var pad = Math.max(0.5, (hi - lo) * 0.12); lo -= pad; hi += pad;
     var Y = function (v) { return top + h - (v - lo) / (hi - lo) * h; };
-    var sv = '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(0).toFixed(1) + '" y2="' + Y(0).toFixed(1) + '" class="mt-g"/><text x="' + (L - 6) + '" y="' + (Y(0) + 3.5).toFixed(1) + '" text-anchor="end" class="mt-v">0%</text>';
+    var sv = '', seen = {}, dx = (W - L - R) / Math.max(1, n - 1);
+    for (var i = s0, j0 = s0; i <= e; i++) {   // what the plan held, run by run: a light band behind the lines and a strip under them
+      var hr = heldAt(C.dates[i], false);
+      if (i < e && heldAt(C.dates[i + 1], false) === hr) continue;
+      var y0 = top + h + 4, a0 = j0; j0 = i + 1;
+      mix(hr).forEach(function (q) {
+        var x0 = Math.max(L, X(a0) - dx / 2), x1 = Math.min(W - R, X(i) + dx / 2), hh = 7 * q[1]; seen[q[0][0]] = q[0][1];
+        sv += '<rect x="' + x0.toFixed(1) + '" y="' + top + '" width="' + (x1 - x0 + 0.3).toFixed(1) + '" height="' + h + '" style="fill:var(' + q[0][1] + ')" fill-opacity="' + (0.13 * q[1]).toFixed(3) + '"/>' +
+          '<rect x="' + x0.toFixed(1) + '" y="' + y0.toFixed(1) + '" width="' + (x1 - x0 + 0.3).toFixed(1) + '" height="' + hh.toFixed(1) + '" style="fill:var(' + q[0][1] + ')"/>';
+        y0 += hh;
+      });
+    }
+    var now = mix(heldAt(C.dates[e], true)), lg = Object.keys(seen).map(function (k) { return '<tspan style="fill:var(' + seen[k] + ')">■</tspan> ' + esc(k); }).join('  ');
+    sv += '<text x="' + L + '" y="' + (top + h + 22) + '" class="mt-v">' + (lg ? 'Plan held: ' + lg : 'No holdings record for these dates') + '</text>' +
+      (now.length ? '<text x="' + (W - R + 8) + '" y="' + (top + h + 11) + '" class="mt-v">' + (e === N - 1 ? 'Holding now' : 'After that close') + '</text><text x="' + (W - R + 8) + '" y="' + (top + h + 24) + '" class="mt-l">' +
+        now.map(function (q) { return '<tspan style="fill:var(' + q[0][1] + ')">■</tspan> ' + esc(q[0][0] === 'Managed futures' ? 'Futures' : q[0][0]) + (q[1] < 0.995 ? ' ' + Math.round(q[1] * 100) + '%' : ''); }).join(' ') + '</text>' : '');
+    sv += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(0).toFixed(1) + '" y2="' + Y(0).toFixed(1) + '" class="mt-g"/><text x="' + (L - 6) + '" y="' + (Y(0) + 3.5).toFixed(1) + '" text-anchor="end" class="mt-v">0%</text>';
     LN.forEach(function (q, j) {
       var p = '', sx = 0, sy = 0, sxx = 0, sxy = 0, m = 0;
       for (var i = s0; i <= e; i++) { var v = LEV[q[0]][i]; if (v == null) continue; v = (v / LEV[q[0]][s0] - 1) * 100;
@@ -6422,7 +6445,7 @@ CLOCK_JS = r"""(function () {
     if (!LN.length) sv += '<text x="' + ((L + W - R) / 2) + '" y="' + (top + h / 2) + '" text-anchor="middle" class="mt-v">no plan line for these dates</text>';
     // the sectors' RSI as heat ridges, highest RSI on top
     var ts = Object.keys(RS).filter(function (t) { return t !== 'SPY' && RS[t][s0] != null && RS[t][e] != null; }).sort(function (a, b) { return RS[b][e] - RS[a][e]; });
-    var t0 = top + h + 30, row = 25, amp = 34, H = t0 + row * ts.length + 22, defs = '';
+    var t0 = top + h + 50, row = 25, amp = 34, H = t0 + row * ts.length + 22, defs = '';
     var base = function (k) { return t0 + row * k + 8; }, Yv = function (k, v) { return base(k) - (Math.max(10, Math.min(92, v)) - 10) / 82 * amp; };
     sv += '<text x="' + (L - 6) + '" y="' + (t0 - 12) + '" text-anchor="end" class="mt-v">Sector RSI</text><text x="' + (W - R + 8) + '" y="' + (t0 - 12) + '" class="mt-v">RSI · move</text>';
     ts.forEach(function (t, k) {
@@ -6562,6 +6585,15 @@ def clock_html(scan):
                 C = dict(C, trend=dict(C['trend'], plan=mc.bps(pv, C['dates'])))
         except Exception as e:   # noqa: BLE001 - information only: the tile shows the S&P 500 without it
             print(f'  clock plan line skipped: {e}', file=sys.stderr)
+    if C.get('trend') and 'held' not in C['trend']:   # what the plan held (from the close of each date), for the tile's shading
+        try:
+            sys.path.insert(0, ROOT)
+            from mtl import plan_history as ph
+            first = C['dates'][0]
+            tl = [[f, *[round(x, 3) for x in sh]] for f, sh in ph.load()]
+            C = dict(C, trend=dict(C['trend'], held=[r for i, r in enumerate(tl) if i + 1 == len(tl) or tl[i + 1][0] > first]))
+        except Exception as e:   # noqa: BLE001 - information only: the tile draws without the shading
+            print(f'  clock holdings skipped: {e}', file=sys.stderr)
     if 'news' not in C:   # the major events (mtl/events.py) that read as policy support or a shock, for the news line
         try:
             sys.path.insert(0, ROOT)
@@ -6586,7 +6618,7 @@ def clock_html(scan):
             'gold’s and crude’s monthly hands start late 2001). NEWS counts the major events of the last month that read as policy '
             'support (QE, Fed cuts, rescues, trade relief) or a shock (war, crashes, bank failures, Fed hikes, oil and debt shocks), '
             'from the market events list. The tile beside the clock: the plan and the S&amp;P 500 over the chosen window ending on the clock’s '
-            'date (dashed = straight-line trend), then each sector’s RSI as heat ridges (green under 30, slate in the middle, amber rising, '
+            'date (dashed = straight-line trend), shaded by what the plan held (the strip under them; “holding now” = after the latest close), then each sector’s RSI as heat ridges (green under 30, slate in the middle, amber rising, '
             'red over 70), highest on top, with its price move over the window.</p></div>\n'
             f'  <script type="application/json" id="mclock-data">{js}</script>\n  <script>{CLOCK_JS}</script>\n')
 
