@@ -321,12 +321,12 @@
       [
        "bear",
        "On 13 November the 10-year Treasury yield rose about 5bp to 5.15%, roughly +30bp on the week (described as an outsized weekly move), the 30-year 4bp to 5.47% and the 2-year 2bp to 4.88%, widening 2s10s to about 27bp (CappNotes Closing Look, 13 November); Investrade's 13 November review has the 10-year at 5.152% (+29.4bp on the week) and the 2-year at 4.872% (+35.2bp on the week); a 10-year above 5.1% and still rising pressures equity multiples",
-       false
+       true
       ],
       [
        "bear",
        "Fed-path pricing stayed hawkish on 13 November: CME FedWatch has a December hike fully priced with roughly a 10-13% chance of 50bp, Kalshi 91.5% for 25bp (up 2 points after PPI), Polymarket 90.5%; SF Fed's Daly said her bias is that further tightening will be needed and Boston Fed's Collins that tighter policy is coming (CappNotes Closing Look, 13 November); 50bp odds were 0% a week earlier (Investrade Market Review, 13 November); more tightening priced is a headwind for equity multiples",
-       false
+       true
       ],
       [
        "neu",
@@ -356,7 +356,7 @@
       [
        "bear",
        "On 13 November the dollar index rose 0.25% to 103.43, near its strongest level in 19 months, copper fell 1.70%, bitcoin traded below $70,000 for the first time since late August, and oil was flat (WTI $88.56, -0.20%) (CappNotes Closing Look, 13 November; Investrade Market Review, 13 November); a firmer dollar alongside falling risk proxies is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -364,8 +364,8 @@
        null
       ]
      ],
-     "maturityClose": 7538.0,
-     "ret": -0.003042,
+     "maturityClose": 7494.25,
+     "ret": -0.008828,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2463,8 +2463,8 @@
        null
       ]
      ],
-     "maturityClose": 105.296875,
-     "ret": 0.000148,
+     "maturityClose": 105.265625,
+     "ret": -0.000148,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5052,8 +5052,8 @@
        null
       ]
      ],
-     "maturityClose": 3866.300048828125,
-     "ret": -0.005479,
+     "maturityClose": 3863.10009765625,
+     "ret": -0.006302,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7151,8 +7151,8 @@
        null
       ]
      ],
-     "maturityClose": 103.52400207519531,
-     "ret": 0.001093,
+     "maturityClose": 103.53099822998047,
+     "ret": 0.00116,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9283,12 +9283,12 @@
       [
        "bear",
        "On 13 November the 10-year Treasury yield rose about 5bp to 5.15%, roughly +30bp on the week (described as an outsized weekly move), the 30-year 4bp to 5.47% and the 2-year 2bp to 4.88%, widening 2s10s to about 27bp (CappNotes Closing Look, 13 November); Investrade's 13 November review has the 10-year at 5.152% (+29.4bp on the week) and the 2-year at 4.872% (+35.2bp on the week); a 10-year above 5.1% and still rising pressures equity multiples",
-       false
+       true
       ],
       [
        "bear",
        "Fed-path pricing stayed hawkish on 13 November: CME FedWatch has a December hike fully priced with roughly a 10-13% chance of 50bp, Kalshi 91.5% for 25bp (up 2 points after PPI), Polymarket 90.5%; SF Fed's Daly said her bias is that further tightening will be needed and Boston Fed's Collins that tighter policy is coming (CappNotes Closing Look, 13 November); 50bp odds were 0% a week earlier (Investrade Market Review, 13 November); more tightening priced is a headwind for equity multiples",
-       false
+       true
       ],
       [
        "neu",
@@ -9318,7 +9318,7 @@
       [
        "bear",
        "On 13 November the dollar index rose 0.25% to 103.43, near its strongest level in 19 months, copper fell 1.70%, bitcoin traded below $70,000 for the first time since late August, and oil was flat (WTI $88.56, -0.20%) (CappNotes Closing Look, 13 November; Investrade Market Review, 13 November); a firmer dollar alongside falling risk proxies is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -9326,8 +9326,8 @@
        null
       ]
      ],
-     "maturityClose": 2784.300048828125,
-     "ret": -0.002472,
+     "maturityClose": 2765.39990234375,
+     "ret": -0.009243,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11234,12 +11234,12 @@
       [
        "bear",
        "structure.hourly reads downtrend for NQ=F on 13 November (last labeled hourly swings LH/LL/LH/LL); RSI 41.51, close (27927.25) below the 50-day (29665.82) and below the 200-day (28167.08)",
-       false
+       true
       ],
       [
        "bear",
        "Tech breadth was poor on 13 November: the Nasdaq-100 fell 1.22% to 27,943.74, the weakest major index, technology was the worst S&P sector (-2.01%), AMD fell 8.75%, Broadcom 4.76% and the 3x semiconductor ETF SOXL 11.00% (CappNotes Closing Look, 13 November); a chip-led decline is a 1-day headwind for the Nasdaq-100",
-       false
+       true
       ],
       [
        "neu",
@@ -11254,12 +11254,12 @@
       [
        "bear",
        "On 13 November the 10-year Treasury yield rose about 5bp to 5.15%, roughly +30bp on the week (described as an outsized weekly move), the 30-year 4bp to 5.47% and the 2-year 2bp to 4.88%, widening 2s10s to about 27bp (CappNotes Closing Look, 13 November); Investrade's 13 November review has the 10-year at 5.152% (+29.4bp on the week) and the 2-year at 4.872% (+35.2bp on the week); a 10-year above 5.1% and still rising pressures equity multiples",
-       false
+       true
       ],
       [
        "bear",
        "Fed-path pricing stayed hawkish on 13 November: CME FedWatch has a December hike fully priced with roughly a 10-13% chance of 50bp, Kalshi 91.5% for 25bp (up 2 points after PPI), Polymarket 90.5%; SF Fed's Daly said her bias is that further tightening will be needed and Boston Fed's Collins that tighter policy is coming (CappNotes Closing Look, 13 November); 50bp odds were 0% a week earlier (Investrade Market Review, 13 November); more tightening priced is a headwind for equity multiples",
-       false
+       true
       ],
       [
        "neu",
@@ -11274,7 +11274,7 @@
       [
        "bear",
        "Earnings and analyst reactions in large-cap tech were negative on 13 November: Cisco fell 6.24% despite a beat and a raised full-year EPS outlook, Applied Materials 2.74% despite beating, Nvidia 2.01% (a sixth straight weekly decline, the longest since October 2012) with Truist and HSBC cutting it to Hold, and Broadcom 4.76% on a Rothschild & Co Redburn downgrade (CappNotes Closing Look, 13 November; CNBC live updates, 13 November); selling on beats is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -11289,19 +11289,19 @@
       [
        "bear",
        "On 13 November the dollar index rose 0.25% to 103.43, near its strongest level in 19 months, copper fell 1.70%, bitcoin traded below $70,000 for the first time since late August, and oil was flat (WTI $88.56, -0.20%) (CappNotes Closing Look, 13 November; Investrade Market Review, 13 November); a firmer dollar alongside falling risk proxies is a 1-day headwind",
-       false
+       true
       ],
       [
        "bear",
        "1H structure is downtrend - last labeled swings: LH/LL/LH/LL.",
-       false
+       true
       ]
      ],
-     "maturityClose": 27695.5,
-     "ret": -0.008298,
-     "correct": false,
-     "shadowCorrect": false,
-     "preReversionCorrect": false,
+     "maturityClose": 27532.0,
+     "ret": -0.014153,
+     "correct": true,
+     "shadowCorrect": true,
+     "preReversionCorrect": true,
      "settlementNote": "graded against NQ=F",
      "provisional": true
     },
