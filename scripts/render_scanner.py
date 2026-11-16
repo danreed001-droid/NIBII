@@ -489,6 +489,7 @@ footer li { margin-bottom: 6px; }
   <div class="card swpanel" id="swpanel" hidden></div>
 __WATCHRULE__
 
+__SECRSI__
 __RECENT__
 __NEWSFWD__
 __DOMINOES__
@@ -5314,9 +5315,10 @@ def render(scan, growth=None):
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__WATCHRULE__', watchrule_html(), 1)
+    page = page.replace('__SECRSI__', sector_rsi_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
     page = page.replace('__NEWSFWD__', news_forward_html(), 1)
-    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS + '\n' + NFW_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
+    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS + '\n' + NFW_CSS + '\n' + SRSI_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
     page = page.replace('__CROWDING__', crowding_html(scan).replace(   # also on docs/stress.html, where it has its charts
         '(published the Friday after)</span>', '(published the Friday after) · <a href="stress.html#crowding">charts →</a></span>', 1), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
@@ -5830,6 +5832,64 @@ def crowding_plain(rows):
 
 
 NEWS_FWD_PATH = os.path.join(ROOT, 'data', 'news_forward.json')
+SRSI_CSS = """.srsi .grid { display: grid; grid-template-columns: minmax(130px, 210px) 1fr 74px; gap: 5px 12px; align-items: center; font-size: 0.82rem; }
+.srsi .snm { line-height: 1.25; white-space: normal; overflow-wrap: anywhere; }
+.srsi .trk { position: relative; height: 16px; border-radius: 8px; background: linear-gradient(90deg,
+  color-mix(in srgb, var(--pos) 22%, transparent) 0 30%, var(--surface-2) 30% 70%, color-mix(in srgb, var(--neg) 22%, transparent) 70% 100%); }
+.srsi .trk .mid { position: absolute; left: 50%; top: 2px; bottom: 2px; width: 1px; background: var(--hairline); }
+.srsi .trk .was { position: absolute; top: 4px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--muted); opacity: .7; }
+.srsi .trk .mv { position: absolute; top: 7px; height: 2px; background: var(--muted); opacity: .6; }
+.srsi .trk .now { position: absolute; top: 1px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 2px solid var(--surface); }
+.srsi .v { text-align: right; } .srsi .v small { color: var(--muted); }
+.srsi .ax { display: grid; grid-template-columns: minmax(130px, 210px) 1fr 74px; gap: 12px; font-size: 0.7rem; color: var(--muted); margin: 2px 0 6px; }
+.srsi .ax span { position: relative; height: 1.1em; } .srsi .ax i { position: absolute; transform: translateX(-50%); font-style: normal; white-space: nowrap; }
+.srsi .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 26px; margin-top: 14px; }
+.srsi h4 { font-size: 0.82rem; margin: 0 0 6px; font-weight: 600; }
+@media (max-width: 760px) { .srsi .cols { grid-template-columns: 1fr; } .srsi .grid, .srsi .ax { grid-template-columns: minmax(104px, 140px) 1fr 62px; } .srsi .ax .w { display: none; } }"""
+
+
+def _srsi_rows(rows, back, label):
+    out = []
+    for r in rows:
+        now, was = r['rsi'], r['was']
+        col = 'var(--pos)' if now < 30 else 'var(--neg)' if now > 70 else 'var(--accent)'
+        lo, hi = min(now, was), max(now, was)
+        m1 = '' if r.get('m1') is None else f"{r['m1'] * 100:+.1f}% 1 mo"
+        tip = (f"{r['name']}{' (' + r['t'] + ')' if r.get('t') else ''}{', ' + str(r['n']) + ' stocks' if r.get('n') else ''}: "
+               f"RSI {now:.0f} tonight, {was:.0f} {back} sessions ago{', ' + m1 if m1 else ''}")
+        out.append(f'<div class="snm" title="{html.escape(tip)}">{html.escape(label(r))}</div>'
+                   f'<div class="trk" title="{html.escape(tip)}"><span class="mid"></span><span class="mv" style="left:{lo}%;width:{hi - lo}%"></span>'
+                   f'<span class="was" style="left:{was}%"></span><span class="now" style="left:{now}%;background:{col}"></span></div>'
+                   f'<div class="v mono">{round(now)}<small> ({round(now) - round(was):+d})</small></div>')
+    return ''.join(out)
+
+
+def sector_rsi_html(scan, show=8):
+    """Scanner page, above the news: the 14-day RSI of the S&P 500 sectors (SPDR funds) and the most oversold and
+    overbought industries (mtl/sector_rsi.py; information only). '' when the scan has none."""
+    D = scan.get('sectorRsi') or {}
+    secs, th = D.get('sectors') or [], D.get('themes') or []
+    if not secs and not th:
+        return ''
+    b = D.get('back', 5)
+    ax = '<div class="ax"><span></span><span><i class="w" style="left:0;transform:none">0</i><i style="left:30%">30</i><i class="w" style="left:15%">oversold</i><i style="left:50%">50</i><i style="left:70%">70</i><i class="w" style="left:85%">overbought</i><i class="w" style="left:100%;transform:translateX(-100%)">100</i></span><span></span></div>'
+    body = ''
+    if secs:
+        body += ('<h4>S&amp;P 500 sectors</h4>' + ax + '<div class="grid">'
+                 + _srsi_rows(secs, b, lambda r: f"{r['name']} ({r['t']})") + '</div>')
+    if th:
+        lo_, hi_ = th[:show], sorted(th[-show:], key=lambda r: -r['rsi'])
+        lab = lambda r: f"{r['name']} ({r['n']})"
+        body += ('<div class="cols"><div><h4>Lowest RSI themes</h4><div class="grid">' + _srsi_rows(lo_, b, lab) + '</div></div>'
+                 '<div><h4>Highest RSI themes</h4><div class="grid">' + _srsi_rows(hi_, b, lab) + '</div></div></div>')
+    n_os = sum(1 for r in th if r['rsi'] < 30); n_ob = sum(1 for r in th if r['rsi'] > 70)
+    return (f'  <p class="section-label">Sector and theme RSI <span class="hint">14-day RSI as of {html.escape(D.get("asOf") or "")}: '
+            f'the big dot is tonight, the small one {b} sessions ago (the number in brackets is the change); under 30 oversold, over 70 '
+            f'overbought. Themes are industries: an equal-weight index of their S&amp;P 500 members (count in brackets). '
+            f'{n_os} of {len(th)} themes oversold, {n_ob} overbought. Information only, not a rule.</span></p>\n'
+            f'  <div class="card srsi">{body}</div>\n')
+
+
 NFW_CSS = """.nfw table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
 .nfw th { text-align: right; color: var(--muted); font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid var(--hairline);
   padding: 4px; text-transform: none; letter-spacing: 0; white-space: normal; }
