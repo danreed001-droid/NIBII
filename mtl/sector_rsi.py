@@ -10,9 +10,9 @@ FUNDS = {'XLK': 'Technology', 'XLC': 'Communication services', 'XLY': 'Consumer 
          'XLRE': 'Real estate', 'XLU': 'Utilities'}
 PERIOD = 14
 BACK = 5            # sessions back for the "was" marker
-SPAN = 120          # sessions of closes used (enough for the RSI to settle)
+SPAN = 300          # sessions of closes used (enough for the RSI to settle, plus a year of daily history)
 MIN_STOCKS = 4      # an industry needs at least this many priced members
-WEEKS = 13          # weekly points for the sector flow chart (every 5th session back from tonight)
+DAYS = 252          # sessions of daily RSI kept for the page's date picker
 
 
 def _carried(px, cal):
@@ -73,19 +73,28 @@ def build(fund_px, prices, industries, calendar, universe=None):
         r = _row(industry_index(prices, ts, cal))
         if r:
             themes.append(dict(name=g, n=len(ts), **r))
-    hist = dict(dates=[], series={})
+    # daily RSI for the page's date picker: the last DAYS sessions, for every sector and theme with full history
+    hd = cal[-DAYS:]
+    hist = dict(dates=hd, sectors={}, themes={}, n={})
+    def _daily(closes):
+        idx = [i for i, x in enumerate(closes) if x]
+        if len(idx) < PERIOD + 2:
+            return None
+        r = rsi_series([closes[i] for i in idx], PERIOD)
+        by = {cal[i]: v for i, v in zip(idx, r)}
+        out = [by.get(d) for d in hd]
+        return None if any(v is None for v in out[-30:]) else [None if v is None else round(v, 1) for v in out]
     for t in FUNDS:
-        c = [x for x in _carried(fund_px.get(t) or {}, cal)] if fund_px.get(t) else []
-        if sum(1 for x in c if x) < PERIOD + 5 * WEEKS:
-            continue
-        r = rsi_series([x for x in c if x], PERIOD)
-        idx = [len(r) - 1 - 5 * w for w in range(WEEKS)][::-1]
-        if any(r[i] is None for i in idx):
-            continue
-        hist['series'][t] = [round(r[i], 1) for i in idx]
-        if not hist['dates']:
-            off = len(cal) - len(r)
-            hist['dates'] = [cal[off + i] for i in idx]
+        if fund_px.get(t):
+            v = _daily(_carried(fund_px[t], cal))
+            if v:
+                hist['sectors'][t] = v
+    for g, ts in groups.items():
+        if len(ts) >= MIN_STOCKS:
+            v = _daily(industry_index(prices, ts, cal))
+            if v:
+                hist['themes'][g] = v
+                hist['n'][g] = len(ts)
     sectors.sort(key=lambda x: -x['rsi'])
     themes.sort(key=lambda x: x['rsi'])
     return dict(asOf=calendar[-1] if calendar else None, period=PERIOD, back=BACK, sectors=sectors, themes=themes, hist=hist)

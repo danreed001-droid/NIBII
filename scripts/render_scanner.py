@@ -5852,6 +5852,9 @@ SRSI_CSS = """.srsi .grid { display: grid; grid-template-columns: minmax(130px, 
 .srsi .fl-pill { fill: var(--ink); } .srsi .fl-d { fill: var(--surface); font-size: 10.5px; font-weight: 600; }
 .srsi .fl-l { fill: var(--ink-2); font-size: 12.5px; } .srsi .fl-v { fill: var(--muted); font-size: 11px; }
 .srsi .fl-n { fill: var(--ink); font-weight: 600; } .srsi .fl-n.fl-ob { fill: var(--neg); } .srsi .fl-n.fl-os { fill: var(--pos); }
+.srsi .fl-g2 { opacity: .45; }
+.srsi .srsi-ctl { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 0.82rem; margin-bottom: 10px; color: var(--ink-2); }
+.srsi .srsi-ctl input, .srsi .srsi-ctl select { font: inherit; background: var(--surface-2); color: var(--ink); border: 1px solid var(--hairline); border-radius: 6px; padding: 3px 6px; }
 @media (max-width: 760px) { .srsi .cols { grid-template-columns: 1fr; } .srsi .grid, .srsi .ax { grid-template-columns: minmax(104px, 140px) 1fr 62px; } .srsi .ax .w { display: none; } }"""
 
 
@@ -5860,104 +5863,92 @@ SRSI_SHORT = {'XLK': 'Tech', 'XLC': 'Comm services', 'XLY': 'Discretionary', 'XL
 SRSI_COLORS = {'XLK': '#5b8fd1', 'XLC': '#c9725f', 'XLY': '#d4a24c', 'XLP': '#8fa86b', 'XLE': '#a0785a', 'XLF': '#6aa6a0',
                'XLV': '#b57fb3', 'XLI': '#7d8aa8', 'XLB': '#c4a77c', 'XLRE': '#d08aa0', 'XLU': '#7fb07a'}
 
-
-def _srsi_flow(D):
-    """The sectors' RSI over the last weeks as ribbons: each week the sectors are stacked by RSI (highest on top), so a
-    ribbon climbs or sinks as its RSI rank changes; its thickness is its RSI. '' without the history."""
-    H = D.get('hist') or {}
-    dates, ser = H.get('dates') or [], H.get('series') or {}
-    if len(dates) < 2 or not ser:
-        return ''
-    names = {r['t']: r['name'] for r in D.get('sectors') or []}
-    ts = list(ser)
-    n, W = len(dates), 1000
-    L, R, top, row = 150, 205, 66, 34
-    Hh = top + row * len(ts) + 26
-    X = [L + (W - L - R) * i / (n - 1) for i in range(n)]
-    rank = []
-    for i in range(n):
-        order = sorted(ts, key=lambda t: -ser[t][i])
-        rank.append({t: k for k, t in enumerate(order)})
-    Y = lambda i, t: top + row * rank[i][t] + row / 2
-    th = lambda v: 6 + 22 * max(0.0, min(100.0, v)) / 100
-    out = [f'<svg class="flow" viewBox="0 0 {W} {Hh}" role="img" aria-label="Sector RSI ranks over the last {n} weeks">']
-    for i, d in enumerate(dates):
-        lbl = date.fromisoformat(d).strftime('%b %-d')
-        out.append(f'<line x1="{X[i]:.1f}" x2="{X[i]:.1f}" y1="{top - 8}" y2="{Hh - 22}" class="fl-g"/>'
-                   f'<rect x="{X[i] - 25:.1f}" y="{top - 34}" width="50" height="18" rx="9" class="fl-pill"/>'
-                   f'<text x="{X[i]:.1f}" y="{top - 21}" text-anchor="middle" class="fl-d">{lbl}</text>')
-    for t in sorted(ts, key=lambda t: rank[-1][t], reverse=True):
-        v = ser[t]
-        up = [(X[i], Y(i, t) - th(v[i]) / 2) for i in range(n)]
-        dn = [(X[i], Y(i, t) + th(v[i]) / 2) for i in range(n)]
-        dpath = f'M{up[0][0]:.1f},{up[0][1]:.1f}'
-        for i in range(1, n):
-            mx = (up[i - 1][0] + up[i][0]) / 2
-            dpath += f' C{mx:.1f},{up[i - 1][1]:.1f} {mx:.1f},{up[i][1]:.1f} {up[i][0]:.1f},{up[i][1]:.1f}'
-        dpath += f' L{dn[-1][0]:.1f},{dn[-1][1]:.1f}'
-        for i in range(n - 1, 0, -1):
-            mx = (dn[i - 1][0] + dn[i][0]) / 2
-            dpath += f' C{mx:.1f},{dn[i][1]:.1f} {mx:.1f},{dn[i - 1][1]:.1f} {dn[i - 1][0]:.1f},{dn[i - 1][1]:.1f}'
-        dpath += ' Z'
-        col = SRSI_COLORS.get(t, '#888')
-        tip = f"{names.get(t, t)} ({t}): RSI " + ', '.join(f"{date.fromisoformat(d).strftime('%b %-d')} {x:.0f}" for d, x in zip(dates, v))
-        out.append(f'<path d="{dpath}" fill="{col}" class="fl-r"><title>{html.escape(tip)}</title></path>')
-        a, b = v[0], v[-1]
-        cls = 'fl-ob' if b > 70 else 'fl-os' if b < 30 else ''
-        out.append(f'<text x="{L - 10}" y="{Y(0, t) + 4:.1f}" text-anchor="end" class="fl-l">{html.escape(SRSI_SHORT.get(t, t))} <tspan class="fl-v">{a:.0f}</tspan></text>'
-                   f'<text x="{W - R + 10}" y="{Y(n - 1, t) + 4:.1f}" class="fl-l"><tspan class="fl-n {cls}">{b:.0f}</tspan> {html.escape(names.get(t, t))} <tspan class="fl-v">{t}</tspan></text>')
-    out.append(f'<text x="{L - 10}" y="14" text-anchor="end" class="fl-v">RSI then</text>'
-               f'<text x="{W - R + 10}" y="14" class="fl-v">RSI tonight</text></svg>')
-    return ''.join(out)
-
-
-def _srsi_rows(rows, back, label):
-    out = []
-    for r in rows:
-        now, was = r['rsi'], r['was']
-        col = 'var(--pos)' if now < 30 else 'var(--neg)' if now > 70 else 'var(--accent)'
-        lo, hi = min(now, was), max(now, was)
-        m1 = '' if r.get('m1') is None else f"{r['m1'] * 100:+.1f}% 1 mo"
-        tip = (f"{r['name']}{' (' + r['t'] + ')' if r.get('t') else ''}{', ' + str(r['n']) + ' stocks' if r.get('n') else ''}: "
-               f"RSI {now:.0f} tonight, {was:.0f} {back} sessions ago{', ' + m1 if m1 else ''}")
-        out.append(f'<div class="snm" title="{html.escape(tip)}">{html.escape(label(r))}</div>'
-                   f'<div class="trk" title="{html.escape(tip)}"><span class="mid"></span><span class="mv" style="left:{lo}%;width:{hi - lo}%"></span>'
-                   f'<span class="was" style="left:{was}%"></span><span class="now" style="left:{now}%;background:{col}"></span></div>'
-                   f'<div class="v mono">{round(now)}<small> ({round(now) - round(was):+d})</small></div>')
-    return ''.join(out)
+SRSI_JS = r"""(function () {
+  var D = JSON.parse(document.getElementById('srsi-data').textContent), H = D.hist, dates = H.dates;
+  var root = document.getElementById('srsi'), inp = document.getElementById('srsi-date'), len = document.getElementById('srsi-len');
+  var NS = 'http://www.w3.org/2000/svg';
+  function esc(x) { return String(x).replace(/[&<>"]/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); }
+  function fd(d) { var p = d.split('-'); return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1] - 1] + ' ' + (+p[2]); }
+  inp.min = dates[0]; inp.max = dates[dates.length - 1]; inp.value = inp.max;
+  function endIdx() { var v = inp.value, k = dates.length - 1; while (k > 0 && dates[k] > v) k--; return k; }
+  function flow(e, n) {
+    var ts = Object.keys(H.sectors).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (H.sectors[t][i] == null) return false; return true; });
+    if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
+    var W = 1000, L = 150, R = 205, top = 66, row = 34, Hh = top + row * ts.length + 26, s0 = e - n + 1;
+    var X = function (i) { return L + (W - L - R) * i / (n - 1); }, rank = [];
+    for (var i = 0; i < n; i++) { var o = ts.slice().sort(function (a, b) { return H.sectors[b][s0 + i] - H.sectors[a][s0 + i]; }); var r = {}; o.forEach(function (t, k) { r[t] = k; }); rank.push(r); }
+    var Y = function (i, t) { return top + row * rank[i][t] + row / 2; }, th = function (v) { return 6 + 22 * Math.max(0, Math.min(100, v)) / 100; };
+    var out = ['<svg class="flow" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Sector RSI ranks">'], step = Math.max(1, Math.ceil(n / 12));
+    for (var i = 0; i < n; i++) {
+      var x = X(i).toFixed(1), last = i === n - 1, lab = (i % step === 0 && n - 1 - i >= step) || last;
+      out.push('<line x1="' + x + '" x2="' + x + '" y1="' + (top - 8) + '" y2="' + (Hh - 22) + '" class="fl-g' + (lab ? '' : ' fl-g2') + '"/>');
+      if (lab) out.push('<rect x="' + (X(i) - 25).toFixed(1) + '" y="' + (top - 34) + '" width="50" height="18" rx="9" class="fl-pill"/><text x="' + x + '" y="' + (top - 21) + '" text-anchor="middle" class="fl-d">' + fd(dates[s0 + i]) + '</text>');
+    }
+    ts.slice().sort(function (a, b) { return rank[n - 1][b] - rank[n - 1][a]; }).forEach(function (t) {
+      var v = H.sectors[t].slice(s0, e + 1), up = [], dn = [];
+      for (var i = 0; i < n; i++) { up.push([X(i), Y(i, t) - th(v[i]) / 2]); dn.push([X(i), Y(i, t) + th(v[i]) / 2]); }
+      var d = 'M' + up[0][0].toFixed(1) + ',' + up[0][1].toFixed(1);
+      for (var i = 1; i < n; i++) { var mx = ((up[i - 1][0] + up[i][0]) / 2).toFixed(1); d += ' C' + mx + ',' + up[i - 1][1].toFixed(1) + ' ' + mx + ',' + up[i][1].toFixed(1) + ' ' + up[i][0].toFixed(1) + ',' + up[i][1].toFixed(1); }
+      d += ' L' + dn[n - 1][0].toFixed(1) + ',' + dn[n - 1][1].toFixed(1);
+      for (var i = n - 1; i > 0; i--) { var mx = ((dn[i - 1][0] + dn[i][0]) / 2).toFixed(1); d += ' C' + mx + ',' + dn[i][1].toFixed(1) + ' ' + mx + ',' + dn[i - 1][1].toFixed(1) + ' ' + dn[i - 1][0].toFixed(1) + ',' + dn[i - 1][1].toFixed(1); }
+      var tip = D.names[t] + ' (' + t + '): RSI ' + fd(dates[s0]) + ' ' + Math.round(v[0]) + ', ' + fd(dates[e]) + ' ' + Math.round(v[n - 1]) + '; low ' + Math.round(Math.min.apply(null, v)) + ', high ' + Math.round(Math.max.apply(null, v));
+      out.push('<path d="' + d + ' Z" fill="' + D.colors[t] + '" class="fl-r"><title>' + esc(tip) + '</title></path>');
+      var b = v[n - 1], cls = b > 70 ? ' fl-ob' : b < 30 ? ' fl-os' : '';
+      out.push('<text x="' + (L - 10) + '" y="' + (Y(0, t) + 4).toFixed(1) + '" text-anchor="end" class="fl-l">' + esc(D.short[t]) + ' <tspan class="fl-v">' + Math.round(v[0]) + '</tspan></text>' +
+               '<text x="' + (W - R + 10) + '" y="' + (Y(n - 1, t) + 4).toFixed(1) + '" class="fl-l"><tspan class="fl-n' + cls + '">' + Math.round(b) + '</tspan> ' + esc(D.names[t]) + ' <tspan class="fl-v">' + t + '</tspan></text>');
+    });
+    out.push('<text x="' + (L - 10) + '" y="14" text-anchor="end" class="fl-v">RSI ' + fd(dates[s0]) + '</text><text x="' + (W - R + 10) + '" y="14" class="fl-v">RSI ' + fd(dates[e]) + '</text></svg>');
+    return out.join('');
+  }
+  var AX = '<div class="ax"><span></span><span><i class="w" style="left:0;transform:none">0</i><i style="left:30%">30</i><i class="w" style="left:15%">oversold</i><i style="left:50%">50</i><i style="left:70%">70</i><i class="w" style="left:85%">overbought</i><i class="w" style="left:100%;transform:translateX(-100%)">100</i></span><span></span></div>';
+  function rows(list) {
+    return list.map(function (r) {
+      var now = r.now, was = r.was, col = now < 30 ? 'var(--pos)' : now > 70 ? 'var(--neg)' : 'var(--accent)', lo = Math.min(now, was), hi = Math.max(now, was);
+      var tip = esc(r.label + ': RSI ' + Math.round(now) + ', ' + Math.round(was) + ' ' + D.back + ' sessions before');
+      var ch = Math.round(now) - Math.round(was);
+      return '<div class="snm" title="' + tip + '">' + esc(r.label) + '</div><div class="trk" title="' + tip + '"><span class="mid"></span><span class="mv" style="left:' + lo + '%;width:' + (hi - lo) + '%"></span>' +
+        '<span class="was" style="left:' + was + '%"></span><span class="now" style="left:' + now + '%;background:' + col + '"></span></div><div class="v mono">' + Math.round(now) + '<small> (' + (ch >= 0 ? '+' : '') + ch + ')</small></div>';
+    }).join('');
+  }
+  function at(series, e) { var a = series[e], b = series[e - D.back]; return a == null || b == null ? null : {now: a, was: b}; }
+  function draw() {
+    var e = endIdx(), n = +len.value, s = [], th = [];
+    Object.keys(H.sectors).forEach(function (t) { var x = at(H.sectors[t], e); if (x) { x.label = D.names[t] + ' (' + t + ')'; s.push(x); } });
+    Object.keys(H.themes).forEach(function (g) { var x = at(H.themes[g], e); if (x) { x.label = g + ' (' + H.n[g] + ')'; th.push(x); } });
+    s.sort(function (a, b) { return b.now - a.now; }); th.sort(function (a, b) { return a.now - b.now; });
+    var os = th.filter(function (r) { return r.now < 30; }).length, ob = th.filter(function (r) { return r.now > 70; }).length;
+    root.innerHTML = '<h4>S&amp;P 500 sectors: RSI rank, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap">' + flow(e, Math.min(n, e + 1)) + '</div>' +
+      '<h4 style="margin-top:12px">Sectors on ' + fd(dates[e]) + '</h4>' + AX + '<div class="grid">' + rows(s) + '</div>' +
+      '<div class="cols"><div><h4>Lowest RSI themes</h4><div class="grid">' + rows(th.slice(0, 8)) + '</div></div><div><h4>Highest RSI themes</h4><div class="grid">' + rows(th.slice(-8).reverse()) + '</div></div></div>' +
+      '<p class="muted" style="font-size:.78rem;margin:10px 0 0">' + os + ' of ' + th.length + ' themes oversold (under 30), ' + ob + ' overbought (over 70) on ' + fd(dates[e]) + '.</p>';
+  }
+  inp.addEventListener('change', draw); len.addEventListener('change', draw);
+  document.getElementById('srsi-today').addEventListener('click', function () { inp.value = inp.max; draw(); });
+  draw();
+})();"""
 
 
-def sector_rsi_html(scan, show=8):
-    """Scanner page, above the news: the 14-day RSI of the S&P 500 sectors (SPDR funds) and the most oversold and
-    overbought industries (mtl/sector_rsi.py; information only). '' when the scan has none."""
+def sector_rsi_html(scan):
+    """Scanner page, above the news: the 14-day RSI of the S&P 500 sectors (SPDR funds) as a flow chart of daily rank
+    (last 30 sessions by default, any date in the last year from the picker), with each sector's and the lowest and
+    highest industries' RSI on that date (mtl/sector_rsi.py; information only). '' when the scan has none."""
     D = scan.get('sectorRsi') or {}
-    secs, th = D.get('sectors') or [], D.get('themes') or []
-    if not secs and not th:
+    H = D.get('hist') or {}
+    if not H.get('dates') or not H.get('sectors'):
         return ''
-    b = D.get('back', 5)
-    ax = '<div class="ax"><span></span><span><i class="w" style="left:0;transform:none">0</i><i style="left:30%">30</i><i class="w" style="left:15%">oversold</i><i style="left:50%">50</i><i style="left:70%">70</i><i class="w" style="left:85%">overbought</i><i class="w" style="left:100%;transform:translateX(-100%)">100</i></span><span></span></div>'
-    body = ''
-    if secs:
-        fl = _srsi_flow(D)
-        if fl:
-            nw = len((D.get('hist') or {}).get('dates') or [])
-            body += (f'<h4>S&amp;P 500 sectors: RSI rank, last {nw} weeks</h4><p class="muted" style="font-size:.78rem;margin:0 0 4px">Each week the '
-                     f'sectors are stacked by 14-day RSI, highest on top; a ribbon rises or sinks as its RSI rank changes, and is thicker the higher '
-                     f'its RSI. Left: RSI {nw - 1} weeks ago; right: tonight (red over 70, green under 30). Hover a ribbon for its weekly readings.</p>'
-                     f'<div class="flowwrap">{fl}</div>')
-        body += ('<h4 style="margin-top:12px">Sectors tonight</h4>' + ax + '<div class="grid">'
-                 + _srsi_rows(secs, b, lambda r: f"{r['name']} ({r['t']})") + '</div>')
-    if th:
-        lo_, hi_ = th[:show], sorted(th[-show:], key=lambda r: -r['rsi'])
-        lab = lambda r: f"{r['name']} ({r['n']})"
-        body += ('<div class="cols"><div><h4>Lowest RSI themes</h4><div class="grid">' + _srsi_rows(lo_, b, lab) + '</div></div>'
-                 '<div><h4>Highest RSI themes</h4><div class="grid">' + _srsi_rows(hi_, b, lab) + '</div></div></div>')
-    n_os = sum(1 for r in th if r['rsi'] < 30); n_ob = sum(1 for r in th if r['rsi'] > 70)
-    return (f'  <p class="section-label">Sector and theme RSI <span class="hint">14-day RSI as of {html.escape(D.get("asOf") or "")}: '
-            f'the big dot is tonight, the small one {b} sessions ago (the number in brackets is the change); under 30 oversold, over 70 '
-            f'overbought. Themes are industries: an equal-weight index of their S&amp;P 500 members (count in brackets). '
-            f'{n_os} of {len(th)} themes oversold, {n_ob} overbought. Information only, not a rule.</span></p>\n'
-            f'  <div class="card srsi">{body}</div>\n')
+    data = dict(back=D.get('back', 5), hist=H, short=SRSI_SHORT, colors=SRSI_COLORS,
+                names={t: n for t, n in __import__('mtl.sector_rsi', fromlist=['FUNDS']).FUNDS.items()})
+    js = json.dumps(data, separators=(',', ':')).replace('</', '<\\/')
+    return (f'  <p class="section-label">Sector and theme RSI <span class="hint">14-day RSI. The chart stacks the sectors by RSI each '
+            f'day, highest on top: a ribbon rises or sinks as its RSI rank changes, and is thicker the higher its RSI (hover a ribbon). '
+            f'Below: each sector and the lowest and highest themes on that date, the small dot {D.get("back", 5)} sessions earlier; under 30 '
+            f'oversold, over 70 overbought. Themes are industries, an equal-weight index of their S&amp;P 500 members (count in brackets). '
+            f'Information only, not a rule.</span></p>\n'
+            f'  <div class="card srsi"><div class="srsi-ctl"><label>Up to <input type="date" id="srsi-date"></label> '
+            f'<label>showing <select id="srsi-len"><option value="30" selected>30 sessions</option><option value="60">60 sessions</option>'
+            f'<option value="90">90 sessions</option></select></label> <button type="button" class="bt" id="srsi-today">Latest</button></div>'
+            f'<div id="srsi"></div></div>\n'
+            f'  <script type="application/json" id="srsi-data">{js}</script>\n  <script>{SRSI_JS}</script>\n')
 
 
 NFW_CSS = """.nfw table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }

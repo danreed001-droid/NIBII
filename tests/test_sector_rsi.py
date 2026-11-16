@@ -45,10 +45,13 @@ def test_index_ignores_huge_moves():
     assert abs(ix[2] / ix[1] - 1) < 1e-9   # day 2: A +200% left out, the rest flat
 
 
-def test_weekly_history_for_the_flow_chart():
+def test_daily_history_for_the_date_picker():
     cal = _cal(120)
     up = {d: 100 * 1.01 ** i for i, d in enumerate(cal)}
     dn = {d: 100 * 0.99 ** i for i, d in enumerate(cal)}
-    h = SR.build({'XLK': up, 'XLE': dn}, {}, {}, cal)['hist']
-    assert len(h['dates']) == SR.WEEKS and h['dates'][-1] == cal[-1] and h['dates'][-2] == cal[-6]
-    assert len(h['series']['XLK']) == SR.WEEKS and h['series']['XLK'][-1] > h['series']['XLE'][-1]
+    px = {f'S{i}': dn for i in range(4)}
+    h = SR.build({'XLK': up, 'XLE': dn}, px, {f'S{i}': 'Widgets' for i in range(4)}, cal)['hist']
+    assert h['dates'] == cal[-SR.DAYS:] and h['dates'][-1] == cal[-1]
+    assert len(h['sectors']['XLK']) == len(h['dates']) and h['sectors']['XLK'][-1] > 70 > 30 > h['sectors']['XLE'][-1]
+    assert h['themes']['Widgets'][-1] < 30 and h['n']['Widgets'] == 4
+    assert h['sectors']['XLK'][0] is None          # too early for a 14-day RSI
