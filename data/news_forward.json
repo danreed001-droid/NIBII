@@ -1,6 +1,6 @@
 {
  "about": "News forward test: fixed guesses about what follows each day's news, written before the next open and scored afterwards (mtl/news_forward.py). Information only.",
- "updated": "2026-11-16T14:09:00+00:00",
+ "updated": "2026-11-16T18:34:06+00:00",
  "version": 1,
  "started": "2026-10-31",
  "minN": 20,
@@ -649,7 +649,9 @@
    "asset": "QQQ",
    "h": 2,
    "call": -1,
-   "at": "2026-11-12T23:37:48+00:00"
+   "at": "2026-11-12T23:37:48+00:00",
+   "res": -0.03825,
+   "hit": true
   },
   {
    "d": "2026-11-12",
@@ -696,7 +698,9 @@
    "asset": "TLT",
    "h": 1,
    "call": -1,
-   "at": "2026-11-13T22:09:37+00:00"
+   "at": "2026-11-13T22:09:37+00:00",
+   "res": 0.00132,
+   "hit": false
   },
   {
    "d": "2026-11-13",
@@ -704,7 +708,9 @@
    "asset": "GLD",
    "h": 1,
    "call": -1,
-   "at": "2026-11-13T22:09:37+00:00"
+   "at": "2026-11-13T22:09:37+00:00",
+   "res": -0.0081,
+   "hit": true
   },
   {
    "d": "2026-11-13",
@@ -712,7 +718,9 @@
    "asset": "SPY",
    "h": 1,
    "call": 1,
-   "at": "2026-11-13T22:09:37+00:00"
+   "at": "2026-11-13T22:09:37+00:00",
+   "res": -0.01929,
+   "hit": false
   },
   {
    "d": "2026-11-13",
@@ -833,11 +841,11 @@
     "asset": "TLT",
     "h": 1,
     "calls": 10,
-    "n": 9,
+    "n": 10,
     "hits": 5,
-    "rate": 0.556,
+    "rate": 0.5,
     "p": 1.0,
-    "avg": 0.00195,
+    "avg": 0.00162,
     "verdict": "too few"
    },
    {
@@ -846,11 +854,11 @@
     "asset": "GLD",
     "h": 1,
     "calls": 10,
-    "n": 9,
-    "hits": 6,
-    "rate": 0.667,
-    "p": 0.5078,
-    "avg": 0.00798,
+    "n": 10,
+    "hits": 7,
+    "rate": 0.7,
+    "p": 0.3438,
+    "avg": 0.008,
     "verdict": "too few"
    },
    {
@@ -859,11 +867,11 @@
     "asset": "SPY",
     "h": 1,
     "calls": 10,
-    "n": 9,
+    "n": 10,
     "hits": 3,
-    "rate": 0.333,
-    "p": 0.5078,
-    "avg": -0.00963,
+    "rate": 0.3,
+    "p": 0.3438,
+    "avg": -0.01059,
     "verdict": "too few"
    },
    {
@@ -872,11 +880,11 @@
     "asset": "QQQ",
     "h": 2,
     "calls": 10,
-    "n": 8,
-    "hits": 3,
-    "rate": 0.375,
-    "p": 0.7266,
-    "avg": -0.00992,
+    "n": 9,
+    "hits": 4,
+    "rate": 0.444,
+    "p": 1.0,
+    "avg": -0.00457,
     "verdict": "too few"
    },
    {
