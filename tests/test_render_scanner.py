@@ -408,3 +408,11 @@ def test_scanner_page_shows_the_crowding_gauge_too():
     if 'id="dominoes"' in page:
         assert page.index('id="dominoes"') < page.index('id="crowding"')
     assert '__CROWDING__' not in render_scanner.render(SCAN)                     # no gauge tonight: nothing shown
+
+
+def test_clock_script_has_no_clashing_function_names():
+    # a second `function mix(...)` once silently replaced the clock's colour mixer and blanked its ring
+    import collections
+    import re
+    names = re.findall(r'\bfunction\s+([A-Za-z_$][\w$]*)\s*\(', render_scanner.CLOCK_JS)
+    assert [n for n, c in collections.Counter(names).items() if c > 1] == []

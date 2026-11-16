@@ -6407,7 +6407,7 @@ CLOCK_JS = r"""(function () {
     for (var i = 0; i < H_.length; i++) { if (incl ? H_[i][0] > d : H_[i][0] >= d) break; got = H_[i]; }
     return got;
   }
-  function mix(r) { return r ? HK.map(function (k, j) { return [k, r[j + 1]]; }).filter(function (q) { return q[1] > 0.004; }) : []; }
+  function heldMix(r) { return r ? HK.map(function (k, j) { return [k, r[j + 1]]; }).filter(function (q) { return q[1] > 0.004; }) : []; }
   function trendTile() {
     var box = document.getElementById('mclock-trend'); if (!box || !TR) return;
     var e = cur, n = Math.min(TN, e + 1), s0 = e - n + 1, W = 520, L = 92, R = 112;
@@ -6425,14 +6425,14 @@ CLOCK_JS = r"""(function () {
       var hr = heldAt(C.dates[i], false);
       if (i < e && heldAt(C.dates[i + 1], false) === hr) continue;
       var y0 = top + h + 4, a0 = j0; j0 = i + 1;
-      mix(hr).forEach(function (q) {
+      heldMix(hr).forEach(function (q) {
         var x0 = Math.max(L, X(a0) - dx / 2), x1 = Math.min(W - R, X(i) + dx / 2), hh = 7 * q[1]; seen[q[0][0]] = q[0][1];
         sv += '<rect x="' + x0.toFixed(1) + '" y="' + top + '" width="' + (x1 - x0 + 0.3).toFixed(1) + '" height="' + h + '" style="fill:var(' + q[0][1] + ')" fill-opacity="' + (0.13 * q[1]).toFixed(3) + '"/>' +
           '<rect x="' + x0.toFixed(1) + '" y="' + y0.toFixed(1) + '" width="' + (x1 - x0 + 0.3).toFixed(1) + '" height="' + hh.toFixed(1) + '" style="fill:var(' + q[0][1] + ')"/>';
         y0 += hh;
       });
     }
-    var now = mix(heldAt(C.dates[e], true)), lg = Object.keys(seen).map(function (k) { return '<tspan style="fill:var(' + seen[k] + ')">■</tspan> ' + esc(k); }).join('  ');
+    var now = heldMix(heldAt(C.dates[e], true)), lg = Object.keys(seen).map(function (k) { return '<tspan style="fill:var(' + seen[k] + ')">■</tspan> ' + esc(k); }).join('  ');
     sv += '<text x="' + L + '" y="' + (top + h + 22) + '" class="mt-v">' + (lg ? 'Plan held: ' + lg : 'No holdings record for these dates') + '</text>' +
       (now.length ? '<text x="' + (W - R + 8) + '" y="' + (top + h + 11) + '" class="mt-v">' + (e === N - 1 ? 'Holding now' : 'After that close') + '</text><text x="' + (W - R + 8) + '" y="' + (top + h + 24) + '" class="mt-l">' +
         now.map(function (q) { return '<tspan style="fill:var(' + q[0][1] + ')">■</tspan> ' + esc(q[0][0] === 'Managed futures' ? 'Futures' : q[0][0]) + (q[1] < 0.995 ? ' ' + Math.round(q[1] * 100) + '%' : ''); }).join(' ') + '</text>' : '');
