@@ -438,7 +438,7 @@
       [
        "bear",
        "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; a more hawkish path is a headwind for equity multiples",
-       false
+       true
       ],
       [
        "neu",
@@ -476,13 +476,12 @@
        false
       ]
      ],
-     "maturityClose": 7494.25,
-     "ret": -0.011541,
+     "maturityClose": 7438.5,
+     "ret": -0.018894,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 10,
@@ -2574,13 +2573,12 @@
        true
       ]
      ],
-     "maturityClose": 105.265625,
-     "ret": -0.016209,
+     "maturityClose": 105.375,
+     "ret": -0.015187,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 10,
@@ -5183,13 +5181,12 @@
        true
       ]
      ],
-     "maturityClose": 3863.10009765625,
-     "ret": -0.0681,
+     "maturityClose": 3859.0,
+     "ret": -0.069089,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 10,
@@ -7281,13 +7278,12 @@
        null
       ]
      ],
-     "maturityClose": 103.53099822998047,
-     "ret": 0.018214,
+     "maturityClose": 103.58399963378906,
+     "ret": 0.018735,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 10,
@@ -9491,13 +9487,12 @@
        false
       ]
      ],
-     "maturityClose": 2765.39990234375,
-     "ret": -0.028457,
+     "maturityClose": 2748.0,
+     "ret": -0.03457,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 10,
@@ -11432,7 +11427,7 @@
       [
        "bear",
        "December Fed-hike odds ~80% (from ~50-50 before Friday's +165K payrolls) per CME FedWatch in the 9 November news log; long-duration growth is rate-sensitive",
-       false
+       true
       ],
       [
        "neu",
@@ -11470,13 +11465,12 @@
        null
       ]
      ],
-     "maturityClose": 27532.0,
-     "ret": -0.01914,
+     "maturityClose": 27285.25,
+     "ret": -0.027931,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 10,

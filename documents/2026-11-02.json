@@ -1,7 +1,7 @@
 {
  "date": "2026-11-02",
  "basisDate": "2026-11-02",
- "scored": false,
+ "scored": true,
  "generatedAt": "2026-11-03T14:21:40Z",
  "generationLag": null,
  "schema": "multi-asset-v4",
@@ -583,13 +583,12 @@
        false
       ]
      ],
-     "maturityClose": 7494.25,
-     "ret": -0.011476,
+     "maturityClose": 7438.5,
+     "ret": -0.018829,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     }
    ],
    "structure": {
@@ -2737,13 +2736,12 @@
        false
       ]
      ],
-     "maturityClose": 105.265625,
-     "ret": -0.013327,
+     "maturityClose": 105.375,
+     "ret": -0.012302,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     }
    ],
    "structure": {
@@ -5339,7 +5337,7 @@
       [
        "bear",
        "structure.weekly reads downtrend for GC=F on 2 November",
-       false
+       true
       ],
       [
        "neu",
@@ -5364,7 +5362,7 @@
       [
        "bear",
        "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot (news log); hawkish for bond prices",
-       false
+       true
       ],
       [
        "neu",
@@ -5399,16 +5397,15 @@
       [
        "bear",
        "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
-       false
+       true
       ]
      ],
-     "maturityClose": 3863.10009765625,
-     "ret": -0.025257,
+     "maturityClose": 3859.0,
+     "ret": -0.026292,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     }
    ],
    "structure": {
@@ -7528,13 +7525,12 @@
        null
       ]
      ],
-     "maturityClose": 103.53099822998047,
-     "ret": 0.017694,
+     "maturityClose": 103.58399963378906,
+     "ret": 0.018215,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     }
    ],
    "structure": {
@@ -9773,13 +9769,12 @@
        null
       ]
      ],
-     "maturityClose": 2765.39990234375,
-     "ret": -0.018909,
+     "maturityClose": 2748.0,
+     "ret": -0.025082,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     }
    ],
    "structure": {
@@ -11813,13 +11808,12 @@
        null
       ]
      ],
-     "maturityClose": 27532.0,
-     "ret": -0.023264,
+     "maturityClose": 27285.25,
+     "ret": -0.032017,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     }
    ],
    "structure": {
