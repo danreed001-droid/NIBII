@@ -5832,7 +5832,7 @@ def crowding_plain(rows):
 
 
 NEWS_FWD_PATH = os.path.join(ROOT, 'data', 'news_forward.json')
-SRSI_CSS = """.srsi .grid { display: grid; grid-template-columns: minmax(130px, 210px) 1fr 74px; gap: 5px 12px; align-items: center; font-size: 0.82rem; }
+SRSI_CSS = """.srsi .grid { display: grid; grid-template-columns: minmax(130px, 210px) 1fr 122px; gap: 5px 12px; align-items: center; font-size: 0.82rem; }
 .srsi .snm { line-height: 1.25; white-space: normal; overflow-wrap: anywhere; }
 .srsi .trk { position: relative; height: 16px; border-radius: 8px; background: linear-gradient(90deg,
   color-mix(in srgb, var(--pos) 22%, transparent) 0 30%, var(--surface-2) 30% 70%, color-mix(in srgb, var(--neg) 22%, transparent) 70% 100%); }
@@ -5841,7 +5841,7 @@ SRSI_CSS = """.srsi .grid { display: grid; grid-template-columns: minmax(130px, 
 .srsi .trk .mv { position: absolute; top: 7px; height: 2px; background: var(--muted); opacity: .6; }
 .srsi .trk .now { position: absolute; top: 1px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 2px solid var(--surface); }
 .srsi .v { text-align: right; } .srsi .v small { color: var(--muted); }
-.srsi .ax { display: grid; grid-template-columns: minmax(130px, 210px) 1fr 74px; gap: 12px; font-size: 0.7rem; color: var(--muted); margin: 2px 0 6px; }
+.srsi .ax { display: grid; grid-template-columns: minmax(130px, 210px) 1fr 122px; gap: 12px; font-size: 0.7rem; color: var(--muted); margin: 2px 0 6px; }
 .srsi .ax span { position: relative; height: 1.1em; } .srsi .ax i { position: absolute; transform: translateX(-50%); font-style: normal; white-space: nowrap; }
 .srsi .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 26px; margin-top: 14px; }
 .srsi h4 { font-size: 0.82rem; margin: 0 0 6px; font-weight: 600; }
@@ -5864,11 +5864,15 @@ SRSI_CSS = """.srsi .grid { display: grid; grid-template-columns: minmax(130px, 
 .srsi .rot-os { fill: #2fd17e; opacity: .07; } .srsi .rot-ob { fill: #ff4d43; opacity: .08; } .srsi .rot-ax { stroke: var(--ink); stroke-opacity: .28; }
 .srsi .rot-q { fill: var(--muted); font-size: 12px; font-style: italic; } .srsi .rot-dot { stroke: var(--ink); stroke-width: 1.5; } .srsi .rot-l { fill: var(--ink); font-size: 12.5px; font-weight: 600; } .srsi .rot-lead { stroke: var(--muted); stroke-width: .8; }
 .srsi .srsi-q { display: inline-flex; gap: 4px; }
+.srsi .r6c { stroke: var(--surface); stroke-width: 2; } .srsi .r6c.r6p { fill: #1f9a5a; } .srsi .r6c.r6n { fill: #c8413a; }
+.srsi .r6t { fill: #fff; font-size: 10.5px; font-weight: 700; } .srsi .r6lead { stroke: var(--ink); stroke-opacity: .25; stroke-width: 1; stroke-dasharray: 2 2; } .srsi .r6tp { fill: var(--pos); font-weight: 700; } .srsi .r6tn { fill: var(--neg); font-weight: 700; }
+.srsi .r6pill { display: inline-block; min-width: 40px; margin-left: 6px; padding: 0 6px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; color: #fff; text-align: center; }
+.srsi .r6pill.r6p { background: #1f9a5a; } .srsi .r6pill.r6n { background: #c8413a; }
 .srsi .vs-run { font-size: 10.5px; } .srsi .vs-bad { fill: var(--neg); font-weight: 600; }
 .srsi .rg-tip { position: absolute; z-index: 2; pointer-events: none; background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px; padding: 6px 9px; font-size: 0.76rem; line-height: 1.35; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
 .srsi .srsi-ctl { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 0.82rem; margin-bottom: 10px; color: var(--ink-2); }
 .srsi .srsi-ctl input, .srsi .srsi-ctl select { font: inherit; background: var(--surface-2); color: var(--ink); border: 1px solid var(--hairline); border-radius: 6px; padding: 3px 6px; }
-@media (max-width: 760px) { .srsi .cols { grid-template-columns: 1fr; } .srsi .grid, .srsi .ax { grid-template-columns: minmax(104px, 140px) 1fr 62px; } .srsi .ax .w { display: none; } }"""
+@media (max-width: 760px) { .srsi .cols { grid-template-columns: 1fr; } .srsi .grid, .srsi .ax { grid-template-columns: minmax(96px, 128px) 1fr 108px; } .srsi .ax .w { display: none; } }"""
 
 
 SRSI_SHORT = {'XLK': 'Tech', 'XLC': 'Comm services', 'XLY': 'Discretionary', 'XLP': 'Staples', 'XLE': 'Energy', 'XLF': 'Financials',
@@ -5934,7 +5938,7 @@ SRSI_JS = r"""(function () {
     var ts = Object.keys(H.sectors).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (H.sectors[t][i] == null) return false; return true; });
     if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
     ts.sort(function (a, b) { return H.sectors[b][e] - H.sectors[a][e]; });
-    var heat = view.value === 'heat', W = 1000, L = 120, R = 92, top = heat ? 70 : 64, row = heat ? 40 : 46, amp = heat ? 74 : 62, s0 = e - n + 1, Hh = top + row * ts.length + 30;
+    var heat = view.value === 'heat', W = 1000, L = 120, R = 150, top = heat ? 70 : 64, row = heat ? 40 : 46, amp = heat ? 74 : 62, s0 = e - n + 1, Hh = top + row * ts.length + 30;
     var X = function (i) { return L + (W - L - R) * i / (n - 1); }, base = function (k) { return top + row * k + 8; };
     var Yv = function (k, v) { return base(k) - (Math.max(20, Math.min(92, v)) - 20) / 72 * amp; };
     var out = ['<svg class="ridges" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Sector RSI ridgelines"><defs><filter id="rg-glow" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'];
@@ -5962,10 +5966,13 @@ SRSI_JS = r"""(function () {
                '<line x1="' + X(0).toFixed(1) + '" x2="' + X(n - 1).toFixed(1) + '" y1="' + y70.toFixed(1) + '" y2="' + y70.toFixed(1) + '" class="rg-70"/>' +
                '<path d="' + p + '" class="rg-l" filter="url(#rg-glow)"/><line x1="' + X(0).toFixed(1) + '" x2="' + X(n - 1).toFixed(1) + '" y1="' + b + '" y2="' + b + '" class="rg-b"/>');
       var ch = Math.round(v[n - 1]) - Math.round(v[0]), c = v[n - 1] > 70 ? ' fl-ob' : v[n - 1] < 30 ? ' fl-os' : '';
+      var r6 = (H.r6s || {})[t] ? H.r6s[t][e] : null, cy = b - 14;
+      if (r6 != null) out.push('<circle cx="' + (W - R + 30) + '" cy="' + cy.toFixed(1) + '" r="17" class="r6c ' + (r6 >= 0 ? 'r6p' : 'r6n') + '"><title>' + esc(D.names[t] + ': ' + (r6 >= 0 ? '+' : '') + Math.round(r6 * 100) + '% over the 6 months to ' + fd(dates[e])) + '</title></circle>' +
+        '<text x="' + (W - R + 30) + '" y="' + (cy + 4).toFixed(1) + '" text-anchor="middle" class="r6t">' + (r6 >= 0 ? '+' : '') + Math.round(r6 * 100) + '%</text>');
       out.push('<text x="' + (L - 10) + '" y="' + (b - 4) + '" text-anchor="end" class="fl-l">' + esc(D.short[t]) + '</text>' +
-               '<text x="' + (W - R + 10) + '" y="' + (b - 4) + '" class="fl-l"><tspan class="fl-n' + c + '">' + Math.round(v[n - 1]) + '</tspan> <tspan class="fl-v">' + (ch >= 0 ? '+' : '') + ch + '</tspan></text>');
+               '<line x1="' + X(n - 1).toFixed(1) + '" y1="' + Yv(k, v[n - 1]).toFixed(1) + '" x2="' + (W - R + 13) + '" y2="' + cy.toFixed(1) + '" class="r6lead"/><text x="' + (W - R + 54) + '" y="' + (b - 10) + '" class="fl-l"><tspan class="fl-v">RSI </tspan><tspan class="fl-n' + c + '">' + Math.round(v[n - 1]) + '</tspan> <tspan class="fl-v">' + (ch >= 0 ? '+' : '') + ch + '</tspan></text>');
     });
-    out.push('<text x="' + (W - R + 10) + '" y="' + (top - 52) + '" class="fl-v">RSI, change</text><line id="rg-x" class="rg-x" y1="' + (top - 50) + '" y2="' + (Hh - 26) + '" x1="-9" x2="-9"/></svg><div class="rg-tip" id="rg-tip" hidden></div>');
+    out.push('<text x="' + (W - R + 30) + '" y="' + (top - 52) + '" text-anchor="middle" class="fl-v">6 mo</text><text x="' + (W - R + 54) + '" y="' + (top - 52) + '" class="fl-v">RSI, change</text><line id="rg-x" class="rg-x" y1="' + (top - 50) + '" y2="' + (Hh - 26) + '" x1="-9" x2="-9"/></svg><div class="rg-tip" id="rg-tip" hidden></div>');
     ridges.ctx = {ts: ts, X: X, n: n, s0: s0, L: L, W: W, R: R};
     return out.join('');
   }
@@ -6045,12 +6052,13 @@ SRSI_JS = r"""(function () {
         out.push('<line x1="' + X(p[i - 1][0]).toFixed(1) + '" y1="' + Y(p[i - 1][1]).toFixed(1) + '" x2="' + X(p[i][0]).toFixed(1) + '" y2="' + Y(p[i][1]).toFixed(1) + '" stroke="' + D.colors[t] + '" stroke-width="' + (1.5 + 5 * f).toFixed(1) + '" stroke-opacity="' + (0.15 + 0.8 * f).toFixed(2) + '" stroke-linecap="round"/>'); }
     });
     var labs = ts.map(function (t) { var q = P[t][P[t].length - 1]; return {t: t, x: X(q[0]), y: Y(q[1]), ly: Y(q[1])}; }).sort(function (a, b) { return a.y - b.y; });
-    for (var it = 0; it < 60; it++) { var mv = false; for (var i = 1; i < labs.length; i++) for (var j = 0; j < i; j++) if (Math.abs(labs[i].x - labs[j].x) < 150 && labs[i].ly - labs[j].ly < 17) { labs[i].ly = labs[j].ly + 17; mv = true; } if (!mv) break; }
+    for (var it = 0; it < 60; it++) { var mv = false; for (var i = 1; i < labs.length; i++) for (var j = 0; j < i; j++) if (Math.abs(labs[i].x - labs[j].x) < 190 && labs[i].ly - labs[j].ly < 19) { labs[i].ly = labs[j].ly + 19; mv = true; } if (!mv) break; }
     labs.forEach(function (b) {
       var t = b.t, rsi = H.sectors[t][e];
       out.push('<circle cx="' + b.x.toFixed(1) + '" cy="' + b.y.toFixed(1) + '" r="9" fill="' + D.colors[t] + '" class="rot-dot"><title>' + esc(D.names[t] + ': RSI ' + Math.round(rsi) + ', ' + (P[t][P[t].length - 1][1] >= 0 ? '+' : '') + Math.round(P[t][P[t].length - 1][1]) + ' over 5 sessions') + '</title></circle>');
       if (Math.abs(b.ly - b.y) > 4) out.push('<line x1="' + (b.x + 9).toFixed(1) + '" y1="' + b.y.toFixed(1) + '" x2="' + (b.x + 15).toFixed(1) + '" y2="' + b.ly.toFixed(1) + '" class="rot-lead"/>');
-      out.push('<text x="' + (b.x + 16).toFixed(1) + '" y="' + (b.ly + 4).toFixed(1) + '" class="rot-l">' + esc(D.short[t]) + ' <tspan class="fl-v">' + Math.round(rsi) + '</tspan></text>');
+      var r6 = (H.r6s || {})[t] ? H.r6s[t][e] : null;
+      out.push('<text x="' + (b.x + 16).toFixed(1) + '" y="' + (b.ly + 4).toFixed(1) + '" class="rot-l">' + esc(D.short[t]) + ' <tspan class="fl-v">' + Math.round(rsi) + '</tspan>' + (r6 == null ? '' : ' <tspan class="' + (r6 >= 0 ? 'r6tp' : 'r6tn') + '">' + (r6 >= 0 ? '+' : '') + Math.round(r6 * 100) + '%</tspan>') + '</text>');
     });
     out.push('</svg>');
     return out.join('');
@@ -6076,19 +6084,20 @@ SRSI_JS = r"""(function () {
       var tip = esc(r.label + ': RSI ' + Math.round(now) + ', ' + Math.round(was) + ' ' + D.back + ' sessions before');
       var ch = Math.round(now) - Math.round(was);
       return '<div class="snm" title="' + tip + '">' + esc(r.label) + '</div><div class="trk" title="' + tip + '"><span class="mid"></span><span class="mv" style="left:' + lo + '%;width:' + (hi - lo) + '%"></span>' +
-        '<span class="was" style="left:' + was + '%"></span><span class="now" style="left:' + now + '%;background:' + col + '"></span></div><div class="v mono">' + Math.round(now) + '<small> (' + (ch >= 0 ? '+' : '') + ch + ')</small></div>';
+        '<span class="was" style="left:' + was + '%"></span><span class="now" style="left:' + now + '%;background:' + col + '"></span></div><div class="v mono">' + Math.round(now) + '<small> (' + (ch >= 0 ? '+' : '') + ch + ')</small>' +
+        (r.r6 == null ? '' : '<span class="r6pill ' + (r.r6 >= 0 ? 'r6p' : 'r6n') + '" title="6-month return">' + (r.r6 >= 0 ? '+' : '') + Math.round(r.r6 * 100) + '%</span>') + '</div>';
     }).join('');
   }
-  function at(series, e) { var a = series[e], b = series[e - D.back]; return a == null || b == null ? null : {now: a, was: b}; }
+  function at(series, e, r6) { var a = series[e], b = series[e - D.back]; return a == null || b == null ? null : {now: a, was: b, r6: r6 ? r6[e] : null}; }
   function draw() {
     var e = endIdx(), a = startIdx(e), n = e - a + 1, s = [], th = [];
-    Object.keys(H.sectors).forEach(function (t) { var x = at(H.sectors[t], e); if (x) { x.label = D.names[t] + ' (' + t + ')'; s.push(x); } });
-    Object.keys(H.themes).forEach(function (g) { var x = at(H.themes[g], e); if (x) { x.label = g + ' (' + H.n[g] + ')'; th.push(x); } });
+    Object.keys(H.sectors).forEach(function (t) { var x = at(H.sectors[t], e, (H.r6s || {})[t]); if (x) { x.label = D.names[t] + ' (' + t + ')'; s.push(x); } });
+    Object.keys(H.themes).forEach(function (g) { var x = at(H.themes[g], e, (H.r6t || {})[g]); if (x) { x.label = g + ' (' + H.n[g] + ')'; th.push(x); } });
     s.sort(function (a, b) { return b.now - a.now; }); th.sort(function (a, b) { return a.now - b.now; });
     var os = th.filter(function (r) { return r.now < 30; }).length, ob = th.filter(function (r) { return r.now > 70; }).length;
     var vw = view.value, chart = vw === 'vs' ? '<h4>S&amp;P 500 sectors against each other: RSI vs the median sector, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap rgwrap">' + vsOthers(e, Math.min(n, e + 1)) + '</div>' : vw === 'ranks' ? '<h4>S&amp;P 500 sectors: RSI rank, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap">' + flow(e, Math.min(n, e + 1)) + '</div>'
       : '<h4>S&amp;P 500 sectors: RSI, ' + fd(dates[a]) + ' to ' + fd(dates[e]) + ' (' + n + ' sessions)</h4><div class="flowwrap rgwrap">' + ridges(e, Math.min(n, e + 1)) + '</div>';
-    chart += '<h4 style="margin-top:14px">Rotation map: the last 10 sessions to ' + fd(dates[e]) + '</h4><p class="muted" style="font-size:.78rem;margin:0 0 4px">Each dot is a sector tonight (or on the "to" date): across, its RSI; up, how fast it rose over 5 sessions. The tail is its path over the last 10 sessions, fading into the past: a sector sliding down and left is failing against the others.</p><div class="flowwrap">' + rotation(e) + '</div>';
+    chart += '<h4 style="margin-top:14px">Rotation map: the last 10 sessions to ' + fd(dates[e]) + '</h4><p class="muted" style="font-size:.78rem;margin:0 0 4px">Each dot is a sector tonight (or on the "to" date): across, its RSI; up, how fast it rose over 5 sessions. Next to each name: its RSI, then its 6-month return. The tail is its path over the last 10 sessions, fading into the past: a sector sliding down and left is failing against the others.</p><div class="flowwrap">' + rotation(e) + '</div>';
     root.innerHTML = chart +
       '<h4 style="margin-top:12px">Sectors on ' + fd(dates[e]) + '</h4>' + AX + '<div class="grid">' + rows(s) + '</div>' +
       '<div class="cols"><div><h4>Lowest RSI themes</h4><div class="grid">' + rows(th.slice(0, 8)) + '</div></div><div><h4>Highest RSI themes</h4><div class="grid">' + rows(th.slice(-8).reverse()) + '</div></div></div>' +
@@ -6130,7 +6139,7 @@ def sector_rsi_html(scan):
     js = json.dumps(data, separators=(',', ':')).replace('</', '<\\/')
     return (f'  <p class="section-label">Sector and theme RSI <span class="hint">14-day RSI. Pick any range with From and to (last 30 sessions by default). '
             f'Heat ridges: each sector\'s RSI over the range, coloured by its level (green under 30, slate in the middle, amber rising, red over 70), highest on top. '
-            f'Below it the rotation map for the last 10 sessions to the "to" date. Vs other sectors: each sector\'s RSI (5-day average) minus the median sector\'s, '
+            f'The circle at the end of each line is its 6-month return (green up, red down). Below it the rotation map for the last 10 sessions to the "to" date. Vs other sectors: each sector\'s RSI (5-day average) minus the median sector\'s, '
             f'green above its line when it is stronger than the group, red below when weaker; on the right the gap tonight and how many sessions in a row '
             f'it has been on that side (red when weaker for 10+). Hover the ridges for every sector on a day. '
             f'Ranks: the sectors stacked by RSI (5-day average) each day, a ribbon rising or sinking as its rank changes; tonight\'s top 2 and bottom 2 are lit, click or hover any sector to light it. '

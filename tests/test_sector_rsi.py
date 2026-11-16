@@ -55,3 +55,10 @@ def test_daily_history_for_the_date_picker():
     assert len(h['sectors']['XLK']) == len(h['dates']) and h['sectors']['XLK'][-1] > 70 > 30 > h['sectors']['XLE'][-1]
     assert h['themes']['Widgets'][-1] < 30 and h['n']['Widgets'] == 4
     assert h['sectors']['XLK'][0] is None          # too early for a 14-day RSI
+
+
+def test_six_month_return_for_the_circles():
+    cal = _cal(300)
+    up = {d: 100 * 1.001 ** i for i, d in enumerate(cal)}
+    h = SR.build({'XLK': up}, {}, {}, cal)['hist']
+    assert abs(h['r6s']['XLK'][-1] - (1.001 ** 126 - 1)) < 1e-3

@@ -75,7 +75,11 @@ def build(fund_px, prices, industries, calendar, universe=None):
             themes.append(dict(name=g, n=len(ts), **r))
     # daily RSI for the page's date picker: the last DAYS sessions, for every sector and theme with full history
     hd = cal[-DAYS:]
-    hist = dict(dates=hd, sectors={}, themes={}, n={})
+    hist = dict(dates=hd, sectors={}, themes={}, n={}, r6s={}, r6t={})
+    def _r6(closes):   # 6-month (126-session) return on each date of hd, None when too short
+        off = len(cal) - len(hd)
+        return [None if off + i - 126 < 0 or not closes[off + i] or not closes[off + i - 126] else round(closes[off + i] / closes[off + i - 126] - 1, 4)
+                for i in range(len(hd))]
     def _daily(closes):
         idx = [i for i, x in enumerate(closes) if x]
         if len(idx) < PERIOD + 2:
@@ -89,12 +93,14 @@ def build(fund_px, prices, industries, calendar, universe=None):
             v = _daily(_carried(fund_px[t], cal))
             if v:
                 hist['sectors'][t] = v
+                hist['r6s'][t] = _r6(_carried(fund_px[t], cal))
     for g, ts in groups.items():
         if len(ts) >= MIN_STOCKS:
             v = _daily(industry_index(prices, ts, cal))
             if v:
                 hist['themes'][g] = v
                 hist['n'][g] = len(ts)
+                hist['r6t'][g] = _r6(industry_index(prices, ts, cal))
     sectors.sort(key=lambda x: -x['rsi'])
     themes.sort(key=lambda x: x['rsi'])
     return dict(asOf=calendar[-1] if calendar else None, period=PERIOD, back=BACK, sectors=sectors, themes=themes, hist=hist)
