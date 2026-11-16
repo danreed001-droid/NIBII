@@ -6456,10 +6456,8 @@ CLOCK_JS = r"""(function () {
     var Xl = function (i) { return L + half * (i - s0) / Math.max(1, n - 1); }, Xr = function (i) { return L + half + 16 + half * (i - s0) / Math.max(1, n - 1); };
     var sec = ts.filter(function (t) { return !HV[t]; }), hav = ts.filter(function (t) { return HV[t]; });
     ts = sec.concat(hav);
-    var gap = hav.length && sec.length ? 0.9 : 0, rk = function (k) { return k + (k >= sec.length ? gap : 0); };
+    var gap = 0, rk = function (k) { return k; };   // one list: the havens are its last rows
     var t0 = top + h + 50, row = 25, amp = 34, H = t0 + row * (ts.length + gap) + 22, defs = '';
-    if (gap) sv += '<text x="' + (L - 6) + '" y="' + (t0 + row * (sec.length + gap) - 13).toFixed(1) + '" text-anchor="end" class="mt-v">Havens</text>' +
-      '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + (t0 + row * (sec.length + gap) - 17).toFixed(1) + '" y2="' + (t0 + row * (sec.length + gap) - 17).toFixed(1) + '" class="mt-g"/>';
     var nm = function (t, x, y) { return '<text x="' + x + '" y="' + y + '" text-anchor="end" class="mt-l"' + (HV[t] ? ' style="fill:var(' + HV[t] + ')"' : '') + '>' + esc(TNAME[t] || t) + '</text>'; };
     var base = function (k) { return t0 + row * rk(k) + 8; }, Yv = function (k, v) { return base(k) - (Math.max(10, Math.min(92, v)) - 10) / 82 * amp; };
     sv += '<text x="' + (L - 6) + '" y="' + (t0 - 12) + '" text-anchor="end" class="mt-v">' + (TV === 'px' ? 'Sector move' : TV === 'rsi' ? 'Sector RSI' : 'Sector') + '</text><text x="' + (W - R + 8) + '" y="' + (t0 - 12) + '" class="mt-v">' + (TV !== 'rsi' ? 'move · RSI' : 'RSI · move') + '</text>' +
@@ -6658,7 +6656,7 @@ def clock_html(scan):
             'from the market events list. The tile beside the clock: the plan and the S&amp;P 500 over the chosen window ending on the clock’s '
             'date (dashed = straight-line trend), shaded by what the plan held (the strip under them; “holding now” = after the latest close), then each sector’s RSI as heat ridges (green under 30, slate in the middle, amber rising, '
             'red over 70), highest on top, with its price move over the window; Price switches the sectors to their price moves from the '
-            'window’s start (green above it, red below, each row on its own scale, dashed = straight-line trend), biggest gain on top; Both shows the two side by side. Under the sectors, the havens: gold (gold futures before the fund), '
+            'window’s start (green above it, red below, each row on its own scale, dashed = straight-line trend), biggest gain on top; Both shows the two side by side. The last rows (in their plan-held colours): gold (gold futures before the fund), '
             'long bonds (a long-term Treasury fund before TLT) and managed futures (DBMF, from May 2019).</p></div>\n'
             f'  <script type="application/json" id="mclock-data">{js}</script>\n  <script>{CLOCK_JS}</script>\n')
 
