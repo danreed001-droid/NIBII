@@ -5853,6 +5853,13 @@ SRSI_CSS = """.srsi .grid { display: grid; grid-template-columns: minmax(130px, 
 .srsi .fl-l { fill: var(--ink-2); font-size: 12.5px; } .srsi .fl-v { fill: var(--muted); font-size: 11px; }
 .srsi .fl-n { fill: var(--ink); font-weight: 600; } .srsi .fl-n.fl-ob { fill: var(--neg); } .srsi .fl-n.fl-os { fill: var(--pos); }
 .srsi .fl-g2 { opacity: .45; }
+.srsi .flow [data-t] { cursor: pointer; transition: opacity .15s; } .srsi .flow .fl-r.dim { opacity: .13; } .srsi .flow text.dim { opacity: .35; }
+.srsi .rgwrap { position: relative; }
+.srsi .ridges { width: 100%; height: auto; display: block; min-width: 640px; }
+.srsi .rg-f { opacity: 1; } .srsi .rg-hot { fill: #ff4d43; opacity: .95; } .srsi .rg-cold { fill: #2fd17e; opacity: .95; } .srsi .rg-l { fill: none; stroke: color-mix(in srgb, var(--ink) 85%, transparent); stroke-width: 1.4; }
+.srsi .rg-b { stroke: var(--surface); stroke-width: 2; } .srsi .rg-70 { stroke: var(--ink); stroke-opacity: .16; stroke-dasharray: 3 4; }
+.srsi .rg-x { stroke: var(--ink); stroke-opacity: .55; stroke-width: 1; }
+.srsi .rg-tip { position: absolute; z-index: 2; pointer-events: none; background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px; padding: 6px 9px; font-size: 0.76rem; line-height: 1.35; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
 .srsi .srsi-ctl { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 0.82rem; margin-bottom: 10px; color: var(--ink-2); }
 .srsi .srsi-ctl input, .srsi .srsi-ctl select { font: inherit; background: var(--surface-2); color: var(--ink); border: 1px solid var(--hairline); border-radius: 6px; padding: 3px 6px; }
 @media (max-width: 760px) { .srsi .cols { grid-template-columns: 1fr; } .srsi .grid, .srsi .ax { grid-template-columns: minmax(104px, 140px) 1fr 62px; } .srsi .ax .w { display: none; } }"""
@@ -5871,7 +5878,16 @@ SRSI_JS = r"""(function () {
   function fd(d) { var p = d.split('-'); return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1] - 1] + ' ' + (+p[2]); }
   inp.min = dates[0]; inp.max = dates[dates.length - 1]; inp.value = inp.max;
   function endIdx() { var v = inp.value, k = dates.length - 1; while (k > 0 && dates[k] > v) k--; return k; }
-  function flow(e, n) {
+  var SM = {}; Object.keys(H.sectors).forEach(function (t) { var v = H.sectors[t]; SM[t] = v.map(function (x, i) { var a = v.slice(Math.max(0, i - 4), i + 1).filter(function (y) { return y != null; }); return x == null || a.length < 5 ? null : a.reduce(function (p, q) { return p + q; }, 0) / a.length; }); });
+  var focus = null;
+  function flow(e, n) {   // the 5-day average, at most ~30 points (every 2nd or 3rd session over longer periods)
+    var st = Math.max(1, Math.ceil(n / 30)), idx = [];
+    for (var i = e; i > e - n && i >= 0; i -= st) idx.unshift(i);
+    var sub = {}; Object.keys(SM).forEach(function (t) { sub[t] = idx.map(function (i) { return SM[t][i]; }); });
+    var SR = H.sectors, DT = dates; H = Object.assign({}, H, {sectors: sub}); dates = idx.map(function (i) { return DT[i]; });
+    try { return flow0(idx.length - 1, idx.length); } finally { H = Object.assign({}, H, {sectors: SR}); dates = DT; }
+  }
+  function flow0(e, n) {
     var ts = Object.keys(H.sectors).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (H.sectors[t][i] == null) return false; return true; });
     if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
     var W = 1000, L = 150, R = 205, top = 66, row = 34, Hh = top + row * ts.length + 26, s0 = e - n + 1;
@@ -5892,13 +5908,68 @@ SRSI_JS = r"""(function () {
       d += ' L' + dn[n - 1][0].toFixed(1) + ',' + dn[n - 1][1].toFixed(1);
       for (var i = n - 1; i > 0; i--) { var mx = ((dn[i - 1][0] + dn[i][0]) / 2).toFixed(1); d += ' C' + mx + ',' + dn[i][1].toFixed(1) + ' ' + mx + ',' + dn[i - 1][1].toFixed(1) + ' ' + dn[i - 1][0].toFixed(1) + ',' + dn[i - 1][1].toFixed(1); }
       var tip = D.names[t] + ' (' + t + '): RSI ' + fd(dates[s0]) + ' ' + Math.round(v[0]) + ', ' + fd(dates[e]) + ' ' + Math.round(v[n - 1]) + '; low ' + Math.round(Math.min.apply(null, v)) + ', high ' + Math.round(Math.max.apply(null, v));
-      out.push('<path d="' + d + ' Z" fill="' + D.colors[t] + '" class="fl-r"><title>' + esc(tip) + '</title></path>');
+      out.push('<path d="' + d + ' Z" fill="' + D.colors[t] + '" class="fl-r" data-t="' + t + '"><title>' + esc(tip) + '</title></path>');
       var b = v[n - 1], cls = b > 70 ? ' fl-ob' : b < 30 ? ' fl-os' : '';
-      out.push('<text x="' + (L - 10) + '" y="' + (Y(0, t) + 4).toFixed(1) + '" text-anchor="end" class="fl-l">' + esc(D.short[t]) + ' <tspan class="fl-v">' + Math.round(v[0]) + '</tspan></text>' +
-               '<text x="' + (W - R + 10) + '" y="' + (Y(n - 1, t) + 4).toFixed(1) + '" class="fl-l"><tspan class="fl-n' + cls + '">' + Math.round(b) + '</tspan> ' + esc(D.names[t]) + ' <tspan class="fl-v">' + t + '</tspan></text>');
+      out.push('<text x="' + (L - 10) + '" y="' + (Y(0, t) + 4).toFixed(1) + '" text-anchor="end" class="fl-l" data-t="' + t + '">' + esc(D.short[t]) + ' <tspan class="fl-v">' + Math.round(v[0]) + '</tspan></text>' +
+               '<text x="' + (W - R + 10) + '" y="' + (Y(n - 1, t) + 4).toFixed(1) + '" class="fl-l" data-t="' + t + '"><tspan class="fl-n' + cls + '">' + Math.round(b) + '</tspan> ' + esc(D.names[t]) + ' <tspan class="fl-v">' + t + '</tspan></text>');
     });
     out.push('<text x="' + (L - 10) + '" y="14" text-anchor="end" class="fl-v">RSI ' + fd(dates[s0]) + '</text><text x="' + (W - R + 10) + '" y="14" class="fl-v">RSI ' + fd(dates[e]) + '</text></svg>');
     return out.join('');
+  }
+  function rcol(v) {   // RSI to colour: green under 30, slate in the middle, amber rising, red over 70
+    var st = [[20, [47, 191, 113]], [30, [47, 191, 113]], [45, [74, 96, 120]], [55, [96, 110, 132]], [65, [214, 162, 76]], [70, [229, 83, 75]], [90, [240, 70, 60]]];
+    v = Math.max(20, Math.min(90, v));
+    for (var i = 1; i < st.length; i++) if (v <= st[i][0]) { var a = st[i - 1], b = st[i], f = (v - a[0]) / (b[0] - a[0] || 1);
+      return 'rgb(' + [0, 1, 2].map(function (k) { return Math.round(a[1][k] + (b[1][k] - a[1][k]) * f); }).join(',') + ')'; }
+    return 'rgb(240,70,60)';
+  }
+  function ridges(e, n) {
+    var ts = Object.keys(H.sectors).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (H.sectors[t][i] == null) return false; return true; });
+    if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
+    ts.sort(function (a, b) { return H.sectors[b][e] - H.sectors[a][e]; });
+    var W = 1000, L = 120, R = 92, top = 64, row = 46, amp = 62, s0 = e - n + 1, Hh = top + row * ts.length + 30;
+    var X = function (i) { return L + (W - L - R) * i / (n - 1); }, base = function (k) { return top + row * k + 8; };
+    var Yv = function (k, v) { return base(k) - (Math.max(20, Math.min(92, v)) - 20) / 72 * amp; };
+    var out = ['<svg class="ridges" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Sector RSI ridgelines"><defs><filter id="rg-glow" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'];
+    ts.forEach(function (t, k) {
+      out.push('<linearGradient id="rg-' + t + '" x1="0" x2="0" y1="' + Yv(k, 92).toFixed(1) + '" y2="' + base(k) + '" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + D.colors[t] + '" stop-opacity=".95"/><stop offset="1" stop-color="' + D.colors[t] + '" stop-opacity=".08"/></linearGradient>');
+    });
+    out.push('</defs>');
+    var step = Math.max(1, Math.ceil(n / 8));
+    for (var i = 0; i < n; i++) if ((i % step === 0 && n - 1 - i >= step) || i === n - 1)
+      out.push('<line x1="' + X(i).toFixed(1) + '" x2="' + X(i).toFixed(1) + '" y1="' + (top - 50) + '" y2="' + (Hh - 26) + '" class="fl-g"/><text x="' + X(i).toFixed(1) + '" y="' + (Hh - 10) + '" text-anchor="middle" class="fl-v">' + fd(dates[s0 + i]) + '</text>');
+    ts.forEach(function (t, k) {   // back to front: the top ridge first, each lower one drawn over it
+      var v = H.sectors[t].slice(s0, e + 1), p = '';
+      for (var i = 0; i < n; i++) p += (i ? ' L' : 'M') + X(i).toFixed(1) + ',' + Yv(k, v[i]).toFixed(1);
+      var b = base(k), y70 = Yv(k, 70);
+      var hot = 'M' + X(0).toFixed(1) + ',' + y70.toFixed(1), cold = 'M' + X(0).toFixed(1) + ',' + Yv(k, 30).toFixed(1), y30 = Yv(k, 30);
+      for (var i = 0; i < n; i++) { var yy = Yv(k, v[i]); hot += ' L' + X(i).toFixed(1) + ',' + Math.min(yy, y70).toFixed(1); cold += ' L' + X(i).toFixed(1) + ',' + Math.max(yy, y30).toFixed(1); }
+      hot += ' L' + X(n - 1).toFixed(1) + ',' + y70.toFixed(1) + ' Z'; cold += ' L' + X(n - 1).toFixed(1) + ',' + y30.toFixed(1) + ' Z';
+      out.push('<path d="' + p + ' L' + X(n - 1).toFixed(1) + ',' + b + ' L' + X(0).toFixed(1) + ',' + b + ' Z" fill="url(#rg-' + t + ')" class="rg-f"/>' +
+               '<path d="' + hot + '" class="rg-hot" filter="url(#rg-glow)"/><path d="' + cold + '" class="rg-cold" filter="url(#rg-glow)"/>' +
+               '<line x1="' + X(0).toFixed(1) + '" x2="' + X(n - 1).toFixed(1) + '" y1="' + y70.toFixed(1) + '" y2="' + y70.toFixed(1) + '" class="rg-70"/>' +
+               '<path d="' + p + '" class="rg-l" filter="url(#rg-glow)"/><line x1="' + X(0).toFixed(1) + '" x2="' + X(n - 1).toFixed(1) + '" y1="' + b + '" y2="' + b + '" class="rg-b"/>');
+      var ch = Math.round(v[n - 1]) - Math.round(v[0]), c = v[n - 1] > 70 ? ' fl-ob' : v[n - 1] < 30 ? ' fl-os' : '';
+      out.push('<text x="' + (L - 10) + '" y="' + (b - 4) + '" text-anchor="end" class="fl-l">' + esc(D.short[t]) + '</text>' +
+               '<text x="' + (W - R + 10) + '" y="' + (b - 4) + '" class="fl-l"><tspan class="fl-n' + c + '">' + Math.round(v[n - 1]) + '</tspan> <tspan class="fl-v">' + (ch >= 0 ? '+' : '') + ch + '</tspan></text>');
+    });
+    out.push('<text x="' + (W - R + 10) + '" y="' + (top - 52) + '" class="fl-v">RSI, change</text><line id="rg-x" class="rg-x" y1="' + (top - 50) + '" y2="' + (Hh - 26) + '" x1="-9" x2="-9"/></svg><div class="rg-tip" id="rg-tip" hidden></div>');
+    ridges.ctx = {ts: ts, X: X, n: n, s0: s0, L: L, W: W, R: R};
+    return out.join('');
+  }
+  function ridgeHover() {
+    var svg = root.querySelector('svg.ridges'), tip = document.getElementById('rg-tip'), xl = document.getElementById('rg-x'), C = ridges.ctx;
+    if (!svg || !C) return;
+    function at(ev) {
+      var r = svg.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width * C.W, i = Math.round((x - C.L) / (C.W - C.L - C.R) * (C.n - 1));
+      if (i < 0 || i >= C.n) { tip.hidden = true; xl.setAttribute('x1', -9); xl.setAttribute('x2', -9); return; }
+      var d = C.s0 + i, xs = C.X(i); xl.setAttribute('x1', xs); xl.setAttribute('x2', xs);
+      var vals = C.ts.map(function (t) { return [t, H.sectors[t][d]]; }).sort(function (a, b) { return b[1] - a[1]; });
+      tip.innerHTML = '<b>' + fd(dates[d]) + '</b>' + vals.map(function (p) { return '<div><span style="color:' + rcol(p[1]) + '">●</span> ' + esc(D.short[p[0]]) + ' <b>' + Math.round(p[1]) + '</b></div>'; }).join('');
+      tip.hidden = false; var px = xs / C.W * r.width; tip.style.left = (px > r.width * 0.6 ? px - tip.offsetWidth - 14 : px + 14) + 'px'; tip.style.top = '40px';
+    }
+    svg.addEventListener('mousemove', at); svg.addEventListener('touchstart', function (ev) { at(ev.touches[0]); }, {passive: true});
+    svg.addEventListener('mouseleave', function () { tip.hidden = true; xl.setAttribute('x1', -9); xl.setAttribute('x2', -9); });
   }
   var AX = '<div class="ax"><span></span><span><i class="w" style="left:0;transform:none">0</i><i style="left:30%">30</i><i class="w" style="left:15%">oversold</i><i style="left:50%">50</i><i style="left:70%">70</i><i class="w" style="left:85%">overbought</i><i class="w" style="left:100%;transform:translateX(-100%)">100</i></span><span></span></div>';
   function rows(list) {
@@ -5917,12 +5988,30 @@ SRSI_JS = r"""(function () {
     Object.keys(H.themes).forEach(function (g) { var x = at(H.themes[g], e); if (x) { x.label = g + ' (' + H.n[g] + ')'; th.push(x); } });
     s.sort(function (a, b) { return b.now - a.now; }); th.sort(function (a, b) { return a.now - b.now; });
     var os = th.filter(function (r) { return r.now < 30; }).length, ob = th.filter(function (r) { return r.now > 70; }).length;
-    root.innerHTML = '<h4>S&amp;P 500 sectors: RSI rank, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap">' + flow(e, Math.min(n, e + 1)) + '</div>' +
+    var vw = view.value, chart = vw === 'ranks' ? '<h4>S&amp;P 500 sectors: RSI rank, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap">' + flow(e, Math.min(n, e + 1)) + '</div>'
+      : '<h4>S&amp;P 500 sectors: RSI, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap rgwrap">' + ridges(e, Math.min(n, e + 1)) + '</div>';
+    root.innerHTML = chart +
       '<h4 style="margin-top:12px">Sectors on ' + fd(dates[e]) + '</h4>' + AX + '<div class="grid">' + rows(s) + '</div>' +
       '<div class="cols"><div><h4>Lowest RSI themes</h4><div class="grid">' + rows(th.slice(0, 8)) + '</div></div><div><h4>Highest RSI themes</h4><div class="grid">' + rows(th.slice(-8).reverse()) + '</div></div></div>' +
       '<p class="muted" style="font-size:.78rem;margin:10px 0 0">' + os + ' of ' + th.length + ' themes oversold (under 30), ' + ob + ' overbought (over 70) on ' + fd(dates[e]) + '.</p>';
+    if (vw !== 'ranks') ridgeHover(); else rankFocus(e);
   }
-  inp.addEventListener('change', draw); len.addEventListener('change', draw);
+  function rankFocus(e) {
+    var svg = root.querySelector('svg.flow'); if (!svg) return;
+    var order = Object.keys(SM).filter(function (t) { return SM[t][e] != null; }).sort(function (a, b) { return SM[b][e] - SM[a][e]; });
+    if (!focus) focus = order.slice(0, 2).concat(order.slice(-2));
+    function paint(tmp) {
+      svg.querySelectorAll('[data-t]').forEach(function (el) { var on = focus.indexOf(el.getAttribute('data-t')) >= 0 || el.getAttribute('data-t') === tmp; el.classList.toggle('dim', !on); });
+    }
+    paint();
+    svg.querySelectorAll('[data-t]').forEach(function (el) {
+      var t = el.getAttribute('data-t');
+      el.addEventListener('mouseenter', function () { paint(t); }); el.addEventListener('mouseleave', function () { paint(); });
+      el.addEventListener('click', function () { var k = focus.indexOf(t); if (k >= 0) focus.splice(k, 1); else focus.push(t); paint(); });
+    });
+  }
+  var view = document.getElementById('srsi-view');
+  inp.addEventListener('change', draw); len.addEventListener('change', draw); view.addEventListener('change', draw);
   document.getElementById('srsi-today').addEventListener('click', function () { inp.value = inp.max; draw(); });
   draw();
 })();"""
@@ -5939,14 +6028,15 @@ def sector_rsi_html(scan):
     data = dict(back=D.get('back', 5), hist=H, short=SRSI_SHORT, colors=SRSI_COLORS,
                 names={t: n for t, n in __import__('mtl.sector_rsi', fromlist=['FUNDS']).FUNDS.items()})
     js = json.dumps(data, separators=(',', ':')).replace('</', '<\\/')
-    return (f'  <p class="section-label">Sector and theme RSI <span class="hint">14-day RSI. The chart stacks the sectors by RSI each '
-            f'day, highest on top: a ribbon rises or sinks as its RSI rank changes, and is thicker the higher its RSI (hover a ribbon). '
+    return (f'  <p class="section-label">Sector and theme RSI <span class="hint">14-day RSI. Ridges: each sector\'s RSI over the period, '
+            f'coloured by its level (green under 30, red over 70; the faint line is 70), highest tonight on top; hover for every sector on a day. '
+            f'Ranks: the sectors stacked by RSI (5-day average) each day, a ribbon rising or sinking as its rank changes; tonight\'s top 2 and bottom 2 are lit, click or hover any sector to light it. '
             f'Below: each sector and the lowest and highest themes on that date, the small dot {D.get("back", 5)} sessions earlier; under 30 '
             f'oversold, over 70 overbought. Themes are industries, an equal-weight index of their S&amp;P 500 members (count in brackets). '
             f'Information only, not a rule.</span></p>\n'
             f'  <div class="card srsi"><div class="srsi-ctl"><label>Up to <input type="date" id="srsi-date"></label> '
             f'<label>showing <select id="srsi-len"><option value="30" selected>30 sessions</option><option value="60">60 sessions</option>'
-            f'<option value="90">90 sessions</option></select></label> <button type="button" class="bt" id="srsi-today">Latest</button></div>'
+            f'<option value="90">90 sessions</option></select></label> <label>view <select id="srsi-view"><option value="ridges" selected>Ridges</option><option value="ranks">Ranks</option></select></label> <button type="button" class="bt" id="srsi-today">Latest</button></div>'
             f'<div id="srsi"></div></div>\n'
             f'  <script type="application/json" id="srsi-data">{js}</script>\n  <script>{SRSI_JS}</script>\n')
 
