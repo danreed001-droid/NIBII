@@ -55,3 +55,12 @@ def test_weekly_reading_matches_a_direct_recompute():
     r = MC.rsi(pts)
     assert abs(((fast - MC.angle(r[-1], r[-1] - r[-4]) + 180) % 360) - 180) <= 1
     assert abs(lev - r[-1]) < 1e-9
+
+
+def test_news_keeps_support_and_shock_events_only():
+    evs = [{'d': '2020-03-23', 'type': 'QE / backstop', 'what': 'Fed unlimited QE'},
+           {'d': '2020-03-09', 'type': 'Crash / glitch', 'what': 'Oil price war crash ' + 'x' * 200},
+           {'d': '2020-03-24', 'type': 'Turning point', 'what': 'Bottom'}, {'d': '2020-03-25', 'type': 'War / terror'}]
+    out = MC.news(evs)
+    assert [r[:3] for r in out] == [['2020-03-09', -1, 'Crash / glitch'], ['2020-03-23', 1, 'QE / backstop']]
+    assert len(out[0][3]) <= 110 and MC.news(None) == []
