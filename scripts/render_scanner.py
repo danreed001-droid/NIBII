@@ -489,6 +489,7 @@ footer li { margin-bottom: 6px; }
   <div class="card swpanel" id="swpanel" hidden></div>
 __WATCHRULE__
 
+__SECRSI__
 __RECENT__
 __NEWSFWD__
 __DOMINOES__
@@ -5314,9 +5315,10 @@ def render(scan, growth=None):
     page = page.replace('__RESEARCH__', widenet_html(scan) + ignition_html() + lab_html() + research_html(), 1)
     page = page.replace('__ISSUES__', issues_html(scan), 1)
     page = page.replace('__WATCHRULE__', watchrule_html(), 1)
+    page = page.replace('__SECRSI__', sector_rsi_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
     page = page.replace('__NEWSFWD__', news_forward_html(), 1)
-    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS + '\n' + NFW_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
+    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS + '\n' + NFW_CSS + '\n' + SRSI_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
     page = page.replace('__CROWDING__', crowding_html(scan).replace(   # also on docs/stress.html, where it has its charts
         '(published the Friday after)</span>', '(published the Friday after) · <a href="stress.html#crowding">charts →</a></span>', 1), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
@@ -5830,6 +5832,329 @@ def crowding_plain(rows):
 
 
 NEWS_FWD_PATH = os.path.join(ROOT, 'data', 'news_forward.json')
+SRSI_CSS = """.srsi .grid { display: grid; grid-template-columns: minmax(130px, 210px) 1fr 122px; gap: 5px 12px; align-items: center; font-size: 0.82rem; }
+.srsi .snm { line-height: 1.25; white-space: normal; overflow-wrap: anywhere; }
+.srsi .trk { position: relative; height: 16px; border-radius: 8px; background: linear-gradient(90deg,
+  color-mix(in srgb, var(--pos) 22%, transparent) 0 30%, var(--surface-2) 30% 70%, color-mix(in srgb, var(--neg) 22%, transparent) 70% 100%); }
+.srsi .trk .mid { position: absolute; left: 50%; top: 2px; bottom: 2px; width: 1px; background: var(--hairline); }
+.srsi .trk .was { position: absolute; top: 4px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--muted); opacity: .7; }
+.srsi .trk .mv { position: absolute; top: 7px; height: 2px; background: var(--muted); opacity: .6; }
+.srsi .trk .now { position: absolute; top: 1px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 2px solid var(--surface); }
+.srsi .v { text-align: right; } .srsi .v small { color: var(--muted); }
+.srsi .ax { display: grid; grid-template-columns: minmax(130px, 210px) 1fr 122px; gap: 12px; font-size: 0.7rem; color: var(--muted); margin: 2px 0 6px; }
+.srsi .ax span { position: relative; height: 1.1em; } .srsi .ax i { position: absolute; transform: translateX(-50%); font-style: normal; white-space: nowrap; }
+.srsi .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 26px; margin-top: 14px; }
+.srsi h4 { font-size: 0.82rem; margin: 0 0 6px; font-weight: 600; }
+.srsi .flow { width: 100%; height: auto; display: block; margin: 2px 0 6px; }
+.srsi .flowwrap { overflow-x: auto; } .srsi .flowwrap .flow { min-width: 640px; }
+.srsi .fl-r { opacity: .82; stroke: var(--surface); stroke-width: 1.2; } .srsi .fl-r:hover { opacity: 1; }
+.srsi .fl-g { stroke: var(--hairline); stroke-width: 1; stroke-dasharray: 2 4; }
+.srsi .fl-pill { fill: var(--ink); } .srsi .fl-d { fill: var(--surface); font-size: 10.5px; font-weight: 600; }
+.srsi .fl-l { fill: var(--ink-2); font-size: 12.5px; } .srsi .fl-v { fill: var(--muted); font-size: 11px; }
+.srsi .fl-n { fill: var(--ink); font-weight: 600; } .srsi .fl-n.fl-ob { fill: var(--neg); } .srsi .fl-n.fl-os { fill: var(--pos); }
+.srsi .fl-g2 { opacity: .45; }
+.srsi .flow [data-t] { cursor: pointer; transition: opacity .15s; } .srsi .flow .fl-r.dim { opacity: .13; } .srsi .flow text.dim { opacity: .35; }
+.srsi .rgwrap { position: relative; }
+.srsi .ridges { width: 100%; height: auto; display: block; min-width: 640px; }
+.srsi .rg-f { opacity: 1; } .srsi .rg-hot { fill: #ff4d43; opacity: .95; } .srsi .rg-cold { fill: #2fd17e; opacity: .95; } .srsi .rg-l { fill: none; stroke: color-mix(in srgb, var(--ink) 85%, transparent); stroke-width: 1.4; }
+.srsi .rg-b { stroke: var(--surface); stroke-width: 2; } .srsi .rg-70 { stroke: var(--ink); stroke-opacity: .16; stroke-dasharray: 3 4; }
+.srsi .rg-x { stroke: var(--ink); stroke-opacity: .55; stroke-width: 1; }
+.srsi .vs-bg { fill: var(--surface-2); opacity: .55; } .srsi .vs-0 { stroke: var(--ink); stroke-opacity: .25; stroke-width: 1; }
+.srsi .rot { width: 100%; height: auto; display: block; min-width: 640px; }
+.srsi .rot-os { fill: #2fd17e; opacity: .07; } .srsi .rot-ob { fill: #ff4d43; opacity: .08; } .srsi .rot-ax { stroke: var(--ink); stroke-opacity: .28; }
+.srsi .rot-q { fill: var(--muted); font-size: 12px; font-style: italic; } .srsi .rot-dot { stroke: var(--ink); stroke-width: 1.5; } .srsi .rot-l { fill: var(--ink); font-size: 12.5px; font-weight: 600; } .srsi .rot-lead { stroke: var(--muted); stroke-width: .8; }
+.srsi .srsi-q { display: inline-flex; gap: 4px; }
+.srsi .r6c { stroke: var(--surface); stroke-width: 2; } .srsi .r6c.r6p { fill: #1f9a5a; } .srsi .r6c.r6n { fill: #c8413a; }
+.srsi .r6t { fill: #fff; font-size: 10.5px; font-weight: 700; } .srsi .r6lead { stroke: var(--ink); stroke-opacity: .25; stroke-width: 1; stroke-dasharray: 2 2; } .srsi .r6tp { fill: var(--pos); font-weight: 700; } .srsi .r6tn { fill: var(--neg); font-weight: 700; }
+.srsi .r6pill { display: inline-block; min-width: 40px; margin-left: 6px; padding: 0 6px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; color: #fff; text-align: center; }
+.srsi .r6pill.r6p { background: #1f9a5a; } .srsi .r6pill.r6n { background: #c8413a; }
+.srsi .vs-run { font-size: 10.5px; } .srsi .vs-bad { fill: var(--neg); font-weight: 600; }
+.srsi .rg-tip { position: absolute; z-index: 2; pointer-events: none; background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px; padding: 6px 9px; font-size: 0.76rem; line-height: 1.35; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+.srsi .srsi-ctl { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 0.82rem; margin-bottom: 10px; color: var(--ink-2); }
+.srsi .srsi-ctl input, .srsi .srsi-ctl select { font: inherit; background: var(--surface-2); color: var(--ink); border: 1px solid var(--hairline); border-radius: 6px; padding: 3px 6px; }
+@media (max-width: 760px) { .srsi .cols { grid-template-columns: 1fr; } .srsi .grid, .srsi .ax { grid-template-columns: minmax(96px, 128px) 1fr 108px; } .srsi .ax .w { display: none; } }"""
+
+
+SRSI_SHORT = {'XLK': 'Tech', 'XLC': 'Comm services', 'XLY': 'Discretionary', 'XLP': 'Staples', 'XLE': 'Energy', 'XLF': 'Financials',
+              'XLV': 'Health care', 'XLI': 'Industrials', 'XLB': 'Materials', 'XLRE': 'Real estate', 'XLU': 'Utilities'}
+SRSI_COLORS = {'XLK': '#5b8fd1', 'XLC': '#c9725f', 'XLY': '#d4a24c', 'XLP': '#8fa86b', 'XLE': '#a0785a', 'XLF': '#6aa6a0',
+               'XLV': '#b57fb3', 'XLI': '#7d8aa8', 'XLB': '#c4a77c', 'XLRE': '#d08aa0', 'XLU': '#7fb07a'}
+
+SRSI_JS = r"""(function () {
+  var D = JSON.parse(document.getElementById('srsi-data').textContent), H = D.hist, dates = H.dates;
+  var root = document.getElementById('srsi'), inp = document.getElementById('srsi-date'), frm = document.getElementById('srsi-from');
+  var NS = 'http://www.w3.org/2000/svg';
+  function esc(x) { return String(x).replace(/[&<>"]/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); }
+  function fd(d) { var p = d.split('-'); return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1] - 1] + ' ' + (+p[2]); }
+  inp.min = frm.min = dates[0]; inp.max = frm.max = dates[dates.length - 1]; inp.value = inp.max; frm.value = dates[Math.max(0, dates.length - 30)];
+  function endIdx() { var v = inp.value, k = dates.length - 1; while (k > 0 && dates[k] > v) k--; return k; }
+  function startIdx(e) { var v = frm.value, k = 0; while (k < e && dates[k] < v) k++; return Math.min(k, Math.max(0, e - 4)); }
+  var SM = {}; Object.keys(H.sectors).forEach(function (t) { var v = H.sectors[t]; SM[t] = v.map(function (x, i) { var a = v.slice(Math.max(0, i - 4), i + 1).filter(function (y) { return y != null; }); return x == null || a.length < 5 ? null : a.reduce(function (p, q) { return p + q; }, 0) / a.length; }); });
+  var focus = null;
+  function flow(e, n) {   // the 5-day average, at most ~30 points (every 2nd or 3rd session over longer periods)
+    var st = Math.max(1, Math.ceil(n / 30)), idx = [];
+    for (var i = e; i > e - n && i >= 0; i -= st) idx.unshift(i);
+    var sub = {}; Object.keys(SM).forEach(function (t) { sub[t] = idx.map(function (i) { return SM[t][i]; }); });
+    var SR = H.sectors, DT = dates; H = Object.assign({}, H, {sectors: sub}); dates = idx.map(function (i) { return DT[i]; });
+    try { return flow0(idx.length - 1, idx.length); } finally { H = Object.assign({}, H, {sectors: SR}); dates = DT; }
+  }
+  function flow0(e, n) {
+    var ts = Object.keys(H.sectors).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (H.sectors[t][i] == null) return false; return true; });
+    if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
+    var W = 1000, L = 150, R = 205, top = 66, row = 34, Hh = top + row * ts.length + 26, s0 = e - n + 1;
+    var X = function (i) { return L + (W - L - R) * i / (n - 1); }, rank = [];
+    for (var i = 0; i < n; i++) { var o = ts.slice().sort(function (a, b) { return H.sectors[b][s0 + i] - H.sectors[a][s0 + i]; }); var r = {}; o.forEach(function (t, k) { r[t] = k; }); rank.push(r); }
+    var Y = function (i, t) { return top + row * rank[i][t] + row / 2; }, th = function (v) { return 6 + 22 * Math.max(0, Math.min(100, v)) / 100; };
+    var out = ['<svg class="flow" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Sector RSI ranks">'], step = Math.max(1, Math.ceil(n / 12));
+    for (var i = 0; i < n; i++) {
+      var x = X(i).toFixed(1), last = i === n - 1, lab = (i % step === 0 && n - 1 - i >= step) || last;
+      out.push('<line x1="' + x + '" x2="' + x + '" y1="' + (top - 8) + '" y2="' + (Hh - 22) + '" class="fl-g' + (lab ? '' : ' fl-g2') + '"/>');
+      if (lab) out.push('<rect x="' + (X(i) - 25).toFixed(1) + '" y="' + (top - 34) + '" width="50" height="18" rx="9" class="fl-pill"/><text x="' + x + '" y="' + (top - 21) + '" text-anchor="middle" class="fl-d">' + fd(dates[s0 + i]) + '</text>');
+    }
+    ts.slice().sort(function (a, b) { return rank[n - 1][b] - rank[n - 1][a]; }).forEach(function (t) {
+      var v = H.sectors[t].slice(s0, e + 1), up = [], dn = [];
+      for (var i = 0; i < n; i++) { up.push([X(i), Y(i, t) - th(v[i]) / 2]); dn.push([X(i), Y(i, t) + th(v[i]) / 2]); }
+      var d = 'M' + up[0][0].toFixed(1) + ',' + up[0][1].toFixed(1);
+      for (var i = 1; i < n; i++) { var mx = ((up[i - 1][0] + up[i][0]) / 2).toFixed(1); d += ' C' + mx + ',' + up[i - 1][1].toFixed(1) + ' ' + mx + ',' + up[i][1].toFixed(1) + ' ' + up[i][0].toFixed(1) + ',' + up[i][1].toFixed(1); }
+      d += ' L' + dn[n - 1][0].toFixed(1) + ',' + dn[n - 1][1].toFixed(1);
+      for (var i = n - 1; i > 0; i--) { var mx = ((dn[i - 1][0] + dn[i][0]) / 2).toFixed(1); d += ' C' + mx + ',' + dn[i][1].toFixed(1) + ' ' + mx + ',' + dn[i - 1][1].toFixed(1) + ' ' + dn[i - 1][0].toFixed(1) + ',' + dn[i - 1][1].toFixed(1); }
+      var tip = D.names[t] + ' (' + t + '): RSI ' + fd(dates[s0]) + ' ' + Math.round(v[0]) + ', ' + fd(dates[e]) + ' ' + Math.round(v[n - 1]) + '; low ' + Math.round(Math.min.apply(null, v)) + ', high ' + Math.round(Math.max.apply(null, v));
+      out.push('<path d="' + d + ' Z" fill="' + D.colors[t] + '" class="fl-r" data-t="' + t + '"><title>' + esc(tip) + '</title></path>');
+      var b = v[n - 1], cls = b > 70 ? ' fl-ob' : b < 30 ? ' fl-os' : '';
+      out.push('<text x="' + (L - 10) + '" y="' + (Y(0, t) + 4).toFixed(1) + '" text-anchor="end" class="fl-l" data-t="' + t + '">' + esc(D.short[t]) + ' <tspan class="fl-v">' + Math.round(v[0]) + '</tspan></text>' +
+               '<text x="' + (W - R + 10) + '" y="' + (Y(n - 1, t) + 4).toFixed(1) + '" class="fl-l" data-t="' + t + '"><tspan class="fl-n' + cls + '">' + Math.round(b) + '</tspan> ' + esc(D.names[t]) + ' <tspan class="fl-v">' + t + '</tspan></text>');
+    });
+    out.push('<text x="' + (L - 10) + '" y="14" text-anchor="end" class="fl-v">RSI ' + fd(dates[s0]) + '</text><text x="' + (W - R + 10) + '" y="14" class="fl-v">RSI ' + fd(dates[e]) + '</text></svg>');
+    return out.join('');
+  }
+  function rcol(v) {   // RSI to colour: green under 30, slate in the middle, amber rising, red over 70
+    var st = [[20, [47, 191, 113]], [30, [47, 191, 113]], [45, [74, 96, 120]], [55, [96, 110, 132]], [65, [214, 162, 76]], [70, [229, 83, 75]], [90, [240, 70, 60]]];
+    v = Math.max(20, Math.min(90, v));
+    for (var i = 1; i < st.length; i++) if (v <= st[i][0]) { var a = st[i - 1], b = st[i], f = (v - a[0]) / (b[0] - a[0] || 1);
+      return 'rgb(' + [0, 1, 2].map(function (k) { return Math.round(a[1][k] + (b[1][k] - a[1][k]) * f); }).join(',') + ')'; }
+    return 'rgb(240,70,60)';
+  }
+  function ridges(e, n) {
+    var ts = Object.keys(H.sectors).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (H.sectors[t][i] == null) return false; return true; });
+    if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
+    ts.sort(function (a, b) { return H.sectors[b][e] - H.sectors[a][e]; });
+    var heat = view.value === 'heat', W = 1000, L = 120, R = 150, top = heat ? 70 : 64, row = heat ? 40 : 46, amp = heat ? 74 : 62, s0 = e - n + 1, Hh = top + row * ts.length + 30;
+    var X = function (i) { return L + (W - L - R) * i / (n - 1); }, base = function (k) { return top + row * k + 8; };
+    var Yv = function (k, v) { return base(k) - (Math.max(20, Math.min(92, v)) - 20) / 72 * amp; };
+    var out = ['<svg class="ridges" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Sector RSI ridgelines"><defs><filter id="rg-glow" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'];
+    ts.forEach(function (t, k) {
+      if (heat) {
+        out.push('<linearGradient id="rg-' + t + '" x1="' + X(0) + '" x2="' + X(n - 1) + '" y1="0" y2="0" gradientUnits="userSpaceOnUse">');
+        var stp = Math.max(1, Math.floor(n / 160));
+        for (var i = 0; i < n; i += stp) out.push('<stop offset="' + (i / (n - 1)).toFixed(4) + '" stop-color="' + rcol(H.sectors[t][s0 + i]) + '"/>');
+        out.push('<stop offset="1" stop-color="' + rcol(H.sectors[t][e]) + '"/></linearGradient>');
+      } else out.push('<linearGradient id="rg-' + t + '" x1="0" x2="0" y1="' + Yv(k, 92).toFixed(1) + '" y2="' + base(k) + '" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + D.colors[t] + '" stop-opacity=".95"/><stop offset="1" stop-color="' + D.colors[t] + '" stop-opacity=".08"/></linearGradient>');
+    });
+    out.push('</defs>');
+    var step = Math.max(1, Math.ceil(n / 8));
+    for (var i = 0; i < n; i++) if ((i % step === 0 && n - 1 - i >= step) || i === n - 1)
+      out.push('<line x1="' + X(i).toFixed(1) + '" x2="' + X(i).toFixed(1) + '" y1="' + (top - 50) + '" y2="' + (Hh - 26) + '" class="fl-g"/><text x="' + X(i).toFixed(1) + '" y="' + (Hh - 10) + '" text-anchor="middle" class="fl-v">' + fd(dates[s0 + i]) + '</text>');
+    ts.forEach(function (t, k) {   // back to front: the top ridge first, each lower one drawn over it
+      var v = H.sectors[t].slice(s0, e + 1), p = '';
+      for (var i = 0; i < n; i++) p += (i ? ' L' : 'M') + X(i).toFixed(1) + ',' + Yv(k, v[i]).toFixed(1);
+      var b = base(k), y70 = Yv(k, 70);
+      var hot = 'M' + X(0).toFixed(1) + ',' + y70.toFixed(1), cold = 'M' + X(0).toFixed(1) + ',' + Yv(k, 30).toFixed(1), y30 = Yv(k, 30);
+      for (var i = 0; i < n; i++) { var yy = Yv(k, v[i]); hot += ' L' + X(i).toFixed(1) + ',' + Math.min(yy, y70).toFixed(1); cold += ' L' + X(i).toFixed(1) + ',' + Math.max(yy, y30).toFixed(1); }
+      hot += ' L' + X(n - 1).toFixed(1) + ',' + y70.toFixed(1) + ' Z'; cold += ' L' + X(n - 1).toFixed(1) + ',' + y30.toFixed(1) + ' Z';
+      out.push('<path d="' + p + ' L' + X(n - 1).toFixed(1) + ',' + b + ' L' + X(0).toFixed(1) + ',' + b + ' Z" fill="url(#rg-' + t + ')" class="rg-f"/>' +
+               (heat ? '' : '<path d="' + hot + '" class="rg-hot" filter="url(#rg-glow)"/><path d="' + cold + '" class="rg-cold" filter="url(#rg-glow)"/>') +
+               '<line x1="' + X(0).toFixed(1) + '" x2="' + X(n - 1).toFixed(1) + '" y1="' + y70.toFixed(1) + '" y2="' + y70.toFixed(1) + '" class="rg-70"/>' +
+               '<path d="' + p + '" class="rg-l" filter="url(#rg-glow)"/><line x1="' + X(0).toFixed(1) + '" x2="' + X(n - 1).toFixed(1) + '" y1="' + b + '" y2="' + b + '" class="rg-b"/>');
+      var ch = Math.round(v[n - 1]) - Math.round(v[0]), c = v[n - 1] > 70 ? ' fl-ob' : v[n - 1] < 30 ? ' fl-os' : '';
+      var r6 = (H.r6s || {})[t] ? H.r6s[t][e] : null, cy = b - 14;
+      if (r6 != null) out.push('<circle cx="' + (W - R + 30) + '" cy="' + cy.toFixed(1) + '" r="17" class="r6c ' + (r6 >= 0 ? 'r6p' : 'r6n') + '"><title>' + esc(D.names[t] + ': ' + (r6 >= 0 ? '+' : '') + Math.round(r6 * 100) + '% over the 6 months to ' + fd(dates[e])) + '</title></circle>' +
+        '<text x="' + (W - R + 30) + '" y="' + (cy + 4).toFixed(1) + '" text-anchor="middle" class="r6t">' + (r6 >= 0 ? '+' : '') + Math.round(r6 * 100) + '%</text>');
+      out.push('<text x="' + (L - 10) + '" y="' + (b - 4) + '" text-anchor="end" class="fl-l">' + esc(D.short[t]) + '</text>' +
+               '<line x1="' + X(n - 1).toFixed(1) + '" y1="' + Yv(k, v[n - 1]).toFixed(1) + '" x2="' + (W - R + 13) + '" y2="' + cy.toFixed(1) + '" class="r6lead"/><text x="' + (W - R + 54) + '" y="' + (b - 10) + '" class="fl-l"><tspan class="fl-v">RSI </tspan><tspan class="fl-n' + c + '">' + Math.round(v[n - 1]) + '</tspan> <tspan class="fl-v">' + (ch >= 0 ? '+' : '') + ch + '</tspan></text>');
+    });
+    out.push('<text x="' + (W - R + 30) + '" y="' + (top - 52) + '" text-anchor="middle" class="fl-v">6 mo</text><text x="' + (W - R + 54) + '" y="' + (top - 52) + '" class="fl-v">RSI, change</text><line id="rg-x" class="rg-x" y1="' + (top - 50) + '" y2="' + (Hh - 26) + '" x1="-9" x2="-9"/></svg><div class="rg-tip" id="rg-tip" hidden></div>');
+    ridges.ctx = {ts: ts, X: X, n: n, s0: s0, L: L, W: W, R: R};
+    return out.join('');
+  }
+  function gaps() {   // each sector's 5-day-average RSI minus the median of all sectors that day
+    if (gaps.v) return gaps.v;
+    var ts = Object.keys(SM), G = {}; ts.forEach(function (t) { G[t] = []; });
+    for (var i = 0; i < dates.length; i++) {
+      var xs = ts.map(function (t) { return SM[t][i]; }).filter(function (x) { return x != null; }).sort(function (a, b) { return a - b; });
+      var med = xs.length ? (xs.length % 2 ? xs[(xs.length - 1) / 2] : (xs[xs.length / 2 - 1] + xs[xs.length / 2]) / 2) : null;
+      ts.forEach(function (t) { G[t].push(SM[t][i] == null || med == null ? null : SM[t][i] - med); });
+    }
+    return (gaps.v = G);
+  }
+  function vsOthers(e, n) {
+    var G = gaps(), ts = Object.keys(G).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (G[t][i] == null) return false; return true; });
+    if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
+    ts.sort(function (a, b) { return G[b][e] - G[a][e]; });
+    var W = 1000, L = 120, R = 150, top = 30, row = 52, amp = 22, cap = 26, s0 = e - n + 1, Hh = top + row * ts.length + 30;
+    var X = function (i) { return L + (W - L - R) * i / (n - 1); }, mid = function (k) { return top + row * k + row / 2; };
+    var Yg = function (k, g) { return mid(k) - Math.max(-cap, Math.min(cap, g)) / cap * amp; };
+    var out = ['<svg class="ridges vso" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Sector RSI against the other sectors"><defs><filter id="vs-glow" x="-5%" y="-40%" width="110%" height="180%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+      '<linearGradient id="vs-up" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2fd17e" stop-opacity=".95"/><stop offset="1" stop-color="#2fd17e" stop-opacity=".25"/></linearGradient>' +
+      '<linearGradient id="vs-dn" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ff4d43" stop-opacity=".25"/><stop offset="1" stop-color="#ff4d43" stop-opacity=".95"/></linearGradient></defs>'];
+    var step = Math.max(1, Math.ceil(n / 8));
+    for (var i = 0; i < n; i++) if ((i % step === 0 && n - 1 - i >= step) || i === n - 1)
+      out.push('<line x1="' + X(i).toFixed(1) + '" x2="' + X(i).toFixed(1) + '" y1="' + (top - 6) + '" y2="' + (Hh - 26) + '" class="fl-g"/><text x="' + X(i).toFixed(1) + '" y="' + (Hh - 10) + '" text-anchor="middle" class="fl-v">' + fd(dates[s0 + i]) + '</text>');
+    ts.forEach(function (t, k) {
+      var g = G[t].slice(s0, e + 1), m = mid(k), up = 'M' + X(0).toFixed(1) + ',' + m, dn = up, ln = '';
+      for (var i = 0; i < n; i++) { var y = Yg(k, g[i]); up += ' L' + X(i).toFixed(1) + ',' + Math.min(y, m).toFixed(1); dn += ' L' + X(i).toFixed(1) + ',' + Math.max(y, m).toFixed(1); ln += (i ? ' L' : 'M') + X(i).toFixed(1) + ',' + y.toFixed(1); }
+      up += ' L' + X(n - 1).toFixed(1) + ',' + m + ' Z'; dn += ' L' + X(n - 1).toFixed(1) + ',' + m + ' Z';
+      var run = 0; for (var i = e; i >= 0 && G[t][i] != null && (g[n - 1] < 0 ? G[t][i] < 0 : G[t][i] >= 0); i--) run++;
+      var now = g[n - 1], lab = (now < 0 ? 'weaker ' : 'stronger ') + run + (run === 1 ? ' day' : ' days');
+      out.push('<rect x="' + L + '" y="' + (m - row / 2 + 3) + '" width="' + (W - L - R) + '" height="' + (row - 6) + '" rx="6" class="vs-bg"/>' +
+               '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + m + '" y2="' + m + '" class="vs-0"/>' +
+               '<path d="' + up + '" fill="url(#vs-up)"/><path d="' + dn + '" fill="url(#vs-dn)"/><path d="' + ln + '" class="rg-l" filter="url(#vs-glow)"/>' +
+               '<text x="' + (L - 10) + '" y="' + (m + 4) + '" text-anchor="end" class="fl-l">' + esc(D.short[t]) + '</text>' +
+               '<text x="' + (W - R + 10) + '" y="' + (m - 2) + '" class="fl-l"><tspan class="fl-n ' + (now < 0 ? 'fl-ob' : 'fl-os') + '">' + (now >= 0 ? '+' : '') + Math.round(now) + '</tspan> <tspan class="fl-v">RSI ' + Math.round(H.sectors[t][e]) + '</tspan></text>' +
+               '<text x="' + (W - R + 10) + '" y="' + (m + 13) + '" class="fl-v vs-run' + (now < 0 && run >= 10 ? ' vs-bad' : '') + '">' + lab + '</text>');
+    });
+    out.push('<line id="rg-x" class="rg-x" y1="' + (top - 6) + '" y2="' + (Hh - 26) + '" x1="-9" x2="-9"/></svg><div class="rg-tip" id="rg-tip" hidden></div>');
+    vsOthers.ctx = {ts: ts, X: X, n: n, s0: s0, L: L, W: W, R: R};
+    return out.join('');
+  }
+  function vsHover() {
+    var svg = root.querySelector('svg.vso'), tip = document.getElementById('rg-tip'), xl = document.getElementById('rg-x'), C = vsOthers.ctx, G = gaps();
+    if (!svg || !C) return;
+    function at(ev) {
+      var r = svg.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width * C.W, i = Math.round((x - C.L) / (C.W - C.L - C.R) * (C.n - 1));
+      if (i < 0 || i >= C.n) { tip.hidden = true; xl.setAttribute('x1', -9); xl.setAttribute('x2', -9); return; }
+      var d = C.s0 + i, xs = C.X(i); xl.setAttribute('x1', xs); xl.setAttribute('x2', xs);
+      var vals = C.ts.map(function (t) { return [t, G[t][d]]; }).sort(function (a, b) { return b[1] - a[1]; });
+      tip.innerHTML = '<b>' + fd(dates[d]) + '</b> <span class="muted">vs the median sector</span>' + vals.map(function (p) { return '<div><span style="color:' + (p[1] < 0 ? '#ff4d43' : '#2fd17e') + '">●</span> ' + esc(D.short[p[0]]) + ' <b>' + (p[1] >= 0 ? '+' : '') + Math.round(p[1]) + '</b></div>'; }).join('');
+      tip.hidden = false; var px = xs / C.W * r.width; tip.style.left = (px > r.width * 0.6 ? px - tip.offsetWidth - 14 : px + 14) + 'px'; tip.style.top = '30px';
+    }
+    svg.addEventListener('mousemove', at); svg.addEventListener('touchstart', function (ev) { at(ev.touches[0]); }, {passive: true});
+    svg.addEventListener('mouseleave', function () { tip.hidden = true; xl.setAttribute('x1', -9); xl.setAttribute('x2', -9); });
+  }
+  var R3 = {}; Object.keys(H.sectors).forEach(function (t) { var v = H.sectors[t]; R3[t] = v.map(function (x, i) { if (x == null || i < 2 || v[i - 1] == null || v[i - 2] == null) return null; return (x + v[i - 1] + v[i - 2]) / 3; }); });
+  function rotation(e) {   // x: RSI (3-day average), y: its change over 5 sessions; a 10-session tail ending at e
+    var T = 10, ts = Object.keys(R3).filter(function (t) { for (var i = e - T - 4; i <= e; i++) if (i < 0 || R3[t][i] == null) return false; return true; });
+    if (!ts.length) return '<p class="muted">Not enough history before that date.</p>';
+    var P = {}, ym = 20; ts.forEach(function (t) { P[t] = []; for (var i = e - T + 1; i <= e; i++) { var y = R3[t][i] - R3[t][i - 5]; P[t].push([R3[t][i], y]); ym = Math.max(ym, Math.abs(y)); } });
+    ym = Math.ceil(ym / 5) * 5 + 2;
+    var W = 1000, Hh = 600, L = 60, R = 30, top = 20, bot = 50, x0 = 15, x1 = 90;
+    var X = function (v) { return L + (W - L - R) * (Math.max(x0, Math.min(x1, v)) - x0) / (x1 - x0); }, Y = function (v) { return top + (Hh - top - bot) * (ym - v) / (2 * ym); };
+    var out = ['<svg class="rot" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Sector rotation map">',
+      '<rect x="' + X(x0) + '" y="' + top + '" width="' + (X(30) - X(x0)) + '" height="' + (Hh - top - bot) + '" class="rot-os"/><rect x="' + X(70) + '" y="' + top + '" width="' + (X(x1) - X(70)) + '" height="' + (Hh - top - bot) + '" class="rot-ob"/>'];
+    for (var v = 20; v <= 90; v += 10) out.push('<line x1="' + X(v) + '" x2="' + X(v) + '" y1="' + top + '" y2="' + (Hh - bot) + '" class="fl-g"/><text x="' + X(v) + '" y="' + (Hh - bot + 18) + '" text-anchor="middle" class="fl-v">' + v + '</text>');
+    for (var v = -ym + (ym % 10); v <= ym; v += 10) out.push('<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(v).toFixed(1) + '" y2="' + Y(v).toFixed(1) + '" class="fl-g"/><text x="' + (L - 8) + '" y="' + (Y(v) + 4).toFixed(1) + '" text-anchor="end" class="fl-v">' + (v > 0 ? '+' : '') + v + '</text>');
+    out.push('<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(0) + '" y2="' + Y(0) + '" class="rot-ax"/><line x1="' + X(50) + '" x2="' + X(50) + '" y1="' + top + '" y2="' + (Hh - bot) + '" class="rot-ax"/>');
+    [[X(22), Y(ym * .85), 'oversold, turning up'], [X(82), Y(ym * .85), 'overbought, still rising'], [X(82), Y(-ym * .85), 'overbought, rolling over'], [X(22), Y(-ym * .85), 'oversold, still falling']].forEach(function (q) {
+      out.push('<text x="' + q[0].toFixed(1) + '" y="' + q[1].toFixed(1) + '" text-anchor="middle" class="rot-q">' + q[2] + '</text>'); });
+    out.push('<text x="' + ((L + W - R) / 2) + '" y="' + (Hh - 8) + '" text-anchor="middle" class="fl-v">14-day RSI (3-day average)</text><text transform="translate(14,' + ((top + Hh - bot) / 2) + ') rotate(-90)" text-anchor="middle" class="fl-v">RSI change over 5 sessions</text>');
+    ts.forEach(function (t) {
+      var p = P[t];
+      for (var i = 1; i < p.length; i++) { var f = i / (p.length - 1);
+        out.push('<line x1="' + X(p[i - 1][0]).toFixed(1) + '" y1="' + Y(p[i - 1][1]).toFixed(1) + '" x2="' + X(p[i][0]).toFixed(1) + '" y2="' + Y(p[i][1]).toFixed(1) + '" stroke="' + D.colors[t] + '" stroke-width="' + (1.5 + 5 * f).toFixed(1) + '" stroke-opacity="' + (0.15 + 0.8 * f).toFixed(2) + '" stroke-linecap="round"/>'); }
+    });
+    var labs = ts.map(function (t) { var q = P[t][P[t].length - 1]; return {t: t, x: X(q[0]), y: Y(q[1]), ly: Y(q[1])}; }).sort(function (a, b) { return a.y - b.y; });
+    for (var it = 0; it < 60; it++) { var mv = false; for (var i = 1; i < labs.length; i++) for (var j = 0; j < i; j++) if (Math.abs(labs[i].x - labs[j].x) < 190 && labs[i].ly - labs[j].ly < 19) { labs[i].ly = labs[j].ly + 19; mv = true; } if (!mv) break; }
+    labs.forEach(function (b) {
+      var t = b.t, rsi = H.sectors[t][e];
+      out.push('<circle cx="' + b.x.toFixed(1) + '" cy="' + b.y.toFixed(1) + '" r="9" fill="' + D.colors[t] + '" class="rot-dot"><title>' + esc(D.names[t] + ': RSI ' + Math.round(rsi) + ', ' + (P[t][P[t].length - 1][1] >= 0 ? '+' : '') + Math.round(P[t][P[t].length - 1][1]) + ' over 5 sessions') + '</title></circle>');
+      if (Math.abs(b.ly - b.y) > 4) out.push('<line x1="' + (b.x + 9).toFixed(1) + '" y1="' + b.y.toFixed(1) + '" x2="' + (b.x + 15).toFixed(1) + '" y2="' + b.ly.toFixed(1) + '" class="rot-lead"/>');
+      var r6 = (H.r6s || {})[t] ? H.r6s[t][e] : null;
+      out.push('<text x="' + (b.x + 16).toFixed(1) + '" y="' + (b.ly + 4).toFixed(1) + '" class="rot-l">' + esc(D.short[t]) + ' <tspan class="fl-v">' + Math.round(rsi) + '</tspan>' + (r6 == null ? '' : ' <tspan class="' + (r6 >= 0 ? 'r6tp' : 'r6tn') + '">' + (r6 >= 0 ? '+' : '') + Math.round(r6 * 100) + '%</tspan>') + '</text>');
+    });
+    out.push('</svg>');
+    return out.join('');
+  }
+  function ridgeHover() {
+    var svg = root.querySelector('svg.ridges'), tip = document.getElementById('rg-tip'), xl = document.getElementById('rg-x'), C = ridges.ctx;
+    if (!svg || !C) return;
+    function at(ev) {
+      var r = svg.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width * C.W, i = Math.round((x - C.L) / (C.W - C.L - C.R) * (C.n - 1));
+      if (i < 0 || i >= C.n) { tip.hidden = true; xl.setAttribute('x1', -9); xl.setAttribute('x2', -9); return; }
+      var d = C.s0 + i, xs = C.X(i); xl.setAttribute('x1', xs); xl.setAttribute('x2', xs);
+      var vals = C.ts.map(function (t) { return [t, H.sectors[t][d]]; }).sort(function (a, b) { return b[1] - a[1]; });
+      tip.innerHTML = '<b>' + fd(dates[d]) + '</b>' + vals.map(function (p) { return '<div><span style="color:' + rcol(p[1]) + '">●</span> ' + esc(D.short[p[0]]) + ' <b>' + Math.round(p[1]) + '</b></div>'; }).join('');
+      tip.hidden = false; var px = xs / C.W * r.width; tip.style.left = (px > r.width * 0.6 ? px - tip.offsetWidth - 14 : px + 14) + 'px'; tip.style.top = '40px';
+    }
+    svg.addEventListener('mousemove', at); svg.addEventListener('touchstart', function (ev) { at(ev.touches[0]); }, {passive: true});
+    svg.addEventListener('mouseleave', function () { tip.hidden = true; xl.setAttribute('x1', -9); xl.setAttribute('x2', -9); });
+  }
+  var AX = '<div class="ax"><span></span><span><i class="w" style="left:0;transform:none">0</i><i style="left:30%">30</i><i class="w" style="left:15%">oversold</i><i style="left:50%">50</i><i style="left:70%">70</i><i class="w" style="left:85%">overbought</i><i class="w" style="left:100%;transform:translateX(-100%)">100</i></span><span></span></div>';
+  function rows(list) {
+    return list.map(function (r) {
+      var now = r.now, was = r.was, col = now < 30 ? 'var(--pos)' : now > 70 ? 'var(--neg)' : 'var(--accent)', lo = Math.min(now, was), hi = Math.max(now, was);
+      var tip = esc(r.label + ': RSI ' + Math.round(now) + ', ' + Math.round(was) + ' ' + D.back + ' sessions before');
+      var ch = Math.round(now) - Math.round(was);
+      return '<div class="snm" title="' + tip + '">' + esc(r.label) + '</div><div class="trk" title="' + tip + '"><span class="mid"></span><span class="mv" style="left:' + lo + '%;width:' + (hi - lo) + '%"></span>' +
+        '<span class="was" style="left:' + was + '%"></span><span class="now" style="left:' + now + '%;background:' + col + '"></span></div><div class="v mono">' + Math.round(now) + '<small> (' + (ch >= 0 ? '+' : '') + ch + ')</small>' +
+        (r.r6 == null ? '' : '<span class="r6pill ' + (r.r6 >= 0 ? 'r6p' : 'r6n') + '" title="6-month return">' + (r.r6 >= 0 ? '+' : '') + Math.round(r.r6 * 100) + '%</span>') + '</div>';
+    }).join('');
+  }
+  function at(series, e, r6) { var a = series[e], b = series[e - D.back]; return a == null || b == null ? null : {now: a, was: b, r6: r6 ? r6[e] : null}; }
+  function draw() {
+    var e = endIdx(), a = startIdx(e), n = e - a + 1, s = [], th = [];
+    Object.keys(H.sectors).forEach(function (t) { var x = at(H.sectors[t], e, (H.r6s || {})[t]); if (x) { x.label = D.names[t] + ' (' + t + ')'; s.push(x); } });
+    Object.keys(H.themes).forEach(function (g) { var x = at(H.themes[g], e, (H.r6t || {})[g]); if (x) { x.label = g + ' (' + H.n[g] + ')'; th.push(x); } });
+    s.sort(function (a, b) { return b.now - a.now; }); th.sort(function (a, b) { return a.now - b.now; });
+    var os = th.filter(function (r) { return r.now < 30; }).length, ob = th.filter(function (r) { return r.now > 70; }).length;
+    var vw = view.value, chart = vw === 'vs' ? '<h4>S&amp;P 500 sectors against each other: RSI vs the median sector, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap rgwrap">' + vsOthers(e, Math.min(n, e + 1)) + '</div>' : vw === 'ranks' ? '<h4>S&amp;P 500 sectors: RSI rank, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap">' + flow(e, Math.min(n, e + 1)) + '</div>'
+      : '<h4>S&amp;P 500 sectors: RSI, ' + fd(dates[a]) + ' to ' + fd(dates[e]) + ' (' + n + ' sessions)</h4><div class="flowwrap rgwrap">' + ridges(e, Math.min(n, e + 1)) + '</div>';
+    chart += '<h4 style="margin-top:14px">Rotation map: the last 10 sessions to ' + fd(dates[e]) + '</h4><p class="muted" style="font-size:.78rem;margin:0 0 4px">Each dot is a sector tonight (or on the "to" date): across, its RSI; up, how fast it rose over 5 sessions. Next to each name: its RSI, then its 6-month return. The tail is its path over the last 10 sessions, fading into the past: a sector sliding down and left is failing against the others.</p><div class="flowwrap">' + rotation(e) + '</div>';
+    root.innerHTML = chart +
+      '<h4 style="margin-top:12px">Sectors on ' + fd(dates[e]) + '</h4>' + AX + '<div class="grid">' + rows(s) + '</div>' +
+      '<div class="cols"><div><h4>Lowest RSI themes</h4><div class="grid">' + rows(th.slice(0, 8)) + '</div></div><div><h4>Highest RSI themes</h4><div class="grid">' + rows(th.slice(-8).reverse()) + '</div></div></div>' +
+      '<p class="muted" style="font-size:.78rem;margin:10px 0 0">' + os + ' of ' + th.length + ' themes oversold (under 30), ' + ob + ' overbought (over 70) on ' + fd(dates[e]) + '.</p>';
+    if (vw === 'vs') vsHover(); else if (vw !== 'ranks') ridgeHover(); else rankFocus(e);
+  }
+  function rankFocus(e) {
+    var svg = root.querySelector('svg.flow'); if (!svg) return;
+    var order = Object.keys(SM).filter(function (t) { return SM[t][e] != null; }).sort(function (a, b) { return SM[b][e] - SM[a][e]; });
+    if (!focus) focus = order.slice(0, 2).concat(order.slice(-2));
+    function paint(tmp) {
+      svg.querySelectorAll('[data-t]').forEach(function (el) { var on = focus.indexOf(el.getAttribute('data-t')) >= 0 || el.getAttribute('data-t') === tmp; el.classList.toggle('dim', !on); });
+    }
+    paint();
+    svg.querySelectorAll('[data-t]').forEach(function (el) {
+      var t = el.getAttribute('data-t');
+      el.addEventListener('mouseenter', function () { paint(t); }); el.addEventListener('mouseleave', function () { paint(); });
+      el.addEventListener('click', function () { var k = focus.indexOf(t); if (k >= 0) focus.splice(k, 1); else focus.push(t); paint(); });
+    });
+  }
+  var view = document.getElementById('srsi-view');
+  inp.addEventListener('change', draw); frm.addEventListener('change', draw); view.addEventListener('change', draw);
+  document.querySelectorAll('.srsi-q [data-n]').forEach(function (b) { b.addEventListener('click', function () { var e = endIdx(); frm.value = dates[Math.max(0, e - +b.getAttribute('data-n') + 1)]; draw(); }); });
+  document.getElementById('srsi-today').addEventListener('click', function () { inp.value = inp.max; frm.value = dates[Math.max(0, dates.length - 30)]; draw(); });
+  draw();
+})();"""
+
+
+def sector_rsi_html(scan):
+    """Scanner page, above the news: the 14-day RSI of the S&P 500 sectors (SPDR funds) as a flow chart of daily rank
+    (last 30 sessions by default, any date in the last year from the picker), with each sector's and the lowest and
+    highest industries' RSI on that date (mtl/sector_rsi.py; information only). '' when the scan has none."""
+    D = scan.get('sectorRsi') or {}
+    H = D.get('hist') or {}
+    if not H.get('dates') or not H.get('sectors'):
+        return ''
+    data = dict(back=D.get('back', 5), hist=H, short=SRSI_SHORT, colors=SRSI_COLORS,
+                names={t: n for t, n in __import__('mtl.sector_rsi', fromlist=['FUNDS']).FUNDS.items()})
+    js = json.dumps(data, separators=(',', ':')).replace('</', '<\\/')
+    return (f'  <p class="section-label">Sector and theme RSI <span class="hint">14-day RSI. Pick any range with From and to (last 30 sessions by default). '
+            f'Heat ridges: each sector\'s RSI over the range, coloured by its level (green under 30, slate in the middle, amber rising, red over 70), highest on top. '
+            f'The circle at the end of each line is its 6-month return (green up, red down). Below it the rotation map for the last 10 sessions to the "to" date. Vs other sectors: each sector\'s RSI (5-day average) minus the median sector\'s, '
+            f'green above its line when it is stronger than the group, red below when weaker; on the right the gap tonight and how many sessions in a row '
+            f'it has been on that side (red when weaker for 10+). Hover the ridges for every sector on a day. '
+            f'Ranks: the sectors stacked by RSI (5-day average) each day, a ribbon rising or sinking as its rank changes; tonight\'s top 2 and bottom 2 are lit, click or hover any sector to light it. '
+            f'Below: each sector and the lowest and highest themes on that date, the small dot {D.get("back", 5)} sessions earlier; under 30 '
+            f'oversold, over 70 overbought. Themes are industries, an equal-weight index of their S&amp;P 500 members (count in brackets). '
+            f'Information only, not a rule.</span></p>\n'
+            f'  <div class="card srsi"><div class="srsi-ctl"><label>From <input type="date" id="srsi-from"></label> <label>to <input type="date" id="srsi-date"></label> '
+            f'<span class="srsi-q"><button type="button" class="bt" data-n="30">30 days</button><button type="button" class="bt" data-n="60">60</button><button type="button" class="bt" data-n="90">90</button>'
+            f'<button type="button" class="bt" data-n="250">1 year</button></span> '
+            f'<label>view <select id="srsi-view"><option value="heat" selected>Heat ridges</option><option value="vs">Vs other sectors</option><option value="ranks">Ranks</option></select></label> '
+            f'<button type="button" class="bt" id="srsi-today">Latest</button></div>'
+            f'<div id="srsi"></div></div>\n'
+            f'  <script type="application/json" id="srsi-data">{js}</script>\n  <script>{SRSI_JS}</script>\n')
+
+
 NFW_CSS = """.nfw table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
 .nfw th { text-align: right; color: var(--muted); font-weight: 600; font-size: 0.72rem; border-bottom: 1px solid var(--hairline);
   padding: 4px; text-transform: none; letter-spacing: 0; white-space: normal; }

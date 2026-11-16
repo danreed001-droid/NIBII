@@ -54,7 +54,7 @@ from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl import candle, candlepat, fedday, fedday_check, reentry_note, resistline, stretchwarn  # noqa: E402
-from mtl import crashrank, earnjump, earnsell, fallgroup, hotcomm, jobwarn, nearhigh, runup, volsell, volweight, volweight_check  # noqa: E402
+from mtl import crashrank, earnjump, earnsell, fallgroup, hotcomm, jobwarn, nearhigh, runup, sector_rsi, volsell, volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
@@ -769,7 +769,7 @@ def main():
     bench = fetch(['SPY', 'QQQ', 'SPMO', 'HYG', 'LQD', 'RSP'], adjusted=True, volumes=volumes)   # SPMO: S&P 500 Momentum ETF, from Oct 2015; HYG/LQD: the cushion's credit check; RSP: equal-weight S&P 500 (narrow-market warning)
     asset_bars = fetch(ASSETS, adjusted=True)   # OHLC: Boost + rotation reads TLT's and GLD's swing structure
     try:   # the SPDR sector funds, for the re-entry note's sectors (information only, mtl/reentry_note.py)
-        sector_px = {t: {b[0]: b[4] for b in bs if b[4]} for t, bs in fetch(list(reentry_note.FUNDS), adjusted=True).items() if bs}
+        sector_px = {t: {b[0]: b[4] for b in bs if b[4]} for t, bs in fetch(sorted(set(reentry_note.FUNDS) | set(sector_rsi.FUNDS)), adjusted=True).items() if bs}
     except Exception as e:
         print(f"  sector funds fetch failed: {e}", file=sys.stderr)
         sector_px = {}
@@ -1731,6 +1731,10 @@ def main():
         option=option_check(held_rows, bars, as_of, calendar, signal_day),
         plan=dict(splits=['rotation', 'boost100', 'cushion', 'boost', 'auto', 'guard', 'steps', 'mine'] + [split_key(x) for x in PLAN_SPLITS], default='rotation', stats=plan_stats, auto=auto, you2=you2, paper=paper),
         dataIssues=data_issues)
+    try:   # sector and theme RSI, shown above the news on the scanner page (information only, mtl/sector_rsi.py)
+        payload['sectorRsi'] = sector_rsi.build(sector_px, prices, fallgroup.load_industries(ROOT), calendar, universe=[t for t in prices if t in sp])
+    except Exception as e:
+        print(f"  sector RSI failed: {e}", file=sys.stderr)
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)
