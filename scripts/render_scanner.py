@@ -6319,7 +6319,18 @@ def sector_rsi_html(scan):
             f'  <script type="application/json" id="srsi-data">{js}</script>\n  <script>{SRSI_JS}</script>\n')
 
 
-CLOCK_CSS = """.mclock { max-width: 620px; margin: 0 auto; }
+CLOCK_CSS = """.mclock { max-width: 1100px; margin: 0 auto; }
+.mclock-main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 18px; align-items: center; }
+@media (max-width: 760px) { .mclock-main { grid-template-columns: minmax(0, 1fr); } }
+.mt-bar { display: flex; flex-wrap: wrap; gap: 6px 10px; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--ink-2); margin-bottom: 4px; }
+.mt-btn { display: flex; gap: 4px; flex-wrap: wrap; } .mclock .mt-btn .bt { font-size: 0.72rem; padding: 2px 7px; }
+.mclock .mt-btn .bt.on { outline: 1.5px solid var(--ink); }
+.mclock-trend .mt-l { fill: var(--ink-2); font-size: 11.5px; } .mclock-trend .mt-v { fill: var(--muted); font-size: 10px; }
+.mclock-trend .mt-up { fill: #3fb950; font-weight: 600; } .mclock-trend .mt-dn { fill: #ef6a63; font-weight: 600; }
+.mclock-trend .mt-hot { fill: #ff6b6b; font-weight: 700; } .mclock-trend .mt-cold { fill: #2fd17e; font-weight: 700; } .mclock-trend .mt-n { fill: var(--ink); font-weight: 600; }
+.mclock-trend .mt-g { stroke: var(--hairline); stroke-dasharray: 2 4; }
+.mclock-trend .mt-rl { fill: none; stroke: color-mix(in srgb, var(--ink) 85%, transparent); stroke-width: 1.2; }
+.mclock-trend .mt-b { stroke: var(--surface); stroke-width: 2; } .mclock-trend .mt-70 { stroke: var(--ink); stroke-opacity: .16; stroke-dasharray: 3 4; }
 .mclock svg { width: 100%; height: auto; display: block; }
 .mclock-ctl { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; margin-bottom: 8px; font-size: 0.82rem; }
 .mclock-ctl input { font: inherit; background: var(--surface-2); color: var(--ink); border: 1px solid var(--hairline); border-radius: 6px; padding: 3px 6px; }
@@ -6363,6 +6374,82 @@ CLOCK_JS = r"""(function () {
   }
   function len(r, R) { var e = r ? Math.min(1, Math.abs(r.p - 50) / 50) : 0.5; return 6 + (R - 10) * e; }   // middling RSI: short; extreme: to the ring
   function far(r) { return r && (r.p <= 10 || r.p >= 90); }
+  // the trend tile beside the clock: the plan and the S&P 500 over the window ending on the clock's date, then each
+  // sector's RSI as heat ridges (as in the Sector RSI card), with its price move over the window
+  var TR = C.trend || null, TN = 30, LEV = {}, RS = {};
+  try { TN = +(localStorage.getItem('nibii-mclock-tn') || 30) || 30; } catch (e) {}
+  function chain(r) { var out = [], v = null; for (var i = 0; i < r.length; i++) { if (r[i] == null) { out.push(v); continue; } v = v == null ? 1 : v * (1 + r[i] / 1e4); out.push(v); } return out; }
+  function rsiArr(c) {
+    var out = c.map(function () { return null; }), f = c.findIndex(function (v) { return v != null; }), p = 14;
+    if (f < 0 || c.length - f <= p) return out;
+    var g = 0, l = 0;
+    for (var i = f + 1; i <= f + p; i++) { var d = c[i] - c[i - 1]; g += Math.max(d, 0); l += Math.max(-d, 0); }
+    g /= p; l /= p; out[f + p] = l ? 100 - 100 / (1 + g / l) : 100;
+    for (var i = f + p + 1; i < c.length; i++) { var d = c[i] - c[i - 1]; g = (g * (p - 1) + Math.max(d, 0)) / p; l = (l * (p - 1) + Math.max(-d, 0)) / p; out[i] = l ? 100 - 100 / (1 + g / l) : 100; }
+    return out;
+  }
+  if (TR) { Object.keys(TR.r || {}).forEach(function (k) { LEV[k] = chain(TR.r[k]); RS[k] = rsiArr(LEV[k]); }); if (TR.plan) LEV.plan = chain(TR.plan); }
+  var TNAME = {}; ((TR && TR.names) || []).forEach(function (q) { TNAME[q[0]] = q[1]; });
+  function rcol(v) {   // RSI to colour: green under 30, slate in the middle, amber rising, red over 70 (the Sector RSI card's scale)
+    var st = [[20, [47, 191, 113]], [30, [47, 191, 113]], [45, [74, 96, 120]], [55, [96, 110, 132]], [65, [214, 162, 76]], [70, [229, 83, 75]], [90, [240, 70, 60]]];
+    v = Math.max(20, Math.min(90, v));
+    for (var i = 1; i < st.length; i++) if (v <= st[i][0]) { var a = st[i - 1], b = st[i], q = (v - a[0]) / (b[0] - a[0] || 1);
+      return 'rgb(' + [0, 1, 2].map(function (k) { return Math.round(a[1][k] + (b[1][k] - a[1][k]) * q); }).join(',') + ')'; }
+    return 'rgb(240,70,60)';
+  }
+  function pct(v) { return (v >= 0 ? '+' : '') + (Math.abs(v) < 0.1 ? v.toFixed(1) : Math.abs(v) < 10 ? v.toFixed(1) : Math.round(v)) + '%'; }
+  function trendTile() {
+    var box = document.getElementById('mclock-trend'); if (!box || !TR) return;
+    var e = cur, n = Math.min(TN, e + 1), s0 = e - n + 1, W = 520, L = 92, R = 112;
+    var X = function (i) { return L + (W - L - R) * (i - s0) / Math.max(1, n - 1); };
+    var o = '<div class="mt-bar"><span>' + esc(fd(C.dates[s0])) + ' → ' + esc(fd(C.dates[e])) + ' · ' + n + ' sessions</span><span class="mt-btn">' +
+      [30, 60, 90, 252].map(function (v) { return '<button type="button" class="bt' + (v === TN ? ' on' : '') + '" data-n="' + v + '">' + (v === 252 ? '1 year' : v + ' days') + '</button>'; }).join('') + '</span></div>';
+    // the plan and the S&P 500, each from 0% at the window's start, with a dashed straight-line fit
+    var top = 14, h = 78, lo = 0, hi = 0, LN = [['plan', 'Plan', 'var(--ink)', 2.4], ['SPY', 'S&P 500', '#5aa2ff', 1.5]].filter(function (q) { return LEV[q[0]] && LEV[q[0]][s0] != null && LEV[q[0]][e] != null; });
+    LN.forEach(function (q) { for (var i = s0; i <= e; i++) { var v = LEV[q[0]][i]; if (v != null) { v = (v / LEV[q[0]][s0] - 1) * 100; lo = Math.min(lo, v); hi = Math.max(hi, v); } } });
+    var pad = Math.max(0.5, (hi - lo) * 0.12); lo -= pad; hi += pad;
+    var Y = function (v) { return top + h - (v - lo) / (hi - lo) * h; };
+    var sv = '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(0).toFixed(1) + '" y2="' + Y(0).toFixed(1) + '" class="mt-g"/><text x="' + (L - 6) + '" y="' + (Y(0) + 3.5).toFixed(1) + '" text-anchor="end" class="mt-v">0%</text>';
+    LN.forEach(function (q, j) {
+      var p = '', sx = 0, sy = 0, sxx = 0, sxy = 0, m = 0;
+      for (var i = s0; i <= e; i++) { var v = LEV[q[0]][i]; if (v == null) continue; v = (v / LEV[q[0]][s0] - 1) * 100;
+        p += (p ? ' L' : 'M') + X(i).toFixed(1) + ',' + Y(v).toFixed(1); sx += i; sy += v; sxx += i * i; sxy += i * v; m++; }
+      var b = m > 1 ? (m * sxy - sx * sy) / (m * sxx - sx * sx || 1) : 0, a = (sy - b * sx) / Math.max(1, m), last = (LEV[q[0]][e] / LEV[q[0]][s0] - 1) * 100;
+      sv += '<line x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="' + Y(a + b * s0).toFixed(1) + '" y2="' + Y(a + b * e).toFixed(1) + '" stroke="' + q[2] + '" stroke-opacity=".55" stroke-width="1" stroke-dasharray="4 3"/>' +
+        '<path d="' + p + '" fill="none" stroke="' + q[2] + '" stroke-width="' + q[3] + '" stroke-linejoin="round"/>' +
+        '<text x="' + (W - R + 8) + '" y="' + (top + 14 + j * 22) + '" class="mt-l"><tspan fill="' + q[2] + '">' + (j ? '— ' : '━ ') + '</tspan>' + esc(q[1]) + ' <tspan class="' + (last >= 0 ? 'mt-up' : 'mt-dn') + '">' + pct(last) + '</tspan></text>';
+    });
+    if (!LN.length) sv += '<text x="' + ((L + W - R) / 2) + '" y="' + (top + h / 2) + '" text-anchor="middle" class="mt-v">no plan line for these dates</text>';
+    // the sectors' RSI as heat ridges, highest RSI on top
+    var ts = Object.keys(RS).filter(function (t) { return t !== 'SPY' && RS[t][s0] != null && RS[t][e] != null; }).sort(function (a, b) { return RS[b][e] - RS[a][e]; });
+    var t0 = top + h + 30, row = 25, amp = 34, H = t0 + row * ts.length + 22, defs = '';
+    var base = function (k) { return t0 + row * k + 8; }, Yv = function (k, v) { return base(k) - (Math.max(10, Math.min(92, v)) - 10) / 82 * amp; };
+    sv += '<text x="' + (L - 6) + '" y="' + (t0 - 12) + '" text-anchor="end" class="mt-v">Sector RSI</text><text x="' + (W - R + 8) + '" y="' + (t0 - 12) + '" class="mt-v">RSI · move</text>';
+    ts.forEach(function (t, k) {
+      defs += '<linearGradient id="mt-' + k + '" x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="0" y2="0" gradientUnits="userSpaceOnUse">';
+      var stp = Math.max(1, Math.floor(n / 80));
+      for (var i = s0; i <= e; i += stp) defs += '<stop offset="' + ((i - s0) / Math.max(1, n - 1)).toFixed(4) + '" stop-color="' + rcol(RS[t][i]) + '"/>';
+      defs += '<stop offset="1" stop-color="' + rcol(RS[t][e]) + '"/></linearGradient>';
+      var p = '';
+      for (var i = s0; i <= e; i++) p += (i > s0 ? ' L' : 'M') + X(i).toFixed(1) + ',' + Yv(k, RS[t][i]).toFixed(1);
+      var b = base(k), r = Math.round(RS[t][e]), mv = (LEV[t][e] / LEV[t][s0] - 1) * 100;
+      sv += '<path d="' + p + ' L' + X(e).toFixed(1) + ',' + b + ' L' + X(s0).toFixed(1) + ',' + b + ' Z" fill="url(#mt-' + k + ')"/>' +
+        '<line x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="' + Yv(k, 70).toFixed(1) + '" y2="' + Yv(k, 70).toFixed(1) + '" class="mt-70"/>' +
+        '<path d="' + p + '" class="mt-rl"/><line x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="' + b + '" y2="' + b + '" class="mt-b"/>' +
+        '<text x="' + (L - 6) + '" y="' + (b - 4) + '" text-anchor="end" class="mt-l">' + esc(TNAME[t] || t) + '</text>' +
+        '<text x="' + (W - R + 8) + '" y="' + (b - 4) + '" class="mt-l"><tspan class="' + (r > 70 ? 'mt-hot' : r < 30 ? 'mt-cold' : 'mt-n') + '">' + r + '</tspan> <tspan class="' + (mv >= 0 ? 'mt-up' : 'mt-dn') + '">' + pct(mv) + '</tspan></text>';
+    });
+    if (!ts.length) sv += '<text x="' + ((L + W - R) / 2) + '" y="' + (t0 + 20) + '" text-anchor="middle" class="mt-v">no sector data for these dates</text>';
+    [s0, Math.round(s0 + (n - 1) / 2), e].forEach(function (i, j) {
+      sv += '<text x="' + X(i).toFixed(1) + '" y="' + (H - 6) + '" text-anchor="' + (j === 0 ? 'start' : j === 2 ? 'end' : 'middle') + '" class="mt-v">' + esc(fd(C.dates[i])) + '</text>'; });
+    box.innerHTML = o + '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Plan, S&amp;P 500 and sector RSI over the window"><defs>' + defs + '</defs>' + sv + '</svg>';
+  }
+  var tbox = document.getElementById('mclock-trend');
+  if (tbox) tbox.addEventListener('click', function (ev) {
+    var b = ev.target.closest ? ev.target.closest('button[data-n]') : null; if (!b) return;
+    TN = +b.getAttribute('data-n'); try { localStorage.setItem('nibii-mclock-tn', String(TN)); } catch (e) {}
+    trendTile();
+  });
   function hand(cx, cy, a, L, w, col, back) {
     var t = P(cx, cy, L, a), b = P(cx, cy, back || 3, a + 180);
     return '<line x1="' + f(b[0]) + '" y1="' + f(b[1]) + '" x2="' + f(t[0]) + '" y2="' + f(t[1]) + '" stroke="#000" stroke-width="' + (w + 1.6) + '" stroke-linecap="round"/>' +
@@ -6447,6 +6534,7 @@ CLOCK_JS = r"""(function () {
     document.getElementById('mclock-tbl').innerHTML = '<thead><tr><th></th><th>daily</th><th>weekly</th><th>monthly</th></tr></thead><tbody>' +
       C.assets.map(function (A) { return '<tr><td><span style="color:' + (COL[A.key] || '#ccc') + '">●</span> ' + esc(A.name) + '</td>' + cell(A.d[cur], rank(A, 'dr')) + cell(A.w[cur], rank(A, 'wr')) + cell(A.m[cur], rank(A, 'mr')) + '</tr>'; }).join('') + '</tbody>';
     var inp = document.getElementById('mclock-date'); inp.value = C.dates[cur];
+    trendTile();
   }
   var inp = document.getElementById('mclock-date');
   inp.min = C.dates[0]; inp.max = C.dates[N - 1];
@@ -6464,6 +6552,16 @@ def clock_html(scan):
     C = scan.get('marketClock') or {}
     if not C.get('dates') or len(C.get('assets') or []) < 4:
         return ''
+    if C.get('trend') and 'plan' not in C['trend']:   # the plan's own value line for the trend tile (mtl/plan_history.py)
+        try:
+            sys.path.insert(0, ROOT)
+            from mtl import plan_history as ph, marketclock as mc
+            paper = (((scan.get('plan') or {}).get('paper') or {}).get('curve')) or []
+            pv = ph.values(ph._load(ph.TRACK), ph._load(ph.LEDGER), paper)
+            if pv:
+                C = dict(C, trend=dict(C['trend'], plan=mc.bps(pv, C['dates'])))
+        except Exception as e:   # noqa: BLE001 - information only: the tile shows the S&P 500 without it
+            print(f'  clock plan line skipped: {e}', file=sys.stderr)
     if 'news' not in C:   # the major events (mtl/events.py) that read as policy support or a shock, for the news line
         try:
             sys.path.insert(0, ROOT)
@@ -6476,7 +6574,8 @@ def clock_html(scan):
             'on three time scales, and the market’s mood · information only</span></p>\n'
             '  <div class="card mclock"><div class="mclock-ctl"><button type="button" class="bt" id="mclock-prev" aria-label="Previous session">◀</button>'
             '<input type="date" id="mclock-date" aria-label="Date"><button type="button" class="bt" id="mclock-next" aria-label="Next session">▶</button>'
-            '<button type="button" class="bt" id="mclock-last">Latest</button></div><div id="mclock-svg"></div>'
+            '<button type="button" class="bt" id="mclock-last">Latest</button></div>'
+            '<div class="mclock-main"><div id="mclock-svg"></div><div class="mclock-trend" id="mclock-trend"></div></div>'
             '<p class="mclock-read" id="mclock-read"></p><p class="mclock-news" id="mclock-news"></p><table class="mclock-tbl" id="mclock-tbl"></table>'
             '<p class="mclock-key">The big hand is the market’s mood: up = good sentiment (stocks and oil rising while gold and bonds fall), down = fear '
             '(the reverse); right = improving, left = worsening. Each small dial is one market: thick coloured hand = daily, silver hand = weekly, '
@@ -6486,7 +6585,9 @@ def clock_html(scan):
             '(gold futures stand in for the gold fund before Nov 2004, a long-term Treasury fund for the bond fund before Jul 2002; '
             'gold’s and crude’s monthly hands start late 2001). NEWS counts the major events of the last month that read as policy '
             'support (QE, Fed cuts, rescues, trade relief) or a shock (war, crashes, bank failures, Fed hikes, oil and debt shocks), '
-            'from the market events list.</p></div>\n'
+            'from the market events list. The tile beside the clock: the plan and the S&amp;P 500 over the chosen window ending on the clock’s '
+            'date (dashed = straight-line trend), then each sector’s RSI as heat ridges (green under 30, slate in the middle, amber rising, '
+            'red over 70), highest on top, with its price move over the window.</p></div>\n'
             f'  <script type="application/json" id="mclock-data">{js}</script>\n  <script>{CLOCK_JS}</script>\n')
 
 

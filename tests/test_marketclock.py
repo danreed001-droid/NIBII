@@ -64,3 +64,13 @@ def test_news_keeps_support_and_shock_events_only():
     out = MC.news(evs)
     assert [r[:3] for r in out] == [['2020-03-09', -1, 'Crash / glitch'], ['2020-03-23', 1, 'QE / backstop']]
     assert len(out[0][3]) <= 110 and MC.news(None) == []
+
+
+def test_trend_lines_chain_back_to_the_closes():
+    dates = ['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-06']
+    out = MC.trend_lines({'XLK': {'2020-01-02': 100.0, '2020-01-03': 101.5, '2020-01-06': 99.0}, 'SPY': {}}, dates)
+    assert out['names'] == [['XLK', 'Tech']] and out['r']['XLK'] == [None, 0, 150, -246]
+    v = 1.0
+    for r in out['r']['XLK'][2:]:
+        v *= 1 + r / 1e4
+    assert abs(v - 0.99) < 1e-3

@@ -43,6 +43,29 @@ def news(events):
     return sorted(out)
 
 
+# The trend tile next to the clock: the 11 SPDR sector funds (and the S&P 500), as daily moves on the clock's dates
+TREND = (('XLK', 'Tech'), ('XLC', 'Comm services'), ('XLY', 'Discretionary'), ('XLP', 'Staples'), ('XLE', 'Energy'),
+         ('XLF', 'Financials'), ('XLV', 'Health care'), ('XLI', 'Industrials'), ('XLB', 'Materials'),
+         ('XLRE', 'Real estate'), ('XLU', 'Utilities'))
+
+
+def bps(px, dates):
+    """Each date's move in basis points (int) from the date before, on `dates` (prices carried over gaps): None before the
+    first price, 0 on it. The page chains them back into a line for any window (compact: about 4 bytes a day)."""
+    out, prev = [], None
+    for d in dates:
+        v = (px or {}).get(d) or prev
+        out.append(None if v is None else 0 if prev is None else int(round((v / prev - 1) * 1e4)))
+        prev = v
+    return out
+
+
+def trend_lines(closes, dates):
+    """dict(names=[[key, name]], r={key: bps(...)}) for the sector funds and 'SPY' in closes."""
+    keys = [(k, n) for k, n in TREND + (('SPY', 'S&P 500'),) if closes.get(k)]
+    return dict(names=[list(x) for x in keys], r={k: bps(closes[k], dates) for k, _ in keys})
+
+
 def _carry(px, cal):
     out, last = [], None
     for d in cal:
