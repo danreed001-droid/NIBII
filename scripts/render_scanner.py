@@ -5859,6 +5859,8 @@ SRSI_CSS = """.srsi .grid { display: grid; grid-template-columns: minmax(130px, 
 .srsi .rg-f { opacity: 1; } .srsi .rg-hot { fill: #ff4d43; opacity: .95; } .srsi .rg-cold { fill: #2fd17e; opacity: .95; } .srsi .rg-l { fill: none; stroke: color-mix(in srgb, var(--ink) 85%, transparent); stroke-width: 1.4; }
 .srsi .rg-b { stroke: var(--surface); stroke-width: 2; } .srsi .rg-70 { stroke: var(--ink); stroke-opacity: .16; stroke-dasharray: 3 4; }
 .srsi .rg-x { stroke: var(--ink); stroke-opacity: .55; stroke-width: 1; }
+.srsi .vs-bg { fill: var(--surface-2); opacity: .55; } .srsi .vs-0 { stroke: var(--ink); stroke-opacity: .25; stroke-width: 1; }
+.srsi .vs-run { font-size: 10.5px; } .srsi .vs-bad { fill: var(--neg); font-weight: 600; }
 .srsi .rg-tip { position: absolute; z-index: 2; pointer-events: none; background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px; padding: 6px 9px; font-size: 0.76rem; line-height: 1.35; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
 .srsi .srsi-ctl { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 0.82rem; margin-bottom: 10px; color: var(--ink-2); }
 .srsi .srsi-ctl input, .srsi .srsi-ctl select { font: inherit; background: var(--surface-2); color: var(--ink); border: 1px solid var(--hairline); border-radius: 6px; padding: 3px 6px; }
@@ -5957,6 +5959,60 @@ SRSI_JS = r"""(function () {
     ridges.ctx = {ts: ts, X: X, n: n, s0: s0, L: L, W: W, R: R};
     return out.join('');
   }
+  function gaps() {   // each sector's 5-day-average RSI minus the median of all sectors that day
+    if (gaps.v) return gaps.v;
+    var ts = Object.keys(SM), G = {}; ts.forEach(function (t) { G[t] = []; });
+    for (var i = 0; i < dates.length; i++) {
+      var xs = ts.map(function (t) { return SM[t][i]; }).filter(function (x) { return x != null; }).sort(function (a, b) { return a - b; });
+      var med = xs.length ? (xs.length % 2 ? xs[(xs.length - 1) / 2] : (xs[xs.length / 2 - 1] + xs[xs.length / 2]) / 2) : null;
+      ts.forEach(function (t) { G[t].push(SM[t][i] == null || med == null ? null : SM[t][i] - med); });
+    }
+    return (gaps.v = G);
+  }
+  function vsOthers(e, n) {
+    var G = gaps(), ts = Object.keys(G).filter(function (t) { for (var i = e - n + 1; i <= e; i++) if (G[t][i] == null) return false; return true; });
+    if (!ts.length || e - n + 1 < 0) return '<p class="muted">Not enough history before that date.</p>';
+    ts.sort(function (a, b) { return G[b][e] - G[a][e]; });
+    var W = 1000, L = 120, R = 150, top = 30, row = 52, amp = 22, cap = 26, s0 = e - n + 1, Hh = top + row * ts.length + 30;
+    var X = function (i) { return L + (W - L - R) * i / (n - 1); }, mid = function (k) { return top + row * k + row / 2; };
+    var Yg = function (k, g) { return mid(k) - Math.max(-cap, Math.min(cap, g)) / cap * amp; };
+    var out = ['<svg class="ridges vso" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Sector RSI against the other sectors"><defs><filter id="vs-glow" x="-5%" y="-40%" width="110%" height="180%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+      '<linearGradient id="vs-up" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2fd17e" stop-opacity=".95"/><stop offset="1" stop-color="#2fd17e" stop-opacity=".25"/></linearGradient>' +
+      '<linearGradient id="vs-dn" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ff4d43" stop-opacity=".25"/><stop offset="1" stop-color="#ff4d43" stop-opacity=".95"/></linearGradient></defs>'];
+    var step = Math.max(1, Math.ceil(n / 8));
+    for (var i = 0; i < n; i++) if ((i % step === 0 && n - 1 - i >= step) || i === n - 1)
+      out.push('<line x1="' + X(i).toFixed(1) + '" x2="' + X(i).toFixed(1) + '" y1="' + (top - 6) + '" y2="' + (Hh - 26) + '" class="fl-g"/><text x="' + X(i).toFixed(1) + '" y="' + (Hh - 10) + '" text-anchor="middle" class="fl-v">' + fd(dates[s0 + i]) + '</text>');
+    ts.forEach(function (t, k) {
+      var g = G[t].slice(s0, e + 1), m = mid(k), up = 'M' + X(0).toFixed(1) + ',' + m, dn = up, ln = '';
+      for (var i = 0; i < n; i++) { var y = Yg(k, g[i]); up += ' L' + X(i).toFixed(1) + ',' + Math.min(y, m).toFixed(1); dn += ' L' + X(i).toFixed(1) + ',' + Math.max(y, m).toFixed(1); ln += (i ? ' L' : 'M') + X(i).toFixed(1) + ',' + y.toFixed(1); }
+      up += ' L' + X(n - 1).toFixed(1) + ',' + m + ' Z'; dn += ' L' + X(n - 1).toFixed(1) + ',' + m + ' Z';
+      var run = 0; for (var i = e; i >= 0 && G[t][i] != null && (g[n - 1] < 0 ? G[t][i] < 0 : G[t][i] >= 0); i--) run++;
+      var now = g[n - 1], lab = (now < 0 ? 'weaker ' : 'stronger ') + run + (run === 1 ? ' day' : ' days');
+      out.push('<rect x="' + L + '" y="' + (m - row / 2 + 3) + '" width="' + (W - L - R) + '" height="' + (row - 6) + '" rx="6" class="vs-bg"/>' +
+               '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + m + '" y2="' + m + '" class="vs-0"/>' +
+               '<path d="' + up + '" fill="url(#vs-up)"/><path d="' + dn + '" fill="url(#vs-dn)"/><path d="' + ln + '" class="rg-l" filter="url(#vs-glow)"/>' +
+               '<text x="' + (L - 10) + '" y="' + (m + 4) + '" text-anchor="end" class="fl-l">' + esc(D.short[t]) + '</text>' +
+               '<text x="' + (W - R + 10) + '" y="' + (m - 2) + '" class="fl-l"><tspan class="fl-n ' + (now < 0 ? 'fl-ob' : 'fl-os') + '">' + (now >= 0 ? '+' : '') + Math.round(now) + '</tspan> <tspan class="fl-v">RSI ' + Math.round(H.sectors[t][e]) + '</tspan></text>' +
+               '<text x="' + (W - R + 10) + '" y="' + (m + 13) + '" class="fl-v vs-run' + (now < 0 && run >= 10 ? ' vs-bad' : '') + '">' + lab + '</text>');
+    });
+    out.push('<line id="rg-x" class="rg-x" y1="' + (top - 6) + '" y2="' + (Hh - 26) + '" x1="-9" x2="-9"/></svg><div class="rg-tip" id="rg-tip" hidden></div>');
+    vsOthers.ctx = {ts: ts, X: X, n: n, s0: s0, L: L, W: W, R: R};
+    return out.join('');
+  }
+  function vsHover() {
+    var svg = root.querySelector('svg.vso'), tip = document.getElementById('rg-tip'), xl = document.getElementById('rg-x'), C = vsOthers.ctx, G = gaps();
+    if (!svg || !C) return;
+    function at(ev) {
+      var r = svg.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width * C.W, i = Math.round((x - C.L) / (C.W - C.L - C.R) * (C.n - 1));
+      if (i < 0 || i >= C.n) { tip.hidden = true; xl.setAttribute('x1', -9); xl.setAttribute('x2', -9); return; }
+      var d = C.s0 + i, xs = C.X(i); xl.setAttribute('x1', xs); xl.setAttribute('x2', xs);
+      var vals = C.ts.map(function (t) { return [t, G[t][d]]; }).sort(function (a, b) { return b[1] - a[1]; });
+      tip.innerHTML = '<b>' + fd(dates[d]) + '</b> <span class="muted">vs the median sector</span>' + vals.map(function (p) { return '<div><span style="color:' + (p[1] < 0 ? '#ff4d43' : '#2fd17e') + '">●</span> ' + esc(D.short[p[0]]) + ' <b>' + (p[1] >= 0 ? '+' : '') + Math.round(p[1]) + '</b></div>'; }).join('');
+      tip.hidden = false; var px = xs / C.W * r.width; tip.style.left = (px > r.width * 0.6 ? px - tip.offsetWidth - 14 : px + 14) + 'px'; tip.style.top = '30px';
+    }
+    svg.addEventListener('mousemove', at); svg.addEventListener('touchstart', function (ev) { at(ev.touches[0]); }, {passive: true});
+    svg.addEventListener('mouseleave', function () { tip.hidden = true; xl.setAttribute('x1', -9); xl.setAttribute('x2', -9); });
+  }
   function ridgeHover() {
     var svg = root.querySelector('svg.ridges'), tip = document.getElementById('rg-tip'), xl = document.getElementById('rg-x'), C = ridges.ctx;
     if (!svg || !C) return;
@@ -5988,13 +6044,13 @@ SRSI_JS = r"""(function () {
     Object.keys(H.themes).forEach(function (g) { var x = at(H.themes[g], e); if (x) { x.label = g + ' (' + H.n[g] + ')'; th.push(x); } });
     s.sort(function (a, b) { return b.now - a.now; }); th.sort(function (a, b) { return a.now - b.now; });
     var os = th.filter(function (r) { return r.now < 30; }).length, ob = th.filter(function (r) { return r.now > 70; }).length;
-    var vw = view.value, chart = vw === 'ranks' ? '<h4>S&amp;P 500 sectors: RSI rank, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap">' + flow(e, Math.min(n, e + 1)) + '</div>'
+    var vw = view.value, chart = vw === 'vs' ? '<h4>S&amp;P 500 sectors against each other: RSI vs the median sector, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap rgwrap">' + vsOthers(e, Math.min(n, e + 1)) + '</div>' : vw === 'ranks' ? '<h4>S&amp;P 500 sectors: RSI rank, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap">' + flow(e, Math.min(n, e + 1)) + '</div>'
       : '<h4>S&amp;P 500 sectors: RSI, ' + n + ' sessions to ' + fd(dates[e]) + '</h4><div class="flowwrap rgwrap">' + ridges(e, Math.min(n, e + 1)) + '</div>';
     root.innerHTML = chart +
       '<h4 style="margin-top:12px">Sectors on ' + fd(dates[e]) + '</h4>' + AX + '<div class="grid">' + rows(s) + '</div>' +
       '<div class="cols"><div><h4>Lowest RSI themes</h4><div class="grid">' + rows(th.slice(0, 8)) + '</div></div><div><h4>Highest RSI themes</h4><div class="grid">' + rows(th.slice(-8).reverse()) + '</div></div></div>' +
       '<p class="muted" style="font-size:.78rem;margin:10px 0 0">' + os + ' of ' + th.length + ' themes oversold (under 30), ' + ob + ' overbought (over 70) on ' + fd(dates[e]) + '.</p>';
-    if (vw !== 'ranks') ridgeHover(); else rankFocus(e);
+    if (vw === 'vs') vsHover(); else if (vw !== 'ranks') ridgeHover(); else rankFocus(e);
   }
   function rankFocus(e) {
     var svg = root.querySelector('svg.flow'); if (!svg) return;
@@ -6028,7 +6084,9 @@ def sector_rsi_html(scan):
     data = dict(back=D.get('back', 5), hist=H, short=SRSI_SHORT, colors=SRSI_COLORS,
                 names={t: n for t, n in __import__('mtl.sector_rsi', fromlist=['FUNDS']).FUNDS.items()})
     js = json.dumps(data, separators=(',', ':')).replace('</', '<\\/')
-    return (f'  <p class="section-label">Sector and theme RSI <span class="hint">14-day RSI. Ridges: each sector\'s RSI over the period, '
+    return (f'  <p class="section-label">Sector and theme RSI <span class="hint">14-day RSI. Vs other sectors: each sector\'s RSI (5-day average) minus the median sector\'s, '
+            f'green above its line when it is stronger than the group, red below when weaker; on the right the gap tonight and how many sessions in a row '
+            f'it has been on that side (red when weaker for 10+). Ridges: each sector\'s RSI over the period, '
             f'coloured by its level (green under 30, red over 70; the faint line is 70), highest tonight on top; hover for every sector on a day. '
             f'Ranks: the sectors stacked by RSI (5-day average) each day, a ribbon rising or sinking as its rank changes; tonight\'s top 2 and bottom 2 are lit, click or hover any sector to light it. '
             f'Below: each sector and the lowest and highest themes on that date, the small dot {D.get("back", 5)} sessions earlier; under 30 '
@@ -6036,7 +6094,7 @@ def sector_rsi_html(scan):
             f'Information only, not a rule.</span></p>\n'
             f'  <div class="card srsi"><div class="srsi-ctl"><label>Up to <input type="date" id="srsi-date"></label> '
             f'<label>showing <select id="srsi-len"><option value="30" selected>30 sessions</option><option value="60">60 sessions</option>'
-            f'<option value="90">90 sessions</option></select></label> <label>view <select id="srsi-view"><option value="ridges" selected>Ridges</option><option value="ranks">Ranks</option></select></label> <button type="button" class="bt" id="srsi-today">Latest</button></div>'
+            f'<option value="90">90 sessions</option></select></label> <label>view <select id="srsi-view"><option value="vs" selected>Vs other sectors</option><option value="ridges">Ridges</option><option value="ranks">Ranks</option></select></label> <button type="button" class="bt" id="srsi-today">Latest</button></div>'
             f'<div id="srsi"></div></div>\n'
             f'  <script type="application/json" id="srsi-data">{js}</script>\n  <script>{SRSI_JS}</script>\n')
 
