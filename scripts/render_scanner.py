@@ -6328,6 +6328,9 @@ CLOCK_CSS = """.mclock { max-width: 620px; margin: 0 auto; }
 .mclock-key { font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
 .mclock-tbl { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 6px; }
 .mclock-tbl th { color: var(--muted); font-weight: 600; font-size: 0.72rem; text-align: left; padding: 3px 6px; border-bottom: 1px solid var(--hairline); }
+.mclock-r { display: block; font-size: 0.7rem; color: var(--muted); font-weight: 400; }
+.mclock-r.far { color: var(--ink); font-weight: 700; }
+.mclock-ext { color: var(--ink); }
 .mclock-tbl td { padding: 4px 6px; border-bottom: 1px solid var(--hairline); white-space: nowrap; text-align: left; }
 @media (max-width: 520px) { .mclock-tbl td, .mclock-tbl th { white-space: normal; padding: 4px 3px; } .mclock-tbl { font-size: 0.76rem; } }"""
 
@@ -6345,6 +6348,18 @@ CLOCK_JS = r"""(function () {
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   var md = { month: 'short', day: 'numeric', year: 'numeric' };
   function fd(d) { var p = d.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString('en-US', md); }
+  // how unusual each RSI is for that market on that time scale: its rank among all of that market's readings since 2000
+  var SORT = {};
+  C.assets.forEach(function (A) { ['dr', 'wr', 'mr'].forEach(function (k) {
+    SORT[A.key + k] = (A[k] || []).filter(function (v) { return v != null; }).sort(function (a, b) { return a - b; }); }); });
+  function rank(A, k) {
+    var v = (A[k] || [])[cur], s = SORT[A.key + k]; if (v == null || !s || !s.length) return null;
+    var lo = 0, hi = s.length; while (lo < hi) { var mid = (lo + hi) >> 1; if (s[mid] < v) lo = mid + 1; else hi = mid; }
+    var lt = lo; hi = s.length; while (lo < hi) { var mid2 = (lo + hi) >> 1; if (s[mid2] <= v) lo = mid2 + 1; else hi = mid2; }
+    return { rsi: v, p: 100 * (lt + lo) / 2 / s.length };
+  }
+  function len(r, R) { var e = r ? Math.min(1, Math.abs(r.p - 50) / 50) : 0.5; return 6 + (R - 10) * e; }   // middling RSI: short; extreme: to the ring
+  function far(r) { return r && (r.p <= 10 || r.p >= 90); }
   function hand(cx, cy, a, L, w, col, back) {
     var t = P(cx, cy, L, a), b = P(cx, cy, back || 3, a + 180);
     return '<line x1="' + f(b[0]) + '" y1="' + f(b[1]) + '" x2="' + f(t[0]) + '" y2="' + f(t[1]) + '" stroke="#000" stroke-width="' + (w + 1.6) + '" stroke-linecap="round"/>' +
@@ -6379,10 +6394,14 @@ CLOCK_JS = r"""(function () {
       });
       o += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (R - 6.6) + '" fill="#0f1014"/><circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="none" stroke="#b8a06a" stroke-width="0.9"/>';
       for (var j = 0; j < 12; j++) { var u = P(cx, cy, R - 9, j * 30), v = P(cx, cy, R - 7.6, j * 30); o += '<line x1="' + f(u[0]) + '" y1="' + f(u[1]) + '" x2="' + f(v[0]) + '" y2="' + f(v[1]) + '" stroke="#555" stroke-width="0.6"/>'; }
-      var d = A.d[cur], w = A.w[cur], m = A.m[cur];
-      if (m != null) o += hand(cx, cy, m, R - 8, 0.8, '#ff5a5a');
-      if (w != null) o += hand(cx, cy, w, R - 8, 1.9, '#e6e1d3');
-      if (d != null) o += hand(cx, cy, d, R - 13, 3.2, col);
+      var d = A.d[cur], w = A.w[cur], m = A.m[cur], rd = rank(A, 'dr'), rw = rank(A, 'wr'), rm = rank(A, 'mr'), glow = '';
+      [[m, rm, 0.8, '#ff5a5a'], [w, rw, 1.9, '#e6e1d3'], [d, rd, 3.2, col]].forEach(function (h) {
+        if (h[0] == null) return;
+        var L = len(h[1], R); o += hand(cx, cy, h[0], L, h[2], h[3]);
+        if (far(h[1])) { var tp = P(cx, cy, L, h[0]);
+          glow += '<circle cx="' + f(tp[0]) + '" cy="' + f(tp[1]) + '" r="4.2" fill="' + h[3] + '" fill-opacity="0.3"/><circle cx="' + f(tp[0]) + '" cy="' + f(tp[1]) + '" r="2" fill="' + h[3] + '" stroke="#fff" stroke-width="0.6"/>'; }
+      });
+      o += glow;
       o += '<circle cx="' + cx + '" cy="' + cy + '" r="2" fill="#b8a06a"/>';
       o += '<text x="' + cx + '" y="' + (cy + R + 7.5) + '" text-anchor="middle" fill="#eee" font-size="6.2" font-weight="700" font-family="Georgia,serif" stroke="#15171c" stroke-width="2.4" paint-order="stroke">' + esc(A.name.toUpperCase()) + '</text>';
     });
@@ -6397,13 +6416,19 @@ CLOCK_JS = r"""(function () {
       line = 'Stocks: daily <b>' + ph(spy.d[cur])[2] + '</b>, weekly <b>' + ph(spy.w[cur])[2] + '</b>' + (spy.m[cur] != null ? ', monthly <b>' + ph(spy.m[cur])[2] + '</b>' : '') +
         ' → ' + (D_ && W_ ? 'up on both scales' : D_ ? 'a bounce inside a bigger pullback' : W_ ? 'a dip inside a bigger uptrend' : 'a pullback on both scales') + '.';
     }
+    var ext = [];
+    C.assets.forEach(function (A) { [['dr', 'daily'], ['wr', 'weekly'], ['mr', 'monthly']].forEach(function (k) {
+      var r = rank(A, k[0]); if (far(r)) ext.push(A.name + ' ' + k[1] + ' RSI ' + r.rsi + ' (' + (r.p <= 10 ? 'lowest ' + Math.max(1, Math.round(r.p)) : 'highest ' + Math.max(1, Math.round(100 - r.p))) + '% of its history)'); }); });
     var fear = C.assets.filter(function (A) { return A.key === 'GLD' || A.key === 'TLT'; }).some(function (A) { return up(A.d[cur]) || up(A.w[cur]); });
     document.getElementById('mclock-read').innerHTML = (s == null ? '' : 'Mood: <b style="color:' + moodCol(Math.max(-1, Math.min(1, s / 1.5))) + '">' + mood + ' (' + (s >= 0 ? '+' : '') + s.toFixed(2) + ')</b>, ' + (ds > 0 ? 'improving ▲' : 'worsening ▼') + '. ') + line +
-      ' Fear trade (gold, long bonds): <b>' + (fear ? 'active' : 'fading') + '</b>.';
+      ' Fear trade (gold, long bonds): <b>' + (fear ? 'active' : 'fading') + '</b>.' +
+      (ext.length ? ' <span class="mclock-ext">At an extreme: ' + ext.map(esc).join('; ') + '.</span>' : ' No hand at an extreme.');
     var bright = { rallying: '#e0b84a', 'rolling over': '#f08a4b', falling: '#ef6a63', 'turning up': '#3fb950' };
-    function cell(a) { if (a == null) return '<td>–</td>'; var q = ph(a)[2]; return '<td style="color:' + bright[q] + ';font-weight:600">' + q + '</td>'; }
+    function cell(a, r) { if (a == null) return '<td>–</td>'; var q = ph(a)[2];
+      var x = !r ? '' : '<span class="mclock-r' + (far(r) ? ' far' : '') + '">RSI ' + r.rsi + (r.p <= 10 ? ' · low ' + Math.max(1, Math.round(r.p)) + '%' : r.p >= 90 ? ' · high ' + Math.max(1, Math.round(100 - r.p)) + '%' : '') + '</span>';
+      return '<td><span style="color:' + bright[q] + ';font-weight:600">' + q + '</span>' + x + '</td>'; }
     document.getElementById('mclock-tbl').innerHTML = '<thead><tr><th></th><th>daily</th><th>weekly</th><th>monthly</th></tr></thead><tbody>' +
-      C.assets.map(function (A) { return '<tr><td><span style="color:' + (COL[A.key] || '#ccc') + '">●</span> ' + esc(A.name) + '</td>' + cell(A.d[cur]) + cell(A.w[cur]) + cell(A.m[cur]) + '</tr>'; }).join('') + '</tbody>';
+      C.assets.map(function (A) { return '<tr><td><span style="color:' + (COL[A.key] || '#ccc') + '">●</span> ' + esc(A.name) + '</td>' + cell(A.d[cur], rank(A, 'dr')) + cell(A.w[cur], rank(A, 'wr')) + cell(A.m[cur], rank(A, 'mr')) + '</tr>'; }).join('') + '</tbody>';
     var inp = document.getElementById('mclock-date'); inp.value = C.dates[cur];
   }
   var inp = document.getElementById('mclock-date');
@@ -6430,8 +6455,9 @@ def clock_html(scan):
             '<button type="button" class="bt" id="mclock-last">Latest</button></div><div id="mclock-svg"></div>'
             '<p class="mclock-read" id="mclock-read"></p><table class="mclock-tbl" id="mclock-tbl"></table>'
             '<p class="mclock-key">The big hand is the market’s mood: up = good sentiment (stocks and oil rising while gold and bonds fall), down = fear '
-            '(the reverse); right = improving, left = worsening. Each small dial is one market: short coloured hand = daily, long silver hand = weekly, '
-            'thin red hand = monthly. Hands travel clockwise round the same cycle: turning up (green) → rallying (yellow) → rolling over (orange) → '
+            '(the reverse); right = improving, left = worsening. Each small dial is one market: thick coloured hand = daily, silver hand = weekly, '
+            'thin red hand = monthly. A hand’s length shows how stretched its RSI is against that market’s own history since 2000: '
+            'short = an ordinary reading, reaching the coloured ring = near its highest or lowest; a glowing tip = in its top or bottom 10%. Hands travel clockwise round the same cycle: turning up (green) → rallying (yellow) → rolling over (orange) → '
             'falling (red). Cycle = the 14-day RSI’s level and its recent change on that time scale. Any session back to Aug 2000 can be picked '
             '(gold futures stand in for the gold fund before Nov 2004, a long-term Treasury fund for the bond fund before Jul 2002; '
             'gold’s and crude’s monthly hands start late 2001).</p></div>\n'
