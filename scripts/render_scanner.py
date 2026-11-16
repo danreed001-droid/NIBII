@@ -1672,12 +1672,20 @@ __ISSUES__
     if (g && H.themes[g]) out += line('Theme', g, H.themes[g][e], (H.r6t || {})[g] ? H.r6t[g][e] : null, g + ' (' + (H.n[g] || '?') + ' S&P 500 stocks): 14-day RSI and 6-month return of their equal-weight index');
     return out ? '<div class="grp-box">' + out + '</div>' : '';
   }
+  var VB = D.volBreak || {};
+  function vbTag(t) {   // heavy-volume break warning (mtl/volbreak.py): information only, the plan does not act on it
+    var v = VB[t];
+    if (!v) return '';
+    var x = v.vr.toFixed(1) + '× normal volume, down ' + Math.abs(Math.round(v.chg * 100)) + '% over 20 days';
+    if (v.kind === 'break') return '<span class="tag sell" title="' + esc(x + ', while its sector (' + (v.sector || v.fund) + ') is falling and only ' + v.down + ' of 11 sectors are. Since 2000, plan picks in this spot kept falling over the next 4 weeks (the heavier the volume, the harder); the same dip on light volume bounced. Information only: the plan does not act on it.') + '">heavy-volume break</span> ';
+    return '<span class="tag ndx" title="' + esc(x + ', while ' + v.down + ' of 11 sectors are falling: a market-wide dip. Since 2000, plan picks dipping on heavy volume in a market-wide dip bounced hardest (panic selling). Information only.') + '">panic volume</span> ';
+  }
   function holdCard(h, plan) {
     var en = earnIn(h), soon = en != null && en >= 0 && en <= 7;
     var ew = plan ? ES_HELD[h.t] : null;
     var ewTag = ew ? (ew.sell ? '<span class="tag sell" title="Fell ' + (ew.chg * 100).toFixed(1) + '% on its earnings report near its 52-week high, then kept falling: sold at the next close (rule 23)">sell: earnings</span> ' : '<span class="tag earn" title="Fell ' + (ew.chg * 100).toFixed(1) + '% on its earnings report near its 52-week high: sold if it closes 3%+ down on a day or makes a new low by ' + esc(ew.until || '') + ' (rule 23)">earnings watch</span> ') : '';
     var tap = h.chart ? ' data-t="' + esc(h.t) + '" tabindex="0" role="button" aria-expanded="false" aria-controls="swpanel" aria-label="' + esc(h.t) + ': show swing chart"' : '';
-    return '<article class="hold' + (soon ? ' earn-soon' : '') + '"' + tap + '><div class="hold-top"><span class="rank">#' + (h.rank || '–') + '</span><span>' + ewTag + (soon ? '<span class="tag earn" title="Earnings report within a week: the big move often comes on the report">' + (en === 0 ? 'Earnings today' : 'Earnings in ' + en + 'd') + '</span> ' : '') + (h.new ? '<span class="tag buy">buy Mon</span> ' : '') + (h.ndx ? '<span class="tag ndx" title="Nasdaq-100 only">NDX</span>' : '') + '</span></div>' +
+    return '<article class="hold' + (soon ? ' earn-soon' : '') + '"' + tap + '><div class="hold-top"><span class="rank">#' + (h.rank || '–') + '</span><span>' + ewTag + vbTag(h.t) + (soon ? '<span class="tag earn" title="Earnings report within a week: the big move often comes on the report">' + (en === 0 ? 'Earnings today' : 'Earnings in ' + en + 'd') + '</span> ' : '') + (h.new ? '<span class="tag buy">buy Mon</span> ' : '') + (h.ndx ? '<span class="tag ndx" title="Nasdaq-100 only">NDX</span>' : '') + '</span></div>' +
       '<div><div class="tk">' + esc(h.t) + (plan && h.w ? ' <span class="small"><b>' + Math.round(h.w * PART * 1000) / 10 + '%</b></span>' + (h.buying ? ' <span class="tag buy" title="more buying than selling volume: twice the money (rule 12)">2× vol</span>' : '') + (h.earnHit ? ' <span class="tag buy" title="jumped 3%+ on its last earnings report within 3 months: twice the money (rule 13)">2× earnings</span>' : '') : '') + '</div><div class="nm" title="' + esc(h.n) + '">' + esc(h.n) + '</div></div>' +
       '<div><div class="big ' + tone(h.score) + '">' + pct(h.score, 0) + '</div><div class="small">6-1m · ' + pct(h.vsSpy, 0) + ' vs SPY</div></div>' +
       spark(h.spark, 200, 44) +
