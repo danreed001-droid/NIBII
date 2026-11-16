@@ -54,7 +54,7 @@ from mtl import fractal  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl import candle, candlepat, fedday, fedday_check, reentry_note, resistline, stretchwarn  # noqa: E402
-from mtl import crashrank, earnjump, earnsell, fallgroup, hotcomm, jobwarn, nearhigh, runup, sector_rsi, volbreak, volsell, volweight, volweight_check  # noqa: E402
+from mtl import crashrank, earnjump, earnsell, fallgroup, hotcomm, jobwarn, marketclock, nearhigh, runup, sector_rsi, volbreak, volsell, volweight, volweight_check  # noqa: E402
 from mtl.you2 import YOU2_START, block as you2_block, entries_of as you2_entries, plans_block, tickers_of as you2_tickers  # noqa: E402
 from mtl import backup_prices, health, paper as paper_rec  # noqa: E402
 from mtl.phase import market_phase  # noqa: E402
@@ -1741,6 +1741,11 @@ def main():
         payload['sectorRsi'] = sector_rsi.build(sector_px, prices, fallgroup.load_industries(ROOT), calendar, universe=[t for t in prices if t in sp])
     except Exception as e:
         print(f"  sector RSI failed: {e}", file=sys.stderr)
+    try:   # the market chronograph above the market events (mtl/marketclock.py; information only)
+        payload['marketClock'] = marketclock.build({'SPY': prices['SPY'], 'GLD': whip_px.get('GLD') or {}, 'TLT': whip_px.get('TLT') or {},
+                                                    'OIL': (comm_px or {}).get(hotcomm.OIL) or {}}, calendar)
+    except Exception as e:
+        print(f"  market clock failed: {e}", file=sys.stderr)
     try:   # heavy-volume break warning on the holding cards (information only, mtl/volbreak.py)
         payload['volBreak'] = volbreak.check([(h_['t'], h_.get('sec')) for h_ in held_rows + plan_rows], prices, volumes, sector_px, calendar)
     except Exception as e:

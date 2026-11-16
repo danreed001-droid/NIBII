@@ -518,6 +518,7 @@ __NEWSFWD__
 __DOMINOES__
 __CROWDING__
 __FLOWBOX__
+__CLOCK__
 __EVENTS__
   <p class="section-label">Your plan <span class="hint" id="plan-hint"></span></p>
   <div class="plan">
@@ -5461,9 +5462,10 @@ def render(scan, growth=None):
     page = page.replace('__SECRSI__', sector_rsi_html(scan), 1)
     page = page.replace('__RECENT__', recent_events_html(scan.get('asOf')), 1)
     page = page.replace('__NEWSFWD__', news_forward_html(), 1)
-    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS + '\n' + NFW_CSS + '\n' + SRSI_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
+    page = page.replace('__DOMCSS__', DOM_CSS + '\n' + CWH_CSS + '\n' + NFW_CSS + '\n' + SRSI_CSS + '\n' + CLOCK_CSS, 1).replace('__DOMINOES__', dominoes_html(scan.get('asOf')), 1)   # also on docs/stress.html
     page = page.replace('__CROWDING__', crowding_html(scan).replace(   # also on docs/stress.html, where it has its charts
         '(published the Friday after)</span>', '(published the Friday after) · <a href="stress.html#crowding">charts →</a></span>', 1), 1)
+    page = page.replace('__CLOCK__', clock_html(scan), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
     sys.path.insert(0, ROOT)
     from mtl.events import ADD_URL   # the events page's "Add news" form
@@ -6315,6 +6317,122 @@ def sector_rsi_html(scan):
             f'<button type="button" class="bt" id="srsi-today">Latest</button></div>'
             f'<div id="srsi"></div></div>\n'
             f'  <script type="application/json" id="srsi-data">{js}</script>\n  <script>{SRSI_JS}</script>\n')
+
+
+CLOCK_CSS = """.mclock { max-width: 620px; margin: 0 auto; }
+.mclock svg { width: 100%; height: auto; display: block; }
+.mclock-ctl { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; margin-bottom: 8px; font-size: 0.82rem; }
+.mclock-ctl input { font: inherit; background: var(--surface-2); color: var(--ink); border: 1px solid var(--hairline); border-radius: 6px; padding: 3px 6px; }
+.mclock-read { font-size: 0.86rem; line-height: 1.5; color: var(--ink-2); margin-top: 6px; }
+.mclock-read b { color: var(--ink); }
+.mclock-key { font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
+.mclock-tbl { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 6px; }
+.mclock-tbl th { color: var(--muted); font-weight: 600; font-size: 0.72rem; text-align: left; padding: 3px 6px; border-bottom: 1px solid var(--hairline); }
+.mclock-tbl td { padding: 4px 6px; border-bottom: 1px solid var(--hairline); white-space: nowrap; text-align: left; }"""
+
+CLOCK_JS = r"""(function () {
+  var el = document.getElementById('mclock-data'); if (!el) return;
+  var C = JSON.parse(el.textContent), N = C.dates.length, cur = N - 1;
+  var COL = { SPY: '#5aa2ff', GLD: '#ffd166', TLT: '#c39bff', OIL: '#ff7b5c' };
+  var PH = [[0, 90, 'rallying', '#c9a43d'], [90, 180, 'rolling over', '#cc6f3f'], [180, 270, 'falling', '#c0453f'], [270, 360, 'turning up', '#2f9e4f']];
+  function ph(a) { a = ((a % 360) + 360) % 360; for (var i = 0; i < 4; i++) if (a >= PH[i][0] && a < PH[i][1]) return PH[i]; return PH[0]; }
+  function P(cx, cy, r, a) { var t = a * Math.PI / 180; return [cx + r * Math.cos(t), cy - r * Math.sin(t)]; }
+  function f(v) { return v.toFixed(1); }
+  function mix(a, b, t) { var x = parseInt(a.slice(1), 16), y = parseInt(b.slice(1), 16), o = '#';
+    for (var s = 16; s >= 0; s -= 8) { var c = Math.round(((x >> s) & 255) * (1 - t) + ((y >> s) & 255) * t); o += ('0' + c.toString(16)).slice(-2); } return o; }
+  function moodCol(sinA) { var t = (sinA + 1) / 2; return t < 0.5 ? mix('#e5534b', '#c9a43d', t * 2) : mix('#c9a43d', '#3fb950', (t - 0.5) * 2); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  var md = { month: 'short', day: 'numeric', year: 'numeric' };
+  function fd(d) { var p = d.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString('en-US', md); }
+  function hand(cx, cy, a, L, w, col, back) {
+    var t = P(cx, cy, L, a), b = P(cx, cy, back || 3, a + 180);
+    return '<line x1="' + f(b[0]) + '" y1="' + f(b[1]) + '" x2="' + f(t[0]) + '" y2="' + f(t[1]) + '" stroke="#000" stroke-width="' + (w + 1.6) + '" stroke-linecap="round"/>' +
+      '<line x1="' + f(b[0]) + '" y1="' + f(b[1]) + '" x2="' + f(t[0]) + '" y2="' + f(t[1]) + '" stroke="' + col + '" stroke-width="' + w + '" stroke-linecap="round"/>';
+  }
+  function draw() {
+    var o = '<svg viewBox="-132 -132 264 264" role="img" aria-label="Market chronograph on ' + esc(C.dates[cur]) + '">';
+    o += '<circle r="128" fill="#26272b"/><circle r="123" fill="#34353a"/><circle r="119" fill="#15171c" stroke="#b8a06a" stroke-width="1.6"/>';
+    for (var i = 0; i < 60; i++) {
+      var a = 90 - i * 6, big = i % 5 === 0, p0 = P(0, 0, big ? 99 : 104, a), p1 = P(0, 0, 112, a);
+      o += '<line x1="' + f(p0[0]) + '" y1="' + f(p0[1]) + '" x2="' + f(p1[0]) + '" y2="' + f(p1[1]) + '" stroke="' + moodCol(Math.sin(a * Math.PI / 180)) + '" stroke-width="' + (big ? 2.6 : 1.2) + '"/>';
+    }
+    o += '<text x="0" y="-86" text-anchor="middle" fill="#5fd38a" font-size="9" font-weight="700" font-family="Georgia,serif">GOOD</text>';
+    o += '<text x="0" y="92" text-anchor="middle" fill="#ff6b6b" font-size="9" font-weight="700" font-family="Georgia,serif">FEAR</text>';
+    o += '<text transform="translate(93,0) rotate(90)" text-anchor="middle" fill="#8b8f96" font-size="5.5" font-family="Georgia,serif">improving</text>';
+    o += '<text transform="translate(-93,0) rotate(-90)" text-anchor="middle" fill="#8b8f96" font-size="5.5" font-family="Georgia,serif">worsening</text>';
+    o += '<text x="0" y="-64" text-anchor="middle" fill="#b8a06a" font-size="6.5" font-weight="700" font-family="Georgia,serif" letter-spacing="0.6">MARKET CHRONOGRAPH</text>';
+    o += '<text x="0" y="-56" text-anchor="middle" fill="#aaa" font-size="5.5" font-family="Georgia,serif">' + esc(fd(C.dates[cur])) + '</text>';
+    var ma = C.mang[cur];
+    if (ma != null) {   // the mood hand, under the small dials
+      var tp = P(0, 0, 96, ma), l1 = P(0, 0, 3.6, ma + 90), tl = P(0, 0, 15, ma + 180), l2 = P(0, 0, 3.6, ma - 90);
+      o += '<polygon points="' + [l1, tp, l2, tl].map(function (q) { return f(q[0]) + ',' + f(q[1]); }).join(' ') + '" fill="#f1ede2" fill-opacity="0.88" stroke="#000" stroke-width="0.8"/>';
+      o += '<circle r="5" fill="#b8a06a"/><circle r="2" fill="#111"/>';
+    }
+    var spots = [[-44, -22], [44, -22], [-44, 40], [44, 40]];
+    C.assets.forEach(function (A, k) {
+      var cx = spots[k][0], cy = spots[k][1], R = 24, col = COL[A.key] || '#ccc';
+      o += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (R + 1) + '" fill="#15171c"/>';
+      PH.forEach(function (q) {
+        var a0 = P(cx, cy, R - 3.3, q[0]), a1 = P(cx, cy, R - 3.3, q[1] - 0.01);
+        o += '<path d="M' + f(a0[0]) + ' ' + f(a0[1]) + ' A' + (R - 3.3) + ' ' + (R - 3.3) + ' 0 0 0 ' + f(a1[0]) + ' ' + f(a1[1]) + '" fill="none" stroke="' + q[3] + '" stroke-width="6.6"/>';
+      });
+      o += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (R - 6.6) + '" fill="#0f1014"/><circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="none" stroke="#b8a06a" stroke-width="0.9"/>';
+      for (var j = 0; j < 12; j++) { var u = P(cx, cy, R - 9, j * 30), v = P(cx, cy, R - 7.6, j * 30); o += '<line x1="' + f(u[0]) + '" y1="' + f(u[1]) + '" x2="' + f(v[0]) + '" y2="' + f(v[1]) + '" stroke="#555" stroke-width="0.6"/>'; }
+      var d = A.d[cur], w = A.w[cur], m = A.m[cur];
+      if (m != null) o += hand(cx, cy, m, R - 8, 0.8, '#ff5a5a');
+      if (w != null) o += hand(cx, cy, w, R - 8, 1.9, '#e6e1d3');
+      if (d != null) o += hand(cx, cy, d, R - 13, 3.2, col);
+      o += '<circle cx="' + cx + '" cy="' + cy + '" r="2" fill="#b8a06a"/>';
+      o += '<text x="' + cx + '" y="' + (cy + R + 7.5) + '" text-anchor="middle" fill="#eee" font-size="6.2" font-weight="700" font-family="Georgia,serif" stroke="#15171c" stroke-width="2.4" paint-order="stroke">' + esc(A.name.toUpperCase()) + '</text>';
+    });
+    o += '</svg>';
+    document.getElementById('mclock-svg').innerHTML = o;
+    var s = C.mood[cur], ds = C.dmood[cur], spy = C.assets.filter(function (A) { return A.key === 'SPY'; })[0];
+    var mood = s == null ? '–' : s > 0.25 ? 'good' : s < -0.25 ? 'fearful' : 'neutral';
+    var up = function (a) { return a != null && (ph(a)[2] === 'turning up' || ph(a)[2] === 'rallying'); };
+    var line = '';
+    if (spy && spy.d[cur] != null && spy.w[cur] != null) {
+      var D_ = up(spy.d[cur]), W_ = up(spy.w[cur]);
+      line = 'Stocks: daily <b>' + ph(spy.d[cur])[2] + '</b>, weekly <b>' + ph(spy.w[cur])[2] + '</b>' + (spy.m[cur] != null ? ', monthly <b>' + ph(spy.m[cur])[2] + '</b>' : '') +
+        ' → ' + (D_ && W_ ? 'up on both scales' : D_ ? 'a bounce inside a bigger pullback' : W_ ? 'a dip inside a bigger uptrend' : 'a pullback on both scales') + '.';
+    }
+    var fear = C.assets.filter(function (A) { return A.key === 'GLD' || A.key === 'TLT'; }).some(function (A) { return up(A.d[cur]) || up(A.w[cur]); });
+    document.getElementById('mclock-read').innerHTML = (s == null ? '' : 'Mood: <b style="color:' + moodCol(Math.max(-1, Math.min(1, s / 1.5))) + '">' + mood + ' (' + (s >= 0 ? '+' : '') + s.toFixed(2) + ')</b>, ' + (ds > 0 ? 'improving ▲' : 'worsening ▼') + '. ') + line +
+      ' Fear trade (gold, long bonds): <b>' + (fear ? 'active' : 'fading') + '</b>.';
+    var bright = { rallying: '#e0b84a', 'rolling over': '#f08a4b', falling: '#ef6a63', 'turning up': '#3fb950' };
+    function cell(a) { if (a == null) return '<td>–</td>'; var q = ph(a)[2]; return '<td style="color:' + bright[q] + ';font-weight:600">' + q + '</td>'; }
+    document.getElementById('mclock-tbl').innerHTML = '<thead><tr><th></th><th>daily</th><th>weekly</th><th>monthly</th></tr></thead><tbody>' +
+      C.assets.map(function (A) { return '<tr><td><span style="color:' + (COL[A.key] || '#ccc') + '">●</span> ' + esc(A.name) + '</td>' + cell(A.d[cur]) + cell(A.w[cur]) + cell(A.m[cur]) + '</tr>'; }).join('') + '</tbody>';
+    var inp = document.getElementById('mclock-date'); inp.value = C.dates[cur];
+  }
+  var inp = document.getElementById('mclock-date');
+  inp.min = C.dates[0]; inp.max = C.dates[N - 1];
+  inp.addEventListener('change', function () { var v = inp.value, i = N - 1; while (i > 0 && C.dates[i] > v) i--; cur = i; draw(); });
+  document.getElementById('mclock-prev').onclick = function () { if (cur > 0) { cur--; draw(); } };
+  document.getElementById('mclock-next').onclick = function () { if (cur < N - 1) { cur++; draw(); } };
+  document.getElementById('mclock-last').onclick = function () { cur = N - 1; draw(); };
+  draw();
+})();"""
+
+
+def clock_html(scan):
+    """Scanner page, just above the market events: the market chronograph (mtl/marketclock.py; information only).
+    '' when the scan has none."""
+    C = scan.get('marketClock') or {}
+    if not C.get('dates') or len(C.get('assets') or []) < 4:
+        return ''
+    js = json.dumps(C, separators=(',', ':')).replace('</', '<\\/')
+    return ('  <p class="section-label">Market chronograph <span class="hint">where stocks, gold, long bonds and crude oil sit in their cycle, '
+            'on three time scales, and the market’s mood · information only</span></p>\n'
+            '  <div class="card mclock"><div class="mclock-ctl"><button type="button" class="bt" id="mclock-prev" aria-label="Previous session">◀</button>'
+            '<input type="date" id="mclock-date" aria-label="Date"><button type="button" class="bt" id="mclock-next" aria-label="Next session">▶</button>'
+            '<button type="button" class="bt" id="mclock-last">Latest</button></div><div id="mclock-svg"></div>'
+            '<p class="mclock-read" id="mclock-read"></p><table class="mclock-tbl" id="mclock-tbl"></table>'
+            '<p class="mclock-key">The big hand is the market’s mood: up = good sentiment (stocks and oil rising while gold and bonds fall), down = fear '
+            '(the reverse); right = improving, left = worsening. Each small dial is one market: short coloured hand = daily, long silver hand = weekly, '
+            'thin red hand = monthly. Hands travel clockwise round the same cycle: turning up (green) → rallying (yellow) → rolling over (orange) → '
+            'falling (red). Cycle = the 14-day RSI’s level and its recent change on that time scale.</p></div>\n'
+            f'  <script type="application/json" id="mclock-data">{js}</script>\n  <script>{CLOCK_JS}</script>\n')
 
 
 NFW_CSS = """.nfw table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
