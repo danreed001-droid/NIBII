@@ -25,6 +25,7 @@ def test_build_reads_each_scale_and_the_mood():
     spy = next(a for a in out['assets'] if a['key'] == 'SPY')
     assert all(v is not None for v in spy['d'] + spy['w'] + spy['m'])
     assert MC.phase(spy['m'][-1]) in ('rallying', 'rolling over')        # strong on the monthly
+    assert spy['mr'][-1] > 50 and all(0 <= v <= 100 for v in spy['dr'] + spy['wr'] + spy['mr'])
     assert len(out['assets']) == 4 and out['mood'][-1] is not None and out['mang'][-1] is not None
 
 
@@ -47,9 +48,10 @@ def test_weekly_reading_matches_a_direct_recompute():
     px = {d: 100 * (1 + 0.05 * sin(i / 9)) * 1.0005 ** i for i, d in enumerate(cal)}
     c = [px[d] for d in cal]
     k = 480
-    fast = MC._scale_angles(c, cal, [k], 'w', 3)[0]
+    fast, lev = (x[0] for x in MC._scale_angles(c, cal, [k], 'w', 3))
     keys = [MC._period_key(d, 'w') for d in cal]
     ends = [i for i in range(len(cal)) if i + 1 == len(cal) or keys[i + 1] != keys[i]]
     pts = [c[i] for i in ends if i < k and keys[i] != keys[k]] + [c[k]]
     r = MC.rsi(pts)
     assert abs(((fast - MC.angle(r[-1], r[-1] - r[-4]) + 180) % 360) - 180) <= 1
+    assert abs(lev - r[-1]) < 1e-9

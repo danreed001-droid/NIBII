@@ -89,8 +89,9 @@ def _period_key(d, kind):
 
 
 def _scale_angles(c, cal, idx, kind, back, p=PERIOD):
-    """The weekly ('w') or monthly ('m') cycle angle at each session index in idx: the RSI of the closed periods' closes
-    with that day's close standing in for its own period, against the RSI `back` closed periods earlier."""
+    """(angles, rsis): the weekly ('w') or monthly ('m') cycle angle and RSI at each session index in idx: the RSI of the
+    closed periods' closes with that day's close standing in for its own period, against the RSI `back` closed periods
+    earlier."""
     keys = [_period_key(d, kind) for d in cal]
     ends = [i for i in range(len(cal)) if c[i] and (i + 1 == len(cal) or keys[i + 1] != keys[i])]
     C = [c[i] for i in ends]
@@ -107,13 +108,14 @@ def _scale_angles(c, cal, idx, kind, back, p=PERIOD):
             l_ = (l_ * (p - 1) + max(-d, 0)) / p
             ag[j], al[j] = g, l_
             rc[j] = 100 - 100 / (1 + g / l_) if l_ else 100.0
-    out, j_ptr = [], 0
+    out, lev, j_ptr = [], [], 0
     for k in idx:
         while j_ptr < n and ends[j_ptr] < k:
             j_ptr += 1
         m = j_ptr - (1 if j_ptr > 0 and keys[ends[j_ptr - 1]] == keys[k] else 0)   # closed periods before k's own
         if not c[k] or m - 1 < p or m - back < p or ag[m - 1] is None:
             out.append(None)
+            lev.append(None)
             continue
         d = c[k] - C[m - 1]
         g = (ag[m - 1] * (p - 1) + max(d, 0)) / p
@@ -121,12 +123,14 @@ def _scale_angles(c, cal, idx, kind, back, p=PERIOD):
         now = 100 - 100 / (1 + g / l_) if l_ else 100.0
         prev = rc[m - back] if m - back < n else None
         out.append(None if prev is None else angle(now, now - prev))
-    return out
+        lev.append(None if prev is None else now)
+    return out, lev
 
 
 def build(closes, calendar, days=DAYS):
-    """dict(dates, assets=[dict(key, name, d, w, m)], mood, dmood, mang): cycle angles in whole degrees (None where there
-    is too little history), from the first session every series has a price (or the last `days` sessions)."""
+    """dict(dates, assets=[dict(key, name, d, w, m, dr, wr, mr)], mood, dmood, mang): cycle angles in whole degrees and the
+    RSI behind each (dr: the daily 3-day average; None where there is too little history), from the first session every
+    series has a price (or the last `days` sessions)."""
     cal = list(calendar)
     n = len(cal)
     have = [k for k, _ in ASSETS if closes.get(k)] or ['']
@@ -141,7 +145,11 @@ def build(closes, calendar, days=DAYS):
         r3 = [None if i < 2 or None in r[i - 2:i + 1] else sum(r[i - 2:i + 1]) / 3 for i in range(n)]
         d_ = [None if r3[k] is None or k < 5 or r3[k - 5] is None else angle(r3[k], r3[k] - r3[k - 5]) for k in idx]
         rd = lambda xs: [None if x is None else int(round(x)) % 360 for x in xs]
-        assets.append(dict(key=key, name=name, d=rd(d_), w=rd(_scale_angles(c, cal, idx, 'w', 3)), m=rd(_scale_angles(c, cal, idx, 'm', 2))))
+        ri = lambda xs: [None if x is None else int(round(x)) for x in xs]
+        w_, wr = _scale_angles(c, cal, idx, 'w', 3)
+        m_, mr = _scale_angles(c, cal, idx, 'm', 2)
+        assets.append(dict(key=key, name=name, d=rd(d_), w=rd(w_), m=rd(m_),
+                           dr=ri([None if a is None else r3[k] for a, k in zip(d_, idx)]), wr=ri(wr), mr=ri(mr)))
     mood, dmood, mang = [None] * len(idx), [None] * len(idx), [None] * len(idx)
     if len(assets) == len(ASSETS):
         cs = {a['key']: _carry(closes.get(a['key']) or {}, cal) for a in assets}
