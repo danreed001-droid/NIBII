@@ -103,4 +103,5 @@ def build(fund_px, prices, industries, calendar, universe=None):
                 hist['r6t'][g] = _r6(industry_index(prices, ts, cal))
     sectors.sort(key=lambda x: -x['rsi'])
     themes.sort(key=lambda x: x['rsi'])
-    return dict(asOf=calendar[-1] if calendar else None, period=PERIOD, back=BACK, sectors=sectors, themes=themes, hist=hist)
+    tick = {t: g for g, ts in groups.items() if g in hist['themes'] for t in ts}   # each member's theme, for the holding cards
+    return dict(asOf=calendar[-1] if calendar else None, period=PERIOD, back=BACK, sectors=sectors, themes=themes, hist=hist, tickers=tick)

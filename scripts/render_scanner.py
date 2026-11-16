@@ -165,6 +165,11 @@ __DOMCSS__
 .holdings { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 16px; }
 @media (max-width: 1000px) { .holdings { grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); } }
 .hold { position: relative; background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 14px 14px 12px;
+.grp-box { margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--hairline); display: grid; gap: 3px; font-size: 0.76rem; }
+.grp-line { display: flex; justify-content: space-between; gap: 6px; align-items: center; }
+.grp-box .grp-n { color: var(--ink-2); line-height: 1.25; margin-top: -1px; } .grp-line .grp-v { white-space: nowrap; font-family: ui-monospace, Menlo, monospace; }
+.grp-line .r6pill { display: inline-block; min-width: 34px; padding: 0 5px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; color: #fff; text-align: center; }
+.grp-line .r6pill.r6p { background: #1f9a5a; } .grp-line .r6pill.r6n { background: #c8413a; }
   display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
 .hold[data-t] { cursor: pointer; transition: border-color .15s; }
 .hold[data-t]:hover { border-color: var(--muted); }
@@ -1649,6 +1654,24 @@ __ISSUES__
     return Math.round((Date.parse(h.earn.slice(0, 10)) - Date.parse(D.asOf.slice(0, 10))) / 864e5);
   }
   var ES_HELD = (D.plan && D.plan.auto && D.plan.auto.rotation && D.plan.auto.rotation.earnsell && D.plan.auto.rotation.earnsell.held) || {};
+  var GR = D.sectorRsi || null, GSEC = {'Information Technology': 'XLK', 'Technology': 'XLK', 'Communication Services': 'XLC', 'Consumer Discretionary': 'XLY',
+    'Consumer Cyclical': 'XLY', 'Consumer Staples': 'XLP', 'Consumer Defensive': 'XLP', 'Energy': 'XLE', 'Financials': 'XLF', 'Financial Services': 'XLF',
+    'Health Care': 'XLV', 'Healthcare': 'XLV', 'Industrials': 'XLI', 'Materials': 'XLB', 'Basic Materials': 'XLB', 'Real Estate': 'XLRE', 'Utilities': 'XLU'};
+  function grpLines(h) {   // the stock's sector and theme: RSI tonight and 6-month return (Sector and theme RSI section)
+    if (!GR || !GR.hist) return '';
+    var H = GR.hist, e = H.dates.length - 1, out = '';
+    function line(lab, name, rs, r6, title) {
+      if (rs == null) return '';
+      var rc = rs > 70 ? 'neg' : rs < 30 ? 'pos' : '';
+      return '<div class="grp-line" title="' + esc(title) + '"><span class="muted">' + lab + '</span>' +
+        '<span class="grp-v"><span class="' + rc + '">RSI ' + Math.round(rs) + '</span>' + (r6 == null ? '' : ' <span class="r6pill ' + (r6 >= 0 ? 'r6p' : 'r6n') + '">' + (r6 >= 0 ? '+' : '') + Math.round(r6 * 100) + '%</span>') + '</span></div>' + (lab === 'Theme' ? '<div class="grp-n">' + esc(name) + '</div>' : '');
+    }
+    var f = GSEC[h.sec];
+    if (f && H.sectors[f]) out += line('Sector', h.sec, H.sectors[f][e], (H.r6s || {})[f] ? H.r6s[f][e] : null, h.sec + ' (' + f + '): 14-day RSI and 6-month return');
+    var g = (GR.tickers || {})[h.t];
+    if (g && H.themes[g]) out += line('Theme', g, H.themes[g][e], (H.r6t || {})[g] ? H.r6t[g][e] : null, g + ' (' + (H.n[g] || '?') + ' S&P 500 stocks): 14-day RSI and 6-month return of their equal-weight index');
+    return out ? '<div class="grp-box">' + out + '</div>' : '';
+  }
   function holdCard(h, plan) {
     var en = earnIn(h), soon = en != null && en >= 0 && en <= 7;
     var ew = plan ? ES_HELD[h.t] : null;
@@ -1662,7 +1685,7 @@ __ISSUES__
       '<span>1 month</span><b class="' + tone(h.r1m) + '">' + pct(h.r1m) + '</b><span>Off high</span><b>' + pct(h.offHigh) + '</b>' +
       '<span title="Analysts’ estimate of this year’s earnings: change over 90 days · raised / cut in the last 30 days">Estimates</span><b>' + revCell(h.rev) + '</b>' +
       '<span title="Next earnings report (Yahoo)">Earnings</span><b style="white-space:nowrap' + (soon ? ';color:var(--gold)' : '') + '">' + (en == null ? '–' : fmtDate(h.earn.slice(0, 10), { month: 'short', day: 'numeric' }) + ' · ' + en + 'd') + '</b></div>' +
-      '<div style="display:flex;justify-content:space-between;align-items:center"><span class="small">' + esc(h.sec) + '</span>' + trend(h.trend) + '</div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center"><span class="small">' + esc(h.sec) + '</span>' + trend(h.trend) + '</div>' + grpLines(h) +
       (h.chart ? '<div class="chart-hint">Swing chart ›</div>' : '') + '</article>';
   }
   $('holdings').innerHTML = D.holdings.slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); }).map(function (h) { return holdCard(h, false); }).join('');
