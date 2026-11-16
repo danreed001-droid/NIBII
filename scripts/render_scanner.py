@@ -6379,8 +6379,8 @@ CLOCK_JS = r"""(function () {
   function far(r) { return r && (r.p <= 10 || r.p >= 90); }
   // the trend tile beside the clock: the plan and the S&P 500 over the window ending on the clock's date, then each
   // sector's RSI as heat ridges (as in the Sector RSI card), with its price move over the window
-  var TR = C.trend || null, TN = 30, TV = 'rsi', LEV = {}, RS = {};
-  try { TN = +(localStorage.getItem('nibii-mclock-tn') || 30) || 30; TV = localStorage.getItem('nibii-mclock-tv') || 'rsi'; if (['rsi', 'px', 'both'].indexOf(TV) < 0) TV = 'rsi'; } catch (e) {}
+  var TR = C.trend || null, TN = 30, TV = 'both', LEV = {}, RS = {};
+  try { TN = +(localStorage.getItem('nibii-mclock-tn') || 30) || 30; TV = localStorage.getItem('nibii-mclock-tv') || 'both'; if (['rsi', 'px', 'both'].indexOf(TV) < 0) TV = 'both'; } catch (e) {}
   function chain(r) { var out = [], v = null; for (var i = 0; i < r.length; i++) { if (r[i] == null) { out.push(v); continue; } v = v == null ? 1 : v * (1 + r[i] / 1e4); out.push(v); } return out; }
   function rsiArr(c) {
     var out = c.map(function () { return null; }), f = c.findIndex(function (v) { return v != null; }), p = 14;
