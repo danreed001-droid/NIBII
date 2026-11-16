@@ -5737,5 +5737,85 @@
       "time": "Weekend",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-16-1-futures-slide-chip-selloff-before-nvidia",
+    "data": {
+      "addedAt": "2026-11-16",
+      "category": "Market",
+      "date": "2026-11-16",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "US stock futures slide as AI/chip selloff deepens ahead of Nvidia's fiscal Q3 report (after close Tue Nov 17) and Anthropic's IPO later this week. Nvidia fell 2.2% premarket after its longest weekly losing streak since Oct 2012; the FT reported Jensen Huang is considering a return as CEO.",
+      "impact": "High",
+      "numbers": "5:08 AM ET: Nasdaq 100 E-minis -0.97%, S&P 500 E-minis -0.36%, Dow E-minis +0.02%; NVDA -2.2%; INTC/AMD/AVGO/MU -3.5% to -5%; CRWV -5.4%, NBIS -5.5%; DELL/HPQ -5.1%, SMCI -3.8%",
+      "order": 1,
+      "reaction": "Tech-led weakness into the open; Dow flat as rotation out of AI hardware continues. Analysts warn Anthropic IPO buyers may sell existing AI holdings to fund allocations.",
+      "region": "US",
+      "source": "https://www.investing.com/news/economy-news/sp-500-nasdaq-futures-slide-as-nvidia-earnings-anthropic-debut-loom-5028900",
+      "tickers": "NVDA, AMD, AVGO, MU, INTC, CRWV, NBIS, DELL, SMCI, QQQ, Nasdaq, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-16-2-japan-gdp-contracts-china-data-misses",
+    "data": {
+      "addedAt": "2026-11-16",
+      "category": "Macro",
+      "date": "2026-11-16",
+      "day": "Mon",
+      "direction": "Bearish",
+      "event": "Japan Q3 GDP unexpectedly contracted and China's October activity data missed across the board; Asian chip stocks sold off (SK Hynix ~-6%, Samsung ~-4%) and BoJ's Takata signaled further hikes. Gold slipped after Goldman cut its forecasts.",
+      "impact": "Medium",
+      "numbers": "Japan Q3 GDP 0.0% q/q, -0.1% annualized; China Oct IP +4.8% y/y, retail sales +0.4% y/y, FAI YTD -8.1% y/y; Nikkei ~-1.9% to ~59,780 (intraday), Hang Seng +0.25%; gold -0.7% to ~$3,857/oz; USD/JPY ~159.4",
+      "order": 2,
+      "reaction": "Global growth worries add to risk-off tone in tech; Europe futures mixed (DAX -0.3%, CAC +0.5%).",
+      "region": "Asia",
+      "source": "https://www.xtb.com/en/market-analysis/morning-wrap-weak-chinese-data-and-sell-off-in-asian-chips-hit-sentiment-ahead-of-warsh-s-speech",
+      "tickers": "EWJ, FXI, GLD, gold, SPY",
+      "time": "Pre-market",
+      "vsExp": "Japan GDP vs +0.1% q/q (+0.2% ann.) exp; China IP vs 5.3%, retail vs 0.8%, FAI vs -7.0% exp - all misses"
+    }
+  },
+  {
+    "id": "2026-11-16-3-oil-steady-hormuz-mine-claims-iea-surplus",
+    "data": {
+      "addedAt": "2026-11-16",
+      "category": "Energy",
+      "date": "2026-11-16",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Oil holds near $95 Brent as Iran's Revolutionary Guards claim two tankers struck mines in the Strait of Hormuz (six tankers caught fire in incidents Sun-Mon; unverified by Reuters), offset by the IEA forecasting a return to surplus in Q4 and weak Chinese refinery runs.",
+      "impact": "Medium",
+      "numbers": "Brent $95.15 (-0.7%), WTI $88.19 (-0.4%) as of ~3:30 AM ET; IEA Q4 supply 105M bpd, 1.7M bpd above demand; China Oct refinery throughput -8.1% y/y",
+      "order": 3,
+      "reaction": "Shipping-risk headlines limit downside but surplus outlook caps gains; energy stocks little changed pre-market.",
+      "region": "Middle East / Global",
+      "source": "https://www.cnbc.com/2026/11/16/oil-prices-brent-wti-latest.html",
+      "tickers": "CL=F, XLE, USO",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-16-4-warsh-speaks-today-dec-hike-fully-priced",
+    "data": {
+      "addedAt": "2026-11-16",
+      "category": "Fed",
+      "date": "2026-11-16",
+      "day": "Mon",
+      "direction": "Neutral",
+      "event": "Fed Chair Kevin Warsh gives a keynote in San Francisco today (~12 PM ET, AI & productivity conference); Cleveland Fed's Hammack also speaks. Markets fully price a December rate hike, and October FOMC minutes are due Wednesday.",
+      "impact": "Medium",
+      "numbers": "CME FedWatch: Dec hike fully priced, ~8% odds of 50bp; 2Y yield down 2+ bp after its biggest weekly rise in 2+ years",
+      "order": 4,
+      "reaction": "Treasuries modestly firmer pre-market; Warsh's tone on the pace of hikes is the key intraday rate catalyst.",
+      "region": "US",
+      "source": "https://www.investing.com/news/economy-news/sp-500-nasdaq-futures-slide-as-nvidia-earnings-anthropic-debut-loom-5028900",
+      "tickers": "TLT, 2Y, 10Y, yield, Treasury, DXY, USD, dollar",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
