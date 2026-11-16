@@ -62,3 +62,10 @@ def test_six_month_return_for_the_circles():
     up = {d: 100 * 1.001 ** i for i, d in enumerate(cal)}
     h = SR.build({'XLK': up}, {}, {}, cal)['hist']
     assert abs(h['r6s']['XLK'][-1] - (1.001 ** 126 - 1)) < 1e-3
+
+
+def test_tickers_map_to_their_theme():
+    cal = _cal(80)
+    px = {f'S{i}': {d: 50 * 0.995 ** j for j, d in enumerate(cal)} for i in range(5)}
+    out = SR.build({}, px, {f'S{i}': 'Widgets' for i in range(5)}, cal)
+    assert out['tickers'] == {f'S{i}': 'Widgets' for i in range(5)}
