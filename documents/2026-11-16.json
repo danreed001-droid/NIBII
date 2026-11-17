@@ -364,8 +364,8 @@
        null
       ]
      ],
-     "maturityClose": 7351.0,
-     "ret": -0.012062,
+     "maturityClose": 7381.25,
+     "ret": -0.007997,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2495,8 +2495,8 @@
        false
       ]
      ],
-     "maturityClose": 105.65625,
-     "ret": 0.002223,
+     "maturityClose": 105.5,
+     "ret": 0.000741,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -5112,8 +5112,8 @@
        null
       ]
      ],
-     "maturityClose": 3863.5,
-     "ret": 0.000673,
+     "maturityClose": 3858.10009765625,
+     "ret": -0.000725,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7185,7 +7185,7 @@
       [
        "bear",
        "On 16 November the 2-year Treasury yield fell 5bp to 4.83% and the 10-year 3bp to 5.12% (CappNotes Closing Look, 16 November); a lower front end narrows the dollar's yield advantage, a 1-day headwind (the dollar still rose on the day)",
-       true
+       false
       ],
       [
        "bull",
@@ -7228,8 +7228,8 @@
        false
       ]
      ],
-     "maturityClose": 103.38500213623047,
-     "ret": -0.00194,
+     "maturityClose": 103.55000305175781,
+     "ret": -0.000347,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -9396,8 +9396,8 @@
        null
       ]
      ],
-     "maturityClose": 2719.800048828125,
-     "ret": -0.009577,
+     "maturityClose": 2715.800048828125,
+     "ret": -0.011034,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11325,7 +11325,7 @@
       [
        "bear",
        "Nasdaq-100 breadth was led lower by semiconductors on 16 November: NDX -2.67% (weakest major index), technology -3.24%, SMH -5.11%, AMD -5.58%, Micron -7.62%, Intel -7.02%, Arm -8.12%, TSMC -5.74% (CappNotes Closing Look, 16 November); the Nasdaq Composite closed below its 200-day (Investrade Market Review, 16 November); a chip-wide selloff is a 1-day headwind",
-       true
+       false
       ],
       [
        "neu",
@@ -11345,7 +11345,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for long-duration growth multiples",
-       true
+       false
       ],
       [
        "neu",
@@ -11360,7 +11360,7 @@
       [
        "bear",
        "Chip-sector analyst and earnings news was negative on 16 November: Mizuho cut its Nvidia target to $220 and UBS to $240 with Nvidia -4.12% (AP: $735B of market value lost since the Huang scandal began), Baidu -5.37% after adjusted EPS missed by about 17%, and Astera Labs -8.79%, Sandisk -8.58% (CappNotes Closing Look, 16 November); Nvidia's own report lands after this 1-day window closes; target cuts into the print are a 1-day headwind",
-       true
+       false
       ],
       [
        "neu",
@@ -11375,7 +11375,7 @@
       [
        "bear",
        "The Asian chip complex collapsed on 16 November: Taiwan's Taiex -6.03% ('its second-largest point drop ever'), Kospi -3.59%, Nikkei -2.42% (SK Hynix ~-6%, Samsung ~-4% per the news log), with SOXL -16.39% and the dollar at its highest since April 2025 (CappNotes Closing Look, 16 November); BIS also closed a loophole letting Chinese firms rent US AI chips abroad; a global semiconductor rout is a 1-day headwind",
-       true
+       false
       ],
       [
        "neu",
@@ -11383,8 +11383,8 @@
        null
       ]
      ],
-     "maturityClose": 26965.5,
-     "ret": -0.011945,
+     "maturityClose": 27244.25,
+     "ret": -0.001731,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
