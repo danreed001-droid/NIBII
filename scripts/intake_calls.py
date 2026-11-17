@@ -11,7 +11,8 @@ day (stay in stocks, or out into bonds and gold), scored 3 months later by the d
 "you2": {date: {stocks: [tickers], note, at}} - the viewer's own stock list for You-2 (the default plan's
 timing on the viewer's stocks, mtl/you2.py), from that date's close on; {m: 'del'} removes one. And
 "plans": {name: {date: {stocks, note, at}}} - the viewer's own named plans, each like You-2 (up to 10 plans; a name
-is 1-30 letters, digits, spaces or - _ & ').
+is 1-30 letters, digits, spaces or - _ & '). And "moves": {date: {to, note, at}} - the viewer's actual moves (to
+cash, their stocks, GLD, TLT, DBMF or back to the plan's timing), for You-2's "You (actual)" line.
 
 Usage:
     ISSUE_BODY="..." python scripts/intake_calls.py      # prints how many calls changed
@@ -91,6 +92,25 @@ def parse_you2(body):
     return out
 
 
+MOVE_TO = ('cash', 'stocks', 'GLD', 'TLT', 'DBMF', 'plan')
+
+
+def parse_moves(body):
+    """The viewer's actual moves {date: {to, note, at}} (or {m: 'del'}) from the issue body (or {})."""
+    y = block(body).get('moves')
+    out = {}
+    for k, c in (y.items() if isinstance(y, dict) else []):
+        if not (isinstance(k, str) and DATE.match(k) and isinstance(c, dict)):
+            continue
+        at = str(c.get('at') or '')
+        at = at if STAMP.match(at) else ''
+        if c.get('m') == 'del':
+            out[k] = {'m': 'del', 'at': at}
+        elif c.get('to') in MOVE_TO:
+            out[k] = {'to': c['to'], 'note': str(c.get('note') or '')[:300], 'at': at}
+    return out
+
+
 PLAN_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9 _&'\-]{0,29}$")
 MAX_PLANS = 10
 
@@ -157,7 +177,10 @@ def main():
         m_, ch_ = merge(p_merged.get(nm, {}), ent)
         p_merged[nm] = m_
         p_changed += [f'{nm} {k}' for k in ch_]
-    if changed or w_changed or y_changed or p_changed:
+    m_in = parse_moves(os.environ.get('ISSUE_BODY', ''))
+    m_cur = {k: c for k, c in (doc.get('moves') or {}).items() if isinstance(c, dict) and (c.get('to') in MOVE_TO or c.get('m') == 'del')}
+    m_merged, m_changed = merge(m_cur, m_in)
+    if changed or w_changed or y_changed or p_changed or m_changed:
         out = {'app': 'nibii-calls', 'v': 1, 'calls': merged}
         if w_merged:
             out['warn'] = w_merged
@@ -165,14 +188,17 @@ def main():
             out['you2'] = y_merged
         if p_merged:
             out['plans'] = p_merged
+        if m_merged:
+            out['moves'] = m_merged
         with open(PATH, 'w') as f:
             json.dump(out, f, indent=1)
             f.write('\n')
-    print(len(changed) + len(w_changed) + len(y_changed) + len(p_changed))
+    print(len(changed) + len(w_changed) + len(y_changed) + len(p_changed) + len(m_changed))
     print(f"calls received {len(incoming)}, changed {len(changed)}: {', '.join(changed) or '-'}; "
           f"warning calls received {len(w_in)}, changed {len(w_changed)}: {', '.join(w_changed) or '-'}; "
           f"You-2 lists received {len(y_in)}, changed {len(y_changed)}: {', '.join(y_changed) or '-'}; "
-          f"plan lists changed {len(p_changed)}: {', '.join(p_changed) or '-'}", file=sys.stderr)
+          f"plan lists changed {len(p_changed)}: {', '.join(p_changed) or '-'}; "
+          f"moves received {len(m_in)}, changed {len(m_changed)}: {', '.join(m_changed) or '-'}", file=sys.stderr)
 
 
 if __name__ == '__main__':

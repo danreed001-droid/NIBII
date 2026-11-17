@@ -10,11 +10,17 @@ Since Oct 16, 2026 it also follows the plan's fading-energy filter (mtl/fade.py)
 and daily swings have both faded when the list is bought isn't bought; its share stays in cash and it is checked
 again at each week's last close, then bought at the next close once it no longer fades.
 
-Started Oct 14, 2026 with the default's own five stocks."""
+Started Oct 14, 2026 with the default's own five stocks.
+
+The viewer's actual moves (docs/my_calls.json "moves": {date: {to, note, at}}) give a second line, "You (actual)":
+it follows You-2 until the first move, then holds what the viewer moved into - 'cash', 'stocks' (the viewer's list),
+'GLD', 'TLT' or 'DBMF' - from that date's close (the viewer trades on the day, not at the next close), and 'plan'
+hands it back to You-2's timing."""
 from mtl.rotation import CASH, SWITCH_COST, WHIP_SHARE, rotation_curve
 
 YOU2_START = '2026-10-14'
 YOU2_MAX = 10          # stocks in one list
+MOVES = ('cash', 'stocks', 'GLD', 'TLT', 'DBMF', 'plan')   # what the viewer can log moving into
 
 
 def _source(doc, name=None):
@@ -53,6 +59,50 @@ def tickers_of(doc):
     for nm in plan_names(doc):
         out |= {t for l in entries_of(doc, nm).values() for t in l}
     return out
+
+
+def moves_of(doc):
+    """{date: (to, note)} of the viewer's logged moves (deleted ones and unknown targets left out), oldest first."""
+    out = {}
+    for d, e in sorted(((doc or {}).get('moves') or {}).items()):
+        if isinstance(e, dict) and e.get('m') != 'del' and e.get('to') in MOVES:
+            out[d] = (e['to'], str(e.get('note') or ''))
+    return out
+
+
+def mine_curve(y2_curve, picks, asset_px, calendar, moves, cost=SWITCH_COST):
+    """[[date, value]] on y2_curve's dates from its first value: You-2's moves until the viewer's first logged move,
+    then what each move went into, from the close of the move's date (a non-session date counts at the session
+    before it; one before the start at the start). picks: the viewer's list alone (picks_curve); a switch costs
+    `cost` of the account."""
+    if not y2_curve:
+        return []
+    y2, pk, ds = dict(y2_curve), dict(picks or []), [d for d, _ in y2_curve]
+    at = {}
+    for m in sorted(moves):
+        k = max([i for i, d in enumerate(ds) if d <= m] or [0])
+        at[ds[k]] = moves[m][0]
+
+    def ret(h, a, b):
+        if h == 'plan':
+            return y2[b] / y2[a] if y2.get(a) else 1.0
+        if h == 'stocks':
+            return pk[b] / pk[a] if pk.get(a) and pk.get(b) else 1.0
+        if h == 'cash':
+            return 1.0
+        p0, p1 = (asset_px.get(h) or {}).get(a), (asset_px.get(h) or {}).get(b)
+        return p1 / p0 if p0 and p1 else 1.0
+    out, val, held, prev = [], y2[ds[0]] or 1.0, 'plan', None
+    for d in ds:
+        if prev is not None:
+            val *= ret(held, prev, d)
+        if d in at and at[d] != held:
+            val *= 1 - cost
+            held = at[d]
+        out.append([d, val])
+        prev = d
+    v0 = out[0][1] or 1.0
+    return [[d, v / v0] for d, v in out]
 
 
 def active_list(entries, day):
@@ -167,7 +217,16 @@ def block(doc, prices, asset_px, calendar, modes, half, plan_curve, spy_px, k, s
         a = traded(d)
         b = (traded(ds_[i + 1]) or day) if i + 1 < len(ds_) else day
         rows.append([d, entries[d], notes.get(d, ''), span(curve, a, b) if a else None, span(pc, a, b) if a else None])
-    return dict(start=start, entries=rows, stocks=active_list(entries, day),
+    mine = {}
+    mv = moves_of(doc) if name is None else {}
+    if mv and curve:   # the viewer's actual moves: "You (actual)" (mtl/you2.mine_curve)
+        pk = picks_curve(entries, prices, calendar[:k + 1], start, skip=skip)
+        mc = mine_curve(curve, pk, asset_px, calendar[:k + 1], {d: v for d, v in mv.items() if d <= day})
+        last = [to for d, (to, _) in mv.items() if d <= day]
+        h = last[-1] if last else 'plan'
+        mine = dict(mine=[[d, round(v, 4)] for d, v in mc], moves=[[d, to, note] for d, (to, note) in mv.items()],
+                    mineHolds=holding(modes, half, calendar, k) if h == 'plan' else ('CASH' if h == 'cash' else h))
+    return dict(**mine, start=start, entries=rows, stocks=active_list(entries, day),
                 holds=holding(modes, half, calendar, k),
                 next='stocks' if nxt == 'boost' and not (half or {}).get(day) else
                 ((half[day] if WHIP_SHARE >= 1 else 'stocks+' + half[day]) if nxt == 'boost' else ('cash' if nxt == CASH else nxt)),
