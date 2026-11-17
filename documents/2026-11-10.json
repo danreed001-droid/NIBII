@@ -495,8 +495,8 @@
        false
       ]
      ],
-     "maturityClose": 7419.25,
-     "ret": -0.01852,
+     "maturityClose": 7431.0,
+     "ret": -0.016966,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2601,8 +2601,8 @@
        false
       ]
      ],
-     "maturityClose": 105.53125,
-     "ret": -0.005888,
+     "maturityClose": 105.265625,
+     "ret": -0.00839,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5224,8 +5224,8 @@
        true
       ]
      ],
-     "maturityClose": 3874.10009765625,
-     "ret": -0.042486,
+     "maturityClose": 3862.10009765625,
+     "ret": -0.045452,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7323,8 +7323,8 @@
        null
       ]
      ],
-     "maturityClose": 103.51300048828125,
-     "ret": 0.012679,
+     "maturityClose": 103.64600372314453,
+     "ret": 0.01398,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9526,8 +9526,8 @@
        false
       ]
      ],
-     "maturityClose": 2737.5,
-     "ret": -0.033539,
+     "maturityClose": 2738.5,
+     "ret": -0.033186,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11474,7 +11474,7 @@
       [
        "bear",
        "CME FedWatch on 10 November priced a 25bp December hike at ~88% and a 50bp hike at ~11% (CappNotes Closing Look) after October CPI came in hot (headline +0.4% m/m vs +0.3% expected, core +0.3% vs +0.2%) and Governor Waller said a 50bp hike should be considered (news log); long-duration growth is rate-sensitive",
-       true
+       false
       ],
       [
        "neu",
@@ -11512,8 +11512,8 @@
        null
       ]
      ],
-     "maturityClose": 27254.0,
-     "ret": -0.024884,
+     "maturityClose": 27389.0,
+     "ret": -0.020054,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
