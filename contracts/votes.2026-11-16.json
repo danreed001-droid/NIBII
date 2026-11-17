@@ -3,51 +3,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for ES=F on 16 November (last labeled hourly swings LH/HL/LH/LL); RSI 39.77, close (7440.75) below the 50-day (7698.32) and above the 200-day (7371.85); the hourly swing read gives no consistent direction, so neutral"
+   ],
+   [
+    "bear",
+    "Breadth was poor on 16 November: 145 S&P 500 members advanced and 355 declined, equal-weight RSP fell 1.01%, nine of 11 sectors fell (technology -3.24%, energy -1.96%, industrials -1.85%) and only staples (+0.27%) and utilities (+0.18%) rose (CappNotes Closing Look, 16 November); a broad, third-straight decline is a 1-day headwind"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit was mixed: the ICE BofA high-yield spread widened to 323bp (13 November) from 320bp and HYG -0.27% / JNK -0.29% on 16 November, while investment-grade spreads narrowed to 86bp from 91bp the prior week and LQD was flat (-0.01%) (CappNotes Closing Look, 16 November); high-yield and investment-grade reads point in opposite directions, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "On 16 November the 2-year yield fell 5bp to 4.83% and the 10-year 3bp to 5.12% (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November has the 10-year at 5.121%), but the drop was a risk-off bid that accompanied falling stocks rather than a relief rally, and the 21-session corr of S&P 500 with the 10-year change is positive (0.306); the rate move gives no clean 1-day read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for equity multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "AAII's week-ending-11-November survey showed 51.4% bearish (AAII Sentiment Survey page), but a contrarian sentiment reading is not a 1-day timing signal, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Weekly ETF flows were two-sided: QQQ +$13.4B and SPY +$6.5B in, SOXL -$3.6B and SOXS -$2.1B out (week reported 16 November, CappNotes Closing Look, 16 November); no clear read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings reactions on 16 November were split: Nvidia -4.12% on Mizuho/UBS target cuts and Baidu -5.37% on a miss, against Powell Industries +5.94% on a beat (EPS $2.23 vs $1.56), Tyson +8.72% and AECOM +2.84% on guidance (CappNotes Closing Look, 16 November); Home Depot reports before the 17 November open (binary); the index-level read nets out, so neutral"
+   ],
+   [
+    "bear",
+    "The NY Empire State manufacturing index fell 18 points to 7.8 on 16 November vs a 16.7 consensus (CappNotes Closing Look, 16 November; Investrade cites 18.0), with new orders collapsing to 3.0 from 23.2 (Investrade Market Review, 16 November), on top of Japan's Q3 GDP contraction and across-the-board Chinese activity misses (news log); a growth miss into a third straight down day is a 1-day headwind (October retail sales on 17 November is binary)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals were mixed on 16 November: the dollar index rose to 103.58 (highest since April 2025), copper fell 1.36% and Taiwan's Taiex 6.03%, but WTI fell 3.21% to $85.72 (CappNotes Closing Look, 16 November), and oil is the S&P 500's dominant 21-session driver with a negative correlation (-0.41), so cheaper oil cuts the other way; neutral"
    ],
    [
     "neu",
@@ -57,51 +57,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for ES=F on 16 November (last labeled weekly swings HH/HL/HH/LL); RSI 39.77, close (7440.75) below the 50-day (7698.32) and above the 200-day (7371.85); the weekly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is a 1-day factor only; no horizon-wide dated breadth read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit is a 1-day factor only; no horizon-wide dated credit read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for equity multiples"
+   ],
+   [
+    "bull",
+    "AAII's survey for the week ending 11 November (released 12 November) showed 51.4% bearish vs a 31.5% historical average and 30.8% bullish vs 37.5%, bearish above average for a 39th consecutive week (AAII Sentiment Survey page); elevated retail bearishness is a contrarian support over a multi-session window for S&P 500"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for S&P 500 covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nvidia reports fiscal Q3 after the close on 17 November (4:20pm ET) and Anthropic prices its IPO (825 million shares at $70-78) on 18 November to trade 19 November (CappNotes Closing Look, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "neu",
@@ -111,51 +111,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for ES=F on 16 November (last labeled weekly swings HH/HL/HH/LL); RSI 39.77, close (7440.75) below the 50-day (7698.32) and above the 200-day (7371.85); the weekly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is a 1-day factor only; no horizon-wide dated breadth read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit is a 1-day factor only; no horizon-wide dated credit read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for equity multiples"
+   ],
+   [
+    "bull",
+    "AAII's survey for the week ending 11 November (released 12 November) showed 51.4% bearish vs a 31.5% historical average and 30.8% bullish vs 37.5%, bearish above average for a 39th consecutive week (AAII Sentiment Survey page); elevated retail bearishness is a contrarian support over a multi-session window for S&P 500"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for S&P 500 covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nvidia reports fiscal Q3 after the close on 17 November (4:20pm ET) and Anthropic prices its IPO (825 million shares at $70-78) on 18 November to trade 19 November (CappNotes Closing Look, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "neu",
@@ -166,52 +166,52 @@
  "bonds": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.hourly reads uptrend for ZN=F on 16 November (last labeled hourly swings HL/HH/HL/HH); RSI 42.97, close (105.42) below the 50-day (105.7) and below the 200-day (109.13)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no direct dated read for 10-Year Treasury Note on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bears directly on 10-Year Treasury Note for this window, so neutral"
+   ],
+   [
+    "bull",
+    "On 16 November the 2-year Treasury yield fell 5bp to 4.83%, the 10-year 3bp to 5.12% and the 30-year 1bp to 5.46%, 2s10s widening to about 29bp (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November has the 10-year at 5.121%), after the 2-year's biggest weekly rise in two years; falling yields are a direct 1-day gain for 10-year note prices"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; a priced hike keeps the policy path pointed higher, a drag on note prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for this asset as of 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Treasury ETF flows were two-sided: GOVT -$3.8B (the week's largest outflow) against TLH +$1.8B in (week reported 16 November, CappNotes Closing Look, 16 November); no clear read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts has no direct dated read for 10-Year Treasury Note on 16 November, so neutral"
+   ],
+   [
+    "bull",
+    "The NY Empire State manufacturing index fell 18 points to 7.8 vs a 16.7 consensus and prices paid dropped 14 points to 45.9 (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November), alongside Japan's Q3 GDP contraction and Chinese activity misses (news log); weaker growth with softer price pressure is a 1-day support for Treasuries (October retail sales on 17 November is binary)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Cross-asset moves favored Treasuries on 16 November: WTI -3.21% to $85.72 and Brent -3.55% (both about -6% on the week), the S&P 500 -1.92% with VIX +18.70%, and Asian equities sharply lower (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); a risk-off bid with falling energy prices is a 1-day support"
    ],
    [
     "bull",
@@ -220,52 +220,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 16 November (last labeled weekly swings LL/LH/LL/LH); RSI 42.97, close (105.42) below the 50-day (105.7) and below the 200-day (109.13)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no direct dated read for 10-Year Treasury Note on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bears directly on 10-Year Treasury Note for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; a priced hike keeps the policy path pointed higher, a drag on note prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for this asset as of 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for 10-Year Treasury Note covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts has no direct dated read for 10-Year Treasury Note on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "bear",
@@ -274,52 +274,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for ZN=F on 16 November (last labeled weekly swings LL/LH/LL/LH); RSI 42.97, close (105.42) below the 50-day (105.7) and below the 200-day (109.13)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no direct dated read for 10-Year Treasury Note on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bears directly on 10-Year Treasury Note for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; a priced hike keeps the policy path pointed higher, a drag on note prices"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for this asset as of 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for 10-Year Treasury Note covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts has no direct dated read for 10-Year Treasury Note on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "bear",
@@ -331,51 +331,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for GC=F on 16 November (last labeled hourly swings LL/LL/LH/HL); RSI 34.57, close (3860.9) below the 50-day (4169.2) and below the 200-day (4467.82); the hourly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no direct dated read for Gold on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bears directly on Gold for this window, so neutral"
+   ],
+   [
+    "bull",
+    "On 16 November the 2-year yield fell 5bp to 4.83% and the 10-year 3bp to 5.12% (CappNotes Closing Look, 16 November); lower yields reduce the opportunity cost of holding gold, a 1-day support"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; a priced hike raises the opportunity cost of holding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for this asset as of 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for Gold covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts has no direct dated read for Gold on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Tuesday 17 November brings October retail sales (8:30am ET, forecast +0.6%, prior +0.8%), Home Depot results and September business inventories (CappNotes Closing Look, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals were mixed for gold on 16 November: the dollar index rose to its highest since April 2025, silver fell 4.60% and Goldman cut its gold forecasts (news log), but WTI fell 3.21% (CappNotes Closing Look, 16 November) and oil's 21-session correlation with gold is -0.71 (its dominant driver), so cheaper oil cuts the other way; neutral"
    ],
    [
     "neu",
@@ -384,52 +384,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 16 November (last labeled weekly swings LH/LH/LL/LH); RSI 34.57, close (3860.9) below the 50-day (4169.2) and below the 200-day (4467.82)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no direct dated read for Gold on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bears directly on Gold for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; a priced hike raises the opportunity cost of holding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for this asset as of 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for Gold covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts has no direct dated read for Gold on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "bear",
@@ -438,52 +438,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly reads downtrend for GC=F on 16 November (last labeled weekly swings LH/LH/LL/LH); RSI 34.57, close (3860.9) below the 50-day (4169.2) and below the 200-day (4467.82)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no direct dated read for Gold on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bears directly on Gold for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; a priced hike raises the opportunity cost of holding gold"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for this asset as of 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for Gold covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts has no direct dated read for Gold on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "bear",
@@ -494,52 +494,52 @@
  "dollar": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.hourly reads uptrend for DX-Y.NYB on 16 November (last labeled hourly swings HL/HH/HL/HH); RSI 68.13, close (103.59) above the 50-day (101.5) and above the 200-day (99.89)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no direct dated read for US Dollar Index on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bears directly on US Dollar Index for this window, so neutral"
+   ],
+   [
+    "bear",
+    "On 16 November the 2-year Treasury yield fell 5bp to 4.83% and the 10-year 3bp to 5.12% (CappNotes Closing Look, 16 November); a lower front end narrows the dollar's yield advantage, a 1-day headwind (the dollar still rose on the day)"
+   ],
+   [
+    "bull",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; a priced hike supports the dollar against currencies with easier policy paths"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for this asset as of 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for US Dollar Index covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts has no direct dated read for US Dollar Index on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Tuesday 17 November brings October retail sales (8:30am ET, forecast +0.6%, prior +0.8%), Home Depot results and September business inventories (CappNotes Closing Look, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "The dollar was broadly firm on 16 November: EUR/USD -0.21% to 1.0998 (testing below 1.10, its strongest against the euro since April 2025 per Investrade) and the Brazilian real at a 19-month low (USD/BRL +2.15%), with equities risk-off (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); only USD/JPY eased (-0.15% to 159.42); broad risk-off dollar demand is a 1-day support"
    ],
    [
     "bull",
@@ -548,52 +548,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for DX-Y.NYB on 16 November (last labeled weekly swings HL/HL/HH/HL); RSI 68.13, close (103.59) above the 50-day (101.5) and above the 200-day (99.89)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no direct dated read for US Dollar Index on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bears directly on US Dollar Index for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bull",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; a priced hike supports the dollar against currencies with easier policy paths"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for this asset as of 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for US Dollar Index covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts has no direct dated read for US Dollar Index on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "bull",
@@ -602,52 +602,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly reads uptrend for DX-Y.NYB on 16 November (last labeled weekly swings HL/HL/HH/HL); RSI 68.13, close (103.59) above the 50-day (101.5) and above the 200-day (99.89)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no direct dated read for US Dollar Index on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit-spread or credit-flow figure bears directly on US Dollar Index for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bull",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; a priced hike supports the dollar against currencies with easier policy paths"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated sentiment or contrarian-positioning reading naming an extreme is available for this asset as of 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for US Dollar Index covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts has no direct dated read for US Dollar Index on 16 November, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "bull",
@@ -659,51 +659,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for RTY=F on 16 November (last labeled hourly swings LH/HL/LH/LL); RSI 41.85, close (2746.1) below the 50-day (2831.89) and below the 200-day (2821.96); the hourly swing read gives no consistent direction, so neutral"
+   ],
+   [
+    "bear",
+    "Small and mid caps fell with the market on 16 November: Russell 2000 -1.70% to 2,742.94, S&P MidCap 400 -1.47%, IJR -1.22%, RSP -1.01%, with S&P 500 breadth 145 advancers / 355 decliners (CappNotes Closing Look, 16 November); no equal-weight cushion this time, a 1-day headwind"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit was mixed: the ICE BofA high-yield spread widened to 323bp (13 November) from 320bp and HYG -0.27% / JNK -0.29% on 16 November, while investment-grade spreads narrowed to 86bp from 91bp the prior week and LQD was flat (-0.01%) (CappNotes Closing Look, 16 November); high-yield and investment-grade reads point in opposite directions, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "On 16 November the 2-year yield fell 5bp to 4.83% and the 10-year 3bp to 5.12% (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November has the 10-year at 5.121%), but the drop was a risk-off bid that accompanied falling stocks rather than a relief rally, and the 21-session corr of Russell 2000 with the 10-year change is positive (0.028); the rate move gives no clean 1-day read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced weighs most on rate-sensitive small caps"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "AAII's week-ending-11-November survey showed 51.4% bearish (AAII Sentiment Survey page), but a contrarian sentiment reading is not a 1-day timing signal, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Weekly ETF flows were two-sided: QQQ +$13.4B and SPY +$6.5B in, SOXL -$3.6B and SOXS -$2.1B out (week reported 16 November, CappNotes Closing Look, 16 November); no clear read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No index-moving small-cap earnings read is dated 16 November (Powell Industries +5.94% on a beat was a single name, CappNotes Closing Look, 16 November), so neutral"
+   ],
+   [
+    "bear",
+    "The NY Empire State manufacturing index fell to 7.8 vs a 16.7 consensus with new orders down to 3.0 from 23.2 (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); domestic manufacturing weakness weighs most directly on small caps, a 1-day headwind (October retail sales on 17 November is binary)"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset signals were mixed on 16 November: a dollar at its highest since April 2025 and copper -1.36% against WTI -3.21% to $85.72 (CappNotes Closing Look, 16 November), with oil the Russell 2000's dominant 21-session driver (corr -0.41), so cheaper oil cuts the other way; neutral"
    ],
    [
     "neu",
@@ -713,51 +713,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for RTY=F on 16 November (last labeled weekly swings HL/HH/LH/LL); RSI 41.85, close (2746.1) below the 50-day (2831.89) and below the 200-day (2821.96); the weekly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is a 1-day factor only; no horizon-wide dated breadth read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit is a 1-day factor only; no horizon-wide dated credit read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced weighs most on rate-sensitive small caps"
+   ],
+   [
+    "bull",
+    "AAII's survey for the week ending 11 November (released 12 November) showed 51.4% bearish vs a 31.5% historical average and 30.8% bullish vs 37.5%, bearish above average for a 39th consecutive week (AAII Sentiment Survey page); elevated retail bearishness is a contrarian support over a multi-session window for Russell 2000"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for Russell 2000 covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nvidia reports fiscal Q3 after the close on 17 November (4:20pm ET) and Anthropic prices its IPO (825 million shares at $70-78) on 18 November to trade 19 November (CappNotes Closing Look, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "neu",
@@ -767,51 +767,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for RTY=F on 16 November (last labeled weekly swings HL/HH/LH/LL); RSI 41.85, close (2746.1) below the 50-day (2831.89) and below the 200-day (2821.96); the weekly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is a 1-day factor only; no horizon-wide dated breadth read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit is a 1-day factor only; no horizon-wide dated credit read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced weighs most on rate-sensitive small caps"
+   ],
+   [
+    "bull",
+    "AAII's survey for the week ending 11 November (released 12 November) showed 51.4% bearish vs a 31.5% historical average and 30.8% bullish vs 37.5%, bearish above average for a 39th consecutive week (AAII Sentiment Survey page); elevated retail bearishness is a contrarian support over a multi-session window for Russell 2000"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for Russell 2000 covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nvidia reports fiscal Q3 after the close on 17 November (4:20pm ET) and Anthropic prices its IPO (825 million shares at $70-78) on 18 November to trade 19 November (CappNotes Closing Look, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "neu",
@@ -823,51 +823,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly reads choppy for NQ=F on 16 November (last labeled hourly swings HL/LH/LL/LH); RSI 37.26, close (27291.5) below the 50-day (29622.5) and below the 200-day (28175.72); the hourly swing read gives no consistent direction, so neutral"
+   ],
+   [
+    "bear",
+    "Nasdaq-100 breadth was led lower by semiconductors on 16 November: NDX -2.67% (weakest major index), technology -3.24%, SMH -5.11%, AMD -5.58%, Micron -7.62%, Intel -7.02%, Arm -8.12%, TSMC -5.74% (CappNotes Closing Look, 16 November); the Nasdaq Composite closed below its 200-day (Investrade Market Review, 16 November); a chip-wide selloff is a 1-day headwind"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit was mixed: the ICE BofA high-yield spread widened to 323bp (13 November) from 320bp and HYG -0.27% / JNK -0.29% on 16 November, while investment-grade spreads narrowed to 86bp from 91bp the prior week and LQD was flat (-0.01%) (CappNotes Closing Look, 16 November); high-yield and investment-grade reads point in opposite directions, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "On 16 November the 2-year yield fell 5bp to 4.83% and the 10-year 3bp to 5.12% (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November has the 10-year at 5.121%), but the drop was a risk-off bid that accompanied falling stocks rather than a relief rally, and the 21-session corr of Nasdaq-100 with the 10-year change is positive (0.454); the rate move gives no clean 1-day read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for long-duration growth multiples"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "AAII's week-ending-11-November survey showed 51.4% bearish (AAII Sentiment Survey page), but a contrarian sentiment reading is not a 1-day timing signal, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Weekly ETF flows were two-sided: QQQ +$13.4B and SPY +$6.5B in, SOXL -$3.6B and SOXS -$2.1B out (week reported 16 November, CappNotes Closing Look, 16 November); no clear read, so neutral"
+   ],
+   [
+    "bear",
+    "Chip-sector analyst and earnings news was negative on 16 November: Mizuho cut its Nvidia target to $220 and UBS to $240 with Nvidia -4.12% (AP: $735B of market value lost since the Huang scandal began), Baidu -5.37% after adjusted EPS missed by about 17%, and Astera Labs -8.79%, Sandisk -8.58% (CappNotes Closing Look, 16 November); Nvidia's own report lands after this 1-day window closes; target cuts into the print are a 1-day headwind"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Empire State miss (7.8 vs 16.7 consensus, CappNotes Closing Look, 16 November) is a manufacturing read with little direct bearing on the chip-led Nasdaq-100 move, and October retail sales on 17 November is binary, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The Asian chip complex collapsed on 16 November: Taiwan's Taiex -6.03% ('its second-largest point drop ever'), Kospi -3.59%, Nikkei -2.42% (SK Hynix ~-6%, Samsung ~-4% per the news log), with SOXL -16.39% and the dollar at its highest since April 2025 (CappNotes Closing Look, 16 November); BIS also closed a loophole letting Chinese firms rent US AI chips abroad; a global semiconductor rout is a 1-day headwind"
    ],
    [
     "neu",
@@ -877,51 +877,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for NQ=F on 16 November (last labeled weekly swings LH/HL/HH/LL); RSI 37.26, close (27291.5) below the 50-day (29622.5) and below the 200-day (28175.72); the weekly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is a 1-day factor only; no horizon-wide dated breadth read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit is a 1-day factor only; no horizon-wide dated credit read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for long-duration growth multiples"
+   ],
+   [
+    "bull",
+    "AAII's survey for the week ending 11 November (released 12 November) showed 51.4% bearish vs a 31.5% historical average and 30.8% bullish vs 37.5%, bearish above average for a 39th consecutive week (AAII Sentiment Survey page); elevated retail bearishness is a contrarian support over a multi-session window for Nasdaq-100"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for Nasdaq-100 covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nvidia reports fiscal Q3 after the close on 17 November (4:20pm ET) and Anthropic prices its IPO (825 million shares at $70-78) on 18 November to trade 19 November (CappNotes Closing Look, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "neu",
@@ -931,51 +931,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly reads choppy for NQ=F on 16 November (last labeled weekly swings LH/HL/HH/LL); RSI 37.26, close (27291.5) below the 50-day (29622.5) and below the 200-day (28175.72); the weekly swing read gives no consistent direction, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is a 1-day factor only; no horizon-wide dated breadth read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context is in the sigma input (VIX rose 18.70% to 22.91 on 16 November, its biggest gain since 5 November and a third straight rise (CappNotes Closing Look, 16 November)), but no print naming a percentile, record or multi-year extreme was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit is a 1-day factor only; no horizon-wide dated credit read, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates is a 1-day factor only; no horizon-wide dated rates read, so neutral"
+   ],
+   [
+    "bear",
+    "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for long-duration growth multiples"
+   ],
+   [
+    "bull",
+    "AAII's survey for the week ending 11 November (released 12 November) showed 51.4% bearish vs a 31.5% historical average and 30.8% bullish vs 37.5%, bearish above average for a 39th consecutive week (AAII Sentiment Survey page); elevated retail bearishness is a contrarian support over a multi-session window for Nasdaq-100"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated positioning or flow figure (e.g. CFTC or fund flows) for Nasdaq-100 covering this window was obtained, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nvidia reports fiscal Q3 after the close on 17 November (4:20pm ET) and Anthropic prices its IPO (825 million shares at $70-78) on 18 November to trade 19 November (CappNotes Closing Look, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window holds October retail sales (17 November, forecast +0.6%), Nvidia's results (17 November after the close), the October FOMC minutes (18 November) and Anthropic's IPO pricing (18 November) (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); binary event risk with no way to call the direction in advance, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic is available for this window, so neutral"
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read, so neutral"
    ],
    [
     "neu",
