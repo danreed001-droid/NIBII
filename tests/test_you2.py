@@ -98,3 +98,41 @@ def test_intake_merges_plans_into_my_calls(tmp_path, monkeypatch):
     doc = _j.loads(path.read_text())
     assert doc['plans'] == {'Defensive': {'2026-11-16': {'stocks': ['KO', 'PG'], 'note': 'rates rising', 'at': '2026-11-16T15:00:00Z'}}}
     assert doc['you2']['2026-10-14']['stocks'] == ['DELL']
+
+
+def test_actual_moves_follow_you2_until_the_first_move_then_what_was_moved_into():
+    modes = {d: 'boost' for d in CAL}
+    y2 = you2.you2_curve(you2.entries_of(DOC), PX, GLD, CAL, modes, {}, start=CAL[0])
+    pk = you2.picks_curve(you2.entries_of(DOC), PX, CAL, CAL[0])
+    mv = {CAL[3]: ('cash', 'took profits'), CAL[5]: ('GLD', ''), '2026-10-24': ('plan', '')}   # a Saturday after CAL's end
+    mc, y, c = dict(you2.mine_curve(y2, pk, GLD, CAL, mv)), dict(y2), 1 - you2.SWITCH_COST
+    assert all(abs(mc[d] - y[d]) < 1e-12 for d in CAL[:3])                     # with You-2 before the first move
+    assert abs(mc[CAL[3]] - y[CAL[3]] * c) < 1e-12                              # out at the move's own close
+    assert abs(mc[CAL[4]] - mc[CAL[3]]) < 1e-12 and abs(mc[CAL[5]] - mc[CAL[3]] * c) < 1e-12   # flat in cash, then into gold
+    g = lambda a, b: GLD['GLD'][b] / GLD['GLD'][a]
+    assert abs(mc[CAL[6]] / mc[CAL[5]] - g(CAL[5], CAL[6])) < 1e-12              # gold after CAL[5]'s close
+    assert abs(mc[CAL[7]] / mc[CAL[6]] - g(CAL[6], CAL[7]) * c) < 1e-12          # the Saturday move counts at the last close
+
+
+def test_block_carries_the_actual_line_and_what_you_hold():
+    doc = dict(DOC, moves={CAL[3]: {'to': 'cash', 'note': 'nervous', 'at': 'x'}, CAL[4]: {'m': 'del', 'at': 'y'}})
+    b = you2.block(doc, PX, GLD, CAL, {d: 'boost' for d in CAL}, {}, [[d, 1.0] for d in CAL], {d: 1.0 for d in CAL}, 6, start=CAL[0])
+    assert b['moves'] == [[CAL[3], 'cash', 'nervous']] and b['mineHolds'] == 'CASH' and b['holds'] == 'stocks'
+    mine = dict(b['mine'])
+    assert mine[CAL[6]] == mine[CAL[4]] and len(b['mine']) == len(b['curve'])
+    nb = you2.block(DOC, PX, GLD, CAL, {d: 'boost' for d in CAL}, {}, [[d, 1.0] for d in CAL], {d: 1.0 for d in CAL}, 6, start=CAL[0])
+    assert 'mine' not in nb
+
+
+def test_intake_reads_moves_and_merges_them(tmp_path, monkeypatch):
+    m = _intake()
+    body = '```json\n{"moves": {"2026-11-13": {"to": "cash", "note": "sold Friday", "at": "2026-11-17T01:00:00Z"}, "2026-11-14": {"to": "yolo"}, "bad": {"to": "cash"}}}\n```'
+    assert m.parse_moves(body) == {'2026-11-13': {'to': 'cash', 'note': 'sold Friday', 'at': '2026-11-17T01:00:00Z'}}
+    path = tmp_path / 'my_calls.json'
+    path.write_text('{"app": "nibii-calls", "v": 1, "calls": {}, "you2": {"2026-10-14": {"stocks": ["DELL"], "note": "", "at": "a"}}}')
+    monkeypatch.setattr(m, 'PATH', str(path))
+    monkeypatch.setenv('ISSUE_BODY', body)
+    m.main()
+    import json as _j
+    doc = _j.loads(path.read_text())
+    assert doc['moves'] == {'2026-11-13': {'to': 'cash', 'note': 'sold Friday', 'at': '2026-11-17T01:00:00Z'}} and doc['you2']['2026-10-14']

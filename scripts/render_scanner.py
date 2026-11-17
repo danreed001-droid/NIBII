@@ -431,6 +431,8 @@ tbody tr:last-child td { border-bottom: 0; }
 #y2-in { width: 100%; font: 0.9rem ui-monospace, monospace; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 8px 10px; margin: 4px 0 8px; box-sizing: border-box; }
 #y2-chart svg, #pp-chart svg { width: 100%; height: auto; display: block; }
 #y2-log { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
+.y2-mv-t { margin-top: 14px; } .y2-mv-row { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.84rem; color: var(--ink-2); margin: 4px 0 6px; }
+.y2-mv-row input, .y2-mv-row select { font: inherit; font-size: 16px; background: var(--surface-2); color: var(--ink); border: 1px solid var(--hairline); border-radius: 8px; padding: 4px 6px; margin-left: 4px; }
 .why-note, #mp-in, #mp-name, #mp-pick { width: 100%; font: inherit; font-size: 0.84rem; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-2); color: var(--ink); padding: 8px 10px; margin: 4px 0 8px; box-sizing: border-box; }
 .why-note { min-height: 52px; resize: vertical; }
 #mp-in { font: 0.9rem ui-monospace, monospace; }
@@ -597,6 +599,13 @@ __EVENTS__
       <textarea id="y2-note" class="why-note" maxlength="300" placeholder="Why? (optional, e.g. tech is breaking out, earnings beat, I trust these more than the plan's picks)"></textarea>
       <div class="call-actions"><a class="btn" id="y2-submit" target="_blank" rel="noopener">Save to repo ↗</a><span id="y2-status" role="status"></span></div>
       <p class="note">Saving opens a filled-in GitHub issue: tap <b>Create</b> and the repo records the list within a minute. The list is bought in equal weights at the next close after the day you save it. From then on You-2 follows the default plan: in your stocks while the plan holds the Boost list, in gold, bonds or cash (or half in one) whenever the plan is, and back in your stocks when the plan is (the rebound rule included). Switches happen at the same closes as the plan’s.</p>
+      <p class="chart-title y2-mv-t">Your actual moves</p>
+      <div class="y2-mv-row"><label>On <input type="date" id="y2-mv-date"></label><label>I moved to <select id="y2-mv-to">
+        <option value="cash">cash</option><option value="stocks">my stocks</option><option value="GLD">gold (GLD)</option><option value="TLT">bonds (TLT)</option>
+        <option value="DBMF">managed futures (DBMF)</option><option value="plan">back to the plan’s timing</option></select></label></div>
+      <textarea id="y2-mv-note" class="why-note" maxlength="300" placeholder="Why? (optional, e.g. sold everything Friday before the weekend)"></textarea>
+      <div class="call-actions"><a class="btn" id="y2-mv-submit" target="_blank" rel="noopener">Save move ↗</a><span id="y2-mv-status" role="status"></span></div>
+      <p class="note">Log what you actually did. A move counts from the close of the day you give: you trade on the day itself, unlike the plan, which trades at the next close. The <b>You (actual)</b> line follows You-2 until your first move, then holds what you moved into; “back to the plan’s timing” hands it back to You-2.</p>
     </div>
     <div class="card">
       <p class="chart-title">You-2 record</p>
@@ -1583,17 +1592,39 @@ __ISSUES__
       var yv = last(Y.curve), pv = last(Y.plan), sv = last(Y.spy);
       $('y2-now').innerHTML = '<p>Now holds <b>' + esc(hname(Y.holds)) + '</b>' + (Y.next && Y.next !== Y.holds ? '; after the next close: <b>' + esc(hname(Y.next)) + '</b>' : '') + '. Your list: <b>' + esc((Y.stocks || []).join(', ') || '–') + '</b>.' +
         (Y.missing && Y.missing.length ? ' <span class="neg">No price for ' + esc(Y.missing.join(', ')) + ': check the ticker.</span>' : '') +
-        (yv != null ? ' Since the start: You-2 ' + pct(yv - 1) + ', the default plan ' + pct(pv != null ? pv - 1 : null) + ', SPY ' + pct(sv != null ? sv - 1 : null) + '.' : '') + '</p>';
+        (yv != null ? ' Since the start: You-2 ' + pct(yv - 1) + ', the default plan ' + pct(pv != null ? pv - 1 : null) + ', SPY ' + pct(sv != null ? sv - 1 : null) + '.' : '') + '</p>' +
+        (Y.mine && Y.mine.length ? (function () {
+          var mv = Y.moves || [], lm = mv.length ? mv[mv.length - 1] : null, mvv = last(Y.mine);
+          return '<p><b>You (actual)</b>: in <b>' + esc(hname(Y.mineHolds)) + '</b>' + (lm && lm[1] !== 'plan' ? ' since ' + fmtDate(lm[0], { month: 'short', day: 'numeric' }) : ' (on the plan’s timing)') +
+            (mvv != null ? '; ' + pct(mvv - 1) + ' since the start' + (yv != null ? ' (' + (mvv >= yv ? '+' : '') + ((mvv - yv) * 100).toFixed(1) + ' points vs You-2)' : '') : '') + '.</p>';
+        })() : '');
       var C = Y.curve || [];
       if (C.length < 2) $('y2-chart').innerHTML = '<p class="note">The chart starts after the first closes.</p>';
       else {
-        $('y2-chart').innerHTML = miniLines([['You-2', C, 'var(--s-ccalls)'], ['Default plan', Y.plan || [], 'var(--s-rot)'], ['SPY', Y.spy || [], 'var(--s-spy)']], 'You-2 vs the default plan and SPY since the start');
+        $('y2-chart').innerHTML = miniLines([['You-2', C, 'var(--s-ccalls)']].concat(Y.mine && Y.mine.length ? [['You (actual)', Y.mine, 'var(--s-boost)']] : [])
+          .concat([['Default plan', Y.plan || [], 'var(--s-rot)'], ['SPY', Y.spy || [], 'var(--s-spy)']]), 'You-2 vs the default plan and SPY since the start');
       }
       $('y2-log').innerHTML = 'Your lists: ' + (Y.entries || []).map(function (e) { return fmtDate(e[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ': ' + esc(e[1].join(', ')) + (e[2] ? ' <i>(“' + esc(e[2]) + '”)</i>' : ''); }).join(' · ');
+      if (Y.moves && Y.moves.length) $('y2-log').innerHTML += '<br>Your moves: ' + Y.moves.map(function (e) { return fmtDate(e[0], { month: 'short', day: 'numeric', year: 'numeric' }) + ': ' + esc(e[1] === 'plan' ? 'back to the plan’s timing' : hname(e[1] === 'cash' ? 'CASH' : e[1])) + (e[2] ? ' <i>(“' + esc(e[2]) + '”)</i>' : ''); }).join(' · ');
     }
     inp.addEventListener('input', update);
     $('y2-note').addEventListener('input', update);
     update();
+    // your actual moves: saved like the lists, as docs/my_calls.json "moves" (mtl/you2.mine_curve)
+    var md_ = $('y2-mv-date'), mt = $('y2-mv-to'), mn = $('y2-mv-note'), ms = $('y2-mv-submit');
+    if (md_ && mt && ms) {
+      md_.max = today(); md_.min = (Y && Y.start) || '2026-10-14'; md_.value = today();
+      var mvUpdate = function () {
+        var d = md_.value, to = mt.value, ok = /^\d{4}-\d{2}-\d{2}$/.test(d) && d <= today() && d >= md_.min;
+        var b = {}; b[d] = { to: to, note: (mn.value || '').trim().slice(0, 300), at: new Date().toISOString() };
+        var body = 'Your actual move from the Top 5 dashboard. Leave the block below as-is: the Calls intake workflow records it in docs/my_calls.json and closes this issue.\n\n```json\n' + JSON.stringify({ moves: b }) + '\n```\n';
+        ms.href = 'https://github.com/danreed001-droid/NIBII/issues/new?title=' + encodeURIComponent('calls moves ' + d) + '&body=' + encodeURIComponent(body);
+        $('y2-mv-status').textContent = ok ? fmtDate(d, { month: 'short', day: 'numeric', year: 'numeric' }) + ': ' + mt.options[mt.selectedIndex].text : 'Pick a date from ' + fmtDate(md_.min, { month: 'short', day: 'numeric' }) + ' to today';
+        ms.style.pointerEvents = ok ? '' : 'none'; ms.style.opacity = ok ? '' : '0.5';
+      };
+      [md_, mt, mn].forEach(function (x) { x.addEventListener('input', mvUpdate); x.addEventListener('change', mvUpdate); });
+      mvUpdate();
+    }
   })();
 
   // My plans: the viewer's named stock lists (mtl/you2.plans_block; docs/my_calls.json "plans")
