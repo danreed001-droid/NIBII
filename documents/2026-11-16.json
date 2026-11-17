@@ -306,7 +306,7 @@
       [
        "bear",
        "Breadth was poor on 16 November: 145 S&P 500 members advanced and 355 declined, equal-weight RSP fell 1.01%, nine of 11 sectors fell (technology -3.24%, energy -1.96%, industrials -1.85%) and only staples (+0.27%) and utilities (+0.18%) rose (CappNotes Closing Look, 16 November); a broad, third-straight decline is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -326,7 +326,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for equity multiples",
-       false
+       true
       ],
       [
        "neu",
@@ -346,7 +346,7 @@
       [
        "bear",
        "The NY Empire State manufacturing index fell 18 points to 7.8 on 16 November vs a 16.7 consensus (CappNotes Closing Look, 16 November; Investrade cites 18.0), with new orders collapsing to 3.0 from 23.2 (Investrade Market Review, 16 November), on top of Japan's Q3 GDP contraction and across-the-board Chinese activity misses (news log); a growth miss into a third straight down day is a 1-day headwind (October retail sales on 17 November is binary)",
-       false
+       true
       ],
       [
        "neu",
@@ -364,8 +364,8 @@
        null
       ]
      ],
-     "maturityClose": 7428.5,
-     "ret": -0.001646,
+     "maturityClose": 7351.0,
+     "ret": -0.012062,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2495,8 +2495,8 @@
        false
       ]
      ],
-     "maturityClose": 105.25,
-     "ret": -0.00163,
+     "maturityClose": 105.65625,
+     "ret": 0.002223,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -5112,8 +5112,8 @@
        null
       ]
      ],
-     "maturityClose": 3866.0,
-     "ret": 0.001321,
+     "maturityClose": 3863.5,
+     "ret": 0.000673,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7185,7 +7185,7 @@
       [
        "bear",
        "On 16 November the 2-year Treasury yield fell 5bp to 4.83% and the 10-year 3bp to 5.12% (CappNotes Closing Look, 16 November); a lower front end narrows the dollar's yield advantage, a 1-day headwind (the dollar still rose on the day)",
-       false
+       true
       ],
       [
        "bull",
@@ -7228,8 +7228,8 @@
        false
       ]
      ],
-     "maturityClose": 103.62200164794922,
-     "ret": 0.000348,
+     "maturityClose": 103.38500213623047,
+     "ret": -0.00194,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -9338,7 +9338,7 @@
       [
        "bear",
        "Small and mid caps fell with the market on 16 November: Russell 2000 -1.70% to 2,742.94, S&P MidCap 400 -1.47%, IJR -1.22%, RSP -1.01%, with S&P 500 breadth 145 advancers / 355 decliners (CappNotes Closing Look, 16 November); no equal-weight cushion this time, a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -9358,7 +9358,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced weighs most on rate-sensitive small caps",
-       false
+       true
       ],
       [
        "neu",
@@ -9378,7 +9378,7 @@
       [
        "bear",
        "The NY Empire State manufacturing index fell to 7.8 vs a 16.7 consensus with new orders down to 3.0 from 23.2 (CappNotes Closing Look, 16 November; Investrade Market Review, 16 November); domestic manufacturing weakness weighs most directly on small caps, a 1-day headwind (October retail sales on 17 November is binary)",
-       false
+       true
       ],
       [
        "neu",
@@ -9396,8 +9396,8 @@
        null
       ]
      ],
-     "maturityClose": 2739.60009765625,
-     "ret": -0.002367,
+     "maturityClose": 2719.800048828125,
+     "ret": -0.009577,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11325,7 +11325,7 @@
       [
        "bear",
        "Nasdaq-100 breadth was led lower by semiconductors on 16 November: NDX -2.67% (weakest major index), technology -3.24%, SMH -5.11%, AMD -5.58%, Micron -7.62%, Intel -7.02%, Arm -8.12%, TSMC -5.74% (CappNotes Closing Look, 16 November); the Nasdaq Composite closed below its 200-day (Investrade Market Review, 16 November); a chip-wide selloff is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -11345,7 +11345,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for long-duration growth multiples",
-       false
+       true
       ],
       [
        "neu",
@@ -11360,7 +11360,7 @@
       [
        "bear",
        "Chip-sector analyst and earnings news was negative on 16 November: Mizuho cut its Nvidia target to $220 and UBS to $240 with Nvidia -4.12% (AP: $735B of market value lost since the Huang scandal began), Baidu -5.37% after adjusted EPS missed by about 17%, and Astera Labs -8.79%, Sandisk -8.58% (CappNotes Closing Look, 16 November); Nvidia's own report lands after this 1-day window closes; target cuts into the print are a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -11375,7 +11375,7 @@
       [
        "bear",
        "The Asian chip complex collapsed on 16 November: Taiwan's Taiex -6.03% ('its second-largest point drop ever'), Kospi -3.59%, Nikkei -2.42% (SK Hynix ~-6%, Samsung ~-4% per the news log), with SOXL -16.39% and the dollar at its highest since April 2025 (CappNotes Closing Look, 16 November); BIS also closed a loophole letting Chinese firms rent US AI chips abroad; a global semiconductor rout is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -11383,8 +11383,8 @@
        null
       ]
      ],
-     "maturityClose": 27358.75,
-     "ret": 0.002464,
+     "maturityClose": 26965.5,
+     "ret": -0.011945,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
