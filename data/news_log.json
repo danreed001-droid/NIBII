@@ -5817,5 +5817,65 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-17-1-october-retail-sales-0-2-control-beats",
+    "data": {
+      "addedAt": "2026-11-17",
+      "category": "Macro",
+      "date": "2026-11-17",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "October advance retail sales rose 0.2%, in line with estimates. The control group beat at +0.6%, and September was revised up, so consumer spending looks solid while the Fed is leaning toward hikes.",
+      "impact": "High",
+      "numbers": "Headline +0.2% m/m (Sep revised +0.8%); control group +0.6% vs +0.4% est (prior revised +0.5% from +0.1%); ex autos & gas +0.5%; gasoline +1.5%; nonstore +1.2%",
+      "order": 1,
+      "reaction": "10Y yield ~5.14-5.15% pre-open, up slightly; strong spending adds to the case for rate hikes.",
+      "region": "US",
+      "source": "https://investinglive.com/news/us-october-advance-retail-sales-0-2-vs-0-2-expected/",
+      "tickers": "SPY, S&P, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "Headline in line (0.2% est); control group beat (+0.6% vs +0.4%)"
+    }
+  },
+  {
+    "id": "2026-11-17-2-futures-mixed-before-nvidia-earnings",
+    "data": {
+      "addedAt": "2026-11-17",
+      "category": "Market",
+      "date": "2026-11-17",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "US futures were mixed after Monday's sharp sell-off. Dow and Russell futures fell, while Nasdaq futures edged up ahead of Nvidia's results after the close, its first report since Jensen Huang resigned. Nvidia also disclosed cuts to its Intel, Nokia and Synopsys stakes.",
+      "impact": "High",
+      "numbers": "Dow futures ~-0.8% to -0.9%, S&P 500 futures ~-0.2%, Nasdaq-100 futures ~+0.2%, Russell 2000 futures ~-0.5%; VIX ~23; 10Y ~5.14%; NVDA ~flat to -0.4% pre-market; NVDA est EPS $2.47 on $109.15B revenue; INTC -3%+",
+      "order": 2,
+      "reaction": "Tech holding up slightly better than the broader market after the selloff; positioning stays cautious before Nvidia reports.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-november-17-dow-sp-500-nasdaq-nvidia-earnings-091546152.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell, NVDA, INTC",
+      "time": "Pre-market",
+      "vsExp": "n/a (NVDA reports after the close)"
+    }
+  },
+  {
+    "id": "2026-11-17-3-home-depot-disney-beat-red-cat-plunges",
+    "data": {
+      "addedAt": "2026-11-17",
+      "category": "Earnings",
+      "date": "2026-11-17",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "Home Depot beat on revenue, raised its full-year sales outlook and named CFO Richard McPhail as CEO. Disney beat fiscal Q4 estimates. Red Cat plunged after a large revenue miss, and JD.com fell on a miss.",
+      "impact": "Medium",
+      "numbers": "HD Q3 revenue $43.4B vs $42.8B est, adj EPS $3.86 vs $3.85; FY26 sales growth ~4.5% (top of range); HD ~-0.9% pre-market. DIS adj EPS $1.77 vs $1.68, revenue $25.9B vs $25.2B; DIS ~+2%. RCAT revenue $11.77M vs ~$42M est, -25.8%. JD revenue 309.6B yuan vs 311.48B est, -3.4%",
+      "order": 3,
+      "reaction": "Mixed single-stock moves; Home Depot's beat met by a muted response with the CEO change.",
+      "region": "US",
+      "source": "https://www.investing.com/news/stock-market-news/premarket-movers-nvidia-red-cat-fall-home-depot-spacex-gains-5032425",
+      "tickers": "HD, DIS, RCAT, JD",
+      "time": "Pre-market",
+      "vsExp": "HD beat/raise; DIS beat; RCAT and JD missed"
+    }
   }
 ]
