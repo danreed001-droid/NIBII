@@ -5877,5 +5877,45 @@
       "time": "Pre-market",
       "vsExp": "HD beat/raise; DIS beat; RCAT and JD missed"
     }
+  },
+  {
+    "id": "2026-11-17-4-stocks-close-lower-dow-sinks-850pts",
+    "data": {
+      "addedAt": "2026-11-17",
+      "category": "Market",
+      "date": "2026-11-17",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "Stocks closed broadly lower as AI-linked names led losses ahead of Nvidia's earnings after the bell. Financials were also heavy; Treasury yields held little changed while oil rose, and European and Asian indexes fell too.",
+      "impact": "High",
+      "numbers": "S&P 500 -1.0% to 7,340.53; Dow -1.6% (-848.75 pts) to 50,759.42; Nasdaq Composite -0.7% to 24,328.38; Russell 2000 -1.5% to 2,701.87; 10-yr Treasury yield ~5.14-5.16%, little changed",
+      "order": 4,
+      "reaction": "Broad risk-off into Nvidia's first earnings since Jensen Huang's resignation; Dow underperformed on old-economy/financial weakness.",
+      "region": "US",
+      "source": "https://krmg.com/2026/11/17/how-major-us-stock-indexes-fared-tuesday-11-17-2026/",
+      "tickers": "SPY, DIA, QQQ, IWM, TLT",
+      "time": "Market hours",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-17-5-nvidia-beats-q3-raises-guidance",
+    "data": {
+      "addedAt": "2026-11-17",
+      "category": "Earnings",
+      "date": "2026-11-17",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Nvidia beat Q3 FY2027 estimates and issued strong Q4 guidance in its first earnings report since Jensen Huang's resignation as CEO; interim CEO Colette Kress said the company's 'roadmap is on track.' Separately, the WSJ reported the SEC is probing Nvidia following Huang's departure, though the news had little market impact.",
+      "impact": "High",
+      "numbers": "Adj EPS $2.68 vs $2.48 est; revenue $115.84B vs $109.10B est (more than doubled y/y from $57B); Q4 revenue guidance ~$130B vs $125.1B est; non-GAAP gross margin 74.9% vs ~74% est",
+      "order": 5,
+      "reaction": "NVDA rose ~3% in extended trading; stock still down ~16.7% since the affair scandal broke and ~35% from its Oct. 6 record high.",
+      "region": "US",
+      "source": "https://www.cnbc.com/2026/11/17/nvidia-nvda-earnings-report-q3-2027.html",
+      "tickers": "NVDA",
+      "time": "After-hours",
+      "vsExp": "Beat on EPS, revenue, and guidance"
+    }
   }
 ]
