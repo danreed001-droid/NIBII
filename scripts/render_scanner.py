@@ -6488,17 +6488,17 @@ CLOCK_JS = r"""(function () {
     var sec = ts.filter(function (t) { return !HV[t]; }), hav = ts.filter(function (t) { return HV[t]; });
     ts = sec.concat(hav);
     var gap = 0, rk = function (k) { return k; };   // one list: the havens are its last rows
-    var t0 = top + h + 50, row = 25, amp = 34, H = t0 + row * (ts.length + gap) + 22, defs = '';
+    var t0 = top + h + 62, row = TV === 'rsi' ? 25 : 32, amp = 34, H = t0 + row * (ts.length + gap) + 22, defs = '';   // price rows: as tall as a ridge, room to swing both ways
     var nm = function (t, x, y) { return '<text x="' + x + '" y="' + y + '" text-anchor="end" class="mt-l"' + (HV[t] ? ' style="fill:var(' + HV[t] + ')"' : '') + '>' + esc(TNAME[t] || t) + '</text>'; };
     var base = function (k) { return t0 + row * rk(k) + 8; }, Yv = function (k, v) { return base(k) - (Math.max(10, Math.min(92, v)) - 10) / 82 * amp; };
-    sv += '<text x="' + (L - 6) + '" y="' + (t0 - 12) + '" text-anchor="end" class="mt-v">' + (TV === 'px' ? 'Sector move' : TV === 'rsi' ? 'Sector RSI' : 'Sector') + '</text><text x="' + (W - R + 8) + '" y="' + (t0 - 12) + '" class="mt-v">' + (TV !== 'rsi' ? 'move · RSI' : 'RSI · move') + '</text>' +
-      (both ? '<text x="' + Xl(s0) + '" y="' + (t0 - 12) + '" class="mt-v">RSI</text><text x="' + Xr(s0) + '" y="' + (t0 - 12) + '" class="mt-v">Price move, dashed = trend</text>' : '');
+    sv += '<text x="' + (L - 6) + '" y="' + (t0 - 29) + '" text-anchor="end" class="mt-v">' + (TV === 'px' ? 'Sector move' : TV === 'rsi' ? 'Sector RSI' : 'Sector') + '</text><text x="' + (W - R + 8) + '" y="' + (t0 - 29) + '" class="mt-v">' + (TV !== 'rsi' ? 'move · RSI' : 'RSI · move') + '</text>' +
+      (both ? '<text x="' + Xl(s0) + '" y="' + (t0 - 29) + '" class="mt-v">RSI</text><text x="' + Xr(s0) + '" y="' + (t0 - 29) + '" class="mt-v">Price move, dashed = trend</text>' : '');
     if (TV !== 'rsi') {
       if (both) X = Xr;   // each sector's price move from the window's start, scaled to its own row (at least ±3%), with a dashed straight-line trend
       ts.forEach(function (t, k) {
         var big = 3;
         for (var i = s0; i <= e; i++) big = Math.max(big, Math.abs((LEV[t][i] / LEV[t][s0] - 1) * 100));
-        var mid = t0 + row * rk(k) - 4, Yp = function (v) { return mid - v / big * 11.5; }, pl = '', ab = 'M' + X(s0).toFixed(1) + ',' + mid, be = ab, sx = 0, sy = 0, sxx = 0, sxy = 0, m = 0;
+        var mid = base(k) - (row - 2) / 2, Yp = function (v) { return mid - v / big * (row - 2) / 2; }, pl = '', ab = 'M' + X(s0).toFixed(1) + ',' + mid, be = ab, sx = 0, sy = 0, sxx = 0, sxy = 0, m = 0;
         for (var i = s0; i <= e; i++) { var v = (LEV[t][i] / LEV[t][s0] - 1) * 100, yy = Yp(v), x = X(i).toFixed(1);
           pl += (i > s0 ? ' L' : 'M') + x + ',' + yy.toFixed(1); ab += ' L' + x + ',' + Math.min(yy, mid).toFixed(1); be += ' L' + x + ',' + Math.max(yy, mid).toFixed(1);
           sx += i; sy += v; sxx += i * i; sxy += i * v; m++; }
@@ -6508,8 +6508,8 @@ CLOCK_JS = r"""(function () {
           '<path d="' + ab + '" class="mt-pu"/><path d="' + be + '" class="mt-pd"/>' +
           '<line x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="' + Yp(a_ + b_ * s0).toFixed(1) + '" y2="' + Yp(a_ + b_ * e).toFixed(1) + '" class="mt-tr"/>' +
           '<path d="' + pl + '" class="mt-rl"/>' +
-          nm(t, L - 6, mid + 4) +
-          '<text x="' + (W - R + 8) + '" y="' + (mid + 4) + '" class="mt-l"><tspan class="' + (mv >= 0 ? 'mt-up' : 'mt-dn') + '">' + pct(mv) + '</tspan> <tspan class="' + (r > 70 ? 'mt-hot' : r < 30 ? 'mt-cold' : 'mt-v') + '">RSI ' + r + '</tspan></text>';
+          nm(t, L - 6, base(k) - 4) +
+          '<text x="' + (W - R + 8) + '" y="' + (base(k) - 4) + '" class="mt-l"><tspan class="' + (mv >= 0 ? 'mt-up' : 'mt-dn') + '">' + pct(mv) + '</tspan> <tspan class="' + (r > 70 ? 'mt-hot' : r < 30 ? 'mt-cold' : 'mt-v') + '">RSI ' + r + '</tspan></text>';
       });
     }
     if (TV !== 'px') { if (both) X = Xl; ts.forEach(function (t, k) {
