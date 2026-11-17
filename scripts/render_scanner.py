@@ -6360,6 +6360,11 @@ CLOCK_CSS = """.mclock { max-width: 1100px; margin: 0 auto; }
 .mclock-trend .mt-up { fill: #3fb950; font-weight: 600; } .mclock-trend .mt-dn { fill: #ef6a63; font-weight: 600; }
 .mclock-trend .mt-hot { fill: #ff6b6b; font-weight: 700; } .mclock-trend .mt-cold { fill: #2fd17e; font-weight: 700; } .mclock-trend .mt-n { fill: var(--ink); font-weight: 600; }
 .mclock-trend .mt-g { stroke: var(--hairline); stroke-dasharray: 2 4; }
+.mclock-trend { position: relative; }
+.mclock-trend .mt-hl { stroke: var(--ink); stroke-opacity: .55; stroke-width: 1; stroke-dasharray: 2 3; }
+.mt-tip { position: absolute; pointer-events: none; z-index: 5; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 8px;
+  padding: 6px 9px; font-size: 0.75rem; line-height: 1.45; color: var(--ink); white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+.mt-tip .mt-tl { color: var(--muted); }
 .mclock-trend .mt-rl { fill: none; stroke: color-mix(in srgb, var(--ink) 85%, transparent); stroke-width: 1.2; }
 .mclock-trend .mt-b { stroke: var(--surface); stroke-width: 2; }
 .mclock-trend .mt-pu { fill: #3fb950; fill-opacity: .45; } .mclock-trend .mt-pd { fill: #ef6a63; fill-opacity: .45; }
@@ -6468,11 +6473,13 @@ CLOCK_JS = r"""(function () {
       (now.length ? '<text x="' + (W - R + 8) + '" y="' + (top + h + 11) + '" class="mt-v">' + (e === N - 1 ? 'Holding now' : 'After that close') + '</text><text x="' + (W - R + 8) + '" y="' + (top + h + 24) + '" class="mt-l">' +
         now.map(function (q) { return '<tspan style="fill:var(' + q[0][1] + ')">■</tspan> ' + esc(q[0][0] === 'Managed futures' ? 'Futures' : q[0][0]) + (q[1] < 0.995 ? ' ' + Math.round(q[1] * 100) + '%' : ''); }).join(' ') + '</text>' : '');
     sv += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(0).toFixed(1) + '" y2="' + Y(0).toFixed(1) + '" class="mt-g"/><text x="' + (L - 6) + '" y="' + (Y(0) + 3.5).toFixed(1) + '" text-anchor="end" class="mt-v">0%</text>';
+    var FIT = {};
     LN.forEach(function (q, j) {
       var p = '', sx = 0, sy = 0, sxx = 0, sxy = 0, m = 0;
       for (var i = s0; i <= e; i++) { var v = LEV[q[0]][i]; if (v == null) continue; v = (v / LEV[q[0]][s0] - 1) * 100;
         p += (p ? ' L' : 'M') + X(i).toFixed(1) + ',' + Y(v).toFixed(1); sx += i; sy += v; sxx += i * i; sxy += i * v; m++; }
       var b = m > 1 ? (m * sxy - sx * sy) / (m * sxx - sx * sx || 1) : 0, a = (sy - b * sx) / Math.max(1, m), last = (LEV[q[0]][e] / LEV[q[0]][s0] - 1) * 100;
+      FIT[q[0]] = [a, b];
       sv += '<line x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="' + Y(a + b * s0).toFixed(1) + '" y2="' + Y(a + b * e).toFixed(1) + '" stroke="' + q[2] + '" stroke-opacity=".55" stroke-width="1" stroke-dasharray="4 3"/>' +
         '<path d="' + p + '" fill="none" stroke="' + q[2] + '" stroke-width="' + q[3] + '" stroke-linejoin="round"/>' +
         '<text x="' + (W - R + 8) + '" y="' + (top + 14 + j * 22) + '" class="mt-l"><tspan fill="' + q[2] + '">' + (j ? '— ' : '━ ') + '</tspan>' + esc(q[1]) + ' <tspan class="' + (last >= 0 ? 'mt-up' : 'mt-dn') + '">' + pct(last) + '</tspan></text>';
@@ -6483,7 +6490,7 @@ CLOCK_JS = r"""(function () {
     var ts = Object.keys(RS).filter(function (t) { return t !== 'SPY' && RS[t][s0] != null && RS[t][e] != null; }), MV = {};
     ts.forEach(function (t) { MV[t] = (LEV[t][e] / LEV[t][s0] - 1) * 100; });
     ts.sort(TV !== 'rsi' ? function (a, b) { return MV[b] - MV[a]; } : function (a, b) { return RS[b][e] - RS[a][e]; });
-    var both = TV === 'both', Xfull = X, half = (W - L - R - 16) / 2;
+    var both = TV === 'both', Xfull = X, half = (W - L - R - 16) / 2, PXR = {};   // PXR: each price row's geometry and trend fit, for the hover
     var Xl = function (i) { return L + half * (i - s0) / Math.max(1, n - 1); }, Xr = function (i) { return L + half + 16 + half * (i - s0) / Math.max(1, n - 1); };
     var sec = ts.filter(function (t) { return !HV[t]; }), hav = ts.filter(function (t) { return HV[t]; });
     ts = sec.concat(hav);
@@ -6504,6 +6511,7 @@ CLOCK_JS = r"""(function () {
           sx += i; sy += v; sxx += i * i; sxy += i * v; m++; }
         ab += ' L' + X(e).toFixed(1) + ',' + mid + ' Z'; be += ' L' + X(e).toFixed(1) + ',' + mid + ' Z';
         var b_ = m > 1 ? (m * sxy - sx * sy) / (m * sxx - sx * sx || 1) : 0, a_ = (sy - b_ * sx) / Math.max(1, m), r = Math.round(RS[t][e]), mv = MV[t];
+        PXR[t] = { mid: mid, big: big, a: a_, b: b_ };
         sv += '<line x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="' + mid + '" y2="' + mid + '" class="mt-g"/>' +
           '<path d="' + ab + '" class="mt-pu"/><path d="' + be + '" class="mt-pd"/>' +
           '<line x1="' + X(s0).toFixed(1) + '" x2="' + X(e).toFixed(1) + '" y1="' + Yp(a_ + b_ * s0).toFixed(1) + '" y2="' + Yp(a_ + b_ * e).toFixed(1) + '" class="mt-tr"/>' +
@@ -6531,9 +6539,54 @@ CLOCK_JS = r"""(function () {
     (both ? [[Xl, s0, 'start'], [Xl, e, 'end'], [Xr, s0, 'start'], [Xr, e, 'end']] : [[X, s0, 'start'], [X, Math.round(s0 + (n - 1) / 2), 'middle'], [X, e, 'end']]).forEach(function (q) {
       var dd = C.dates[q[1]], lab = both ? dd.slice(5).replace('-', '/') + (q[1] === s0 ? '/' + dd.slice(2, 4) : '') : fd(dd);
       sv += '<text x="' + q[0](q[1]).toFixed(1) + '" y="' + (H - 6) + '" text-anchor="' + q[2] + '" class="mt-v">' + esc(lab) + '</text>'; });
-    box.innerHTML = o + '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Plan, S&amp;P 500 and sector RSI over the window"><defs>' + defs + '</defs>' + sv + '</svg>';
+    trendTile.ctx = { s0: s0, e: e, n: n, X: X, Xl: Xl, Xr: Xr, both: both, L: L, W: W, R: R, top: top, h: h, Y: Y, LN: LN, FIT: FIT, ts: ts, row: row, t0: t0, H: H, base: base, Yv: Yv, PXR: PXR, tv: TV };
+    box.innerHTML = o + '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Plan, S&amp;P 500 and sector RSI over the window"><defs>' + defs + '</defs>' + sv + '<g id="mt-hv"></g></svg><div class="mt-tip" id="mt-tip" hidden></div>';
   }
   var tbox = document.getElementById('mclock-trend');
+  function hvHide() { var g = document.getElementById('mt-hv'), tip = document.getElementById('mt-tip'); if (g) g.innerHTML = ''; if (tip) tip.hidden = true; }
+  function hvShow(ev) {   // the hover readout: the date under the pointer, the lines' and their trend lines' values, the holding, the row's sector
+    var c = trendTile.ctx, svg = tbox && tbox.querySelector('svg'), tip = document.getElementById('mt-tip'), g = document.getElementById('mt-hv');
+    if (!c || !svg || !tip || !g || !svg.getScreenCTM()) return;
+    var pt = svg.createSVGPoint(); pt.x = ev.clientX; pt.y = ev.clientY; pt = pt.matrixTransform(svg.getScreenCTM().inverse());
+    var span = c.W - c.L - c.R, inSec = pt.y > c.t0 - 30, x0 = c.L;
+    if (c.both && inSec) { var hf = (span - 16) / 2; if (pt.x >= c.L + hf + 8) x0 = c.L + hf + 16; span = hf; }
+    var fr = (pt.x - x0) / span;
+    if (fr < -0.03 || fr > 1.03 || pt.y < c.top - 6 || pt.y > c.H) { hvHide(); return; }
+    var i = c.s0 + Math.round(Math.max(0, Math.min(1, fr)) * (c.n - 1)), xp = c.X(i);
+    var o = '<line x1="' + xp.toFixed(1) + '" x2="' + xp.toFixed(1) + '" y1="' + c.top + '" y2="' + (c.top + c.h) + '" class="mt-hl"/>';
+    (c.both ? [c.Xl(i), c.Xr(i)] : [c.X(i)]).forEach(function (xx) {
+      o += '<line x1="' + xx.toFixed(1) + '" x2="' + xx.toFixed(1) + '" y1="' + (c.t0 - 24) + '" y2="' + (c.H - 18) + '" class="mt-hl"/>'; });
+    var rows = '<b>' + esc(fd(C.dates[i])) + '</b>';
+    c.LN.forEach(function (q) {
+      var lv = LEV[q[0]]; if (!lv || lv[i] == null || lv[c.s0] == null) return;
+      var v = (lv[i] / lv[c.s0] - 1) * 100, f = c.FIT[q[0]], tv = f ? f[0] + f[1] * i : null;
+      o += '<circle cx="' + xp.toFixed(1) + '" cy="' + c.Y(v).toFixed(1) + '" r="3.2" fill="' + q[2] + '" stroke="var(--surface)" stroke-width="1"/>';
+      if (tv != null) o += '<circle cx="' + xp.toFixed(1) + '" cy="' + c.Y(tv).toFixed(1) + '" r="2.6" fill="none" stroke="' + q[2] + '" stroke-width="1.2"/>';
+      rows += '<br><span style="color:' + q[2] + '">' + esc(q[1]) + '</span> ' + pct(v) + (tv != null ? ' <span class="mt-tl">· trend ' + pct(tv) + '</span>' : '');
+    });
+    var hm = heldMix(heldAt(C.dates[i], false));
+    if (hm.length) rows += '<br><span class="mt-tl">Plan held:</span> ' + hm.map(function (q) { return esc(q[0][0]) + (q[1] < 0.995 ? ' ' + Math.round(q[1] * 100) + '%' : ''); }).join(', ');
+    if (inSec && c.ts.length) {
+      var k = Math.max(0, Math.min(c.ts.length - 1, Math.floor((pt.y - (c.t0 + 8 - c.row)) / c.row))), t = c.ts[k];
+      if (RS[t] && RS[t][i] != null && LEV[t][c.s0]) {
+        var mvi = (LEV[t][i] / LEV[t][c.s0] - 1) * 100, pr = c.PXR[t], xr = c.tv === 'rsi' ? c.X(i) : c.both ? c.Xl(i) : null, xq = c.tv === 'px' ? c.X(i) : c.both ? c.Xr(i) : null;
+        if (xr != null) o += '<circle cx="' + xr.toFixed(1) + '" cy="' + c.Yv(k, RS[t][i]).toFixed(1) + '" r="3" fill="var(--ink)" stroke="var(--surface)" stroke-width="1"/>';
+        var tvp = null;
+        if (xq != null && pr) {
+          var yp = function (v) { return pr.mid - v / pr.big * (c.row - 2) / 2; }; tvp = pr.a + pr.b * i;
+          o += '<circle cx="' + xq.toFixed(1) + '" cy="' + yp(mvi).toFixed(1) + '" r="3" fill="var(--ink)" stroke="var(--surface)" stroke-width="1"/>' +
+               '<circle cx="' + xq.toFixed(1) + '" cy="' + yp(tvp).toFixed(1) + '" r="2.5" fill="none" stroke="var(--ink)" stroke-width="1.1"/>';
+        }
+        rows += '<br><b>' + esc(TNAME[t] || t) + '</b>: RSI ' + Math.round(RS[t][i]) + ' · move ' + pct(mvi) + (tvp != null ? ' <span class="mt-tl">· trend ' + pct(tvp) + '</span>' : '');
+      }
+    }
+    g.innerHTML = o; tip.innerHTML = rows; tip.hidden = false;
+    var bx = tbox.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight, lx = ev.clientX - bx.left + 14, ly = ev.clientY - bx.top + 14;
+    if (lx + tw > bx.width) lx = Math.max(0, ev.clientX - bx.left - tw - 14);
+    if (ly + th > bx.height) ly = Math.max(0, ev.clientY - bx.top - th - 14);
+    tip.style.left = lx + 'px'; tip.style.top = ly + 'px';
+  }
+  if (tbox) { tbox.addEventListener('pointermove', hvShow); tbox.addEventListener('pointerdown', hvShow); tbox.addEventListener('pointerleave', hvHide); }
   if (tbox) tbox.addEventListener('click', function (ev) {
     var b = ev.target.closest ? ev.target.closest('button[data-n], button[data-v]') : null; if (!b) return;
     if (b.hasAttribute('data-n')) { TN = +b.getAttribute('data-n'); try { localStorage.setItem('nibii-mclock-tn', String(TN)); } catch (e) {} }
@@ -6687,7 +6740,7 @@ def clock_html(scan):
             'from the market events list. The tile beside the clock: the plan and the S&amp;P 500 over the chosen window ending on the clock’s '
             'date (dashed = straight-line trend), shaded by what the plan held (the strip under them; “holding now” = after the latest close), then each sector’s RSI as heat ridges (green under 30, slate in the middle, amber rising, '
             'red over 70), highest on top, with its price move over the window; Price switches the sectors to their price moves from the '
-            'window’s start (green above it, red below, each row on its own scale, dashed = straight-line trend), biggest gain on top; Both shows the two side by side. The last rows (in their plan-held colours): gold (gold futures before the fund), '
+            'window’s start (green above it, red below, each row on its own scale, dashed = straight-line trend), biggest gain on top; Both shows the two side by side. Hover over (or touch) the tile for the date, each line’s and its trend line’s value, what the plan held and the row’s sector. The last rows (in their plan-held colours): gold (gold futures before the fund), '
             'long bonds (a long-term Treasury fund before TLT) and managed futures (DBMF, from May 2019).</p></div>\n'
             f'  <script type="application/json" id="mclock-data">{js}</script>\n  <script>{CLOCK_JS}</script>\n')
 
