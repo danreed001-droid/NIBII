@@ -382,8 +382,8 @@
        null
       ]
      ],
-     "maturityClose": 7375.75,
-     "ret": -0.00479,
+     "maturityClose": 7364.5,
+     "ret": -0.006308,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2506,8 +2506,8 @@
        null
       ]
      ],
-     "maturityClose": 105.640625,
-     "ret": 0.001481,
+     "maturityClose": 105.84375,
+     "ret": 0.003407,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5116,8 +5116,8 @@
        null
       ]
      ],
-     "maturityClose": 3777.10009765625,
-     "ret": -0.011334,
+     "maturityClose": 3745.10009765625,
+     "ret": -0.01971,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7184,7 +7184,7 @@
       [
        "bull",
        "Fed-path pricing stayed hawkish on 17 November: Kalshi 91% for a 25bp hike at the 9 December FOMC (CappNotes Closing Look, 17 November) and a December hike seen as 'close to certain' (Investrade Market Review, 17 November); St. Louis Fed's Musalem said 'several more increases' may be needed, up to four by spring 2027, while New York Fed's Williams said there is no need for 'dramatic action' (CappNotes Closing Look, 17 November; Investrade Market Review, 17 November); a hiking Fed supports the dollar",
-       true
+       false
       ],
       [
        "neu",
@@ -7222,8 +7222,8 @@
        null
       ]
      ],
-     "maturityClose": 103.81900024414062,
-     "ret": 0.002133,
+     "maturityClose": 103.74700164794922,
+     "ret": 0.001438,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9332,7 +9332,7 @@
       [
        "bear",
        "Small and mid caps lagged on 17 November: Russell 2000 -1.50% to 2,701.87, S&P MidCap 400 -1.31%, IJR -1.37%, RSP -1.45%, with S&P 500 breadth 75/426 and all 11 sectors down (CappNotes Closing Look, 17 November); the Russell 2000 hit a seven-month low (Investrade Market Review, 17 November); a 1-day headwind",
-       true
+       false
       ],
       [
        "neu",
@@ -9342,7 +9342,7 @@
       [
        "bear",
        "Credit widened: the ICE BofA high-yield spread jumped 11bp in one session to 3.34% on 16 November from 3.23% on 13 November (FRED via CappNotes Closing Look, 17 November), and HYG/JNK fell 0.13% and LQD 0.06% on 17 November; widening junk spreads into a fourth straight down day is a 1-day headwind",
-       true
+       false
       ],
       [
        "neu",
@@ -9352,7 +9352,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 17 November: Kalshi 91% for a 25bp hike at the 9 December FOMC (CappNotes Closing Look, 17 November) and a December hike seen as 'close to certain' (Investrade Market Review, 17 November); St. Louis Fed's Musalem said 'several more increases' may be needed, up to four by spring 2027, while New York Fed's Williams said there is no need for 'dramatic action' (CappNotes Closing Look, 17 November; Investrade Market Review, 17 November); more tightening priced is a headwind for equity multiples",
-       true
+       false
       ],
       [
        "neu",
@@ -9382,7 +9382,7 @@
       [
        "bear",
        "Global equities sold off on 17 November (STOXX 600 -1.75%, DAX -2.08%, Kospi -2.59%, Shanghai at a 15.5-month low) and Bitcoin sat near a three-month low (CappNotes Closing Look, 17 November); WTI +0.34% (oil is the Russell 2000's dominant 21-session driver, corr -0.447); a 1-day headwind",
-       true
+       false
       ],
       [
        "neu",
@@ -9390,8 +9390,8 @@
        null
       ]
      ],
-     "maturityClose": 2702.199951171875,
-     "ret": -0.007055,
+     "maturityClose": 2738.699951171875,
+     "ret": 0.006357,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11360,8 +11360,8 @@
        false
       ]
      ],
-     "maturityClose": 27228.0,
-     "ret": -0.008259,
+     "maturityClose": 27234.25,
+     "ret": -0.008031,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
