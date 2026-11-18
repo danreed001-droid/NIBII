@@ -287,6 +287,7 @@ ALPS,Medical/Nursing Services
 ALPX,Blank Checks
 ALPXR,Blank Checks
 ALPXU,Blank Checks
+ALPXW,Blank Checks
 ALRM,Computer Software: Prepackaged Software
 ALRS,Major Banks
 ALSN,Auto Parts:O.E.M.
@@ -304,6 +305,7 @@ ALZN,Biotechnology: Pharmaceutical Preparations
 AM,Natural Gas Distribution
 AMAC,Blank Checks
 AMACU,Blank Checks
+AMACW,Blank Checks
 AMAL,Major Banks
 AMAN,Blank Checks
 AMAT,Semiconductors
@@ -798,6 +800,7 @@ BIAF,Biotechnology: Commercial Physical & Biological Resarch
 BIAFW,Biotechnology: Commercial Physical & Biological Resarch
 BID,Blank Checks
 BIDU,Computer Software: Programming Data Processing
+BIDWU,Blank Checks
 BIIB,Biotechnology: Biological Products (No Diagnostic Substances)
 BIII,Blank Checks
 BIII-WS,Blank Checks
@@ -1093,6 +1096,7 @@ CASY,Retail-Auto Dealers and Gas Stations
 CAT,Construction/Ag Equipment/Trucks
 CATL,Blank Checks
 CATLR,Blank Checks
+CATLU,Blank Checks
 CATO,Clothing/Shoe/Accessory Stores
 CATX,Biotechnology: Pharmaceutical Preparations
 CATY,Major Banks
@@ -1794,6 +1798,7 @@ DTIL,Biotechnology: Biological Products (No Diagnostic Substances)
 DTK,Electric Utilities: Central
 DTM,Natural Gas Distribution
 DTSQR,Blank Checks
+DTSQU,Blank Checks
 DTSS,Computer Software: Prepackaged Software
 DTST,EDP Services
 DTW,Electric Utilities: Central
@@ -2680,6 +2685,7 @@ HAPN,Finance: Consumer Services
 HAS,Recreational Games/Products/Toys
 HASI,Finance/Investors Services
 HAVA,Blank Checks
+HAVAU,Blank Checks
 HAWK,EDP Services
 HAYW,Industrial Machinery/Components
 HBAN,Major Banks
@@ -2900,7 +2906,6 @@ IBIO,Biotechnology: Pharmaceutical Preparations
 IBKR,Investment Bankers/Brokers/Service
 IBM,Computer Manufacturing
 IBN,Commercial Banks
-IBO,Biotechnology: Pharmaceutical Preparations
 IBP,Homebuilding
 IBRX,Biotechnology: Biological Products (No Diagnostic Substances)
 IBTA,Advertising
@@ -3773,6 +3778,7 @@ MMSI,Medical/Dental Instruments
 MMT,Trusts Except Educational Religious and Charitable
 MMTX,Blank Checks
 MMTXU,Blank Checks
+MMTXW,Blank Checks
 MMU,Investment Managers
 MMYT,Transportation Services
 MNDO,EDP Services
@@ -4527,7 +4533,6 @@ PCM,Trusts Except Educational Religious and Charitable
 PCN,Investment Managers
 PCOR,Computer Software: Prepackaged Software
 PCQ,Investment Managers
-PCRX,Biotechnology: Pharmaceutical Preparations
 PCSA,Biotechnology: Pharmaceutical Preparations
 PCT,Major Chemicals
 PCTTU,Major Chemicals
@@ -5282,8 +5287,6 @@ SHBI,Major Banks
 SHC,Misc Health and Biotechnology Services
 SHEL,Oil & Gas Production
 SHEN,Telecommunications Equipment
-SHFS,Finance: Consumer Services
-SHFSW,Finance: Consumer Services
 SHG,Major Banks
 SHIM,Military/Government/Technical
 SHIP,Marine Transportation
@@ -5944,6 +5947,7 @@ U,Computer Software: Prepackaged Software
 UA,Apparel
 UAA,Apparel
 UAC,Blank Checks
+UAC-WS,Blank Checks
 UAL,Air Freight/Delivery Services
 UAMY,Metal Fabrications
 UAN,Agricultural Chemicals
@@ -6168,6 +6172,7 @@ VREX,Industrial Machinery/Components
 VRM,Retail-Auto Dealers and Gas Stations
 VRNS,Computer Software: Prepackaged Software
 VRRM,Transportation Services
+VRSA,Commercial Banks
 VRSK,EDP Services
 VRSN,EDP Services
 VRT,Industrial Machinery/Components

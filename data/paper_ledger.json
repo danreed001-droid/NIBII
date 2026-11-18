@@ -523,6 +523,24 @@
    "at": "2026-11-17T23:10:24+00:00",
    "fp": "9265c526694bef31",
    "src": "scanner run"
+  },
+  {
+   "d": "2026-11-18",
+   "mode": "CASH",
+   "half": null,
+   "list": [
+    "DELL",
+    "HPE",
+    "MRNA",
+    "OKTA",
+    "VRT"
+   ],
+   "w": {
+    "CASH": 1.0
+   },
+   "at": "2026-11-18T23:24:04+00:00",
+   "fp": "9265c526694bef31",
+   "src": "scanner run"
   }
  ],
  "updates": [
