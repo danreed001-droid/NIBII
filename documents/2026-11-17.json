@@ -382,13 +382,12 @@
        null
       ]
      ],
-     "maturityClose": 7343.5,
-     "ret": -0.009142,
+     "maturityClose": 7336.75,
+     "ret": -0.010052,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2511,8 +2510,7 @@
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5116,13 +5114,12 @@
        null
       ]
      ],
-     "maturityClose": 3728.800048828125,
-     "ret": -0.023977,
+     "maturityClose": 3726.5,
+     "ret": -0.024579,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7227,8 +7224,7 @@
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9390,13 +9386,12 @@
        null
       ]
      ],
-     "maturityClose": 2721.89990234375,
-     "ret": 0.000184,
+     "maturityClose": 2720.89990234375,
+     "ret": -0.000184,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11360,13 +11355,12 @@
        false
       ]
      ],
-     "maturityClose": 27219.5,
-     "ret": -0.008569,
+     "maturityClose": 27161.75,
+     "ret": -0.010672,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,
