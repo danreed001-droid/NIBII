@@ -5917,5 +5917,85 @@
       "time": "After-hours",
       "vsExp": "Beat on EPS, revenue, and guidance"
     }
+  },
+  {
+    "id": "2026-11-18-1-futures-rally-as-nvidia-beat-calms-ai-fears",
+    "data": {
+      "addedAt": "2026-11-18",
+      "category": "Market",
+      "date": "2026-11-18",
+      "day": "Wed",
+      "direction": "Bullish",
+      "event": "US stock futures rallied pre-market after Nvidia's Q3 beat and strong Q4 guidance eased AI-trade fears following the S&P 500's four-day losing streak; Asian chip stocks led gains with Korea's Kospi up ~2%.",
+      "impact": "High",
+      "numbers": "Nasdaq futures +1%, S&P 500 futures +0.6%, Dow futures +0.2% (~4:45 a.m. ET); NVDA +3% pre-market; ASML ~+3%; Kospi +~2%, Nikkei +0.3%",
+      "order": 1,
+      "reaction": "Tech-led bounce indicated for the open; Fed minutes due today and Palo Alto Networks reports after the bell.",
+      "region": "US/Asia",
+      "source": "https://marketscreener.com/news/stock-futures-rally-as-nvidia-earnings-calm-ai-trade-fears-ce785eddd98bf42c",
+      "tickers": "SPY, QQQ, NVDA, S&P, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-18-2-dollar-hits-19-month-high-on-fed-hike-bets",
+    "data": {
+      "addedAt": "2026-11-18",
+      "category": "Fed",
+      "date": "2026-11-18",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "The dollar rose to a 19-month high as hot inflation data, strong retail sales and hawkish Fed commentary (Gov. Waller urging more aggressive action) cemented bets on a December rate hike; BOJ's Ueda reiterated need for further tightening.",
+      "impact": "Medium",
+      "numbers": "DXY +0.2% to 103.82 (highest since Apr 2025); EUR/USD -0.3% to $1.0965; USD/JPY ~159.41; 25bp December hike fully priced; 10Y Treasury yield slipped back below 5.10%, 30Y ~5.44%",
+      "order": 2,
+      "reaction": "Dollar strength and >5% long yields keep pressure on rate-sensitive assets; FOMC meets Dec. 8-9.",
+      "region": "Global",
+      "source": "https://rallies.ai/news/dollar-at-19-month-high-as-policymakers-data-cement-december-rate-hike-bets-85f4c467d34ca721",
+      "tickers": "DXY, USD, dollar, TLT, 10Y, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-18-3-gold-drops-below-3800-on-dollar-strength",
+    "data": {
+      "addedAt": "2026-11-18",
+      "category": "Commodities",
+      "date": "2026-11-18",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Gold slid sharply overnight to multi-month lows as the strong dollar and December rate-hike bets weighed on bullion; copper also fell to multi-month lows.",
+      "impact": "Medium",
+      "numbers": "Gold futures -~2.4%, below $3,800/oz",
+      "order": 3,
+      "reaction": "Metals broadly lower pre-market.",
+      "region": "Global",
+      "source": "https://marketscreener.com/news/stock-futures-rally-as-nvidia-earnings-calm-ai-trade-fears-ce785eddd98bf42c",
+      "tickers": "GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-18-4-oil-falls-as-surplus-outlook-outweighs-mideast",
+    "data": {
+      "addedAt": "2026-11-18",
+      "category": "Energy",
+      "date": "2026-11-18",
+      "day": "Wed",
+      "direction": "Mixed",
+      "event": "Oil fell overnight as expectations of a supply surplus outweighed concerns about Middle East hostilities.",
+      "impact": "Low",
+      "numbers": "Brent -1.85% to ~$91.50/bbl (Dow Jones, early trade); Fortune's 6:30 a.m. ET Brent reading $94.21, -$0.73 d/d",
+      "order": 4,
+      "reaction": "Lower crude eases some inflation pressure; energy stocks may lag.",
+      "region": "Global",
+      "source": "https://marketscreener.com/news/stock-futures-rally-as-nvidia-earnings-calm-ai-trade-fears-ce785eddd98bf42c",
+      "tickers": "USO, XLE, oil, Brent",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
