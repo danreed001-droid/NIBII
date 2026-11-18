@@ -324,7 +324,7 @@
       [
        "bear",
        "Breadth was very poor on 17 November: 75 S&P 500 members rose and 426 fell, all 11 sectors fell (financials -1.91%, utilities -1.59%), equal-weight RSP -1.45% trailed the cap-weighted index (CappNotes Closing Look, 17 November), and the S&P 500 closed below its 200-day average for the first time in 7 months (Investrade Market Review, 17 November); a broad fourth-straight decline is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -334,7 +334,7 @@
       [
        "bear",
        "Credit widened: the ICE BofA high-yield spread jumped 11bp in one session to 3.34% on 16 November from 3.23% on 13 November (FRED via CappNotes Closing Look, 17 November), and HYG/JNK fell 0.13% and LQD 0.06% on 17 November; widening junk spreads into a fourth straight down day is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -344,7 +344,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 17 November: Kalshi 91% for a 25bp hike at the 9 December FOMC (CappNotes Closing Look, 17 November) and a December hike seen as 'close to certain' (Investrade Market Review, 17 November); St. Louis Fed's Musalem said 'several more increases' may be needed, up to four by spring 2027, while New York Fed's Williams said there is no need for 'dramatic action' (CappNotes Closing Look, 17 November; Investrade Market Review, 17 November); more tightening priced is a headwind for equity multiples",
-       false
+       true
       ],
       [
        "neu",
@@ -374,7 +374,7 @@
       [
        "bear",
        "Global equities sold off on 17 November: STOXX 600 -1.75%, DAX -2.08%, FTSE 100 -1.76%, Nikkei -1.34%, Kospi -2.59% (first close below 5,000 since February), Shanghai at a 15.5-month low (CappNotes Closing Look, 17 November); WTI +0.34% to $86.01 (oil is the S&P 500's dominant 21-session driver, corr -0.454) adds a small headwind; a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -382,8 +382,8 @@
        null
       ]
      ],
-     "maturityClose": 7364.5,
-     "ret": -0.006308,
+     "maturityClose": 7343.5,
+     "ret": -0.009142,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2506,8 +2506,8 @@
        null
       ]
      ],
-     "maturityClose": 105.84375,
-     "ret": 0.003407,
+     "maturityClose": 105.75,
+     "ret": 0.002518,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5116,8 +5116,8 @@
        null
       ]
      ],
-     "maturityClose": 3745.10009765625,
-     "ret": -0.01971,
+     "maturityClose": 3728.800048828125,
+     "ret": -0.023977,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7184,7 +7184,7 @@
       [
        "bull",
        "Fed-path pricing stayed hawkish on 17 November: Kalshi 91% for a 25bp hike at the 9 December FOMC (CappNotes Closing Look, 17 November) and a December hike seen as 'close to certain' (Investrade Market Review, 17 November); St. Louis Fed's Musalem said 'several more increases' may be needed, up to four by spring 2027, while New York Fed's Williams said there is no need for 'dramatic action' (CappNotes Closing Look, 17 November; Investrade Market Review, 17 November); a hiking Fed supports the dollar",
-       false
+       true
       ],
       [
        "neu",
@@ -7222,8 +7222,8 @@
        null
       ]
      ],
-     "maturityClose": 103.74700164794922,
-     "ret": 0.001438,
+     "maturityClose": 103.79499816894531,
+     "ret": 0.001902,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9390,8 +9390,8 @@
        null
       ]
      ],
-     "maturityClose": 2738.699951171875,
-     "ret": 0.006357,
+     "maturityClose": 2721.89990234375,
+     "ret": 0.000184,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11360,8 +11360,8 @@
        false
       ]
      ],
-     "maturityClose": 27234.25,
-     "ret": -0.008031,
+     "maturityClose": 27219.5,
+     "ret": -0.008569,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
