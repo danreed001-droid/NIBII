@@ -5997,5 +5997,85 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-19-1-anthropic-ipo-prices-above-range-lifts-futures",
+    "data": {
+      "addedAt": "2026-11-19",
+      "category": "Deals",
+      "date": "2026-11-19",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "Anthropic priced its Nasdaq IPO (ticker ANT) above range ahead of today's debut, lifting index futures led by tech, chips and cloud names.",
+      "impact": "High",
+      "numbers": "Priced $83/sh vs $70-78 range; ~980M shares, ~$81.3B raised (+$26B private placement); grey market implied +20-26% open. Nasdaq 100 fut +2.2%, S&P fut +1.25%, Dow fut +0.65%",
+      "order": 1,
+      "reaction": "Tech-led relief rally in futures after S&P 500's five-day losing streak; AI-linked chip, memory and optical names up 2-6% pre-market.",
+      "region": "US",
+      "source": "https://www.tradingkey.com/analysis/stocks/us-stocks/262313137-us-pre-market-anthropic-tradingkey",
+      "tickers": "ANT, QQQ, Nasdaq, SPY, S&P, GOOGL, AMZN, MU, NVDA",
+      "time": "Pre-market",
+      "vsExp": "Priced above range"
+    }
+  },
+  {
+    "id": "2026-11-19-2-hawkish-fed-minutes-keep-yields-elevated",
+    "data": {
+      "addedAt": "2026-11-19",
+      "category": "Fed",
+      "date": "2026-11-19",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Hawkish October FOMC minutes (released Wed) showed nearly all participants expect further hikes would likely be appropriate; Treasury yields stay near cycle highs and the dollar near its strongest since Jan 2025.",
+      "impact": "High",
+      "numbers": "Fed funds 3.75-4.00% (10-2 hold); 2Y >4.80%, 10Y ~5.10%, 30Y ~5.42%; two officials floated a >25bp hike",
+      "order": 2,
+      "reaction": "Rate-hike fears cap equity gains and pressure bonds; dollar slightly lower overnight but near multi-month highs.",
+      "region": "US",
+      "source": "https://www.marketscreener.com/news/stock-futures-rise-as-optimism-improves-ahead-of-anthropic-trading-debut-ce785ed2d98bf226",
+      "tickers": "TLT, 10Y, yield, Treasury, DXY, USD, dollar, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "More hawkish than expected"
+    }
+  },
+  {
+    "id": "2026-11-19-3-jobless-claims-203k-philly-fed-plunges-to-6-3",
+    "data": {
+      "addedAt": "2026-11-19",
+      "category": "Macro",
+      "date": "2026-11-19",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "Initial jobless claims edged up to 203K and the Philadelphia Fed manufacturing index fell to a six-month low, while its prices-paid gauge jumped.",
+      "impact": "Medium",
+      "numbers": "Claims 203K (prior 202K), continuing 1.763M (+70K); Philly Fed 6.3 (prior 20.9), new orders -0.4, prices paid 58.2 (prior 43.2)",
+      "order": 3,
+      "reaction": "Softer activity but hotter input prices - a stagflationary mix that complicates the Fed's hike debate.",
+      "region": "US",
+      "source": "https://mlq.ai/news/jobless-claims-edge-up-to-203000-as-the-philadelphia-fed-index-falls-to-a-six-month-low-and-prices-paid-jump/",
+      "tickers": "TLT, 10Y, yield, Treasury, SPY, S&P, IWM, Russell",
+      "time": "Pre-market",
+      "vsExp": "Claims above 197K est.; Philly Fed well below 23.2 est."
+    }
+  },
+  {
+    "id": "2026-11-19-4-gold-and-silver-hit-52-week-lows",
+    "data": {
+      "addedAt": "2026-11-19",
+      "category": "Commodities",
+      "date": "2026-11-19",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Gold and silver slid to 52-week lows as high real yields and a firm dollar weigh on precious metals; oil stabilized.",
+      "impact": "Medium",
+      "numbers": "Spot gold briefly below $3,700/oz; silver $45.11/oz; WTI $82.09, Brent $91.73/bbl",
+      "order": 4,
+      "reaction": "Precious metals and miners under pressure; selling extends the recent slide.",
+      "region": "Global",
+      "source": "https://www.tradingkey.com/analysis/stocks/us-stocks/262313137-us-pre-market-anthropic-tradingkey",
+      "tickers": "GLD, gold, SLV, silver",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
