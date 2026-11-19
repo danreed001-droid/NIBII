@@ -587,8 +587,8 @@
        false
       ]
      ],
-     "maturityClose": 7414.0,
-     "ret": 0.004165,
+     "maturityClose": 7249.0,
+     "ret": -0.018183,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2636,7 +2636,7 @@
       [
        "bear",
        "structure.weekly reads downtrend for ZN=F on 5 November",
-       true
+       false
       ],
       [
        "neu",
@@ -2661,7 +2661,7 @@
       [
        "bear",
        "The Fed held 10-2 on 28 October with two hike dissents and September core PCE ran hot; strong ADP lifted December hike odds (FXStreet, news log); hawkish tilt for this asset",
-       true
+       false
       ],
       [
        "neu",
@@ -2696,11 +2696,11 @@
       [
        "bear",
        "Weekly structure is downtrend - last labeled swings: LH/LL/LH/LL.",
-       true
+       false
       ]
      ],
-     "maturityClose": 105.625,
-     "ret": -0.015868,
+     "maturityClose": 105.796875,
+     "ret": -0.014267,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5350,8 +5350,8 @@
        true
       ]
      ],
-     "maturityClose": 3707.10009765625,
-     "ret": -0.09838,
+     "maturityClose": 3681.300048828125,
+     "ret": -0.104655,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7441,8 +7441,8 @@
        null
       ]
      ],
-     "maturityClose": 103.6709976196289,
-     "ret": 0.020725,
+     "maturityClose": 103.86699676513672,
+     "ret": 0.022655,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9679,8 +9679,8 @@
        false
       ]
      ],
-     "maturityClose": 2732.699951171875,
-     "ret": -0.00117,
+     "maturityClose": 2680.60009765625,
+     "ret": -0.020213,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11677,8 +11677,8 @@
        null
       ]
      ],
-     "maturityClose": 27676.75,
-     "ret": 0.031425,
+     "maturityClose": 26844.25,
+     "ret": 0.000401,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
