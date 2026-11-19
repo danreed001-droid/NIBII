@@ -89,6 +89,8 @@ ACU,Industrial Machinery/Components
 ACV,Finance/Investors Services
 ACXP,Biotechnology: Pharmaceutical Preparations
 AD,Telecommunications Equipment
+ADAC,Blank Checks
+ADACW,Blank Checks
 ADAG,Biotechnology: Pharmaceutical Preparations
 ADAM,Real Estate Investment Trusts
 ADAMG,Real Estate Investment Trusts
@@ -1079,8 +1081,9 @@ CAN,Finance: Consumer Services
 CANF,Biotechnology: Pharmaceutical Preparations
 CANG,Finance: Consumer Services
 CAPL,Oil Refining/Marketing
+CAPNR,Blank Checks
 CAPR,Biotechnology: Pharmaceutical Preparations
-CAPS,Biotechnology: Pharmaceutical Preparations
+CAPS,RETAIL: Building Materials
 CAR,Rental/Leasing Companies
 CARE,Major Banks
 CARG,EDP Services
@@ -1972,6 +1975,7 @@ ENTX,Biotechnology: Biological Products (No Diagnostic Substances)
 ENVA,Finance: Consumer Services
 ENVB,Biotechnology: Pharmaceutical Preparations
 ENVX,Industrial Machinery/Components
+ENVXW,Industrial Machinery/Components
 EOCN,Biotechnology: Pharmaceutical Preparations
 EOD,Investment Managers
 EOG,Oil & Gas Production
@@ -2656,6 +2660,7 @@ GTX,Auto Parts:O.E.M.
 GTY,Real Estate
 GUAC,Blank Checks
 GUACW,Blank Checks
+GUER,Semiconductors
 GUG,Trusts Except Educational Religious and Charitable
 GURE,Major Chemicals
 GUT,Trusts Except Educational Religious and Charitable
@@ -3551,7 +3556,6 @@ LWLG,Containers/Packaging
 LX,Finance: Consumer Services
 LXEH,Other Consumer Services
 LXEO,Biotechnology: Biological Products (No Diagnostic Substances)
-LXFR,Major Chemicals
 LXRX,Biotechnology: Pharmaceutical Preparations
 LXU,Major Chemicals
 LYB,Major Chemicals
@@ -4290,6 +4294,7 @@ OCGN,Biotechnology: Biological Products (No Diagnostic Substances)
 OCLT,Blank Checks
 OCLTR,Blank Checks
 OCLTU,Blank Checks
+OCLTW,Blank Checks
 OCS,Biotechnology: Pharmaceutical Preparations
 OCSAW,Biotechnology: Pharmaceutical Preparations
 OCSL,Finance: Consumer Services
@@ -4378,6 +4383,7 @@ OPENW,Real Estate
 OPENZ,Real Estate
 OPFI,Finance: Consumer Services
 OPHC,Major Banks
+OPHI,Industrial Specialties
 OPI,Real Estate
 OPK,Biotechnology: Pharmaceutical Preparations
 OPLN,Retail-Auto Dealers and Gas Stations
@@ -5038,6 +5044,7 @@ RNAZ,Biotechnology: Pharmaceutical Preparations
 RNG,EDP Services
 RNGR,Oilfield Services/Equipment
 RNGT,Blank Checks
+RNGTU,Blank Checks
 RNP,Investment Managers
 RNR,Property-Casualty Insurers
 RNST,Major Banks
@@ -5210,7 +5217,6 @@ SCD,Trusts Except Educational Religious and Charitable
 SCHL,Books
 SCHW,Investment Bankers/Brokers/Service
 SCI,Other Consumer Services
-SCKT,Computer Manufacturing
 SCL,Package Goods/Cosmetics
 SCLX,Biotechnology: Biological Products (No Diagnostic Substances)
 SCLXW,Biotechnology: Biological Products (No Diagnostic Substances)
@@ -5230,6 +5236,7 @@ SDEV,Biotechnology: Pharmaceutical Preparations
 SDGR,Biotechnology: Pharmaceutical Preparations
 SDHC,Homebuilding
 SDHI,Blank Checks
+SDHIU,Blank Checks
 SDHY,Finance/Investors Services
 SDOT,Restaurants
 SDRL,Oil & Gas Production
@@ -5315,6 +5322,7 @@ SILC,Computer Communications Equipment
 SILO,Biotechnology: Pharmaceutical Preparations
 SIM,Steel/Iron Ore
 SIMA,Industrial Machinery/Components
+SIMAW,Blank Checks
 SIMO,Semiconductors
 SIND,Precious Metals
 SINT,Medical/Dental Instruments
@@ -5526,7 +5534,6 @@ SSNC,Computer Software: Prepackaged Software
 SSP,Broadcasting
 SSRM,Precious Metals
 SST,Computer Software: Programming Data Processing
-SSTI,Computer Software: Prepackaged Software
 SSTK,EDP Services
 SSYS,Computer peripheral equipment
 ST,Industrial Machinery/Components
