@@ -387,7 +387,7 @@
       [
        "bear",
        "Breadth collapsed on 19 November: S&P 500 decliners 464 vs advancers 37, all 11 sectors lower, Dow with only one of 30 components up, RSP -1.76% vs the index -2.02% (CappNotes Closing Look, 19 November); a near-universal reversal from an early rally is a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -397,7 +397,7 @@
       [
        "bear",
        "Credit kept widening: the ICE BofA high-yield spread rose to 3.47% on 18 November from 3.43% (24bp over three sessions per the source) and investment grade to 0.93% from 0.92%; HYG -0.16%, LQD -0.07% (CappNotes Closing Look, 19 November); widening junk spreads into a sixth straight S&P 500 loss are a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -407,7 +407,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for equity multiples",
-       false
+       true
       ],
       [
        "neu",
@@ -422,7 +422,7 @@
       [
        "bear",
        "Earnings and AI news hit after the close and intraday: Intuit ~-10% after hours on a Q2 revenue guide of $4.93-4.95B vs $5.11B, Ross Stores ~-6% after hours on light Q4 EPS guidance, Elastic ~-6% after hours, Williams-Sonoma -15.16%; Nvidia -3.30% after erasing a 4.7% gain and AMD -7.72% on a Hunterbrook short report; Walmart -1.04% despite a raised outlook (CappNotes Closing Look, 19 November); a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -445,8 +445,8 @@
        null
       ]
      ],
-     "maturityClose": 7160.25,
-     "ret": -0.004553,
+     "maturityClose": 7046.75,
+     "ret": -0.020332,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2508,7 +2508,7 @@
       [
        "bull",
        "Yields fell across the curve on 19 November: 2-year -4bp to 4.76%, 5-year -3bp to 4.86%, 10-year -3bp to 5.04%, 30-year -1bp to 5.40% (Strategitz Global Markets Close, 19 November; CappNotes Closing Look, 19 November), a fourth straight decline in the 10-year; a 1-day support for note prices",
-       false
+       true
       ],
       [
        "bear",
@@ -2543,7 +2543,7 @@
       [
        "bull",
        "Risk-off cross-asset tone supports Treasuries: S&P 500 -2.02% with 464 decliners, VIX +15.80% to 28.44, all 11 sectors lower (CappNotes Closing Look, 19 November); oil flat; 1-day bullish for note prices",
-       false
+       true
       ],
       [
        "neu",
@@ -2551,8 +2551,8 @@
        null
       ]
      ],
-     "maturityClose": 106.375,
-     "ret": 0.003982,
+     "maturityClose": 106.640625,
+     "ret": 0.006489,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5189,8 +5189,8 @@
        true
       ]
      ],
-     "maturityClose": 3574.300048828125,
-     "ret": -0.011997,
+     "maturityClose": 3527.89990234375,
+     "ret": -0.024822,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7260,8 +7260,8 @@
        null
       ]
      ],
-     "maturityClose": 103.71700286865234,
-     "ret": -0.001992,
+     "maturityClose": 103.822998046875,
+     "ret": -0.000972,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9328,7 +9328,7 @@
       [
        "bear",
        "Small caps lagged in a near-universal decline: Russell 2000 -2.18% to 2,655.11 and S&P SmallCap 600 -2.35%, worst of the major indexes, with S&P 500 breadth 37 advancers vs 464 decliners (CappNotes Closing Look, 19 November); a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -9338,7 +9338,7 @@
       [
        "bear",
        "Credit kept widening: the ICE BofA high-yield spread rose to 3.47% on 18 November from 3.43% (24bp over three sessions per the source) and investment grade to 0.93% from 0.92%; HYG -0.16%, LQD -0.07% (CappNotes Closing Look, 19 November); widening junk spreads into a sixth straight S&P 500 loss are a 1-day headwind; small caps are the most credit-sensitive equity segment",
-       false
+       true
       ],
       [
        "neu",
@@ -9348,7 +9348,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for small-cap financing costs",
-       false
+       true
       ],
       [
        "neu",
@@ -9386,8 +9386,8 @@
        null
       ]
      ],
-     "maturityClose": 2656.10009765625,
-     "ret": -0.001579,
+     "maturityClose": 2619.300048828125,
+     "ret": -0.015412,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11314,7 +11314,7 @@
       [
        "bear",
        "Breadth was near-universally negative: Nasdaq-100 -2.21% to 26,517.05, Nasdaq Composite -2.25% after rising as much as 2% early, technology -1.90%, communication services -2.67%, consumer discretionary -2.79%, S&P 500 decliners 464 vs 37 advancers (CappNotes Closing Look, 19 November); a 1-day headwind",
-       false
+       true
       ],
       [
        "neu",
@@ -11324,7 +11324,7 @@
       [
        "bear",
        "Credit kept widening (ICE BofA high yield 3.47% on 18 November from 3.43%; IG 0.93%) (CappNotes Closing Look, 19 November) and Odd Lots reported neo-cloud GPU loan-to-value ratios cut from ~80% to 50-60% as private credit tightens (Strategitz Global Markets Close, 19 November); a 1-day headwind for AI-capex names",
-       false
+       true
       ],
       [
        "neu",
@@ -11334,7 +11334,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for long-duration tech multiples",
-       false
+       true
       ],
       [
        "neu",
@@ -11349,7 +11349,7 @@
       [
        "bear",
        "AI names reversed hard: Nvidia -3.30% after erasing a 4.7% gain (Daiwa cut its target to $185), AMD -7.72% on a Hunterbrook short report, Alphabet -3.46%, Amazon -3.87%, CoreWeave -6.10%, Nebius -9.39%; Anthropic opened at $111.50 but closed $97.17 (+17.07% vs the $83 IPO price) (CappNotes Closing Look, 19 November) and was -4.70% after hours; Intuit ~-10% after hours on weak guidance (StockTitan Stock Market Today, 19 November); 1-day bearish",
-       false
+       true
       ],
       [
        "neu",
@@ -11364,7 +11364,7 @@
       [
        "bear",
        "Asian tech sold off with the US: Taiwan's TAIEX -4.40% to a seven-month low with a weekly loss above 10%, Hang Seng -1.95% (CappNotes Closing Look, 19 November); 1-day bearish for the chip-heavy Nasdaq-100",
-       false
+       true
       ],
       [
        "neu",
@@ -11372,8 +11372,8 @@
        null
       ]
      ],
-     "maturityClose": 26270.0,
-     "ret": -0.010108,
+     "maturityClose": 25640.0,
+     "ret": -0.033847,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,

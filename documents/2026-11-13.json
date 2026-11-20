@@ -459,8 +459,8 @@
        false
       ]
      ],
-     "maturityClose": 7160.25,
-     "ret": -0.053002,
+     "maturityClose": 7046.75,
+     "ret": -0.068013,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2572,8 +2572,8 @@
        false
       ]
      ],
-     "maturityClose": 106.375,
-     "ret": 0.010389,
+     "maturityClose": 106.640625,
+     "ret": 0.012912,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5175,8 +5175,8 @@
        true
       ]
      ],
-     "maturityClose": 3574.300048828125,
-     "ret": -0.08059,
+     "maturityClose": 3527.89990234375,
+     "ret": -0.092525,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7250,7 +7250,7 @@
       [
        "bull",
        "Fed-path pricing stayed hawkish on 13 November: CME FedWatch has a December hike fully priced with roughly a 10-13% chance of 50bp, Kalshi 91.5% for 25bp (up 2 points after PPI), Polymarket 90.5%; SF Fed's Daly said her bias is that further tightening will be needed and Boston Fed's Collins that tighter policy is coming (CappNotes Closing Look, 13 November); 50bp odds were 0% a week earlier (Investrade Market Review, 13 November); more tightening priced supports the dollar",
-       false
+       true
       ],
       [
        "neu",
@@ -7288,8 +7288,8 @@
        null
       ]
      ],
-     "maturityClose": 103.71700286865234,
-     "ret": 0.002959,
+     "maturityClose": 103.822998046875,
+     "ret": 0.003984,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9477,8 +9477,8 @@
        false
       ]
      ],
-     "maturityClose": 2656.10009765625,
-     "ret": -0.048402,
+     "maturityClose": 2619.300048828125,
+     "ret": -0.061586,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11462,8 +11462,8 @@
        null
       ]
      ],
-     "maturityClose": 26270.0,
-     "ret": -0.059342,
+     "maturityClose": 25640.0,
+     "ret": -0.0819,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
