@@ -622,6 +622,11 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
     # both of their opens -> the Boost list for 10 decision days whatever the rules above say, and the price-break rule
     # below stays out of those days (mtl/candle.py, rule 19, since Nov 5, 2026, on probation)
     cd_days, cd_sig = candle.candle_days(spy_bars, calendar, start)
+    # ... and rule 26, the crash-bottom candle (mtl/candle.py, since Nov 20, 2026, on probation): after an 8%+ drop (no cap),
+    # three setup candles (2+ red) at a fresh 10-day low, then a green day with a longer body than each that closes above all
+    # three highs -> the Boost list for 5 decision days, sharing rule 19's days
+    c26_days, c26_sig = candle.crash_days(spy_bars, calendar, start)
+    cd_days = cd_days | c26_days
     modes, why, half, cd_held = candle.apply_candle(modes, why, half, cd_days, calendar)
     # ... and no T-bills (they can't be held in the account): wherever the rules above would hold T-bills, the
     # stronger of TLT / GLD over 3 months if it is up, else DBMF managed futures (mtl/rotation.py no_bills)
@@ -652,7 +657,7 @@ def plan_overlay(spy_bars, asset_bars, whip_px, picks_whip, prices, calendar, st
                 pb_breaks=pb_breaks, pb_held=pb_held, fd_held=fd_held, fd_before=fd_before, upcoming=upcoming,
                 sw_counts=sw_counts, sw_z=sw_z, sw_starts=sw_starts, sw_held=sw_held,
                 jw_flag=jw_flag, jw_rise=jw_rise, jw_gap=jw_gap, jw_starts=jw_starts, jw_held=jw_held,
-                cd_days=cd_days, cd_sig=cd_sig, cd_held=cd_held, rl_days=rl_days, rl_log=rl_log, rl_held=rl_held)
+                cd_days=cd_days, cd_sig=cd_sig, cd_held=cd_held, c26_sig=c26_sig, rl_days=rl_days, rl_log=rl_log, rl_held=rl_held)
 
 
 def last_closed_session(now=None):
@@ -1453,7 +1458,7 @@ def main():
     re_ = reentry_state(prices['SPY'], volumes.get('SPY') or {}, calendar, K, re_held, re_sig, week_ended(calendar[K]))
     auto['rotation']['reentry'] = re_
     # the candle re-entry rule (mtl/candle.py, rule 19): tonight's reading, whether it holds stocks next session, the signals
-    auto['rotation']['candle'] = candle.candle_state(bench['SPY'], calendar, K, ov['cd_held'], ov['cd_sig'])
+    auto['rotation']['candle'] = candle.candle_state(bench['SPY'], calendar, K, ov['cd_held'], ov['cd_sig'], sig26=ov.get('c26_sig', ()))
     # the resistance-line exit (mtl/resistline.py, rule 22): tonight's reading, whether it holds cash, its stretches
     auto['rotation']['resist'] = resistline.state(bench['SPY'], calendar, K, ov['rl_held'], ov['rl_log'])
     # the Fed-day hold (mtl/fedday.py): whether tonight's decision is held in stocks, the next decision day, and
