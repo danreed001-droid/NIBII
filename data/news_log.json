@@ -6077,5 +6077,85 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-20-1-ai-selloff-deepens-anthropic-slides-futures-fall",
+    "data": {
+      "addedAt": "2026-11-20",
+      "category": "Market",
+      "date": "2026-11-20",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "AI sell-off deepens: Anthropic (ANT) falls pre-market a day after its record debut, dragging chips and AI infrastructure names and pushing Nasdaq futures sharply lower; S&P 500 coming off a sixth straight loss.",
+      "impact": "High",
+      "numbers": "ANT -7.4% pre-mkt (closed $97.17 Thu, +17% vs $83 IPO); Nasdaq 100 fut -1.64%, S&P fut -0.74%, Dow fut -0.1% (7:03 ET); NVDA -2.2%, AMD/AVGO/MRVL/MU -2.2% to -6.6%; VIX ~31; INTU -9.7% on guidance cut + Mailchimp sale",
+      "order": 1,
+      "reaction": "Risk-off into opex Friday; Nasdaq ~13.6% below Oct 6 record, indexes on track for steepest weekly drop since April 2025.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/stocks/articles/wall-st-futures-slip-anthropic-104746137.html",
+      "tickers": "ANT, QQQ, Nasdaq, SPY, S&P, NVDA, AMD, AVGO, MU, INTU",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-20-2-asia-worst-week-since-2020-nikkei-kospi-5",
+    "data": {
+      "addedAt": "2026-11-20",
+      "category": "Market",
+      "date": "2026-11-20",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Asian stocks crash as the AI sell-off spreads overseas - Asia heads for its worst week since 2020; Europe also lower and the yen gains as a safe haven.",
+      "impact": "High",
+      "numbers": "Nikkei 225 -5.06% to 56,436.65; Kospi ~-5.2% to 4,869.96 (Samsung, SK Hynix lead losses); Stoxx 600 ~-2%; SoftBank led Tokyo decline",
+      "order": 2,
+      "reaction": "Global de-risking in AI/semis; safe-haven bid for yen and Treasuries.",
+      "region": "Asia/Europe",
+      "source": "https://finance.yahoo.com/markets/world-indices/articles/asian-shares-head-worst-week-014854250.html",
+      "tickers": "EWJ, Nikkei, Kospi, SPY, S&P, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-20-3-december-fed-hike-odds-near-98pct",
+    "data": {
+      "addedAt": "2026-11-20",
+      "category": "Fed",
+      "date": "2026-11-20",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Markets now price a near-certain December Fed hike after Philadelphia Fed President Paulson said rates must rise again on too-high inflation; Treasury yields ease on safe-haven buying amid the equity rout. Waller and Cook speak today; UMich final sentiment at 10:00 ET.",
+      "impact": "High",
+      "numbers": "CME FedWatch 98.4% odds of a Dec hike; 10Y ~4.97% (-8bp); UMich sentiment prior 51; PCE due next week",
+      "order": 3,
+      "reaction": "Hike fears weigh on equities while bonds rally as a haven; yield dip offers little relief to stocks.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/stocks/articles/wall-st-futures-slip-anthropic-104746137.html",
+      "tickers": "TLT, 10Y, yield, Treasury, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-20-4-gold-slides-3pct-bitcoin-falls",
+    "data": {
+      "addedAt": "2026-11-20",
+      "category": "Commodities",
+      "date": "2026-11-20",
+      "day": "Fri",
+      "direction": "Bearish",
+      "event": "Gold extends its slide to fresh lows as hike expectations and cross-asset liquidation weigh; bitcoin also lower while oil is flat.",
+      "impact": "Medium",
+      "numbers": "Gold fut ~$3,565/oz (-3.3%); Bitcoin ~$61,868 (-2.5%); WTI Dec $82.42 (flat)",
+      "order": 4,
+      "reaction": "Precious metals sold alongside risk assets rather than acting as a haven.",
+      "region": "Global",
+      "source": "https://finance.yahoo.com/markets/stocks/articles/wall-st-futures-slip-anthropic-104746137.html",
+      "tickers": "GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
