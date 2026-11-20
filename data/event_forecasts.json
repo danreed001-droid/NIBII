@@ -13,6 +13,30 @@
    "avg": 0.0556,
    "normal": 0.692,
    "spy_q": null
+  },
+  {
+   "d": "2026-11-20",
+   "what": "Fear spike: the VIX closes at 32, its first close above 30 in three months",
+   "type": "Fear spike",
+   "made": "2026-11-20",
+   "basis": "Fear spike",
+   "n": 18,
+   "up": 0.778,
+   "avg": 0.0386,
+   "normal": 0.691,
+   "spy_q": null
+  },
+  {
+   "d": "2026-11-20",
+   "what": "S&P 500 enters a correction (10%+ below its high)",
+   "type": "Correction starts",
+   "made": "2026-11-20",
+   "basis": "Correction starts",
+   "n": 15,
+   "up": 0.667,
+   "avg": 0.0349,
+   "normal": 0.691,
+   "spy_q": null
   }
  ]
 }

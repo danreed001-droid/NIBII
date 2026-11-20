@@ -1,9 +1,9 @@
 {
  "about": "The dominoes card (mtl/dominoes.py, scripts/dominoes.py). Information only.",
- "updated": "2026-11-19T23:36:38+00:00",
+ "updated": "2026-11-20T19:17:01+00:00",
  "asOf": "2026-11-19",
  "spxOff": -0.0822,
- "count": 3,
+ "count": 4,
  "dominoes": [
   {
    "key": "tech",
@@ -25,15 +25,15 @@
    "key": "banks",
    "label": "Banks",
    "on": true,
-   "value": -0.1142,
+   "value": -0.1293,
    "line": 0.1,
    "how": "off"
   },
   {
    "key": "transport",
    "label": "Transports",
-   "on": false,
-   "value": -0.0809,
+   "on": true,
+   "value": -0.1014,
    "line": 0.1,
    "how": "off"
   },
@@ -124,100 +124,6 @@
  "normal10": 0.215,
  "matches": [
   {
-   "d": "2004-08-12",
-   "on": [
-    "tech",
-    "small"
-   ],
-   "infl": 0.0317,
-   "spxOff": -0.0816,
-   "then": [
-    "Fed starts hiking from 1% (17 straight hikes follow) (Jun 2004)",
-    "Credit cracking (May 2004)",
-    "Oil up 50% in a year (May 2004)"
-   ],
-   "next": {
-    "fall6": 0.0015,
-    "spx6": 0.1258,
-    "spx12": 0.1642,
-    "bonds6": 0.0785,
-    "bonds12": 0.0905,
-    "gold6": 0.0581,
-    "gold12": 0.1299
-   }
-  },
-  {
-   "d": "1997-04-02",
-   "on": [
-    "tech",
-    "banks"
-   ],
-   "infl": 0.0303,
-   "spxOff": -0.0811,
-   "then": [
-    "Dollar up 10% in a year (Feb 1997)"
-   ],
-   "next": {
-    "fall6": -0.0166,
-    "spx6": 0.2629,
-    "spx12": 0.4773,
-    "bonds6": 0.1047,
-    "bonds12": 0.1924,
-    "gold6": null,
-    "gold12": null
-   }
-  },
-  {
-   "d": "2010-05-07",
-   "on": [
-    "tech",
-    "small",
-    "banks"
-   ],
-   "infl": 0.0229,
-   "spxOff": -0.0874,
-   "then": [
-    "Flash crash (Dow −1,000 in minutes) amid Greek riots (May 2010)",
-    "Greece cut to junk (Apr 2010)",
-    "Oil up 50% in a year (Nov 2009)",
-    "Dollar down 10% in a year (Oct 2009)"
-   ],
-   "next": {
-    "fall6": -0.0795,
-    "spx6": 0.0992,
-    "spx12": 0.2064,
-    "bonds6": 0.0756,
-    "bonds12": 0.0444,
-    "gold6": 0.1427,
-    "gold12": 0.2324
-   }
-  },
-  {
-   "d": "2019-02-07",
-   "on": [
-    "tech",
-    "small",
-    "banks"
-   ],
-   "infl": 0.02,
-   "spxOff": -0.0767,
-   "then": [
-    "Powell pivot (\"patient\") (Jan 2019)",
-    "Christmas Eve sell-off amid government shutdown (bottom of the 2018… (Dec 2018)",
-    "Oil 40% under its high (Dec 2018)",
-    "Credit cracking (Nov 2018)"
-   ],
-   "next": {
-    "fall6": 0.0007,
-    "spx6": 0.0857,
-    "spx12": 0.2297,
-    "bonds6": 0.1643,
-    "bonds12": 0.2081,
-    "gold6": 0.1438,
-    "gold12": 0.198
-   }
-  },
-  {
    "d": "2011-12-21",
    "on": [
     "tech",
@@ -242,6 +148,107 @@
     "gold6": -0.0285,
     "gold12": 0.029
    }
+  },
+  {
+   "d": "1990-08-13",
+   "on": [
+    "tech",
+    "small",
+    "banks",
+    "transport",
+    "curve"
+   ],
+   "infl": 0.0467,
+   "spxOff": -0.0816,
+   "then": [
+    "Dollar down 10% in a year (May 1990)",
+    "Yield curve un-inverts (Jan 1990)",
+    "Oil up 50% in a year (Sep 1989)"
+   ],
+   "next": {
+    "fall6": -0.128,
+    "spx6": 0.0878,
+    "spx12": 0.1451,
+    "bonds6": 0.1318,
+    "bonds12": 0.1545,
+    "gold6": null,
+    "gold12": null
+   }
+  },
+  {
+   "d": "1998-08-24",
+   "on": [
+    "tech",
+    "small",
+    "banks",
+    "transport"
+   ],
+   "infl": 0.0175,
+   "spxOff": -0.0831,
+   "then": [
+    "Oil 40% under its high (Mar 1998)"
+   ],
+   "next": {
+    "fall6": -0.1203,
+    "spx6": 0.1519,
+    "spx12": 0.2531,
+    "bonds6": 0.0104,
+    "bonds12": -0.0206,
+    "gold6": null,
+    "gold12": null
+   }
+  },
+  {
+   "d": "2019-01-30",
+   "on": [
+    "tech",
+    "small",
+    "banks",
+    "transport"
+   ],
+   "infl": 0.02,
+   "spxOff": -0.0852,
+   "then": [
+    "Powell pivot (\"patient\") (Jan 2019)",
+    "Christmas Eve sell-off amid government shutdown (bottom of the 2018… (Dec 2018)",
+    "Oil 40% under its high (Dec 2018)",
+    "Credit cracking (Nov 2018)"
+   ],
+   "next": {
+    "fall6": 0.0086,
+    "spx6": 0.1116,
+    "spx12": 0.2248,
+    "bonds6": 0.1148,
+    "bonds12": 0.219,
+    "gold6": 0.0887,
+    "gold12": 0.2089
+   }
+  },
+  {
+   "d": "2015-09-04",
+   "on": [
+    "tech",
+    "small",
+    "banks",
+    "transport"
+   ],
+   "infl": 0.0023,
+   "spxOff": -0.0984,
+   "then": [
+    "Credit cracking (Aug 2015)",
+    "\"Black Monday\": Dow drops 1,000 points at the open on China fears (Aug 2015)",
+    "China devalues the yuan (Aug 2015)",
+    "Greek deal reached (Jul 2015)"
+   ],
+   "next": {
+    "fall6": -0.048,
+    "spx6": 0.0302,
+    "spx12": 0.1381,
+    "bonds6": 0.0677,
+    "bonds12": 0.1566,
+    "gold6": 0.1263,
+    "gold12": 0.2042
+   }
   }
  ],
  "test": {
@@ -254,41 +261,41 @@
   "aucCount": 0.63
  },
  "expect": {
-  "count": 3,
+  "count": 4,
   "lo": -0.1322,
   "hi": -0.0322,
   "same": {
-   "days": 406,
-   "stretches": 49,
+   "days": 1045,
+   "stretches": 37,
    "1": {
-    "med": 0.0141,
-    "p10": -0.068,
-    "p90": 0.0573,
-    "up": 0.6144,
-    "fall5": 0.2413,
-    "fall10": 0.0547,
-    "bonds": 0.0112,
-    "gold": 0.0125
+    "med": 0.0177,
+    "p10": -0.0586,
+    "p90": 0.0685,
+    "up": 0.6287,
+    "fall5": 0.2938,
+    "fall10": 0.0689,
+    "bonds": 0.0084,
+    "gold": 0.0152
    },
    "3": {
-    "med": 0.0392,
-    "p10": -0.0636,
-    "p90": 0.1028,
-    "up": 0.7463,
-    "fall5": 0.3955,
-    "fall10": 0.1866,
-    "bonds": 0.0131,
-    "gold": 0.0383
+    "med": 0.0581,
+    "p10": -0.0836,
+    "p90": 0.1324,
+    "up": 0.7129,
+    "fall5": 0.4278,
+    "fall10": 0.2201,
+    "bonds": 0.02,
+    "gold": 0.014
    },
    "6": {
-    "med": 0.0622,
-    "p10": -0.0859,
-    "p90": 0.173,
-    "up": 0.7786,
-    "fall5": 0.4876,
-    "fall10": 0.2662,
-    "bonds": 0.0364,
-    "gold": 0.0534
+    "med": 0.0833,
+    "p10": -0.1254,
+    "p90": 0.1942,
+    "up": 0.6622,
+    "fall5": 0.5225,
+    "fall10": 0.3502,
+    "bonds": 0.0346,
+    "gold": 0.0528
    }
   },
   "all": {

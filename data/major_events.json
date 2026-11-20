@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-11-19T23:36:33+00:00",
+ "updated": "2026-11-20T19:16:56+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -678,7 +678,7 @@
    "what": "Bank recapitalisation plans",
    "src": "curated",
    "day": 0.1452,
-   "month": 0.0143,
+   "month": 0.0144,
    "type": "Rescue / fiscal",
    "trend": "below",
    "gold": {
@@ -1799,7 +1799,7 @@
     "month": 0.04
    },
    "bonds": {
-    "day": 0.0028,
+    "day": 0.0027,
     "month": 0.055
    },
    "plan": {
@@ -3337,6 +3337,40 @@
    },
    "plan": {
     "day": -0.1119,
+    "month": null
+   }
+  },
+  {
+   "d": "2026-11-20",
+   "what": "Fear spike: the VIX closes at 32, its first close above 30 in three months",
+   "src": "auto: VIX",
+   "day": -0.0244,
+   "month": null,
+   "type": "Fear spike",
+   "trend": "below",
+   "gold": {
+    "day": -0.0381,
+    "month": null
+   },
+   "bonds": {
+    "day": 0.0135,
+    "month": null
+   }
+  },
+  {
+   "d": "2026-11-20",
+   "what": "S&P 500 enters a correction (10%+ below its high)",
+   "src": "auto: market phase",
+   "day": -0.0244,
+   "month": null,
+   "type": "Correction starts",
+   "trend": "below",
+   "gold": {
+    "day": -0.0381,
+    "month": null
+   },
+   "bonds": {
+    "day": 0.0135,
     "month": null
    }
   }

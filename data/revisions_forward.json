@@ -1,7 +1,7 @@
 {
  "about": "Analyst-revisions forward test: do the ranked stocks with the biggest rises in estimates beat the rest over the next 4 weeks? (mtl/revisions_forward.py). Information only.",
- "updated": "2026-11-19T23:36:46+00:00",
- "asOf": "2026-11-19",
+ "updated": "2026-11-20T19:17:10+00:00",
+ "asOf": "2026-11-20",
  "started": "2026-10-31",
  "minN": 20,
  "h": 20,
@@ -25,10 +25,10 @@
    "calls": {
     "top25": {
      "n_a": 12,
-     "n_b": 12,
+     "n_b": 13,
      "a": -0.26957,
-     "b": -0.14176,
-     "edge": -0.12781,
+     "b": -0.16717,
+     "edge": -0.1024,
      "hit": false
     },
     "top10": {
@@ -57,10 +57,10 @@
    "calls": {
     "top25": {
      "n_a": 12,
-     "n_b": 12,
+     "n_b": 13,
      "a": -0.13865,
-     "b": -0.06966,
-     "edge": -0.06899,
+     "b": -0.08883,
+     "edge": -0.04982,
      "hit": false
     },
     "top10": {
@@ -87,18 +87,31 @@
    "d": "2026-10-23",
    "calls": {
     "top25": {
-     "waiting": true,
      "n_a": 12,
-     "n_b": 13
+     "n_b": 13,
+     "a": -0.27992,
+     "b": -0.1646,
+     "edge": -0.11532,
+     "hit": false
     },
     "top10": {
-     "waiting": true,
      "n_a": 5,
-     "n_b": 5
+     "n_b": 5,
+     "a": -0.33139,
+     "b": -0.16606,
+     "edge": -0.16533,
+     "hit": false
     },
     "cut": {
-     "waiting": true,
-     "n_a": 2
+     "n_a": 2,
+     "a": -0.10553,
+     "b": -0.08088,
+     "edge": 0.02465,
+     "hit": true,
+     "names": [
+      "CRWD",
+      "IQV"
+     ]
     }
    }
   },
@@ -167,33 +180,33 @@
     "id": "top25",
     "text": "Of the top 25 ranked stocks, the half with the bigger rise in analysts' estimates beats the other half over the next 4 weeks",
     "calls": 6,
-    "n": 2,
+    "n": 3,
     "hits": 0,
     "rate": 0.0,
-    "p": 0.5,
-    "avg": -0.0984,
+    "p": 0.25,
+    "avg": -0.08918,
     "verdict": "too few"
    },
    {
     "id": "top10",
     "text": "Of the top 10 ranked, the 5 with the bigger rise in estimates beat the other 5 over the next 4 weeks",
     "calls": 6,
-    "n": 2,
+    "n": 3,
     "hits": 0,
     "rate": 0.0,
-    "p": 0.5,
-    "avg": -0.17935,
+    "p": 0.25,
+    "avg": -0.17467,
     "verdict": "too few"
    },
    {
     "id": "cut",
     "text": "Ranked stocks whose estimates were cut trail the S&P 500 over the next 4 weeks",
     "calls": 6,
-    "n": 2,
-    "hits": 1,
-    "rate": 0.5,
+    "n": 3,
+    "hits": 2,
+    "rate": 0.667,
     "p": 1.0,
-    "avg": 0.10701,
+    "avg": 0.07956,
     "verdict": "too few"
    }
   ]

@@ -333,7 +333,6 @@ AMOD,Multi-Sector Companies
 AMODW,Multi-Sector Companies
 AMP,Investment Managers
 AMPG,Telecommunications Equipment
-AMPGZ,Telecommunications Equipment
 AMPH,Biotechnology: Pharmaceutical Preparations
 AMPL,Computer Software: Prepackaged Software
 AMPX,Industrial Machinery/Components
@@ -378,6 +377,7 @@ ANNAW,Oil & Gas Production
 ANNX,Biotechnology: Pharmaceutical Preparations
 ANPA,Other Consumer Services
 ANRO,Biotechnology: Pharmaceutical Preparations
+ANT,Computer Software: Prepackaged Software
 ANTA,Investment Bankers/Brokers/Service
 ANTX,Biotechnology: Pharmaceutical Preparations
 ANVS,Biotechnology: Pharmaceutical Preparations
@@ -920,6 +920,7 @@ BOX,Computer Software: Prepackaged Software
 BOXL,Other Consumer Services
 BP,Integrated oil Companies
 BPACR,Blank Checks
+BPACU,Blank Checks
 BPOP,Major Banks
 BPOPM,Major Banks
 BPRN,Major Banks
@@ -1083,7 +1084,7 @@ CANG,Finance: Consumer Services
 CAPL,Oil Refining/Marketing
 CAPNR,Blank Checks
 CAPR,Biotechnology: Pharmaceutical Preparations
-CAPS,RETAIL: Building Materials
+CAPS,Biotechnology: Pharmaceutical Preparations
 CAR,Rental/Leasing Companies
 CARE,Major Banks
 CARG,EDP Services
@@ -2263,6 +2264,7 @@ FMACR,Blank Checks
 FMACU,Blank Checks
 FMAO,Savings Institutions
 FMBH,Major Banks
+FMBM,Major Banks
 FMC,Major Chemicals
 FMFC,Apparel
 FMN,Investment Managers
@@ -3407,6 +3409,7 @@ LEU,Mining & Quarrying of Nonmetallic Minerals (No Fuels)
 LEVI,Apparel
 LEXX,Biotechnology: Pharmaceutical Preparations
 LFAC,Blank Checks
+LFACW,Blank Checks
 LFCR,Biotechnology: Pharmaceutical Preparations
 LFMD,Medical/Nursing Services
 LFMDP,Medical/Nursing Services
@@ -3500,6 +3503,7 @@ LOW,RETAIL: Building Materials
 LPA,Real Estate
 LPAAU,Blank Checks
 LPAAW,Blank Checks
+LPBBU,Blank Checks
 LPBBW,Blank Checks
 LPCN,Biotechnology: Pharmaceutical Preparations
 LPCVU,Blank Checks
@@ -3673,7 +3677,6 @@ MEI,Electrical Products
 MELI,Business Services
 MENS,Biotechnology: Pharmaceutical Preparations
 MEOH,Major Chemicals
-MERC,Paper
 MESO,Biotechnology: Biological Products (No Diagnostic Substances)
 MET,Life Insurance
 META,Computer Software: Programming Data Processing
@@ -4378,9 +4381,6 @@ OPAL,Natural Gas Distribution
 OPBK,Major Banks
 OPCH,Medical/Nursing Services
 OPEN,Real Estate
-OPENL,Real Estate
-OPENW,Real Estate
-OPENZ,Real Estate
 OPFI,Finance: Consumer Services
 OPHC,Major Banks
 OPHI,Industrial Specialties
@@ -6046,7 +6046,6 @@ UTI,Other Consumer Services
 UTL,Power Generation
 UTMD,Medical/Dental Instruments
 UTSI,Telecommunications Equipment
-UTZ,Packaged Foods
 UUUU,Mining & Quarrying of Nonmetallic Minerals (No Fuels)
 UVE,Property-Casualty Insurers
 UVSP,Major Banks
@@ -6515,7 +6514,7 @@ ZOOZ,Industrial Machinery/Components
 ZOOZW,Industrial Machinery/Components
 ZS,EDP Services
 ZSQR,Finance: Consumer Services
-ZSTK,Other Pharmaceuticals
+ZSTK,Finance: Consumer Services
 ZTG,Professional Services
 ZTO,Trucking Freight/Courier Services
 ZTR,Investment Managers
