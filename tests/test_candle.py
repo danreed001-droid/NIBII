@@ -76,3 +76,62 @@ def test_holds_ten_sessions_over_the_other_rules_and_marks_the_switches():
     assert all(m[d] == 'boost' for d in cal[5:15]) and m[cal[15]] == 'TLT'
     assert w[cal[5]] == 'candle' and w[cal[15]] == 'candle-end' and cal[6] not in h
     assert held == set(cal[5:15])
+
+
+def _crash_shape(peak=100.0, drop=0.15, green_close=None, setup_highs_pad=0.3):
+    """Flat at the peak, a slide `drop` down, three setup days (two red, one small green) at fresh lows, then a long
+    green day closing at green_close (default: above all three highs)."""
+    n0 = 260
+    c = [peak] * n0 + [peak * (1 - drop * i / 20) for i in range(1, 21)]
+    o = list(c)
+    hi = [x for x in c]
+    last = c[-1]
+    so = [last + 0.5, last - 0.6, last - 1.6]          # setup opens: red, red, small green
+    sc = [last - 0.5, last - 1.5, last - 1.4]
+    o += so
+    c += sc
+    hi += [max(a, b) + setup_highs_pad for a, b in zip(so, sc)]
+    need = max(hi[-3:])
+    gc = need + 0.5 if green_close is None else green_close
+    o.append(last - 1.6)
+    c.append(gc)
+    hi.append(gc + 0.1)
+    cal = _cal(len(c))
+    bars = [(d, oo, h, min(oo, cc) - 0.1, cc) for d, oo, h, cc in zip(cal, o, hi, c)]
+    return cal, bars, need
+
+
+def test_rule26_fires_on_a_long_green_day_above_all_three_setup_highs():
+    cal, bars, need = _crash_shape()
+    k = len(cal) - 1
+    days, sig = candle.crash_days(bars, cal, cal[0])
+    assert sig == [cal[k]] and days == {cal[k]}
+    st = candle.candle_state(bars, cal, k, {cal[k]}, [], sig26=sig)
+    assert st['r26']['signal'] and st['r26']['left'] == candle.C26_HOLD - 1 and st['onNext']
+    assert abs(st['r26']['need'] - round(need, 2)) < 1e-9
+
+
+def test_rule26_needs_a_close_above_the_highs_not_just_the_bodies():
+    cal, bars, need = _crash_shape(green_close=None)
+    # close above the setup bodies (their opens) but under the highest wick
+    cal2, bars2, need2 = _crash_shape(green_close=None, setup_highs_pad=3.0)
+    o = [b[1] for b in bars2[-4:-1]]
+    gc = max(o) + 0.2
+    assert gc < need2
+    bars2[-1] = (bars2[-1][0], bars2[-1][1], gc + 0.1, bars2[-1][3], gc)
+    assert candle.crash_days(bars2, cal2, cal2[0])[1] == []
+
+
+def test_rule26_needs_an_8pct_drop_and_has_no_cap():
+    cal, bars, _ = _crash_shape(drop=0.05)
+    assert candle.crash_days(bars, cal, cal[0])[1] == []
+    cal, bars, _ = _crash_shape(drop=0.55)          # deeper than rule 19's 30% cap still counts
+    assert candle.crash_days(bars, cal, cal[0])[1] == [cal[-1]]
+
+
+def test_rule26_days_join_rule_19s_through_apply_candle():
+    cal, bars, _ = _crash_shape()
+    days, sig = candle.crash_days(bars, cal, cal[0])
+    modes = {d: 'side' for d in cal}
+    m, w, h, held = candle.apply_candle(modes, {}, {}, days, cal)
+    assert m[cal[-1]] == 'boost' and w[cal[-1]] == 'candle' and held == {cal[-1]}

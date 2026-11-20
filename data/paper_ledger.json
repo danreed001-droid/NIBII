@@ -1304,6 +1304,42 @@
     "scripts/momentum_scan.py (settings)": "cbf4fa481fcc"
    },
    "what": "Rules 23 and 24 from the owner's reading of the plan's yearly holdings. Rule 23, the near-high earnings sell (mtl/earnsell.py): a holding that went into its earnings report within 5% of its 52-week high and closed 3%+ down on the report is sold at the next close once it closes 3%+ down on a day or under its lowest close since the report within 10 sessions. Rule 24, the falling stock-and-industry skip (mtl/fallgroup.py): no new buy of a stock making lower highs and lower lows while its industry does the same and is down over 2 months, unless at an extreme low (RSI under 30 or 10%+ under its 20-day average), its channel low or above its down channel. Strict test: 64.4% a year from 2000 vs 61.5% without both, 67.2% vs 63.3% from 2010, 85.9% vs 82.0% from 2016, 128.9% vs 122.5% from 2020, worst drop -25% both, ahead in 15 years and behind in 2 (t-stat 1.6); rule 23 alone 63.9%; on probation"
+  },
+  {
+   "since": "2026-11-20",
+   "fingerprint": "1d06935a71dc8c0b",
+   "files": {
+    "mtl/momentum.py": "94e6606d6eb2",
+    "mtl/rotation.py": "abbce15386b6",
+    "mtl/rebound.py": "c54c8da0dce7",
+    "mtl/reentry.py": "e28fdda2a329",
+    "mtl/pricebreak.py": "20d70e5b7401",
+    "mtl/fractal.py": "936e82e39874",
+    "mtl/narrow.py": "2afdaea019ae",
+    "mtl/lowerhigh.py": "f950e464a79f",
+    "mtl/fedday.py": "9803dbb7512f",
+    "mtl/stretchwarn.py": "4cb17a8dce40",
+    "mtl/dominoes.py": "aa3f0ad9b0a6",
+    "mtl/nearhigh.py": "4dfd694efe3d",
+    "mtl/hotcomm.py": "1b98b2db540a",
+    "mtl/jobwarn.py": "473f94c1a8c6",
+    "mtl/volsell.py": "0920ad8ba1b4",
+    "mtl/candle.py": "01a356783e3d",
+    "mtl/runup.py": "9a3cfa8d5314",
+    "mtl/crashrank.py": "eb8d3f8859c4",
+    "mtl/resistline.py": "5cec2935942d",
+    "mtl/earnsell.py": "c1f24037166d",
+    "mtl/fallgroup.py": "779142c3f99a",
+    "mtl/volweight.py": "aa3ab73e5dbb",
+    "mtl/earnjump.py": "d90a7ad5e130",
+    "mtl/news.py": "a361de45badc",
+    "mtl/structure.py": "2ac3bad9c866",
+    "mtl/universe.py": "7d98e9b96862",
+    "mtl/fade.py": "eed144f30a67",
+    "mtl/calendar_nyse.py": "f968ab11e45a",
+    "scripts/momentum_scan.py (settings)": "cbf4fa481fcc"
+   },
+   "what": "Rule 26, the crash-bottom candle, from the owner's pasted reversal shape (mtl/candle.py crash_days): after SPY closes 8%+ under its 1-year high (no cap), three setup days with at least two red ones at a fresh 10-day closing low, then a green day whose body is longer than each of theirs and that closes above all three of their highs -> the Boost list for 5 decision days (one week), sharing rule 19's days. Strict test: 65.8% a year from 2000 vs 64.4% without, worst drop -25% both, no year worse; the gain is the Mar 10, 2009 bottom rule 19's 30% cap skips (2009 +75 points); on probation"
   }
  ]
 }
