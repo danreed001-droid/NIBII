@@ -1,12 +1,12 @@
 {
  "minSamples": 15,
- "settledHorizons": 624,
+ "settledHorizons": 642,
  "byAsset": {
   "equities": {
    "Earnings": {
-    "n": 128,
+    "n": 133,
     "agree": 42,
-    "rate": 0.328,
+    "rate": 0.316,
     "reliable": true
    },
    "Rates": {
@@ -16,15 +16,15 @@
     "reliable": true
    },
    "Market": {
-    "n": 613,
-    "agree": 143,
-    "rate": 0.233,
+    "n": 630,
+    "agree": 146,
+    "rate": 0.232,
     "reliable": true
    },
    "Macro": {
-    "n": 102,
-    "agree": 34,
-    "rate": 0.333,
+    "n": 106,
+    "agree": 35,
+    "rate": 0.33,
     "reliable": true
    },
    "Geopolitics": {
@@ -34,15 +34,15 @@
     "reliable": true
    },
    "Deals": {
-    "n": 27,
+    "n": 30,
     "agree": 0,
     "rate": 0.0,
     "reliable": true
    },
    "Fed": {
-    "n": 73,
-    "agree": 18,
-    "rate": 0.247,
+    "n": 77,
+    "agree": 20,
+    "rate": 0.26,
     "reliable": true
    },
    "Energy": {
@@ -58,17 +58,17 @@
     "reliable": true
    },
    "Corporate": {
-    "n": 24,
-    "agree": 12,
+    "n": 28,
+    "agree": 14,
     "rate": 0.5,
     "reliable": true
    }
   },
   "bonds": {
    "Macro": {
-    "n": 101,
+    "n": 102,
     "agree": 8,
-    "rate": 0.079,
+    "rate": 0.078,
     "reliable": true
    },
    "Policy": {
@@ -84,15 +84,15 @@
     "reliable": true
    },
    "Market": {
-    "n": 500,
+    "n": 509,
     "agree": 24,
-    "rate": 0.048,
+    "rate": 0.047,
     "reliable": true
    },
    "Fed": {
-    "n": 133,
+    "n": 140,
     "agree": 8,
-    "rate": 0.06,
+    "rate": 0.057,
     "reliable": true
    },
    "Energy": {
@@ -112,6 +112,12 @@
     "agree": 0,
     "rate": 0.0,
     "reliable": true
+   },
+   "Commodities": {
+    "n": 3,
+    "agree": 0,
+    "rate": null,
+    "reliable": false
    }
   },
   "gold": {
@@ -128,9 +134,9 @@
     "reliable": false
    },
    "Macro": {
-    "n": 23,
-    "agree": 5,
-    "rate": 0.217,
+    "n": 25,
+    "agree": 7,
+    "rate": 0.28,
     "reliable": true
    },
    "Market": {
@@ -146,8 +152,8 @@
     "reliable": true
    },
    "Commodities": {
-    "n": 3,
-    "agree": 3,
+    "n": 9,
+    "agree": 9,
     "rate": null,
     "reliable": false
    }
@@ -160,15 +166,15 @@
     "reliable": true
    },
    "Macro": {
-    "n": 44,
+    "n": 47,
     "agree": 7,
-    "rate": 0.159,
+    "rate": 0.149,
     "reliable": true
    },
    "Fed": {
-    "n": 98,
+    "n": 104,
     "agree": 22,
-    "rate": 0.224,
+    "rate": 0.212,
     "reliable": true
    },
    "Market": {
@@ -178,7 +184,7 @@
     "reliable": true
    },
    "Commodities": {
-    "n": 3,
+    "n": 9,
     "agree": 0,
     "rate": null,
     "reliable": false
@@ -192,9 +198,9 @@
     "reliable": true
    },
    "Market": {
-    "n": 197,
-    "agree": 51,
-    "rate": 0.259,
+    "n": 204,
+    "agree": 56,
+    "rate": 0.275,
     "reliable": true
    },
    "Earnings": {
@@ -204,35 +210,35 @@
     "reliable": true
    },
    "Macro": {
-    "n": 17,
-    "agree": 4,
-    "rate": 0.235,
+    "n": 18,
+    "agree": 5,
+    "rate": 0.278,
     "reliable": true
    }
   },
   "qqq": {
    "Deals": {
-    "n": 37,
+    "n": 42,
     "agree": 3,
-    "rate": 0.081,
+    "rate": 0.071,
     "reliable": true
    },
    "Market": {
-    "n": 608,
-    "agree": 237,
-    "rate": 0.39,
+    "n": 626,
+    "agree": 241,
+    "rate": 0.385,
     "reliable": true
    },
    "Macro": {
-    "n": 61,
+    "n": 62,
     "agree": 30,
-    "rate": 0.492,
+    "rate": 0.484,
     "reliable": true
    },
    "Earnings": {
-    "n": 215,
+    "n": 217,
     "agree": 101,
-    "rate": 0.47,
+    "rate": 0.465,
     "reliable": true
    },
    "Rates": {
@@ -242,9 +248,9 @@
     "reliable": true
    },
    "Fed": {
-    "n": 34,
+    "n": 35,
     "agree": 23,
-    "rate": 0.676,
+    "rate": 0.657,
     "reliable": true
    },
    "Tech": {
@@ -272,9 +278,9 @@
     "reliable": true
    },
    "Corporate": {
-    "n": 24,
-    "agree": 14,
-    "rate": 0.583,
+    "n": 28,
+    "agree": 16,
+    "rate": 0.571,
     "reliable": true
    }
   }
