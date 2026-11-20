@@ -10,26 +10,26 @@
  ],
  "assets": {
   "equities": {
-   "name": "TODO: fill in before publish",
+   "name": "S&P 500",
    "instrument": "ES=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 7193.0,
    "sigma": 28.440000534057617,
    "sigmaSource": "^VIX close 28.440000534057617 on 2026-11-19",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "ES=F closed 7193.0 on 19 November (from 7377.25, -2.50%) as the S&P 500 cash index fell 2.02% to 7,175.83, a sixth straight loss and the longest losing streak since 2024, after futures had been up ~1.25% pre-market on Anthropic's above-range IPO pricing (news log; CappNotes Closing Look, 19 November): breadth 37/464, all 11 sectors lower, RSP -1.76%, Dow -2.19% below 50,000 for the first time since June (StockTitan Stock Market Today, 19 November); Nvidia -3.30% after erasing a 4.7% gain, Intuit ~-10% after hours; VIX +15.80% to 28.44, highest since March; HY spread 3.47% (+24bp in three sessions); Kalshi 89.3% / FedWatch 96.4% for a 25bp December hike; Philadelphia Fed 6.3 (six-month low) with prices paid 58.2; WTI flat at $83.21; RSI 30.92, below the 50-day (7678) and the 200-day (7377); 1H structure choppy, weekly structure uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -1839,30 +1839,32 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +15.80% to 28.44 on 19 November, its highest since March per CNBC and near an eight-month high per DeItaone; GVZ 28.70; VXN 36.48), so volRegime is 0.",
+    "The latest obtainable AAII survey (week ending 11 November; the 19 November release was not obtained) shows 51.4% bearish vs a 31.5% average, but AAII names no record or percentile, so crowd is left at 0; JP Morgan's aggregate US positioning at about the 20th percentile since 2015 names a percentile, but a 20th-percentile reading is not an extreme, so it does not qualify.",
+    "The S&P 500's sixth straight loss (longest since 2024), its first trade below 7,200 since 5 May and the 37/464 breadth split are short-window comparisons or breadth counts, not volatility or positioning extremes; Anthropic's record IPO size is a deal record, not an S&P 500 extreme."
    ]
   },
   "bonds": {
-   "name": "TODO: fill in before publish",
+   "name": "10-Year Treasury Note",
    "instrument": "ZN=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = note price up, yields down",
    "close": 105.953125,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 15,
+   "sigmaSource": "TLT 30-day option implied volatility 15 carried from the 25 September Market Rebellion Pre-Market IV Report; no newer print was obtainable, so the value is 37 sessions stale (carried again on 19 November)",
+   "driverNote": "ZN=F closed 105.95 on 19 November (from 105.70) as Treasuries rose for a fourth day in the equity rout: 2-year -4bp to 4.76%, 5-year -3bp to 4.86%, 10-year -3bp to 5.04%, 30-year -1bp to 5.40%, 2s10s 28bp (CappNotes Closing Look, 19 November; Strategitz Global Markets Close, 19 November); Philadelphia Fed fell to a six-month low of 6.3 and the LEI -0.3%, but Philly prices paid jumped to 58.2 from 43.2 (news log; CappNotes Closing Look, 19 November); December-hike pricing stayed near-certain (Kalshi 89.3% for 25bp, 6.3% for 50bp; FedWatch 96.4%); RSI 49.9, above the 50-day (105.62) and below the 200-day (109.05); 1H structure choppy, weekly structure downtrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -4211,30 +4213,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +15.80% to 28.44 on 19 November, its highest since March per CNBC and near an eight-month high per DeItaone; GVZ 28.70; VXN 36.48), so volRegime is 0.",
+    "The latest obtainable AAII survey (week ending 11 November; the 19 November release was not obtained) shows 51.4% bearish vs a 31.5% average, but AAII names no record or percentile, so crowd is left at 0; JP Morgan's aggregate US positioning at about the 20th percentile since 2015 names a percentile, but a 20th-percentile reading is not an extreme, so it does not qualify."
    ]
   },
   "gold": {
-   "name": "TODO: fill in before publish",
+   "name": "Gold",
    "instrument": "GC=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = gold higher",
    "close": 3617.699951171875,
    "sigma": 28.700000762939453,
    "sigmaSource": "^GVZ close 28.700000762939453 on 2026-11-19",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "GC=F closed 3617.7 on 19 November (from 3737.9, -3.22%), a new 52-week closing low (vendor late-session quote -3.04% to $3,628.30) as silver fell 4.75% to $42.86, copper 1.34% and bitcoin 2.39% (CappNotes Closing Look, 19 November); spot gold had already broken $3,700 pre-market as high real yields and a firm dollar weighed (news log); Bespoke called gold's three-month decline the fastest since 2013, GLD -1.76%, GDX -3.77% (Strategitz Global Markets Close, 19 November); the dollar index sat near a 19-month high and December-hike pricing stayed ~90%+; GVZ 28.70; RSI 24.72, below the 50-day (4127) and 200-day (4451); 1H and weekly structure both downtrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -6016,30 +6019,32 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +15.80% to 28.44 on 19 November, its highest since March per CNBC and near an eight-month high per DeItaone; GVZ 28.70; VXN 36.48), so volRegime is 0.",
+    "The latest obtainable AAII survey (week ending 11 November; the 19 November release was not obtained) shows 51.4% bearish vs a 31.5% average, but AAII names no record or percentile, so crowd is left at 0; JP Morgan's aggregate US positioning at about the 20th percentile since 2015 names a percentile, but a 20th-percentile reading is not an extreme, so it does not qualify.",
+    "Bespoke's 'fastest three-month decline since 2013' is a multi-year extreme in the speed of gold's price fall, not in gold's implied volatility or positioning, so it does not set volRegime or crowd; GC=F's fetched close (3617.7) equals the 52-week closing low and RSI is 24.72 - computed stretch inputs left to the mechanical stretch components."
    ]
   },
   "dollar": {
-   "name": "TODO: fill in before publish",
+   "name": "US Dollar Index",
    "instrument": "DX-Y.NYB close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = stronger dollar",
    "close": 103.92400360107422,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 4.72,
+   "sigmaSource": "EUR/USD 1-month ATM implied volatility 4.72 carried unchanged from 21 September; no newer print was obtainable, so the value is 41 sessions stale (carried again on 19 November)",
+   "driverNote": "DX-Y.NYB closed 103.92 on 19 November (from 103.81), a sixth straight 52-week closing high, as the dollar index rose ~0.1% to 103.88-103.95 near a 19-month high (CappNotes Closing Look, 19 November; Strategitz Global Markets Close, 19 November) on risk-off FX demand: USD/MXN +1.45% (peso weakest since June 2025), USD/BRL +1.15%, USD/JPY 159.615, GBP/USD -0.4%, AUD erased its 2026 gains (CappNotes Closing Look, 19 November; MUFG via Strategitz Global Markets Close, 19 November); US yields fell 3-4bp but December-hike pricing held (Kalshi 89.3%, FedWatch 96.4%); EUR/USD was not obtainable; RSI 70.35, above the 50-day (101.79) and 200-day (99.98); 1H structure choppy, weekly structure uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -7877,30 +7882,32 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +15.80% to 28.44 on 19 November, its highest since March per CNBC and near an eight-month high per DeItaone; GVZ 28.70; VXN 36.48), so volRegime is 0.",
+    "The latest obtainable AAII survey (week ending 11 November; the 19 November release was not obtained) shows 51.4% bearish vs a 31.5% average, but AAII names no record or percentile, so crowd is left at 0; JP Morgan's aggregate US positioning at about the 20th percentile since 2015 names a percentile, but a 20th-percentile reading is not an extreme, so it does not qualify.",
+    "The dollar's 19-month high and the peso/real/Australian-dollar lows are short-window comparisons, not percentiles, records or multi-year extremes in dollar volatility or positioning; the fetched close equals the 52-week closing high and RSI is 70.35 - computed stretch inputs left to the mechanical stretch components."
    ]
   },
   "iwm": {
-   "name": "TODO: fill in before publish",
+   "name": "Russell 2000",
    "instrument": "RTY=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 2660.300048828125,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 19.97,
+   "sigmaSource": "RVX 19.97 carried from the 23 September YCharts close (now 39 sessions stale); no newer print was obtainable (carried again on 19 November); VIX itself closed 28.44 on 19 November, so the carry sits well below it",
+   "driverNote": "RTY=F closed 2660.3 on 19 November (from 2730.2, -2.56%) as the Russell 2000 cash index fell 2.18% to 2,655.11 and the S&P SmallCap 600 -2.35% was the worst of the major indexes (CappNotes Closing Look, 19 November), giving back the prior day's small-cap leadership in a 37/464 breadth rout; HY spread 3.47% (+24bp in three sessions); Philadelphia Fed 6.3 (six-month low), LEI -0.3%, Kansas City Fed 18; 2-year -4bp to 4.76%; Kalshi 89.3% for a 25bp December hike; WTI flat; RSI 34.82, below the 50-day (2818) and 200-day (2823); 1H and weekly structure both choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -9597,30 +9604,31 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +15.80% to 28.44 on 19 November, its highest since March per CNBC and near an eight-month high per DeItaone; GVZ 28.70; VXN 36.48), so volRegime is 0.",
+    "The latest obtainable AAII survey (week ending 11 November; the 19 November release was not obtained) shows 51.4% bearish vs a 31.5% average, but AAII names no record or percentile, so crowd is left at 0; JP Morgan's aggregate US positioning at about the 20th percentile since 2015 names a percentile, but a 20th-percentile reading is not an extreme, so it does not qualify."
    ]
   },
   "qqq": {
-   "name": "TODO: fill in before publish",
+   "name": "Nasdaq-100",
    "instrument": "NQ=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 26538.25,
    "sigma": 36.47999954223633,
    "sigmaSource": "^VXN close 36.47999954223633 on 2026-11-19",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "NQ=F closed 26538.25 on 19 November (from 27454.25, -3.34%) as the Nasdaq-100 cash index fell 2.21% to 26,517.05 and the Composite 2.25% after rising as much as 2% early on Anthropic's debut (CappNotes Closing Look, 19 November): Anthropic opened at $111.50 and closed $97.17 (+17.07% vs the $83 IPO price, the largest IPO on record at $81.3B); Nvidia -3.30%, AMD -7.72% (Hunterbrook short), Alphabet -3.46%, Amazon -3.87%, CoreWeave -6.10%; Intuit ~-10% and Anthropic -4.70% after hours (StockTitan Stock Market Today, 19 November); TAIEX -4.40%; SOXX -$3.16B outflow; VXN 36.48; RSI 33.14, below the 50-day (29476) and 200-day (28198); 1H and weekly structure both choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -11297,7 +11305,9 @@
    "crowd": 0,
    "stretchDrivers": [],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No VIX/MOVE/implied-volatility print naming a percentile, record or multi-year extreme was obtained (VIX +15.80% to 28.44 on 19 November, its highest since March per CNBC and near an eight-month high per DeItaone; GVZ 28.70; VXN 36.48), so volRegime is 0.",
+    "The latest obtainable AAII survey (week ending 11 November; the 19 November release was not obtained) shows 51.4% bearish vs a 31.5% average, but AAII names no record or percentile, so crowd is left at 0; JP Morgan's aggregate US positioning at about the 20th percentile since 2015 names a percentile, but a 20th-percentile reading is not an extreme, so it does not qualify.",
+    "JP Morgan's global semis exposure at about the 80th percentile since 2015 and Morgan Stanley's -7.2% hedge-fund tech underweight point in opposite directions and neither is a top/bottom-decile or record reading, so crowd stays 0; SOXX's largest weekly outflow is a flow ranking within one week's ETF list, not a documented record."
    ]
   }
  },
@@ -11388,7 +11398,93 @@
    }
   },
   "dataNotes": [
-   "TODO: fill in before publish"
+   "Run timing: this cycle ran the morning of Friday 20 November 2026 after the GitHub Actions fetch job drafted contracts/*.2026-11-19.json from Thursday 19 November's close. Every figure used is dated at or before 2026-11-19; Intuit, Ross Stores, Gap, Elastic and Anthropic after-hours moves are dated 19 November. News-log entries dated 20 November (Asia's sell-off, Friday gold/bitcoin moves) were NOT used.",
+   "Bonds, dollar and IWM sigma are not auto-fetched; the last obtainable implied-volatility values (TLT 30-day IV, EUR/USD 1-month ATM IV, RVX) were carried forward again with stale-source notes. The fetched ^VIX (28.44), ^GVZ (28.70) and ^VXN (36.48) sigma gauges are dated 19 November.",
+   "News-log entries for 2026-11-19 (four, matching the Artifact database exactly; already present in data/news_log.json; no hand-entered entries) were read. Session wraps from CappNotes ('Closing Look - Thursday, November 19, 2026'), Strategitz ('Global Markets Close - November 19, 2026') and StockTitan ('Stock Market Today, November 19, 2026') supplied indexes, breadth, sectors, VIX, yields, FX, metals/oil, credit, ETF flows, Kalshi/FedWatch pricing, economic data, the Anthropic debut and movers. AAII's 19 November release could not be obtained; the week-ending-11-November reading is used. EUR/USD and the MOVE index were not obtainable.",
+   "Vendor conflicts: gold's session change is -3.04% to $3,628.30 late-session (CappNotes) vs -3.22% on the fetched GC=F close (3737.9 -> 3617.7); the fetched close is used. The dollar index is 103.88 (CappNotes) vs 103.95 (Strategitz) vs a fetched 103.92. VIX closed 28.44 (CappNotes, matching the fetched close) vs 28.31 (Strategitz). Anthropic's IPO raise is $81.3B (CappNotes, StockTitan) vs $107.3B (Strategitz) - the lower figure, matching the news log, is cited. CappNotes gives the high-yield spread +4bp on the day but '+24bp over three sessions'. ES=F fell 2.50% and NQ=F 3.34% on fetched closes vs the cash indexes' -2.02% and -2.21%, because the prior futures closes were struck at a different time from Wednesday's cash close; the fetched closes are used.",
+   "Category 1-12 votes are neutral unless a dated source gives a clear read: Breadth (1D) is bearish for the three equity assets on the 37/464 S&P 500 split, all 11 sectors down and small caps worst; Credit (1D) is bearish for the equity assets on three sessions of high-yield widening (plus neo-cloud private-credit tightening for the Nasdaq-100); Earnings (1D) is bearish for the S&P 500 and Nasdaq-100 on the AI reversal (Nvidia, AMD, Anthropic's fade) and Intuit/Ross after-hours drops; Rates (1D) and Cross-asset (1D) are bullish for Treasuries on the fourth straight 10-year decline and the risk-off tape; Fed path is hawkish horizon-wide (Kalshi 89.3% / FedWatch 96.4% for a 25bp December hike) - bearish for equities, Treasuries and gold, bullish for the dollar; Cross-asset (1D) is bearish for gold (silver, copper, crypto liquidation; Bespoke's fastest three-month decline since 2013), bullish for the dollar (EM and commodity-FX weakness) and bearish for the Nasdaq-100 (TAIEX -4.40%); Sentiment (5D/10D) is a contrarian bullish vote for the equity assets on AAII's 51.4% bearish reading; Positioning (5D/10D) is bullish for the S&P 500 on JP Morgan's ~20th-percentile aggregate US positioning, neutral for the Nasdaq-100 where light hedge-fund tech exposure offsets ~80th-percentile semis exposure. Oil was flat, so the S&P 500's and Russell 2000's dominant oil driver gives no read. Trend structure follows the computed structure reads; Market structure carries its own mechanical direction."
+  ],
+  "newsLog": [
+   {
+    "id": "2026-11-19-1-anthropic-ipo-prices-above-range-lifts-futures",
+    "data": {
+     "addedAt": "2026-11-19",
+     "category": "Deals",
+     "date": "2026-11-19",
+     "day": "Thu",
+     "direction": "Bullish",
+     "event": "Anthropic priced its Nasdaq IPO (ticker ANT) above range ahead of today's debut, lifting index futures led by tech, chips and cloud names.",
+     "impact": "High",
+     "numbers": "Priced $83/sh vs $70-78 range; ~980M shares, ~$81.3B raised (+$26B private placement); grey market implied +20-26% open. Nasdaq 100 fut +2.2%, S&P fut +1.25%, Dow fut +0.65%",
+     "order": 1,
+     "reaction": "Tech-led relief rally in futures after S&P 500's five-day losing streak; AI-linked chip, memory and optical names up 2-6% pre-market.",
+     "region": "US",
+     "source": "https://www.tradingkey.com/analysis/stocks/us-stocks/262313137-us-pre-market-anthropic-tradingkey",
+     "tickers": "ANT, QQQ, Nasdaq, SPY, S&P, GOOGL, AMZN, MU, NVDA",
+     "time": "Pre-market",
+     "vsExp": "Priced above range"
+    }
+   },
+   {
+    "id": "2026-11-19-2-hawkish-fed-minutes-keep-yields-elevated",
+    "data": {
+     "addedAt": "2026-11-19",
+     "category": "Fed",
+     "date": "2026-11-19",
+     "day": "Thu",
+     "direction": "Bearish",
+     "event": "Hawkish October FOMC minutes (released Wed) showed nearly all participants expect further hikes would likely be appropriate; Treasury yields stay near cycle highs and the dollar near its strongest since Jan 2025.",
+     "impact": "High",
+     "numbers": "Fed funds 3.75-4.00% (10-2 hold); 2Y >4.80%, 10Y ~5.10%, 30Y ~5.42%; two officials floated a >25bp hike",
+     "order": 2,
+     "reaction": "Rate-hike fears cap equity gains and pressure bonds; dollar slightly lower overnight but near multi-month highs.",
+     "region": "US",
+     "source": "https://www.marketscreener.com/news/stock-futures-rise-as-optimism-improves-ahead-of-anthropic-trading-debut-ce785ed2d98bf226",
+     "tickers": "TLT, 10Y, yield, Treasury, DXY, USD, dollar, SPY, S&P",
+     "time": "Pre-market",
+     "vsExp": "More hawkish than expected"
+    }
+   },
+   {
+    "id": "2026-11-19-3-jobless-claims-203k-philly-fed-plunges-to-6-3",
+    "data": {
+     "addedAt": "2026-11-19",
+     "category": "Macro",
+     "date": "2026-11-19",
+     "day": "Thu",
+     "direction": "Mixed",
+     "event": "Initial jobless claims edged up to 203K and the Philadelphia Fed manufacturing index fell to a six-month low, while its prices-paid gauge jumped.",
+     "impact": "Medium",
+     "numbers": "Claims 203K (prior 202K), continuing 1.763M (+70K); Philly Fed 6.3 (prior 20.9), new orders -0.4, prices paid 58.2 (prior 43.2)",
+     "order": 3,
+     "reaction": "Softer activity but hotter input prices - a stagflationary mix that complicates the Fed's hike debate.",
+     "region": "US",
+     "source": "https://mlq.ai/news/jobless-claims-edge-up-to-203000-as-the-philadelphia-fed-index-falls-to-a-six-month-low-and-prices-paid-jump/",
+     "tickers": "TLT, 10Y, yield, Treasury, SPY, S&P, IWM, Russell",
+     "time": "Pre-market",
+     "vsExp": "Claims above 197K est.; Philly Fed well below 23.2 est."
+    }
+   },
+   {
+    "id": "2026-11-19-4-gold-and-silver-hit-52-week-lows",
+    "data": {
+     "addedAt": "2026-11-19",
+     "category": "Commodities",
+     "date": "2026-11-19",
+     "day": "Thu",
+     "direction": "Bearish",
+     "event": "Gold and silver slid to 52-week lows as high real yields and a firm dollar weigh on precious metals; oil stabilized.",
+     "impact": "Medium",
+     "numbers": "Spot gold briefly below $3,700/oz; silver $45.11/oz; WTI $82.09, Brent $91.73/bbl",
+     "order": 4,
+     "reaction": "Precious metals and miners under pressure; selling extends the recent slide.",
+     "region": "Global",
+     "source": "https://www.tradingkey.com/analysis/stocks/us-stocks/262313137-us-pre-market-anthropic-tradingkey",
+     "tickers": "GLD, gold, SLV, silver",
+     "time": "Pre-market",
+     "vsExp": "n/a"
+    }
+   }
   ]
  }
 }
