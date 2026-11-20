@@ -381,62 +381,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for ES=F on 19 November (last labeled hourly swings LL/LH/HL/HH); RSI 30.92, close (7193.0) below the 50-day (7677.68) and below the 200-day (7377.05); the swing read gives no consistent direction, so neutral"
+       "structure.hourly reads choppy for ES=F on 19 November (last labeled hourly swings LL/LH/HL/HH); RSI 30.92, close (7193.0) below the 50-day (7677.68) and below the 200-day (7377.05); the swing read gives no consistent direction, so neutral",
+       null
       ],
       [
        "bear",
-       "Breadth collapsed on 19 November: S&P 500 decliners 464 vs advancers 37, all 11 sectors lower, Dow with only one of 30 components up, RSP -1.76% vs the index -2.02% (CappNotes Closing Look, 19 November); a near-universal reversal from an early rally is a 1-day headwind"
+       "Breadth collapsed on 19 November: S&P 500 decliners 464 vs advancers 37, all 11 sectors lower, Dow with only one of 30 components up, RSP -1.76% vs the index -2.02% (CappNotes Closing Look, 19 November); a near-universal reversal from an early rally is a 1-day headwind",
+       false
       ],
       [
        "neu",
-       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral"
+       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "bear",
-       "Credit kept widening: the ICE BofA high-yield spread rose to 3.47% on 18 November from 3.43% (24bp over three sessions per the source) and investment grade to 0.93% from 0.92%; HYG -0.16%, LQD -0.07% (CappNotes Closing Look, 19 November); widening junk spreads into a sixth straight S&P 500 loss are a 1-day headwind"
+       "Credit kept widening: the ICE BofA high-yield spread rose to 3.47% on 18 November from 3.43% (24bp over three sessions per the source) and investment grade to 0.93% from 0.92%; HYG -0.16%, LQD -0.07% (CappNotes Closing Look, 19 November); widening junk spreads into a sixth straight S&P 500 loss are a 1-day headwind",
+       false
       ],
       [
        "neu",
-       "On 19 November the 2-year fell 4bp to 4.76%, the 10-year 3bp to 5.04% and the 30-year 1bp to 5.40% (CappNotes Closing Look, 19 November); a modest flight-to-quality dip in yields with no clean equity read (the S&P 500's 21-session 10Y correlation is only 0.295), so neutral"
+       "On 19 November the 2-year fell 4bp to 4.76%, the 10-year 3bp to 5.04% and the 30-year 1bp to 5.40% (CappNotes Closing Look, 19 November); a modest flight-to-quality dip in yields with no clean equity read (the S&P 500's 21-session 10Y correlation is only 0.295), so neutral",
+       null
       ],
       [
        "bear",
-       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for equity multiples"
+       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for equity multiples",
+       false
       ],
       [
        "neu",
-       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish, but a contrarian sentiment reading is not a 1-day timing signal, so neutral"
+       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish, but a contrarian sentiment reading is not a 1-day timing signal, so neutral",
+       null
       ],
       [
        "neu",
-       "Flows were two-sided: ARKK +$3.66B and SMH +$1.73B inflows vs SOXX -$3.16B, the largest outflow (CappNotes Closing Look, 19 November); JP Morgan put aggregate US positioning near the 20th percentile since 2015 (Strategitz Global Markets Close, 19 November), a multi-day rather than 1-day factor; neutral"
+       "Flows were two-sided: ARKK +$3.66B and SMH +$1.73B inflows vs SOXX -$3.16B, the largest outflow (CappNotes Closing Look, 19 November); JP Morgan put aggregate US positioning near the 20th percentile since 2015 (Strategitz Global Markets Close, 19 November), a multi-day rather than 1-day factor; neutral",
+       null
       ],
       [
        "bear",
-       "Earnings and AI news hit after the close and intraday: Intuit ~-10% after hours on a Q2 revenue guide of $4.93-4.95B vs $5.11B, Ross Stores ~-6% after hours on light Q4 EPS guidance, Elastic ~-6% after hours, Williams-Sonoma -15.16%; Nvidia -3.30% after erasing a 4.7% gain and AMD -7.72% on a Hunterbrook short report; Walmart -1.04% despite a raised outlook (CappNotes Closing Look, 19 November); a 1-day headwind"
+       "Earnings and AI news hit after the close and intraday: Intuit ~-10% after hours on a Q2 revenue guide of $4.93-4.95B vs $5.11B, Ross Stores ~-6% after hours on light Q4 EPS guidance, Elastic ~-6% after hours, Williams-Sonoma -15.16%; Nvidia -3.30% after erasing a 4.7% gain and AMD -7.72% on a Hunterbrook short report; Walmart -1.04% despite a raised outlook (CappNotes Closing Look, 19 November); a 1-day headwind",
+       false
       ],
       [
        "neu",
-       "19 November data were mixed: Philadelphia Fed 6.3 from 20.9 (six-month low) with prices paid jumping to 58.2 from 43.2 (news log; CappNotes Closing Look, 19 November), claims 203K, Conference Board LEI -0.3%, Kansas City Fed composite 18 from 11 (CappNotes Closing Look, 19 November); 20 November brings Waller, Cook and final UMich sentiment (binary), so neutral"
+       "19 November data were mixed: Philadelphia Fed 6.3 from 20.9 (six-month low) with prices paid jumping to 58.2 from 43.2 (news log; CappNotes Closing Look, 19 November), claims 203K, Conference Board LEI -0.3%, Kansas City Fed composite 18 from 11 (CappNotes Closing Look, 19 November); 20 November brings Waller, Cook and final UMich sentiment (binary), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "WTI was flat (-0.06% to $83.21) (CappNotes Closing Look, 19 November), so oil - the S&P 500's dominant 21-session driver (corr -0.423) - gives no read; overseas equities were mixed (STOXX 600 -0.88%, TAIEX -4.40%, Kospi +1.39%, Nikkei +0.71%) (CappNotes Closing Look, 19 November); neutral"
+       "WTI was flat (-0.06% to $83.21) (CappNotes Closing Look, 19 November), so oil - the S&P 500's dominant 21-session driver (corr -0.423) - gives no read; overseas equities were mixed (STOXX 600 -0.88%, TAIEX -4.40%, Kospi +1.39%, Nikkei +0.71%) (CappNotes Closing Look, 19 November); neutral",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 7160.25,
+     "ret": -0.004553,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -2472,62 +2487,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for ZN=F on 19 November (last labeled hourly swings HH/HL/LH/LL); RSI 49.9, close (105.9531) above the 50-day (105.62) and below the 200-day (109.05); the swing read gives no consistent direction, so neutral"
+       "structure.hourly reads choppy for ZN=F on 19 November (last labeled hourly swings HH/HL/LH/LL); RSI 49.9, close (105.9531) above the 50-day (105.62) and below the 200-day (109.05); the swing read gives no consistent direction, so neutral",
+       null
       ],
       [
        "neu",
-       "Equity breadth has no direct bearing on Treasuries, so neutral"
+       "Equity breadth has no direct bearing on Treasuries, so neutral",
+       null
       ],
       [
        "neu",
-       "No MOVE or Treasury implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "No MOVE or Treasury implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "The high-yield spread widened to 3.47% (CappNotes Closing Look, 19 November), a risk-off signal, but no dated Treasury-specific credit read; neutral"
+       "The high-yield spread widened to 3.47% (CappNotes Closing Look, 19 November), a risk-off signal, but no dated Treasury-specific credit read; neutral",
+       null
       ],
       [
        "bull",
-       "Yields fell across the curve on 19 November: 2-year -4bp to 4.76%, 5-year -3bp to 4.86%, 10-year -3bp to 5.04%, 30-year -1bp to 5.40% (Strategitz Global Markets Close, 19 November; CappNotes Closing Look, 19 November), a fourth straight decline in the 10-year; a 1-day support for note prices"
+       "Yields fell across the curve on 19 November: 2-year -4bp to 4.76%, 5-year -3bp to 4.86%, 10-year -3bp to 5.04%, 30-year -1bp to 5.40% (Strategitz Global Markets Close, 19 November; CappNotes Closing Look, 19 November), a fourth straight decline in the 10-year; a 1-day support for note prices",
+       false
       ],
       [
        "bear",
-       "Fed-path pricing stayed hawkish on 19 November: Kalshi 89.3% for a 25bp hike on 9 December and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), with the October minutes ('almost all' saw further tightening as likely appropriate) and Waller's 50bp push still the reference (Strategitz Global Markets Close, 19 November); more hikes priced is bearish for note prices"
+       "Fed-path pricing stayed hawkish on 19 November: Kalshi 89.3% for a 25bp hike on 9 December and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), with the October minutes ('almost all' saw further tightening as likely appropriate) and Waller's 50bp push still the reference (Strategitz Global Markets Close, 19 November); more hikes priced is bearish for note prices",
+       false
       ],
       [
        "neu",
-       "No dated Treasury sentiment survey was obtained, so neutral"
+       "No dated Treasury sentiment survey was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated Treasury-fund flow or CFTC figure for this window was obtained, so neutral"
+       "No dated Treasury-fund flow or CFTC figure for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts have no direct bearing on Treasuries, so neutral"
+       "Earnings catalysts have no direct bearing on Treasuries, so neutral",
+       null
       ],
       [
        "neu",
-       "19 November data cut both ways: Philadelphia Fed fell to a six-month low of 6.3 and the LEI -0.3% (soft growth, supportive) while Philly prices paid jumped to 58.2 from 43.2 (hot inputs, adverse) (news log; CappNotes Closing Look, 19 November); Waller and Cook speak 20 November; neutral"
+       "19 November data cut both ways: Philadelphia Fed fell to a six-month low of 6.3 and the LEI -0.3% (soft growth, supportive) while Philly prices paid jumped to 58.2 from 43.2 (hot inputs, adverse) (news log; CappNotes Closing Look, 19 November); Waller and Cook speak 20 November; neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "bull",
-       "Risk-off cross-asset tone supports Treasuries: S&P 500 -2.02% with 464 decliners, VIX +15.80% to 28.44, all 11 sectors lower (CappNotes Closing Look, 19 November); oil flat; 1-day bullish for note prices"
+       "Risk-off cross-asset tone supports Treasuries: S&P 500 -2.02% with 464 decliners, VIX +15.80% to 28.44, all 11 sectors lower (CappNotes Closing Look, 19 November); oil flat; 1-day bullish for note prices",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 106.375,
+     "ret": 0.003982,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -5095,62 +5125,77 @@
      "votes": [
       [
        "bear",
-       "structure.hourly reads downtrend for GC=F on 19 November (last labeled hourly swings LH/LL/LH/LL); RSI 24.72, close (3617.7) below the 50-day (4127.38) and below the 200-day (4451.21); the swing read is a run of lower highs and lower lows, so bearish"
+       "structure.hourly reads downtrend for GC=F on 19 November (last labeled hourly swings LH/LL/LH/LL); RSI 24.72, close (3617.7) below the 50-day (4127.38) and below the 200-day (4451.21); the swing read is a run of lower highs and lower lows, so bearish",
+       true
       ],
       [
        "neu",
-       "Equity breadth has no direct bearing on gold, so neutral"
+       "Equity breadth has no direct bearing on gold, so neutral",
+       null
       ],
       [
        "neu",
-       "GVZ closed 28.70 on 19 November (fetched); no gold implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "GVZ closed 28.70 on 19 November (fetched); no gold implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit read bears directly on gold, so neutral"
+       "No dated credit read bears directly on gold, so neutral",
+       null
       ],
       [
        "neu",
-       "Treasury yields fell 3-4bp at the front and belly (CappNotes Closing Look, 19 November), mildly supportive for a non-yielding asset, but gold still fell -3.04% with yields and real-yield levels near cycle highs (news log); no clean 1-day read, neutral"
+       "Treasury yields fell 3-4bp at the front and belly (CappNotes Closing Look, 19 November), mildly supportive for a non-yielding asset, but gold still fell -3.04% with yields and real-yield levels near cycle highs (news log); no clean 1-day read, neutral",
+       null
       ],
       [
        "bear",
-       "Fed path is hawkish for a non-yielding asset: Kalshi 89.3% for a 25bp 9 December hike and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), the October minutes and Waller's 50bp push (Strategitz Global Markets Close, 19 November); bearish for gold"
+       "Fed path is hawkish for a non-yielding asset: Kalshi 89.3% for a 25bp 9 December hike and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), the October minutes and Waller's 50bp push (Strategitz Global Markets Close, 19 November); bearish for gold",
+       true
       ],
       [
        "neu",
-       "No dated gold sentiment survey was obtained, so neutral"
+       "No dated gold sentiment survey was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated CFTC or gold-ETF flow figure covering this window was obtained (GLD -1.76%, GDX -3.77% on price (Strategitz Global Markets Close, 19 November)), so neutral"
+       "No dated CFTC or gold-ETF flow figure covering this window was obtained (GLD -1.76%, GDX -3.77% on price (Strategitz Global Markets Close, 19 November)), so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts have no direct bearing on gold, so neutral"
+       "Earnings catalysts have no direct bearing on gold, so neutral",
+       null
       ],
       [
        "neu",
-       "The 20 November calendar (Waller, Cook, UMich) is binary for gold (CappNotes Closing Look, 19 November), so neutral"
+       "The 20 November calendar (Waller, Cook, UMich) is binary for gold (CappNotes Closing Look, 19 November), so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "bear",
-       "Cross-asset liquidation continued: gold -3.04% to $3,628.30, silver -4.75% to $42.86, copper -1.34%, bitcoin -2.39% (CappNotes Closing Look, 19 November), with the dollar index near a 19-month high (103.88) (CappNotes Closing Look, 19 November) and Bespoke calling gold's three-month decline the fastest since 2013 (Strategitz Global Markets Close, 19 November); 1-day bearish"
+       "Cross-asset liquidation continued: gold -3.04% to $3,628.30, silver -4.75% to $42.86, copper -1.34%, bitcoin -2.39% (CappNotes Closing Look, 19 November), with the dollar index near a 19-month high (103.88) (CappNotes Closing Look, 19 November) and Bespoke calling gold's three-month decline the fastest since 2013 (Strategitz Global Markets Close, 19 November); 1-day bearish",
+       true
       ],
       [
        "bear",
-       "1H structure is downtrend - last labeled swings: LH/LL/LH/LL."
+       "1H structure is downtrend - last labeled swings: LH/LL/LH/LL.",
+       true
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 3574.300048828125,
+     "ret": -0.011997,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -7151,62 +7196,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for DX-Y.NYB on 19 November (last labeled hourly swings HL/HL/HH/LL); RSI 70.35, close (103.924) above the 50-day (101.79) and above the 200-day (99.98); the swing read gives no consistent direction, so neutral"
+       "structure.hourly reads choppy for DX-Y.NYB on 19 November (last labeled hourly swings HL/HL/HH/LL); RSI 70.35, close (103.924) above the 50-day (101.79) and above the 200-day (99.98); the swing read gives no consistent direction, so neutral",
+       null
       ],
       [
        "neu",
-       "Equity breadth has no direct bearing on the dollar index, so neutral"
+       "Equity breadth has no direct bearing on the dollar index, so neutral",
+       null
       ],
       [
        "neu",
-       "No FX implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "No FX implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit read bears directly on the dollar, so neutral"
+       "No dated credit read bears directly on the dollar, so neutral",
+       null
       ],
       [
        "neu",
-       "US yields fell 3-4bp (CappNotes Closing Look, 19 November) - a mild negative for the dollar's yield edge (10Y is its dominant 21-session driver, corr 0.455) - but the move is small and the dollar still rose; neutral"
+       "US yields fell 3-4bp (CappNotes Closing Look, 19 November) - a mild negative for the dollar's yield edge (10Y is its dominant 21-session driver, corr 0.455) - but the move is small and the dollar still rose; neutral",
+       null
       ],
       [
        "bull",
-       "Fed path is hawkish relative to peers: Kalshi 89.3% for a 25bp 9 December hike and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), the October minutes and Waller's 50bp push (Strategitz Global Markets Close, 19 November) keep the US rate advantage; bullish for the dollar"
+       "Fed path is hawkish relative to peers: Kalshi 89.3% for a 25bp 9 December hike and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), the October minutes and Waller's 50bp push (Strategitz Global Markets Close, 19 November) keep the US rate advantage; bullish for the dollar",
+       false
       ],
       [
        "neu",
-       "No dated dollar sentiment survey was obtained, so neutral"
+       "No dated dollar sentiment survey was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated CFTC or FX-flow figure for this window was obtained, so neutral"
+       "No dated CFTC or FX-flow figure for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts have no direct bearing on the dollar, so neutral"
+       "Earnings catalysts have no direct bearing on the dollar, so neutral",
+       null
       ],
       [
        "neu",
-       "20 November brings Waller, Cook and final UMich sentiment (CappNotes Closing Look, 19 November); binary, so neutral"
+       "20 November brings Waller, Cook and final UMich sentiment (CappNotes Closing Look, 19 November); binary, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "bull",
-       "Risk-off FX demand: DXY +0.1% to 103.88 near a 19-month high, USD/MXN +1.45% (peso weakest since June 2025), USD/BRL +1.15% (real weakest since April 2025), USD/JPY +0.2% to 159.615, GBP/USD -0.4% (CappNotes Closing Look, 19 November); AUD erased its 2026 gains at 0.6662 (MUFG via Strategitz Global Markets Close, 19 November); 1-day bullish"
+       "Risk-off FX demand: DXY +0.1% to 103.88 near a 19-month high, USD/MXN +1.45% (peso weakest since June 2025), USD/BRL +1.15% (real weakest since April 2025), USD/JPY +0.2% to 159.615, GBP/USD -0.4% (CappNotes Closing Look, 19 November); AUD erased its 2026 gains at 0.6662 (MUFG via Strategitz Global Markets Close, 19 November); 1-day bullish",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 103.71700286865234,
+     "ret": -0.001992,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 5,
@@ -9262,62 +9322,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for RTY=F on 19 November (last labeled hourly swings LH/HL/HH/HH); RSI 34.82, close (2660.3) below the 50-day (2818.26) and below the 200-day (2822.76); the swing read gives no consistent direction, so neutral"
+       "structure.hourly reads choppy for RTY=F on 19 November (last labeled hourly swings LH/HL/HH/HH); RSI 34.82, close (2660.3) below the 50-day (2818.26) and below the 200-day (2822.76); the swing read gives no consistent direction, so neutral",
+       null
       ],
       [
        "bear",
-       "Small caps lagged in a near-universal decline: Russell 2000 -2.18% to 2,655.11 and S&P SmallCap 600 -2.35%, worst of the major indexes, with S&P 500 breadth 37 advancers vs 464 decliners (CappNotes Closing Look, 19 November); a 1-day headwind"
+       "Small caps lagged in a near-universal decline: Russell 2000 -2.18% to 2,655.11 and S&P SmallCap 600 -2.35%, worst of the major indexes, with S&P 500 breadth 37 advancers vs 464 decliners (CappNotes Closing Look, 19 November); a 1-day headwind",
+       false
       ],
       [
        "neu",
-       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral"
+       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "bear",
-       "Credit kept widening: the ICE BofA high-yield spread rose to 3.47% on 18 November from 3.43% (24bp over three sessions per the source) and investment grade to 0.93% from 0.92%; HYG -0.16%, LQD -0.07% (CappNotes Closing Look, 19 November); widening junk spreads into a sixth straight S&P 500 loss are a 1-day headwind; small caps are the most credit-sensitive equity segment"
+       "Credit kept widening: the ICE BofA high-yield spread rose to 3.47% on 18 November from 3.43% (24bp over three sessions per the source) and investment grade to 0.93% from 0.92%; HYG -0.16%, LQD -0.07% (CappNotes Closing Look, 19 November); widening junk spreads into a sixth straight S&P 500 loss are a 1-day headwind; small caps are the most credit-sensitive equity segment",
+       false
       ],
       [
        "neu",
-       "The 2-year fell 4bp to 4.76% (CappNotes Closing Look, 19 November), a small relief for rate-sensitive small caps, but with no clean 1-day read (Russell 2000 21-session 2Y corr -0.303); neutral"
+       "The 2-year fell 4bp to 4.76% (CappNotes Closing Look, 19 November), a small relief for rate-sensitive small caps, but with no clean 1-day read (Russell 2000 21-session 2Y corr -0.303); neutral",
+       null
       ],
       [
        "bear",
-       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for small-cap financing costs"
+       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for small-cap financing costs",
+       false
       ],
       [
        "neu",
-       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish, but a contrarian sentiment reading is not a 1-day timing signal, so neutral"
+       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish, but a contrarian sentiment reading is not a 1-day timing signal, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated small-cap fund-flow or CFTC figure for this window was obtained, so neutral"
+       "No dated small-cap fund-flow or CFTC figure for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Small- and mid-cap earnings were mostly negative (StoneX -26.71%, Liquidity Services -24.88%, Williams-Sonoma -15.16%) against Valvoline +10.40% (CappNotes Closing Look, 19 November); idiosyncratic, so neutral"
+       "Small- and mid-cap earnings were mostly negative (StoneX -26.71%, Liquidity Services -24.88%, Williams-Sonoma -15.16%) against Valvoline +10.40% (CappNotes Closing Look, 19 November); idiosyncratic, so neutral",
+       null
       ],
       [
        "neu",
-       "19 November data were mixed: Philadelphia Fed 6.3 (six-month low) with prices paid 58.2, LEI -0.3%, Kansas City Fed 18 (CappNotes Closing Look, 19 November); binary 20 November calendar; neutral"
+       "19 November data were mixed: Philadelphia Fed 6.3 (six-month low) with prices paid 58.2, LEI -0.3%, Kansas City Fed 18 (CappNotes Closing Look, 19 November); binary 20 November calendar; neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "WTI was flat (-0.06% to $83.21) (CappNotes Closing Look, 19 November), so oil - the Russell 2000's dominant 21-session driver (corr -0.442) - gives no read; neutral"
+       "WTI was flat (-0.06% to $83.21) (CappNotes Closing Look, 19 November), so oil - the Russell 2000's dominant 21-session driver (corr -0.442) - gives no read; neutral",
+       null
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2656.10009765625,
+     "ret": -0.001579,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 5,
@@ -11233,62 +11308,77 @@
      "votes": [
       [
        "neu",
-       "structure.hourly reads choppy for NQ=F on 19 November (last labeled hourly swings LL/HH/HL/HH); RSI 33.14, close (26538.25) below the 50-day (29475.91) and below the 200-day (28198.18); the swing read gives no consistent direction, so neutral"
+       "structure.hourly reads choppy for NQ=F on 19 November (last labeled hourly swings LL/HH/HL/HH); RSI 33.14, close (26538.25) below the 50-day (29475.91) and below the 200-day (28198.18); the swing read gives no consistent direction, so neutral",
+       null
       ],
       [
        "bear",
-       "Breadth was near-universally negative: Nasdaq-100 -2.21% to 26,517.05, Nasdaq Composite -2.25% after rising as much as 2% early, technology -1.90%, communication services -2.67%, consumer discretionary -2.79%, S&P 500 decliners 464 vs 37 advancers (CappNotes Closing Look, 19 November); a 1-day headwind"
+       "Breadth was near-universally negative: Nasdaq-100 -2.21% to 26,517.05, Nasdaq Composite -2.25% after rising as much as 2% early, technology -1.90%, communication services -2.67%, consumer discretionary -2.79%, S&P 500 decliners 464 vs 37 advancers (CappNotes Closing Look, 19 November); a 1-day headwind",
+       false
       ],
       [
        "neu",
-       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral"
+       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "bear",
-       "Credit kept widening (ICE BofA high yield 3.47% on 18 November from 3.43%; IG 0.93%) (CappNotes Closing Look, 19 November) and Odd Lots reported neo-cloud GPU loan-to-value ratios cut from ~80% to 50-60% as private credit tightens (Strategitz Global Markets Close, 19 November); a 1-day headwind for AI-capex names"
+       "Credit kept widening (ICE BofA high yield 3.47% on 18 November from 3.43%; IG 0.93%) (CappNotes Closing Look, 19 November) and Odd Lots reported neo-cloud GPU loan-to-value ratios cut from ~80% to 50-60% as private credit tightens (Strategitz Global Markets Close, 19 November); a 1-day headwind for AI-capex names",
+       false
       ],
       [
        "neu",
-       "Yields fell 3-4bp (CappNotes Closing Look, 19 November); the Nasdaq-100's dominant 21-session driver is the 10-year with a positive correlation (0.422), so a small yield dip gives no clean read; neutral"
+       "Yields fell 3-4bp (CappNotes Closing Look, 19 November); the Nasdaq-100's dominant 21-session driver is the 10-year with a positive correlation (0.422), so a small yield dip gives no clean read; neutral",
+       null
       ],
       [
        "bear",
-       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for long-duration tech multiples"
+       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for long-duration tech multiples",
+       false
       ],
       [
        "neu",
-       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish, but a contrarian sentiment reading is not a 1-day timing signal, so neutral"
+       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish, but a contrarian sentiment reading is not a 1-day timing signal, so neutral",
+       null
       ],
       [
        "neu",
-       "Flows were two-sided: SOXX -$3.16B (largest outflow) vs SMH +$1.73B and ARKK +$3.66B (CappNotes Closing Look, 19 November); neutral"
+       "Flows were two-sided: SOXX -$3.16B (largest outflow) vs SMH +$1.73B and ARKK +$3.66B (CappNotes Closing Look, 19 November); neutral",
+       null
       ],
       [
        "bear",
-       "AI names reversed hard: Nvidia -3.30% after erasing a 4.7% gain (Daiwa cut its target to $185), AMD -7.72% on a Hunterbrook short report, Alphabet -3.46%, Amazon -3.87%, CoreWeave -6.10%, Nebius -9.39%; Anthropic opened at $111.50 but closed $97.17 (+17.07% vs the $83 IPO price) (CappNotes Closing Look, 19 November) and was -4.70% after hours; Intuit ~-10% after hours on weak guidance (StockTitan Stock Market Today, 19 November); 1-day bearish"
+       "AI names reversed hard: Nvidia -3.30% after erasing a 4.7% gain (Daiwa cut its target to $185), AMD -7.72% on a Hunterbrook short report, Alphabet -3.46%, Amazon -3.87%, CoreWeave -6.10%, Nebius -9.39%; Anthropic opened at $111.50 but closed $97.17 (+17.07% vs the $83 IPO price) (CappNotes Closing Look, 19 November) and was -4.70% after hours; Intuit ~-10% after hours on weak guidance (StockTitan Stock Market Today, 19 November); 1-day bearish",
+       false
       ],
       [
        "neu",
-       "19 November data were mixed (Philadelphia Fed 6.3, prices paid 58.2, LEI -0.3%) (CappNotes Closing Look, 19 November); binary 20 November calendar; neutral"
+       "19 November data were mixed (Philadelphia Fed 6.3, prices paid 58.2, LEI -0.3%) (CappNotes Closing Look, 19 November); binary 20 November calendar; neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "bear",
-       "Asian tech sold off with the US: Taiwan's TAIEX -4.40% to a seven-month low with a weekly loss above 10%, Hang Seng -1.95% (CappNotes Closing Look, 19 November); 1-day bearish for the chip-heavy Nasdaq-100"
+       "Asian tech sold off with the US: Taiwan's TAIEX -4.40% to a seven-month low with a weekly loss above 10%, Hang Seng -1.95% (CappNotes Closing Look, 19 November); 1-day bearish for the chip-heavy Nasdaq-100",
+       false
       ],
       [
        "neu",
-       "1H structure is choppy - no consistent run of higher or lower swings."
+       "1H structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 26270.0,
+     "ret": -0.010108,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 5,
