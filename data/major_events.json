@@ -1,6 +1,6 @@
 {
  "about": "Major market events since 2000 and SPY's move that day and over the next 21 sessions (mtl/events.py). Curated through Oct 2026; new ones are added nightly by scripts/major_events.py. Information only.",
- "updated": "2026-11-20T20:30:07+00:00",
+ "updated": "2026-11-20T23:11:47+00:00",
  "events": [
   {
    "d": "2000-03-10",
@@ -678,7 +678,7 @@
    "what": "Bank recapitalisation plans",
    "src": "curated",
    "day": 0.1452,
-   "month": 0.0144,
+   "month": 0.0143,
    "type": "Rescue / fiscal",
    "trend": "below",
    "gold": {
@@ -1097,7 +1097,7 @@
    "d": "2011-11-30",
    "what": "Central-bank dollar swap lines",
    "src": "curated",
-   "day": 0.0411,
+   "day": 0.0412,
    "month": 0.052,
    "type": "QE / backstop",
    "trend": "below",
@@ -1170,7 +1170,7 @@
    },
    "bonds": {
     "day": -0.0167,
-    "month": -0.0419
+    "month": -0.042
    },
    "plan": {
     "day": 0.0258,
@@ -2094,7 +2094,7 @@
    },
    "bonds": {
     "day": 0.0412,
-    "month": 0.065
+    "month": 0.0649
    },
    "plan": {
     "day": 0.0228,
@@ -3344,16 +3344,20 @@
    "d": "2026-11-20",
    "what": "Fear spike: the VIX closes at 32, its first close above 30 in three months",
    "src": "auto: VIX",
-   "day": -0.0325,
+   "day": -0.0364,
    "month": null,
    "type": "Fear spike",
    "trend": "below",
    "gold": {
-    "day": -0.0395,
+    "day": -0.0367,
     "month": null
    },
    "bonds": {
-    "day": 0.0142,
+    "day": 0.0137,
+    "month": null
+   },
+   "plan": {
+    "day": 0.0,
     "month": null
    }
   },
@@ -3361,16 +3365,20 @@
    "d": "2026-11-20",
    "what": "S&P 500 enters a correction (10%+ below its high)",
    "src": "auto: market phase",
-   "day": -0.0325,
+   "day": -0.0364,
    "month": null,
    "type": "Correction starts",
    "trend": "below",
    "gold": {
-    "day": -0.0395,
+    "day": -0.0367,
     "month": null
    },
    "bonds": {
-    "day": 0.0142,
+    "day": 0.0137,
+    "month": null
+   },
+   "plan": {
+    "day": 0.0,
     "month": null
    }
   },
@@ -3378,16 +3386,20 @@
    "d": "2026-11-20",
    "what": "S&P 500 −3.2% in a day: AI sell-off deepens: Anthropic (ANT) falls pre-market a day after its record debut, dragging chips and AI infrastructure names and pushing Nasdaq futures sharply lower (news log)",
    "src": "auto: big move",
-   "day": -0.0325,
+   "day": -0.0364,
    "month": null,
    "type": "Big down day",
    "trend": "below",
    "gold": {
-    "day": -0.0395,
+    "day": -0.0367,
     "month": null
    },
    "bonds": {
-    "day": 0.0142,
+    "day": 0.0137,
+    "month": null
+   },
+   "plan": {
+    "day": 0.0,
     "month": null
    }
   }

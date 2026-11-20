@@ -1,6 +1,6 @@
 {
  "about": "News forward test: fixed guesses about what follows each day's news, written before the next open and scored afterwards (mtl/news_forward.py). Information only.",
- "updated": "2026-11-20T20:30:12+00:00",
+ "updated": "2026-11-20T23:11:56+00:00",
  "version": 1,
  "started": "2026-10-31",
  "minN": 20,
@@ -944,6 +944,62 @@
    "at": "2026-11-19T23:36:39+00:00",
    "res": -0.02401,
    "hit": false
+  },
+  {
+   "d": "2026-11-20",
+   "id": "tone_tlt",
+   "asset": "TLT",
+   "h": 1,
+   "call": 1,
+   "at": "2026-11-20T23:11:56+00:00"
+  },
+  {
+   "d": "2026-11-20",
+   "id": "tone_gld",
+   "asset": "GLD",
+   "h": 1,
+   "call": 1,
+   "at": "2026-11-20T23:11:56+00:00"
+  },
+  {
+   "d": "2026-11-20",
+   "id": "tone_spy",
+   "asset": "SPY",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-20T23:11:56+00:00"
+  },
+  {
+   "d": "2026-11-20",
+   "id": "tone_qqq",
+   "asset": "QQQ",
+   "h": 2,
+   "call": -1,
+   "at": "2026-11-20T23:11:56+00:00"
+  },
+  {
+   "d": "2026-11-20",
+   "id": "pile_tlt",
+   "asset": "TLT",
+   "h": 5,
+   "call": 1,
+   "at": "2026-11-20T23:11:56+00:00"
+  },
+  {
+   "d": "2026-11-20",
+   "id": "pile_qqq",
+   "asset": "QQQ",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-20T23:11:56+00:00"
+  },
+  {
+   "d": "2026-11-20",
+   "id": "bounce",
+   "asset": "SPY",
+   "h": 1,
+   "call": 1,
+   "at": "2026-11-20T23:11:56+00:00"
   }
  ],
  "days": [
@@ -1081,6 +1137,15 @@
    "bearHi": 1,
    "fedBear": true,
    "calls": 6
+  },
+  {
+   "d": "2026-11-20",
+   "at": "2026-11-20T23:11:56+00:00",
+   "n": 4,
+   "tone": -5,
+   "bearHi": 2,
+   "fedBear": false,
+   "calls": 7
   }
  ],
  "summary": {
@@ -1091,7 +1156,7 @@
     "text": "Upbeat news day → long Treasuries lower the next day (downbeat → higher)",
     "asset": "TLT",
     "h": 1,
-    "calls": 14,
+    "calls": 15,
     "n": 14,
     "hits": 8,
     "rate": 0.571,
@@ -1104,7 +1169,7 @@
     "text": "Upbeat news day → gold lower the next day (downbeat → higher)",
     "asset": "GLD",
     "h": 1,
-    "calls": 14,
+    "calls": 15,
     "n": 14,
     "hits": 9,
     "rate": 0.643,
@@ -1117,7 +1182,7 @@
     "text": "The news tone carries into the S&P 500 the next day",
     "asset": "SPY",
     "h": 1,
-    "calls": 14,
+    "calls": 15,
     "n": 14,
     "hits": 6,
     "rate": 0.429,
@@ -1130,7 +1195,7 @@
     "text": "The news tone carries into the Nasdaq-100 over the next 2 days",
     "asset": "QQQ",
     "h": 2,
-    "calls": 14,
+    "calls": 15,
     "n": 13,
     "hits": 6,
     "rate": 0.462,
@@ -1156,7 +1221,7 @@
     "text": "2+ high-impact bearish items → long Treasuries higher over the next week",
     "asset": "TLT",
     "h": 5,
-    "calls": 5,
+    "calls": 6,
     "n": 5,
     "hits": 2,
     "rate": 0.4,
@@ -1169,7 +1234,7 @@
     "text": "2+ high-impact bearish items → Nasdaq-100 lower the next day",
     "asset": "QQQ",
     "h": 1,
-    "calls": 5,
+    "calls": 6,
     "n": 5,
     "hits": 2,
     "rate": 0.4,
@@ -1195,7 +1260,7 @@
     "text": "S&P 500 down 1.5%+ on a day with high-impact bearish news → S&P higher the next day",
     "asset": "SPY",
     "h": 1,
-    "calls": 4,
+    "calls": 5,
     "n": 4,
     "hits": 1,
     "rate": 0.25,
