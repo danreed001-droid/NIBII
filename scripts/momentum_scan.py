@@ -1764,8 +1764,9 @@ def main():
     except Exception as e:
         print(f"  volume break check failed: {e}", file=sys.stderr)
     try:   # the "any stock" chart at the bottom of the page: the last ~year of daily bars for every stock fetched (mtl/pickchart.py)
+        pc_x = fetch(['DBMF'], start=(date.fromisoformat(as_of) - timedelta(days=400)).isoformat(), adjusted=True, volumes=volumes)   # the plan's managed-futures haven
         n_pc = pickchart.write(os.path.join(ROOT, 'docs', 'ohlc.json'), dict(bars, **{t_: b_ for t_, b_ in bench.items() if t_ in ('SPY', 'QQQ', 'RSP')},
-                                                                              **{t_: b_ for t_, b_ in (asset_bars or {}).items()}), pickchart.load_names(ROOT), volumes=volumes)
+                                                                              **{t_: b_ for t_, b_ in (asset_bars or {}).items()}, **pc_x), pickchart.load_names(ROOT), volumes=volumes)
         print(f"  wrote docs/ohlc.json: {n_pc} tickers", file=sys.stderr)
     except Exception as e:
         print(f"  any-stock chart data failed: {e}", file=sys.stderr)
