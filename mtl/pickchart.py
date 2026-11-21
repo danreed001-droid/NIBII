@@ -31,10 +31,15 @@ def build(bars, names=None, n=N, volumes=None):
     return {'dates': days, 't': out, 'n': nm}
 
 
+FUNDS = {'SPY': 'S&P 500 fund', 'QQQ': 'Nasdaq-100 fund', 'RSP': 'Equal-weight S&P 500', 'GLD': 'Gold',
+         'TLT': 'Long Treasuries (20y+)', 'IEF': 'Treasuries (7-10y)', 'UUP': 'US dollar', 'DBC': 'Commodities',
+         'BIL': 'T-bills (1-3 month)', 'DBMF': 'Managed futures'}
+
+
 def load_names(root):
-    """{ticker: name} from data/sp500.csv and data/ndx100.csv."""
+    """{ticker: name} from data/sp500.csv and data/ndx100.csv, plus the funds (FUNDS)."""
     import csv
-    out = {}
+    out = dict(FUNDS)
     for f in ('sp500.csv', 'ndx100.csv'):
         p = os.path.join(root, 'data', f)
         if os.path.exists(p):

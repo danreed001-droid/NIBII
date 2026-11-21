@@ -19,4 +19,4 @@ def test_build_aligns_tickers_on_shared_dates_and_keeps_the_last_n():
 def test_load_names_reads_both_index_lists():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     nm = pickchart.load_names(root)
-    assert nm.get('AAPL') and len(nm) > 400
+    assert nm.get('AAPL') and len(nm) > 400 and nm['TLT'].startswith('Long') and nm['DBMF'] == 'Managed futures'

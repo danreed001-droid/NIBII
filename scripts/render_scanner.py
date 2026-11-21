@@ -808,7 +808,7 @@ __RESEARCH__
     <p class="chart-title">Any stock: daily candles with weekly candles and volume</p>
     <div class="pkbar"><input id="pk-in" list="pk-list" placeholder="Type a ticker, e.g. NVDA" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Ticker"><datalist id="pk-list"></datalist><button type="button" class="btn" id="pk-go">Show</button>
       <span class="swrng" id="pk-rng" role="group" aria-label="Chart range"></span><label class="wkc"><input type="checkbox" id="pk-wk" checked> Weekly candles (blue up, yellow down)</label></div>
-    <p class="chart-sub" id="pk-sub">S&amp;P 500 and Nasdaq-100 stocks, plus SPY, QQQ, gold and bonds. The prices load when you pick one.</p>
+    <p class="chart-sub" id="pk-sub">S&amp;P 500 and Nasdaq-100 stocks, plus SPY, QQQ, RSP, GLD, TLT, IEF, UUP, DBC, BIL and DBMF. The prices load when you pick one.</p>
     <div class="swchart" id="pk-chart"></div>
   </div>
 
@@ -2058,7 +2058,7 @@ __ISSUES__
       var t = inp.value.trim().toUpperCase();
       if (!t) return;
       load(function () {
-        if (!PK.t[t]) { sub.textContent = t + ' isn’t in the list (S&P 500, Nasdaq-100, SPY, QQQ, gold, bonds).'; return; }
+        if (!PK.t[t]) { sub.textContent = t + ' isn’t in the list (S&P 500, Nasdaq-100, SPY, QQQ, RSP, GLD, TLT, IEF, UUP, DBC, BIL, DBMF).'; return; }
         pkT = t; try { localStorage.setItem('nibii-pkt', t); } catch (e) {}
         draw();
       });
