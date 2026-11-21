@@ -196,6 +196,9 @@ __DOMCSS__
 .swchart .wkbox { fill-opacity: .05; stroke-width: .9; stroke-opacity: .9; }
 .swchart .wkwick { stroke-width: .9; stroke-opacity: .55; stroke-dasharray: 3 2; }
 .swchart { --wkup: #2f7fd6; --wkdn: #e0a800; }
+.swrng { display: inline-flex; gap: 4px; margin: 0 12px 4px 0; vertical-align: middle; }
+.swrng button { font: inherit; font-size: .78rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--hairline); background: transparent; color: var(--muted); cursor: pointer; }
+.swrng button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .wkc { font-size: .8rem; color: var(--muted); display: inline-flex; gap: 5px; align-items: center; margin: 0 0 4px; cursor: pointer; }
 .swchart .lbl { font: 700 10px ui-monospace, monospace; fill: var(--ink); }
 .swchart .strip text { font: 700 9px "Space Grotesk", system-ui, sans-serif; }
@@ -1869,6 +1872,8 @@ __ISSUES__
   var PTBULL = { BE: 1, HM: 1, MS: 1, WS: 1, RE: 1 }, PTBEAR = { SE: 1, SS: 1, ES: 1, BC: 1 };
   var PTSEL = 'all';
   try { PTSEL = localStorage.getItem('nibii-pt') || 'all'; } catch (e) {}
+  var SWN = 252;   // the swing chart's range in sessions: 63 / 126 / 252 (3M / 6M / 1Y), remembered in the browser
+  try { SWN = +(localStorage.getItem('nibii-swn') || 252) || 252; } catch (e) {}
   var WKC = true;   // weekly candles drawn hollow around their days on the daily swing charts (owner's ask, Nov 21, 2026)
   try { WKC = localStorage.getItem('nibii-wkc') !== '0'; } catch (e) {}
   function ptShown(code) { return PTSEL === 'all' || (PTSEL === 'bull' && PTBULL[code]) || (PTSEL === 'bear' && PTBEAR[code]) || PTSEL === code; }
@@ -1885,19 +1890,26 @@ __ISSUES__
     return '<div class="swpat"><label>Candle patterns ' + sel + '</label>' + nz + '<span class="ptkey">Green dot under a candle: a bullish pattern; red over it: bearish; grey: doji. Hover a day for the names.</span></div>';
   }
   function drawSwing(t, pid) {
-    var h = HB[t], C = h.chart, panel = $(pid || 'swpanel');
+    var h = HB[t], C0 = h.chart, panel = $(pid || 'swpanel');
+    var C = C0;
+    if (SWN && C0.c.length > SWN) {   // zoomed in: the last SWN sessions; the Friday read in force at the window's start carries in
+      var cs = C0.c.slice(-SWN), d0 = cs[0][0], fr = C0.fri.filter(function (f) { return f[0] >= d0; }), pre = C0.fri.filter(function (f) { return f[0] < d0; });
+      if (pre.length) fr = [[d0].concat(pre[pre.length - 1].slice(1))].concat(fr);
+      C = Object.assign({}, C0, { c: cs, fri: fr });
+    }
     var READ = { up: ['up', 'Uptrend'], down: ['down', 'Downtrend'], chop: ['chop', 'Mixed'] };
     var rd = READ[C.now] || ['chop', 'No read'];
     var A = D.plan && D.plan.auto, counts = A && A.down.indexOf(t) >= 0;
     panel.innerHTML = '<div class="swhead"><div><h3>' + esc(t) + ' · daily swings <span class="swread ' + rd[0] + '">' + rd[1] + ' now</span></h3>' +
       '<p class="chart-sub">' + esc(h.n) + ' · last ' + C.c.length + ' sessions · ▼ swing high, ▲ swing low</p></div>' +
-      '<button type="button" class="x">Close</button></div>' + ptBar(C) + '<label class="wkc"><input type="checkbox" class="wkcb"' + (WKC ? ' checked' : '') + '> Weekly candles (hollow: blue = week up, yellow = week down)</label><div class="swchart"></div>' +
+      '<button type="button" class="x">Close</button></div>' + ptBar(C) + '<div class="swrng" role="group" aria-label="Chart range">' + [[63, '3M'], [126, '6M'], [252, '1Y']].map(function (r) { return '<button type="button" data-n="' + r[0] + '" aria-pressed="' + (SWN === r[0]) + '">' + r[1] + '</button>'; }).join('') + '</div>' + '<label class="wkc"><input type="checkbox" class="wkcb"' + (WKC ? ' checked' : '') + '> Weekly candles (hollow: blue = week up, yellow = week down)</label><div class="swchart"></div>' +
       '<p class="swnote">A swing high is the highest high of 7 days (3 before, 3 after), so it is only known 3 days later; lows likewise. ' +
       '<b>HH/LH</b> = higher/lower than the previous swing high, <b>HL/LL</b> = vs the previous swing low. Down = the last two swings are both LH/LL; up = both HH/HL; otherwise mixed. ' +
       (counts ? '<b>This holding is in a downtrend at the signal close and counts toward the auto mix (each one down moves 20% to the sleeve: 1 → 80/20, 2 → 60/40, 3+ → 40/60).</b>' : 'The auto mix moves 20% to the sleeve for each holding that reads down at Friday’s close (1 → 80/20, 2 → 60/40, 3+ → 40/60).') + '</p>';
     panel.querySelector('.x').onclick = function () { closeSwing(panel.id); };
     var ps = panel.querySelector('.ptsel');
     if (ps) ps.onchange = function () { PTSEL = ps.value; try { localStorage.setItem('nibii-pt', PTSEL); } catch (e) {} drawSwing(t, panel.id); };
+    panel.querySelectorAll('.swrng button').forEach(function (bt) { bt.onclick = function () { SWN = +bt.dataset.n; try { localStorage.setItem('nibii-swn', String(SWN)); } catch (e) {} drawSwing(t, panel.id); }; });
     var wb = panel.querySelector('.wkcb');
     if (wb) wb.onchange = function () { WKC = wb.checked; try { localStorage.setItem('nibii-wkc', WKC ? '1' : '0'); } catch (e) {} drawSwing(t, panel.id); };
     var box = panel.querySelector('.swchart'), W = Math.max(300, box.clientWidth), PH = Math.round(Math.min(340, Math.max(220, W * 0.42))), SH = 26, H = PH + SH + 26;
