@@ -3326,6 +3326,67 @@ __ISSUES__
   });
 })();
 </script>
+<button type="button" class="jump-btn" id="jump-btn" aria-expanded="false" aria-controls="jump-panel">☰ Sections</button>
+<nav class="jump-panel" id="jump-panel" aria-label="Page sections" hidden></nav>
+<style>
+.jump-btn { position: fixed; right: calc(14px + env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 60; font: inherit; font-size: .85rem; font-weight: 600; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink); box-shadow: 0 4px 16px rgba(0,0,0,.35); cursor: pointer; }
+.jump-panel { position: fixed; right: calc(14px + env(safe-area-inset-right, 0px)); bottom: calc(62px + env(safe-area-inset-bottom, 0px)); z-index: 61; width: min(300px, calc(100vw - 28px)); max-height: min(70vh, 560px); overflow-y: auto; background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; box-shadow: 0 8px 28px rgba(0,0,0,.45); padding: 6px; }
+.jump-panel a { display: block; padding: 8px 10px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: .88rem; line-height: 1.25; }
+.jump-panel a:hover, .jump-panel a:focus-visible { background: var(--surface-2); outline: none; }
+.jump-panel a.on { color: var(--accent); font-weight: 600; }
+.jump-panel .jtop { color: var(--muted); font-size: .8rem; }
+</style>
+<script>
+(function () {   // the "Sections" menu: jump to any part of the page (owner's ask, Nov 21, 2026)
+  var btn = document.getElementById('jump-btn'), panel = document.getElementById('jump-panel'), wrap = document.querySelector('.wrap');
+  if (!btn || !wrap) return;
+  var NAMES = { 'banner': 'This week’s trade', 'plan-holdings': 'What the plan holds', 'holdings': 'The top 5 stocks', 'optcheck': 'Option check',
+    'watchrule': 'Watch rule and lessons', 'events-recent': 'Recent events', 'news-forward': 'News forward test', 'dominoes': 'Dominoes and past times like now',
+    'crowding': 'Crowded markets', 'flowbox': 'Money flow', 'events-find': 'Market events search', 'monthly-wrap': 'Monthly boost', 'mylog': 'Your plans and why',
+    'stats': 'Track record', 'planwhere': 'Where the plan was', 'wallst': 'Wall Street tests', 'world': 'World markets', 'heat-ov': 'Top 15, week by week',
+    'pv': 'Top 10 price and volume', 'growthRank': 'Growth ranking', 'widenet': 'Wide net', 'watch': 'Flags and stops', 'lab': 'Strategy lab',
+    'winners': 'AI suppliers study', 'trk-card': 'Refresh the track record', 'pick-card': 'Any stock chart', 'issues': 'Issues' };
+  var items = [];
+  function build() {
+    items = [];
+    [].forEach.call(wrap.children, function (e) {
+      if (e.offsetParent === null || e.offsetHeight < 60) return;
+      var label = (e.id && NAMES[e.id]) || null;
+      if (!label) {
+        if (e.classList.contains('mclock')) label = 'Market chronograph';
+        else if (e.classList.contains('tablebox')) label = 'Full ranking table';
+        else if (e.classList.contains('heatbox') || e.classList.contains('udtrend') || e.tagName === 'FOOTER' || e.classList.contains('section-label')) return;
+        else { var h = e.querySelector('.chart-title, h2, h3, summary'); label = h ? h.textContent.trim().replace(/\s+/g, ' ') : null; }
+      }
+      if (!label) return;
+      if (label.length > 48) label = label.slice(0, 46) + '…';
+      if (items.length && items[items.length - 1].label === label) return;
+      items.push({ el: e, label: label });
+    });
+    panel.innerHTML = '<a href="#" class="jtop" data-i="-1">↑ Top of the page</a>' + items.map(function (it, i) { return '<a href="#" data-i="' + i + '">' + it.label.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }) + '</a>'; }).join('');
+    [].forEach.call(panel.querySelectorAll('a'), function (a) {
+      a.onclick = function (ev) {
+        ev.preventDefault(); close();
+        var i = +a.dataset.i;
+        if (i < 0) window.scrollTo({ top: 0, behavior: 'smooth' });
+        else { var y = items[i].el.getBoundingClientRect().top + window.pageYOffset - 10; window.scrollTo({ top: y, behavior: 'smooth' }); }
+      };
+    });
+  }
+  function current() {
+    var on = -1;
+    items.forEach(function (it, i) { if (it.el.getBoundingClientRect().top < window.innerHeight * 0.35) on = i; });
+    [].forEach.call(panel.querySelectorAll('a[data-i]'), function (a) { a.classList.toggle('on', +a.dataset.i === on); });
+  }
+  function close() { panel.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
+  btn.onclick = function () {
+    if (panel.hidden) { build(); current(); panel.hidden = false; btn.setAttribute('aria-expanded', 'true'); var on = panel.querySelector('a.on'); if (on) on.scrollIntoView({ block: 'nearest' }); }
+    else close();
+  };
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  document.addEventListener('click', function (e) { if (!panel.hidden && !panel.contains(e.target) && e.target !== btn) close(); });
+})();
+</script>
 '''
 
 
