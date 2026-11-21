@@ -12,9 +12,9 @@ def _r(x):
     return None if x is None or x != x else (round(x, 2) if abs(x) >= 1 else round(x, 4))
 
 
-def build(bars, names=None, n=N):
-    """{'dates': [...], 't': {ticker: [[o, h, l, c] or None per date]}, 'n': {ticker: name}} on the last n dates any
-    ticker has; a ticker without a bar on a date gets None there."""
+def build(bars, names=None, n=N, volumes=None):
+    """{'dates': [...], 't': {ticker: [[o, h, l, c, volume] or None per date]}, 'n': {ticker: name}} on the last n dates
+    any ticker has; a ticker without a bar on a date gets None there; volume is None where unknown."""
     days = sorted({b[0][:10] for bs in bars.values() for b in (bs or [])[-n - 10:]})[-n:]
     ix = {d: i for i, d in enumerate(days)}
     out = {}
@@ -23,7 +23,8 @@ def build(bars, names=None, n=N):
         for b in bs or []:
             i = ix.get(b[0][:10])
             if i is not None:
-                row[i] = [_r(b[1]), _r(b[2]), _r(b[3]), _r(b[4])]
+                v = ((volumes or {}).get(t) or {}).get(b[0][:10])
+                row[i] = [_r(b[1]), _r(b[2]), _r(b[3]), _r(b[4]), int(v) if v else None]
         if any(row):
             out[t] = row
     nm = {t: (names or {}).get(t) for t in out if (names or {}).get(t)}
@@ -44,8 +45,8 @@ def load_names(root):
     return out
 
 
-def write(path, bars, names=None, n=N):
-    data = build(bars, names, n)
+def write(path, bars, names=None, n=N, volumes=None):
+    data = build(bars, names, n, volumes)
     with open(path, 'w') as f:
         json.dump(data, f, separators=(',', ':'))
     return len(data['t'])

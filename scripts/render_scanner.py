@@ -805,7 +805,7 @@ __RESEARCH__
   </div>
 
   <div class="card" id="pick-card">
-    <p class="chart-title">Any stock: daily candles with weekly candles</p>
+    <p class="chart-title">Any stock: daily candles with weekly candles and volume</p>
     <div class="pkbar"><input id="pk-in" list="pk-list" placeholder="Type a ticker, e.g. NVDA" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Ticker"><datalist id="pk-list"></datalist><button type="button" class="btn" id="pk-go">Show</button>
       <span class="swrng" id="pk-rng" role="group" aria-label="Chart range"></span><label class="wkc"><input type="checkbox" id="pk-wk" checked> Weekly candles (blue up, yellow down)</label></div>
     <p class="chart-sub" id="pk-sub">S&amp;P 500 and Nasdaq-100 stocks, plus SPY, QQQ, gold and bonds. The prices load when you pick one.</p>
@@ -2065,14 +2065,15 @@ __ISSUES__
     }
     function draw() {
       var rows = [];
-      PK.t[pkT].forEach(function (b, i) { if (b) rows.push([PK.dates[i], b[0], b[1], b[2], b[3]]); });
+      PK.t[pkT].forEach(function (b, i) { if (b) rows.push([PK.dates[i], b[0], b[1], b[2], b[3], b[4] == null ? null : b[4]]); });
       rows = rows.slice(-pkN);
       var n = rows.length;
       if (!n) { box.innerHTML = ''; return; }
       var chg = rows[n - 1][4] / rows[0][1] - 1;
       sub.innerHTML = '<b>' + esc(pkT) + '</b>' + (PK.n && PK.n[pkT] ? ' · ' + esc(PK.n[pkT]) : '') + ' · ' + n + ' sessions to ' + fmtDate(rows[n - 1][0], { month: 'short', day: 'numeric', year: 'numeric' }) +
         ' · <span class="' + (chg >= 0 ? 'pos' : 'neg') + '">' + (chg >= 0 ? '+' : '−') + Math.abs(chg * 100).toFixed(1) + '%</span> over the range';
-      var W = Math.max(300, box.clientWidth), PH = Math.round(Math.min(360, Math.max(220, W * 0.42))), H = PH + 24;
+      var hasV = rows.some(function (b) { return b[5]; }), VH = hasV ? 70 : 0;
+      var W = Math.max(300, box.clientWidth), PH = Math.round(Math.min(360, Math.max(220, W * 0.42))), H = PH + VH + (hasV ? 8 : 0) + 24;
       var m = { l: 52, r: 10, t: 12, b: 8 }, step = (W - m.l - m.r) / n;
       var lo = Infinity, hi = -Infinity; rows.forEach(function (b) { lo = Math.min(lo, b[3]); hi = Math.max(hi, b[2]); });
       var pad = (hi - lo) * 0.06 || 1; lo -= pad; hi += pad;
@@ -2107,19 +2108,33 @@ __ISSUES__
         var y0 = Y(Math.max(b[1], b[4])), y1 = Y(Math.min(b[1], b[4]));
         svg.appendChild(el('rect', { x: x - bw / 2, y: y0, width: bw, height: Math.max(1, y1 - y0), rx: Math.min(1.5, bw / 3), style: 'fill:' + col }));
       });
+      if (hasV) {   // volume under the candles: bars coloured like the day, the 20-day average as a line
+        var vt = PH + 8, vmax = 0; rows.forEach(function (b) { if (b[5] > vmax) vmax = b[5]; });
+        var VY = function (v) { return vt + VH - v / vmax * (VH - 4); };
+        var fv = function (v) { return v >= 1e9 ? (v / 1e9).toFixed(1) + 'B' : v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? Math.round(v / 1e3) + 'K' : String(v); };
+        svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: vt + VH, y2: vt + VH, style: 'stroke:var(--hairline)' }));
+        svg.appendChild(svgEl('text', { x: m.l - 6, y: vt + 10, 'text-anchor': 'end', style: 'fill:var(--muted);font-size:10px' }, fv(vmax)));
+        svg.appendChild(svgEl('text', { x: m.l - 6, y: vt + VH - 2, 'text-anchor': 'end', style: 'fill:var(--muted);font-size:10px' }, 'Vol'));
+        rows.forEach(function (b, i) { if (!b[5]) return; svg.appendChild(el('rect', { x: X(i) - bw / 2, y: VY(b[5]), width: bw, height: Math.max(0.5, vt + VH - VY(b[5])), style: 'fill:' + (b[4] >= b[1] ? 'var(--pos)' : 'var(--neg)') + ';opacity:.55' })); });
+        var allR = [], pd = '';
+        PK.t[pkT].forEach(function (b) { if (b) allR.push(b[4]); });
+        var off = allR.length - n;
+        rows.forEach(function (b, i) { var w20 = allR.slice(Math.max(0, off + i - 19), off + i + 1).filter(function (x) { return x; }); if (w20.length >= 10) { var a = w20.reduce(function (x, y) { return x + y; }, 0) / w20.length; pd += (pd ? 'L' : 'M') + X(i).toFixed(1) + ' ' + VY(Math.min(a, vmax)).toFixed(1); } });
+        if (pd) svg.appendChild(el('path', { d: pd, style: 'fill:none;stroke:var(--ink-2);stroke-width:1;opacity:.8' }));
+      }
       var ax = el('g', { class: 'axis' }); svg.appendChild(ax);
       rows.forEach(function (b, i) {
         var lbl = n <= 30 ? (i % 5 === 0 ? fmtDate(b[0], { month: 'short', day: 'numeric' }) : null) : (i && b[0].slice(5, 7) !== rows[i - 1][0].slice(5, 7) ? fmtDate(b[0], { month: 'short' }) : null);
         if (lbl) ax.appendChild(svgEl('text', { x: X(i), y: H - 4, 'text-anchor': 'middle' }, lbl));
       });
-      var cross = el('line', { class: 'cross', y1: m.t, y2: PH, visibility: 'hidden' }); svg.appendChild(cross);
+      var cross = el('line', { class: 'cross', y1: m.t, y2: PH + VH + (hasV ? 8 : 0), visibility: 'hidden' }); svg.appendChild(cross);
       var tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true;
       box.innerHTML = ''; box.appendChild(svg); box.appendChild(tip);
       svg.addEventListener('pointermove', function (e) {
         var r = svg.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width * W, i = Math.max(0, Math.min(n - 1, Math.floor((sx - m.l) / step))), b = rows[i];
         cross.setAttribute('x1', X(i)); cross.setAttribute('x2', X(i)); cross.setAttribute('visibility', 'visible');
         var p = function (x) { return '$' + (x >= 100 ? x.toFixed(2) : x.toFixed(x >= 10 ? 2 : 3)); };
-        tip.innerHTML = '<b>' + fmtDate(b[0], { month: 'short', day: 'numeric', year: 'numeric' }) + '</b><br>O ' + p(b[1]) + ' · H ' + p(b[2]) + ' · L ' + p(b[3]) + ' · C ' + p(b[4]);
+        tip.innerHTML = '<b>' + fmtDate(b[0], { month: 'short', day: 'numeric', year: 'numeric' }) + '</b><br>O ' + p(b[1]) + ' · H ' + p(b[2]) + ' · L ' + p(b[3]) + ' · C ' + p(b[4]) + (b[5] ? '<br>Volume ' + b[5].toLocaleString() : '');
         tip.hidden = false; tip.style.left = Math.min(r.width - 170, Math.max(0, (X(i) / W) * r.width + 10)) + 'px'; tip.style.top = '8px';
       });
       svg.addEventListener('pointerleave', function () { cross.setAttribute('visibility', 'hidden'); tip.hidden = true; });
