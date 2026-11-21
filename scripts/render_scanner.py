@@ -193,8 +193,9 @@ __DOMCSS__
 .swchart { position: relative; margin-top: 8px; }
 .swchart svg { display: block; width: 100%; height: auto; overflow: visible; }
 .swchart .wick { stroke-width: 1; }
-.swchart .wkbox { fill-opacity: .06; stroke-width: 1.4; stroke-opacity: .85; }
-.swchart .wkwick { stroke-width: 1.2; stroke-opacity: .5; stroke-dasharray: 3 2; }
+.swchart .wkbox { fill-opacity: .05; stroke-width: .9; stroke-opacity: .9; }
+.swchart .wkwick { stroke-width: .9; stroke-opacity: .55; stroke-dasharray: 3 2; }
+.swchart { --wkup: #2f7fd6; --wkdn: #e0a800; }
 .wkc { font-size: .8rem; color: var(--muted); display: inline-flex; gap: 5px; align-items: center; margin: 0 0 4px; cursor: pointer; }
 .swchart .lbl { font: 700 10px ui-monospace, monospace; fill: var(--ink); }
 .swchart .strip text { font: 700 9px "Space Grotesk", system-ui, sans-serif; }
@@ -1890,7 +1891,7 @@ __ISSUES__
     var A = D.plan && D.plan.auto, counts = A && A.down.indexOf(t) >= 0;
     panel.innerHTML = '<div class="swhead"><div><h3>' + esc(t) + ' · daily swings <span class="swread ' + rd[0] + '">' + rd[1] + ' now</span></h3>' +
       '<p class="chart-sub">' + esc(h.n) + ' · last ' + C.c.length + ' sessions · ▼ swing high, ▲ swing low</p></div>' +
-      '<button type="button" class="x">Close</button></div>' + ptBar(C) + '<label class="wkc"><input type="checkbox" class="wkcb"' + (WKC ? ' checked' : '') + '> Weekly candles (hollow, around their days)</label><div class="swchart"></div>' +
+      '<button type="button" class="x">Close</button></div>' + ptBar(C) + '<label class="wkc"><input type="checkbox" class="wkcb"' + (WKC ? ' checked' : '') + '> Weekly candles (hollow: blue = week up, yellow = week down)</label><div class="swchart"></div>' +
       '<p class="swnote">A swing high is the highest high of 7 days (3 before, 3 after), so it is only known 3 days later; lows likewise. ' +
       '<b>HH/LH</b> = higher/lower than the previous swing high, <b>HL/LL</b> = vs the previous swing low. Down = the last two swings are both LH/LL; up = both HH/HL; otherwise mixed. ' +
       (counts ? '<b>This holding is in a downtrend at the signal close and counts toward the auto mix (each one down moves 20% to the sleeve: 1 → 80/20, 2 → 60/40, 3+ → 40/60).</b>' : 'The auto mix moves 20% to the sleeve for each holding that reads down at Friday’s close (1 → 80/20, 2 → 60/40, 3+ → 40/60).') + '</p>';
@@ -1921,7 +1922,7 @@ __ISSUES__
         else { cw.z = i; cw.h = Math.max(cw.h, b[2]); cw.l = Math.min(cw.l, b[3]); cw.c = b[4]; }
       });
       wk.forEach(function (w) {
-        var col = w.c >= w.o ? 'var(--pos)' : 'var(--neg)', x0 = X(w.a) - step * 0.46, x1 = X(w.z) + step * 0.46, xm = (X(w.a) + X(w.z)) / 2;
+        var col = w.c >= w.o ? 'var(--wkup)' : 'var(--wkdn)', x0 = X(w.a) - step * 0.46, x1 = X(w.z) + step * 0.46, xm = (X(w.a) + X(w.z)) / 2;
         var y0 = Y(Math.max(w.o, w.c)), y1 = Y(Math.min(w.o, w.c));
         svg.appendChild(el('line', { class: 'wkwick', x1: xm, x2: xm, y1: Y(w.h), y2: y0, style: 'stroke:' + col }));
         svg.appendChild(el('line', { class: 'wkwick', x1: xm, x2: xm, y1: y1, y2: Y(w.l), style: 'stroke:' + col }));
