@@ -193,6 +193,9 @@ __DOMCSS__
 .swchart { position: relative; margin-top: 8px; }
 .swchart svg { display: block; width: 100%; height: auto; overflow: visible; }
 .swchart .wick { stroke-width: 1; }
+.swchart .wkbox { fill-opacity: .06; stroke-width: 1.4; stroke-opacity: .85; }
+.swchart .wkwick { stroke-width: 1.2; stroke-opacity: .5; stroke-dasharray: 3 2; }
+.wkc { font-size: .8rem; color: var(--muted); display: inline-flex; gap: 5px; align-items: center; margin: 0 0 4px; cursor: pointer; }
 .swchart .lbl { font: 700 10px ui-monospace, monospace; fill: var(--ink); }
 .swchart .strip text { font: 700 9px "Space Grotesk", system-ui, sans-serif; }
 .swnote { font-size: 0.78rem; color: var(--muted); margin: 8px 0 0; }
@@ -1865,6 +1868,8 @@ __ISSUES__
   var PTBULL = { BE: 1, HM: 1, MS: 1, WS: 1, RE: 1 }, PTBEAR = { SE: 1, SS: 1, ES: 1, BC: 1 };
   var PTSEL = 'all';
   try { PTSEL = localStorage.getItem('nibii-pt') || 'all'; } catch (e) {}
+  var WKC = true;   // weekly candles drawn hollow around their days on the daily swing charts (owner's ask, Nov 21, 2026)
+  try { WKC = localStorage.getItem('nibii-wkc') !== '0'; } catch (e) {}
   function ptShown(code) { return PTSEL === 'all' || (PTSEL === 'bull' && PTBULL[code]) || (PTSEL === 'bear' && PTBEAR[code]) || PTSEL === code; }
   function ptBar(C) {
     if (!C.pt) return '';
@@ -1885,13 +1890,15 @@ __ISSUES__
     var A = D.plan && D.plan.auto, counts = A && A.down.indexOf(t) >= 0;
     panel.innerHTML = '<div class="swhead"><div><h3>' + esc(t) + ' · daily swings <span class="swread ' + rd[0] + '">' + rd[1] + ' now</span></h3>' +
       '<p class="chart-sub">' + esc(h.n) + ' · last ' + C.c.length + ' sessions · ▼ swing high, ▲ swing low</p></div>' +
-      '<button type="button" class="x">Close</button></div>' + ptBar(C) + '<div class="swchart"></div>' +
+      '<button type="button" class="x">Close</button></div>' + ptBar(C) + '<label class="wkc"><input type="checkbox" class="wkcb"' + (WKC ? ' checked' : '') + '> Weekly candles (hollow, around their days)</label><div class="swchart"></div>' +
       '<p class="swnote">A swing high is the highest high of 7 days (3 before, 3 after), so it is only known 3 days later; lows likewise. ' +
       '<b>HH/LH</b> = higher/lower than the previous swing high, <b>HL/LL</b> = vs the previous swing low. Down = the last two swings are both LH/LL; up = both HH/HL; otherwise mixed. ' +
       (counts ? '<b>This holding is in a downtrend at the signal close and counts toward the auto mix (each one down moves 20% to the sleeve: 1 → 80/20, 2 → 60/40, 3+ → 40/60).</b>' : 'The auto mix moves 20% to the sleeve for each holding that reads down at Friday’s close (1 → 80/20, 2 → 60/40, 3+ → 40/60).') + '</p>';
     panel.querySelector('.x').onclick = function () { closeSwing(panel.id); };
     var ps = panel.querySelector('.ptsel');
     if (ps) ps.onchange = function () { PTSEL = ps.value; try { localStorage.setItem('nibii-pt', PTSEL); } catch (e) {} drawSwing(t, panel.id); };
+    var wb = panel.querySelector('.wkcb');
+    if (wb) wb.onchange = function () { WKC = wb.checked; try { localStorage.setItem('nibii-wkc', WKC ? '1' : '0'); } catch (e) {} drawSwing(t, panel.id); };
     var box = panel.querySelector('.swchart'), W = Math.max(300, box.clientWidth), PH = Math.round(Math.min(340, Math.max(220, W * 0.42))), SH = 26, H = PH + SH + 26;
     var m = { l: 52, r: 10, t: 22, b: 8 }, n = C.c.length, step = (W - m.l - m.r) / n;
     var lo = Infinity, hi = -Infinity; C.c.forEach(function (b) { lo = Math.min(lo, b[3]); hi = Math.max(hi, b[2]); });
@@ -1906,6 +1913,21 @@ __ISSUES__
       g.appendChild(svgEl('text', { x: m.l - 6, y: Y(v) + 4, 'text-anchor': 'end' }, '$' + (v >= 100 ? Math.round(v) : v.toFixed(v >= 10 ? 0 : 1))));
     }
     var idx = {}; C.c.forEach(function (b, i) { idx[b[0]] = i; });
+    if (WKC) {   // each week as a hollow candle spanning its days, behind the daily candles
+      var wk = [], cw = null;
+      C.c.forEach(function (b, i) {
+        var dd = new Date(b[0] + 'T12:00:00Z'), mon = new Date(dd.getTime() - ((dd.getUTCDay() + 6) % 7) * 864e5).toISOString().slice(0, 10);
+        if (!cw || cw.k !== mon) { cw = { k: mon, a: i, z: i, o: b[1], h: b[2], l: b[3], c: b[4] }; wk.push(cw); }
+        else { cw.z = i; cw.h = Math.max(cw.h, b[2]); cw.l = Math.min(cw.l, b[3]); cw.c = b[4]; }
+      });
+      wk.forEach(function (w) {
+        var col = w.c >= w.o ? 'var(--pos)' : 'var(--neg)', x0 = X(w.a) - step * 0.46, x1 = X(w.z) + step * 0.46, xm = (X(w.a) + X(w.z)) / 2;
+        var y0 = Y(Math.max(w.o, w.c)), y1 = Y(Math.min(w.o, w.c));
+        svg.appendChild(el('line', { class: 'wkwick', x1: xm, x2: xm, y1: Y(w.h), y2: y0, style: 'stroke:' + col }));
+        svg.appendChild(el('line', { class: 'wkwick', x1: xm, x2: xm, y1: y1, y2: Y(w.l), style: 'stroke:' + col }));
+        svg.appendChild(el('rect', { class: 'wkbox', x: x0, y: y0, width: x1 - x0, height: Math.max(1, y1 - y0), rx: 2, style: 'stroke:' + col + ';fill:' + col }));
+      });
+    }
     var bw = Math.max(1.4, step * 0.62);
     C.c.forEach(function (b, i) {
       var col = b[4] >= b[1] ? 'var(--pos)' : 'var(--neg)', x = X(i);
