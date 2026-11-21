@@ -196,6 +196,9 @@ __DOMCSS__
 .swchart .wkbox { fill-opacity: .05; stroke-width: .9; stroke-opacity: .9; }
 .swchart .wkwick { stroke-width: .9; stroke-opacity: .55; stroke-dasharray: 3 2; }
 .swchart { --wkup: #2f7fd6; --wkdn: #e0a800; }
+.pkbar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin: 6px 0 2px; }
+.pkbar input[type=text], #pk-in { font: inherit; font-size: .95rem; width: 12rem; max-width: 100%; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--ink); text-transform: uppercase; }
+#pk-chart { min-height: 40px; position: relative; }
 .swrng { display: inline-flex; gap: 4px; margin: 0 12px 4px 0; vertical-align: middle; }
 .swrng button { font: inherit; font-size: .78rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--hairline); background: transparent; color: var(--muted); cursor: pointer; }
 .swrng button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
@@ -799,6 +802,14 @@ __RESEARCH__
     <div class="call-actions"><a class="btn" id="trk-refresh" href="https://github.com/danreed001-droid/NIBII/actions/workflows/track-refresh.yml" target="_blank" rel="noopener">Refresh now ↗</a></div>
     <p class="note">Opens GitHub: tap <b>Run workflow</b>, then the green <b>Run workflow</b> button. It takes about 15 minutes, and the page updates when it finishes.
       If the default plan’s return a year moves more than 3 points, or its worst drop more than 5, it stops without publishing. To publish anyway, run it again with <b>Publish even if the numbers moved a lot</b> ticked.</p>
+  </div>
+
+  <div class="card" id="pick-card">
+    <p class="chart-title">Any stock: daily candles with weekly candles and volume</p>
+    <div class="pkbar"><input id="pk-in" list="pk-list" placeholder="Type a ticker, e.g. NVDA" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Ticker"><datalist id="pk-list"></datalist><button type="button" class="btn" id="pk-go">Show</button>
+      <span class="swrng" id="pk-rng" role="group" aria-label="Chart range"></span><label class="wkc"><input type="checkbox" id="pk-wk" checked> Weekly candles (blue up, yellow down)</label></div>
+    <p class="chart-sub" id="pk-sub">S&amp;P 500 and Nasdaq-100 stocks, plus SPY, QQQ, gold and bonds. The prices load when you pick one.</p>
+    <div class="swchart" id="pk-chart"></div>
   </div>
 
 __ISSUES__
@@ -2020,6 +2031,124 @@ __ISSUES__
     $(id).addEventListener('click', function (e) { var c = e.target.closest('.hold[data-t]'); if (c) openSwing(c.getAttribute('data-t'), null, c); });
     $(id).addEventListener('keydown', function (e) { var c = e.target.closest('.hold[data-t]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSwing(c.getAttribute('data-t'), null, c); } });
   });
+  (function () {   // the "any stock" chart at the bottom (docs/ohlc.json from mtl/pickchart.py; owner's ask, Nov 21, 2026)
+    var inp = $('pk-in');
+    if (!inp) return;
+    var PK = null, loading = false, waiters = [], pkN = 126, pkT = null;
+    try { pkN = +(localStorage.getItem('nibii-pkn') || 126) || 126; pkT = localStorage.getItem('nibii-pkt'); } catch (e) {}
+    var sub = $('pk-sub'), box = $('pk-chart'), wk = $('pk-wk');
+    function load(cb) {
+      if (PK) return cb();
+      waiters.push(cb);
+      if (loading) return;
+      loading = true; sub.textContent = 'Loading prices…';
+      fetch('ohlc.json', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {
+        PK = j; loading = false;
+        $('pk-list').innerHTML = Object.keys(j.t).map(function (t) { return '<option value="' + esc(t) + '">' + esc((j.n && j.n[t]) || '') + '</option>'; }).join('');
+        sub.textContent = Object.keys(j.t).length + ' tickers, daily bars through ' + fmtDate(j.dates[j.dates.length - 1], { month: 'short', day: 'numeric', year: 'numeric' }) + '.';
+        var w = waiters; waiters = []; w.forEach(function (f) { f(); });
+      }).catch(function () { loading = false; waiters = []; sub.textContent = 'The prices could not be loaded (docs/ohlc.json is written by the nightly scan).'; });
+    }
+    function rng() {
+      var r = $('pk-rng');
+      r.innerHTML = [[21, '1M'], [63, '3M'], [126, '6M'], [252, '1Y']].map(function (x) { return '<button type="button" data-n="' + x[0] + '" aria-pressed="' + (pkN === x[0]) + '">' + x[1] + '</button>'; }).join('');
+      r.querySelectorAll('button').forEach(function (b) { b.onclick = function () { pkN = +b.dataset.n; try { localStorage.setItem('nibii-pkn', String(pkN)); } catch (e) {} rng(); if (pkT && PK) draw(); }; });
+    }
+    function go() {
+      var t = inp.value.trim().toUpperCase();
+      if (!t) return;
+      load(function () {
+        if (!PK.t[t]) { sub.textContent = t + ' isn’t in the list (S&P 500, Nasdaq-100, SPY, QQQ, gold, bonds).'; return; }
+        pkT = t; try { localStorage.setItem('nibii-pkt', t); } catch (e) {}
+        draw();
+      });
+    }
+    function draw() {
+      var rows = [];
+      PK.t[pkT].forEach(function (b, i) { if (b) rows.push([PK.dates[i], b[0], b[1], b[2], b[3], b[4] == null ? null : b[4]]); });
+      rows = rows.slice(-pkN);
+      var n = rows.length;
+      if (!n) { box.innerHTML = ''; return; }
+      var chg = rows[n - 1][4] / rows[0][1] - 1;
+      sub.innerHTML = '<b>' + esc(pkT) + '</b>' + (PK.n && PK.n[pkT] ? ' · ' + esc(PK.n[pkT]) : '') + ' · ' + n + ' sessions to ' + fmtDate(rows[n - 1][0], { month: 'short', day: 'numeric', year: 'numeric' }) +
+        ' · <span class="' + (chg >= 0 ? 'pos' : 'neg') + '">' + (chg >= 0 ? '+' : '−') + Math.abs(chg * 100).toFixed(1) + '%</span> over the range';
+      var hasV = rows.some(function (b) { return b[5]; }), VH = hasV ? 70 : 0;
+      var W = Math.max(300, box.clientWidth), PH = Math.round(Math.min(360, Math.max(220, W * 0.42))), H = PH + VH + (hasV ? 8 : 0) + 24;
+      var m = { l: 52, r: 10, t: 12, b: 8 }, step = (W - m.l - m.r) / n;
+      var lo = Infinity, hi = -Infinity; rows.forEach(function (b) { lo = Math.min(lo, b[3]); hi = Math.max(hi, b[2]); });
+      var pad = (hi - lo) * 0.06 || 1; lo -= pad; hi += pad;
+      function X(i) { return m.l + (i + 0.5) * step; }
+      function Y(v) { return m.t + (1 - (v - lo) / (hi - lo)) * (PH - m.t - m.b); }
+      var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': pkT + ' daily candles' });
+      var g = el('g', { class: 'grid axis' }); svg.appendChild(g);
+      var span = hi - lo, raw = span / 4, mag = Math.pow(10, Math.floor(Math.log10(raw))), stp = [1, 2, 2.5, 5, 10].map(function (k) { return k * mag; }).find(function (v) { return v >= raw; });
+      for (var v = Math.ceil(lo / stp) * stp; v <= hi; v += stp) {
+        g.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }));
+        g.appendChild(svgEl('text', { x: m.l - 6, y: Y(v) + 4, 'text-anchor': 'end' }, '$' + (v >= 100 ? Math.round(v) : v.toFixed(v >= 10 ? 0 : 2))));
+      }
+      if (wk.checked) {
+        var wks = [], cw = null;
+        rows.forEach(function (b, i) {
+          var dd = new Date(b[0] + 'T12:00:00Z'), mon = new Date(dd.getTime() - ((dd.getUTCDay() + 6) % 7) * 864e5).toISOString().slice(0, 10);
+          if (!cw || cw.k !== mon) { cw = { k: mon, a: i, z: i, o: b[1], h: b[2], l: b[3], c: b[4] }; wks.push(cw); }
+          else { cw.z = i; cw.h = Math.max(cw.h, b[2]); cw.l = Math.min(cw.l, b[3]); cw.c = b[4]; }
+        });
+        wks.forEach(function (w) {
+          var col = w.c >= w.o ? 'var(--wkup)' : 'var(--wkdn)', x0 = X(w.a) - step * 0.46, x1 = X(w.z) + step * 0.46, xm = (X(w.a) + X(w.z)) / 2;
+          var y0 = Y(Math.max(w.o, w.c)), y1 = Y(Math.min(w.o, w.c));
+          svg.appendChild(el('line', { class: 'wkwick', x1: xm, x2: xm, y1: Y(w.h), y2: y0, style: 'stroke:' + col }));
+          svg.appendChild(el('line', { class: 'wkwick', x1: xm, x2: xm, y1: y1, y2: Y(w.l), style: 'stroke:' + col }));
+          svg.appendChild(el('rect', { class: 'wkbox', x: x0, y: y0, width: x1 - x0, height: Math.max(1, y1 - y0), rx: 2, style: 'stroke:' + col + ';fill:' + col }));
+        });
+      }
+      var bw = Math.max(1.4, step * 0.62);
+      rows.forEach(function (b, i) {
+        var col = b[4] >= b[1] ? 'var(--pos)' : 'var(--neg)', x = X(i);
+        svg.appendChild(el('line', { class: 'wick', x1: x, x2: x, y1: Y(b[2]), y2: Y(b[3]), style: 'stroke:' + col }));
+        var y0 = Y(Math.max(b[1], b[4])), y1 = Y(Math.min(b[1], b[4]));
+        svg.appendChild(el('rect', { x: x - bw / 2, y: y0, width: bw, height: Math.max(1, y1 - y0), rx: Math.min(1.5, bw / 3), style: 'fill:' + col }));
+      });
+      if (hasV) {   // volume under the candles: bars coloured like the day, the 20-day average as a line
+        var vt = PH + 8, vmax = 0; rows.forEach(function (b) { if (b[5] > vmax) vmax = b[5]; });
+        var VY = function (v) { return vt + VH - v / vmax * (VH - 4); };
+        var fv = function (v) { return v >= 1e9 ? (v / 1e9).toFixed(1) + 'B' : v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? Math.round(v / 1e3) + 'K' : String(v); };
+        svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: vt + VH, y2: vt + VH, style: 'stroke:var(--hairline)' }));
+        svg.appendChild(svgEl('text', { x: m.l - 6, y: vt + 10, 'text-anchor': 'end', style: 'fill:var(--muted);font-size:10px' }, fv(vmax)));
+        svg.appendChild(svgEl('text', { x: m.l - 6, y: vt + VH - 2, 'text-anchor': 'end', style: 'fill:var(--muted);font-size:10px' }, 'Vol'));
+        rows.forEach(function (b, i) { if (!b[5]) return; svg.appendChild(el('rect', { x: X(i) - bw / 2, y: VY(b[5]), width: bw, height: Math.max(0.5, vt + VH - VY(b[5])), style: 'fill:' + (b[4] >= b[1] ? 'var(--pos)' : 'var(--neg)') + ';opacity:.55' })); });
+        var allR = [], pd = '';
+        PK.t[pkT].forEach(function (b) { if (b) allR.push(b[4]); });
+        var off = allR.length - n;
+        rows.forEach(function (b, i) { var w20 = allR.slice(Math.max(0, off + i - 19), off + i + 1).filter(function (x) { return x; }); if (w20.length >= 10) { var a = w20.reduce(function (x, y) { return x + y; }, 0) / w20.length; pd += (pd ? 'L' : 'M') + X(i).toFixed(1) + ' ' + VY(Math.min(a, vmax)).toFixed(1); } });
+        if (pd) svg.appendChild(el('path', { d: pd, style: 'fill:none;stroke:var(--ink-2);stroke-width:1;opacity:.8' }));
+      }
+      var ax = el('g', { class: 'axis' }); svg.appendChild(ax);
+      rows.forEach(function (b, i) {
+        var lbl = n <= 30 ? (i % 5 === 0 ? fmtDate(b[0], { month: 'short', day: 'numeric' }) : null) : (i && b[0].slice(5, 7) !== rows[i - 1][0].slice(5, 7) ? fmtDate(b[0], { month: 'short' }) : null);
+        if (lbl) ax.appendChild(svgEl('text', { x: X(i), y: H - 4, 'text-anchor': 'middle' }, lbl));
+      });
+      var cross = el('line', { class: 'cross', y1: m.t, y2: PH + VH + (hasV ? 8 : 0), visibility: 'hidden' }); svg.appendChild(cross);
+      var tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true;
+      box.innerHTML = ''; box.appendChild(svg); box.appendChild(tip);
+      svg.addEventListener('pointermove', function (e) {
+        var r = svg.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width * W, i = Math.max(0, Math.min(n - 1, Math.floor((sx - m.l) / step))), b = rows[i];
+        cross.setAttribute('x1', X(i)); cross.setAttribute('x2', X(i)); cross.setAttribute('visibility', 'visible');
+        var p = function (x) { return '$' + (x >= 100 ? x.toFixed(2) : x.toFixed(x >= 10 ? 2 : 3)); };
+        tip.innerHTML = '<b>' + fmtDate(b[0], { month: 'short', day: 'numeric', year: 'numeric' }) + '</b><br>O ' + p(b[1]) + ' · H ' + p(b[2]) + ' · L ' + p(b[3]) + ' · C ' + p(b[4]) + (b[5] ? '<br>Volume ' + b[5].toLocaleString() : '');
+        tip.hidden = false; tip.style.left = Math.min(r.width - 170, Math.max(0, (X(i) / W) * r.width + 10)) + 'px'; tip.style.top = '8px';
+      });
+      svg.addEventListener('pointerleave', function () { cross.setAttribute('visibility', 'hidden'); tip.hidden = true; });
+    }
+    rng();
+    wk.checked = WKC;
+    wk.onchange = function () { if (pkT && PK) draw(); };
+    $('pk-go').onclick = go;
+    inp.addEventListener('change', go);
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') go(); });
+    inp.addEventListener('focus', function () { load(function () {}); }, { once: true });
+    if (pkT) { inp.value = pkT; if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); go(); } }); io.observe(box); } }
+    var pkr; window.addEventListener('resize', function () { clearTimeout(pkr); pkr = setTimeout(function () { if (pkT && PK) draw(); }, 200); });
+  })();
   var swr; window.addEventListener('resize', function () { clearTimeout(swr); swr = setTimeout(function () { Object.keys(openT).forEach(function (pid) { if (openT[pid]) drawSwing(openT[pid], pid); }); }, 150); });
 
   // plan + your own weekly calls ("Mine", the human model)

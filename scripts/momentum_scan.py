@@ -50,7 +50,7 @@ from mtl.rsi_line import rsi as rsi14, rsi_warning, support_breaks
 from mtl.lowerhigh import apply_lowerhigh, lowerhigh_cash, lowerhigh_state, LH_DAYS  # noqa: E402
 from mtl.trendline import TL_DAYS, trendline_state  # noqa: E402
 from mtl.pricebreak import apply_pricebreak, break_days, hold_days, pricebreak_state  # noqa: E402
-from mtl import fractal  # noqa: E402
+from mtl import fractal, pickchart  # noqa: E402
 from mtl.rebound import apply_rebound, rebound_days, rebound_state  # noqa: E402
 from mtl.reentry import apply_reentry, reentry_days, reentry_state  # noqa: E402
 from mtl import candle, candlepat, fedday, fedday_check, reentry_note, resistline, stretchwarn  # noqa: E402
@@ -1763,6 +1763,12 @@ def main():
         payload['volBreak'] = volbreak.check([(h_['t'], h_.get('sec')) for h_ in held_rows + plan_rows], prices, volumes, sector_px, calendar)
     except Exception as e:
         print(f"  volume break check failed: {e}", file=sys.stderr)
+    try:   # the "any stock" chart at the bottom of the page: the last ~year of daily bars for every stock fetched (mtl/pickchart.py)
+        n_pc = pickchart.write(os.path.join(ROOT, 'docs', 'ohlc.json'), dict(bars, **{t_: b_ for t_, b_ in bench.items() if t_ in ('SPY', 'QQQ', 'RSP')},
+                                                                              **{t_: b_ for t_, b_ in (asset_bars or {}).items()}), pickchart.load_names(ROOT), volumes=volumes)
+        print(f"  wrote docs/ohlc.json: {n_pc} tickers", file=sys.stderr)
+    except Exception as e:
+        print(f"  any-stock chart data failed: {e}", file=sys.stderr)
     with open(OUT, 'w') as f:
         json.dump(payload, f, separators=(',', ':'))
     print(f"wrote {OUT}: as of {as_of}, holdings {', '.join(holdings)}", file=sys.stderr)
