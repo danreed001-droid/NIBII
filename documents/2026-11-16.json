@@ -459,8 +459,8 @@
        null
       ]
      ],
-     "maturityClose": 7081.0,
-     "ret": -0.048349,
+     "maturityClose": 7231.0,
+     "ret": -0.028189,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2604,8 +2604,8 @@
        false
       ]
      ],
-     "maturityClose": 106.609375,
-     "ret": 0.011264,
+     "maturityClose": 106.375,
+     "ret": 0.009041,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5235,8 +5235,8 @@
        true
       ]
      ],
-     "maturityClose": 3629.89990234375,
-     "ret": -0.059831,
+     "maturityClose": 3661.89990234375,
+     "ret": -0.051542,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7302,7 +7302,7 @@
       [
        "bull",
        "structure.weekly reads uptrend for DX-Y.NYB on 16 November (last labeled weekly swings HL/HL/HH/HL); RSI 68.13, close (103.59) above the 50-day (101.5) and above the 200-day (99.89)",
-       false
+       true
       ],
       [
        "neu",
@@ -7327,7 +7327,7 @@
       [
        "bull",
        "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; a priced hike supports the dollar against currencies with easier policy paths",
-       false
+       true
       ],
       [
        "neu",
@@ -7362,11 +7362,11 @@
       [
        "bull",
        "Weekly structure is uptrend - last labeled swings: HL/HL/HH/HL.",
-       false
+       true
       ]
      ],
-     "maturityClose": 103.64099884033203,
-     "ret": 0.000531,
+     "maturityClose": 104.13200378417969,
+     "ret": 0.005271,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9547,8 +9547,8 @@
        null
       ]
      ],
-     "maturityClose": 2637.0,
-     "ret": -0.039729,
+     "maturityClose": 2668.0,
+     "ret": -0.02844,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11510,7 +11510,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for long-duration growth multiples",
-       true
+       false
       ],
       [
        "bull",
@@ -11548,8 +11548,8 @@
        null
       ]
      ],
-     "maturityClose": 25836.0,
-     "ret": -0.053332,
+     "maturityClose": 26844.0,
+     "ret": -0.016397,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
