@@ -459,8 +459,8 @@
        null
       ]
      ],
-     "maturityClose": 7197.0,
-     "ret": -0.032759,
+     "maturityClose": 7250.5,
+     "ret": -0.025569,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2604,8 +2604,8 @@
        false
       ]
      ],
-     "maturityClose": 106.5,
-     "ret": 0.010227,
+     "maturityClose": 106.71875,
+     "ret": 0.012302,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5235,8 +5235,8 @@
        true
       ]
      ],
-     "maturityClose": 3666.199951171875,
-     "ret": -0.050429,
+     "maturityClose": 3641.60009765625,
+     "ret": -0.0568,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7365,8 +7365,8 @@
        true
       ]
      ],
-     "maturityClose": 104.13600158691406,
-     "ret": 0.00531,
+     "maturityClose": 104.35700225830078,
+     "ret": 0.007443,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9547,8 +9547,8 @@
        null
       ]
      ],
-     "maturityClose": 2657.39990234375,
-     "ret": -0.0323,
+     "maturityClose": 2668.60009765625,
+     "ret": -0.028222,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11510,7 +11510,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 16 November: CME FedWatch ~91% for a 25bp December hike and ~9% for 50bp, Kalshi 91% for 25bp plus 6% for a larger move (CappNotes Closing Look, 16 November); Investrade calls December hike expectations 'firmly established' with a 50bp move or 25bp at each of the next three meetings priced as possible; Cleveland Fed's Hammack said 'I like moving in smaller increments' and is not ready for a more aggressive path (Investrade Market Review, 16 November), which trims the 50bp tail but leaves a hike priced; more tightening priced is a headwind for long-duration growth multiples",
-       true
+       false
       ],
       [
        "bull",
@@ -11548,8 +11548,8 @@
        null
       ]
      ],
-     "maturityClose": 26564.5,
-     "ret": -0.026638,
+     "maturityClose": 26755.0,
+     "ret": -0.019658,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
