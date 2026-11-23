@@ -6157,5 +6157,85 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-23-1-futures-surge-after-seven-day-rout",
+    "data": {
+      "addedAt": "2026-11-23",
+      "category": "Market",
+      "date": "2026-11-23",
+      "day": "Mon",
+      "direction": "Bullish",
+      "event": "US futures surge in a relief rally after seven straight S&P 500 losing sessions left the index and the Dow in correction territory. Nvidia leads an AI/chip bounce after Friday's 14% collapse; Trump posted over the weekend that Jensen Huang's return as CEO 'would be the best thing for the company,' while the FT reported Nvidia's board approached Arm CEO Rene Haas about the job.",
+      "impact": "High",
+      "numbers": "8:34 AM ET: S&P 500 Dec futures +2.39% at 7,100.75; Nasdaq 100 futures +3.17% at 25,923; Dow futures +1.70% at 49,038; Russell 2000 futures ~+2.0%. Premarket: NVDA +8.74% to $136.50 (-14.01% Fri), ARM +9.46%, NBIS +8.49%, CRWV +6.49%, MU +5.21%, AVGO +4.75%, AMD +4.74%, ANT -1.20%. Friday: S&P 500 -3.7%, S&P/Dow >10% off records, Nasdaq 100 in bear-market territory intraday",
+      "order": 1,
+      "reaction": "Broad risk-on open indicated, led by semis and AI infrastructure; strategists (IG's Chris Beauchamp) caution that selloffs of this size rarely reverse in a day, and Thursday's Thanksgiving holiday means thin, exaggerated trade.",
+      "region": "US",
+      "source": "https://mlq.ai/news/nasdaq-futures-rise-3-and-nvidia-gains-9-premarket-as-zscaler-jumps-20-on-crowdstrikes-offer/",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell, NVDA, AMD, AVGO, MU, ARM, ANT",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-23-2-asia-regulators-step-in-kospi-still-falls",
+    "data": {
+      "addedAt": "2026-11-23",
+      "category": "Policy",
+      "date": "2026-11-23",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Asian authorities moved to stabilize markets after last week's rout: Korea's finance ministry prepared a market stabilization fund of more than 10 trillion won (its first since 2008), Taiwan's regulator tightened short-selling rules, and Chinese exchanges eased margin-financing requirements. Kospi still fell sharply while Taiwan rallied; Europe opened higher.",
+      "impact": "High",
+      "numbers": "Kospi ~-3.3% (off 10-month lows, roughly halved from its peak); Taiwan Taiex +2.2% to +2.4% (TSMC, MediaTek led); Hang Seng ~-0.1% and Shanghai ~+0.1% at multi-month lows; India Nifty 50 -1.75%; Japan's Nikkei closed for a holiday; Stoxx 600 +0.8% (ASML led), FTSE 100 +0.56%",
+      "order": 2,
+      "reaction": "Official support steadied chip-heavy Taiwan and Greater China but failed to stem Korean selling; European tech led a modest bounce that fed into the US futures rally.",
+      "region": "Asia/Europe",
+      "source": "https://finance.yahoo.com/markets/stocks/articles/us-futures-bounce-while-asia-234419517.html",
+      "tickers": "EWY, Kospi, EWT, FXI, SPY, S&P, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-23-3-crowdstrike-to-buy-zscaler-43-9b",
+    "data": {
+      "addedAt": "2026-11-23",
+      "category": "Deals",
+      "date": "2026-11-23",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "CrowdStrike agreed to acquire Zscaler in an all-stock deal valued at about $43.9 billion, the largest cybersecurity takeover on record, pairing CrowdStrike's endpoint platform with Zscaler's network security and zero trust. Announced alongside CrowdStrike's Q3 FY2027 results, which showed a profit and a positive outlook.",
+      "impact": "High",
+      "numbers": "1.135 CRWD shares per ZS share = ~$260.41/share, a ~34% premium to Zscaler's Nov 20 close; CRWD holders to own ~84% of the combined company; close expected in 2H of CrowdStrike's FY2028; combined ARR >$10B at start; ~$1B annualized revenue synergies within 30 months and $500M cost synergies within 18-24 months; TAM expansion >$185B in CY2029. Premarket: ZS +19.60% to $233.00, CRWD -7.72% to $211.72",
+      "order": 3,
+      "reaction": "Zscaler jumped toward the offer while CrowdStrike fell on dilution from the all-stock structure; the deal revived software/cyber M&A expectations on a strong tape.",
+      "region": "US",
+      "source": "https://www.crowdstrike.com/en-us/press-releases/crowdstrike-to-acquire-zscaler-bringing-network-security-and-zero-trust-to-the-falcon-platform/",
+      "tickers": "CRWD, ZS, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "CrowdStrike Q3 beat with a positive outlook; deal premium ~34%"
+    }
+  },
+  {
+    "id": "2026-11-23-4-gold-rebounds-oil-slides-flash-pmis-due",
+    "data": {
+      "addedAt": "2026-11-23",
+      "category": "Rates",
+      "date": "2026-11-23",
+      "day": "Mon",
+      "direction": "Mixed",
+      "event": "Cross-asset snapback: gold rebounds hard off 52-week lows, crude slides on Russia-Ukraine peace-deal progress, and the 10-year yield edges up while the dollar holds just below Friday's 19-month high. S&P Global flash November PMIs and a speech by NY Fed President Williams land later today; October PCE is due Wednesday with a December Fed hike still near fully priced.",
+      "impact": "Medium",
+      "numbers": "8:34-8:44 AM ET: Dec gold futures +3.00% at $3,620.80/oz; Brent -2.13% at $90.60, WTI -2.04% at $81.71; 10Y Treasury yield 4.924% (+1.2bp); DXY ~103.9, broadly unchanged; bitcoin +0.94% at $61,221; German 10Y steady at 3.30%",
+      "order": 4,
+      "reaction": "Gold's bounce and the oil drop ease some of last week's cross-asset liquidation pressure; rates traders trimmed bets on an aggressive December hike, leaving PCE on Wednesday as the week's main macro risk.",
+      "region": "US/Global",
+      "source": "https://mlq.ai/news/nasdaq-futures-rise-3-and-nvidia-gains-9-premarket-as-zscaler-jumps-20-on-crowdstrikes-offer/",
+      "tickers": "GLD, gold, TLT, 10Y, yield, Treasury, DXY, USD, dollar",
+      "time": "Pre-market",
+      "vsExp": "n/a (flash PMIs and PCE not yet released)"
+    }
   }
 ]
