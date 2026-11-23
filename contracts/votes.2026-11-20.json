@@ -3,51 +3,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly computes choppy for ES=F through 20 November - the last labeled hourly swings are LL at 7167.75 (19 November 16:00), LH at 7183.25 and HH at 7216.75 (20 November 10:00), a mixed run with no consistent direction. RSI is 25.12 with the close (6966.75) 9.1% below the 50-day (7663.91) and 5.6% below the 200-day (7377.81), so the moving-average read is clearly down, but the computed swing state is the one this category is grounded in at the 1-day horizon, and it gives no direction. Neutral."
+   ],
+   [
+    "bear",
+    "Breadth collapsed on 20 November: S&P 500 decliners 376 against 123 advancers, with 10 of the 11 sectors lower - Technology -7.27%, Industrials -3.09%, Consumer Discretionary -2.95%, and only Consumer Staples positive at +0.67% (CappNotes Closing Look, 20 November). A 3-to-1 decline split on a 3.70% index fall is a 1-day headwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Volatility context sits in the sigma input: VIX rose 26.20% to 35.89 on 20 November, its highest close since April 2025, after touching about 40 intraday, with VXN at 45.25 and GVZ at 34.80 (CappNotes Closing Look, 20 November; fetched closes). A 19-month high is not a percentile, record or multi-year extreme, so volRegime stays 0 and this vote is neutral - the level is already carried in the 1-session band of 1.13%."
+   ],
+   [
+    "bear",
+    "The ICE BofA high-yield spread widened again to 3.52% (19 November data) from 3.47%, with investment grade at 0.94% from 0.93%, and HYG fell 0.26% on 20 November while LQD rose 0.59% (CappNotes Closing Look, 20 November). Junk credit failing to join the duration rally on a 3.70% index decline is a 1-day headwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The two measured relationships in this document point opposite ways on 20 November. Yields fell hard - the 2-year 13bp to 4.63%, the 10-year 12bp to 4.92%, the 30-year 9bp to 5.31%, 2s10s 29bp from 28bp (CappNotes Closing Look, 20 November) - and the S&P 500's dominant 21-session driver is the 10-year at corr +0.424, which makes a yield decline a negative in this regime; but on the six |2Y| >= 5bp 'big days' in the same window the correlation is -0.628, which makes a 13bp front-end rally a positive. Genuinely two-sided, so neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). More tightening priced is a headwind for equity multiples."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "AAII's survey for the week ending 18 November showed bearish sentiment at 42.2% (down 9.2 percentage points from 51.4%), bullish 33.3% and neutral 24.4%, with bearish above its 31.5% historical average for a 41st consecutive week (AAII Sentiment Survey, 'Pessimism Backtracks'). A contrarian survey reading is not a 1-day timing signal, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The only dated fund-flow figures (19 November data) are two-sided: SPY saw an $11.65B outflow and QQQ $1.29B, against inflows of $2.27B into CNEQ, $1.85B into ARKK and $1.46B into TCAF (CappNotes Closing Look, 20 November). Fund flows are not a 1-day directional signal and these cut both ways, so neutral."
+   ],
+   [
+    "bear",
+    "Nvidia, the index's largest weight, fell 14.01% to $125.53 - a 52-week low and roughly $491B of market value in one session - after Reuters reported that SEC enforcement staff are examining potential accounting issues, with the SEC declining to comment and Nvidia not immediately responding; the Wall Street Journal had first reported an SEC investigation on 17 November without naming its focus (Reuters via Yahoo Finance and 24/7 Wall St., 20 November). Intuit fell 12.77% on a cut Credit Karma revenue outlook of $2.72-$2.83B, Keysight 7.07%, BJ's Wholesale 5.35% despite a beat and raised guidance and Ross Stores 2.92% on Q4 EPS guidance of $2.16-$2.25 against a $2.28 estimate, against Gap +11.44% on adjusted EPS of $0.82 versus $0.78 (CappNotes Closing Look, 20 November). Beats being sold and the top index weight down 14% is a clear 1-day headwind."
+   ],
+   [
+    "bull",
+    "The data actually released on 20 November were constructive: final November University of Michigan consumer sentiment came in at 51.5, up 7.3% from October and in line with estimates, and one-year inflation expectations fell to 3.7% from 4.3% at mid-month (CappNotes Closing Look, 20 November). Monday 23 November brings only the S&P Global flash manufacturing and services PMIs, for which no consensus dated at or before 20 November was obtained. Improving sentiment with falling household inflation expectations is a mild 1-day positive for equities."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The long-run Thanksgiving-week statistics obtainable here - Bank of America's since-1928 study has the S&P 500 positive about six of ten Thanksgiving weeks for an average +0.28%, and other studies cluster near +0.3% to +0.7% - come from pieces that could not be dated at or before 20 November, and an average drift of roughly +0.3% sits well inside the 1-session band of 1.13% at a VIX of 35.89. No actionable direction, so neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "20 November was a cross-asset liquidation rather than a rotation: gold fell 4.63% to about $3,515, silver 7.41% to $41.03, copper 2.82% to $5.4665, bitcoin 4.72% to about $58,994 and ether 7.82%, while Japan's Nikkei fell 5.06% to 56,436.65, Korea's Kospi about 5.2%, Taiwan's TAIEX 6.23% for a record weekly loss and the Stoxx 600 about 2%, and USD/JPY fell 0.74% on a yen haven bid (CappNotes Closing Look, 20 November; news log, 20 November; Strategitz CIO Brief, 20 November). The S&P 500's second dominant 21-session driver is oil at corr -0.415, and WTI rose 0.93% to $83.98 - also the wrong direction for equities in this regime. Bearish."
    ],
    [
     "neu",
@@ -57,51 +57,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly still computes uptrend for ES=F - the last labeled weekly swings are HL 7324.0 (27 July), HH 7838.5 (10 August), HL 7509.25 (14 September) and HH 7897.5 (5 October) - but the 20 November close of 6966.75 is 7.2% below that last labeled higher low and below both the 50-day (7663.91) and the 200-day (7377.81), and the cash index closed more than 10% under its 6 October record, in correction territory (UPI and AP closing data, 20 November). A computed uptrend whose most recent higher low has already broken is not a directional read, so neutral - the mechanical uptrend signal is carried by category 13."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The one dated breadth statistic is a single-session count (376 decliners to 123 advancers on 20 November), and it cuts against the other dated breadth fact: equal-weight RSP fell only 1.98% against the cap-weighted index's 3.70%, a 172bp outperformance saying the damage was concentrated in mega-cap technology rather than broad-based (CappNotes Closing Look, 20 November). No dated advance/decline line or percent-above-200-day series was obtained for this window. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VIX at 35.89 is up about 86% from its 13 November close, but no source dated at or before 20 November names a percentile or record for it, and a volatility spike of that size is two-sided over a week: it marks forced selling, and it widens this asset's flat zone to 2.53% at 5 sessions, which makes continuation harder to register. Neutral."
+   ],
+   [
+    "bear",
+    "High yield has widened in each of the last three reported sessions (3.43% -> 3.47% -> 3.52%) while investment grade went 0.92% -> 0.93% -> 0.94%, and HYG fell on 20 November even as LQD gained 0.59% (CappNotes Closing Look, 19 and 20 November). A steady, one-directional widening into a correction is a multi-day headwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The 10-year has fallen from the 5.14-5.16% it held on 17 November (news log) to 5.04% on 19 November and 4.92% on 20 November, about 24bp in four sessions, with the 2-year at 4.63% (CappNotes Closing Look, 19 and 20 November). The same split applies as at 1 day: the dominant 10-year correlation of +0.424 makes a haven-driven yield decline a negative, while the big-day 2-year correlation of -0.628 makes it a positive. Two-sided, so neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. The 9 December FOMC falls outside all three horizons here (they mature 23 November, 30 November and 7 December), so this vote reflects accumulating pricing pressure, not the decision itself."
+   ],
+   [
+    "bull",
+    "Contrarian: AAII's survey for the week ending 18 November showed bearish sentiment at 42.2% (down 9.2 percentage points from 51.4%), bullish 33.3% and neutral 24.4%, with bearish above its 31.5% historical average for a 41st consecutive week (AAII Sentiment Survey, 'Pessimism Backtracks'). At 42.2% bearish the reading is still 10.7 percentage points above the long-run average, and the survey closed before the 20 November session's 3.70% decline and the VIX's 26.20% jump to 35.89, so it understates current pessimism. Bullish over a week."
+   ],
+   [
+    "bull",
+    "Positioning is already washed out: Citadel Securities put aggregate CTA US-equity positioning at -3.3 standard deviations, sub-2nd percentile of its one-year range, as of 3 November, and Morgan Stanley's prime data had gross hedge-fund exposure down about 7.8% from peak as of 27 October - the largest de-grossing in its series back to 2016 - with US long/short gross leverage falling 8.7 points to 207.5% in the week to 6 November, the largest weekly drop since March 2020. These readings are 10-17 sessions before 20 November and reach this document only through secondary summaries, so they do not qualify for the crowd input, but as a direction they are a contrarian positive."
+   ],
+   [
+    "bear",
+    "The Nvidia SEC accounting inquiry reported on 20 November has no resolution date - Reuters could not determine when it began or which issues it covers, the SEC declined to comment and Nvidia did not immediately respond - leaving an open-ended overhang on the index's largest weight at a 52-week low of $125.53 (Reuters via Yahoo Finance, 20 November). An SEC inquiry is not a finding of wrongdoing, but an unresolved one is a multi-day headwind. No earnings calendar for the 23-27 November week dated at or before 20 November was obtained, so only this overhang is voted."
+   ],
+   [
+    "bear",
+    "The 5-session window, maturing 30 November, contains the 25 November release of October PCE alongside the preliminary Q3 GDP revision, durable goods orders and jobless claims, with US markets closed 26 November for Thanksgiving and reduced liquidity expected (Kitco, 20 November; Market Digest, 20 November). The dated priors skew the inflation risk hot: October PPI final demand rose 6.5% y/y, the highest since November 2022, with core ex food, energy and trade +4.9% y/y (news log, 13 November), and the Philadelphia Fed's prices-paid gauge jumped to 58.2 from 43.2 (news log, 19 November). A hot PCE into near-certain December-hike pricing is this window's main risk."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same long-run Thanksgiving-week averages of roughly +0.3% apply, against a 5-session band of 2.53%: inside the flat zone, and no statistic dated at or before 20 November was obtained. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The week, not just the day: the S&P 500 lost 8.61% and the Nasdaq Composite 10.02% in the week to 20 November, the worst since April 2025, with Asia having its worst week since 2020, gold down roughly 9.5% and silver more than 15% (news log, 20 November; AP closing data, 20 November; Kitco, 20 November). Liquidity-driven selling across assets rather than a rotation into anything keeps cross-asset correlations high. Bearish for a week."
    ],
    [
     "bull",
@@ -111,51 +111,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same reading at ten sessions: structure.weekly computes uptrend for ES=F on labels ending HH 7897.5 (5 October), but the 20 November close of 6966.75 sits 11.8% below that swing high and 7.2% below the prior labeled higher low of 7509.25, with price under both the 50-day (7663.91) and the 200-day (7377.81) and the cash index in correction. A computed uptrend that price has already fallen through is not a trend read, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated multi-session breadth series (advance/decline line, percent of members above the 200-day, new highs versus new lows) was obtained for a ten-session window; the only dated breadth facts are 20 November's 376/123 split and RSP's 172bp outperformance, which point opposite ways. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "A VIX of 35.89 and a 10-session band of 3.58% say the same thing as at shorter horizons: no source dated at or before 20 November puts a percentile or record on the level, so volRegime stays 0 and there is no directional volatility read here. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No credit series longer than those three reported sessions of high-yield widening was obtained for a ten-session window, and the move so far - 9bp on the high-yield spread, to 3.52% - is small in absolute terms. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the rates picture stays two-sided. Four sessions of haven buying have taken the 10-year to 4.92% and the 2-year to 4.63%, but the week before 17 November saw the 2-year's biggest weekly rise in more than two years (news log, 16 November) and a 25bp hike is priced at 90-98% for 9 December, just after this window closes. With the dominant 10-year correlation at +0.424 and the big-day 2-year correlation at -0.628, neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. The ten-session horizon matures 7 December, two days before the decision, so hike pricing compounds through the whole window without being resolved inside it. UMich one-year inflation expectations falling to 3.7% from 4.3% at mid-month (CappNotes Closing Look, 20 November) is a partial offset that did not move the Kalshi or FedWatch pricing."
+   ],
+   [
+    "bull",
+    "Contrarian: AAII's survey for the week ending 18 November showed bearish sentiment at 42.2% (down 9.2 percentage points from 51.4%), bullish 33.3% and neutral 24.4%, with bearish above its 31.5% historical average for a 41st consecutive week (AAII Sentiment Survey, 'Pessimism Backtracks'). A reading 10.7 points above its long-run average, taken before the 20 November decline, is a positive over a ten-session window on the same basis as at five."
+   ],
+   [
+    "bull",
+    "Positioning is already washed out: Citadel Securities put aggregate CTA US-equity positioning at -3.3 standard deviations, sub-2nd percentile of its one-year range, as of 3 November, and Morgan Stanley's prime data had gross hedge-fund exposure down about 7.8% from peak as of 27 October - the largest de-grossing in its series back to 2016 - with US long/short gross leverage falling 8.7 points to 207.5% in the week to 6 November, the largest weekly drop since March 2020. These readings are 10-17 sessions before 20 November and reach this document only through secondary summaries, so they do not qualify for the crowd input, but as a direction they are a contrarian positive. Over ten sessions that de-grossed base is if anything more relevant, since it is what has to be rebuilt for the index to recover."
+   ],
+   [
+    "bear",
+    "The unresolved Nvidia SEC accounting inquiry (Reuters via Yahoo Finance, 20 November) is the only dated company-level catalyst with a reach beyond a week, and it has no resolution date. No earnings calendar for the 23-27 November week dated at or before 20 November was obtained, and nothing dated at or before 20 November covers the following week, so this vote rests on the overhang alone."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond the 25 November PCE release already voted at 5 sessions, no economic release inside the ten-session window (maturing 7 December) was obtained from a source dated at or before 20 November, and the 9 December FOMC falls outside it. Neutral rather than guessed at."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same long-run Thanksgiving-week averages of roughly +0.3% are inside the 10-session band of 3.58%, and no seasonal statistic dated at or before 20 November was obtained. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the cross-asset facts genuinely cut both ways. Broad forced selling - equities, gold, silver, copper and crypto all down hard on 20 November, Asia's worst week since 2020 - is a headwind; but four of this document's six assets closing deeply oversold at once is also the condition analysts quoted in Kitco's 20 November wrap (Commerzbank's Fritsch, TD Securities) describe as 'historically short-lived and followed by price recoveries', albeit about precious metals specifically. No dated ten-session cross-asset statistic resolves it. Neutral."
    ],
    [
     "bull",
@@ -167,51 +167,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly computes choppy for ZN=F through 20 November - the last labeled hourly swings are LH 105.890625 (18 November 22:00), LL 105.5 (19 November 08:00), then HL 106.078125 and HL 106.296875 on 20 November, a mixed run that the engine does not resolve into a trend. RSI is 57.39 with the close (106.609375) above the 50-day (105.62) but 2.2% below the 200-day (109.02), which is itself a split read. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is an equity-market statistic with no dated Treasury analogue; the 20 November S&P 500 split of 376 decliners to 123 advancers is read for its haven effect under Cross-asset instead. Neutral by construction, not by oversight."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The only dated Treasury-volatility reading obtained is the ICE BofA MOVE index at 96.04 on 19 November, down from 98.15 on 18 November and still below its 5 October high of 113.60 (StreetStats) - a normal-range level with no percentile, record or multi-year extreme named. The bonds sigma input is also a TLT implied-volatility value carried from 25 September rather than a Treasury-futures gauge, so there is no reliable volatility read here. Neutral, and volRegime stays 0."
+   ],
+   [
+    "bull",
+    "Investment-grade credit joined the duration rally while junk did not: The ICE BofA high-yield spread widened again to 3.52% (19 November data) from 3.47%, with investment grade at 0.94% from 0.93%, and HYG fell 0.26% on 20 November while LQD rose 0.59% (CappNotes Closing Look, 20 November). Widening concentrated in high yield with high grade bid is the classic flight-to-quality pattern that supports Treasury notes."
+   ],
+   [
+    "bull",
+    "Treasuries rallied for a fifth session: the 2-year fell 13bp to 4.63%, the 10-year 12bp to 4.92% and the 30-year 9bp to 5.31%, with 2s10s widening to 29bp from 28bp (CappNotes Closing Look, 20 November), and ZN=F closed 106.609375 from 105.953125, up 0.62%. Bonds' dominant 21-session driver in this document is the 10-year at corr -0.985, so a 12bp yield decline is near-mechanically a price gain. Bullish."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). More policy tightening priced is a headwind for note prices even on a session when the haven bid won."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury-specific sentiment reading - a bond-market bull/bear survey, a primary-dealer or client survey position - was obtained for this window. AAII's 18 November survey covers equities only and is not borrowed here. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury positioning or flow figure was obtained for this window: no CFTC commitments-of-traders reading in ZN futures, no primary-dealer position and no bond-fund flow number. The only dated flow figures in the sources are equity-fund flows (SPY -$11.65B, QQQ -$1.29B, ARKK +$1.85B on 19 November data; CappNotes Closing Look, 20 November), which do not read across. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Company earnings have no direct read on 10-year note prices; the effect of the AI equity rout - Nvidia's 14.01% fall on the SEC accounting report driving haven demand - is voted under Cross-asset instead. Neutral by construction."
+   ],
+   [
+    "bull",
+    "The data actually released on 20 November were constructive: final November University of Michigan consumer sentiment came in at 51.5, up 7.3% from October and in line with estimates, and one-year inflation expectations fell to 3.7% from 4.3% at mid-month (CappNotes Closing Look, 20 November). Monday 23 November brings only the S&P Global flash manufacturing and services PMIs, for which no consensus dated at or before 20 November was obtained. Lower household inflation expectations are a positive for note prices."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for Treasury notes over a Thanksgiving-shortened window was obtained, so neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "The 20 November tape was a textbook haven session for duration: the S&P 500 -3.70%, the Nasdaq-100 -5.61%, the Nikkei -5.06%, the Kospi about -5.2%, USD/JPY -0.74% on yen demand and LQD +0.59% (CappNotes Closing Look, 20 November; news log, 20 November). On the six |2Y| >= 5bp 'big days' in the 21-session window the bonds correlation is -0.698, and 20 November's 13bp 2-year decline was one of them: the risk-off move pulled yields down and note prices up. Bullish."
    ],
    [
     "neu",
@@ -220,52 +220,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly computes downtrend for ZN=F - the last labeled weekly swings are LH 110.328125 (22 June), LL 107.984375 (27 July), LH 109.109375 (10 August), LL 103.890625 (28 September) and LH 107.5 (2 November): lower highs and lower lows throughout. The moving-average read agrees in the longer frame, with the 20 November close of 106.609375 2.2% below the 200-day (109.02), even though it is above the 50-day (105.62). RSI 57.39. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is an equity-market statistic with no dated Treasury analogue; the 20 November S&P 500 split of 376 decliners to 123 advancers is read for its haven effect under Cross-asset instead. Neutral by construction, not by oversight."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The only dated Treasury-volatility reading obtained is the ICE BofA MOVE index at 96.04 on 19 November, down from 98.15 on 18 November and still below its 5 October high of 113.60 (StreetStats) - a normal-range level with no percentile, record or multi-year extreme named. The bonds sigma input is also a TLT implied-volatility value carried from 25 September rather than a Treasury-futures gauge, so there is no reliable volatility read here. Neutral, and volRegime stays 0."
+   ],
+   [
+    "bull",
+    "High yield has widened in each of the last three reported sessions (3.43% -> 3.47% -> 3.52%) while investment grade went 0.92% -> 0.93% -> 0.94%, and HYG fell on 20 November even as LQD gained 0.59% (CappNotes Closing Look, 19 and 20 November). A widening-credit, bid-duration pattern sustained over several sessions is a multi-day positive for Treasury notes."
+   ],
+   [
+    "bull",
+    "The 10-year has fallen from the 5.14-5.16% it held on 17 November (news log) to 5.04% on 19 November and 4.92% on 20 November - roughly 24bp of haven-driven rally in four sessions - with the 2-year down 13bp to 4.63% on 20 November alone and the 30-year at 5.31% (CappNotes Closing Look, 19 and 20 November). At a measured 10-year correlation of -0.985, the direction of travel is with the note price. Bullish."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. The 9 December FOMC falls outside all three horizons here (they mature 23 November, 30 November and 7 December), so this vote reflects accumulating pricing pressure, not the decision itself."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury-specific sentiment reading - a bond-market bull/bear survey, a primary-dealer or client survey position - was obtained for this window. AAII's 18 November survey covers equities only and is not borrowed here. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury positioning or flow figure was obtained for this window: no CFTC commitments-of-traders reading in ZN futures, no primary-dealer position and no bond-fund flow number. The only dated flow figures in the sources are equity-fund flows (SPY -$11.65B, QQQ -$1.29B, ARKK +$1.85B on 19 November data; CappNotes Closing Look, 20 November), which do not read across. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Company earnings have no direct read on 10-year note prices; the effect of the AI equity rout - Nvidia's 14.01% fall on the SEC accounting report driving haven demand - is voted under Cross-asset instead. Neutral by construction."
+   ],
+   [
+    "bear",
+    "The 5-session window, maturing 30 November, contains the 25 November release of October PCE alongside the preliminary Q3 GDP revision, durable goods orders and jobless claims, with US markets closed 26 November for Thanksgiving and reduced liquidity expected (Kitco, 20 November; Market Digest, 20 November). The dated priors skew the inflation risk hot: October PPI final demand rose 6.5% y/y, the highest since November 2022, with core ex food, energy and trade +4.9% y/y (news log, 13 November), and the Philadelphia Fed's prices-paid gauge jumped to 58.2 from 43.2 (news log, 19 November). A hot PCE would push yields back up, so this is a headwind for note prices."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for Treasury notes over a Thanksgiving-shortened window was obtained, so neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "The equity rout is a weekly rather than a one-day event: The week, not just the day: the S&P 500 lost 8.61% and the Nasdaq Composite 10.02% in the week to 20 November, the worst since April 2025, with Asia having its worst week since 2020, gold down roughly 9.5% and silver more than 15% (news log, 20 November; AP closing data, 20 November; Kitco, 20 November). Liquidity-driven selling across assets rather than a rotation into anything keeps cross-asset correlations high. With ZN=F up 0.62% on 20 November and the 10-year down about 24bp over four sessions, continued de-risking supports notes. Bullish."
    ],
    [
     "bear",
@@ -274,52 +274,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The same computed read at ten sessions: structure.weekly is downtrend for ZN=F on labels ending LL 103.890625 (28 September) and LH 107.5 (2 November), and the 20 November close of 106.609375 is 6.4% below the 252-session closing high of 113.86 and only 2.3% above the low of 104.20, below the 200-day (109.02). Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is an equity-market statistic with no dated Treasury analogue; the 20 November S&P 500 split of 376 decliners to 123 advancers is read for its haven effect under Cross-asset instead. Neutral by construction, not by oversight."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The only dated Treasury-volatility reading obtained is the ICE BofA MOVE index at 96.04 on 19 November, down from 98.15 on 18 November and still below its 5 October high of 113.60 (StreetStats) - a normal-range level with no percentile, record or multi-year extreme named. The bonds sigma input is also a TLT implied-volatility value carried from 25 September rather than a Treasury-futures gauge, so there is no reliable volatility read here. Neutral, and volRegime stays 0."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No credit series longer than those three reported sessions of high-yield widening was obtained for a ten-session window, and the move so far - 9bp on the high-yield spread, to 3.52% - is small in absolute terms. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the rates read is genuinely two-sided. Four sessions of haven buying have taken the 10-year to 4.92% and the 2-year to 4.63%, but the week before 17 November saw the 2-year's biggest weekly rise in more than two years (news log, 16 November), the 2-year at 4.63% still sits above the 3.75-4.00% funds rate with a 25bp hike priced at 90-98% for 9 December, and the 30-year is still 5.31%. Neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. The ten-session horizon matures 7 December, two days before the decision, so the hike is priced into the whole window without being resolved in it. Saxo's Ole Hansen argued markets 'may see another rate hike, but not the series currently being priced in' (Kitco, 20 November), which trims but does not reverse the signal."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury-specific sentiment reading - a bond-market bull/bear survey, a primary-dealer or client survey position - was obtained for this window. AAII's 18 November survey covers equities only and is not borrowed here. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury positioning or flow figure was obtained for this window: no CFTC commitments-of-traders reading in ZN futures, no primary-dealer position and no bond-fund flow number. The only dated flow figures in the sources are equity-fund flows (SPY -$11.65B, QQQ -$1.29B, ARKK +$1.85B on 19 November data; CappNotes Closing Look, 20 November), which do not read across. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Company earnings have no direct read on 10-year note prices; the effect of the AI equity rout - Nvidia's 14.01% fall on the SEC accounting report driving haven demand - is voted under Cross-asset instead. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond the 25 November PCE release already voted at 5 sessions, no economic release inside the ten-session window (maturing 7 December) was obtained from a source dated at or before 20 November, and the 9 December FOMC falls outside it. Neutral rather than guessed at."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for Treasury notes over a Thanksgiving-shortened window was obtained, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the cross-asset read is two-sided for duration. The haven bid is real, but gold fell 4.63% and silver 7.41% on the same session, which says cash is being raised across assets including traditional havens rather than rotated into bonds specifically; Kitco's 20 November wrap names 'liquidity demands' and Hansen's 'dash for cash' as the mechanism. This document's own measure puts the gold-versus-bonds 21-session correlation at just 0.079 with no shared dominant driver, so the metals signal does not transfer cleanly either way. Neutral."
    ],
    [
     "bear",
@@ -330,52 +330,52 @@
  "gold": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.hourly computes downtrend for GC=F through 20 November - the last labeled hourly swings are LL 3694.5 (18 November 22:00), LL 3514.90 (20 November 00:00), LH 3596.70, LH 3587.0 and LL 3502.90 (20 November 13:00): lower highs and lower lows throughout. RSI is 22.19, the lowest of the six assets, with the close (3539.0) 13.9% below the 50-day (4111.33) and 20.4% below the 200-day (4444.80), and 3539.0 is itself the 252-session closing low. The computed swing read and the moving-average read agree. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is an equity-market statistic with no dated precious-metals analogue; the complex-wide move (silver -7.41% to $41.03, copper -2.82% to $5.4665 on 20 November) is voted under Cross-asset instead. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "GVZ, the fetched gold volatility gauge, closed 34.80 on 20 November. Kitco's wrap that day calls gold's and silver's weekly falls 'their worst weekly declines since March', with both metals at 'their lowest levels in 14 months' and gold 'down roughly 9.5% this week' - a worst-since-March or 14-month comparison, not a percentile, record or documented multi-year extreme. A Substack post claiming the week was gold's third-worst this century could not be verified against a primary source and is not used. volRegime stays 0 and this vote is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit measure bears on bullion directly; the 20 November high-yield spread of 3.52% (19 November data) and investment grade of 0.94% are voted for the equity and Treasury assets. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nominal yields fell hard on 20 November - the 2-year 13bp to 4.63%, the 10-year 12bp to 4.92%, the 30-year 9bp to 5.31% (CappNotes Closing Look, 20 November) - which would normally cut bullion's carry cost, and high real yields with a firm dollar are exactly what Kitco's 19 and 20 November wraps name as the pressure on metals. But gold's measured 21-session correlation to the 10-year in this document is only -0.038, essentially no relationship (its dominant driver is oil at -0.557), and gold still fell 2.18% on the day. No usable read, so neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing is the stated driver of gold's decline: December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). Kitco's 20 November wrap quotes Waleed Said that 'this market is now one trade: the end of the Fed's hiking cycle' and reports that 'persistent inflation pressures are forcing markets to price in an extended global central bank tightening cycle', with Barchart putting a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91%. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold-specific sentiment survey was obtained for 20 November. Kitco's wrap carries oversold language without numbers - Commerzbank's Carsten Fritsch that RSI readings 'have fallen deep into oversold territory', conditions that 'have historically been short-lived and followed by price recoveries'; David Morrison that both metals 'look oversold according to their respective MACDs'; Ole Hansen that 'gold's best chance of a rebound may simply be that the selling has become excessive' - but a 1-day horizon is too short for a contrarian read. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "TD Securities said gold ETF 'holdings remain resilient' without giving a figure, and no dated COT reading, position size, percentile or flow number was obtained (Kitco, 20 November). Nothing to vote on at 1 day. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Company earnings have no direct read on bullion; the AI equity sell-off's role in forced metals selling - Commerzbank's Fritsch on 'renewed forced selling ... following another sell-off in technology stocks' (Kitco, 20 November) - is voted under Cross-asset instead. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The one release on 20 November cuts both ways for bullion: final November UMich consumer sentiment came in at 51.5, up 7.3% from October and in line, with one-year inflation expectations down to 3.7% from 4.3% at mid-month (CappNotes Closing Look, 20 November). Lower expected inflation weakens the hedge case, but it also weakens the case for the tightening that is gold's stated headwind. Monday 23 November brings only the S&P Global flash PMIs, with no consensus dated at or before 20 November obtained. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for gold over this window was obtained, so neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Gold is being sold with everything else rather than bought as a haven: 20 November was a cross-asset liquidation rather than a rotation: gold fell 4.63% to about $3,515, silver 7.41% to $41.03, copper 2.82% to $5.4665, bitcoin 4.72% to about $58,994 and ether 7.82%, while Japan's Nikkei fell 5.06% to 56,436.65, Korea's Kospi about 5.2%, Taiwan's TAIEX 6.23% for a record weekly loss and the Stoxx 600 about 2%, and USD/JPY fell 0.74% on a yen haven bid (CappNotes Closing Look, 20 November; news log, 20 November; Strategitz CIO Brief, 20 November). Kitco's wrap attributes it directly - 'liquidity demands are once again punishing gold and silver', Fritsch on 'renewed forced selling', Hansen on 'a dash for cash, dollar strength, the AI calamity and deeply negative momentum'. Gold's dominant 21-session driver is oil at corr -0.557 and WTI rose 0.93% to $83.98, also the wrong way. Bearish."
    ],
    [
     "bear",
@@ -384,52 +384,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly also computes downtrend for GC=F - the last labeled weekly swings are LL 4100.0 (23 March), LH 4917.70 (13 April), LH 4783.40 (11 May), LL 3955.40 (29 June) and LH 4755.0 (24 August): lower highs and lower lows on weekly bars. Price is below both the 50-day (4111.33) and the 200-day (4444.80) and at a 252-session closing low of 3539.0, 33.5% beneath the 252-session closing high of 5318.40. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is an equity-market statistic with no dated precious-metals analogue; the complex-wide move (silver -7.41% to $41.03, copper -2.82% to $5.4665 on 20 November) is voted under Cross-asset instead. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "GVZ, the fetched gold volatility gauge, closed 34.80 on 20 November. Kitco's wrap that day calls gold's and silver's weekly falls 'their worst weekly declines since March', with both metals at 'their lowest levels in 14 months' and gold 'down roughly 9.5% this week' - a worst-since-March or 14-month comparison, not a percentile, record or documented multi-year extreme. A Substack post claiming the week was gold's third-worst this century could not be verified against a primary source and is not used. volRegime stays 0 and this vote is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit measure bears on bullion directly; the 20 November high-yield spread of 3.52% (19 November data) and investment grade of 0.94% are voted for the equity and Treasury assets. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nominal yields fell hard on 20 November - the 2-year 13bp to 4.63%, the 10-year 12bp to 4.92%, the 30-year 9bp to 5.31% (CappNotes Closing Look, 20 November) - which would normally cut bullion's carry cost, and high real yields with a firm dollar are exactly what Kitco's 19 and 20 November wraps name as the pressure on metals. But gold's measured 21-session correlation to the 10-year in this document is only -0.038, essentially no relationship (its dominant driver is oil at -0.557), and gold still fell 2.18% on the day. No usable read, so neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. Kitco's 20 November wrap frames gold as 'one trade: the end of the Fed's hiking cycle' (Waleed Said), which makes further hike pricing the dominant weekly headwind. The 9 December FOMC falls outside all three horizons here (they mature 23 November, 30 November and 7 December), so this vote reflects accumulating pricing pressure, not the decision itself."
+   ],
+   [
+    "bull",
+    "Contrarian, and this is the strongest sourced contrarian case in the document: the fetched RSI of 22.19 is the lowest of the six assets, and four named analysts in Kitco's 20 November wrap read the move the same way - Commerzbank's Fritsch on RSI 'deep into oversold territory', conditions that 'have historically been short-lived and followed by price recoveries'; David Morrison on oversold MACDs; TD Securities that gold 'has dropped sharply into oversold territory'; Ole Hansen that 'gold's best chance of a rebound may simply be that the selling has become excessive'. Bullish over a week."
+   ],
+   [
+    "bull",
+    "TD Securities' observation in Kitco's 20 November wrap that CTAs 'could cover short positions across the precious metals complex' is a stated positioning catalyst in gold's favour over a week, alongside its note that ETF 'holdings remain resilient'; Fritsch attributes the day's move to 'renewed forced selling ... following another sell-off in technology stocks', which is a flow that exhausts rather than one that persists indefinitely. No numeric position figure was given, so this is a direction only - which is why crowd stays 0. Bullish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Company earnings have no direct read on bullion; the AI equity sell-off's role in forced metals selling - Commerzbank's Fritsch on 'renewed forced selling ... following another sell-off in technology stocks' (Kitco, 20 November) - is voted under Cross-asset instead. Neutral by construction."
+   ],
+   [
+    "bear",
+    "The 5-session window, maturing 30 November, contains the 25 November release of October PCE alongside the preliminary Q3 GDP revision, durable goods orders and jobless claims, with US markets closed 26 November for Thanksgiving and reduced liquidity expected (Kitco, 20 November; Market Digest, 20 November). The dated priors skew the inflation risk hot: October PPI final demand rose 6.5% y/y, the highest since November 2022, with core ex food, energy and trade +4.9% y/y (news log, 13 November), and the Philadelphia Fed's prices-paid gauge jumped to 58.2 from 43.2 (news log, 19 November). Kitco's own framing of gold as 'one trade: the end of the Fed's hiking cycle' makes a hot print the dominant risk for bullion in this window. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for gold over this window was obtained, so neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Gold lost roughly 9.5% on the week and silver more than 15%, both their worst weekly declines since March and their lowest levels in 14 months, driven by liquidity demands rather than a change in the macro case, with the World Gold Council cited as noting that AI-valuation concerns triggered broader reductions in leveraged positions (Kitco, 20 November). The week, not just the day: the S&P 500 lost 8.61% and the Nasdaq Composite 10.02% in the week to 20 November, the worst since April 2025, with Asia having its worst week since 2020, gold down roughly 9.5% and silver more than 15% (news log, 20 November; AP closing data, 20 November; Kitco, 20 November). Liquidity-driven selling across assets rather than a rotation into anything keeps cross-asset correlations high. The liquidation pressure is still live. Bearish."
    ],
    [
     "bear",
@@ -438,52 +438,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The same computed read at ten sessions: both structure.hourly and structure.weekly are downtrend for GC=F, the weekly labels ending LL 3955.40 (29 June) and LH 4755.0 (24 August), with the 20 November close of 3539.0 at the 252-session closing low, 13.9% under the 50-day and 20.4% under the 200-day, and 33.5% below the 252-session closing high of 5318.40. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is an equity-market statistic with no dated precious-metals analogue; the complex-wide move (silver -7.41% to $41.03, copper -2.82% to $5.4665 on 20 November) is voted under Cross-asset instead. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "GVZ, the fetched gold volatility gauge, closed 34.80 on 20 November. Kitco's wrap that day calls gold's and silver's weekly falls 'their worst weekly declines since March', with both metals at 'their lowest levels in 14 months' and gold 'down roughly 9.5% this week' - a worst-since-March or 14-month comparison, not a percentile, record or documented multi-year extreme. A Substack post claiming the week was gold's third-worst this century could not be verified against a primary source and is not used. volRegime stays 0 and this vote is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit measure bears on bullion directly; the 20 November high-yield spread of 3.52% (19 November data) and investment grade of 0.94% are voted for the equity and Treasury assets. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nominal yields fell hard on 20 November - the 2-year 13bp to 4.63%, the 10-year 12bp to 4.92%, the 30-year 9bp to 5.31% (CappNotes Closing Look, 20 November) - which would normally cut bullion's carry cost, and high real yields with a firm dollar are exactly what Kitco's 19 and 20 November wraps name as the pressure on metals. But gold's measured 21-session correlation to the 10-year in this document is only -0.038, essentially no relationship (its dominant driver is oil at -0.557), and gold still fell 2.18% on the day. No usable read, so neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. The ten-session horizon matures 7 December, two days before the FOMC, so the pricing is unresolved through the whole window. Hansen's view that markets 'may see another rate hike, but not the series currently being priced in' (Kitco, 20 November) trims but does not reverse the signal. Bearish."
+   ],
+   [
+    "bull",
+    "Contrarian, on the same four named reads in Kitco's 20 November wrap (Fritsch on deeply oversold RSI historically 'short-lived and followed by price recoveries', Morrison on oversold MACDs, TD Securities on a sharp drop into oversold territory, Hansen that the selling 'has become excessive') plus the fetched RSI of 22.19 and a 252-session closing low. A ten-session window is the horizon those analysts are actually talking about. Bullish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the positioning read is unquantified: the only dated statements are TD Securities on resilient ETF holdings and possible CTA short-covering across the precious metals complex, with no position size, percentile or flow number attached (Kitco, 20 November). That is enough for a weekly direction but not for a ten-session one. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Company earnings have no direct read on bullion; the AI equity sell-off's role in forced metals selling - Commerzbank's Fritsch on 'renewed forced selling ... following another sell-off in technology stocks' (Kitco, 20 November) - is voted under Cross-asset instead. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond the 25 November PCE release already voted at 5 sessions, no economic release inside the ten-session window (maturing 7 December) was obtained from a source dated at or before 20 November, and the 9 December FOMC falls outside it. Neutral rather than guessed at."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for gold over this window was obtained, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the same facts are two-sided. The bearish mechanism is well documented - liquidity demands, forced selling, dollar strength near a 19-month high and 'deeply negative momentum' (Kitco, 20 November) - but the same piece carries three analysts arguing the selling has become excessive, Said warning of a $3,400-$4,000 consolidation rather than a one-way move, and his caution that 'if we start closing below $3,400 the story changes', which the 20 November close of 3539.0 has not done. Neutral."
    ],
    [
     "bear",
@@ -495,51 +495,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly computes choppy for DX-Y.NYB through 20 November - the last labeled hourly swings are LH 103.964 (19 November 16:00), LH 103.953, HL 103.704, LH 103.915 and LL 103.582 (20 November 08:00), a mixed run. RSI is 69.0 with the close (103.84) 1.9% above the 50-day (101.89) and 3.8% above the 200-day (100.01), and within 0.06% of the 252-session closing high of 103.90, so the moving-average read is firmly up - but the computed hourly swing state, which grounds this vote at the 1-day horizon, gives no direction. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is an equity-market statistic with no dated dollar-index analogue; cross-currency performance is voted under Cross-asset instead. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No FX volatility gauge dated 20 November was obtainable. The dollar sigma input is EUR/USD one-month at-the-money implied volatility of 6.10% as of the 13 November close, against a one-year average of 5.80% (Cross Vol Research, published 14 November) - slightly above average, and not a percentile, record or multi-year extreme. volRegime stays 0 and this vote is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit measure bears on the dollar index directly; the 20 November high-yield spread of 3.52% (19 November data) and investment grade of 0.94% are voted for the equity and Treasury assets. Neutral by construction."
+   ],
+   [
+    "bear",
+    "US yields fell across the curve on 20 November - the 2-year 13bp to 4.63%, the 10-year 12bp to 4.92%, the 30-year 9bp to 5.31% (CappNotes Closing Look, 20 November) - and the dollar's dominant 21-session driver in this document is the 10-year at corr +0.438, so a yield decline is a headwind in this regime. The index did slip 0.081% to 103.84 on the day. Bearish."
+   ],
+   [
+    "bull",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). A tightening Fed is the dollar's stated support: the news log's 18 November entry ties the index's 19-month high directly to hot inflation data, strong retail sales and hawkish Fed commentary. Bullish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar-specific sentiment or survey reading was obtained for this window; AAII's 18 November survey covers equities only and is not borrowed here. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar-index or FX-futures positioning figure was obtained for 20 November - no CFTC commitments-of-traders reading in DX or the major crosses, no bank positioning index. The equity-fund flows in CappNotes' 20 November wrap do not read across to the dollar. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Company earnings have no direct read on the dollar index. Neutral by construction."
+   ],
+   [
+    "bear",
+    "The data actually released on 20 November were constructive: final November University of Michigan consumer sentiment came in at 51.5, up 7.3% from October and in line with estimates, and one-year inflation expectations fell to 3.7% from 4.3% at mid-month (CappNotes Closing Look, 20 November). Monday 23 November brings only the S&P Global flash manufacturing and services PMIs, for which no consensus dated at or before 20 November was obtained. Lower household inflation expectations trim, at the margin, the case for the tightening that has carried the dollar to a 19-month high. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for the dollar index over a Thanksgiving-shortened window was obtained, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "The 20 November cross-currency tape was mixed rather than one-way dollar-positive: USD/KRW rose 0.47% to 1,336.2 and USD/MXN 0.23% to 19.1631, but USD/JPY fell 0.74% as the yen was bid as a haven, and the index itself slipped 0.081% to 103.84 even as the S&P 500 fell 3.70% and the Nikkei 5.06% (CappNotes Closing Look, 20 November; news log, 20 November). A deeply risk-off session that did not lift the dollar index is genuinely two-sided. Neutral."
    ],
    [
     "neu",
@@ -548,52 +548,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly computes uptrend for DX-Y.NYB - the last labeled weekly swings are LH 101.64 (27 July), HL 98.56 (17 August), HL 98.60 (8 September), HH 102.95 (12 October) and HL 101.10 (2 November): higher highs and higher lows. The 20 November close of 103.84 sits above both the 50-day (101.89) and the 200-day (100.01) and within 0.06% of the 252-session closing high of 103.90, and Kitco's David Morrison noted that day that the dollar 'continues to trade near a 19-month high'. Bullish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is an equity-market statistic with no dated dollar-index analogue; cross-currency performance is voted under Cross-asset instead. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No FX volatility gauge dated 20 November was obtainable. The dollar sigma input is EUR/USD one-month at-the-money implied volatility of 6.10% as of the 13 November close, against a one-year average of 5.80% (Cross Vol Research, published 14 November) - slightly above average, and not a percentile, record or multi-year extreme. volRegime stays 0 and this vote is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit measure bears on the dollar index directly; the 20 November high-yield spread of 3.52% (19 November data) and investment grade of 0.94% are voted for the equity and Treasury assets. Neutral by construction."
+   ],
+   [
+    "bear",
+    "The 10-year has fallen from the 5.14-5.16% it held on 17 November (news log) to 5.04% on 19 November and 4.92% on 20 November, roughly 24bp in four sessions, with the 2-year at 4.63% (CappNotes Closing Look, 19 and 20 November). Against a measured 10-year correlation of +0.438 that is a multi-day headwind, even though the index has held within 0.06% of its 252-session closing high. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond a single session the Fed-path read turns two-sided, because a currency is a relative trade and both legs are tightening. December-hike pricing for the Fed is 90% on Kalshi and 98.4% on FedWatch, but The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. USD/JPY actually fell 0.74% on 20 November as the yen was bid. The 9 December FOMC falls outside all three horizons here (they mature 23 November, 30 November and 7 December), so this vote reflects accumulating pricing pressure, not the decision itself. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar-specific sentiment or survey reading was obtained for this window; AAII's 18 November survey covers equities only and is not borrowed here. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar-index or FX-futures positioning figure was obtained for 20 November - no CFTC commitments-of-traders reading in DX or the major crosses, no bank positioning index. The equity-fund flows in CappNotes' 20 November wrap do not read across to the dollar. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Company earnings have no direct read on the dollar index. Neutral by construction."
+   ],
+   [
+    "bull",
+    "The 5-session window, maturing 30 November, contains the 25 November release of October PCE alongside the preliminary Q3 GDP revision, durable goods orders and jobless claims, with US markets closed 26 November for Thanksgiving and reduced liquidity expected (Kitco, 20 November; Market Digest, 20 November). The dated priors skew the inflation risk hot: October PPI final demand rose 6.5% y/y, the highest since November 2022, with core ex food, energy and trade +4.9% y/y (news log, 13 November), and the Philadelphia Fed's prices-paid gauge jumped to 58.2 from 43.2 (news log, 19 November). A hot PCE hardens December-hike pricing, which is the dollar's support - the mirror image of the vote this fact earns for the equity assets, Treasuries and gold. Bullish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for the dollar index over a Thanksgiving-shortened window was obtained, so neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "The risk-off backdrop is dollar-supportive over a week even though it did not show on Friday: The week, not just the day: the S&P 500 lost 8.61% and the Nasdaq Composite 10.02% in the week to 20 November, the worst since April 2025, with Asia having its worst week since 2020, gold down roughly 9.5% and silver more than 15% (news log, 20 November; AP closing data, 20 November; Kitco, 20 November). Liquidity-driven selling across assets rather than a rotation into anything keeps cross-asset correlations high. Saxo's Ole Hansen names the metals rout's mechanism as 'a dash for cash, dollar strength, the AI calamity and deeply negative momentum' (Kitco, 20 November) - the dollar is the asset that forced liquidation raises. Bullish."
    ],
    [
     "bull",
@@ -602,52 +602,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "The same computed read at ten sessions: structure.weekly is uptrend for DX-Y.NYB on labels ending HH 102.95 (12 October) and HL 101.10 (2 November), with the 20 November close of 103.84 above both the 50-day (101.89) and the 200-day (100.01), 7.9% above the 252-session closing low of 96.22 and within 0.06% of the high of 103.90. Bullish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth is an equity-market statistic with no dated dollar-index analogue; cross-currency performance is voted under Cross-asset instead. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No FX volatility gauge dated 20 November was obtainable. The dollar sigma input is EUR/USD one-month at-the-money implied volatility of 6.10% as of the 13 November close, against a one-year average of 5.80% (Cross Vol Research, published 14 November) - slightly above average, and not a percentile, record or multi-year extreme. volRegime stays 0 and this vote is neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated credit measure bears on the dollar index directly; the 20 November high-yield spread of 3.52% (19 November data) and investment grade of 0.94% are voted for the equity and Treasury assets. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the rates read is two-sided. Four sessions of falling US yields are a headwind at a measured 10-year correlation of +0.438, but the week before 17 November saw the 2-year's biggest weekly rise in more than two years (news log, 16 November), and the yield gap is narrowing abroad as well, with December hikes priced at 79% for the BoJ and 91% for the ECB (CappNotes Closing Look, 20 November). Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same relative-rates problem as at five sessions, and more so over a window that matures 7 December, two days before the FOMC and ahead of the 17 and 18 December ECB and BoJ meetings: Fed hike pricing of 90-98% is a support, but The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar-specific sentiment or survey reading was obtained for this window; AAII's 18 November survey covers equities only and is not borrowed here. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar-index or FX-futures positioning figure was obtained for 20 November - no CFTC commitments-of-traders reading in DX or the major crosses, no bank positioning index. The equity-fund flows in CappNotes' 20 November wrap do not read across to the dollar. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Company earnings have no direct read on the dollar index. Neutral by construction."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond the 25 November PCE release already voted at 5 sessions, no economic release inside the ten-session window (maturing 7 December) was obtained from a source dated at or before 20 November, and the 9 December FOMC falls outside it. Neutral rather than guessed at."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated seasonality statistic for the dollar index over a Thanksgiving-shortened window was obtained, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the same pattern is two-sided: liquidation-driven dollar demand, against an index already within 0.06% of its 252-session closing high and at what Morrison called a 19-month high (Kitco, 20 November), with the yen bid on 20 November and the BoJ and ECB both expected to hike in December. Neutral."
    ],
    [
     "bull",
@@ -659,51 +659,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly computes choppy for RTY=F through 20 November - the last labeled hourly swings are HH 2743.20 (19 November 06:00), LL 2649.40, LH 2667.40 and HH 2677.50 (20 November 10:00), a mixed run with no consistent direction. RSI is 30.54 with the close (2599.90) 7.5% below the 50-day (2812.23) and 7.9% below the 200-day (2822.84), so the moving-average read is down, but the computed swing state gives no direction. Neutral."
+   ],
+   [
+    "bear",
+    "The 20 November breadth split was 376 S&P 500 decliners to 123 advancers with 10 of 11 sectors lower, and the small- and mid-cap indexes followed it down: the S&P SmallCap 600 fell 2.50% to 1,594.64 and the MidCap 400 2.68% to 3,424.66 against the Russell 2000's 2.76% to 2,581.79 (CappNotes Closing Look, 20 November). Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "RVX, the Cboe Russell 2000 Volatility Index, closed 36.88 on 20 November, up 6.42 points or 17.41% with a 28.41-39.21 day range (Cboe RVX dashboard, 16:15:01), which FRED's RVXCLS value of 30.46 on 19 November reconciles exactly. That is above the VIX's 35.89, but a one-day jump of that size is not a percentile, record or multi-year extreme, so volRegime stays 0 and this vote is neutral - the level is carried in the sigma input, where it widens the 1-session band to 1.16%."
+   ],
+   [
+    "bear",
+    "The ICE BofA high-yield spread widened again to 3.52% (19 November data) from 3.47%, with investment grade at 0.94% from 0.93%, and HYG fell 0.26% on 20 November while LQD rose 0.59% (CappNotes Closing Look, 20 November). Small caps carry more floating-rate and high-yield debt than large caps, so junk widening while high grade is bid is a 1-day headwind for the most credit-sensitive of the six assets."
+   ],
+   [
+    "bull",
+    "The front end rallied hard: the 2-year fell 13bp to 4.63% on 20 November, the largest single-session decline of the week (CappNotes Closing Look, 20 November). That matters more here than anywhere else in this document - the Russell's measured 21-session beta to the 2-year is -0.0592, the most negative of the six assets, and its big-day (|2Y| >= 5bp) correlation is -0.706. The index's 2.76% fall did beat the S&P 500's 3.70% and the Nasdaq-100's 5.61%. Bullish."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). Higher policy rates bear directly on small-cap funding costs, so this is a headwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "AAII's survey for the week ending 18 November showed bearish sentiment at 42.2% (down 9.2 percentage points from 51.4%), bullish 33.3% and neutral 24.4%, with bearish above its 31.5% historical average for a 41st consecutive week (AAII Sentiment Survey, 'Pessimism Backtracks'). A contrarian survey reading is not a 1-day timing signal, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The only dated fund-flow figures (19 November data) are two-sided: SPY saw an $11.65B outflow and QQQ $1.29B, against inflows of $2.27B into CNEQ, $1.85B into ARKK and $1.46B into TCAF (CappNotes Closing Look, 20 November). Fund flows are not a 1-day directional signal and these cut both ways, so neutral. No dated small-cap-specific flow figure was obtained."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The dated results on 20 November were genuinely two-sided for small and mid caps: Gap rose 11.44% on adjusted EPS of $0.82 against a $0.78 estimate and Buckle 5.67% on a Q3 beat, against BJ's Wholesale -5.35% despite a beat and raised guidance, Ross Stores -2.92% on Q4 EPS guidance of $2.16-$2.25 versus a $2.28 estimate and Keysight -7.07% (CappNotes Closing Look, 20 November). Two strong retail reactions against two sold beats is no net read, so neutral."
+   ],
+   [
+    "bull",
+    "The data actually released on 20 November were constructive: final November University of Michigan consumer sentiment came in at 51.5, up 7.3% from October and in line with estimates, and one-year inflation expectations fell to 3.7% from 4.3% at mid-month (CappNotes Closing Look, 20 November). Monday 23 November brings only the S&P Global flash manufacturing and services PMIs, for which no consensus dated at or before 20 November was obtained. Consumer sentiment reads through to the domestically geared index more directly than to the others, so improving sentiment with falling inflation expectations is a mild 1-day positive."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The long-run Thanksgiving-week statistics obtainable here (Bank of America's since-1928 study: the S&P 500 positive about six of ten Thanksgiving weeks for an average +0.28%, with other studies near +0.3% to +0.7%) are large-cap statistics, come from pieces that could not be dated at or before 20 November, and sit inside this asset's 1-session band of 1.16% at an RVX of 36.88. No actionable direction, so neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "20 November was a cross-asset liquidation rather than a rotation: gold fell 4.63% to about $3,515, silver 7.41% to $41.03, copper 2.82% to $5.4665, bitcoin 4.72% to about $58,994 and ether 7.82%, while Japan's Nikkei fell 5.06% to 56,436.65, Korea's Kospi about 5.2%, Taiwan's TAIEX 6.23% for a record weekly loss and the Stoxx 600 about 2%, and USD/JPY fell 0.74% on a yen haven bid (CappNotes Closing Look, 20 November; news log, 20 November; Strategitz CIO Brief, 20 November). The Russell 2000's dominant 21-session driver is oil at corr -0.476 and WTI rose 0.93% to $83.98 - the wrong direction in this regime. Bearish."
    ],
    [
     "neu",
@@ -713,51 +713,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly computes choppy for RTY=F - the last labeled weekly swings are HL 2793.70 (8 June), HH 3068.40 (29 June), HL 2902.30 (27 July), HH 3079.90 (17 August) and LH 2888.70 (2 November): mixed labels with no run of consistently higher or lower swings. Price is below both the 50-day (2812.23) and the 200-day (2822.84), 15.4% above the 252-session closing low of 2310.70 and 15.4% below the high of 3074.90. The honest read is that there is no computed trend here, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Russell 2000's 2.76% fall on 20 November was better than the S&P 500's 3.70% and the Nasdaq-100's 5.61%, so small caps outperformed in the rout even as the headline split was 376 decliners to 123 advancers (CappNotes Closing Look, 20 November). No dated multi-session small-cap breadth statistic - advance/decline line, percent above the 200-day - was obtained. Two-sided, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "RVX has gone 21.38 on 13 November to 24.86, 27.46, 26.73 and 30.46 on 19 November (FRED RVXCLS) and 36.88 on 20 November (Cboe), a rise of about 72% in six sessions. No source dated at or before 20 November names a percentile or record for it, and a spike of that size is two-sided over a week - it marks forced selling, and at 36.88 it widens this asset's flat zone to 2.60% at 5 sessions. Neutral."
+   ],
+   [
+    "bear",
+    "High yield has widened in each of the last three reported sessions (3.43% -> 3.47% -> 3.52%) while investment grade went 0.92% -> 0.93% -> 0.94%, and HYG fell on 20 November even as LQD gained 0.59% (CappNotes Closing Look, 19 and 20 November). For the most credit-sensitive of the six assets a sustained, one-directional widening is a multi-day headwind."
+   ],
+   [
+    "bull",
+    "The front end has rallied through the week: the 2-year was above 4.80% on 18-19 November (news log, 19 November), closed 4.76% on 19 November and 4.63% on 20 November (CappNotes Closing Look, 19 and 20 November). With the Russell's 2-year beta at -0.0592 and its big-day correlation at -0.706, both the most negative of the six assets, falling short rates are a multi-day small-cap positive. Bullish."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. The 9 December FOMC falls outside all three horizons here (they mature 23 November, 30 November and 7 December), so this vote reflects accumulating pricing pressure, not the decision itself."
+   ],
+   [
+    "bull",
+    "Contrarian: AAII's survey for the week ending 18 November showed bearish sentiment at 42.2% (down 9.2 percentage points from 51.4%), bullish 33.3% and neutral 24.4%, with bearish above its 31.5% historical average for a 41st consecutive week (AAII Sentiment Survey, 'Pessimism Backtracks'). At 42.2% bearish the reading is still 10.7 percentage points above the long-run average, and the survey closed before the 20 November session, when the Russell fell 2.76% and RVX jumped 17.41% to 36.88. Bullish over a week."
+   ],
+   [
+    "bull",
+    "Positioning is already washed out: Citadel Securities put aggregate CTA US-equity positioning at -3.3 standard deviations, sub-2nd percentile of its one-year range, as of 3 November, and Morgan Stanley's prime data had gross hedge-fund exposure down about 7.8% from peak as of 27 October - the largest de-grossing in its series back to 2016 - with US long/short gross leverage falling 8.7 points to 207.5% in the week to 6 November, the largest weekly drop since March 2020. These readings are 10-17 sessions before 20 November and reach this document only through secondary summaries, so they do not qualify for the crowd input, but as a direction they are a contrarian positive. None of these readings is small-cap specific, which is why the vote is a direction rather than a crowd value."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings calendar for the 23-27 November week dated at or before 20 November was obtained, and the Russell 2000 has no single dominant reporter whose result would move the index. Neutral."
+   ],
+   [
+    "bear",
+    "The 5-session window, maturing 30 November, contains the 25 November release of October PCE alongside the preliminary Q3 GDP revision, durable goods orders and jobless claims, with US markets closed 26 November for Thanksgiving and reduced liquidity expected (Kitco, 20 November; Market Digest, 20 November). The dated priors skew the inflation risk hot: October PPI final demand rose 6.5% y/y, the highest since November 2022, with core ex food, energy and trade +4.9% y/y (news log, 13 November), and the Philadelphia Fed's prices-paid gauge jumped to 58.2 from 43.2 (news log, 19 November). Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same long-run Thanksgiving-week averages of roughly +0.3% are large-cap statistics from undated pieces, and they sit inside this asset's 5-session band of 2.60%. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The week, not just the day: the S&P 500 lost 8.61% and the Nasdaq Composite 10.02% in the week to 20 November, the worst since April 2025, with Asia having its worst week since 2020, gold down roughly 9.5% and silver more than 15% (news log, 20 November; AP closing data, 20 November; Kitco, 20 November). Liquidity-driven selling across assets rather than a rotation into anything keeps cross-asset correlations high. Bearish for a week."
    ],
    [
     "neu",
@@ -767,51 +767,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same computed read at ten sessions: structure.weekly is choppy for RTY=F, with mixed labels ending HH 3079.90 (17 August) and LH 2888.70 (2 November) - no run of higher or lower swings - and the 20 November close of 2599.90 below both the 50-day (2812.23) and the 200-day (2822.84), which sit within 0.4% of each other. A flat moving-average pair under a choppy swing state is genuinely no trend, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated multi-session small-cap breadth series was obtained for a ten-session window, and the two dated breadth facts - the 376/123 S&P 500 split and the Russell's outperformance of both large-cap indexes on 20 November - point opposite ways. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "An RVX of 36.88 and a 10-session band of 3.67% give no directional volatility read: no source dated at or before 20 November puts a percentile or record on the level, so volRegime stays 0. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No credit series longer than those three reported sessions of high-yield widening was obtained for a ten-session window, and the move so far - 9bp on the high-yield spread, to 3.52% - is small in absolute terms. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the front end is two-sided: the 2-year has fallen to 4.63% from above 4.80% mid-week, but a 25bp hike on 9 December is priced at 90-98% and the week before 17 November saw the 2-year's biggest weekly rise in more than two years (news log, 16 and 20 November). Neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. The ten-session horizon matures 7 December, two days before the decision, so hike pricing compounds through the whole window without being resolved inside it. Bearish."
+   ],
+   [
+    "bull",
+    "Contrarian, on the same AAII reading: AAII's survey for the week ending 18 November showed bearish sentiment at 42.2% (down 9.2 percentage points from 51.4%), bullish 33.3% and neutral 24.4%, with bearish above its 31.5% historical average for a 41st consecutive week (AAII Sentiment Survey, 'Pessimism Backtracks'). A reading 10.7 points above its long-run average, surveyed before the 20 November decline, is a positive over a ten-session window. Bullish."
+   ],
+   [
+    "bull",
+    "Positioning is already washed out: Citadel Securities put aggregate CTA US-equity positioning at -3.3 standard deviations, sub-2nd percentile of its one-year range, as of 3 November, and Morgan Stanley's prime data had gross hedge-fund exposure down about 7.8% from peak as of 27 October - the largest de-grossing in its series back to 2016 - with US long/short gross leverage falling 8.7 points to 207.5% in the week to 6 November, the largest weekly drop since March 2020. These readings are 10-17 sessions before 20 November and reach this document only through secondary summaries, so they do not qualify for the crowd input, but as a direction they are a contrarian positive. Over ten sessions that de-grossed base is what has to be rebuilt for the index to recover, which is the horizon these readings actually speak to. Bullish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings calendar dated at or before 20 November covers either of the two weeks in this window, and the Russell 2000 has no single dominant reporter. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond the 25 November PCE release already voted at 5 sessions, no economic release inside the ten-session window (maturing 7 December) was obtained from a source dated at or before 20 November, and the 9 December FOMC falls outside it. Neutral rather than guessed at."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same undated, large-cap Thanksgiving-week averages of roughly +0.3% sit inside the 10-session band of 3.67%. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the cross-asset facts cut both ways: broad forced selling across equities, metals and crypto on 20 November and Asia's worst week since 2020 are headwinds, but WTI at $83.98 is up only 0.93% on the day and roughly flat across the week, which leaves the Russell's dominant oil driver (corr -0.476) without a clear read, and four of this document's six assets closed deeply oversold at once. Neutral."
    ],
    [
     "neu",
@@ -823,51 +823,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly computes choppy for NQ=F through 20 November - the last labeled hourly swings are HH 27589.0 (18 November 20:00), HL 27303.0, HH 27838.0 (19 November 09:00), LH 26447.75 and HH 26504.25 (20 November 10:00), a mixed run. RSI is 27.04 with the close (25291.0) 14.0% below the 50-day (29395.23) and 10.3% below the 200-day (28201.69) after the cash index fell 5.61% to 25,028.98, so the moving-average read is sharply down, but the computed swing state gives no direction. Neutral."
+   ],
+   [
+    "bear",
+    "Technology was the worst of the 11 S&P 500 sectors at -7.27% against the index's -3.70%, with SMH -10.60%, the AI basket BAI -9.67%, computer storage devices -12.11% and semiconductors and related devices -10.43%, on a 376-to-123 decline split (CappNotes Closing Look, 20 November; Market Digest, 20 November). Technology bearing twice the index's loss is a 1-day headwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "VXN closed 45.25 on 20 November - the fetched sigma input and the highest of this document's four volatility gauges (VIX 35.89, RVX 36.88, GVZ 34.80). No source dated at or before 20 November names a percentile, record or multi-year extreme for it, so volRegime stays 0 and this vote is neutral; the 45.25 reading is already carried in the 1-session band of 1.43%, the widest in the document."
+   ],
+   [
+    "bear",
+    "The ICE BofA high-yield spread widened again to 3.52% (19 November data) from 3.47%, with investment grade at 0.94% from 0.93%, and HYG fell 0.26% on 20 November while LQD rose 0.59% (CappNotes Closing Look, 20 November). The neo-cloud and data-centre financing complex that funds AI capex is the most credit-sensitive part of this index, and Nebius fell 16.11% and Bloom Energy 15.30% on the day (CappNotes Closing Look, 20 November). Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Nasdaq-100's dominant 21-session driver is the 10-year at corr +0.496, the strongest of the six assets, which makes 20 November's 12bp yield decline to 4.92% a negative in this regime; but on the six |2Y| >= 5bp 'big days' the correlation is -0.589, which makes the 13bp 2-year drop to 4.63% a positive, and long-duration equity would ordinarily welcome lower discount rates (CappNotes Closing Look, 20 November). The measured relationships cancel, so neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). Tighter policy bears hardest on the longest-duration equity in the document, so this is a headwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "AAII's survey for the week ending 18 November showed bearish sentiment at 42.2% (down 9.2 percentage points from 51.4%), bullish 33.3% and neutral 24.4%, with bearish above its 31.5% historical average for a 41st consecutive week (AAII Sentiment Survey, 'Pessimism Backtracks'). A contrarian survey reading is not a 1-day timing signal, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The only dated fund-flow figures (19 November data) are two-sided: SPY saw an $11.65B outflow and QQQ $1.29B, against inflows of $2.27B into CNEQ, $1.85B into ARKK and $1.46B into TCAF (CappNotes Closing Look, 20 November). Fund flows are not a 1-day directional signal and these cut both ways, so neutral."
+   ],
+   [
+    "bear",
+    "Nvidia, the index's largest weight, fell 14.01% to $125.53 - a 52-week low, roughly $491B of market value in a single session and its worst day since DeepSeek - after Reuters reported that SEC enforcement staff are examining potential accounting issues, with the SEC declining to comment and Nvidia not immediately responding; the Wall Street Journal had first reported an SEC investigation on 17 November without naming its focus (Reuters via Yahoo Finance and 24/7 Wall St., 20 November). Anthropic fell 8.50% to $88.91, a second straight decline from its $97.17 debut close, with Sandisk -16.05%, Nebius -16.11%, Bloom Energy -15.30% and Intuit -12.77% on a cut Credit Karma outlook (CappNotes Closing Look, 20 November). Bearish."
+   ],
+   [
+    "bull",
+    "The data actually released on 20 November were constructive: final November University of Michigan consumer sentiment came in at 51.5, up 7.3% from October and in line with estimates, and one-year inflation expectations fell to 3.7% from 4.3% at mid-month (CappNotes Closing Look, 20 November). Monday 23 November brings only the S&P Global flash manufacturing and services PMIs, for which no consensus dated at or before 20 November was obtained. Falling inflation expectations help long-duration equity most, so this is a mild 1-day positive."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "24/7 Wall St. noted on 17 November that the Nasdaq-100 was headed for its worst November since 2008, but that is a realized-return statistic for a month in progress, not a forward seasonal edge. The long-run Thanksgiving-week averages obtainable here are roughly +0.3% (large-cap, and from pieces that could not be dated at or before 20 November), inside this asset's 1-session band of 1.43%. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The AI sell-off is global: Japan's Nikkei fell 5.06% to 56,436.65 with SoftBank -14.48%, Korea's Kospi about 5.2% with Samsung and SK Hynix leading losses, Taiwan's TAIEX 6.23% for a record weekly loss and the Stoxx 600 about 2% (news log, 20 November; Strategitz CIO Brief, 20 November), while bitcoin fell 4.72% to about $58,994 and ether 7.82% - the two assets most correlated with speculative technology. Bearish."
    ],
    [
     "neu",
@@ -877,51 +877,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly computes choppy for NQ=F - the last labeled weekly swings are HH 30968.0 (22 June), LL 27201.5 (27 July), LH 30343.0 (17 August), HL 28763.75 (14 September) and HH 31616.5 (5 October): mixed labels with no consistent run. The 20 November close of 25291.0 is 12.1% below that last labeled weekly higher low of 28763.75 and below both the 50-day (29395.23) and the 200-day (28201.69), with the Nasdaq Composite having fallen below its 2025 close and erased its 2026 gain (UPI, 20 November). No computed trend, so neutral."
+   ],
+   [
+    "bear",
+    "The loss is concentrating in technology rather than spreading out: the Nasdaq Composite fell 10.02% in the week to 20 November against the S&P 500's 8.61% and the Dow's 8.02% (AP closing data, 20 November), and on Friday Technology was the worst of the 11 sectors at -7.27% with SMH -10.60%. 24/7 Wall St. had already noted on 17 November that the Nasdaq-100 was tracking its worst November since 2008. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "A VXN of 45.25 is the highest volatility reading in the document, but no source dated at or before 20 November puts a percentile or record on it, and a spike of that size is two-sided over a week: it marks forced selling, and it widens this asset's flat zone to 3.19% at 5 sessions, the widest here. Neutral."
+   ],
+   [
+    "bear",
+    "High yield has widened in each of the last three reported sessions (3.43% -> 3.47% -> 3.52%) while investment grade went 0.92% -> 0.93% -> 0.94%, and HYG fell on 20 November even as LQD gained 0.59% (CappNotes Closing Look, 19 and 20 November). For the index whose capex cycle is financed in that market, a sustained widening is a multi-day headwind. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same cancellation as at 1 day, over the week's moves: the 10-year has fallen about 24bp to 4.92% since 17 November and the 2-year to 4.63% (news log, 17 November; CappNotes Closing Look, 19 and 20 November). The dominant 10-year correlation of +0.496 makes a haven-driven yield decline a negative; the big-day 2-year correlation of -0.589 and the duration-discount logic make it a positive. Neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. The 9 December FOMC falls outside all three horizons here (they mature 23 November, 30 November and 7 December), so this vote reflects accumulating pricing pressure, not the decision itself."
+   ],
+   [
+    "bull",
+    "Contrarian: AAII's survey for the week ending 18 November showed bearish sentiment at 42.2% (down 9.2 percentage points from 51.4%), bullish 33.3% and neutral 24.4%, with bearish above its 31.5% historical average for a 41st consecutive week (AAII Sentiment Survey, 'Pessimism Backtracks'). At 42.2% bearish the reading is 10.7 percentage points above its long-run average and was surveyed before the 20 November session, when the Nasdaq-100 fell 5.61% and VXN closed at 45.25. Bullish over a week."
+   ],
+   [
+    "bull",
+    "Technology positioning is the most de-grossed part of the market: Positioning is already washed out: Citadel Securities put aggregate CTA US-equity positioning at -3.3 standard deviations, sub-2nd percentile of its one-year range, as of 3 November, and Morgan Stanley's prime data had gross hedge-fund exposure down about 7.8% from peak as of 27 October - the largest de-grossing in its series back to 2016 - with US long/short gross leverage falling 8.7 points to 207.5% in the week to 6 November, the largest weekly drop since March 2020. These readings are 10-17 sessions before 20 November and reach this document only through secondary summaries, so they do not qualify for the crowd input, but as a direction they are a contrarian positive. The week to 6 November specifically saw hedge funds cutting technology exposure at a near-record pace. Bullish."
+   ],
+   [
+    "bear",
+    "The Nvidia SEC accounting inquiry has no resolution date - Reuters could not determine when it began or which issues it covers, the SEC declined to comment and Nvidia did not immediately respond - leaving an open-ended overhang on the index's largest weight at a 52-week low of $125.53 (Reuters via Yahoo Finance, 20 November). An inquiry is not a finding of wrongdoing, but an unresolved one is a multi-day headwind. No earnings calendar for the 23-27 November week dated at or before 20 November was obtained, so only this overhang is voted. Bearish."
+   ],
+   [
+    "bear",
+    "The 5-session window, maturing 30 November, contains the 25 November release of October PCE alongside the preliminary Q3 GDP revision, durable goods orders and jobless claims, with US markets closed 26 November for Thanksgiving and reduced liquidity expected (Kitco, 20 November; Market Digest, 20 November). The dated priors skew the inflation risk hot: October PPI final demand rose 6.5% y/y, the highest since November 2022, with core ex food, energy and trade +4.9% y/y (news log, 13 November), and the Philadelphia Fed's prices-paid gauge jumped to 58.2 from 43.2 (news log, 19 November). Bearish for the longest-duration equity in the document."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same undated, large-cap Thanksgiving-week averages of roughly +0.3% sit inside this asset's 5-session band of 3.19%, and the Nasdaq-100's worst-November-since-2008 pace is a realized-return statistic rather than a forward seasonal edge. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Asia had its worst week since 2020 and the Nasdaq Composite lost 10.02% on the week, its worst since April 2025, closing below its 2025 close (news log, 20 November; AP closing data, 20 November). Kitco's 20 November wrap names the mechanism now pulling even gold down - 'growing fears surrounding the artificial intelligence sector' and 'potential pushback against data center buildouts' - which puts this index at the centre of the liquidation rather than at its edge. Bearish."
    ],
    [
     "neu",
@@ -931,51 +931,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same computed read at ten sessions: structure.weekly is choppy for NQ=F on mixed labels ending HL 28763.75 (14 September) and HH 31616.5 (5 October), and the 20 November close of 25291.0 is 20.0% below that swing high, 12.1% below the prior labeled higher low, below both moving averages and 9.3% above the 252-session closing low of 23139.75. A choppy swing state is not a trend read, so neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated multi-session Nasdaq-100 breadth statistic (advance/decline line, percent of members above the 200-day, new highs versus new lows) was obtained for a ten-session window, and the index's 10.3% discount to its own 200-day is a stretch reading rather than a breadth one. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "A VXN of 45.25 and a 10-session band of 4.51% give no directional volatility read: no source dated at or before 20 November names a percentile or record for the level, so volRegime stays 0. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No credit series longer than those three reported sessions of high-yield widening was obtained for a ten-session window, and the move so far - 9bp on the high-yield spread, to 3.52% - is small in absolute terms. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the rates read stays cancelled out, and more so: the dominant 10-year correlation of +0.496 makes the four-session haven rally to 4.92% a negative, while the big-day 2-year correlation of -0.589 and the discount-rate logic make the 2-year's fall to 4.63% a positive, with a 25bp hike priced at 90-98% for 9 December, just after this window closes. Neutral."
+   ],
+   [
+    "bear",
+    "December-hike pricing firmed on 20 November: Kalshi put a 25bp hike at the 9 December FOMC at 90% (hold 9%, a larger hike 2%) against 89.3% the prior session, and CME FedWatch stood at 98.4% (CappNotes Closing Look, 19 and 20 November; news log, 20 November), after Philadelphia Fed President Paulson said rates must rise again on too-high inflation and Governors Cook and Waller reinforced December expectations (news log, 20 November; Market Digest, 20 November). The tightening is not US-only either: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91% (CappNotes Closing Look, 20 November), and Kitco's 20 November wrap frames the backdrop as 'an extended global central bank tightening cycle'. The ten-session horizon matures 7 December, two days before the decision, so hike pricing compounds through the whole window unresolved - which bears hardest on the longest-duration equity here. Bearish."
+   ],
+   [
+    "bull",
+    "Contrarian, on the same AAII reading: AAII's survey for the week ending 18 November showed bearish sentiment at 42.2% (down 9.2 percentage points from 51.4%), bullish 33.3% and neutral 24.4%, with bearish above its 31.5% historical average for a 41st consecutive week (AAII Sentiment Survey, 'Pessimism Backtracks'). A reading 10.7 points above its long-run average, surveyed before the 20 November session, is a positive over a ten-session window. Bullish."
+   ],
+   [
+    "bull",
+    "Positioning is already washed out: Citadel Securities put aggregate CTA US-equity positioning at -3.3 standard deviations, sub-2nd percentile of its one-year range, as of 3 November, and Morgan Stanley's prime data had gross hedge-fund exposure down about 7.8% from peak as of 27 October - the largest de-grossing in its series back to 2016 - with US long/short gross leverage falling 8.7 points to 207.5% in the week to 6 November, the largest weekly drop since March 2020. These readings are 10-17 sessions before 20 November and reach this document only through secondary summaries, so they do not qualify for the crowd input, but as a direction they are a contrarian positive. Hedge funds were cutting technology exposure at a near-record pace in the week to 6 November specifically, and over ten sessions that de-grossed base is what has to be rebuilt for this index to recover. Bullish."
+   ],
+   [
+    "bear",
+    "The unresolved Nvidia SEC accounting inquiry (Reuters via Yahoo Finance, 20 November) is the only dated company-level catalyst here with a reach beyond a week, it concerns the index's largest weight at a 52-week low, and it has no resolution date. No earnings calendar dated at or before 20 November covers either week in this window, so this vote rests on the overhang alone. Bearish."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond the 25 November PCE release already voted at 5 sessions, no economic release inside the ten-session window (maturing 7 December) was obtained from a source dated at or before 20 November, and the 9 December FOMC falls outside it. Neutral rather than guessed at."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The same undated, large-cap Thanksgiving-week averages of roughly +0.3% sit well inside the 10-session band of 4.51%. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Over ten sessions the cross-asset facts cut both ways. The global AI de-rating is real - Asia's worst week since 2020, Taiwan's record weekly TAIEX loss, bitcoin and ether down hard - but the same liquidation has left four of this document's six assets deeply oversold at once, and the one dated mechanism offered for how it ends (Kitco's 20 November wrap, on selling having become excessive) is about precious metals rather than technology. No dated ten-session cross-asset statistic resolves it. Neutral."
    ],
    [
     "neu",

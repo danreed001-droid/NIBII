@@ -10,26 +10,26 @@
  ],
  "assets": {
   "equities": {
-   "name": "TODO: fill in before publish",
+   "name": "S&P 500",
    "instrument": "ES=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 6966.75,
    "sigma": 35.88999938964844,
    "sigmaSource": "^VIX close 35.88999938964844 on 2026-11-20",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "ES=F closed 6966.75 on 20 November (from 7193.0, -3.15%) as the S&P 500 cash index fell 3.70% (-265.44) to 6,910.39, a seventh straight loss that put the index more than 10% below its 6 October record - correction territory - and capped an 8.61% week, its worst since April 2025 (CappNotes Closing Look, 20 November; AP closing data and UPI, 20 November). The Dow fell 1.93% (-949.73) to 48,147.33, also into correction. Breadth was 376 decliners to 123 advancers with 10 of 11 sectors lower - Technology -7.27%, Industrials -3.09%, Consumer Discretionary -2.95% against Consumer Staples +0.67% - while equal-weight RSP fell only 1.98%, 172bp better than the cap-weighted index, so the damage was concentrated in mega-cap tech. Nvidia fell 14.01% to $125.53, a 52-week low and roughly $491B of market value in one session, after Reuters reported SEC enforcement staff are examining potential accounting issues; Intuit -12.77%, Keysight -7.07%, BJ's -5.35% despite a beat and raise, against Gap +11.44% on an EPS beat. VIX +26.20% to 35.89, its highest close since April 2025, after touching about 40 intraday. Yields fell hard on haven demand: 2-year -13bp to 4.63%, 10-year -12bp to 4.92%, 30-year -9bp to 5.31%, 2s10s 29bp. High yield widened to 3.52% (19 November data) from 3.47%; HYG -0.26% while LQD +0.59%. Kalshi put a 25bp December hike at 90% and CME FedWatch at 98.4%. Final November UMich sentiment 51.5 (+7.3% m/m, in line) with one-year inflation expectations down to 3.7% from 4.3% at mid-month. WTI +0.93% to $83.98. RSI 25.12, with the close 9.1% below the 50-day (7663.91) and 5.6% below the 200-day (7377.81); 1H structure choppy, weekly structure uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -1837,32 +1837,39 @@
    "ticker": "ES=F",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "Seven straight daily losses into 20 November and an 8.61% week, the worst since April 2025, left ES=F 9.1% under its 50-day (6966.75 vs 7663.91) - a z50 of -4.02 at a VIX of 35.89 - with RSI at 25.12 (CappNotes Closing Look, 20 November; AP closing data, 20 November).",
+    "The cash index closed more than 10% below its 6 October record, i.e. in correction territory, and the Dow joined it (UPI and CNBC, 20 November).",
+    "The 200-day (7377.81) is only 5.6% above the close, so the extension200 component does not trigger: the stretch is against the 50-day, not the full trend."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "No volatility print naming a percentile, record or multi-year extreme was obtained, so volRegime is 0. VIX rose 26.20% to 35.89 on 20 November, its highest close since April 2025 (about 19 months) after touching roughly 40 intraday, and is up about 86% from its 13 November close; VXN 45.25, GVZ 34.80, RVX 36.88. 'Highest since April 2025' is a since-comparison inside two years, not a named percentile, record or documented multi-year extreme, and no source dated at or before 20 November put a percentile on the move. (Saxo Bank's capitulation-gauge and Tickmill's GS Panic Index readings are dated 23 November and were therefore not used.)",
+    "crowd is 0. The dated positioning readings obtained do name records, but none is current at 20 November or sourced from the originating note: Citadel Securities put aggregate CTA US-equity positioning at -3.3 standard deviations, 'sub-2nd percentile' of its one-year range and about the 10th percentile since 2018, as of 3 November (13 sessions before S, and a 10th-percentile reading is not an extreme); Morgan Stanley's prime data had gross hedge-fund exposure down about 7.8% from peak as of 27 October, called the largest de-grossing in its series back to 2016, and US long/short gross leverage falling 8.7 points to 207.5% in the week to 6 November, the largest weekly drop since March 2020 - both reached here only through secondary summaries (an X-post synthesis and a morning brief) rather than the prime-brokerage note itself, and both 10-17 sessions stale. AAII's survey for the week ending 18 November shows bearish at 42.2%, above its 31.5% average for a 41st consecutive week, but a streak above average is not a percentile or record and the survey closed before the 20 November session. The readings are voted directionally under Positioning and flows instead.",
+    "The S&P 500's seventh straight loss, its 8.61% week (worst since April 2025), its close more than 10% below the 6 October record and the 376/123 breadth split are short-window return and breadth statistics, not volatility or positioning extremes, so none of them feeds volRegime or crowd. Nvidia's roughly $491B one-session market-value loss is a single-stock record-scale move, not an index-level volatility or positioning extreme.",
+    "No dated multi-session breadth series (advance/decline line, percent of members above the 200-day) and no earnings calendar for the 23-27 November week dated at or before 20 November were obtained, so the 5- and 10-session Breadth votes and the Earnings calendar component are neutral or limited to the Nvidia overhang rather than guessed at."
    ]
   },
   "bonds": {
-   "name": "TODO: fill in before publish",
+   "name": "10-Year Treasury Note",
    "instrument": "ZN=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = note price up, yields down",
    "close": 106.609375,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 15,
+   "sigmaSource": "TLT 30-day option implied volatility 15 carried from the 25 September Market Rebellion Pre-Market IV Report; no newer print was obtainable, so the value is 38 sessions stale (carried again on 20 November). The ICE BofA MOVE index stood at 96.04 on 19 November, down from 98.15 on 18 November and still below its 5 October high of 113.60 (StreetStats) - a normal-range reading - but MOVE is a basis-point yield-volatility gauge and cannot be turned into a ZN=F percentage sigma without inventing a conversion, so the stale TLT carry is kept. With VIX at 35.89 on 20 November the carried 15 very likely understates Treasury-futures volatility, which narrows this asset's bands (1D 0.47%, 5D 1.06%, 10D 1.49%).",
+   "driverNote": "ZN=F closed 106.609375 on 20 November (from 105.953125, +0.62%) in a fifth straight session of Treasury gains as the equity rout drove haven demand: the 2-year fell 13bp to 4.63%, the 10-year 12bp to 4.92% and the 30-year 9bp to 5.31%, with 2s10s widening to 29bp from 28bp (CappNotes Closing Look, 20 November). That puts the 10-year roughly 24bp lower than the 5.14-5.16% it held on 17 November (news log) and 12bp below the 5.04% of 19 November. Credit split the way flight-to-quality usually does: LQD +0.59% with the investment-grade spread at 0.94%, against HYG -0.26% and high yield widening to 3.52% (19 November data). The policy side pulls the other way - Kalshi priced a 25bp hike at the 9 December FOMC at 90% (hold 9%, larger 2%) and CME FedWatch at 98.4%, after Philadelphia Fed President Paulson said rates must rise again and Governors Cook and Waller reinforced December expectations; Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91%. Final November UMich one-year inflation expectations fell to 3.7% from 4.3% at mid-month. The ICE BofA MOVE index was 96.04 on 19 November, a normal-range reading below its 5 October high of 113.60 (StreetStats). RSI 57.39, with the close above the 50-day (105.62) and 2.2% below the 200-day (109.02); 1H structure choppy, weekly structure downtrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -4188,32 +4195,36 @@
    "ticker": "ZN=F",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "No component triggers. ZN=F at 106.609375 is 0.99 daily sigma above its 50-day (105.62) and 2.34 below its 200-day (109.02), RSI is a mid-range 57.39, and the close sits 6.4% under the 252-session high (113.86) and 2.3% over the low (104.20) - the only asset in this document at a neutral stretch reading."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. The only dated Treasury-volatility reading obtained is the ICE BofA MOVE index at 96.04 on 19 November, down from 98.15 on 18 November and below its 5 October high of 113.60 (StreetStats) - described as a normal-range level, with no percentile, record or multi-year extreme named. MOVE is also a basis-point yield-volatility gauge and is not convertible into a ZN=F percentage sigma without inventing a conversion, so the sigma input remains the stale TLT implied-volatility carry documented in sigmaSource.",
+    "crowd is 0. No dated Treasury positioning figure - CFTC commitments of traders in ZN futures, a primary-dealer position, a JPMorgan client survey or a bond-fund flow number - was obtained for this window, at any percentile or otherwise.",
+    "No Treasury-specific sentiment survey was obtained either, so Sentiment is neutral at all three horizons rather than borrowing AAII's equity reading. Breadth and Earnings catalysts have no dated Treasury analogue and are neutral by construction, with their cross-asset effect voted under Cross-asset."
    ]
   },
   "gold": {
-   "name": "TODO: fill in before publish",
+   "name": "Gold",
    "instrument": "GC=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = gold higher",
    "close": 3539.0,
    "sigma": 34.79999923706055,
    "sigmaSource": "^GVZ close 34.79999923706055 on 2026-11-20",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "GC=F closed 3539.0 on 20 November (from 3617.7, -2.18%), a second straight 52-week closing low and now the exact 252-session closing low, with vendors quoting the late session -4.63% to about $3,515 (CappNotes Closing Look, 20 November) and stockmarketwatch's digest 3,533.10 (-4.14%). Silver fell 7.41% to $41.03, copper 2.82% to $5.4665, bitcoin 4.72% to about $58,994 and ether 7.82%. Kitco's 20 November wrap puts gold's weekly loss at roughly 9.5% and silver's at more than 15% - 'their worst weekly declines since March', with both metals at 'their lowest levels in 14 months' - and names the mechanism: 'liquidity demands are once again punishing gold and silver', Commerzbank's Carsten Fritsch on 'renewed forced selling ... following another sell-off in technology stocks', and Saxo's Ole Hansen on 'a dash for cash, dollar strength, the AI calamity and deeply negative momentum'. Against that, three named analysts in the same piece read the move as excessive: Fritsch on RSI 'deep into oversold territory', conditions that 'have historically been short-lived and followed by price recoveries'; David Morrison on oversold MACDs and the dollar 'near a 19-month high'; TD Securities that gold 'has dropped sharply into oversold territory' with CTAs possibly covering shorts. Nominal yields fell (2-year -13bp to 4.63%, 10-year -12bp to 4.92%) but gold's measured 21-session correlation to the 10-year is only -0.038; its dominant driver is oil at -0.557, and WTI rose 0.93% to $83.98. GVZ 34.80. RSI 22.19, with the close 13.9% below the 50-day (4111.33) and 20.4% below the 200-day (4444.80); 1H and weekly structure both downtrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -6000,32 +6011,39 @@
    "ticker": "GC=F",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "Every price-based component fires: RSI 22.19 (oscillator -1, within 2.2 points of the -2 threshold), the close 13.9% under the 50-day for a z50 of -6.35 (extension50 -2), 20.4% under the 200-day for a z200 of -9.30 (extension200 -1), and 3539.0 is itself the 252-session closing low (range -1) - a stretch score of -5, the most extreme of the six assets.",
+    "Kitco's 20 November wrap sources the move to forced liquidation rather than a macro reprice: 'liquidity demands are once again punishing gold and silver', Commerzbank's Fritsch on 'renewed forced selling ... following another sell-off in technology stocks', and Hansen on 'a dash for cash, dollar strength, the AI calamity and deeply negative momentum'.",
+    "Three named analysts in the same piece call it excessive: Fritsch on RSI 'deep into oversold territory', conditions that 'have historically been short-lived and followed by price recoveries'; Morrison on oversold MACDs; TD Securities on a sharp drop 'into oversold territory' with CTAs possibly covering shorts across the complex.",
+    "Gold has fallen roughly 9.5% on the week and 33.5% from its 252-session closing high of 5318.40, with silver down more than 15% on the week to $41.03 and both metals at 14-month lows (Kitco, 20 November; CappNotes Closing Look, 20 November)."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. GVZ closed 34.80 on 20 November. Kitco's 20 November wrap calls gold's and silver's weekly falls 'their worst weekly declines since March' with both metals at 'their lowest levels in 14 months' and gold 'down roughly 9.5% this week'; a worst-since-March or 14-month comparison is not a percentile, record or documented multi-year extreme. A Substack post claiming the week was gold's third-worst this century could not be verified against a primary source and is therefore not used at all. Ole Hansen's 'we have broken price levels that few thought possible' is qualitative.",
+    "crowd is 0. The only dated positioning statements are unquantified: TD Securities said gold ETF 'holdings remain resilient' and that CTAs 'could cover short positions across the precious metals complex' (Kitco, 20 November). No COT figure, percentile, flow number or position size was given, so there is nothing a crowd value could record. The statements are voted directionally under Positioning and flows instead.",
+    "Fritsch's 'RSI readings have fallen deep into oversold territory' and Morrison's oversold-MACD comment carry no numeric values in the source; the oversold case is therefore voted from the fetched RSI of 22.19, which the engine already scores in the oscillator component, rather than from a second unsourced number. No dated gold seasonality statistic, credit measure or gold-specific sentiment survey was obtained for this window."
    ]
   },
   "dollar": {
-   "name": "TODO: fill in before publish",
+   "name": "US Dollar Index",
    "instrument": "DX-Y.NYB close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = stronger dollar",
    "close": 103.83999633789062,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 6.1,
+   "sigmaSource": "EUR/USD one-month at-the-money implied volatility 6.10% as of the 13 November close, against a one-year average of 5.80% (Cross Vol Research, 'The Euro Keeps Falling While FX Volatility Sleeps', published 14 November 2026); 5 sessions stale at 20 November. This replaces the 4.72 value this ledger had carried unchanged from 21 September, which stood 41 sessions stale on 19 November. No FX volatility gauge dated 20 November itself was obtainable.",
+   "driverNote": "DX-Y.NYB closed 103.84 on 20 November (from 103.924, -0.08%), holding within 0.06% of its 252-session closing high of 103.90 and what Kitco's David Morrison called trading 'near a 19-month high'. The cross-currency tape was mixed rather than uniformly dollar-positive: USD/KRW +0.47% to 1,336.2 and USD/MXN +0.23% to 19.1631, but USD/JPY -0.74% as the yen was bid as a haven in the global equity rout (CappNotes Closing Look, 20 November; news log, 20 November). US yields fell 9-13bp across the curve, a headwind given the dollar's dominant 21-session driver is the 10-year at corr +0.438, yet the index barely moved. Policy support held - Kalshi 90% and CME FedWatch 98.4% for a 25bp December hike, Paulson saying rates must rise again, Cook and Waller reinforcing December - but it is no longer US-only: Barchart put a BoJ hike on 18 December at 79% and an ECB hike on 17 December at 91%, and Kitco frames the backdrop as 'an extended global central bank tightening cycle'. Final November UMich one-year inflation expectations fell to 3.7% from 4.3% at mid-month, trimming the tightening case at the margin. RSI 69.0, with the close 1.9% above the 50-day (101.89) and 3.8% above the 200-day (100.01); 1H structure choppy, weekly structure uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -7875,32 +7893,38 @@
    "ticker": "DX-Y.NYB",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "The only extreme-up reading in the document, and it is driven by how quiet FX volatility is rather than by a violent move: at a sigma of 6.10 (EUR/USD one-month implied, 13 November) the close of 103.84 is 4.99 daily sigma above the 50-day (101.89) and 9.97 above the 200-day (100.01), firing extension50 at +2 and extension200 at +1.",
+    "103.84 is within 0.06% of the 252-session closing high of 103.90, firing the range component at +1; Kitco's Morrison described the dollar on 20 November as trading 'near a 19-month high'.",
+    "RSI 69.0 is one point short of the +1 oscillator threshold, so the score of +4 understates rather than overstates how extended the index is."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. No FX volatility gauge dated 20 November was obtainable. The sigma input is EUR/USD one-month at-the-money implied volatility of 6.10% as of the 13 November close against a one-year average of 5.80% (Cross Vol Research, 14 November) - slightly above average, with no percentile, record or multi-year extreme named.",
+    "crowd is 0. No dated dollar or FX futures positioning figure (CFTC commitments of traders in DX or the major crosses, a bank positioning index) was obtained for this window. The index closing within 0.06% of its 252-session closing high, and Morrison's description of it as 'near a 19-month high' (Kitco, 20 November), are price extremes - already captured by the range component of the stretch score - not positioning or volatility extremes.",
+    "Breadth, Credit, Earnings catalysts, Sentiment and Positioning all lack a dated dollar-specific measure for this window and are neutral at every horizon as a result, rather than inferred from the equity-market figures in the same sources."
    ]
   },
   "iwm": {
-   "name": "TODO: fill in before publish",
+   "name": "Russell 2000",
    "instrument": "RTY=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 2599.89990234375,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 36.88,
+   "sigmaSource": "RVX (Cboe Russell 2000 Volatility Index) 36.88 at the 20 November close - Cboe's RVX dashboard last sale 36.88 at 16:15:01, +6.42 (+17.41%), day range 28.41-39.21 - cross-checked against FRED's RVXCLS series, which gives 30.46 on 19 November: 30.46 + 6.42 = 36.88 exactly, so the two independent sources reconcile. This replaces the 19.97 value this ledger had carried from 23 September (39 sessions stale on 19 November) and is dated on S itself. Note that it is above the VIX's 35.89, and that moving from the stale 19.97 to the real 36.88 widens the Russell's bands (1D 0.63% -> 1.16%) and so takes its stretch score from -3 (extreme-down) to -1 (neutral); see dataNotes.",
+   "driverNote": "RTY=F closed 2599.89990234375 on 20 November (from 2660.3, -2.27%) as the Russell 2000 cash index fell 2.76% to 2,581.79 - better than the S&P 500's -3.70% and the Nasdaq-100's -5.61%, with the S&P SmallCap 600 -2.50% to 1,594.64 and MidCap 400 -2.68% to 3,424.66 (CappNotes Closing Look, 20 November). Breadth was 376 decliners to 123 advancers across the S&P 500 with 10 of 11 sectors lower. The front end rallied hard - the 2-year -13bp to 4.63%, the largest single-session decline of the week - which matters more here than anywhere else in this document: the Russell's measured 21-session beta to the 2-year is -0.0592, the most negative of the six assets, and its big-day (|2Y| >= 5bp) correlation is -0.706. Credit cut the other way, with high yield widening to 3.52% (19 November data) from 3.47% and HYG -0.26% against LQD +0.59%. RVX closed 36.88, +17.41%, above the VIX's 35.89. Final November UMich sentiment 51.5 (+7.3% m/m) with one-year inflation expectations down to 3.7% from 4.3%; Kalshi 90% and FedWatch 98.4% for a 25bp December hike. The Russell's dominant driver is oil at corr -0.476 and WTI rose 0.93% to $83.98. RSI 30.54, with the close 7.5% below the 50-day (2812.23) and 7.9% below the 200-day (2822.84); 1H and weekly structure both choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -9602,32 +9626,38 @@
    "ticker": "RTY=F",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "Only extension50 fires, at -1: RTY=F at 2599.90 is 7.5% under its 50-day (2812.23) for a z50 of -3.25, and 7.9% under its 200-day (2822.84) for a z200 of -3.40, short of the -6 that extension200 needs.",
+    "RSI 30.54 is 0.54 of a point above the -1 oscillator threshold, and the close sits 15.4% above the 252-session closing low of 2310.70, so the range component is dormant.",
+    "This reading is sigma-sensitive: on the 19.97 RVX value this ledger had carried since 23 September the same closes scored -3 (extreme-down); on the real RVX of 36.88 at the 20 November close they score -1 (neutral). The honest, dated number is the one used - see dataNotes."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. RVX closed 36.88 on 20 November, +6.42 (+17.41%) with a 28.41-39.21 day range (Cboe RVX dashboard, 16:15:01), which FRED's RVXCLS value of 30.46 on 19 November reconciles exactly. That is a six-session rise of about 72% from 21.38 on 13 November, and it is above the VIX's 35.89, but no source dated at or before 20 November names a percentile, record or multi-year extreme for it.",
+    "crowd is 0 for the same reasons given for the S&P 500: the Citadel Securities CTA reading (-3.3 standard deviations, sub-2nd percentile of its one-year range, 3 November) and Morgan Stanley's de-grossing records (27 October and the week to 6 November) are aggregate US-equity measures, 10-17 sessions before S, reached only through secondary summaries, and none is small-cap specific. AAII's 42.2% bearish for the week ending 18 November is a survey streak, not a percentile.",
+    "No dated small-cap breadth series, small-cap fund flow figure, or earnings calendar for the 23-27 November week dated at or before 20 November was obtained, so Breadth at 5 and 10 sessions, Positioning at 1 session and Earnings catalysts at 5 and 10 sessions are neutral rather than guessed at."
    ]
   },
   "qqq": {
-   "name": "TODO: fill in before publish",
+   "name": "Nasdaq-100",
    "instrument": "NQ=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 25291.0,
    "sigma": 45.25,
    "sigmaSource": "^VXN close 45.25 on 2026-11-20",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "NQ=F closed 25291.0 on 20 November (from 26538.25, -4.70%) as the Nasdaq-100 cash index fell 5.61% (-1,488.07) to 25,028.98 and the Composite 5.28% (-1,261.47) to 22,617.73, taking the Composite below its 2025 close and erasing its 2026 gain; the Composite lost 10.02% on the week against the S&P 500's 8.61% (CappNotes Closing Look, 20 November; UPI and AP closing data, 20 November). Technology was the worst of the 11 S&P 500 sectors at -7.27%, with SMH -10.60%, the AI basket BAI -9.67%, computer storage devices -12.11% and semiconductors and related devices -10.43% (Market Digest, 20 November). Nvidia fell 14.01% to $125.53 - a 52-week low, roughly $491B of market value in a session and its worst day since DeepSeek - after Reuters reported SEC enforcement staff are examining potential accounting issues, with the SEC declining to comment; the WSJ had first reported an SEC investigation on 17 November without naming its focus. Anthropic fell 8.50% to $88.91, a second decline from its $97.17 debut close, with Sandisk -16.05%, Nebius -16.11%, Bloom Energy -15.30% and Intuit -12.77%. The sell-off was global: Nikkei -5.06% to 56,436.65 with SoftBank -14.48%, Kospi about -5.2%, TAIEX -6.23% for a record weekly loss, Stoxx 600 about -2%, Asia's worst week since 2020. Bitcoin -4.72% and ether -7.82%. VXN 45.25; QQQ saw a $1.29B outflow on 19 November data. RSI 27.04, with the close 14.0% below the 50-day (29395.23) and 10.3% below the 200-day (28201.69); 1H and weekly structure both choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -11288,9 +11318,16 @@
    "ticker": "NQ=F",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "RSI 27.04 (oscillator -1) and a close 14.0% under the 50-day (25291.0 vs 29395.23) for a z50 of -4.90 at a VXN of 45.25 (extension50 -2) give a score of -3; the 200-day (28201.69) is 10.3% above the close for a z200 of -3.62, short of the -6 threshold.",
+    "The Nasdaq-100 fell 5.61% on 20 November and the Composite 10.02% on the week, its worst since April 2025, taking the Composite below its 2025 close (AP closing data and UPI, 20 November); 24/7 Wall St. had already noted on 17 November that the Nasdaq-100 was tracking its worst November since 2008.",
+    "The single largest contributor was Nvidia's 14.01% fall to a 52-week low of $125.53 on Reuters' report of an SEC accounting inquiry - roughly $491B of market value in one session."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. VXN closed 45.25 on 20 November, the highest of this document's four volatility gauges (VIX 35.89, RVX 36.88, GVZ 34.80), but no source dated at or before 20 November names a percentile, record or multi-year extreme for it.",
+    "crowd is 0. The dated positioning readings that do name records are not current or primary: Citadel Securities' aggregate CTA US-equity positioning at -3.3 standard deviations, sub-2nd percentile of its one-year range, as of 3 November; Morgan Stanley's gross hedge-fund exposure down about 7.8% from peak as of 27 October, the largest de-grossing in its series back to 2016; and US long/short gross leverage down 8.7 points to 207.5% in the week to 6 November with hedge funds cutting tech exposure at a near-record pace, the largest weekly fall since March 2020. All are 10-17 sessions before S and reached here through secondary summaries, so they are voted directionally under Positioning and flows rather than recorded as a crowd value.",
+    "The Nasdaq Composite's 10.02% week, its drop below its 2025 close, the Nasdaq-100's 5.61% session, Taiwan's record weekly TAIEX loss, Asia's worst week since 2020 and the Nasdaq-100's worst-November-since-2008 pace (24/7 Wall St., 17 November) are return extremes, not volatility or positioning extremes, so none feeds volRegime or crowd. Nvidia's roughly $491B one-session market-value loss is likewise a single-stock move.",
+    "No earnings calendar for the 23-27 November week dated at or before 20 November was obtained, so the 5- and 10-session Earnings catalysts votes rest only on the unresolved Nvidia SEC inquiry, which is dated 20 November."
    ]
   }
  },
@@ -11382,7 +11419,93 @@
    }
   },
   "dataNotes": [
-   "TODO: fill in before publish"
+   "Run timing: this cycle ran the morning of Monday 23 November 2026 on contracts drafted by the GitHub Actions fetch job from Friday 20 November's close. Every figure used is dated at or before 2026-11-20. The blindness rule bit hard today: news-log entries dated 23 November (futures up 2-3% after the seven-day rout, CrowdStrike's $43.9B offer for Zscaler, gold rebounding 3% off its lows, crude sliding on Russia-Ukraine peace-deal progress) were NOT used, and neither were Saxo Bank's 23 November capitulation-gauge brief, Tickmill's 23 November GS Panic Index reading, the Motley Fool's 21 November Thanksgiving-week seasonality piece, Wolf Street's 21 November Treasury wrap, the Vito Report's 22 November weekly review or FXEmpire's 23 November week-ahead calendar with its consensus figures. The 23-27 November data calendar is cited only from sources dated 20 November itself (Kitco's wrap and stockmarketwatch's Market Digest), and no earnings calendar for that week dated at or before 20 November was obtained.",
+   "Two sigma inputs were upgraded from long-stale carries to real dated numbers this session, and one was not. The Russell 2000's sigma moves from the 19.97 RVX value this ledger had carried since 23 September to the actual RVX close of 36.88 on 20 November (Cboe RVX dashboard, cross-checked exactly against FRED's RVXCLS 30.46 on 19 November plus the dashboard's +6.42 change). That materially changes the overlay for that asset: on the stale 19.97 its stretch score was -3 (extreme-down), which would have vetoed or notched any bearish small-cap call; on the real 36.88 it is -1 (neutral) and the overlay takes no action. The wider, honest sigma also widens the Russell's bands from 0.63%/1.41%/1.99% to 1.16%/2.60%/3.67%. The dollar's sigma moves from 4.72 (carried from 21 September) to EUR/USD one-month at-the-money implied volatility of 6.10% as of the 13 November close (Cross Vol Research, 14 November), which takes its z50 from 6.45 to 4.99 and its z200 from 12.88 to 9.97 but leaves the stretch score at +4. Bonds' sigma is still the TLT 30-day implied-volatility value of 15 carried from 25 September, now 38 sessions stale: the ICE BofA MOVE index at 96.04 on 19 November (StreetStats) is the only dated Treasury-volatility number obtained and it cannot be converted into a ZN=F percentage sigma without inventing a conversion. With VIX at 35.89 the carried 15 very likely understates bond volatility and so narrows that asset's bands.",
+   "News-log entries for 2026-11-20 (four, matching the Artifact database exactly - the query returned the same four ids already present in data/news_log.json, so no merge was needed, and there were no hand-entered 'manual (issue #N)' entries for this date) were read and used. The session wrap is CappNotes' 'Closing Look - Friday, November 20, 2026', which supplied indexes, breadth, all 11 sectors, VIX, the full Treasury curve, credit spreads, FX crosses, metals, oil, crypto, ETF flows, Kalshi and Barchart pricing, the UMich release and movers. stockmarketwatch's 'Market Digest - Friday, November 20, 2026' supplied sector-ETF detail (SMH -10.60%, BAI -9.67%) and the 23-25 November data calendar; Kitco's 20 November gold and silver wrap supplied the metals ranking language, the named analyst commentary and the same data calendar; AP and UPI closing data supplied the weekly index returns and the correction framing; Reuters (via Yahoo Finance and 24/7 Wall St., 20 November) supplied the Nvidia SEC accounting-inquiry report; AAII's survey for the week ending 18 November supplied sentiment; Cboe and FRED supplied RVX. Strategitz's 20 November CIO Brief was only partly readable behind its paywall and is cited only for the Asia and Europe figures its free preview and the news log both carry. stockinvest.us's 20 November close digest returned HTTP 403 and was not used.",
+   "Vendor conflicts, resolved toward the fetched close in every case. Gold: CappNotes quotes the late session -4.63% to about $3,515 and stockmarketwatch 3,533.10 (-4.14%), against the fetched GC=F close of 3539.0 (-2.18% from 3617.7); the fetched close is used, and the gap is partly the futures-vs-spot basis this ledger already documents and partly a different quote time. Index futures moved more than the cash indexes again - ES=F -3.15% against the S&P 500's -3.70%, NQ=F -4.70% against the Nasdaq-100's -5.61%, RTY=F -2.27% against the Russell 2000's -2.76% - because the prior futures closes were struck at a different time from Thursday's cash close; the fetched futures closes are what the ledger scores. The 10-year's close is 4.92% per CappNotes, which is what is cited; a weekly roundup gives 4.95% and FRED's DGS10 had 5.04% for 19 November, consistent with a 12bp fall. Gold's weekly loss is roughly 9.5% (Kitco) against 8.9-9.05% elsewhere; the Kitco figure, dated 20 November, is the one cited. The dollar index is a fetched 103.84, matching CappNotes' 'about 103.84' exactly. VIX 35.89 matches between the fetched close and both wraps. Nvidia's fall is cited at its closing 14.01% rather than the 12-13% intraday figures in earlier reports.",
+   "Categories 1-12 are neutral unless a dated source gives a clear read, and today a lot of them are genuinely two-sided. Breadth (1D) is bearish for the three equity assets on the 376/123 split and 10 of 11 sectors lower, but 5D/10D are neutral because equal-weight RSP fell only 1.98% against the index's 3.70% - the damage was concentrated in mega-cap technology, which is why the Nasdaq-100 gets a bearish 5D breadth vote and the other two do not. Credit (1D and 5D) is bearish for the three equity assets on three reported sessions of high-yield widening (3.43% -> 3.47% -> 3.52%) with HYG falling while LQD gained, and bullish for Treasuries on the same split. Rates (1D) is neutral for the S&P 500 and Nasdaq-100 because the two measured relationships in this document cancel - the dominant 10-year correlations of +0.424 and +0.496 make a 12bp yield decline a negative, while the big-day 2-year correlations of -0.628 and -0.589 make a 13bp front-end rally a positive - and bullish for Treasuries (corr10Y -0.985) and for the Russell 2000, whose -0.0592 2-year beta is the most negative of the six. Fed path is bearish horizon-wide for the equity assets, Treasuries and gold on Kalshi 90% / FedWatch 98.4% December-hike pricing plus Paulson, Cook and Waller, and bullish for the dollar at 1 session only: beyond a day it turns neutral because the tightening is global (BoJ 79%, ECB 91% for December) rather than US-specific, and the 9 December FOMC falls outside all three windows (they mature 23 November, 30 November and 7 December). Sentiment is a contrarian bullish vote at 5 and 10 sessions for the equity assets on AAII's 42.2% bearish (41st straight week above the 31.5% average, surveyed through 18 November, i.e. before Friday's decline) and for gold on the four named analysts calling its selling excessive. Positioning is bullish at 5 and 10 sessions for the equity assets on the CTA and de-grossing readings and for gold at 5 sessions on TD Securities' possible CTA short-covering. Earnings catalysts is bearish for the S&P 500 and Nasdaq-100 on Nvidia's 14.01% fall to a 52-week low on the SEC accounting report, Intuit -12.77% and beats being sold, but neutral for the Russell 2000, where Gap +11.44% and Buckle +5.67% genuinely offset BJ's -5.35% and Ross -2.92%. Macro calendar is bullish at 1 session for the equity assets on UMich sentiment 51.5 with one-year inflation expectations falling to 3.7% from 4.3%, bearish at 5 sessions for everything but the dollar on 25 November's PCE against hot dated priors (October PPI +6.5% y/y, Philadelphia Fed prices paid 58.2 from 43.2), and bullish at 5 sessions for the dollar on the same facts. Seasonality is neutral at every cell: the long-run Thanksgiving-week statistics obtainable here average roughly +0.3%, which sits inside every asset's 1-session band, and the pieces carrying them could not be dated at or before 20 November. Cross-asset (1D and 5D) is bearish for all three equity assets and gold on the liquidation tape, bullish for Treasuries, and neutral then bullish for the dollar; 10 sessions is neutral everywhere because the same facts - forced selling across assets with four of six assets deeply oversold at once - genuinely cut both ways. Trend structure follows the computed structure reads and says so where they are choppy or where a computed uptrend has already broken its last higher low; Market structure carries its own mechanical direction."
+  ],
+  "newsLog": [
+   {
+    "id": "2026-11-20-1-ai-selloff-deepens-anthropic-slides-futures-fall",
+    "data": {
+     "addedAt": "2026-11-20",
+     "category": "Market",
+     "date": "2026-11-20",
+     "day": "Fri",
+     "direction": "Bearish",
+     "event": "AI sell-off deepens: Anthropic (ANT) falls pre-market a day after its record debut, dragging chips and AI infrastructure names and pushing Nasdaq futures sharply lower; S&P 500 coming off a sixth straight loss.",
+     "impact": "High",
+     "numbers": "ANT -7.4% pre-mkt (closed $97.17 Thu, +17% vs $83 IPO); Nasdaq 100 fut -1.64%, S&P fut -0.74%, Dow fut -0.1% (7:03 ET); NVDA -2.2%, AMD/AVGO/MRVL/MU -2.2% to -6.6%; VIX ~31; INTU -9.7% on guidance cut + Mailchimp sale",
+     "order": 1,
+     "reaction": "Risk-off into opex Friday; Nasdaq ~13.6% below Oct 6 record, indexes on track for steepest weekly drop since April 2025.",
+     "region": "US",
+     "source": "https://finance.yahoo.com/markets/stocks/articles/wall-st-futures-slip-anthropic-104746137.html",
+     "tickers": "ANT, QQQ, Nasdaq, SPY, S&P, NVDA, AMD, AVGO, MU, INTU",
+     "time": "Pre-market",
+     "vsExp": "n/a"
+    }
+   },
+   {
+    "id": "2026-11-20-2-asia-worst-week-since-2020-nikkei-kospi-5",
+    "data": {
+     "addedAt": "2026-11-20",
+     "category": "Market",
+     "date": "2026-11-20",
+     "day": "Fri",
+     "direction": "Bearish",
+     "event": "Asian stocks crash as the AI sell-off spreads overseas - Asia heads for its worst week since 2020; Europe also lower and the yen gains as a safe haven.",
+     "impact": "High",
+     "numbers": "Nikkei 225 -5.06% to 56,436.65; Kospi ~-5.2% to 4,869.96 (Samsung, SK Hynix lead losses); Stoxx 600 ~-2%; SoftBank led Tokyo decline",
+     "order": 2,
+     "reaction": "Global de-risking in AI/semis; safe-haven bid for yen and Treasuries.",
+     "region": "Asia/Europe",
+     "source": "https://finance.yahoo.com/markets/world-indices/articles/asian-shares-head-worst-week-014854250.html",
+     "tickers": "EWJ, Nikkei, Kospi, SPY, S&P, QQQ, Nasdaq",
+     "time": "Pre-market",
+     "vsExp": "n/a"
+    }
+   },
+   {
+    "id": "2026-11-20-3-december-fed-hike-odds-near-98pct",
+    "data": {
+     "addedAt": "2026-11-20",
+     "category": "Fed",
+     "date": "2026-11-20",
+     "day": "Fri",
+     "direction": "Mixed",
+     "event": "Markets now price a near-certain December Fed hike after Philadelphia Fed President Paulson said rates must rise again on too-high inflation; Treasury yields ease on safe-haven buying amid the equity rout. Waller and Cook speak today; UMich final sentiment at 10:00 ET.",
+     "impact": "High",
+     "numbers": "CME FedWatch 98.4% odds of a Dec hike; 10Y ~4.97% (-8bp); UMich sentiment prior 51; PCE due next week",
+     "order": 3,
+     "reaction": "Hike fears weigh on equities while bonds rally as a haven; yield dip offers little relief to stocks.",
+     "region": "US",
+     "source": "https://finance.yahoo.com/markets/stocks/articles/wall-st-futures-slip-anthropic-104746137.html",
+     "tickers": "TLT, 10Y, yield, Treasury, SPY, S&P",
+     "time": "Pre-market",
+     "vsExp": "n/a"
+    }
+   },
+   {
+    "id": "2026-11-20-4-gold-slides-3pct-bitcoin-falls",
+    "data": {
+     "addedAt": "2026-11-20",
+     "category": "Commodities",
+     "date": "2026-11-20",
+     "day": "Fri",
+     "direction": "Bearish",
+     "event": "Gold extends its slide to fresh lows as hike expectations and cross-asset liquidation weigh; bitcoin also lower while oil is flat.",
+     "impact": "Medium",
+     "numbers": "Gold fut ~$3,565/oz (-3.3%); Bitcoin ~$61,868 (-2.5%); WTI Dec $82.42 (flat)",
+     "order": 4,
+     "reaction": "Precious metals sold alongside risk assets rather than acting as a haven.",
+     "region": "Global",
+     "source": "https://finance.yahoo.com/markets/stocks/articles/wall-st-futures-slip-anthropic-104746137.html",
+     "tickers": "GLD, gold",
+     "time": "Pre-market",
+     "vsExp": "n/a"
+    }
+   }
   ]
  }
 }
