@@ -802,6 +802,7 @@ BIAF,Biotechnology: Commercial Physical & Biological Resarch
 BIAFW,Biotechnology: Commercial Physical & Biological Resarch
 BID,Blank Checks
 BIDU,Computer Software: Programming Data Processing
+BIDWR,Blank Checks
 BIDWU,Blank Checks
 BIIB,Biotechnology: Biological Products (No Diagnostic Substances)
 BIII,Blank Checks
@@ -814,7 +815,6 @@ BIOT,Package Goods/Cosmetics
 BIOTW,Package Goods/Cosmetics
 BIOX,Agricultural Chemicals
 BIP,Marine Transportation
-BIPC,Marine Transportation
 BIPH,Marine Transportation
 BIPI,Marine Transportation
 BIPJ,Marine Transportation
@@ -830,8 +830,6 @@ BJDX,Medical/Dental Instruments
 BJRI,Restaurants
 BKD,Hospital/Nursing Management
 BKE,Clothing/Shoe/Accessory Stores
-BKHA,Biotechnology: Biological Products (No Diagnostic Substances)
-BKHAR,Biotechnology: Biological Products (No Diagnostic Substances)
 BKKT,Finance: Consumer Services
 BKNG,Transportation Services
 BKR,Oil and Gas Field Machinery
@@ -945,6 +943,7 @@ BRIA,Apparel
 BRID,Specialty Foods
 BRKH,Blank Checks
 BRKHU,Semiconductors
+BRKHW,Blank Checks
 BRKR,Biotechnology: Laboratory Analytical Instruments
 BRKRP,Biotechnology: Laboratory Analytical Instruments
 BRLS,Packaged Foods
@@ -1084,7 +1083,7 @@ CANG,Finance: Consumer Services
 CAPL,Oil Refining/Marketing
 CAPNR,Blank Checks
 CAPR,Biotechnology: Pharmaceutical Preparations
-CAPS,Biotechnology: Pharmaceutical Preparations
+CAPS,RETAIL: Building Materials
 CAR,Rental/Leasing Companies
 CARE,Major Banks
 CARG,EDP Services
@@ -2661,6 +2660,7 @@ GTN,Broadcasting
 GTX,Auto Parts:O.E.M.
 GTY,Real Estate
 GUAC,Blank Checks
+GUACU,Blank Checks
 GUACW,Blank Checks
 GUER,Semiconductors
 GUG,Trusts Except Educational Religious and Charitable
@@ -3580,8 +3580,6 @@ MA,Business Services
 MAA,Real Estate Investment Trusts
 MAAS,Investment Managers
 MAC,Real Estate Investment Trusts
-MACIU,Blank Checks
-MACIW,Blank Checks
 MAGN,Paper
 MAIA,Biotechnology: Pharmaceutical Preparations
 MAIN,Finance/Investors Services
@@ -4106,6 +4104,7 @@ NML,Finance/Investors Services
 NMM,Marine Transportation
 NMP,Blank Checks
 NMPAR,Blank Checks
+NMPAU,Blank Checks
 NMR,Investment Bankers/Brokers/Service
 NMRA,Biotechnology: Biological Products (No Diagnostic Substances)
 NMRK,Real Estate
@@ -4331,6 +4330,7 @@ OIG,Specialty Insurers
 OII,Oilfield Services/Equipment
 OIMAU,Blank Checks
 OIO,Environmental Services
+OIOWW,Environmental Services
 OIS,Oil and Gas Field Machinery
 OKE,Oil & Gas Production
 OKLO,Electric Utilities: Central
@@ -5017,7 +5017,6 @@ RLJ,Real Estate Investment Trusts
 RLMD,Biotechnology: Pharmaceutical Preparations
 RLTY,Investment Managers
 RLX,Medicinal Chemicals and Botanical Products
-RLYB,Biotechnology: Pharmaceutical Preparations
 RM,Finance: Consumer Services
 RMBI,Major Banks
 RMBS,Semiconductors
@@ -5448,6 +5447,7 @@ SOLV,Medical/Dental Instruments
 SOMN,Electric Utilities: Central
 SON,Containers/Packaging
 SONM,Telecommunications Equipment
+SONN,Finance: Consumer Services
 SONO,Consumer Electronics/Appliances
 SONY,Consumer Electronics/Appliances
 SOPH,EDP Services

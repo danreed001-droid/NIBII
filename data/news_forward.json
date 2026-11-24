@@ -1,6 +1,6 @@
 {
  "about": "News forward test: fixed guesses about what follows each day's news, written before the next open and scored afterwards (mtl/news_forward.py). Information only.",
- "updated": "2026-11-21T18:47:33+00:00",
+ "updated": "2026-11-24T00:22:11+00:00",
  "version": 1,
  "started": "2026-10-31",
  "minN": 20,
@@ -923,7 +923,9 @@
    "asset": "QQQ",
    "h": 2,
    "call": -1,
-   "at": "2026-11-19T23:36:39+00:00"
+   "at": "2026-11-19T23:36:39+00:00",
+   "res": 0.00929,
+   "hit": false
   },
   {
    "d": "2026-11-19",
@@ -951,7 +953,9 @@
    "asset": "TLT",
    "h": 1,
    "call": 1,
-   "at": "2026-11-20T23:11:56+00:00"
+   "at": "2026-11-20T23:11:56+00:00",
+   "res": 0.00295,
+   "hit": true
   },
   {
    "d": "2026-11-20",
@@ -959,7 +963,9 @@
    "asset": "GLD",
    "h": 1,
    "call": 1,
-   "at": "2026-11-20T23:11:56+00:00"
+   "at": "2026-11-20T23:11:56+00:00",
+   "res": 0.03144,
+   "hit": true
   },
   {
    "d": "2026-11-20",
@@ -967,7 +973,9 @@
    "asset": "SPY",
    "h": 1,
    "call": -1,
-   "at": "2026-11-20T23:11:56+00:00"
+   "at": "2026-11-20T23:11:56+00:00",
+   "res": 0.04709,
+   "hit": false
   },
   {
    "d": "2026-11-20",
@@ -991,7 +999,9 @@
    "asset": "QQQ",
    "h": 1,
    "call": -1,
-   "at": "2026-11-20T23:11:56+00:00"
+   "at": "2026-11-20T23:11:56+00:00",
+   "res": 0.06998,
+   "hit": false
   },
   {
    "d": "2026-11-20",
@@ -999,7 +1009,41 @@
    "asset": "SPY",
    "h": 1,
    "call": 1,
-   "at": "2026-11-20T23:11:56+00:00"
+   "at": "2026-11-20T23:11:56+00:00",
+   "res": 0.04709,
+   "hit": true
+  },
+  {
+   "d": "2026-11-23",
+   "id": "tone_tlt",
+   "asset": "TLT",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-24T00:22:11+00:00"
+  },
+  {
+   "d": "2026-11-23",
+   "id": "tone_gld",
+   "asset": "GLD",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-24T00:22:11+00:00"
+  },
+  {
+   "d": "2026-11-23",
+   "id": "tone_spy",
+   "asset": "SPY",
+   "h": 1,
+   "call": 1,
+   "at": "2026-11-24T00:22:11+00:00"
+  },
+  {
+   "d": "2026-11-23",
+   "id": "tone_qqq",
+   "asset": "QQQ",
+   "h": 2,
+   "call": 1,
+   "at": "2026-11-24T00:22:11+00:00"
   }
  ],
  "days": [
@@ -1146,6 +1190,15 @@
    "bearHi": 2,
    "fedBear": false,
    "calls": 7
+  },
+  {
+   "d": "2026-11-23",
+   "at": "2026-11-24T00:22:11+00:00",
+   "n": 4,
+   "tone": 2,
+   "bearHi": 0,
+   "fedBear": false,
+   "calls": 4
   }
  ],
  "summary": {
@@ -1156,12 +1209,12 @@
     "text": "Upbeat news day → long Treasuries lower the next day (downbeat → higher)",
     "asset": "TLT",
     "h": 1,
-    "calls": 15,
-    "n": 14,
-    "hits": 8,
-    "rate": 0.571,
-    "p": 0.7905,
-    "avg": 0.00278,
+    "calls": 16,
+    "n": 15,
+    "hits": 9,
+    "rate": 0.6,
+    "p": 0.6072,
+    "avg": 0.0028,
     "verdict": "too few"
    },
    {
@@ -1169,12 +1222,12 @@
     "text": "Upbeat news day → gold lower the next day (downbeat → higher)",
     "asset": "GLD",
     "h": 1,
-    "calls": 15,
-    "n": 14,
-    "hits": 9,
-    "rate": 0.643,
-    "p": 0.424,
-    "avg": 0.00257,
+    "calls": 16,
+    "n": 15,
+    "hits": 10,
+    "rate": 0.667,
+    "p": 0.3018,
+    "avg": 0.00449,
     "verdict": "too few"
    },
    {
@@ -1182,12 +1235,12 @@
     "text": "The news tone carries into the S&P 500 the next day",
     "asset": "SPY",
     "h": 1,
-    "calls": 15,
-    "n": 14,
+    "calls": 16,
+    "n": 15,
     "hits": 6,
-    "rate": 0.429,
-    "p": 0.7905,
-    "avg": -0.00599,
+    "rate": 0.4,
+    "p": 0.6072,
+    "avg": -0.00873,
     "verdict": "too few"
    },
    {
@@ -1195,12 +1248,12 @@
     "text": "The news tone carries into the Nasdaq-100 over the next 2 days",
     "asset": "QQQ",
     "h": 2,
-    "calls": 15,
-    "n": 13,
+    "calls": 16,
+    "n": 14,
     "hits": 6,
-    "rate": 0.462,
-    "p": 1.0,
-    "avg": -0.00968,
+    "rate": 0.429,
+    "p": 0.7905,
+    "avg": -0.00965,
     "verdict": "too few"
    },
    {
@@ -1235,11 +1288,11 @@
     "asset": "QQQ",
     "h": 1,
     "calls": 6,
-    "n": 5,
+    "n": 6,
     "hits": 2,
-    "rate": 0.4,
-    "p": 1.0,
-    "avg": -0.00459,
+    "rate": 0.333,
+    "p": 0.6875,
+    "avg": -0.01549,
     "verdict": "too few"
    },
    {
@@ -1261,11 +1314,11 @@
     "asset": "SPY",
     "h": 1,
     "calls": 5,
-    "n": 4,
-    "hits": 1,
-    "rate": 0.25,
-    "p": 0.625,
-    "avg": -0.00919,
+    "n": 5,
+    "hits": 2,
+    "rate": 0.4,
+    "p": 1.0,
+    "avg": 0.00207,
     "verdict": "too few"
    },
    {
