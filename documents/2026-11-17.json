@@ -477,8 +477,8 @@
        null
       ]
      ],
-     "maturityClose": 7172.0,
-     "ret": -0.032282,
+     "maturityClose": 7222.75,
+     "ret": -0.025434,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2615,8 +2615,8 @@
        false
       ]
      ],
-     "maturityClose": 106.921875,
-     "ret": 0.013628,
+     "maturityClose": 106.796875,
+     "ret": 0.012443,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5239,8 +5239,8 @@
        true
       ]
      ],
-     "maturityClose": 3618.800048828125,
-     "ret": -0.052769,
+     "maturityClose": 3629.199951171875,
+     "ret": -0.050047,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7359,8 +7359,8 @@
        false
       ]
      ],
-     "maturityClose": 103.85399627685547,
-     "ret": 0.002471,
+     "maturityClose": 103.76100158691406,
+     "ret": 0.001573,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9503,7 +9503,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 17 November: Kalshi 91% for a 25bp hike at the 9 December FOMC (CappNotes Closing Look, 17 November) and a December hike seen as 'close to certain' (Investrade Market Review, 17 November); St. Louis Fed's Musalem said 'several more increases' may be needed, up to four by spring 2027, while New York Fed's Williams said there is no need for 'dramatic action' (CappNotes Closing Look, 17 November; Investrade Market Review, 17 November); more tightening priced is a headwind for equity multiples",
-       true
+       false
       ],
       [
        "bull",
@@ -9541,8 +9541,8 @@
        null
       ]
      ],
-     "maturityClose": 2654.699951171875,
-     "ret": -0.024509,
+     "maturityClose": 2686.89990234375,
+     "ret": -0.012677,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11525,8 +11525,8 @@
        null
       ]
      ],
-     "maturityClose": 26287.5,
-     "ret": -0.042515,
+     "maturityClose": 26463.75,
+     "ret": -0.036096,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
