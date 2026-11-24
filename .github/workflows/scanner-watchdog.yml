@@ -5,7 +5,7 @@ name: Scanner watchdog
 # the open even when it's late. Every run logs the default
 # plan's decision to the paper record (data/paper_ledger.json), so a missing day means the run failed without
 # reporting, was skipped or delayed by GitHub, or scheduled runs were paused. A missing run can't report itself,
-# so this opens the issue (and adds the line to the page's issues list).
+# so this opens the issue (and adds the line to the page's issues list) and, since Nov 24, 2026, starts the run itself.
 
 on:
   schedule:
@@ -19,6 +19,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: write
 
 jobs:
   check:
@@ -34,6 +35,16 @@ jobs:
       - name: Last night's run is in
         id: fresh
         run: python scripts/check_scanner_fresh.py watch
+      - name: Start the scanner if it isn't
+        # since Nov 24, 2026: GitHub skipped every evening try on Nov 23 (the scanner's own and the hourly kick), so the
+        # morning watchdog also starts the run (workflow_dispatch from GITHUB_TOKEN does start a run); never fails this job
+        if: ${{ failure() }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          busy=$(gh run list --workflow scanner.yml --limit 10 --json status --jq '[.[] | select(.status=="queued" or .status=="in_progress" or .status=="waiting" or .status=="pending")] | length')
+          if [ "${busy:-0}" -gt 0 ]; then echo "a scanner run is already queued or running"; else gh workflow run scanner.yml --ref main && echo "started the scanner"; fi
       - name: Open an issue if it isn't
         if: ${{ failure() || cancelled() }}
         env:
