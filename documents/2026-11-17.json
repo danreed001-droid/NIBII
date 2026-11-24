@@ -477,13 +477,12 @@
        null
       ]
      ],
-     "maturityClose": 7201.5,
-     "ret": -0.028302,
+     "maturityClose": 7210.75,
+     "ret": -0.027053,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 10,
@@ -2615,13 +2614,12 @@
        false
       ]
      ],
-     "maturityClose": 106.8125,
-     "ret": 0.012591,
+     "maturityClose": 106.6875,
+     "ret": 0.011406,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 10,
@@ -5239,13 +5237,12 @@
        true
       ]
      ],
-     "maturityClose": 3593.39990234375,
-     "ret": -0.059418,
+     "maturityClose": 3555.10009765625,
+     "ret": -0.069443,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 10,
@@ -7359,13 +7356,12 @@
        false
       ]
      ],
-     "maturityClose": 103.81099700927734,
-     "ret": 0.002056,
+     "maturityClose": 103.82599639892578,
+     "ret": 0.002201,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 10,
@@ -9503,7 +9499,7 @@
       [
        "bear",
        "Fed-path pricing stayed hawkish on 17 November: Kalshi 91% for a 25bp hike at the 9 December FOMC (CappNotes Closing Look, 17 November) and a December hike seen as 'close to certain' (Investrade Market Review, 17 November); St. Louis Fed's Musalem said 'several more increases' may be needed, up to four by spring 2027, while New York Fed's Williams said there is no need for 'dramatic action' (CappNotes Closing Look, 17 November; Investrade Market Review, 17 November); more tightening priced is a headwind for equity multiples",
-       true
+       false
       ],
       [
        "bull",
@@ -9541,13 +9537,12 @@
        null
       ]
      ],
-     "maturityClose": 2679.0,
-     "ret": -0.01558,
+     "maturityClose": 2688.0,
+     "ret": -0.012273,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 10,
@@ -11525,13 +11520,12 @@
        null
       ]
      ],
-     "maturityClose": 26266.5,
-     "ret": -0.04328,
+     "maturityClose": 26266.0,
+     "ret": -0.043299,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 10,
