@@ -6237,5 +6237,85 @@
       "time": "Pre-market",
       "vsExp": "n/a (flash PMIs and PCE not yet released)"
     }
+  },
+  {
+    "id": "2026-11-24-1-us-futures-slip-as-nvidia-rally-cools",
+    "data": {
+      "addedAt": "2026-11-24",
+      "category": "Market",
+      "date": "2026-11-24",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "US futures slip as Monday's record-setting Nvidia melt-up cools. Nvidia closed up 31.5% on Monday - its biggest one-day gain in 23 years - after reinstating Jensen Huang as CEO, and the stock gives back about 5% premarket. Hewlett Packard Enterprise sinks on Q4 results while Dollar Tree jumps on a raised annual profit forecast; investors are still questioning whether AI infrastructure spending will earn its returns.",
+      "impact": "High",
+      "numbers": "7:04 AM ET: Dow E-minis -194 pts (-0.39%), S&P 500 E-minis -61.5 pts (-0.85%), Nasdaq 100 E-minis -440 pts (-1.64%). Premarket: NVDA -5.2% (after +31.5% Mon), HPE -12% on Q4 results, DLTR +8.6%. Monday's close: S&P 500 +4.7% to 7,237.17, Nasdaq Composite +6.5%",
+      "order": 1,
+      "reaction": "Lower open indicated, led by semis and AI infrastructure giving back part of Monday's surge; breadth is better than the Nasdaq futures move suggests, with Dow futures nearly flat and a holiday-shortened week keeping liquidity thin.",
+      "region": "US",
+      "source": "https://www.theglobeandmail.com/investing/markets/inside-the-market/market-news/article-premarket-us-futures-edge-higher-after-nvidia-driven-surge/",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, NVDA, HPE, DLTR",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-24-2-asia-surges-on-huang-return-europe-dips",
+    "data": {
+      "addedAt": "2026-11-24",
+      "category": "Market",
+      "date": "2026-11-24",
+      "day": "Tue",
+      "direction": "Mixed",
+      "event": "Asia staged a violent chip-led rally overnight on reports Nvidia had reinstated Jensen Huang as CEO, snapping eight straight sessions of losses for the regional benchmark. Korea, Taiwan and Japan led; Advantest, Samsung Electronics, SK Hynix and TSMC all surged. Europe then opened lower as the enthusiasm faded, with the FTSE 100, DAX, CAC 40 and Stoxx 600 all trading down (levels n/a).",
+      "impact": "High",
+      "numbers": "Intraday Asia: Kospi +7.5% (biggest session gain since July), Taiwan Taiex +9.1% (best day since April 2025), Nikkei 225 up as much as +5% (Topix +3%) with Japan back from holiday, Hang Seng +0.8%, Shanghai Composite +1.1%; MSCI Asia-Pacific ex-Japan +4.6% off an eight-month low, MSCI Asia Pacific +4.1%. Movers: Advantest +14%, Samsung Electronics / SK Hynix / TSMC each +8% or more",
+      "order": 2,
+      "reaction": "The overnight squeeze repaired much of last week's Asian chip rout, but the handoff was poor: Europe faded at the open (per Washington Post) and US futures turned lower, leaving the Huang-return bounce looking like a one-day repricing rather than a trend change.",
+      "region": "Asia/Europe",
+      "source": "https://www.kotakneo.com/news/global-markets/asian-markets-rally-kospi-gains-above-7-percent-nikkei-rises-5-percent-taiwan-jumps-9-1-nvidia-rebound/",
+      "tickers": "EWY, Kospi, EWT, Nikkei, FXI, QQQ, Nasdaq, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-24-3-williams-inflation-warning-dec-hike-fully-priced",
+    "data": {
+      "addedAt": "2026-11-24",
+      "category": "Fed",
+      "date": "2026-11-24",
+      "day": "Tue",
+      "direction": "Bearish",
+      "event": "Treasury yields edge lower after an inflation warning from New York Fed President John Williams, who said policy 'will need to adjust' to get inflation back to 2% 'in a timely manner and on a sustained basis' and that 'there is still work to do,' adding the economy remains strong while inflation runs too high. Markets now fully price a 25bp hike at the Dec 8-9 FOMC. A $70B five-year auction and November consumer confidence are due today, with October core PCE on Wednesday the last major print before the meeting.",
+      "impact": "High",
+      "numbers": "10Y Treasury yield 4.896% (-2bp+), 2Y 4.648% (-1bp+); CME FedWatch: 100% odds of a 25bp December hike, with a slim chance of 50bp; $70B 5-year auction today; Conference Board consumer confidence due 10:00 AM ET, consensus ~92.1-92.5 vs 91.7 prior",
+      "order": 3,
+      "reaction": "A rare combination: hawkish Fed talk with yields still drifting lower into supply, as duration buyers step in ahead of the auction. The dollar remains near 19-month highs and gold has stalled just below $3,700 after rebounding from 14-month lows (fxstreet.com), leaving Wednesday's PCE as the week's real risk event.",
+      "region": "US",
+      "source": "https://cnbc.com/2026/11/24/treasury-yields-bonds-inflation.html",
+      "tickers": "TLT, 10Y, yield, Treasury, DXY, USD, dollar, GLD, gold, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a (consumer confidence and PCE not yet released)"
+    }
+  },
+  {
+    "id": "2026-11-24-4-sanofi-to-buy-insmed-for-41b",
+    "data": {
+      "addedAt": "2026-11-24",
+      "category": "Deals",
+      "date": "2026-11-24",
+      "day": "Tue",
+      "direction": "Bullish",
+      "event": "Sanofi agreed to acquire respiratory-disease specialist Insmed for $175 a share in cash, about $41 billion, the largest pharma acquisition in three years. The deal brings Sanofi Brinsupri (brensocatib), Arikayce and the phase 3 TPIP program as it faces the loss of patent protection on its top-selling drug; Sanofi said its 2026 financial guidance is unaffected.",
+      "impact": "Medium",
+      "numbers": "$175/share cash, $41.0B / EUR37.6B total; ~46% premium to Insmed's Nov 18 close (the day before Bloomberg reported Sanofi was weighing a bid); INSM +14% premarket, Sanofi shares +4.7% to EUR89.38, a one-year high. Largest industry deal since Pfizer-Seagen ($43B, Dec 2023)",
+      "order": 4,
+      "reaction": "Insmed rallied toward the offer and Sanofi rose on the strategic fix for its patent cliff; the size of the deal revives large-cap pharma M&A expectations and gives biotech a bid on an otherwise soft tape.",
+      "region": "US/Europe",
+      "source": "https://www.cnbc.com/2026/11/24/insmed-sanofi-deal-stock-pharma.html",
+      "tickers": "INSM, SNY",
+      "time": "Pre-market",
+      "vsExp": "Premium ~46% to the pre-report close"
+    }
   }
 ]
