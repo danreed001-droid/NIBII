@@ -10,26 +10,26 @@
  ],
  "assets": {
   "equities": {
-   "name": "TODO: fill in before publish",
+   "name": "S&P 500",
    "instrument": "ES=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 7267.25,
    "sigma": 26.6200008392334,
    "sigmaSource": "^VIX close 26.6200008392334 on 2026-11-23",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "ES=F closed 7267.25 on 23 November (from 6966.75, +4.31%) as the S&P 500 cash index rose 4.73% (+326.78) to 7,237.17, its best day since April 2025, recovering most of Friday's 3.70% fall and the bulk of the prior week's 8.57-8.61% decline (CappNotes Closing Look, 23 November). The Dow rose 3.01% (+1,447.98) to 49,595.31 and the Nasdaq Composite 6.51% (+1,471.83) to 24,089.56, its best day since 9 April 2025. The trigger was single-stock: Nvidia's board reinstated Jensen Huang as chief executive about two weeks after he resigned, saying it had received input from senior US government levels, and President Trump said he had 'convinced' the board; NVDA rose 31.48%, its best day since 2003, taking its market value to roughly $4 trillion from about $3 trillion at Friday's close (CNBC and Fortune, 23 November). Breadth inverted from Friday: 417 advancers to 83 decliners with 10 of 11 sectors higher - Technology +8.97%, Consumer Discretionary +3.97%, Industrials +3.90% against Consumer Staples -0.09% and Energy -1.06% - but equal-weight RSP rose only 2.59%, 214bp less than the cap-weighted index, so the recovery was as concentrated as the decline was. VIX fell 25.83% to 26.62 from 35.89. Treasuries barely moved: the 2-year unchanged at 4.63%, the 10-year unchanged at 4.92% (bondstats has it 2.2bp lower at 4.9218% on the New York close), the 30-year about 2bp lower at 5.29%, 2s10s about 29bp. Credit joined the rally, HYG +0.25%, JNK +0.28% and LQD +0.23%, though the ICE BofA high-yield spread's latest dated print is 3.76% as of 20 November, up from 3.52%. CME FedWatch put a 25bp hike at the 9 December FOMC at about 98%, with 50bp largely priced out. S&P Global's flash November PMIs missed: composite 54.6 from 55.9, the slowest private-sector expansion in four months, services 54.7 against 55.6-55.7 expected and manufacturing 54.5 from 54.9. WTI fell 3.88% to $80.17, its lowest close since 26 August, on Russia-Ukraine peace-deal progress. RSI 41.40, with the close 5.1% below the 50-day (7656.12) and 1.5% below the 200-day (7379.22); 1H structure choppy, weekly structure uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -1830,32 +1830,39 @@
    "ticker": "ES=F",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "Only extension50 fires, at -1: ES=F at 7267.25 is 5.1% under its 50-day (7656.12) for a z50 of -3.03 at a VIX of 26.62, short of the -4 that extension50 needs for -2, and 1.5% under the 200-day (7379.22) for a z200 of -0.91, nowhere near the -6 threshold.",
+    "A 4.73% cash-index session (ES=F +4.31%) took this reading from -3 (extreme-down) on 20 November to -1 (neutral) in one day, and the collapse in the VIX from 35.89 to 26.62 did as much of the work as the price did: a smaller denominator would have left the same close more stretched.",
+    "RSI recovered from 25.12 to 41.40, well clear of the -1 oscillator threshold of 30, and the close sits 7.7% below the 252-session closing high (7874.00) and 13.8% above the low (6388.25), so the range component is dormant."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. The VIX fell 25.83% to 26.62 on 23 November from 35.89, with VXN at 36.31 and GVZ at 31.25 (fetched closes). No source dated at or before 23 November names a percentile, record or documented multi-year extreme for the level or for the decline. Saxo Bank's Options Brief of 23 November does name extremes, but they describe Friday 20 November's close, not S's: a VIX close 'above every close in the last 60 sessions', one-month implied correlation 'above its 60-session high' at 29.71, SKEW at 138.84 'below its 60-session low of 140.86', VIX3M/VIX at 0.86 in backwardation, VVIX peaking at 146.6 against the 171 it reached at the April 2025 low. A 60-session comparison is a three-month window, not a percentile or a multi-year extreme, and none of it is dated on S.",
+    "crowd is 0. The positioning readings obtained are dated 20 November or earlier and reached here only through secondary reports of Goldman Sachs desk notes: the Panic Index at 9 out of 10 on Friday (one outlet put the close at 9.8), CTAs having sold about $57 billion of US equities over the past month to a $19 billion net short, modelled further selling of $65.8 billion in a flat tape, $28.6 billion of buying in a rising one and $80.6 billion of selling in a falling one, and prime-brokerage hedge-fund net leverage at 42.3%. A 9-out-of-10 reading on a proprietary desk gauge is a scale position, not a percentile of history, a record or a documented multi-year extreme, and none of the dollar figures carries a percentile either. Citadel Securities' CTA reading (-3.3 standard deviations, sub-2nd percentile of its one-year range) is still dated 3 November, 14 sessions before S. All of it is voted directionally under Positioning and flows instead.",
+    "The S&P 500's 4.73% session (its best since April 2025), the Nasdaq Composite's 6.51% (its best since 9 April 2025), the 417/83 breadth split and Nvidia's 31.48% single-session gain are return and breadth extremes, not volatility or positioning extremes, so none of them feeds volRegime or crowd.",
+    "No dated multi-session breadth series (advance/decline line, percent of members above the 200-day) was obtained, so Breadth is neutral at 10 sessions rather than extrapolated from one session's 417/83 split. No earnings calendar dated at or before 23 November extends past Wednesday 25 November, so the 10-session Earnings catalysts and Macro calendar votes are neutral rather than guessed at."
    ]
   },
   "bonds": {
-   "name": "TODO: fill in before publish",
+   "name": "10-Year Treasury Note",
    "instrument": "ZN=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = note price up, yields down",
    "close": 106.609375,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 15,
+   "sigmaSource": "TLT 30-day option implied volatility 15 carried from the 25 September Market Rebellion Pre-Market IV Report; no newer print was obtainable, so the value is 40 sessions stale (carried again on 23 November). The ICE BofA MOVE index rose 10.69% to 106.31 at the 20 November close, from 96.04 on 19 November and still below its 5 October high of 113.60 (Saxo Bank Options Brief, 23 November, reporting Friday's close; thetrading.tools gives 106.3 for 20 November) - a normal-range reading - but MOVE is a basis-point yield-volatility gauge and cannot be converted into a ZN=F percentage sigma without inventing a conversion, so the stale TLT carry is kept. No MOVE value dated 23 November was obtainable. The carried 15 very likely understates Treasury-futures volatility, which narrows this asset's bands (1D 0.47%, 5D 1.06%, 10D 1.49%).",
+   "driverNote": "ZN=F closed 106.609375 on 23 November - to the tick the same price it closed on 20 November, a 0.00% session, the flattest print in this ledger's record - as the equity rout reversed without moving the curve: the 2-year unchanged at 4.63%, the 10-year unchanged at 4.92% (bondstats reports it 2.2bp lower at 4.9218% on the New York close and describes yields as 'little changed'), the 30-year about 2bp lower at 5.29% and 2s10s about 29bp (CappNotes Closing Look, 23 November; bondstats daily, 23 November). That the note held its five-session haven gain on a day the S&P 500 rose 4.73% and the VIX fell 25.83% is the session's one real Treasury fact. Credit cut both ways: HYG +0.25% and JNK +0.28% against LQD +0.23%, so junk marginally outperformed duration on the day, while the ICE BofA high-yield spread's latest dated print is 3.76% as of 20 November, up from 3.52% on the 19th and 3.47% on the 18th - a 29bp widening across three dated prints. Policy stayed hawkish: CME FedWatch put a 25bp December hike at about 98% with 50bp largely priced out, and New York Fed President John Williams, speaking at the College of Mount Saint Vincent, called inflation 'too high' at about 3-1/2 percent on the PCE measure, said he expects it to end the year at 3.5% and moderate to just above 2% next year, said risks to inflation 'continue to be skewed to the upside' and that policy works with a one-to-two-year lag so 'it is essential that we remain forward-looking' - while adding 'I don't think the situation calls for dramatic action' (New York Fed Teller Window and Reuters coverage, 23 November). Flash November PMIs softened, composite 54.6 from 55.9 and services 54.7 against 55.6-55.7 expected, with S&P Global's Chris Williamson still reading about 3% annualised Q4 GDP and flagging elevated cost pressures. The ICE BofA MOVE index rose 10.69% to 106.31 at the 20 November close, below its 5 October high of 113.60. RSI 56.47, with the close 0.9% above the 50-day (105.63) and 2.2% below the 200-day (108.99); 1H and weekly structure both choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -4194,32 +4201,38 @@
    "ticker": "ZN=F",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "No component triggers, for the second session running. ZN=F at 106.609375 - unchanged to the tick from 20 November - is 0.98 daily sigma above its 50-day (105.63) and 2.31 below its 200-day (108.99), RSI is a mid-range 56.47, and the close sits 6.4% under the 252-session closing high (113.86) and 2.3% over the low (104.20).",
+    "This is the flattest stretch reading in the document at a score of exactly 0, and the one asset whose reading did not move at all on a session that reset three of the other five."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. The only dated Treasury-volatility reading obtained is the ICE BofA MOVE index at 106.31 for the 20 November close, up 10.69%, from 96.04 on 19 November and below its 5 October high of 113.60 (Saxo Bank Options Brief, 23 November; thetrading.tools, 20 November) - a normal-range level with no percentile, record or multi-year extreme named, and one session stale. A Yahoo Finance page showed 100.91 for 23 November but is labelled as a Northern Trust iBoxx product ticker with inconsistent metadata, so it is not used. MOVE is in any case a basis-point yield-volatility gauge and is not convertible into a ZN=F percentage sigma without inventing a conversion, so the sigma input remains the stale TLT implied-volatility carry documented in sigmaSource.",
+    "crowd is 0. No dated Treasury positioning figure - CFTC commitments of traders in ZN futures, a primary-dealer position, a JPMorgan client survey or a bond-fund flow number - was obtained for this window, at any percentile or otherwise. Saxo's 23 November options brief observes that safe-haven funds in gold and Treasuries saw 'no visible demand' in Friday's options flow; that is a qualitative flow observation about 20 November, not a position size or a percentile, and it is voted directionally under Positioning and flows at the 1-session horizon only.",
+    "No Treasury-specific sentiment survey was obtained, so Sentiment is neutral at all three horizons rather than borrowing the equity market's CNN Fear & Greed reading of 17 or AAII's 33% bull / 42% bear. Breadth, Earnings catalysts and Seasonality have no dated Treasury analogue for this window and are neutral by construction, with their cross-asset effect voted under Cross-asset.",
+    "No December Treasury auction schedule and no data calendar extending past Friday 27 November was obtained dated at or before 23 November, so the 10-session Macro calendar vote is neutral. All three horizons come in below the live gate of 7 directional votes and resolve to no-call; that is the honest result for an asset that closed unchanged to the tick with no asset-specific positioning, sentiment, breadth, earnings or seasonality figure available, not a gap this document papers over."
    ]
   },
   "gold": {
-   "name": "TODO: fill in before publish",
+   "name": "Gold",
    "instrument": "GC=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = gold higher",
    "close": 3657.5,
    "sigma": 31.25,
    "sigmaSource": "^GVZ close 31.25 on 2026-11-23",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "GC=F closed 3657.5 on 23 November (from 3539.0, +3.35%), lifting off what had been the exact 252-session closing low and ending a run that cost roughly 9% in the prior week, gold's steepest weekly loss since March and a 14-month low (Kitco, 20 and 23 November). Vendors quoted the move variously: CappNotes' closing recap has gold $3,634.30, +3.38%, while Kitco's 23 November report has spot gold +2.4% at $3,616.51 and spot silver +5.0% at $43.20 in overnight trade; CappNotes' close puts silver +4.74% at $42.98, copper +2.46% at $5.612 and natural gas +3.66% at $3.536 - the whole metals complex bid, not gold alone. David Morrison of Trade Nation, quoted by Kitco on 23 November, says gold's weekly MACD 'has fallen below levels seen during the depths of its 2013 bear market' and silver's is in 'exceptionally oversold territory', reads the last leg as possibly 'a final wave of liquidation' driven by investors selling metal to meet margin on leveraged tech positions - and cautions in the same piece that 'daily momentum indicators have yet to confirm a sustainable reversal'. The macro cross-currents were mixed: yields were unchanged (2-year 4.63%, 10-year 4.92%), which barely matters here since gold's measured 21-session correlation to the 10-year is +0.029, while its dominant driver is oil at -0.593 and WTI fell 3.88% to $80.17, its lowest close since 26 August. Kitco's own headline frames the session as the AI selloff having 'reshaped the Fed outlook', with markets still expecting a December increase but expectations for more aggressive tightening easing; CME FedWatch stood at about 98% for 25bp with 50bp largely priced out. The standing headwind is the dollar, which closed at a 252-session closing high of 104.306, +0.52%. GVZ fell to 31.25 from 34.80. RSI 33.63, up from 22.19 but still below 35, with the close 10.7% below the 50-day (4096.97) and 17.6% below the 200-day (4438.07); 1H structure uptrend, weekly structure downtrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -6006,32 +6019,40 @@
    "ticker": "GC=F",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "Two components still fire after a 3.35% session: the close 10.7% under the 50-day (3657.5 vs 4096.97) for a z50 of -5.45 at a GVZ of 31.25 (extension50 -2), and 17.6% under the 200-day (4438.07) for a z200 of -8.93, past the -6 threshold (extension200 -1) - a score of -3, the only extreme-down reading left in the document.",
+    "Two components switched off. RSI rose from 22.19 to 33.63, clearing the -1 oscillator threshold of 30, and at 3657.5 the close is 4.0% above the 252-session closing low of 3515.40, past the 2% range trigger it sat exactly on last session - so the score improves from -5 to -3 on price alone.",
+    "The named analyst case for the move being excessive is dated on S: David Morrison of Trade Nation, quoted by Kitco on 23 November, says gold's weekly MACD 'has fallen below levels seen during the depths of its 2013 bear market' and silver's is in 'exceptionally oversold territory', and reads the last leg as possibly 'a final wave of liquidation' - while cautioning that 'daily momentum indicators have yet to confirm a sustainable reversal'.",
+    "Gold remains 31.2% below its 252-session closing high of 5318.40 after a prior week that cost roughly 9%, its steepest weekly loss since March, and a 14-month low (Kitco, 20 and 23 November)."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. GVZ fell to 31.25 on 23 November from 34.80 (fetched closes). Kitco's 23 November report quotes David Morrison that gold's weekly MACD 'has fallen below levels seen during the depths of its 2013 bear market' - a named historical comparison on a momentum oscillator, not a volatility percentile, record or documented multi-year extreme for GVZ or for realised gold volatility, and not a figure the volRegime component can record. Kitco's 20 November wrap's 'worst weekly declines since March' and '14-month lows' are since-comparisons inside two years.",
+    "crowd is 0. No COT figure, ETF holdings number, flow figure or position size for gold was obtained dated at or before 23 November. Morrison's statement that the decline reflects investors selling metal 'to raise cash and meet margin requirements on leveraged tech positions' and that bearish traders 'may be more inclined to take profits' is a mechanism description with no quantity attached; the 20 November TD Securities comments that ETF 'holdings remain resilient' and that CTAs 'could cover short positions' were likewise unquantified. There is nothing a crowd value could record, so the statements are voted directionally under Sentiment and Cross-asset instead.",
+    "Morrison's oversold case carries no numeric MACD values in the source, so it is cited as the named analyst judgment it is rather than converted into a number; the oversold price case is voted from the fetched RSI of 33.63 and the z50/z200 the engine already scores. No dated gold seasonality statistic, gold-specific credit measure, gold sentiment survey or gold breadth series was obtained for this window, so Breadth, Seasonality and Earnings catalysts are neutral at every horizon and Credit is neutral beyond the 1-session read of the day's HYG/JNK/LQD prints.",
+    "Spot and futures quotes for the session disagree and neither is suppressed: CappNotes has gold $3,634.30 +3.38%, Kitco has spot $3,616.51 +2.4% in overnight trade, and this ledger scores GC=F at 3657.5, the COMEX future - which carries the ~$50 cost-of-carry basis over spot that the README records as an open limitation."
    ]
   },
   "dollar": {
-   "name": "TODO: fill in before publish",
+   "name": "US Dollar Index",
    "instrument": "DX-Y.NYB close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = stronger dollar",
    "close": 104.30599975585938,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 6.1,
+   "sigmaSource": "EUR/USD one-month at-the-money implied volatility 6.10% as of the 13 November close, against a one-year average of 5.80% (Cross Vol Research, 'The Euro Keeps Falling While FX Volatility Sleeps', published 14 November 2026); 6 sessions stale at 23 November and carried unchanged from the 20 November board. No FX volatility gauge dated 23 November itself was obtainable. A Saxo Bank FX options tool reading of 6.41% one-month at-the-money appeared in search results attributed to 16 November, but the page is a live tool whose date could not be pinned, so it is recorded here as a cross-check (FX vol little changed and modestly above its one-year average) rather than used as the input. The choice does not change this asset's stretch label: at 6.41 the components are identical (+1/+2/+1/+1, score +5).",
+   "driverNote": "DX-Y.NYB closed 104.306 on 23 November (from 103.84, +0.45%), which is itself the 252-session closing high - the index now sits exactly at the top of its own trailing one-year closing range, the only asset in this document at a range extreme. CappNotes' recap has the index about 104.35, +0.52%, and a Babypips recap 104.34, +0.48%, with Yahoo's session showing open 103.84, high 104.53, low 103.48. The advance was broad across the majors the index weights: EUR/USD -0.60% to 1.0904, GBP/USD -0.44% to 1.3029 and USD/JPY +0.27% to about 158.94 (CappNotes Closing Look and Babypips, 23 November). The dollar's dominant 21-session driver is the 10-year at corr +0.438, and the 10-year was unchanged at 4.92%, so the index gained without a rate impulse; oil, a mild positive driver at corr +0.242, fell 3.88% to $80.17 and the index rose anyway. Policy was two-sided on the day: New York Fed President Williams said inflation is 'too high' at about 3-1/2 percent on the PCE measure with risks 'skewed to the upside', and reporting of his remarks has him unwilling to rule out back-to-back hikes - but he also said 'I don't think the situation calls for dramatic action', and CME FedWatch's roughly 98% for 25bp on 9 December came with 50bp largely priced out. Flash November PMIs softened at the margin (composite 54.6 from 55.9, services 54.7 against 55.6-55.7 expected) while Germany's composite hit 55.0, its highest since March 2022, which cuts against the dollar. Kitco's 23 November gold report names dollar strength as the standing cap on precious metals even on a day the metals complex rallied. RSI 72.46, the only overbought reading in this document, with the close 2.3% above the 50-day (101.98) and 4.3% above the 200-day (100.04); 1H structure choppy, weekly structure uptrend.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -7873,32 +7894,40 @@
    "ticker": "DX-Y.NYB",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "The only extreme-up reading in the document, and it strengthened from +4 to +5 on a 0.45% session: RSI crossed 70 to 72.46 (oscillator +1, the one overbought oscillator reading here), and at a sigma of 6.10 the close of 104.306 is 5.93 daily sigma above the 50-day (101.98) and 11.09 above the 200-day (100.04), firing extension50 at +2 and extension200 at +1.",
+    "The close IS the 252-session closing high - 104.306 against a high52w of 104.306, a gap of exactly zero - so the range component fires at +1 on the tightest possible reading of its 2% trigger.",
+    "At +5 this is the most extended reading this ledger has recorded for the dollar, and all four price-based components fire at once, which has not happened for any asset in this document before.",
+    "The reading is not an artefact of the stale sigma input: at the 6.41% one-month EUR/USD implied volatility that a Saxo FX options tool showed (see sigmaSource, date unpinned) the components are identical at +1/+2/+1/+1 for the same score of +5."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. No FX volatility gauge dated 23 November was obtainable. The sigma input is EUR/USD one-month at-the-money implied volatility of 6.10% as of the 13 November close against a one-year average of 5.80% (Cross Vol Research, 14 November) - slightly above average, with no percentile, record or multi-year extreme named - carried unchanged and now 6 sessions stale. A 6.41% one-month reading attributed to a Saxo FX options tool could not have its date pinned and is recorded in sigmaSource as a cross-check only.",
+    "crowd is 0. No dated dollar or FX futures positioning figure - CFTC commitments of traders in DX or the major crosses, a bank positioning index, a fund flow number - was obtained for this window. FXStreet's one-month 25-delta EUR/USD risk reversal of -0.474 volatility points on 19 November shows euro puts carrying a premium over calls, and its 20 November weekly piece asks whether 'the sell-off is overcrowded', but a skew level is not a percentile and a headline question is not a documented extreme; both are voted directionally under Positioning and flows instead. The index closing exactly at its 252-session closing high is a price extreme, already captured by the range component of the stretch score, not a positioning or volatility one.",
+    "No dated FX sentiment survey was obtained, so Sentiment is neutral at every horizon rather than inferred from the RSI of 72.46 - which the engine already scores in the oscillator component - or borrowed from the equity market's Fear & Greed reading. Breadth at 5 and 10 sessions, Credit, Earnings catalysts and Seasonality have no dated dollar-specific measure for this window and are neutral as a result. The 1-session Breadth vote uses only the three major crosses the index actually weights and that were quoted on S (EUR/USD, GBP/USD, USD/JPY), not an inferred basket.",
+    "The 17 December ECB and 18 December Bank of Japan meetings, which the 20 November board cited at Barchart-implied hike odds of 91% and 79%, fall well past the 10-session maturity of 8 December and no probability for them dated 23 November was obtained, so they are named as a two-sided weight in the 10-session Fed path vote rather than scored."
    ]
   },
   "iwm": {
-   "name": "TODO: fill in before publish",
+   "name": "Russell 2000",
    "instrument": "RTY=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 2677.800048828125,
-   "sigma": null,
-   "sigmaSource": "TODO: fill in before publish",
-   "driverNote": "TODO: fill in before publish",
+   "sigma": 36.88,
+   "sigmaSource": "RVX (Cboe Russell 2000 Volatility Index) 36.88 at the 20 November close - Cboe's RVX dashboard last sale 36.88 at 16:15:01, +6.42 (+17.41%), day range 28.41-39.21 - carried one session forward because no RVX value dated 23 November was obtainable: Cboe's dashboard still showed the 20 November timestamp, FRED's RVXCLS series was not current, and RVX is not among the volatility gauges this ledger's fetch layer can pull from Yahoo. The VIX fell 25.83% to 26.62 on 23 November, so a carried 36.88 very likely overstates small-cap implied volatility and widens this asset's bands (1D 1.16%, 5D 2.60%, 10D 3.67%). It does not change the stretch label: at a sigma of 36.88 the score is 0 (neutral), and at a sigma of 27 - roughly what a VIX-sized decline would imply - extension50 fires at -1 for a score of -1, still neutral.",
+   "driverNote": "RTY=F closed 2677.800048828125 on 23 November (from 2599.89990234375, +3.00%) as the Russell 2000 cash index rose 3.40% to 2,669.66, with the S&P MidCap 400 +3.42% to 3,541.79 and the SmallCap 600 +3.08% to 1,643.80 (CappNotes Closing Look, 23 November). Small caps participated but trailed: the S&P 500 rose 4.73% and the Nasdaq-100 cash index 6.86%, so the Russell underperformed the large-cap index by 133bp on an up day after outperforming it by 94bp on Friday's 3.70% decline - this remains an index that loses less and gains less in a mega-cap-tech tape. Breadth was strong across the market, 417 advancers to 83 decliners with 10 of 11 S&P 500 sectors higher and only Energy (-1.06%) and Consumer Staples (-0.09%) lower. The front end did not move, which matters more here than anywhere else in this document: the Russell's measured 21-session beta to the 2-year is -0.0884, the most negative of the six assets, and its big-day (|2Y| >= 5bp) correlation is -0.725, yet the 2-year closed unchanged at 4.63% and the 10-year unchanged at 4.92%. Credit, the other channel small caps run through, improved on the session - HYG +0.25%, JNK +0.28%, LQD +0.23% - against a high-yield spread whose latest dated print is 3.76% as of 20 November, up from 3.52% and 3.47%. The dominant driver is oil at corr -0.544 and WTI fell 3.88% to $80.17, its lowest close since 26 August, on Russia-Ukraine peace-deal progress. Flash November PMIs softened (composite 54.6 from 55.9, services 54.7 against 55.6-55.7 expected). RSI 41.12, with the close 4.6% below the 50-day (2807.65) and 5.1% below the 200-day (2822.78); 1H and weekly structure both choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -9614,32 +9643,39 @@
    "ticker": "RTY=F",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "No component fires. RTY=F at 2677.80 is 4.6% under its 50-day (2807.65) for a z50 of -1.99 - 0.01 of a point short of the -2 that extension50 needs - and 5.1% under the 200-day (2822.78) for a z200 of -2.21, far from the -6 threshold.",
+    "RSI recovered from 30.54 to 41.12, and the close sits 12.9% below the 252-session closing high (3074.90) and 12.7% above the low (2375.30), so neither the oscillator nor the range component is live. The score moves from -1 to 0.",
+    "The -1.99 z50 is as close to a trigger as any dormant component in this document, and it is sigma-sensitive: the RVX input is carried from 20 November because no 23 November value was obtainable (see sigmaSource). At a sigma of 27 - roughly what a VIX-sized decline would imply - z50 would be -2.72 and extension50 would fire at -1, for a score of -1. Both readings are neutral, so the carry does not change this asset's label."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. No RVX value dated 23 November was obtainable - Cboe's dashboard still carried the 20 November timestamp of 36.88, FRED's RVXCLS series was not current, and RVX is not among the gauges this ledger's fetch layer pulls from Yahoo - so the sigma input is the 20 November close carried one session forward (see sigmaSource). Nothing dated at or before 23 November names a percentile, record or multi-year extreme for small-cap volatility.",
+    "crowd is 0 for the same reasons given for the S&P 500: the Goldman Sachs desk figures reported on 20 November (Panic Index 9 of 10, CTAs short $19 billion after selling about $57 billion over a month, prime hedge-fund net leverage 42.3%) are aggregate US-equity measures reached through secondary reports, carry no percentile, and are not small-cap specific; Citadel Securities' CTA reading is still dated 3 November. They are voted directionally under Positioning and flows at the 1-session horizon only.",
+    "No dated small-cap breadth series, small-cap fund flow figure or small-cap-specific seasonality statistic was obtained, so Breadth at 5 and 10 sessions, Positioning at 5 and 10 sessions and Seasonality at 1 and 10 sessions are neutral rather than guessed at. Where a seasonality figure is voted at 5 sessions it is an S&P 500 statistic used as a named proxy, not a small-cap number.",
+    "The Russell's 3.40% cash-index session, its 133bp underperformance of the S&P 500 on the day and its 94bp outperformance on Friday's decline are return statistics, not volatility or positioning extremes, so none of them feeds volRegime or crowd."
    ]
   },
   "qqq": {
-   "name": "TODO: fill in before publish",
+   "name": "Nasdaq-100",
    "instrument": "NQ=F close",
-   "direction": "TODO: fill in before publish",
+   "direction": "Bullish = index higher",
    "close": 26829.0,
    "sigma": 36.310001373291016,
    "sigmaSource": "^VXN close 36.310001373291016 on 2026-11-23",
-   "driverNote": "TODO: fill in before publish",
+   "driverNote": "NQ=F closed 26829.0 on 23 November (from 25291.0, +6.08%) as the Nasdaq-100 cash index rose 6.86% (+1,717.12) to 26,746.10 and the Composite 6.51% (+1,471.83) to 24,089.56, its best day since 9 April 2025 (CappNotes Closing Look, 23 November). The whole move traces to one governance event: Nvidia's board reinstated Jensen Huang as chief executive about two weeks after he resigned, saying it had received input from senior US government levels, with President Trump saying he had 'convinced' the board; NVDA rose 31.48%, its best day since 2003, taking its market value to roughly $4 trillion from about $3 trillion at Friday's close, and Melius upgraded to buy at a $220 target and Bernstein to outperform at $200 the same day (CNBC and Fortune, 23 November). Technology led all 11 S&P 500 sectors at +8.97% and nine of the ten largest gainers on the day were semis or AI-infrastructure names: ALAB +23.16%, CRWV +22.32%, SITM +21.48%, MXL +21.38%, DELL +20.46%, NBIS +20.28%, MU +19.04%, SMTC +18.83%, MTSI +18.67%. The leadership was narrow by construction: equal-weight RSP rose 2.59% against the Nasdaq-100's 6.86%, a 427bp gap. Cutting the other way, CrowdStrike fell 8.92%, the worst performer in the S&P 500, on its all-stock offer for Zscaler valued at about $43.9 billion - the largest cybersecurity takeover on record, 1.135 CRWD shares per ZS share for roughly $260.41, a ~34% premium, with CRWD holders to own about 84% of the combined company (CrowdStrike press release, 23 November). Overseas, Korea's finance ministry prepared a market stabilisation fund of more than 10 trillion won, its first since 2008, Taiwan's regulator tightened short-selling rules and Chinese exchanges eased margin financing; Taiwan's Taiex rose 2.2-2.4% and the Stoxx 600 0.8%, while the Kospi still fell about 3.3% (news log, 23 November). VXN fell to 36.31 from 45.25. Yields were unchanged (2-year 4.63%, 10-year 4.92%), which matters because the Nasdaq-100's two dominant 21-session drivers are the 10-year at corr +0.442 and oil at -0.400, and WTI fell 3.88% to $80.17. RSI 41.74, with the close 8.6% below the 50-day (29345.47) and 4.9% below the 200-day (28209.20); 1H and weekly structure both choppy.",
    "categories": [
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
-    "TODO: fill in before publish",
+    "Trend structure",
+    "Breadth",
+    "Volatility regime",
+    "Credit",
+    "Rates",
+    "Fed path",
+    "Sentiment, contrarian",
+    "Positioning and flows",
+    "Earnings catalysts",
+    "Macro calendar",
+    "Seasonality",
+    "Cross-asset",
     "Market structure (HH/HL)"
    ],
    "stretchInputs": {
@@ -11314,9 +11350,16 @@
    "ticker": "NQ=F",
    "volRegime": 0,
    "crowd": 0,
-   "stretchDrivers": [],
+   "stretchDrivers": [
+    "Only extension50 fires, at -1: NQ=F at 26829.0 is 8.6% under its 50-day (29345.47) for a z50 of -3.75 at a VXN of 36.31, short of the -4 needed for -2, and 4.9% under the 200-day (28209.20) for a z200 of -2.14, far from -6.",
+    "A 6.08% session took this reading from -3 (extreme-down) to -1 (neutral), with the VXN's fall from 45.25 to 36.31 contributing as much as the price: on Friday's sigma the same close would score a deeper z50.",
+    "RSI recovered from 27.04 to 41.74, clearing the -1 oscillator threshold, and the close sits 14.8% below the 252-session closing high (31483.25) and 15.9% above the low (23139.75), so the range component is dormant."
+   ],
    "nullInputs": [
-    "TODO: fill in before publish"
+    "volRegime is 0. VXN fell to 36.31 on 23 November from 45.25, still the highest of this document's three obtainable gauges (VIX 26.62, GVZ 31.25), but no source dated at or before 23 November names a percentile, record or documented multi-year extreme for it. Saxo's 23 November brief does name 60-session extremes and a VXN/VIX ratio of 1.26, but for Friday 20 November's close, not S's, and a 60-session window is three months rather than a multi-year extreme.",
+    "crowd is 0. The dated positioning readings are secondary reports of Goldman Sachs desk notes for 20 November - Panic Index 9 of 10, CTAs having sold about $57 billion of US equities in a month to a $19 billion net short with $28.6 billion of modelled buying in a rising tape against $80.6 billion of selling in a falling one, prime-brokerage hedge-fund net leverage 42.3% - none carrying a percentile, record or multi-year extreme, and none Nasdaq-specific. The EPFR-sourced flow figures for the week to 18 November (equity funds +$66.6 billion, US +$45.6 billion, tech +$5.4 billion in an eighth straight week of inflows) do include one named record, a $2.3 billion Industrials outflow, which is sector-specific and irrelevant to this asset. All of it is voted directionally under Positioning and flows instead.",
+    "Nvidia's 31.48% session - its best day since 2003 - and the roughly $1 trillion of market value it added back are single-stock return extremes, not index-level volatility or positioning extremes, so neither feeds volRegime or crowd. The same applies to the Nasdaq Composite's best day since 9 April 2025 and to Technology's +8.97% sector session.",
+    "No dated multi-session Nasdaq breadth series was obtained, so Breadth at 10 sessions is neutral; the 5-session Breadth vote rests only on the measured 427bp gap between equal-weight RSP's 2.59% and the Nasdaq-100's 6.86% on S, which is a concentration reading, not a breadth series. No earnings calendar dated at or before 23 November extends past Wednesday 25 November, so the 10-session Earnings catalysts vote is neutral rather than guessed at."
    ]
   }
  },
@@ -11408,7 +11451,83 @@
    }
   },
   "dataNotes": [
-   "TODO: fill in before publish"
+   "Run timing: this cycle ran the morning of Tuesday 24 November 2026 on contracts drafted by the GitHub Actions fetch job from Monday 23 November's close, which had already landed when this session started - no wait was needed. Every figure used is dated at or before 2026-11-23. The blindness rule cost less than usual this session because 23 November was itself a Monday with a full cash session: the news-log entries dated 23 November (the pre-open futures surge, Asian stabilisation measures, CrowdStrike's offer for Zscaler, gold's rebound and oil's slide) are all dated on S and were used. What was excluded: everything dated 24 November, including Saxo Bank's 24 November Options Brief (which reports the one-day volatility gauge falling 48.01% to 26.69), the four news-log entries dated 24 November, and a financefeeds reading of 6.35% one-month EUR/USD implied volatility dated 24 November. Three sources the 20 November board had to exclude as after-S are used here because they are dated 21-23 November: Saxo's 23 November Options Brief, FXEmpire's week-ahead calendar updated 23 November 05:03 GMT, and the Thanksgiving seasonality work summarised from BofA's Stephen Suttmeier.",
+   "The session itself was the sharpest single-day risk reset in this ledger's record and it reset three of the six stretch readings at once. The S&P 500 rose 4.73% to 7,237.17 (ES=F +4.31%), the Nasdaq Composite 6.51% and the Nasdaq-100 cash index 6.86% (NQ=F +6.08%), all on Nvidia's board reinstating Jensen Huang as chief executive - NVDA +31.48%, its best day since 2003, roughly $1 trillion of market value added back. Equities' stretch score moved from -3 (extreme-down) to -1 (neutral), the Nasdaq-100's from -3 to -1 and the Russell's from -1 to 0; gold's improved from -5 to -3 but stayed extreme-down; bonds stayed at exactly 0; and the dollar went the other way, from +4 to +5, now the only extreme reading left and the most extended the dollar has been in this ledger, with all four price-based components firing and the close sitting exactly at its 252-session closing high of 104.306.",
+   "Two sigma inputs are carried rather than dated on S, and both are documented in their sigmaSource fields with the direction of the error stated. The Russell's RVX is carried one session from the 20 November close of 36.88 because no 23 November value was obtainable; with the VIX down 25.83% on the day that figure very likely overstates small-cap volatility and widens the Russell's bands, but it does not change the stretch label (0 on 36.88, -1 on a VIX-sized decline to about 27 - both neutral). The dollar's EUR/USD one-month implied volatility of 6.10% is carried from 13 November and is now 6 sessions stale; the stretch components are identical at the 6.41% alternative reading, so the +5 does not rest on the stale value. Bonds' TLT implied-volatility carry of 15 is now 40 sessions stale and is the one input in this document that is clearly wrong in level rather than just old: the MOVE index rose 10.69% to 106.31 on 20 November, so a sigma of 15 narrows the Treasury bands (1D 0.47%) more than the real volatility justifies. MOVE is a basis-point yield-volatility gauge and cannot be converted to a ZN=F percentage sigma without inventing a conversion, so the carry stands and the distortion is recorded rather than fixed.",
+   "Bonds resolve to no-call at all three horizons. ZN=F closed 106.609375, to the tick the same price as on 20 November - a genuinely 0.00% session - and the asset has no dated positioning figure, no sentiment survey, no breadth analogue, no earnings analogue and no seasonality statistic available for this window, so only four to five of twelve categories carry a directional fact and all three horizons fall below the live gate of 7. That is the gate working as designed, not a gap being papered over; the alternative would have been inventing direction for six neutral categories.",
+   "context.newsLog is written here as the four flat news-log records dated 23 November rather than as {id, data} wrappers. The 20 November document carries eight entries for that date - four wrappers whose date and event fields publish.py's dedupe cannot see, plus four flat copies it therefore appended - so the 'what's been moving this' panel double-counted. Writing the flat records matches the shape the dedupe matches on (date + event text) and the panel shows four.",
+   "The news log needed no merge this session: all four Artifact-database entries dated 23 November were already present in data/news_log.json with matching ids, and no hand-entered entries marked 'origin: manual (issue #N)' exist in the file for any date.",
+   "mtl.drivers.check_vote_signs flags nine of this document's Cross-asset votes - equities h1/h5, gold h1/h5, iwm h1/h5, qqq h1/h5 as 'bull via oil but corrOil negative', and dollar h1 as 'bear via oil but corrOil positive'. Those flags are false positives this session, and the reason is worth recording: the helper tests only the sign of each asset's measured oil correlation against the side of the vote, which implicitly assumes crude ROSE. On 23 November WTI FELL 3.88% to $80.17, its lowest close since 26 August, so a negative correlation to a falling driver is a positive for the asset and a positive correlation to a falling driver is a negative - exactly the votes written here. The helper is not wired into publish.py, build.py, verify.py or any test, so it gated nothing; verify_document returned no errors. It would need the direction of the driver's move, not just the correlation's sign, to be correct on a down-oil session."
+  ],
+  "newsLog": [
+   {
+    "addedAt": "2026-11-23",
+    "category": "Market",
+    "date": "2026-11-23",
+    "day": "Mon",
+    "direction": "Bullish",
+    "event": "US futures surge in a relief rally after seven straight S&P 500 losing sessions left the index and the Dow in correction territory. Nvidia leads an AI/chip bounce after Friday's 14% collapse; Trump posted over the weekend that Jensen Huang's return as CEO 'would be the best thing for the company,' while the FT reported Nvidia's board approached Arm CEO Rene Haas about the job.",
+    "impact": "High",
+    "numbers": "8:34 AM ET: S&P 500 Dec futures +2.39% at 7,100.75; Nasdaq 100 futures +3.17% at 25,923; Dow futures +1.70% at 49,038; Russell 2000 futures ~+2.0%. Premarket: NVDA +8.74% to $136.50 (-14.01% Fri), ARM +9.46%, NBIS +8.49%, CRWV +6.49%, MU +5.21%, AVGO +4.75%, AMD +4.74%, ANT -1.20%. Friday: S&P 500 -3.7%, S&P/Dow >10% off records, Nasdaq 100 in bear-market territory intraday",
+    "order": 1,
+    "reaction": "Broad risk-on open indicated, led by semis and AI infrastructure; strategists (IG's Chris Beauchamp) caution that selloffs of this size rarely reverse in a day, and Thursday's Thanksgiving holiday means thin, exaggerated trade.",
+    "region": "US",
+    "source": "https://mlq.ai/news/nasdaq-futures-rise-3-and-nvidia-gains-9-premarket-as-zscaler-jumps-20-on-crowdstrikes-offer/",
+    "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell, NVDA, AMD, AVGO, MU, ARM, ANT",
+    "time": "Pre-market",
+    "vsExp": "n/a"
+   },
+   {
+    "addedAt": "2026-11-23",
+    "category": "Policy",
+    "date": "2026-11-23",
+    "day": "Mon",
+    "direction": "Mixed",
+    "event": "Asian authorities moved to stabilize markets after last week's rout: Korea's finance ministry prepared a market stabilization fund of more than 10 trillion won (its first since 2008), Taiwan's regulator tightened short-selling rules, and Chinese exchanges eased margin-financing requirements. Kospi still fell sharply while Taiwan rallied; Europe opened higher.",
+    "impact": "High",
+    "numbers": "Kospi ~-3.3% (off 10-month lows, roughly halved from its peak); Taiwan Taiex +2.2% to +2.4% (TSMC, MediaTek led); Hang Seng ~-0.1% and Shanghai ~+0.1% at multi-month lows; India Nifty 50 -1.75%; Japan's Nikkei closed for a holiday; Stoxx 600 +0.8% (ASML led), FTSE 100 +0.56%",
+    "order": 2,
+    "reaction": "Official support steadied chip-heavy Taiwan and Greater China but failed to stem Korean selling; European tech led a modest bounce that fed into the US futures rally.",
+    "region": "Asia/Europe",
+    "source": "https://finance.yahoo.com/markets/stocks/articles/us-futures-bounce-while-asia-234419517.html",
+    "tickers": "EWY, Kospi, EWT, FXI, SPY, S&P, QQQ, Nasdaq",
+    "time": "Pre-market",
+    "vsExp": "n/a"
+   },
+   {
+    "addedAt": "2026-11-23",
+    "category": "Deals",
+    "date": "2026-11-23",
+    "day": "Mon",
+    "direction": "Mixed",
+    "event": "CrowdStrike agreed to acquire Zscaler in an all-stock deal valued at about $43.9 billion, the largest cybersecurity takeover on record, pairing CrowdStrike's endpoint platform with Zscaler's network security and zero trust. Announced alongside CrowdStrike's Q3 FY2027 results, which showed a profit and a positive outlook.",
+    "impact": "High",
+    "numbers": "1.135 CRWD shares per ZS share = ~$260.41/share, a ~34% premium to Zscaler's Nov 20 close; CRWD holders to own ~84% of the combined company; close expected in 2H of CrowdStrike's FY2028; combined ARR >$10B at start; ~$1B annualized revenue synergies within 30 months and $500M cost synergies within 18-24 months; TAM expansion >$185B in CY2029. Premarket: ZS +19.60% to $233.00, CRWD -7.72% to $211.72",
+    "order": 3,
+    "reaction": "Zscaler jumped toward the offer while CrowdStrike fell on dilution from the all-stock structure; the deal revived software/cyber M&A expectations on a strong tape.",
+    "region": "US",
+    "source": "https://www.crowdstrike.com/en-us/press-releases/crowdstrike-to-acquire-zscaler-bringing-network-security-and-zero-trust-to-the-falcon-platform/",
+    "tickers": "CRWD, ZS, QQQ, Nasdaq",
+    "time": "Pre-market",
+    "vsExp": "CrowdStrike Q3 beat with a positive outlook; deal premium ~34%"
+   },
+   {
+    "addedAt": "2026-11-23",
+    "category": "Rates",
+    "date": "2026-11-23",
+    "day": "Mon",
+    "direction": "Mixed",
+    "event": "Cross-asset snapback: gold rebounds hard off 52-week lows, crude slides on Russia-Ukraine peace-deal progress, and the 10-year yield edges up while the dollar holds just below Friday's 19-month high. S&P Global flash November PMIs and a speech by NY Fed President Williams land later today; October PCE is due Wednesday with a December Fed hike still near fully priced.",
+    "impact": "Medium",
+    "numbers": "8:34-8:44 AM ET: Dec gold futures +3.00% at $3,620.80/oz; Brent -2.13% at $90.60, WTI -2.04% at $81.71; 10Y Treasury yield 4.924% (+1.2bp); DXY ~103.9, broadly unchanged; bitcoin +0.94% at $61,221; German 10Y steady at 3.30%",
+    "order": 4,
+    "reaction": "Gold's bounce and the oil drop ease some of last week's cross-asset liquidation pressure; rates traders trimmed bets on an aggressive December hike, leaving PCE on Wednesday as the week's main macro risk.",
+    "region": "US/Global",
+    "source": "https://mlq.ai/news/nasdaq-futures-rise-3-and-nvidia-gains-9-premarket-as-zscaler-jumps-20-on-crowdstrikes-offer/",
+    "tickers": "GLD, gold, TLT, 10Y, yield, Treasury, DXY, USD, dollar",
+    "time": "Pre-market",
+    "vsExp": "n/a (flash PMIs and PCE not yet released)"
+   }
   ]
  }
 }
