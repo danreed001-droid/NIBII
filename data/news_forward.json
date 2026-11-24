@@ -1,6 +1,6 @@
 {
  "about": "News forward test: fixed guesses about what follows each day's news, written before the next open and scored afterwards (mtl/news_forward.py). Information only.",
- "updated": "2026-11-24T00:22:11+00:00",
+ "updated": "2026-11-24T23:12:59+00:00",
  "version": 1,
  "started": "2026-10-31",
  "minN": 20,
@@ -983,7 +983,9 @@
    "asset": "QQQ",
    "h": 2,
    "call": -1,
-   "at": "2026-11-20T23:11:56+00:00"
+   "at": "2026-11-20T23:11:56+00:00",
+   "res": 0.04873,
+   "hit": false
   },
   {
    "d": "2026-11-20",
@@ -1019,7 +1021,9 @@
    "asset": "TLT",
    "h": 1,
    "call": -1,
-   "at": "2026-11-24T00:22:11+00:00"
+   "at": "2026-11-24T00:22:11+00:00",
+   "res": -0.00245,
+   "hit": true
   },
   {
    "d": "2026-11-23",
@@ -1027,7 +1031,9 @@
    "asset": "GLD",
    "h": 1,
    "call": -1,
-   "at": "2026-11-24T00:22:11+00:00"
+   "at": "2026-11-24T00:22:11+00:00",
+   "res": -0.02273,
+   "hit": true
   },
   {
    "d": "2026-11-23",
@@ -1035,7 +1041,9 @@
    "asset": "SPY",
    "h": 1,
    "call": 1,
-   "at": "2026-11-24T00:22:11+00:00"
+   "at": "2026-11-24T00:22:11+00:00",
+   "res": -0.00486,
+   "hit": false
   },
   {
    "d": "2026-11-23",
@@ -1044,6 +1052,62 @@
    "h": 2,
    "call": 1,
    "at": "2026-11-24T00:22:11+00:00"
+  },
+  {
+   "d": "2026-11-24",
+   "id": "tone_tlt",
+   "asset": "TLT",
+   "h": 1,
+   "call": 1,
+   "at": "2026-11-24T23:12:59+00:00"
+  },
+  {
+   "d": "2026-11-24",
+   "id": "tone_gld",
+   "asset": "GLD",
+   "h": 1,
+   "call": 1,
+   "at": "2026-11-24T23:12:59+00:00"
+  },
+  {
+   "d": "2026-11-24",
+   "id": "tone_spy",
+   "asset": "SPY",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-24T23:12:59+00:00"
+  },
+  {
+   "d": "2026-11-24",
+   "id": "tone_qqq",
+   "asset": "QQQ",
+   "h": 2,
+   "call": -1,
+   "at": "2026-11-24T23:12:59+00:00"
+  },
+  {
+   "d": "2026-11-24",
+   "id": "pile_tlt",
+   "asset": "TLT",
+   "h": 5,
+   "call": 1,
+   "at": "2026-11-24T23:12:59+00:00"
+  },
+  {
+   "d": "2026-11-24",
+   "id": "pile_qqq",
+   "asset": "QQQ",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-24T23:12:59+00:00"
+  },
+  {
+   "d": "2026-11-24",
+   "id": "fed_bear",
+   "asset": "SPY",
+   "h": 1,
+   "call": -1,
+   "at": "2026-11-24T23:12:59+00:00"
   }
  ],
  "days": [
@@ -1199,6 +1263,15 @@
    "bearHi": 0,
    "fedBear": false,
    "calls": 4
+  },
+  {
+   "d": "2026-11-24",
+   "at": "2026-11-24T23:12:59+00:00",
+   "n": 4,
+   "tone": -3,
+   "bearHi": 2,
+   "fedBear": true,
+   "calls": 7
   }
  ],
  "summary": {
@@ -1209,12 +1282,12 @@
     "text": "Upbeat news day → long Treasuries lower the next day (downbeat → higher)",
     "asset": "TLT",
     "h": 1,
-    "calls": 16,
-    "n": 15,
-    "hits": 9,
-    "rate": 0.6,
-    "p": 0.6072,
-    "avg": 0.0028,
+    "calls": 17,
+    "n": 16,
+    "hits": 10,
+    "rate": 0.625,
+    "p": 0.4545,
+    "avg": 0.00277,
     "verdict": "too few"
    },
    {
@@ -1222,12 +1295,12 @@
     "text": "Upbeat news day → gold lower the next day (downbeat → higher)",
     "asset": "GLD",
     "h": 1,
-    "calls": 16,
-    "n": 15,
-    "hits": 10,
-    "rate": 0.667,
-    "p": 0.3018,
-    "avg": 0.00449,
+    "calls": 17,
+    "n": 16,
+    "hits": 11,
+    "rate": 0.688,
+    "p": 0.2101,
+    "avg": 0.00563,
     "verdict": "too few"
    },
    {
@@ -1235,12 +1308,12 @@
     "text": "The news tone carries into the S&P 500 the next day",
     "asset": "SPY",
     "h": 1,
-    "calls": 16,
-    "n": 15,
+    "calls": 17,
+    "n": 16,
     "hits": 6,
-    "rate": 0.4,
-    "p": 0.6072,
-    "avg": -0.00873,
+    "rate": 0.375,
+    "p": 0.4545,
+    "avg": -0.00849,
     "verdict": "too few"
    },
    {
@@ -1248,12 +1321,12 @@
     "text": "The news tone carries into the Nasdaq-100 over the next 2 days",
     "asset": "QQQ",
     "h": 2,
-    "calls": 16,
-    "n": 14,
+    "calls": 17,
+    "n": 15,
     "hits": 6,
-    "rate": 0.429,
-    "p": 0.7905,
-    "avg": -0.00965,
+    "rate": 0.4,
+    "p": 0.6072,
+    "avg": -0.01225,
     "verdict": "too few"
    },
    {
@@ -1274,7 +1347,7 @@
     "text": "2+ high-impact bearish items → long Treasuries higher over the next week",
     "asset": "TLT",
     "h": 5,
-    "calls": 6,
+    "calls": 7,
     "n": 5,
     "hits": 2,
     "rate": 0.4,
@@ -1287,7 +1360,7 @@
     "text": "2+ high-impact bearish items → Nasdaq-100 lower the next day",
     "asset": "QQQ",
     "h": 1,
-    "calls": 6,
+    "calls": 7,
     "n": 6,
     "hits": 2,
     "rate": 0.333,
@@ -1300,7 +1373,7 @@
     "text": "Bearish Fed or rates news → S&P 500 lower the next day",
     "asset": "SPY",
     "h": 1,
-    "calls": 5,
+    "calls": 6,
     "n": 5,
     "hits": 4,
     "rate": 0.8,
