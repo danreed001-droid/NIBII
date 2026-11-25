@@ -6317,5 +6317,85 @@
       "time": "Pre-market",
       "vsExp": "Premium ~46% to the pre-report close"
     }
+  },
+  {
+    "id": "2026-11-25-1-october-pce-core-33-above-expectations",
+    "data": {
+      "addedAt": "2026-11-25",
+      "category": "Macro",
+      "date": "2026-11-25",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "October PCE, the last major inflation print before the Dec 8-9 FOMC, came in hot. Headline PCE rose to 3.8% y/y, the highest annual reading since 2023, and core PCE accelerated to 3.3% y/y, above the 3.2% consensus and up from 3.1% in September. Consumer spending rose 0.3% m/m after an upwardly revised 0.6% in September. Traders now price a ~98% chance of a 25bp December rate HIKE from the current 3.75%-4.00% range, with another increase expected in January; Governor Waller has signaled he could back 50bp.",
+      "impact": "High",
+      "numbers": "Headline PCE +0.3% m/m (est +0.3%), +3.8% y/y vs 3.6% prior. Core PCE +0.3% m/m (est +0.3%), +3.3% y/y vs est 3.2% and 3.1% prior. Consumer spending +0.3% m/m (Sept revised to +0.6% from +0.5%). CME FedWatch: ~98% odds of a 25bp Dec 8-9 hike. Pre-release: 10Y 4.85% (lowest since Nov 9), 2Y 4.600%; post-print quote 10Y 4.844% (-6bp)",
+      "order": 1,
+      "reaction": "The wrong kind of hot: an upside core print with a December hike already fully priced, so the pressure landed on equities rather than the front end. Yields actually fell in a bull steepening as growth fears drove haven demand (10Y -6bp to 4.844%), while gold slid 2.35% to 3,506.70 near a 14-month low and the VIX jumped 18.6% to 31.27. Equity futures extended losses after the release.",
+      "region": "US",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-25-dow-sp-500-nasdaq-pce-inflation-data-091428237.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, TLT, 10Y, yield, Treasury, GLD, gold",
+      "time": "Pre-market",
+      "vsExp": "Core PCE y/y 3.3% vs 3.2% expected (miss, hotter); headline and core m/m both in line at +0.3%"
+    }
+  },
+  {
+    "id": "2026-11-25-2-trump-proposes-20pct-tariffs-china-eu",
+    "data": {
+      "addedAt": "2026-11-25",
+      "category": "Policy",
+      "date": "2026-11-25",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "The Trump administration proposed new tariffs of up to 20% on China, the EU and 12 other major trading partners, following an eight-month USTR investigation into excess manufacturing capacity and industrial subsidies. The duties would stack on existing tariffs, pushing total rates above 40% in some categories, with China expected to face the higher end. Final rates are not set: the proposal goes through hearings and a public comment period and an official said it would likely take effect in January at the earliest. The existing US-China trade truce expires January 10.",
+      "impact": "High",
+      "numbers": "Proposed rate: up to 20%, stacking to above 40% total in some areas; 14 economies covered (China, EU + 12 others); 8-month USTR probe; earliest effective date January 2027; China truce expiry Jan 10. Futures at 07:13 ET: Nasdaq 100 -782 pts (-3%), S&P 500 -144 pts (-2%), Dow -646 pts (-1.3%), Russell 2000 -1.39%",
+      "order": 2,
+      "reaction": "Tariff headlines hit a tape already unwinding the AI trade, and the combination with hot PCE produced a broad risk-off open: Nasdaq 100 futures -3%, S&P 500 -2%, Dow -1.3%, Russell 2000 -1.4%, VIX above 31. Semis took the brunt on fears the measures eventually reach chip supply chains; the January timeline and comment period leave room for the scope to be negotiated down.",
+      "region": "US/Global",
+      "source": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-25-dow-sp-500-nasdaq-pce-inflation-data-091428237.html",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell",
+      "time": "Pre-market",
+      "vsExp": "n/a (proposal, rates not finalized)"
+    }
+  },
+  {
+    "id": "2026-11-25-3-global-chip-rout-kospi-softbank-nvidia",
+    "data": {
+      "addedAt": "2026-11-25",
+      "category": "Market",
+      "date": "2026-11-25",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "Monday's Jensen Huang-return melt-up has fully reversed into a global chip rout. Asia closed sharply lower: the Kospi plunged 6.16% to its weakest close since Jan 13, triggering a sell-side sidecar on the Korea Exchange, while SoftBank sank about 14.8% to a 52-week low and dragged the Nikkei down 2.8%. Nvidia, which fell 5.9% on Tuesday, dropped another 5-6% premarket, with AMD, Intel, Micron and Dell all down more. Investors are again questioning the payoff on AI infrastructure spending and circular financing, with Anthropic trading below its $83 IPO price.",
+      "impact": "High",
+      "numbers": "Asia close: Kospi -6.16% to ~4,697.5 (lowest since Jan 13), Nikkei 225 -2.8% (-1,633 pts) to ~57,011, Shanghai Composite -2%. SoftBank -14.8% to Y2,696.5, Kioxia -14.18%, Advantest -12.94%, SK Hynix and Samsung Electronics each -10%+. US premarket: NVDA -5.9% to $155.38 (after -5.9% Tue and +31.5% Mon), AMD -8.9%, INTC -8.2%, MU -11.0%, DELL -11.8%, AVGO -4.0%, ANT (Anthropic) -6.6% to $81.91 vs $83 IPO price, SNDK -11.1%. VIX 31.27 (+18.6%), Bitcoin $58,055 (-3.8%)",
+      "order": 3,
+      "reaction": "A three-session round trip: the Huang-return squeeze is gone and Korea/Japan led the unwind rather than following it, confirming the bounce was positioning, not a trend change. Semis are still up roughly 28% for the year, so there is room to give back; Bitcoin below $60k and a VIX above 31 into a holiday-thinned, half-staffed tape argue for outsized moves in both directions.",
+      "region": "Asia/US",
+      "source": "https://www.tradingkey.com/analysis/stocks/more/262321404-japan-south-korea-stocks-kospi-nikkei-softbank-sk-hynix-samsung-kioxia-tradingkey",
+      "tickers": "QQQ, Nasdaq, SPY, S&P, EWY, Kospi, Nikkei, NVDA, AMD, INTC, MU, DELL",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-25-4-q3-gdp-second-estimate-43-percent",
+    "data": {
+      "addedAt": "2026-11-25",
+      "category": "Macro",
+      "date": "2026-11-25",
+      "day": "Wed",
+      "direction": "Bearish",
+      "event": "The BEA's second estimate put Q3 real GDP growth at a 4.3% annualized rate, a large upward revision from the 3.4% advance estimate and above the ~3.5% consensus, versus 2.2% in Q2. Quarterly core PCE was 2.5%, in line, and the GDP price index came in at 1.8%, below the 2.3% consensus. The release landed alongside October PCE at 8:30 AM ET, reinforcing the picture John Williams described on Tuesday: a strong economy with inflation still running too hot.",
+      "impact": "Medium",
+      "numbers": "Q3 real GDP +4.3% annualized (second estimate) vs +3.4% advance and ~3.5% consensus; Q2 +2.2%. Q3 core PCE +2.5% (est 2.5%); Q3 GDP price index +1.8% (est 2.3%)",
+      "order": 4,
+      "reaction": "Growth this strong removes the last excuse for the Fed not to hike in December and is the main reason a 25bp move is ~98% priced. Equities read it as a tightening signal rather than an earnings tailwind; the softer deflator is the only dovish detail and was swamped by the hot monthly core PCE released the same minute.",
+      "region": "US",
+      "source": "https://www.bea.gov/news/2026/gdp-second-estimate-and-corporate-profits-3rd-quarter-2026",
+      "tickers": "SPY, S&P, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "GDP 4.3% vs ~3.5% expected (big upside beat); Q3 core PCE in line at 2.5%; deflator 1.8% vs 2.3% expected (cooler)"
+    }
   }
 ]
