@@ -351,20 +351,23 @@ web search and the fetched market numbers) when writing votes - it's dated,
 sourced, and already covers ~7 weeks of catalysts, so it doesn't need to be
 independently rediscovered each morning.
 
-### Today's story (scanner page)
+### Today's market (scanner page)
 
-Each weekday evening (7:20pm New York) a scheduled Claude task writes a short
-account of the day into `data/story_log.json`: the headline, what happened
-and why, why it matters, what to watch, and sources. The "Today's story" card
-near the top of `docs/scanner.html` shows the newest one in full and the
-earlier ones a line each (30 kept), with a "Copy WhatsApp version" button.
-SPY's close, the chart and "where the plan stands" never come from the
-writer: the scanner run adds SPY's last closes and, while the
-resistance-line exit (rule 22) holds the plan out, its back-in line
-(`mtl/story.py`), and the page states the plan's holding from that night's
-data. A push of the story file runs `.github/workflows/story.yml`, which swaps
-the card in (`scripts/story_refresh.py`) without re-running the scan.
-Information only: nothing on the card feeds the plan.
+The "Today's market" card near the top of `docs/scanner.html` is built by
+scripts only, with no AI writing: each weekday evening the scanner workflow runs
+`scripts/story_build.py` after the events step, which writes the session into
+`data/story_log.json` (the last 60 kept, 30 shown). From the scanner's prices
+(`docs/ohlc.json`): SPY, QQQ and RSP, SPY's streak and distance from its
+1-year high, how many S&P 500 stocks rose and the biggest movers. From the
+free news feeds saved that night (`data/headlines_log.json`): up to four
+market-wrap headlines, picked by a fixed rule (wire services and market wraps
+first, previews and other markets skipped; `mtl/story.py`), shown with their
+links and in the publishers' own words. From the exchange and Fed calendars:
+closures, half days and Fed decision days in the next week. The chart, the
+back-in line while the resistance-line exit (rule 22) holds the plan out, and
+"where the plan stands" come from that night's scan. A "Copy WhatsApp
+version" button gives the same in plain text. Information only: nothing on the
+card feeds the plan.
 
 ## Honest limits
 

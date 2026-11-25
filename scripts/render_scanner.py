@@ -3341,7 +3341,7 @@ __ISSUES__
 (function () {   // the "Sections" menu: jump to any part of the page (owner's ask, Nov 21, 2026)
   var btn = document.getElementById('jump-btn'), panel = document.getElementById('jump-panel'), wrap = document.querySelector('.wrap');
   if (!btn || !wrap) return;
-  var NAMES = { 'banner': 'This week’s trade', 'story': 'Today’s story', 'plan-holdings': 'What the plan holds', 'holdings': 'The top 5 stocks', 'optcheck': 'Option check',
+  var NAMES = { 'banner': 'This week’s trade', 'story': 'Today’s market', 'plan-holdings': 'What the plan holds', 'holdings': 'The top 5 stocks', 'optcheck': 'Option check',
     'watchrule': 'Watch rule and lessons', 'events-recent': 'Recent events', 'news-forward': 'News forward test', 'dominoes': 'Dominoes and past times like now',
     'crowding': 'Crowded markets', 'flowbox': 'Money flow', 'events-find': 'Market events search', 'monthly-wrap': 'Monthly boost', 'mylog': 'Your plans and why',
     'stats': 'Track record', 'planwhere': 'Where the plan was', 'wallst': 'Wall Street tests', 'world': 'World markets', 'heat-ov': 'Top 15, week by week',
@@ -5771,6 +5771,11 @@ STORY_CSS = '''
 .story .st-row:first-of-type { border-top: 0; }
 .story .st-row .d { font: .76rem ui-monospace, Menlo, monospace; color: var(--muted); padding-top: 2px; }
 .story .st-empty { color: var(--muted); font-size: .88rem; }
+.story .st-movers { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 6px 18px; font-size: .86rem; color: var(--ink-2); }
+.story .st-mh { font-size: .72rem; color: var(--muted); margin-bottom: 2px; }
+.story .st-mv { padding: 1px 0; }
+.story ul.st-heads li { margin: 3px 0; }
+.story ul.st-heads a { color: var(--ink); text-decoration-color: var(--muted); text-underline-offset: 2px; }
 '''
 
 
@@ -5829,91 +5834,91 @@ def _story_chart(part):
     return '<div class="st-chart">' + ''.join(out) + '</div>'
 
 
-def _story_spy(item, part):
-    """(close, change) for the story's day: from the scan's closes when it has that day, else the story's own."""
-    spy = (part or {}).get('spy') or []
-    for i, (d, c) in enumerate(spy):
-        if d == item.get('date') and i:
-            return c, c / spy[i - 1][1] - 1
-    s = item.get('spy') or {}
-    return s.get('close'), s.get('pct')
+def _story_tape(it):
+    out = []
+    for x in it.get('tape') or []:
+        c = f' {x["close"]:,.2f}' if x.get('close') is not None else ''
+        out.append(f'<span>{_e(x["t"])}{c} <span class="{_story_tone(x.get("pct"))}">{_story_pct(x.get("pct"))}</span></span>')
+    return out
 
 
-def story_whatsapp(item, part, plan_short):
-    """The WhatsApp version: bold headings with *, bullets, no tables."""
-    c, p = _story_spy(item, part)
-    lines = ['*Market story – ' + _story_date(item['date'], False) + '*']
-    if c is not None:
-        lines.append(f'SPY {c:,.2f}' + (f' ({_story_pct(p)})' if p is not None else ''))
-    lines.append('')
-    lines.append('*' + item['headline'] + '*')
-    pts = item.get('points') or ([item['happened']] if item.get('happened') else [])
-    if pts:
-        lines += ['', '*What happened*'] + ['• ' + x for x in pts]
-    if item.get('matters'):
-        lines += ['', '*Why it matters*', '• ' + item['matters']]
-    if item.get('watch'):
-        lines += ['', '*Watch*'] + ['• ' + x for x in item['watch']]
+def story_whatsapp(item, plan_short):
+    """The WhatsApp version: bold headings with *, bullets, no tables, no links."""
+    lines = ['*Market – ' + _story_date(item['date'], False) + '*', item['headline']]
+    tape = item.get('tape') or []
+    if tape:
+        lines.append(' · '.join(f'{x["t"]}' + (f' {x["close"]:,.2f}' if x.get('close') is not None else '') + f' {_story_pct(x.get("pct"))}' for x in tape))
+    lines += item.get('facts') or []
+    mv = [f'{x["t"]} {_story_pct(x["pct"])}' for x in (item.get('up') or [])] + [f'{x["t"]} {_story_pct(x["pct"])}' for x in (item.get('down') or [])]
+    if mv:
+        lines += ['', '*Biggest S&P movers*', '• ' + ', '.join(mv)]
+    if item.get('headlines'):
+        lines += ['', '*Headlines*'] + ['• ' + x['src'].replace('.com', '') + ': ' + x['t'] for x in item['headlines']]
+    if item.get('coming'):
+        lines += ['', '*Coming up*'] + ['• ' + x for x in item['coming']]
     if plan_short:
         lines += ['', '*Plan*'] + ['• ' + x for x in plan_short]
     return '\n'.join(lines)
 
 
+def _story_movers(it):
+    def col(title, xs):
+        if not xs:
+            return ''
+        return (f'<div><div class="st-mh">{title}</div>' + ''.join(
+            f'<div class="st-mv"><b>{_e(x["t"])}</b> <span class="{_story_tone(x["pct"])}">{_story_pct(x["pct"])}</span>'
+            f' <span class="muted">{_e(x.get("n") or "")}</span></div>' for x in xs) + '</div>')
+    up, dn = col('Up most', it.get('up')), col('Down most', it.get('down'))
+    return f'<h3>Biggest S&amp;P 500 movers</h3><div class="st-movers">{up}{dn}</div>' if up or dn else ''
+
+
 def story_html(scan, path=None):
-    """The "Today's story" card: the newest story in full (with SPY's chart and where the plan stands, both from the
-    night's data), then the earlier ones a line each. Wrapped in markers so scripts/story_refresh.py can swap it in
-    without re-running the scan."""
+    """The "Today's story" card, built by scripts only (scripts/story_build.py): the newest day in full - SPY, QQQ and
+    RSP, the chart with the back-in line, the S&P 500's biggest movers, the day's market headlines (linked), what's
+    coming up and where the plan stands from the night's data - then the earlier days a line each."""
     sys.path.insert(0, ROOT)
     from mtl import story as st
     items = st.load(path or STORY_PATH)[:st.KEEP]
     part = (scan or {}).get('story') or {}
     plan = st.plan_lines(scan)
-    plan_short = st.plan_short(scan)
-    head = '<p class="section-label">Today’s story <span class="hint">what moved the market and why, written each weekday evening · information only</span></p>'
+    head = ('<p class="section-label">Today’s market <span class="hint">what moved and what the news said, built by the '
+            'scanner each weekday evening from its prices and the news feeds’ headlines · information only</span></p>')
     if not items:
-        body = '<div class="card story"><p class="st-empty">No story yet: the first one is written after the next close.</p></div>'
+        body = '<div class="card story"><p class="st-empty">Nothing yet: the first one is built after the next close.</p></div>'
         return '<!--story-->\n<style>' + STORY_CSS + '</style><section id="story">' + head + body + '</section>\n<!--/story-->'
     it = items[0]
-    c, p = _story_spy(it, part)
-    tape = [f'<span>SPY {c:,.2f} <span class="{_story_tone(p)}">{_story_pct(p)}</span></span>'] if c is not None else []
-    for m in it.get('movers') or []:
-        if m.get('t'):
-            tape.append(f'<span>{_e(m["t"])} <span class="{_story_tone(m.get("pct"))}">{_story_pct(m.get("pct"))}</span></span>')
-    for x in it.get('notes') or []:
-        tape.append(f'<span>{_e(x)}</span>')
-    stale = part.get('spy') and part['spy'][-1][0] > it['date']
+    tape = _story_tape(it)
     h = ['<div class="card story">',
-         f'<div class="st-kick">Today’s story · {_e(_story_date(it["date"]))}' + (f' · written {_e(it["written"])}' if it.get('written') else '') + '</div>',
+         f'<div class="st-kick">{_e(_story_date(it["date"]))}</div>',
          f'<h2>{_e(it["headline"])}</h2>',
          '<div class="st-tape">' + ''.join(tape) + '</div>' if tape else '',
          _story_chart(part)]
-    if stale:
-        h.append(f'<p class="muted" style="font-size:.8rem">Tonight’s story isn’t in yet; this is {_e(_story_date(it["date"], False))}’s.</p>')
-    if it.get('happened'):
-        h.append(f'<p><b>What happened.</b> {_e(it["happened"])}</p>')
-    if it.get('matters'):
-        h.append(f'<p><b>Why it matters.</b> {_e(it["matters"])}</p>')
-    if it.get('watch'):
-        h.append('<h3>What to watch</h3><ul>' + ''.join(f'<li>{_e(x)}</li>' for x in it['watch']) + '</ul>')
+    if it.get('facts'):
+        h.append('<p>' + ' '.join(_e(x) for x in it['facts']) + '</p>')
+    h.append(_story_movers(it))
+    if it.get('headlines'):
+        h.append('<h3>What the news said</h3><ul class="st-heads">' + ''.join(
+            f'<li><span class="muted">{_e(x["src"].replace(".com", ""))}:</span> '
+            + (f'<a href="{_e(x["link"])}" target="_blank" rel="noopener">{_e(x["t"])}</a>' if x.get('link', '').startswith('http') else _e(x['t']))
+            + '</li>' for x in it['headlines']) + '</ul>')
+    if it.get('coming'):
+        h.append('<h3>Coming up</h3><ul>' + ''.join(f'<li>{_e(x)}</li>' for x in it['coming']) + '</ul>')
     if plan:
         h.append('<h3>Where the plan stands <span class="muted" style="text-transform:none;letter-spacing:0;font-weight:400">· from '
                  + _e(_story_date((scan or {}).get('asOf') or it['date'], False)) + '’s close</span></h3><div class="st-plan">'
                  + ''.join(f'<div class="st-{k}">' + (_story_back(t) if k == 'back' else _e(t)) + '</div>' for t, k in plan) + '</div>')
-    wa = story_whatsapp(it, part, plan_short)
+    wa = story_whatsapp(it, st.plan_short(scan))
     h.append('<button type="button" class="st-copy" id="st-copy">⧉ Copy WhatsApp version</button><span class="st-copied" id="st-copied" aria-live="polite"></span>'
              f'<textarea class="st-wa" id="st-wa" readonly hidden aria-label="WhatsApp version">{_e(wa)}</textarea>')
-    src = [x for x in it.get('sources') or [] if isinstance(x, dict) and x.get('url', '').startswith('http')]
-    if src:
-        h.append('<div class="st-src">Sources: ' + ' · '.join(f'<a href="{_e(x["url"])}" target="_blank" rel="noopener">{_e(x.get("name") or "link")}</a>' for x in src) + '</div>')
+    h.append('<div class="st-src">Numbers: the scanner’s closing prices. Headlines: picked by a fixed rule from the free news feeds '
+             'saved each night (wire services and market wraps first); the words are the publishers’.</div>')
     if len(items) > 1:
         rows = []
-        closes = {d: (v, spy_prev) for (d, v), spy_prev in zip(part.get('spy') or [], [None] + [v for _, v in part.get('spy') or []][:-1])}
         for x in items[1:]:
-            cv = closes.get(x['date'])
-            pc = cv[0] / cv[1] - 1 if cv and cv[1] else (x.get('spy') or {}).get('pct')
-            rows.append(f'<div class="st-row"><span class="d">{_e(_story_date(x["date"], False))}</span><span>{_e(x.get("short") or x["headline"])}'
-                        + (f' SPY <span class="{_story_tone(pc)}">{_story_pct(pc)}</span>.' if pc is not None else '') + '</span></div>')
-        h.append(f'<details class="st-arch" open><summary>Earlier days ({len(items) - 1})</summary>' + ''.join(rows) + '</details>')
+            top = (x.get('headlines') or [{}])[0]
+            rows.append(f'<div class="st-row"><span class="d">{_e(_story_date(x["date"], False))}</span><span><b>{_e(x["headline"])}</b>'
+                        + (f' · <span class="muted">{_e(top["src"].replace(".com", ""))}:</span> {_e(top["t"])}' if top.get('t') else '') + '</span></div>')
+        h.append(f'<details class="st-arch"><summary>Earlier days ({len(items) - 1})</summary>' + ''.join(rows) + '</details>')
     h.append('</div>')
     js = '''<script>
 (function () {
