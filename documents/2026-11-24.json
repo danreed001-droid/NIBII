@@ -381,13 +381,12 @@
        null
       ]
      ],
-     "maturityClose": 7195.0,
-     "ret": -0.000694,
+     "maturityClose": 7187.5,
+     "ret": -0.001736,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
-     "settlementNote": "graded against ES=F",
-     "provisional": true
+     "settlementNote": "graded against ES=F"
     },
     {
      "h": 5,
@@ -2483,13 +2482,12 @@
        false
       ]
      ],
-     "maturityClose": 107.09375,
-     "ret": 0.00322,
+     "maturityClose": 107.0,
+     "ret": 0.002342,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded against ZN=F",
-     "provisional": true
+     "settlementNote": "graded against ZN=F"
     },
     {
      "h": 5,
@@ -5126,13 +5124,12 @@
        null
       ]
      ],
-     "maturityClose": 3569.60009765625,
-     "ret": 0.005861,
+     "maturityClose": 3617.800048828125,
+     "ret": 0.019443,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against GC=F",
-     "provisional": true
+     "settlementNote": "graded against GC=F"
     },
     {
      "h": 5,
@@ -7150,7 +7147,7 @@
       [
        "bear",
        "The decline was broad across the crosses the index actually weights, not a single-pair move: the dollar finished weaker against six of the seven majors, with EUR/USD up about 0.57-0.58% to roughly 1.0963-1.0969 (the ECB's reference rate 1.0963, Trading Economics 1.0965) and GBP/USD up about 0.63-0.67% to roughly 1.3098-1.3119, against USD/JPY +0.18% at 159.22 as the only exception (CappNotes Closing Look and FX recaps, 24 November). Six of seven lower is a 1-day headwind.",
-       true
+       false
       ],
       [
        "neu",
@@ -7165,7 +7162,7 @@
       [
        "bear",
        "The measured channel pointed down and it is this asset's dominant one. The dollar's 21-session correlation to the 10-year is +0.424 - the only dominant driver it has - and the 10-year eased about 1bp to 4.90% with the 2-year unchanged at 4.63% and 2s10s flattening to about 27bp from 29bp (CappNotes Closing Look, 24 November). A lower long yield with a positive correlation is a 1-day headwind, and the $70 billion 5-year auction added to it at the margin: it cleared with a 2.37x bid-to-cover above its 2.31x average, but indirect demand was reported as the weakest since March 2020, which is a soft foreign-demand read for dollar assets.",
-       true
+       false
       ],
       [
        "neu",
@@ -7200,7 +7197,7 @@
       [
        "bear",
        "The cross-asset tape cut against the index. Oil is a mild positive driver at corr +0.144 and WTI rose 2.35% to $82.05 - and the index fell anyway. Gold fell 2.64% and silver 5.65%, which normally accompanies dollar strength and did not here. On the other side of the pair, a 24 November FX recap attributes the euro's 0.58% gain to a beat in Germany's Ifo business climate, following Germany's 23 November flash composite PMI of 55.0, its highest since March 2022. A 1-day headwind.",
-       true
+       false
       ],
       [
        "neu",
@@ -7208,13 +7205,12 @@
        null
       ]
      ],
-     "maturityClose": 103.62000274658203,
-     "ret": -0.002195,
+     "maturityClose": 103.70500183105469,
+     "ret": -0.001377,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
-     "settlementNote": "graded against DX-Y.NYB",
-     "provisional": true
+     "settlementNote": "graded against DX-Y.NYB"
     },
     {
      "h": 5,
@@ -9343,13 +9339,12 @@
        null
       ]
      ],
-     "maturityClose": 2707.89990234375,
-     "ret": 0.008829,
+     "maturityClose": 2705.699951171875,
+     "ret": 0.00801,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded against RTY=F",
-     "provisional": true
+     "settlementNote": "graded against RTY=F"
     },
     {
      "h": 5,
@@ -11353,13 +11348,12 @@
        null
       ]
      ],
-     "maturityClose": 26066.5,
-     "ret": -0.005038,
+     "maturityClose": 26000.5,
+     "ret": -0.007558,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
-     "settlementNote": "graded against NQ=F",
-     "provisional": true
+     "settlementNote": "graded against NQ=F"
     },
     {
      "h": 5,
