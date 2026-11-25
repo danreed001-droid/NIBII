@@ -601,6 +601,93 @@
     "Fri Nov 27: half day (closes 1pm ET)"
    ],
    "by": "script"
+  },
+  {
+   "date": "2026-11-25",
+   "headline": "Stocks little changed",
+   "tape": [
+    {
+     "t": "SPY",
+     "n": "S&P 500",
+     "pct": -0.0029,
+     "close": 716.7
+    },
+    {
+     "t": "QQQ",
+     "n": "Nasdaq-100",
+     "pct": -0.0065
+    },
+    {
+     "t": "RSP",
+     "n": "Equal-weight S&P",
+     "pct": 0.0083
+    }
+   ],
+   "facts": [
+    "SPY is 8.0% under its 1-year high (Tue Oct 6, 2026).",
+    "371 of 502 S&P 500 stocks rose."
+   ],
+   "up": [
+    {
+     "t": "HPQ",
+     "n": "HP Inc.",
+     "pct": 0.1149
+    },
+    {
+     "t": "CHTR",
+     "n": "Charter Communications",
+     "pct": 0.0839
+    },
+    {
+     "t": "AXON",
+     "n": "Axon Enterprise",
+     "pct": 0.0743
+    }
+   ],
+   "down": [
+    {
+     "t": "LRCX",
+     "n": "Lam Research",
+     "pct": -0.0568
+    },
+    {
+     "t": "ORCL",
+     "n": "Oracle Corporation",
+     "pct": -0.0513
+    },
+    {
+     "t": "MU",
+     "n": "Micron Technology",
+     "pct": -0.0453
+    }
+   ],
+   "headlines": [
+    {
+     "src": "Reuters",
+     "t": "Nasdaq, S&P 500 end down, but well off lows as investors buy bargains",
+     "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNdUdBTGhVT2V5cDcydUZMX2NTdTkxVDBJSHdCMUgwNXBibGhQc28zdktpLXA2dGVUYzRzV3hpMld1U29KempSNUswd2dNYVdITlFxV2NycEkwbnlpZkdPSDNicVRKM3NCU2l0M0hoWU13UTZkbTAtX2JFempxaUtFbjdTZGMxT2lXM2g3dkR4cy1UYnVfZ09kOWpTNGxtUEZZOTRPaXhENlZ6OGt2ZF94d0RCVjdOSldfc0E?oc=5"
+    },
+    {
+     "src": "AP News",
+     "t": "Wall Street recovers most early losses as pullback in AI stocks eases",
+     "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQdVFZQmxpUGVXLUtXYzR6ZzYzX0Njd0I2bzBVbkJMb2JhcDJkRHJnVGV5eC1Ma0o2djdvZUhROXVpYjRzbTVQUGliYlRINU1kdnJVOXpRd21KdlJYcFQySlR5aWRCc0ZLMjZESjdYOWlrZEpiR0owcTRILVhqNVZZeGtweUNoM21XQndPZEl4Ym1OeTQ?oc=5"
+    },
+    {
+     "src": "Bloomberg",
+     "t": "Gut-Wrenching Volatility Grips Wall Street as AI Doubts Creep In",
+     "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOc3FJdzdJWVNPMUVVQVFuZUJfbGpWaXNfamU4RkVzVzNubGNySXFPYWlaZzdzR3VzVUNJYllhQWtOSFRKOF9uOGduTHRKcm0xOHgtVkNFajQzZXljc2xkdVp4bnU1d0tLcVRrSzNmTDNGZHBFcU12eHF0M0M3RlgxVEJXd3JBX3E4aFVRYllUTk90VFI4cHNkLVp0NXUzTm5KU0VWUFBOY2daSGhqV1A1dG1LMA?oc=5"
+    },
+    {
+     "src": "Kiplinger",
+     "t": "How the Stock Market Has Changed Since the 1980s",
+     "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNb1hGbWQtLTdVeTB3a0lWbWZCS0NveVE0Y1YtamdzX19MYm92cDFVTC1oLUxRS2lSXy00bU0yN0J2ZklZeXk5TkY2Zm4tNXZGSTl3WnljUG9XeVRyaGFkS2tIdk1QV2VIbUJuZDl0Zk1FeTd4OTRQaWdXaUMyNVRackk4YnphOXh4bFNfV2l5U2pkdFRrRVE?oc=5"
+    }
+   ],
+   "coming": [
+    "Thu Nov 26: market closed (Thanksgiving)",
+    "Fri Nov 27: half day (closes 1pm ET)"
+   ],
+   "by": "script"
   }
  ],
  "about": "Today's story on the scanner page (docs/scanner.html), built each weekday evening by scripts/story_build.py from the scanner's prices (docs/ohlc.json), the saved news headlines (data/headlines_log.json) and the exchange and Fed calendars - no AI writing. Oldest first, the last 60 sessions. Information only: never part of the plan."

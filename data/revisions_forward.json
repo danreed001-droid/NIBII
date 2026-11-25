@@ -1,7 +1,7 @@
 {
  "about": "Analyst-revisions forward test: do the ranked stocks with the biggest rises in estimates beat the rest over the next 4 weeks? (mtl/revisions_forward.py). Information only.",
- "updated": "2026-11-25T03:34:29+00:00",
- "asOf": "2026-11-24",
+ "updated": "2026-11-25T23:18:15+00:00",
+ "asOf": "2026-11-25",
  "started": "2026-10-31",
  "minN": 20,
  "h": 20,
@@ -88,10 +88,10 @@
    "calls": {
     "top25": {
      "n_a": 12,
-     "n_b": 12,
+     "n_b": 13,
      "a": -0.29077,
-     "b": -0.14603,
-     "edge": -0.14474,
+     "b": -0.17513,
+     "edge": -0.11564,
      "hit": false
     },
     "top10": {
@@ -203,7 +203,7 @@
     "hits": 0,
     "rate": 0.0,
     "p": 0.25,
-    "avg": -0.09899,
+    "avg": -0.08929,
     "verdict": "too few"
    },
    {

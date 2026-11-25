@@ -613,6 +613,24 @@
    "at": "2026-11-24T23:05:24+00:00",
    "fp": "1d06935a71dc8c0b",
    "src": "scanner run"
+  },
+  {
+   "d": "2026-11-25",
+   "mode": "CASH",
+   "half": null,
+   "list": [
+    "APP",
+    "CRL",
+    "MRNA",
+    "OKTA",
+    "VRT"
+   ],
+   "w": {
+    "CASH": 1.0
+   },
+   "at": "2026-11-25T23:12:39+00:00",
+   "fp": "1d06935a71dc8c0b",
+   "src": "scanner run"
   }
  ],
  "updates": [
