@@ -153,6 +153,20 @@ jobs:
         run: |
           python scripts/log_issue.py events "Tonight's market events update failed, so the events page wasn't updated (it never affects the plan)."
 
+      - name: Build today's market card (prices + news headlines, no AI writing)
+        # data/story_log.json: SPY / QQQ / RSP, the S&P 500's biggest movers, the day's market headlines from the feeds
+        # the events step just saved, and what's coming up (scripts/story_build.py, information only); a failure never
+        # blocks the dashboard
+        id: story
+        continue-on-error: true
+        timeout-minutes: 5
+        run: python scripts/story_build.py
+
+      - name: Log a failed market card
+        if: ${{ steps.story.outcome == 'failure' }}
+        run: |
+          python scripts/log_issue.py story "Tonight's market card (Today's market) failed to build, so the page shows the last one (information only; the plan is unaffected)."
+
       - name: Read the dominoes
         # which of the eight dominoes are down, how deep past falls went by that count, and the closest past times
         # with what followed (data/dominoes.json, information only); a failure never blocks the dashboard
@@ -252,7 +266,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/earnings_dates.json docs/scanner.html docs/ohlc.json docs/events.html docs/issues.html docs/stress.html docs/forward.html data/dominoes.json data/crowding_history.json data/news_forward.json data/revisions_forward.json data/rates_forward.json data/world_trend.json data/flow_box.json data/market_sizes.json data/major_events.json data/event_patterns.json data/event_forecasts.json data/headlines_log.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
+          git add data/earnings_dates.json data/story_log.json docs/scanner.html docs/ohlc.json docs/events.html docs/issues.html docs/stress.html docs/forward.html data/dominoes.json data/crowding_history.json data/news_forward.json data/revisions_forward.json data/rates_forward.json data/world_trend.json data/flow_box.json data/market_sizes.json data/major_events.json data/event_patterns.json data/event_forecasts.json data/headlines_log.json data/paper_ledger.json data/issues_log.json data/ignition_scan.json data/listed.csv data/ignition_industries.json data/industries_all.csv data/theme_history.json data/watchlist.json data/revisions_log.json data/sp500.csv data/sp500.asof data/ndx100.csv data/ndx100.asof
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0
