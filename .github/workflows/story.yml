@@ -1,0 +1,46 @@
+name: Today's story
+
+# Puts a new "Today's story" (data/story_log.json, written each weekday evening by a scheduled Claude task) on the
+# scanner page without re-running the scan: scripts/story_refresh.py swaps the card on docs/scanner.html, building it
+# from the scan data already in the page. The nightly scanner run draws the card too. Information only.
+
+on:
+  push:
+    branches: [main]
+    paths: ['data/story_log.json']
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: momentum-dashboard     # never at the same time as the scanner run, which also writes docs/scanner.html
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - run: pip install -r requirements.txt
+      - name: Swap in the newest story
+        run: python scripts/story_refresh.py
+      - name: Commit and push the page
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/scanner.html
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -m "Today's story: refresh the scanner card"
+          for i in 1 2 3; do
+            git push && exit 0
+            git pull --rebase -X theirs origin main && git push && exit 0
+            sleep 10
+          done
+          exit 1

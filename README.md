@@ -351,6 +351,21 @@ web search and the fetched market numbers) when writing votes - it's dated,
 sourced, and already covers ~7 weeks of catalysts, so it doesn't need to be
 independently rediscovered each morning.
 
+### Today's story (scanner page)
+
+Each weekday evening (7:20pm New York) a scheduled Claude task writes a short
+account of the day into `data/story_log.json`: the headline, what happened
+and why, why it matters, what to watch, and sources. The "Today's story" card
+near the top of `docs/scanner.html` shows the newest one in full and the
+earlier ones a line each (30 kept), with a "Copy WhatsApp version" button.
+SPY's close, the chart and "where the plan stands" never come from the
+writer: the scanner run adds SPY's last closes and, while the
+resistance-line exit (rule 22) holds the plan out, its back-in line
+(`mtl/story.py`), and the page states the plan's holding from that night's
+data. A push of the story file runs `.github/workflows/story.yml`, which swaps
+the card in (`scripts/story_refresh.py`) without re-running the scan.
+Information only: nothing on the card feeds the plan.
+
 ## Honest limits
 
 What the system can't check for itself, so nobody takes it for more than it is:

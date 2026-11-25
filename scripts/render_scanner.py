@@ -515,6 +515,7 @@ footer li { margin-bottom: 6px; }
 
 <div class="wrap">
   <div class="banner" id="banner"></div>
+__STORY__
 
   <p class="section-label" id="plan-hold-label">Holdings: the default plan <span class="hint" id="plan-hold-hint"></span></p>
   <div class="holdings" id="plan-holdings"></div>
@@ -3340,7 +3341,7 @@ __ISSUES__
 (function () {   // the "Sections" menu: jump to any part of the page (owner's ask, Nov 21, 2026)
   var btn = document.getElementById('jump-btn'), panel = document.getElementById('jump-panel'), wrap = document.querySelector('.wrap');
   if (!btn || !wrap) return;
-  var NAMES = { 'banner': 'This week’s trade', 'plan-holdings': 'What the plan holds', 'holdings': 'The top 5 stocks', 'optcheck': 'Option check',
+  var NAMES = { 'banner': 'This week’s trade', 'story': 'Today’s story', 'plan-holdings': 'What the plan holds', 'holdings': 'The top 5 stocks', 'optcheck': 'Option check',
     'watchrule': 'Watch rule and lessons', 'events-recent': 'Recent events', 'news-forward': 'News forward test', 'dominoes': 'Dominoes and past times like now',
     'crowding': 'Crowded markets', 'flowbox': 'Money flow', 'events-find': 'Market events search', 'monthly-wrap': 'Monthly boost', 'mylog': 'Your plans and why',
     'stats': 'Track record', 'planwhere': 'Where the plan was', 'wallst': 'Wall Street tests', 'world': 'World markets', 'heat-ov': 'Top 15, week by week',
@@ -5737,10 +5738,201 @@ def render(scan, growth=None):
         '(published the Friday after)</span>', '(published the Friday after) · <a href="stress.html#crowding">charts →</a></span>', 1), 1)
     page = page.replace('__CLOCK__', clock_html(scan), 1)
     page = page.replace('__EVENTS__', events_html(), 1)
+    page = page.replace('__STORY__', story_html(scan), 1)
     sys.path.insert(0, ROOT)
     from mtl.events import ADD_URL   # the events page's "Add news" form
     page = page.replace('__ADD_URL__', ADD_URL, 1)
     return page.replace('__DATA__', json.dumps(scan, separators=(',', ':')).replace('</', '<\\/'))
+
+
+STORY_PATH = os.path.join(ROOT, 'data', 'story_log.json')
+STORY_CSS = '''
+.story { padding: 18px 20px; }
+.story .st-kick { font: 600 .7rem ui-monospace, Menlo, monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.story h2 { font-family: "Fraunces", Georgia, serif; font-size: clamp(1.25rem, 4.6vw, 1.6rem); line-height: 1.2; margin: 6px 0 4px; text-wrap: balance; }
+.story .st-tape { display: flex; flex-wrap: wrap; gap: 4px 16px; font: .82rem ui-monospace, Menlo, monospace; color: var(--ink-2); margin: 8px 0 10px; }
+.story .st-chart { margin: 4px 0 6px; }
+.story .st-chart svg { display: block; width: 100%; max-width: 560px; height: auto; }
+.story p { color: var(--ink-2); font-size: .92rem; line-height: 1.6; margin: 10px 0; max-width: 72ch; }
+.story p b { color: var(--ink); }
+.story h3 { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 16px 0 6px; font-weight: 600; }
+.story ul { margin: 0; padding-left: 18px; color: var(--ink-2); font-size: .9rem; line-height: 1.6; }
+.story .st-plan { background: var(--surface-2); border-left: 3px solid var(--gold); padding: 10px 14px; border-radius: 6px; font-size: .9rem; color: var(--ink-2); line-height: 1.55; }
+.story .st-plan div + div { margin-top: 3px; }
+.story .st-plan .st-back b { color: var(--gold); }
+.story .st-copy { margin-top: 12px; font: .78rem ui-monospace, Menlo, monospace; color: var(--accent); background: transparent; border: 1px solid var(--accent); border-radius: 6px; padding: 6px 11px; cursor: pointer; }
+.story .st-copied { font-size: .78rem; color: var(--muted); margin-left: 8px; }
+.story textarea.st-wa { width: 100%; min-height: 12rem; margin-top: 8px; font: .8rem ui-monospace, Menlo, monospace; color: var(--ink); background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 6px; padding: 8px; }
+.story .st-src { font-size: .74rem; color: var(--muted); margin-top: 12px; line-height: 1.5; }
+.story .st-src a { color: var(--muted); }
+.story .st-arch { margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 8px; }
+.story .st-arch summary { cursor: pointer; font-size: .8rem; color: var(--muted); }
+.story .st-row { display: grid; grid-template-columns: 6.2rem 1fr; gap: 8px; padding: 5px 0; font-size: .84rem; color: var(--ink-2); border-top: 1px solid var(--hairline); }
+.story .st-row:first-of-type { border-top: 0; }
+.story .st-row .d { font: .76rem ui-monospace, Menlo, monospace; color: var(--muted); padding-top: 2px; }
+.story .st-empty { color: var(--muted); font-size: .88rem; }
+'''
+
+
+def _story_pct(x):
+    return '–' if x is None else ('+' if x > 0 else '') + f'{x * 100:.1f}'.replace('-', '−') + '%'
+
+
+def _story_tone(x):
+    return 'muted' if not x else ('pos' if x > 0 else 'neg')
+
+
+def _story_date(d, year=True):
+    from datetime import date as _d
+    x = _d.fromisoformat(d)
+    return x.strftime('%a %b ') + str(x.day) + (x.strftime(', %Y') if year else '')
+
+
+def _story_chart(part):
+    """SPY's last closes with the back-in line and the stretch out of stocks (inline SVG, theme colors)."""
+    spy = (part or {}).get('spy') or []
+    if len(spy) < 5:
+        return ''
+    bi = (part or {}).get('backIn') or None
+    dates = [d for d, _ in spy]
+    idx = {d: i for i, d in enumerate(dates)}
+    ahead = (bi or {}).get('ahead') or []
+    n = len(dates) + (min(len(ahead), 4) if bi else 0)
+    line = [(idx[d], v) for d, v in (bi or {}).get('line') or [] if d in idx] + [(len(dates) - 1 + i + 1, v) for i, (d, v) in enumerate(ahead[:4])]
+    vals = [v for _, v in spy] + [v for _, v in line]
+    lo, hi = min(vals), max(vals)
+    pad = (hi - lo) * 0.08 or 1
+    lo, hi = lo - pad, hi + pad
+    W, H, L, R, T, B = 480, 180, 4, 52, 12, 20
+    X = lambda i: L + (W - L - R) * i / max(1, n - 1)
+    Y = lambda v: T + (H - T - B) * (hi - v) / (hi - lo)
+    out = [f'<svg viewBox="0 0 {W} {H}" role="img" aria-label="SPY closes for the last {len(spy)} sessions'
+           + (', with the line it needs to close above to go back into stocks' if bi else '') + '">']
+    if bi and bi.get('fired') in idx:
+        x0 = X(idx[bi['fired']])
+        out.append(f'<rect x="{x0:.1f}" y="0" width="{W - R - x0:.1f}" height="{H - B}" fill="var(--neg)" opacity=".08"/>')
+        out.append(f'<text x="{x0 + 5:.1f}" y="{T + 12}" fill="var(--neg)" font-size="13" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="var(--surface)" stroke-width="3">out of stocks</text>')
+    if len(line) >= 2:
+        pts = ' '.join(f'{X(i):.1f},{Y(v):.1f}' for i, v in line)
+        out.append(f'<polyline points="{pts}" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="5 4"/>')
+        i_, v_ = line[-1]
+        out.append(f'<text x="{X(i_):.1f}" y="{Y(v_) - 10:.1f}" fill="var(--gold)" font-size="13" text-anchor="end" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="var(--surface)" stroke-width="3">back-in line</text>')
+    pts = ' '.join(f'{X(i):.1f},{Y(v):.1f}' for i, (_, v) in enumerate(spy))
+    out.append(f'<polyline points="{pts}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>')
+    xe, ye = X(len(spy) - 1), Y(spy[-1][1])
+    out.append(f'<circle cx="{xe:.1f}" cy="{ye:.1f}" r="3.5" fill="var(--accent)"/>')
+    out.append(f'<text x="{xe + 6:.1f}" y="{ye + 4:.1f}" fill="var(--ink-2)" font-size="13" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="var(--surface)" stroke-width="3">{spy[-1][1]:,.2f}</text>')
+    for i, anchor in ((0, 'start'), (len(spy) - 1, 'end')):
+        out.append(f'<text x="{X(i):.1f}" y="{H - 3}" fill="var(--muted)" font-size="12" text-anchor="{anchor}" font-family="ui-monospace,Menlo,monospace" paint-order="stroke" stroke="var(--surface)" stroke-width="3">'
+                   f'{_story_date(dates[i], False)[4:]}</text>')
+    out.append('</svg>')
+    return '<div class="st-chart">' + ''.join(out) + '</div>'
+
+
+def _story_spy(item, part):
+    """(close, change) for the story's day: from the scan's closes when it has that day, else the story's own."""
+    spy = (part or {}).get('spy') or []
+    for i, (d, c) in enumerate(spy):
+        if d == item.get('date') and i:
+            return c, c / spy[i - 1][1] - 1
+    s = item.get('spy') or {}
+    return s.get('close'), s.get('pct')
+
+
+def story_whatsapp(item, part, plan_short):
+    """The WhatsApp version: bold headings with *, bullets, no tables."""
+    c, p = _story_spy(item, part)
+    lines = ['*Market story – ' + _story_date(item['date'], False) + '*']
+    if c is not None:
+        lines.append(f'SPY {c:,.2f}' + (f' ({_story_pct(p)})' if p is not None else ''))
+    lines.append('')
+    lines.append('*' + item['headline'] + '*')
+    pts = item.get('points') or ([item['happened']] if item.get('happened') else [])
+    if pts:
+        lines += ['', '*What happened*'] + ['• ' + x for x in pts]
+    if item.get('matters'):
+        lines += ['', '*Why it matters*', '• ' + item['matters']]
+    if item.get('watch'):
+        lines += ['', '*Watch*'] + ['• ' + x for x in item['watch']]
+    if plan_short:
+        lines += ['', '*Plan*'] + ['• ' + x for x in plan_short]
+    return '\n'.join(lines)
+
+
+def story_html(scan, path=None):
+    """The "Today's story" card: the newest story in full (with SPY's chart and where the plan stands, both from the
+    night's data), then the earlier ones a line each. Wrapped in markers so scripts/story_refresh.py can swap it in
+    without re-running the scan."""
+    sys.path.insert(0, ROOT)
+    from mtl import story as st
+    items = st.load(path or STORY_PATH)[:st.KEEP]
+    part = (scan or {}).get('story') or {}
+    plan = st.plan_lines(scan)
+    plan_short = st.plan_short(scan)
+    head = '<p class="section-label">Today’s story <span class="hint">what moved the market and why, written each weekday evening · information only</span></p>'
+    if not items:
+        body = '<div class="card story"><p class="st-empty">No story yet: the first one is written after the next close.</p></div>'
+        return '<!--story-->\n<style>' + STORY_CSS + '</style><section id="story">' + head + body + '</section>\n<!--/story-->'
+    it = items[0]
+    c, p = _story_spy(it, part)
+    tape = [f'<span>SPY {c:,.2f} <span class="{_story_tone(p)}">{_story_pct(p)}</span></span>'] if c is not None else []
+    for m in it.get('movers') or []:
+        if m.get('t'):
+            tape.append(f'<span>{_e(m["t"])} <span class="{_story_tone(m.get("pct"))}">{_story_pct(m.get("pct"))}</span></span>')
+    for x in it.get('notes') or []:
+        tape.append(f'<span>{_e(x)}</span>')
+    stale = part.get('spy') and part['spy'][-1][0] > it['date']
+    h = ['<div class="card story">',
+         f'<div class="st-kick">Today’s story · {_e(_story_date(it["date"]))}' + (f' · written {_e(it["written"])}' if it.get('written') else '') + '</div>',
+         f'<h2>{_e(it["headline"])}</h2>',
+         '<div class="st-tape">' + ''.join(tape) + '</div>' if tape else '',
+         _story_chart(part)]
+    if stale:
+        h.append(f'<p class="muted" style="font-size:.8rem">Tonight’s story isn’t in yet; this is {_e(_story_date(it["date"], False))}’s.</p>')
+    if it.get('happened'):
+        h.append(f'<p><b>What happened.</b> {_e(it["happened"])}</p>')
+    if it.get('matters'):
+        h.append(f'<p><b>Why it matters.</b> {_e(it["matters"])}</p>')
+    if it.get('watch'):
+        h.append('<h3>What to watch</h3><ul>' + ''.join(f'<li>{_e(x)}</li>' for x in it['watch']) + '</ul>')
+    if plan:
+        h.append('<h3>Where the plan stands <span class="muted" style="text-transform:none;letter-spacing:0;font-weight:400">· from '
+                 + _e(_story_date((scan or {}).get('asOf') or it['date'], False)) + '’s close</span></h3><div class="st-plan">'
+                 + ''.join(f'<div class="st-{k}">' + (_story_back(t) if k == 'back' else _e(t)) + '</div>' for t, k in plan) + '</div>')
+    wa = story_whatsapp(it, part, plan_short)
+    h.append('<button type="button" class="st-copy" id="st-copy">⧉ Copy WhatsApp version</button><span class="st-copied" id="st-copied" aria-live="polite"></span>'
+             f'<textarea class="st-wa" id="st-wa" readonly hidden aria-label="WhatsApp version">{_e(wa)}</textarea>')
+    src = [x for x in it.get('sources') or [] if isinstance(x, dict) and x.get('url', '').startswith('http')]
+    if src:
+        h.append('<div class="st-src">Sources: ' + ' · '.join(f'<a href="{_e(x["url"])}" target="_blank" rel="noopener">{_e(x.get("name") or "link")}</a>' for x in src) + '</div>')
+    if len(items) > 1:
+        rows = []
+        closes = {d: (v, spy_prev) for (d, v), spy_prev in zip(part.get('spy') or [], [None] + [v for _, v in part.get('spy') or []][:-1])}
+        for x in items[1:]:
+            cv = closes.get(x['date'])
+            pc = cv[0] / cv[1] - 1 if cv and cv[1] else (x.get('spy') or {}).get('pct')
+            rows.append(f'<div class="st-row"><span class="d">{_e(_story_date(x["date"], False))}</span><span>{_e(x.get("short") or x["headline"])}'
+                        + (f' SPY <span class="{_story_tone(pc)}">{_story_pct(pc)}</span>.' if pc is not None else '') + '</span></div>')
+        h.append(f'<details class="st-arch" open><summary>Earlier days ({len(items) - 1})</summary>' + ''.join(rows) + '</details>')
+    h.append('</div>')
+    js = '''<script>
+(function () {
+  var b = document.getElementById('st-copy'), t = document.getElementById('st-wa'), m = document.getElementById('st-copied');
+  if (!b || !t) return;
+  b.addEventListener('click', function () {
+    var done = function () { m.textContent = 'Copied – paste it into WhatsApp'; };
+    var show = function () { t.hidden = false; t.focus(); t.select(); m.textContent = 'Select all and copy'; };
+    try { navigator.clipboard.writeText(t.value).then(done, show); } catch (e) { show(); }
+  });
+})();
+</script>'''
+    return '<!--story-->\n<style>' + STORY_CSS + '</style><section id="story">' + head + ''.join(h) + js + '</section>\n<!--/story-->'
+
+
+def _story_back(t):
+    """The back-in line, with its level in bold."""
+    import re as _re
+    return _re.sub(r'above ([\d,]+\.\d\d)', lambda m: 'above <b>' + m.group(1) + '</b>', _e(t), count=1)
 
 
 EVENTS_SECTION = r'''<section id="events-find"><p class="section-label">Market events <span class="hint">search __N__ events since 2000
