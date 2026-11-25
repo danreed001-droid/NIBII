@@ -1,0 +1,65 @@
+{
+  "about": "Today's story on the scanner page (docs/scanner.html): what moved the market each weekday and why, written after the close by a scheduled Claude task. Newest last. Fields: date (the session, YYYY-MM-DD), written (e.g. '7:20pm ET'), headline, happened (a short paragraph), points (2-4 short bullets for the WhatsApp version), matters (one or two sentences), watch (list), movers (list of {t, pct} with pct as a fraction), notes (short tape notes), short (one line for the earlier-days list), sources (list of {name, url}). SPY's close and change, the chart and where the plan stands come from the scan, never from this file. Information only: never part of the plan.",
+  "items": [
+    {
+      "date": "2026-11-19",
+      "headline": "The AI selloff deepens on the day Anthropic lists",
+      "happened": "Stocks hit their lows of the day the moment Anthropic's shares began trading: money moved into the new AI stock and out of the old ones. More than 90% of S&P 500 stocks fell, the Dow dropped about 1,100 points and the S&P 500 made its sixth straight loss, 8% under its October record. Asia followed overnight, with Japan and Korea down about 5%.",
+      "points": ["Anthropic's debut pulled money out of other AI stocks", "Over 90% of S&P stocks fell; Dow −1,100 points", "Sixth straight loss for the S&P 500"],
+      "matters": "Doubt about the AI boom had become a broad selloff, not just a tech one.",
+      "watch": [],
+      "movers": [],
+      "notes": [],
+      "short": "AI selloff deepens on Anthropic's debut day; sixth straight loss.",
+      "sources": [
+        {"name": "Motley Fool", "url": "https://www.fool.com/coverage/stock-market-today/2026/11/19/stock-market-today-nov-19-dow-plunges-1-100-points-as-the-s-and-p-500-suffers-its-6th-straight-day-of-losses/"},
+        {"name": "ABC News (AP)", "url": "https://abcnews.com/Business/wireStory/major-us-stock-indexes-fared-thursday-11192026-138303454"}
+      ]
+    },
+    {
+      "date": "2026-11-20",
+      "headline": "Report of an SEC look at Nvidia's accounts sinks the market",
+      "happened": "Reuters reported that SEC staff are looking at possible accounting problems at Nvidia (it said that doesn't establish wrongdoing). Nvidia fell 14% and the Nasdaq 5.3%. The S&P 500 made its seventh straight loss, ending more than 10% under its Oct 6 high, and had its worst week since April 2025.",
+      "points": ["Reuters: SEC staff looking at possible Nvidia accounting issues", "Nvidia −14%, Nasdaq −5.3%", "S&P 500 10%+ under its high; worst week since April 2025"],
+      "matters": "Nvidia had been the market's leader; a question over its accounts hit the whole AI trade.",
+      "watch": [],
+      "movers": [{"t": "NVDA", "pct": -0.1401}],
+      "notes": [],
+      "short": "Report of an SEC look at Nvidia's accounts; NVDA −14%, seventh straight loss.",
+      "sources": [
+        {"name": "Motley Fool", "url": "https://www.fool.com/coverage/stock-market-today/2026/11/20/stock-market-today-nov-20-stocks-plunge-as-ai-trade-unwinds/"},
+        {"name": "Stock Market Watch", "url": "https://stockmarketwatch.com/digest/2026-11-20"}
+      ]
+    },
+    {
+      "date": "2026-11-23",
+      "headline": "Jensen Huang returns to Nvidia and stocks jump",
+      "happened": "Over the weekend Nvidia's board reinstated Jensen Huang as CEO, eleven days after he resigned; President Trump said he was personally involved. Nvidia rose 31.5%, adding more than $1 trillion in market value, its biggest one-day gain on record, and lifted the whole market.",
+      "points": ["Nvidia's board brought Jensen Huang back as CEO", "Nvidia +31.5%, its biggest one-day gain ever", "SPY still closed under the falling line the plan needs to clear"],
+      "matters": "The weekend brought relief, which is why Monday bounced, but it fixed only the CEO question, not the SEC one.",
+      "watch": [],
+      "movers": [{"t": "NVDA", "pct": 0.315}],
+      "notes": [],
+      "short": "Huang back at Nvidia; NVDA +31.5%, still under the line.",
+      "sources": [
+        {"name": "Investing.com", "url": "https://www.investing.com/news/stock-market-news/nvidia-shares-surge-30-as-board-announces-jensen-huangs-reinstatement-5045795"}
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "headline": "The Nvidia bounce fades; stocks give back a little",
+      "happened": "After Monday's jump on Jensen Huang's return, buyers didn't follow through. Nvidia gave back about 6% as analysts said his return isn't the all-clear while the SEC question is open. Anthropic slipped below its $83 IPO price, talk of new US tariffs returned and a report on AI-safety worries hit the AI names again. Outside tech, Sanofi agreed to buy Insmed for about $41 billion.",
+      "points": ["Nvidia's comeback faded (−5.9%) after Monday's +31%", "Anthropic slipped below its IPO price; tariff talk returned", "Sanofi to buy Insmed for about $41B"],
+      "matters": "The weekend fixed one problem (the CEO) but not the bigger ones: the SEC question and doubt about AI spending. One good day hasn't undone a seven-day rout.",
+      "watch": ["Wednesday: last full session before Thanksgiving; thin trading can mean bigger moves", "Thursday: market closed. Friday: half day (1pm close)", "Any news on the SEC's Nvidia look, and on tariffs", "Fri Dec 4: November jobs report"],
+      "movers": [{"t": "NVDA", "pct": -0.0586}],
+      "notes": [],
+      "short": "Nvidia's bounce fades (−5.9%); Anthropic below its IPO price.",
+      "sources": [
+        {"name": "CNBC", "url": "https://www.cnbc.com/2026/11/24/nvidia-stock-jensen-huang-return.html"},
+        {"name": "Swissinfo (Bloomberg)", "url": "https://www.swissinfo.ch/eng/stocks-fall-as-nvidia-fades-and-trade-fears-return:-markets-wrap/92426361"},
+        {"name": "CNBC (Sanofi–Insmed)", "url": "https://www.cnbc.com/2026/11/24/insmed-sanofi-deal-stock-pharma.html"}
+      ]
+    }
+  ]
+}
