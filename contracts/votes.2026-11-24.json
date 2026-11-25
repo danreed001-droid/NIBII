@@ -3,51 +3,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly computes choppy for ES=F through 24 November - the last labeled hourly swings are LH at 7284.25 (23 November 15:00), HH at 7298.25 (20:00), HL at 7247.50 (22:00), then LH at 7284.00 (24 November 02:00), LL at 7144.75 (08:00) and LH at 7240.75 (10:00). A mixed run, though the last two labeled swings are a lower low and a lower high. RSI is 39.32, down from 41.40, with the close (7200.00) 5.9% below the 50-day (7648.08) and 2.4% below the 200-day (7380.24), so the moving-average read is mildly down while the computed swing state gives no direction. Neutral."
+   ],
+   [
+    "bull",
+    "Breadth went the index's other way: 346 advancers to 154 decliners with nine of eleven sectors higher - Health Care +2.95%, Consumer Staples +1.66%, Real Estate +1.31%, Energy +0.97%, Financials +0.83% - against only Industrials -0.53% and Technology -3.26%, and equal-weight RSP rose 0.54% against the cap-weighted index's -0.50%, a 104bp gap in favour of the average stock (CappNotes Closing Look, 24 November). An index that falls while two thirds of it rises is a 1-day positive."
+   ],
+   [
+    "bull",
+    "The VIX fell 0.98% to 26.36 on a session the Nasdaq-100 cash index lost 1.99% and the Philadelphia Semiconductor Index 7.88% (fetched close; CappNotes, 24 November). Implied volatility declining into a 7.88% decline in the market's most-owned industry says the selling was priced as dispersion rather than as systemic risk, which is a 1-day positive."
+   ],
+   [
+    "bull",
+    "Credit tightened for the first time in this document's recent window: high-yield spreads 356bp, -11bp, and investment grade 94bp, -2bp on 24 November (CappNotes Closing Look, 24 November), against the ICE BofA high-yield prints of 3.47% on 18 November, 3.52% on the 19th and 3.76% on the 20th. An 11bp compression in the spread itself - not an ETF price - on a down day for the index is a 1-day tailwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Yields gave almost nothing to act on. The 2-year closed unchanged at 4.63%, the 10-year about 1bp lower at 4.90%, the 30-year flat at 5.29% and 2s10s flattened to about 27bp from 29bp (CappNotes Closing Look, 24 November; an investingLive wrap has the same session 2-4bp higher across the curve, a disagreement recorded in nullInputs). The $70 billion 5-year auction cleared at a 4.719% high yield with a 2.37x bid-to-cover against a 2.31x average and a 0.3bp tail. The S&P 500's dominant 21-session driver is oil at corr -0.495 with the 10-year at +0.394, just under the 0.40 dominance cut, so a 1bp fall is noise either way. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Genuinely two-sided on the day. December hike odds eased to about 94-96% across CME FedWatch, Polymarket and Kalshi from roughly 98% on Monday, with Kitco at about 95% - marginally helpful - while New York Fed President John Williams said policy 'will need to adjust' to get inflation back to 2% 'in a timely manner and on a sustained basis', that 'there is still work to do', and that the economy remains strong with inflation too high, which is more hawkish than Monday's 'I don't think the situation calls for dramatic action' (CNBC and news log, 24 November). Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "CNN's Fear & Greed Index read about 17 on 24 November, still Extreme Fear, after about 10 on 20 November - reported as its lowest since March - with AAII's survey for the week ending 18 November at about 33% bullish and 42% bearish. A gauge still pinned in Extreme Fear after the Dow closed at 50,018.70 and breadth ran 346 to 154 has not unwound, and at one session that is a contrarian positive."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Positioning is at a documented extreme, and for the first time in this ledger the sources name percentiles rather than scale readings. Two independent reports of the same Goldman Sachs prime-brokerage briefing dated 23 November have fundamental long/short net leverage of 42.3% at the 1st percentile of the past year on one account and the 5th percentile of one year and 3rd of three on another, beta-adjusted net exposure at a 1st-percentile three-year reading described elsewhere as a five-year low, the largest weekly single-stock shorting flow since June 2022 and third largest of the decade, CTAs having sold about $57 billion of US equities over the past month to a net short, and a Goldman Panic Index of 9.8 out of 10 with readings above 9.5 having historically signalled near-term relief. Exposure that low is forced demand on any bounce."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "The dated single-stock catalysts that land inside the 1-session window are net positive. After Tuesday's close Dell reported record revenue of $54.9 billion and traded about +4% having fallen 11.83% in the regular session, HP Inc. rose about 9% on a beat and an upbeat fiscal-2027 outlook, and Workday fell about 4% on soft Q4 subscription guidance - two of three higher, with the largest of them at a revenue record. The day's reported numbers were already in the close: Abercrombie & Fitch +19.69%, Kohl's +19.48% and Dick's Sporting Goods +14.59% on strong results against Analog Devices -17.37%, Hewlett Packard Enterprise -16.31%, Micron -11.01% on a downgrade and Medtronic -4.56% on a revenue miss (CappNotes Closing Look, 24 November)."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The 1-session window matures on 25 November, which puts the heaviest release block of the month inside a single day: October PCE at 8:30 ET with core consensus at +0.3% month-on-month and headline annual inflation expected near 3.8% (Kitco, 24 November), the Q3 GDP second estimate at about 3.5% from a 3.4% advance reading, October durable goods, jobless claims at about 201K against 203K prior, and the Beige Book at 2pm. The risk is asymmetric rather than two-sided: with a December hike about 95% priced and Williams naming the inflation job unfinished on S, an in-line print changes little while an upside print reprices the terminal rate - and Tuesday's own data raised the bar, consumer confidence jumping 11.4 points to 103.3 against about 92.2 expected, its highest since January 2025, with Richmond manufacturing at 3 from -2."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "The 1-session window matures Wednesday 25 November, the day before Thanksgiving, and Wednesday is one of the two days the dated statistics single out: a Yahoo Finance analysis puts the holiday week at an average +0.80% with 73% of returns positive since 2000 and names Monday and Wednesday the strongest days within it, while BofA's Stephen Suttmeier has the S&P 500 up in about 60% of Thanksgiving weeks since 1928 at an average +0.28% and a median +0.46%. Modest, but dated and pointing one way at exactly this maturity."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The dominant measured cross-asset driver moved against the index. The S&P 500's 21-session correlation to WTI is -0.495 and crude reversed Monday's slide, +2.35% to $82.05 with Brent +2.27% to $91.40 and natural gas +15.30% (CappNotes Closing Look, 24 November). With a negative correlation a rising crude price is a headwind, and the rest of the risk tape was offered with it - gold -2.64%, silver -5.65%, copper -2.53%, bitcoin -2.20% - leaving the dollar's 0.47% fall as the one offset."
    ],
    [
     "neu",
@@ -57,51 +57,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly computes uptrend for ES=F - the last labeled weekly swings are HL at 7324.00 (27 July), HH at 7838.50 (10 August), HL at 7509.25 (14 September) and HH at 7897.50 (5 October) - but the close of 7200.00 sits below the 50-day (7648.08), below the 200-day (7380.24) and 4.1% below that last labeled weekly higher low of 7509.25, so the swing state and the price's own position disagree, and the gap has widened since 23 November. RSI 39.32 is mid-range. Genuinely two-sided over five sessions. Neutral. (The computed state is voted mechanically at weight 3 in category 13 regardless; this category is the authored read.)"
+   ],
+   [
+    "bull",
+    "The breadth reset has now held for two sessions in two different tapes: 417 advancers to 83 decliners on a 4.73% up day, then 346 to 154 with nine of eleven sectors higher on a 0.50% down day, with equal-weight RSP beating the cap-weighted index by 104bp on the second (CappNotes Closing Look, 23 and 24 November). Participation widening while the index falls - the Dow at 50,018.70 and the Russell 2000 up 0.57% while the Nasdaq-100 fell 1.99% - is a rotation rather than a liquidation, and over five sessions that is a tailwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The volatility picture is better but not resolved. The VIX at 26.36 is 26.6% below Friday's 35.89 yet still far above the roughly 19 it closed on 13 November, VXN's latest available close is 36.31 from 23 November, and the only dated term-structure read is Saxo's 23 November Options Brief on Friday's data: VIX3M/VIX in backwardation, SKEW 138.84, front-month VIX futures 27.53, the regime labelled 'HIGH VOL BEAR', with four of five capitulation gauges flashing intraday but VVIX not confirming. No Saxo brief dated 24 November was obtainable. A backwardated curve and a 26-handle VIX into a PCE print is two-sided. Neutral."
+   ],
+   [
+    "bull",
+    "The credit series itself has turned. High-yield spreads tightened 11bp to 356bp and investment grade 2bp to 94bp on 24 November (CappNotes Closing Look), reversing direction after ICE BofA high-yield prints of 3.47% (18 November), 3.52% (19th) and 3.76% (20th). That is a change in the spread series on its latest dated observation rather than an ETF price, and over five sessions it is the cleanest non-price tailwind here."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The two measured relationships point opposite ways and the curve gave no new information: the S&P 500's 21-session correlation to the 10-year is +0.394, which makes a yield rise a mild positive in this regime, while the big-day (|change in 2Y| >= 5bp, n=6) correlation is -0.687, which makes a front- end selloff a negative - and the 2-year closed unchanged at 4.63% with the 10-year about 1bp lower at 4.90%. The $70 billion 5-year auction was two-sided too, a 2.37x bid-to-cover above its 2.31x average but indirect demand reported as the weakest since March 2020. October PCE resolves the window on its first day; nothing dated at or before S says which way. Neutral."
+   ],
+   [
+    "bear",
+    "A 25bp hike on 9 December is priced at about 94-96% across CME FedWatch, Polymarket and Kalshi, and Williams on 24 November said policy 'will need to adjust' to return inflation to 2% 'in a timely manner and on a sustained basis', that 'there is still work to do', and that the economy remains strong with inflation too high (CNBC and news log, 24 November). Tuesday's consumer confidence jump of 11.4 points to 103.3, the highest since January 2025, removes the growth argument against tightening. Five sessions spent positioning into a near-certain hike with an index 8.6% below its October high is a headwind."
+   ],
+   [
+    "bull",
+    "The contrarian sentiment read is unchanged and still the cleanest bullish input at this horizon: CNN's Fear & Greed Index at about 17 on 24 November remains in Extreme Fear after about 10 on 20 November, reported as its lowest since March, and AAII's survey for the week ending 18 November has bulls at about 33% against bears at about 42%. Two sessions of rotation out of semiconductors and into the rest of the market have not moved it, and over five sessions a gauge that low is a positive."
+   ],
+   [
+    "bull",
+    "The positioning extreme is dated, named and quantified. The 23 November Goldman Sachs prime-brokerage briefing, as reported by two independent accounts, has fundamental long/short net leverage of 42.3% at a 1st-to-5th percentile one-year reading, beta-adjusted net exposure at a 1st-percentile three-year reading or a five-year low, hedge funds net selling US equities for a third consecutive week and in six of the last seven, the largest weekly single-stock shorting flow since June 2022, and CTAs net short after selling about $57 billion over a month. The honest offset from the same briefing is that it modelled systematic selling across all tape scenarios for that week. Over five sessions exposure at a multi-year low is the stronger of the two."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window's earnings content is thin and does not skew. Deere reports Wednesday 25 November and no calendar dated at or before 24 November extends past it; Thursday is a holiday and Friday a half day. The three reports that landed after Tuesday's close split - Dell about +4% on record revenue of $54.9 billion, HP Inc. about +9% on a beat and an upbeat fiscal-2027 outlook, Workday about -4% on soft Q4 subscription guidance. Two of three is not a five-session direction. Neutral."
+   ],
+   [
+    "bear",
+    "October PCE, the Q3 GDP second estimate, October durable goods, jobless claims and the Beige Book all land on 25 November, the first session of this window, with core PCE consensus at +0.3% month-on-month and headline annual inflation expected near 3.8% (Kitco, 24 November; FXEmpire and week-ahead calendars dated 23 November). The risk is asymmetric with a hike about 95% priced: in-line changes little, hot reprices the terminal rate. Tuesday's own prints argue growth will not be the offset in the other direction - consumer confidence 103.3 against about 92.2 expected, Richmond manufacturing 3 from -2, Case-Shiller +2.1% year-on-year."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The seasonality statistics split across this window rather than pointing one way. The 5-session horizon matures 2 December, so its sessions are 25 and 27 November - inside the week BofA's Suttmeier measures as up about 60% of the time since 1928 at an average +0.28% and a median +0.46%, and that a Yahoo Finance analysis puts at an average +0.80% with 73% positive since 2000 - and then 30 November, 1 and 2 December, which sit in the week immediately after Thanksgiving that the same Suttmeier work measures as up only about 53% of the time since 1928. Three of five sessions fall in the weaker half. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The dominant measured driver reversed against the index. Oil is the S&P 500's dominant 21-session driver at corr -0.495 and WTI rose 2.35% to $82.05 with Brent +2.27% to $91.40, undoing the 3.88% fall that was the prior board's cleanest cross-asset tailwind; natural gas rose 15.30%. The rest of the complex was offered with it - gold -2.64%, silver -5.65%, copper -2.53%, bitcoin -2.20% at about $59,864 - which is an activity and liquidity signal rather than a rotation. The dollar's 0.47% fall off its 252-session closing high is the offset and the weaker of the two."
    ],
    [
     "bull",
@@ -111,51 +111,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "Same read as at five sessions and for the same reason: structure.weekly computes uptrend (HL 7324.00, HH 7838.50, HL 7509.25, HH 7897.50 on 5 October) while the close of 7200.00 sits below the 50-day, the 200-day and that last labeled weekly higher low of 7509.25 by 4.1%. A computed uptrend whose price has undercut its own last higher low gives no authored direction over ten sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated multi-session breadth series - an advance/decline line, a percent-of-members-above-the- 200-day reading, a new-highs/new-lows series - was obtained for this window. Two sessions' splits (417/83 then 346/154) are not evidence over ten, and the 253bp gap between equal-weight RSP's +0.54% and the Nasdaq-100's -1.99% says the market is rotating within itself rather than broadening in a measurable way. Neutral, honestly, rather than extrapolated."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nothing dated at or before 24 November describes the forward volatility path beyond Saxo's 23 November term structure, which was backwardated with the regime labelled 'HIGH VOL BEAR' on Friday's data. The VIX's own level barely moved on S, -0.98% to 26.36, after falling 25.83% the session before. A backwardated curve whose front end has already collapsed is genuinely indeterminate over ten sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Two-sided at this horizon, which is a change from the last board. The high-yield spread's latest dated observation tightened 11bp to 356bp on 24 November with investment grade in 2bp to 94bp, which reverses the direction of the 3.47% / 3.52% / 3.76% prints through 20 November - but one session's compression does not undo a 29bp widening, and no spread print dated after S exists to say which is the trend. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Two-sided for the same measured reason as at five sessions: corr10Y +0.394 against a big-day correlation of -0.687 (n=6), with the curve all but unchanged on S. The 10-session window now matures 9 December, the second day of the FOMC meeting, so it contains both the positioning into the decision and the decision - and no dated figure says which direction either runs. Neutral."
+   ],
+   [
+    "bear",
+    "This is the first board on which the FOMC decision falls inside the 10-session window rather than one session past it: the horizon matures 9 December, the second day of the 8-9 December meeting. A 25bp hike is priced at about 94-96% across CME FedWatch, Polymarket and Kalshi, Williams on 24 November said policy 'will need to adjust' and that 'there is still work to do', and Tuesday's confidence print of 103.3 - the highest since January 2025 - removed the growth case against it. Ten sessions spent positioning into a near-certain tightening that then lands inside the window, with the terminal rate the open question, is a headwind."
+   ],
+   [
+    "bull",
+    "The contrarian reading survives the horizon, and this is the horizon these gauges are built for: CNN's Fear & Greed Index at about 17 on 24 November (Extreme Fear) after about 10 on 20 November, reported as its lowest since March, and AAII at about 33% bull / 42% bear for the week ending 18 November. Weekly-to-monthly sentiment measures at those levels are a ten-session positive."
+   ],
+   [
+    "bull",
+    "The strongest dated input at this horizon is the positioning extreme, because positioning that low mean-reverts over weeks rather than days. The 23 November Goldman prime-brokerage readings, per two independent accounts, put fundamental long/short net leverage at a 1st-to-5th percentile one-year reading, beta-adjusted net exposure at a 1st-percentile three-year reading or a five-year low, the weekly single-stock shorting flow at its largest since June 2022, and the Goldman Panic Index at 9.8 out of 10 - a gauge whose readings above 9.5 the same briefing says have historically signalled near-term relief."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings calendar dated at or before 24 November extends past Deere on 25 November; Thursday 26 November is a holiday, Friday 27 November a half day, and nothing is scheduled for the following week in any calendar obtained. The window runs to 9 December with its earnings content unknown as of S. Neutral rather than guessed at."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond the 25 November block no December data calendar dated at or before 24 November was obtained, so the ten-session window's macro content past its first session is unknown as of S apart from the FOMC date itself, which is voted under Fed path. Neutral."
+   ],
+   [
+    "bull",
+    "The 10-session window matures 9 December, which puts it inside the Thanksgiving-to-year-end stretch BofA's Suttmeier measures as the S&P 500 up about 71% of the time with an average +1.46% and a median +1.7%. The honest caveat, from the same work, is that the week immediately after Thanksgiving is up only about 53% of the time since 1928 and that week sits inside this window - so this is a mild positive carrying its own offset, not a strong one."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Two-sided over ten sessions. Oil's 2.35% rise to $82.05 is a headwind through the measured corr of -0.495, but it reverses a 3.88% fall that itself rested on Russia-Ukraine peace-deal reporting no dated figure quantifies, so the driver's direction over ten sessions is a headline question rather than a measured one. Against it, the dollar came off its 252-session closing high, -0.47% to 103.83, which eases the translation headwind for foreign earnings. Neutral."
    ],
    [
     "bull",
@@ -166,52 +166,52 @@
  "bonds": {
   "1": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.hourly computes uptrend for ZN=F through 24 November - the last labeled hourly swings are LL at 106.296875 (23 November 09:00) and LH at 106.78125 (14:00), then HL at 106.515625 (18:00), HL at 106.578125 (24 November 02:00), HL at 106.71875 (10:00) and HH at 107.00 (11:00): three successive higher lows resolving into a higher high, and a change of state from choppy on the previous board. The moving-average read is mixed, with RSI at 58.27 and the close (106.75) 1.0% above the 50-day (105.64) but 2.0% below the 200-day (108.97), but the computed swing state is what this category is grounded in at the 1-day horizon and it is unambiguous. Bull."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no Treasury analogue and is neutral by construction at every horizon; the cross-market effects of the day's equity breadth are voted under Cross-asset. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Treasury-volatility reading dated 24 November was obtainable. The ICE BofA MOVE index's latest dated print is 106.31 at the 20 November close, two sessions stale and below its 5 October high of 113.60, and the sigma input is a 41-session-stale TLT implied-volatility carry of 15 (see sigmaSource). There is nothing dated on S to vote. Neutral."
+   ],
+   [
+    "bear",
+    "Credit tightened on the session - high-yield spreads 356bp, -11bp, and investment grade 94bp, -2bp (CappNotes Closing Look, 24 November) - reversing the 3.47% / 3.52% / 3.76% widening through 20 November. Spread compression is risk appetite returning, which competes with duration for the same money, and it is a 1-day headwind for the note."
+   ],
+   [
+    "bull",
+    "The measured channel moved the note's way and it did so against the news. Bonds' dominant 21-session driver is the 10-year at corr -0.988 - this asset is very nearly the 10-year's mirror - and the 10-year eased about 1bp to 4.90% with the 2-year unchanged at 4.63%, the 30-year flat at 5.29% and 2s10s flattening to about 27bp from 29bp (CappNotes Closing Look, 24 November). It did that into $70 billion of 5-year supply that cleared at a 4.719% high yield with a bid-to-cover of 2.37x against a 2.31x average, a 0.3bp tail and direct bidders taking 36.70% - a solid auction on the cover, with the offset that indirect demand was reported as the weakest since March 2020. A yield that falls through supply on a day the data ran hot is a 1-day positive."
+   ],
+   [
+    "bear",
+    "Williams on 24 November said policy 'will need to adjust' to get inflation back to 2% 'in a timely manner and on a sustained basis', that 'there is still work to do', and that the economy remains strong while inflation runs too high (CNBC and news log, 24 November), with a 25bp hike on 9 December priced at about 94-96% across CME FedWatch, Polymarket and Kalshi. An official restating that the tightening job is unfinished is a 1-day headwind for duration even when the hike itself is fully priced."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Treasury-specific sentiment survey dated at or before 24 November was obtained, so this category is neutral at every horizon rather than borrowing the equity market's Fear & Greed reading of about 17 or AAII's 33% bull / 42% bear. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury positioning figure was obtained for this window - no CFTC commitments of traders in ZN futures, no primary-dealer position, no bond-fund flow number, no client survey. The 5- year auction's bidder split is the closest thing available and it is voted under Rates, where the auction's own statistics live. The Goldman percentile readings that set crowd to -1 for the S&P 500 and the Nasdaq-100 are equity positioning figures with no bearing here. Neutral rather than inferred."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts have no Treasury analogue and are neutral by construction at every horizon. Neutral."
+   ],
+   [
+    "bear",
+    "The 1-session window matures 25 November and contains the whole block: October PCE at 8:30 ET with core consensus at +0.3% month-on-month and headline annual inflation expected near 3.8% (Kitco, 24 November), the Q3 GDP second estimate at about 3.5% from 3.4%, October durable goods, jobless claims at about 201K against 203K prior, and the Beige Book at 2pm. For duration the asymmetry runs the opposite way from equities: with a hike already about 95% priced, an in-line print is close to neutral while an upside core print is a clear negative, and Tuesday's data - consumer confidence 103.3 against about 92.2 expected, the highest since January 2025, Richmond manufacturing 3 from -2, Case-Shiller +2.1% year-on-year - all came in hot."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury seasonality statistic was obtained for this window at any horizon, so this category is neutral rather than borrowing the equity-market Thanksgiving figures, which say nothing about the note. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The cross-asset tape argued for higher yields and got lower ones. Conference Board consumer confidence rose 11.4 points to 103.3 against a forecast near 92.2, its highest since January 2025, with Richmond Fed manufacturing at 3 from -2 and Case-Shiller +2.1% year-on-year (Kitco, 24 November), while WTI reversed 2.35% higher to $82.05 and natural gas rose 15.30% - activity and energy prices both firmer, which is the wrong combination for duration. Bonds' measured correlation to oil is only -0.139, so the energy leg is weak, but the data leg is not, and the Dow's 0.85% rise to 50,018.70 and credit's 11bp tightening say risk appetite improved. A 1-day headwind."
    ],
    [
     "bull",
@@ -221,51 +221,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly computes choppy for ZN=F - the last labeled weekly swings are LL at 103.890625 (28 September), LH at 107.50 (2 November) and HL at 105.078125 (9 November), which the engine also records as the lastBreak, a change of character to a higher low after a run of lower lows. A sequence that ends on its first higher low after LL/LH gives no direction yet. The close of 106.75 is 1.0% above the 50-day (105.64) and 2.0% below the 200-day (108.97), which is equally mixed, and RSI 58.27 is mid-range. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no Treasury analogue and is neutral by construction at every horizon. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nothing dated on S. MOVE's latest print is 106.31 from the 20 November close, two sessions stale, a normal-range level below its 5 October high of 113.60 and with no percentile or extreme named, and the sigma input is a 41-session-stale TLT implied-volatility carry of 15 that very likely understates Treasury-futures volatility and narrows this asset's bands (see sigmaSource). Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Two-sided over five sessions. High-yield spreads tightened 11bp to 356bp and investment grade 2bp to 94bp on 24 November, which competes with duration - but that is one session's compression against ICE BofA high-yield prints of 3.47%, 3.52% and 3.76% through 20 November, a 29bp widening that one day does not reverse, and no spread print dated after S exists. Neutral."
+   ],
+   [
+    "bull",
+    "The one directional fact available at this horizon is what the note absorbed. Bonds' dominant driver is the 10-year at corr -0.988, and the 10-year closed about 1bp lower at 4.90% with the 2-year unchanged at 4.63% on a session carrying $70 billion of 5-year supply, a consumer confidence print 11.4 points above its prior reading and about 11 points above consensus, and a Fed official restating that the tightening job is unfinished. The auction itself cleared with a 2.37x bid-to-cover against a 2.31x average and a 0.3bp tail. Duration taking that combination without giving ground is a five-session positive, with the offset that indirect demand was reported as the weakest since March 2020, so the bid was domestic rather than foreign."
+   ],
+   [
+    "bear",
+    "A 25bp hike on 9 December is priced at about 94-96% across CME FedWatch, Polymarket and Kalshi with Kitco at about 95%, and Williams on 24 November said policy 'will need to adjust' to return inflation to 2% 'in a timely manner and on a sustained basis' and that 'there is still work to do', with the economy strong and inflation too high (CNBC and news log, 24 November). Tuesday's confidence jump to 103.3, the highest since January 2025, removes the growth argument for restraint. A headwind over five sessions."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Treasury-specific sentiment survey was obtained. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury positioning figure - CFTC commitments of traders, primary-dealer position, bond-fund flow, client survey - was obtained for this window. Neutral rather than inferred."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts have no Treasury analogue. Neutral."
+   ],
+   [
+    "bear",
+    "The window opens on 25 November with October PCE, the Q3 GDP second estimate, October durable goods, jobless claims and the Beige Book, with core PCE consensus at +0.3% month-on-month and headline annual inflation expected near 3.8% (Kitco, 24 November; week-ahead calendars dated 23 November). Then Thursday is a holiday, Friday a half day, and no December Treasury auction schedule or data calendar dated at or before S was obtained. With a hike about 95% priced the asymmetry is unhelpful for duration: an upside core print reprices the terminal rate, an in-line print changes little."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury seasonality statistic was obtained. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The activity data turned firmly against duration on S and it was not one print: consumer confidence 103.3 against about 92.2 expected and up 11.4 points, its highest since January 2025; Richmond Fed manufacturing 3 from -2; Case-Shiller +2.1% year-on-year; WTI back up 2.35% to $82.05 with natural gas +15.30%; and S&P Global's 23 November flash PMIs still reading about 3% annualised Q4 GDP with elevated cost pressures despite a composite of 54.6. Firmer growth and firmer energy prices are the wrong combination for a 10-year note over five sessions, even with the measured oil correlation weak at -0.139."
    ],
    [
     "neu",
@@ -275,51 +275,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "Same read as at five sessions: structure.weekly computes choppy, with the last labeled weekly swings LL 103.890625 (28 September), LH 107.50 (2 November) and HL 105.078125 (9 November) - one higher low after a run of lower lows, recorded as the lastBreak - and the close 1.0% above the 50-day and 2.0% below the 200-day. No authored direction over ten sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no Treasury analogue. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Treasury-volatility reading dated on S, and MOVE's latest print is two sessions stale at 106.31 with no percentile or extreme named. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The high-yield spread's latest dated observation tightened 11bp to 356bp on 24 November after widening 29bp across its three prior prints through 20 November, and no observation dated after S exists to say which is the trend. Genuinely indeterminate over ten sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "corr10Y is -0.988, so this asset's ten-session path is the 10-year's path inverted - and the window now matures 9 December, the second day of the FOMC meeting, so it contains the decision itself. Nothing dated at or before 24 November says which way the curve moves through it; the 5-year auction's 2.37x cover against a 2.31x average and its weakest-since-March-2020 indirect take point opposite ways on the demand question. Neutral."
+   ],
+   [
+    "bear",
+    "For the first time in this ledger the 9 December FOMC decision falls inside the 10-session window rather than one session past it. A 25bp hike is priced at about 94-96%, Williams on 24 November said policy 'will need to adjust' and 'there is still work to do', and the data on S - confidence 103.3, the highest since January 2025, Richmond 3 from -2 - argue the Committee has room. Ten sessions that contain a near-certain hike, with the terminal rate and the statement language the open questions, is a headwind for duration."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Treasury-specific sentiment survey was obtained. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury positioning figure was obtained for this window. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts have no Treasury analogue. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond 25 November's block, no December Treasury auction schedule and no data calendar dated at or before 24 November was obtained for this window. Its macro content past the first session is unknown as of S apart from the FOMC date, which is voted under Fed path. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated Treasury seasonality statistic was obtained. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The activity picture dated on and just before S runs against duration over this horizon: consumer confidence at 103.3, up 11.4 points and the highest since January 2025; Richmond manufacturing 3 from -2; Case-Shiller +2.1% year-on-year; S&P Global's 23 November flash PMIs still consistent with about 3% annualised Q4 growth and elevated cost pressures; and WTI back up 2.35% to $82.05. None of it is strong enough to be more than a lean given the measured oil correlation of -0.139 and the fact that yields fell anyway, but a run of upside data into a hike is a ten-session headwind."
    ],
    [
     "neu",
@@ -331,51 +331,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly computes choppy for GC=F through 24 November, a change of state from uptrend on the previous board - the last labeled hourly swings are HL at 3611.80 (23 November 08:00) and HH at 3691.00 (09:00), then HL at 3618.50 (18:00), LH at 3676.70 (20:00), LL at 3606.40 (24 November 03:00) and LH at 3651.40 (07:00), with the last two labeled swings a lower low and a lower high. The moving-average read points the same way - RSI 29.62, back below 30, with the close (3548.80) 13.0% below the 50-day (4081.17) and 19.9% below the 200-day (4430.39) - but the computed swing state is what this category is grounded in at the 1-day horizon and it gives no direction. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no gold analogue and is neutral by construction at every horizon; the complex-wide decline - silver -5.65% to $40.71, copper -2.53% to $5.4845, miners down 5% to 10% in Europe and Canada - is voted under Cross-asset, where gold's measured driver relationships live. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No GVZ value dated 24 November was returned by the fetch layer, so the sigma input is the 31.25 close of 23 November, one session stale, down from 34.80 on 20 November. There is no dated reading of gold's own implied volatility on S to vote, and nothing dated names a percentile or extreme for it. Neutral rather than inferred from a stale print."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Two-sided. The funding-stress channel eased for a second session - high-yield spreads 356bp, -11bp, and investment grade 94bp, -2bp (CappNotes Closing Look, 24 November) - which removes the margin-call mechanism David Morrison described to Kitco on 23 November, investors selling metal 'to raise cash and meet margin requirements on leveraged tech positions'. But gold fell 2.97% on the same session, so whatever moved it, that channel was not it. An easing headwind that visibly failed to help is not a 1-day tailwind. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Rates gave nothing to act on, and would barely matter if they had. The 2-year closed unchanged at 4.63% and the 10-year about 1bp lower at 4.90% (CappNotes Closing Look, 24 November), and gold's measured 21-session correlation to the 10-year is +0.036 - effectively zero - with the 2-year at -0.264 and the dominant driver oil at -0.623. The nominal-yield channel is not live for this asset in this regime. Neutral."
+   ],
+   [
+    "bear",
+    "Policy is named by the source as the thing pressuring the metals. Kitco's 24 November reports say 'market positioning remained heavily tilted toward another Federal Reserve interest rate increase' at about a 95% probability of 25bp on 8-9 December, and its morning headline is explicit - 'Gold struggles to extend rebound as Fed rate hike bets pressure silver'. Williams said on the same day that policy 'will need to adjust' and that 'there is still work to do'. For a non-yielding asset that is a 1-day headwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The one named dated contrarian case is one session old and its own caveat was borne out by this session. David Morrison of Trade Nation, quoted by Kitco on 23 November, said gold's weekly MACD 'has fallen below levels seen during the depths of its 2013 bear market' and silver's was in 'exceptionally oversold territory', possibly 'a final wave of liquidation' - while cautioning that 'daily momentum indicators have yet to confirm a sustainable reversal'. The rebound he was describing failed the next day, by 2.97%. Kitco's 24 November reports carry no named analyst at all; the PM report is credited to 'Kitco NewsWire' and described as AI-assisted. The oversold price case is in any case already scored by the engine's oscillator and range components, which both fire. Neutral at one session."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold positioning figure was obtained for this window: no CFTC commitments of traders, no ETF holdings number, no flow figure, no position size. Kitco's 24 November reports contain no ETF or positioning data of any kind. Its statement about positioning being 'heavily tilted' toward a Fed increase is a rates-expectations observation and is voted under Fed path. Neutral rather than inferred."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts have no gold analogue and are neutral by construction at every horizon. Neutral."
+   ],
+   [
+    "bear",
+    "October PCE lands on 25 November, inside this window, with core consensus at +0.3% month-on-month and headline annual inflation expected near 3.8% (Kitco, 24 November), alongside the Q3 GDP second estimate, durable goods, jobless claims and the Beige Book. In this regime an upside inflation print has been hawkish-negative for the metal rather than positive, because Fed hike bets are what the source names as the pressure on the complex - and the growth-scare bid that could have offset it was removed on S by consumer confidence at 103.3 against about 92.2 expected, the highest since January 2025, with Richmond manufacturing at 3 from -2."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold seasonality statistic was obtained for this window at any horizon, so this category is neutral rather than borrowing the equity-market Thanksgiving figures, which have no bearing on a metal. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The dominant measured driver moved squarely against gold. Gold's 21-session correlation to WTI is -0.623, the strongest single driver relationship in this document, and crude rose 2.35% to $82.05 with Brent +2.27% to $91.40, reversing Monday's 3.88% slide (CappNotes Closing Look, 24 November). The whole complex went with it: silver -5.65% to $40.71 (Kitco's spot silver -5.22% at about $40.790, a session low of $40.570 against a high of $44.08), copper -2.53% to $5.4845, and the miners worse still in the European and Canadian sessions - Antofagasta about -8%, First Quantum -10.35%, Anglo American -5.7%, Fresnillo -4.9% (Kitco, 24 November). The one offset is the dollar's 0.47% fall off its 252-session closing high."
    ],
    [
     "neu",
@@ -384,52 +384,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "structure.weekly computes downtrend for GC=F - the last labeled weekly swings are LL at 3955.40 (29 June), LH at 4755.00 (24 August) and LH at 4157.70 (9 November), a run of lower highs with no higher low to break it - and here the price's own position agrees rather than conflicting: the close of 3548.80 sits 13.0% below the 50-day (4081.17), 19.9% below the 200-day (4430.39) and 0.95% above the 252-session closing low of 3515.40, with RSI back under 30 at 29.62. Unambiguous over five sessions. Bear."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no gold analogue. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No GVZ value dated 24 November was returned by the fetch layer, so the only reading available is 23 November's 31.25, one session stale, and nothing dated at or before S names a percentile, record or multi-year extreme for gold volatility. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Two-sided. Spreads tightened on S - high-yield 356bp, -11bp, investment grade 94bp, -2bp - which removes the forced-selling mechanism Morrison described on 23 November, but that is one session's compression against a 29bp widening through 20 November, and the metal fell 2.97% while it happened. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The yield channel is not live for this asset: corr10Y +0.036, corr2Y -0.264, with the dominant driver oil at -0.623. The 2-year closed unchanged at 4.63% and the 10-year about 1bp lower at 4.90% in any case. Neutral."
+   ],
+   [
+    "bear",
+    "The source names the mechanism. Kitco's 24 November reports have 'market positioning remained heavily tilted toward another Federal Reserve interest rate increase' at about 95% for 25bp on 8-9 December and name Fed rate-hike bets as what is pressuring silver and limiting confidence in a sustained recovery in the metals; Williams said on S that policy 'will need to adjust' and that 'there is still work to do'. Five sessions spent inside that expectation is a headwind for a non-yielding asset."
+   ],
+   [
+    "bull",
+    "The named contrarian case belongs at this horizon rather than at one session, because what it describes is a weekly-momentum extreme. David Morrison of Trade Nation, quoted by Kitco on 23 November, says gold's weekly MACD 'has fallen below levels seen during the depths of its 2013 bear market' and silver's is in 'exceptionally oversold territory', and reads the last leg as possibly 'a final wave of liquidation' driven by investors selling metal to meet margin on leveraged tech positions. The dated judgment of the one named analyst available points up over weeks, and his own caveat - 'daily momentum indicators have yet to confirm a sustainable reversal' - is a statement about days, which is why this is voted neutral at one session and bullish here. The source gives no numeric MACD values, so it is cited as the analyst judgment it is."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold positioning figure - COT, ETF holdings, flow figure, position size - was obtained for this window. Neutral rather than inferred."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts have no gold analogue. Neutral."
+   ],
+   [
+    "bear",
+    "October PCE on 25 November opens this window, with core consensus at +0.3% month-on-month and headline annual inflation expected near 3.8%, alongside the Q3 GDP second estimate at about 3.5%, durable goods, jobless claims and the Beige Book (Kitco, 24 November; week-ahead calendars dated 23 November). With hike bets named as the pressure on the complex and the growth-scare case removed by Tuesday's confidence print of 103.3 - the highest since January 2025 - the asymmetry runs against the metal over this window."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold seasonality statistic was obtained. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Oil is the dominant measured driver at corr -0.623 and it rose 2.35% to $82.05, with Brent +2.27% to $91.40. The complex-wide break is the more durable fact: silver -5.65%, copper -2.53% - an industrial-demand signal, not a monetary one - and the miners down 5% to 10% across the European and Canadian sessions. The dollar's 0.47% fall off a 252-session closing high is the offset and the smaller of the two."
    ],
    [
     "bear",
@@ -438,52 +438,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Same read as at five sessions: structure.weekly computes downtrend, with the last labeled weekly swings LL 3955.40 (29 June), LH 4755.00 (24 August) and LH 4157.70 (9 November), and the close of 3548.80 below both moving averages by 13.0% and 19.9% and 33.3% below the 252-session closing high of 5318.40. A computed downtrend whose price position agrees with it holds over ten sessions. Bear."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Breadth has no gold analogue. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No gold volatility reading dated on S, and nothing dated names a percentile or multi-year extreme. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The high-yield spread's latest dated observation tightened 11bp to 356bp on 24 November after a 29bp widening across its three prior prints, and no observation dated after S exists. Indeterminate over ten sessions for a metal whose link to credit runs only through funding stress. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "corr10Y +0.036 - the yield channel is not live for this asset at any horizon in this regime, and the 10-session window's rate path is in any case unknown as of S. Neutral."
+   ],
+   [
+    "bear",
+    "The 9 December FOMC decision falls inside this window for the first time in this ledger - the horizon matures on the second day of the meeting - with a 25bp hike priced at about 94-96% and Kitco naming hike bets as what is pressuring the metals. Williams on S said policy 'will need to adjust' and that 'there is still work to do'. Ten sessions that contain a near-certain tightening is a headwind for a non-yielding asset."
+   ],
+   [
+    "bull",
+    "The named weekly-momentum extreme is the one dated input pointing up at this horizon: David Morrison of Trade Nation, via Kitco on 23 November, that gold's weekly MACD 'has fallen below levels seen during the depths of its 2013 bear market' and silver's is in 'exceptionally oversold territory', possibly 'a final wave of liquidation'. A weekly-oscillator comparison to a prior bear-market trough is a weeks-to-months signal, which is the horizon this vote covers, and his 'daily momentum indicators have yet to confirm' caveat does not reach it."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold positioning figure was obtained for this window. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts have no gold analogue. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond 25 November's block, no December data calendar dated at or before 24 November was obtained, so this window's macro content past its first session is unknown as of S apart from the FOMC date, which is voted under Fed path. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated gold seasonality statistic was obtained. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Two-sided over ten sessions. Oil's 2.35% rise is a headwind through the measured corr of -0.623, but it reverses a 3.88% fall that rested on Russia-Ukraine peace-deal reporting no dated figure quantifies, so crude's ten-session direction is a headline question rather than a measured one - the same reason this category is neutral at ten sessions for the equity assets. Against the complex-wide break in silver, copper and the miners, the dollar came off its 252-session closing high. Neutral."
    ],
    [
     "bear",
@@ -495,51 +495,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly computes choppy for DX-Y.NYB through 24 November - the last labeled hourly swings are LL at 103.475 (23 November 03:00), HH at 104.53 (12:00), HL at 104.183 (20:00), then LH at 104.403 (24 November 02:00), LL at 103.749 (09:00) and HL at 103.757 (13:00). The run ends on a lower low followed by a marginally higher low, which is the definition of no direction. RSI fell from 72.46 to 64.19 and is no longer overbought, with the close (103.848) 1.7% above the 50-day (102.07) and 3.8% above the 200-day (100.08), so the moving-average read is still up while the computed swing state is mixed. Neutral."
+   ],
+   [
+    "bear",
+    "The decline was broad across the crosses the index actually weights, not a single-pair move: the dollar finished weaker against six of the seven majors, with EUR/USD up about 0.57-0.58% to roughly 1.0963-1.0969 (the ECB's reference rate 1.0963, Trading Economics 1.0965) and GBP/USD up about 0.63-0.67% to roughly 1.3098-1.3119, against USD/JPY +0.18% at 159.22 as the only exception (CappNotes Closing Look and FX recaps, 24 November). Six of seven lower is a 1-day headwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "FX volatility is modestly above average and carries no direction. EUR/USD one-month at-the-money implied volatility was 6.35% as of 24 November, with one-week at 5.83%, two-week 6.06%, three-month 6.13% and overnight 7.85% (FinanceFeeds options tables, 24 November) - the first FX volatility input in this ledger dated on S itself - against the 6.10% Cross Vol Research measured on 13 November and its one-year average of 5.80%. Slightly higher than ten sessions ago and slightly above average is not a signal. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit has no dollar-specific measure in this window and is neutral by construction at every horizon; the day's spread tightening is voted under Cross-asset, where the risk-appetite channel runs. Neutral."
+   ],
+   [
+    "bear",
+    "The measured channel pointed down and it is this asset's dominant one. The dollar's 21-session correlation to the 10-year is +0.424 - the only dominant driver it has - and the 10-year eased about 1bp to 4.90% with the 2-year unchanged at 4.63% and 2s10s flattening to about 27bp from 29bp (CappNotes Closing Look, 24 November). A lower long yield with a positive correlation is a 1-day headwind, and the $70 billion 5-year auction added to it at the margin: it cleared with a 2.37x bid-to-cover above its 2.31x average, but indirect demand was reported as the weakest since March 2020, which is a soft foreign-demand read for dollar assets."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Genuinely two-sided on the day. Williams said policy 'will need to adjust' to get inflation back to 2% 'in a timely manner and on a sustained basis' and that 'there is still work to do', with the economy strong and inflation too high - dollar-positive - while December hike odds eased to about 94-96% across CME FedWatch, Polymarket and Kalshi from roughly 98% on Monday, which is not (CNBC and news log, 24 November). The index fell 0.44% with both facts on the tape. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated FX sentiment survey was obtained for this window, so this category is neutral at every horizon rather than inferred from the RSI of 64.19 - which the engine scores in the oscillator component, where it no longer fires - or borrowed from the equity market's Fear & Greed reading. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar or FX futures positioning figure was obtained for this window - no CFTC commitments of traders in DX or the major crosses, no bank positioning index, no fund flow number. FXStreet's 19 November one-month 25-delta EUR/USD risk reversal of -0.474 volatility points shows euro puts at a premium and its 20 November weekly piece asks whether the euro 'sell-off is overcrowded', but a skew level is not a position size and a headline question is not a figure; both are four and five sessions stale. Neutral rather than inferred."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts have no dollar analogue and are neutral by construction at every horizon. Neutral."
+   ],
+   [
+    "bull",
+    "The 1-session window matures 25 November and contains the block that can move the terminal rate: October PCE at 8:30 ET with core consensus at +0.3% month-on-month and headline annual inflation expected near 3.8% (Kitco, 24 November), the Q3 GDP second estimate at about 3.5% from 3.4%, October durable goods, jobless claims at about 201K against 203K prior, and the Beige Book. The run of dated US data has been coming in hot - Tuesday's consumer confidence 103.3 against about 92.2 expected and up 11.4 points, its highest since January 2025, Richmond manufacturing 3 from -2, Case-Shiller +2.1% year-on-year - so the dollar-positive tail is the live one at this maturity."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar or FX seasonality statistic was obtained for this window at any horizon, so this category is neutral rather than borrowing the equity-market Thanksgiving figures. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The cross-asset tape cut against the index. Oil is a mild positive driver at corr +0.144 and WTI rose 2.35% to $82.05 - and the index fell anyway. Gold fell 2.64% and silver 5.65%, which normally accompanies dollar strength and did not here. On the other side of the pair, a 24 November FX recap attributes the euro's 0.58% gain to a beat in Germany's Ifo business climate, following Germany's 23 November flash composite PMI of 55.0, its highest since March 2022. A 1-day headwind."
    ],
    [
     "neu",
@@ -548,52 +548,52 @@
   ],
   "5": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "structure.weekly computes uptrend for DX-Y.NYB - the last labeled weekly swings are HH at 102.95 (12 October) and HL at 101.10 (2 November), following HL at 98.56 (17 August) and HL at 98.60 (8 September) - and this is the one asset in this document where the computed state and the price's own position agree: the close of 103.848 is 1.7% above the 50-day (102.07), 3.8% above the 200-day (100.08), above that last labeled weekly higher low of 101.10 and only 0.45% below the 252-session closing high of 104.32. RSI 64.19 is no longer overbought. Bull."
+   ],
+   [
+    "bear",
+    "The only dated breadth observation available is S's own, and it was broad dollar weakness: the index finished lower against six of the seven majors, EUR/USD +0.57-0.58% to roughly 1.0963-1.0969 and GBP/USD +0.63-0.67% to roughly 1.3098-1.3119, with USD/JPY +0.18% at 159.22 the only exception (CappNotes Closing Look and FX recaps, 24 November). No multi-session FX breadth measure dated at or before S was obtained, so this is one session's read used at five - a lean, not a strong input."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "EUR/USD one-month at-the-money implied volatility of 6.35% as of 24 November (FinanceFeeds options tables) against 6.10% on 13 November and a one-year average of 5.80% (Cross Vol Research): modestly above average and modestly higher than ten sessions ago, with no percentile or extreme named by any source. No direction over five sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit has no dollar-specific measure in this window. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Two-sided. The dominant driver is the 10-year at corr +0.424 and it fell about 1bp to 4.90% on S, which is a headwind - but a 1bp move is noise, the 2-year was unchanged at 4.63% for a second session, and the week's supply has been absorbed: the $70 billion 5-year cleared with a 2.37x bid-to-cover against a 2.31x average, though indirect demand was reported as the weakest since March 2020. October PCE on the window's first day is what actually sets the rate path, and nothing dated at or before S says which way. Neutral."
+   ],
+   [
+    "bull",
+    "At this horizon the level of policy divergence matters more than the day's two-point shift in odds. A 25bp Fed hike on 9 December is priced at about 94-96% across CME FedWatch, Polymarket and Kalshi with Kitco at about 95%, and Williams on 24 November said policy 'will need to adjust' to return inflation to 2% 'in a timely manner and on a sustained basis' and that 'there is still work to do' - a tightening cycle still running, which is the standing support that carried this index to a 252-session closing high on Monday. The honest offset is the direction of the dated change on S: odds eased from roughly 98%, which is why this vote is neutral at one session and bullish here."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated FX sentiment survey was obtained. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar or FX futures positioning figure was obtained for this window; the 19 and 20 November FXStreet skew and 'overcrowded' references are four and five sessions stale and carry no position size or percentile. Neutral rather than inferred."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts have no dollar analogue. Neutral."
+   ],
+   [
+    "bull",
+    "The window opens with the block that sets the rate path - October PCE, the Q3 GDP second estimate at about 3.5%, October durable goods, jobless claims and the Beige Book on 25 November, with core PCE consensus at +0.3% month-on-month and headline annual inflation expected near 3.8% (Kitco, 24 November; week-ahead calendars dated 23 November) - and the dated run of US prints into it has been hot: consumer confidence 103.3 against about 92.2 expected and its highest since January 2025, Richmond manufacturing 3 from -2, Case-Shiller +2.1% year-on-year. An upside core print is the dollar-positive tail and the one that reprices the terminal rate."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar seasonality statistic was obtained. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Two-sided over five sessions. Oil at corr +0.144 rose 2.35% to $82.05, a mild positive the index ignored on the day, and gold and silver fell hard, which usually accompanies dollar strength. Against that, European activity data is beating as well as America's: a 24 November FX recap attributes the euro's gain to a beat in Germany's Ifo business climate, after Germany's 23 November flash composite PMI printed 55.0, its highest since March 2022. Two economies surprising up at once gives the differential no clear direction. Neutral."
    ],
    [
     "bull",
@@ -602,52 +602,52 @@
   ],
   "10": [
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "Same read as at five sessions and it is the only asset here whose computed state and price position agree: structure.weekly computes uptrend (HL 98.56 on 17 August, HL 98.60 on 8 September, HH 102.95 on 12 October, HL 101.10 on 2 November) with the close of 103.848 above the 50-day, the 200-day and that last labeled higher low, and 0.45% below the 252-session closing high. Bull."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated multi-session FX breadth measure was obtained for this window. One session's six-of-seven read is not evidence over ten sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "One-month EUR/USD implied volatility at 6.35% on 24 November against a 5.80% one-year average: modestly above average, no percentile or extreme named, no direction over ten sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Credit has no dollar-specific measure in this window. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The dominant driver is the 10-year at corr +0.424, and this window matures 9 December, the second day of the FOMC meeting, so the rate path through it turns on the decision itself. Nothing dated at or before 24 November says which way. Neutral."
+   ],
+   [
+    "bull",
+    "For the first time in this ledger the 9 December FOMC decision falls inside the 10-session window rather than one session past it. A 25bp hike is priced at about 94-96% across CME FedWatch, Polymarket and Kalshi, Williams on 24 November said policy 'will need to adjust' and that 'there is still work to do', and Tuesday's data - confidence 103.3, the highest since January 2025, Richmond 3 from -2 - gives the Committee room. A near-certain hike landing inside the window is dollar-positive. The offset, and it is real: the 17 December ECB and 18 December Bank of Japan meetings fall past this window's maturity and no probability for either dated at or before S was obtained, so the other side of the differential is not scored here."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated FX sentiment survey was obtained. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar or FX futures positioning figure was obtained for this window. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Earnings catalysts have no dollar analogue. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond 25 November's block, no December data calendar dated at or before 24 November was obtained, so this window's macro content past its first session is unknown as of S apart from the FOMC date, which is voted under Fed path. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated dollar seasonality statistic was obtained. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Two-sided over ten sessions. The index is 3.8% above its 200-day and came off a 252-session closing high on a day both its measured drivers argued the other way; European activity data is beating alongside America's (Germany's flash composite PMI 55.0 on 23 November, its highest since March 2022, and a 24 November recap crediting an Ifo beat for the euro's gain); and oil's ten-session direction rests on Russia-Ukraine reporting no dated figure quantifies. Neutral."
    ],
    [
     "bull",
@@ -659,51 +659,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly computes choppy for RTY=F through 24 November - the last labeled hourly swings are HL at 2638.40 (23 November 08:00), HH at 2681.00 (09:00), HH at 2688.70 (20:00), then LH at 2683.40 (24 November 02:00), HL at 2645.80 (08:00) and HH at 2701.20 (14:00). The last two swings are a higher low into a higher high, but the lower high in between is what keeps the computed state mixed. RSI 41.87, with the close (2684.20) 4.3% below the 50-day (2803.80) and 4.9% below the 200-day (2822.70) - two averages sitting almost on top of each other. No authored direction. Neutral."
+   ],
+   [
+    "bull",
+    "Breadth was the session's best feature and small caps were on the right side of it: 346 S&P 500 advancers to 154 decliners with nine of eleven sectors higher and equal-weight RSP +0.54% against the cap-weighted index's -0.50%, while the Russell 2000 rose 0.57% and the SmallCap 600 0.05% (CappNotes Closing Look, 24 November). The MidCap 400's -0.23% is the one blemish. A broad advance on a day the cap-weighted index fell is a 1-day tailwind for the index with the least mega-cap weight."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No RVX value dated 23 or 24 November was obtainable - Cboe's dashboard shows an undated last sale of 36.88, FRED's RVXCLS series was not current, and RVX is not among the gauges this ledger's fetch layer pulls from Yahoo - so the sigma input is the 20 November close carried two sessions forward (see sigmaSource). The VIX fell only 0.98% to 26.36 on S. There is no dated small-cap volatility reading to vote. Neutral."
+   ],
+   [
+    "bull",
+    "Credit is the channel small caps run through and it tightened for the first time in this document's recent window: high-yield spreads 356bp, -11bp, and investment grade 94bp, -2bp on 24 November (CappNotes Closing Look), against ICE BofA high-yield prints of 3.47% (18 November), 3.52% (19th) and 3.76% (20th). An 11bp compression in the spread itself matters more here than for any other equity asset in this document. A 1-day tailwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The front end did not move, which matters more here than anywhere else: the Russell's measured 21-session beta to the 2-year is -0.0977, the most negative of the six assets, and its big-day (|change in 2Y| >= 5bp, n=6) correlation is -0.843, the strongest relationship in this document - and the 2-year closed unchanged at 4.63% for a second consecutive session, with the 10-year about 1bp lower at 4.90% (CappNotes Closing Look, 24 November). A flat front end gives the strongest relationship here nothing to act on. Neutral."
+   ],
+   [
+    "bear",
+    "A 25bp hike on 9 December is priced at about 94-96% across CME FedWatch, Polymarket and Kalshi, and Williams on 24 November said policy 'will need to adjust' to return inflation to 2% 'in a timely manner and on a sustained basis' and that 'there is still work to do', with the economy strong and inflation too high (CNBC and news log, 24 November). Tuesday's confidence print of 103.3, the highest since January 2025, removes the growth argument against tightening. This is the most rate-sensitive index in the document by measured 2-year beta, so a hawkish restatement is a 1-day headwind."
+   ],
+   [
+    "bull",
+    "CNN's Fear & Greed Index read about 17 on 24 November, still Extreme Fear, after about 10 on 20 November - reported as its lowest since March - with AAII's survey for the week ending 18 November at about 33% bullish and 42% bearish. The gauge is a whole-market reading rather than a small-cap one, but it is dated and it has not unwound after two sessions of recovery in the average stock. A contrarian positive at one session."
+   ],
+   [
+    "bull",
+    "The aggregate positioning extreme applies to this index too at the 1-session horizon, even though none of it is small-cap specific. Two independent reports of the same 23 November Goldman Sachs prime-brokerage briefing have fundamental long/short net leverage of 42.3% at a 1st-to-5th percentile one-year reading, beta-adjusted net exposure at a 1st-percentile three-year reading or a five-year low, the largest weekly single-stock shorting flow since June 2022, CTAs net short after selling about $57 billion of US equities over a month, and a Goldman Panic Index of 9.8 out of 10 whose readings above 9.5 the briefing says have historically signalled near-term relief. US equity exposure that low is forced demand across the market, and that includes this index; see nullInputs for why it is not recorded in crowd here."
+   ],
+   [
+    "bull",
+    "The day's dated single-stock catalysts sat squarely in this index's kind of company. Amentum rose 20.10%, Abercrombie & Fitch 19.69%, Kohl's 19.48%, Dick's Sporting Goods 14.59% and Cytokinetics 11.36% - four of the five largest gainers on the day were consumer or services names reporting strong results or raising outlooks - against Dycom -18.02% and Semtech -16.97% (CappNotes Closing Look, 24 November). Retail beating on the same day consumer confidence printed 103.3, its highest since January 2025, is a 1-day tailwind for a domestically-weighted index."
+   ],
+   [
+    "bear",
+    "The 1-session window matures 25 November and contains October PCE (core consensus +0.3% month-on-month, headline annual expected near 3.8%), the Q3 GDP second estimate at about 3.5%, October durable goods, jobless claims at about 201K against 203K, and the Beige Book (Kitco, 24 November; week-ahead calendars dated 23 November). For the most rate-sensitive index here by measured 2-year beta the asymmetry is unhelpful: with a hike about 95% priced, an in-line print changes little while an upside core print reprices the terminal rate - and Tuesday's own data raised the bar."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The dated seasonality statistics are S&P 500 numbers, not small-cap ones: BofA's Suttmeier has the S&P 500 up in about 60% of Thanksgiving weeks since 1928 at an average +0.28% and a median +0.46%, and a Yahoo Finance analysis puts the holiday week at an average +0.80% with 73% positive since 2000, naming Monday and Wednesday the strongest days. No small-cap seasonality statistic was obtained, and a large-cap figure is too thin to vote directionally for this asset. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The dominant measured driver moved against it. The Russell's 21-session correlation to WTI is -0.524 and crude rose 2.35% to $82.05 with Brent +2.27% to $91.40, reversing Monday's slide, while copper fell 2.53% and silver 5.65% - higher input costs alongside softer industrial metals is the wrong combination for small-cap margins (CappNotes Closing Look, 24 November). The dollar's 0.47% fall is the offset, and it helps this index least of the six since its revenue is the most domestic."
    ],
    [
     "neu",
@@ -713,51 +713,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly computes choppy for RTY=F - the last labeled weekly swings are HL at 2902.30 (27 July), HH at 3079.90 (17 August) and LH at 2888.70 (2 November), which the engine also records as the lastBreak - a lower high ending a run of higher highs and lows. The close of 2684.20 sits below both the 50-day (2803.80) and the 200-day (2822.70) and 7.1% below that last labeled weekly lower high. Mixed state, price below both averages: no authored direction over five sessions. Neutral."
+   ],
+   [
+    "bull",
+    "Small caps led on a down day for the cap-weighted market for the first time in this document's recent window, and the leadership was broad rather than narrow: the Russell 2000 +0.57% against the S&P 500's -0.50% and the Nasdaq-100 cash index's -1.99% - a 107bp and 256bp outperformance - with 346 advancers to 154 decliners, nine of eleven sectors higher and equal-weight RSP +0.54% while the whole decline sat in semiconductors (Philadelphia Semiconductor Index -7.88%, SOXX -8.27%) (CappNotes Closing Look, 24 November). Over five sessions a rotation out of concentrated mega-cap risk is the cleanest tailwind this index has."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The RVX input is carried two sessions from 20 November's 36.88 because no 23 or 24 November value was obtainable, and it is the most sigma-sensitive reading in this document: at a sigma of 27 - roughly what a VIX of 26.36 implies - extension50 would fire at -1 for a stretch score of -1 instead of 0, though both are neutral labels (see sigmaSource). Nothing dated at or before 24 November names a small-cap volatility level, percentile or extreme. Neutral."
+   ],
+   [
+    "bull",
+    "The credit series turned on its latest dated observation, and credit is the transmission channel that matters most for this index: high-yield spreads tightened 11bp to 356bp and investment grade 2bp to 94bp on 24 November, reversing direction after ICE BofA high-yield prints of 3.47%, 3.52% and 3.76% through 20 November (CappNotes Closing Look). A change in the spread itself rather than an ETF price is a five-session tailwind for leveraged small-cap balance sheets."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The two measured relationships have nothing to act on. The Russell's beta to the 2-year is -0.0977 and its big-day correlation -0.843, both the strongest in this document, and the 2-year closed unchanged at 4.63% for a second session with the 10-year about 1bp lower at 4.90%. The week's supply was two-sided too: the $70 billion 5-year cleared with a 2.37x bid-to-cover against a 2.31x average but indirect demand reported as the weakest since March 2020. October PCE resolves the window on its first day and nothing dated at or before S says which way. Neutral."
+   ],
+   [
+    "bear",
+    "A 25bp hike on 9 December is priced at about 94-96% and Williams on 24 November restated that policy 'will need to adjust' and that 'there is still work to do', with Tuesday's confidence print of 103.3 - the highest since January 2025 - removing the growth case against it. Five sessions spent positioning into a near-certain tightening is a headwind for the most rate-sensitive index here by measured 2-year beta."
+   ],
+   [
+    "bull",
+    "CNN's Fear & Greed Index at about 17 on 24 November is still in Extreme Fear after about 10 on 20 November, reported as its lowest since March, with AAII at about 33% bull / 42% bear for the week ending 18 November. It is a whole-market gauge rather than a small-cap one, but over five sessions a sentiment reading that low and that persistent is a contrarian positive, and this index is 12.7% below its own 252-session closing high."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No small-cap-specific position size, percentile or fund-flow figure dated at or before 24 November was obtained. The 23 November Goldman prime-brokerage percentiles are aggregate US-equity measures and the one index-specific extreme in that briefing - CTA positioning 'near the bottom of its 10-year range' - is named for the Nasdaq-100, not for small caps, which is also why crowd stays 0 for this asset. Voting the aggregate figures at five sessions would be extrapolation. Neutral."
+   ],
+   [
+    "bull",
+    "The dated earnings read-through is small-cap-specific and lasts longer than a day. The day's largest gainers were consumer and services names reporting strong results - Amentum +20.10%, Abercrombie & Fitch +19.69%, Kohl's +19.48%, Dick's Sporting Goods +14.59%, with Dollar Tree having raised its annual profit forecast pre-market (+8.6%, news log, 24 November) - and they landed on the same day Conference Board consumer confidence jumped 11.4 points to 103.3, its highest since January 2025, against about 92.2 expected. A domestic consumer that is both spending and confident is a five-session tailwind for a domestically-weighted index, with Dycom -18.02% and Semtech -16.97% the offsets."
+   ],
+   [
+    "bear",
+    "October PCE, the Q3 GDP second estimate, October durable goods, jobless claims and the Beige Book all land on 25 November, the window's first session, with core PCE consensus at +0.3% month-on-month and headline annual inflation expected near 3.8% (Kitco, 24 November; week-ahead calendars dated 23 November). With a hike about 95% priced, the asymmetry runs against the index with the most negative measured 2-year beta in this document."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The only dated statistics available are S&P 500 Thanksgiving figures used as a proxy - Suttmeier at about 60% of weeks up since 1928, average +0.28%, median +0.46%; a Yahoo Finance analysis at an average +0.80% and 73% positive since 2000 - and they split across this window in any case, since the week immediately after Thanksgiving that holds three of its five sessions is up only about 53% of the time on the same work. No small-cap seasonality statistic was obtained. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "Oil is the dominant measured driver at corr -0.524 and WTI rose 2.35% to $82.05 with Brent +2.27%, reversing the fall that had been helping; copper's 2.53% decline to $5.4845 is an industrial-activity signal that cuts the same way for small-cap cyclicals, and silver fell 5.65%. The dollar's 0.47% fall off its 252-session closing high is a mild offset that matters least for this index's largely domestic revenue base."
    ],
    [
     "neu",
@@ -767,51 +767,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "Same read as at five sessions: structure.weekly computes choppy, with the last labeled weekly swings HL 2902.30 (27 July), HH 3079.90 (17 August) and LH 2888.70 (2 November, recorded as the lastBreak), and the close of 2684.20 below both the 50-day and the 200-day, which sit 0.7% apart. No authored direction over ten sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated multi-session small-cap breadth series was obtained for this window. One session's 107bp outperformance of the S&P 500 is not evidence over ten sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No RVX value dated 23 or 24 November was obtainable and the sigma input is carried two sessions from 20 November; nothing dated names a small-cap volatility extreme. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The high-yield spread's latest dated observation tightened 11bp to 356bp on 24 November after widening 29bp across its three prior prints through 20 November, and no observation dated after S exists to say which is the trend. Over ten sessions that is genuinely indeterminate for the asset most exposed to it. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The Russell's beta to the 2-year is -0.0977 and its big-day correlation -0.843, the strongest in this document - so the ten-session path turns almost entirely on the front end, and this window matures 9 December, the second day of the FOMC meeting. Nothing dated at or before 24 November says which way the 2-year moves through it. Neutral."
+   ],
+   [
+    "bear",
+    "The 9 December FOMC decision falls inside this window for the first time in this ledger, with a 25bp hike priced at about 94-96% and Williams on 24 November restating that policy 'will need to adjust' and that 'there is still work to do'. For the index with the most negative measured 2-year beta and the strongest big-day correlation here, ten sessions containing a near-certain hike - with the terminal rate the open question - is a headwind."
+   ],
+   [
+    "bull",
+    "CNN's Fear & Greed Index at about 17 on 24 November (Extreme Fear) after about 10 on 20 November, reported as its lowest since March, and AAII at about 33% bull / 42% bear for the week ending 18 November. These are weekly-to-monthly gauges, so ten sessions is the horizon they are actually built for, and this index sits 12.7% below its own 252-session closing high. A contrarian positive."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No small-cap-specific position size, percentile or fund-flow figure dated at or before 24 November was obtained; the Goldman percentile readings are aggregate and the one index-specific extreme is named for the Nasdaq-100. Neutral rather than extrapolated."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings calendar dated at or before 24 November extends past Deere on 25 November, and the small-cap reporting season is effectively finished. The window runs to 9 December with its earnings content unknown as of S. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond 25 November's block, no December data calendar dated at or before 24 November was obtained, so this window's macro content past its first session is unknown as of S apart from the FOMC date, which is voted under Fed path. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The only statistic covering this window is an S&P 500 proxy - Suttmeier's Thanksgiving-to-year-end measure of the S&P 500 up about 71% of the time at an average +1.46% and a median +1.7%, with the post-Thanksgiving week up only about 53% of the time sitting inside the window. No small-cap seasonality statistic was obtained, and a large-cap proxy with its own internal offset is too thin to vote. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Two-sided over ten sessions. Oil's 2.35% rise to $82.05 is a headwind through the measured corr of -0.524, but it reverses a 3.88% fall that rested on Russia-Ukraine reporting no dated figure quantifies, so crude's direction over this window is a headline question rather than a measured one. Copper's 2.53% decline cuts against small-cap cyclicals; the dollar coming off a 252-session closing high does not matter much for a domestic revenue base. Neutral."
    ],
    [
     "neu",
@@ -823,51 +823,51 @@
   "1": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.hourly computes choppy for NQ=F through 24 November - the last labeled hourly swings are HL at 26684.00 (23 November 18:00), HH at 27036.00 (20:00), HL at 26707.00 (22:00), then LH at 26949.50 (24 November 02:00), LH at 26509.75 (10:00) and LL at 25998.00 (11:00). The run is mixed overall but its last three labeled swings are two lower highs and a lower low. RSI 38.49, with the close (26198.5) 10.6% below the 50-day (29289.92) and 7.1% below the 200-day (28213.32) - the widest 50-day gap of any asset in this document. The moving-average read and the last swings both point down while the computed state gives no direction. Neutral."
+   ],
+   [
+    "bear",
+    "Breadth inside this index was the worst thing on the tape even though the market's was fine. The Nasdaq-100 cash index fell 1.99% while equal-weight RSP rose 0.54% - a 253bp gap - with nine of eleven S&P 500 sectors higher and Technology the only one below -1% at -3.26%; the Philadelphia Semiconductor Index fell 7.88%, SOXX 8.27% and the leveraged SOXL 24.55%, and five of the six largest decliners on the day were chip names (Analog Devices -17.37%, Semtech -16.97%, MaxLinear -16.74%, Micron -11.01%, with Hewlett Packard Enterprise -16.31%) (CappNotes Closing Look, 24 November). A 1-day headwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Two-sided, and the inputs are a session apart. No VXN value dated 24 November was returned by the fetch layer, so the sigma input is the 36.31 close of 23 November, while the VIX fell 0.98% to 26.36 on S itself. A flat VIX against a 7.88% semiconductor decline is a dispersion event rather than a volatility event, which cuts one way for the market and the other for this index. Saxo's 23 November brief put the VXN/VIX ratio at 1.26 on Friday's data and labelled the regime 'HIGH VOL BEAR'; no brief dated 24 November was obtainable. Neutral."
+   ],
+   [
+    "bull",
+    "Credit tightened for the first time in this document's recent window - high-yield spreads 356bp, -11bp, and investment grade 94bp, -2bp (CappNotes Closing Look, 24 November) - against ICE BofA high-yield prints of 3.47%, 3.52% and 3.76% through 20 November. Funding conditions easing on a day the index's largest industry fell 7.88% says the decline was about demand expectations for chips, not about the cost of money. A 1-day tailwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Both of this index's dominant measured drivers point the same way and neither moved enough to matter. The Nasdaq-100's 21-session correlations are +0.447 to the 10-year and -0.427 to oil, the only asset here with two dominant drivers: the 10-year eased about 1bp to 4.90% - a mild negative with a positive correlation - and WTI rose 2.35%, also a negative. A 1bp yield move is noise, and the oil leg is voted under Cross-asset. Neutral."
+   ],
+   [
+    "bear",
+    "A 25bp hike on 9 December is priced at about 94-96% across CME FedWatch, Polymarket and Kalshi, and Williams on 24 November said policy 'will need to adjust' to return inflation to 2% 'in a timely manner and on a sustained basis' and that 'there is still work to do', with the economy strong and inflation too high (CNBC and news log, 24 November). This index carries the most negative measured 2-year beta in the document at -0.1204, so a hawkish restatement is a 1-day headwind for long-duration growth."
+   ],
+   [
+    "bull",
+    "CNN's Fear & Greed Index read about 17 on 24 November, still Extreme Fear, after about 10 on 20 November - reported as its lowest since March - with AAII's survey for the week ending 18 November at about 33% bullish and 42% bearish. A gauge that has not left Extreme Fear through two sessions of recovery in the average stock, with this index 16.8% below its own 252-session closing high, is a contrarian positive at one session."
+   ],
+   [
+    "bull",
+    "The positioning extreme is strongest for this index, and one component of it is named for the Nasdaq-100 specifically. The 23 November Goldman Sachs prime-brokerage briefing, per two independent accounts, has CTA positioning in the Nasdaq-100 'near the bottom of its 10-year range', fundamental long/short net leverage of 42.3% at a 1st-to-5th percentile one-year reading, beta-adjusted net exposure at a 1st-percentile three-year reading or a five-year low, the largest weekly single-stock shorting flow since June 2022, and a Goldman Panic Index of 9.8 out of 10 whose readings above 9.5 the briefing says have historically signalled near-term relief. This is the input that sets crowd to -1 for this asset; see nullInputs for the full sourcing."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The earnings catalysts inside the 1-session window split. After Tuesday's close Dell posted record revenue of $54.9 billion and traded about +4%, having fallen 11.83% in the regular session, while Workday fell about 4% on soft Q4 subscription guidance - the two index members reporting, one each way; HP Inc.'s roughly 9% after-hours gain on a beat and an upbeat fiscal-2027 outlook is not a Nasdaq-100 name. The semiconductor reports already in the close were decisively negative (Analog Devices -17.37%, Semtech -16.97%, Micron -11.01% on a downgrade to Neutral and high-bandwidth-memory demand worries) and Nvidia gave back 5.86% of Monday's 31.48%. One up, one down, with the chip question unresolved. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The 1-session window matures 25 November and contains October PCE (core consensus +0.3% month-on-month, headline annual expected near 3.8%), the Q3 GDP second estimate at about 3.5%, October durable goods, jobless claims at about 201K against 203K, and the Beige Book at 2pm (Kitco, 24 November; week-ahead calendars dated 23 November). For the longest-duration index here - measured 2-year beta -0.1204, correlation to the 10-year +0.447 - the asymmetry is unhelpful with a hike about 95% priced, and Tuesday's own confidence print of 103.3 against about 92.2 expected raised the bar for a dovish read."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
+    "bull",
+    "The 1-session window matures Wednesday 25 November, which the dated statistics single out: a Yahoo Finance analysis puts the holiday week at an average +0.80% with 73% of returns positive since 2000 and names Monday and Wednesday the strongest days within it, and BofA's Suttmeier has the S&P 500 up in about 60% of Thanksgiving weeks since 1928 at an average +0.28%. Both are S&P 500 statistics used here as a named proxy - no Nasdaq-specific seasonality figure was obtained - but they are dated and they point one way at exactly this maturity."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The cross-asset sequence is the clearest fact of the day and it faded the whole way west. Asia staged a chip-led squeeze overnight on the Huang reinstatement - Kospi +7.5%, Taiwan's Taiex +9.1%, the Nikkei 225 up as much as 5%, MSCI Asia-Pacific ex-Japan +4.6% off an eight-month low, with Advantest +14% and Samsung Electronics, SK Hynix and TSMC each +8% or more - then Europe opened lower and US futures turned down, Nasdaq-100 e-minis -1.64% by 7:04 ET with Nvidia -5.2% pre-market (news log, 24 November). On top of that both dominant drivers moved against the index: the 10-year lower about 1bp against corr +0.447, and WTI +2.35% to $82.05 against corr -0.427."
    ],
    [
     "neu",
@@ -877,51 +877,51 @@
   "5": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "structure.weekly computes choppy for NQ=F - the last labeled weekly swings are HL at 28227.75 (8 June), HH at 30968.00 (22 June), LL at 27201.50 (27 July), LH at 30343.00 (17 August), HL at 28763.75 (14 September) and HH at 31616.50 (5 October): a genuinely mixed sequence, and the close of 26198.5 sits below the 50-day (29289.92), below the 200-day (28213.32) and 8.9% below that last labeled weekly higher low of 28763.75. A mixed state whose price has undercut its own last higher low gives no authored direction over five sessions. Neutral."
+   ],
+   [
+    "bear",
+    "The index's own internals are deteriorating while the market's improve, and that gap is the five-session story: the Nasdaq-100 cash index -1.99% against equal-weight RSP's +0.54%, a 253bp gap, with Technology the only S&P 500 sector below -1% at -3.26% while nine of eleven rose; the Philadelphia Semiconductor Index -7.88%, SOXX -8.27%; and on the 23 November Goldman briefing's numbers the SMH semiconductor fund is 41% below its mid-June high. Two sessions ago this index rose 6.86% on one stock. Concentration that works in both directions is a headwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The volatility inputs are a session apart and point different ways. No VXN value dated 24 November was returned by the fetch layer, so the only reading available is 23 November's 36.31 - against a VIX of 26.36 on S, a ratio of about 1.38 on mismatched dates, where Saxo's 23 November brief had it at 1.26 on Friday's data with the term structure backwardated and the regime labelled 'HIGH VOL BEAR'. Widening dispersion between this index's own volatility and the market's is two-sided over five sessions. Neutral."
+   ],
+   [
+    "bull",
+    "The credit series turned on its latest dated observation: high-yield spreads tightened 11bp to 356bp and investment grade 2bp to 94bp on 24 November, reversing the 3.47% / 3.52% / 3.76% widening through 20 November (CappNotes Closing Look). For an index whose decline is being driven by capital- spending expectations rather than funding costs, easier credit over five sessions is a tailwind."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Both dominant measured drivers gave little: corr10Y +0.447 against a 10-year about 1bp lower at 4.90%, and corrOil -0.427 against crude up 2.35% - the second of which is voted under Cross-asset. October PCE resolves the rate leg on the window's first day and nothing dated at or before S says which way. Neutral."
+   ],
+   [
+    "bear",
+    "A 25bp hike on 9 December is priced at about 94-96% and Williams on 24 November restated that policy 'will need to adjust' and that 'there is still work to do', with Tuesday's confidence print of 103.3 - the highest since January 2025 - removing the growth case against it. This index has the most negative measured 2-year beta in the document at -0.1204 and the highest correlation to the 10-year at +0.447, so five sessions of positioning into a near-certain tightening is a headwind for long-duration growth."
+   ],
+   [
+    "bull",
+    "CNN's Fear & Greed Index at about 17 on 24 November is still in Extreme Fear after about 10 on 20 November, reported as its lowest since March, with AAII at about 33% bull / 42% bear for the week ending 18 November. A gauge that low and that persistent, with this index 16.8% below its 252-session closing high, is a five-session contrarian positive."
+   ],
+   [
+    "bull",
+    "The index-specific positioning extreme is the strongest dated input here: CTA positioning in the Nasdaq-100 'near the bottom of its 10-year range' on the 23 November Goldman Sachs prime-brokerage briefing, alongside fundamental long/short net leverage of 42.3% at a 1st-to-5th percentile one-year reading and beta-adjusted net exposure at a 1st-percentile three-year reading or a five-year low. The honest offset from the same briefing is that it modelled systematic selling across all tape scenarios for that week; over five sessions a ten-year positioning low is the stronger of the two."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The window's earnings content is thin and cuts both ways. Deere reports 25 November and is not a Nasdaq-100 name, and no calendar dated at or before 24 November extends past it; Thursday is a holiday and Friday a half day. The two index members that reported after Tuesday's close split - Dell about +4% on record revenue of $54.9 billion, Workday about -4% on soft Q4 subscription guidance - while the unresolved question the tape is trading is high-bandwidth-memory demand, which Micron's downgrade to Neutral raised and nothing dated at or before S answers. Neutral."
+   ],
+   [
+    "bear",
+    "October PCE, the Q3 GDP second estimate, October durable goods, jobless claims and the Beige Book all land on 25 November, the window's first session, with core PCE consensus at +0.3% month-on-month and headline annual inflation expected near 3.8% (Kitco, 24 November; week-ahead calendars dated 23 November). With a hike about 95% priced, an upside core print reprices the terminal rate - the single worst outcome for the longest-duration index in this document."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Nasdaq-specific seasonality statistic was obtained, and the S&P 500 proxies split across this window: its five sessions are 25 and 27 November, inside the Thanksgiving week Suttmeier measures as up about 60% of the time since 1928 at an average +0.28%, and then 30 November, 1 and 2 December, inside the week after Thanksgiving that the same work measures as up only about 53% of the time. Three of five sessions fall in the weaker half. Neutral."
    ],
    [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "bear",
+    "The cross-asset read is negative on both of this index's dominant drivers and on the one narrative that moved it. Oil at corr -0.427 rose 2.35% to $82.05; the overnight Asian chip squeeze (Kospi +7.5%, Taiex +9.1%, Advantest +14%, Samsung Electronics, SK Hynix and TSMC each +8% or more) faded through Europe and into a 1.99% US decline, which is what a one-day repricing rather than a trend change looks like (news log, 24 November); and the semiconductor demand question that drove it - Micron's downgrade to Neutral on high-bandwidth-memory worries, SOXX -8.27% - is unresolved as of S."
    ],
    [
     "neu",
@@ -931,51 +931,51 @@
   "10": [
    [
     "neu",
-    "TODO: fill in before publish"
+    "Same read as at five sessions: structure.weekly computes choppy (HL 28227.75, HH 30968.00, LL 27201.50, LH 30343.00, HL 28763.75, HH 31616.50 on 5 October) with the close of 26198.5 below the 50-day, the 200-day and that last labeled weekly higher low by 8.9%. No authored direction over ten sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No dated multi-session Nasdaq breadth series was obtained for this window. One session's semiconductor rout - the Philadelphia Semiconductor Index -7.88%, SOXX -8.27% - is a single observation, not a series, and the 253bp gap to equal-weight RSP is a concentration reading. Neutral rather than extrapolated."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Nothing dated at or before 24 November describes the forward volatility path beyond Saxo's 23 November term structure, which was backwardated on Friday's data with the regime labelled 'HIGH VOL BEAR', and no VXN value dated on S itself was returned by the fetch layer. Indeterminate over ten sessions. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "The high-yield spread's latest dated observation tightened 11bp to 356bp on 24 November after widening 29bp across its three prior prints through 20 November, and no observation dated after S exists to say which is the trend. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Two-sided on the measured relationships - corr10Y +0.447 and corrOil -0.427, the only asset here with two dominant drivers - and this window matures 9 December, the second day of the FOMC meeting, so the rate leg turns on the decision itself. Nothing dated at or before 24 November says which way. Neutral."
+   ],
+   [
+    "bear",
+    "The 9 December FOMC decision falls inside this window for the first time in this ledger, with a 25bp hike priced at about 94-96% and Williams on 24 November restating that policy 'will need to adjust' and that 'there is still work to do'. This index carries the most negative measured 2-year beta in the document at -0.1204 and the highest correlation to the 10-year at +0.447, so ten sessions containing a near-certain hike - with the terminal rate and the statement language the open questions - is a headwind for long-duration growth."
+   ],
+   [
+    "bull",
+    "CNN's Fear & Greed Index at about 17 on 24 November (Extreme Fear) after about 10 on 20 November, reported as its lowest since March, and AAII at about 33% bull / 42% bear for the week ending 18 November. These are weekly-to-monthly gauges, so ten sessions is the horizon they are built for, and this index sits 16.8% below its own 252-session closing high. A contrarian positive."
+   ],
+   [
+    "bull",
+    "Positioning extremes of this kind mean-revert over weeks rather than days, which makes this the horizon the input belongs at: CTA positioning in the Nasdaq-100 'near the bottom of its 10-year range' and hedge-fund beta-adjusted net exposure at a 1st-percentile three-year reading described elsewhere as a five-year low, both from the 23 November Goldman Sachs prime-brokerage briefing, with the Goldman Panic Index at 9.8 out of 10 - a gauge the same briefing says has historically signalled near-term relief above 9.5."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No earnings calendar dated at or before 24 November extends past Deere on 25 November, which is not a Nasdaq-100 name, and nothing is scheduled for the following week in any calendar obtained. The window runs to 9 December with its earnings content unknown as of S. Neutral rather than guessed at."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "Beyond 25 November's block, no December data calendar dated at or before 24 November was obtained, so this window's macro content past its first session is unknown as of S apart from the FOMC date, which is voted under Fed path. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
+    "No Nasdaq-specific seasonality statistic was obtained. The only figure covering this window is an S&P 500 proxy - Suttmeier's Thanksgiving-to-year-end measure of the S&P 500 up about 71% of the time at an average +1.46% and a median +1.7% - and it carries its own offset in the same work, the week after Thanksgiving up only about 53% of the time, which sits inside this window. Too thin to vote for this asset. Neutral."
    ],
    [
     "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
-   ],
-   [
-    "neu",
-    "TODO: fill in before publish"
+    "Two-sided over ten sessions. Oil's 2.35% rise is a headwind through corr -0.427 but it reverses a 3.88% fall that rested on Russia-Ukraine reporting no dated figure quantifies, and the 10-year's direction through the FOMC is unknown as of S. The semiconductor demand question - Micron's downgrade on high-bandwidth-memory worries, SMH reported 41% below its mid-June high - is the live issue and no dated figure resolves it either way. Neutral."
    ],
    [
     "neu",
