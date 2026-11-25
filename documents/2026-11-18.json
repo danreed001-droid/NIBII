@@ -460,8 +460,8 @@
        false
       ]
      ],
-     "maturityClose": 7004.75,
-     "ret": -0.050493,
+     "maturityClose": 7195.0,
+     "ret": -0.024704,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -2572,8 +2572,8 @@
        false
       ]
      ],
-     "maturityClose": 107.296875,
-     "ret": 0.015078,
+     "maturityClose": 107.09375,
+     "ret": 0.013156,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5210,8 +5210,8 @@
        true
       ]
      ],
-     "maturityClose": 3487.60009765625,
-     "ret": -0.066963,
+     "maturityClose": 3569.60009765625,
+     "ret": -0.045025,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -7316,8 +7316,8 @@
        false
       ]
      ],
-     "maturityClose": 103.93399810791016,
-     "ret": 0.001166,
+     "maturityClose": 103.62000274658203,
+     "ret": -0.001859,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9439,7 +9439,7 @@
       [
        "bear",
        "Fed-path pricing turned more hawkish on 18 November: the October FOMC minutes said 'almost all' participants judged further hikes would likely be appropriate, a couple saw a half-point move as possible, and Governor Waller told CNBC the Fed may need a half-point December hike to 'shock people' (CappNotes Closing Look, 18 November; Investrade Market Review, 18 November); Kalshi priced a 25bp hike on 9 December at 91% and a larger move at 8% (CappNotes Closing Look, 18 November), CME FedWatch ~95%/~5% (Investrade Market Review, 18 November); more tightening priced is a headwind for equity multiples",
-       true
+       false
       ],
       [
        "bull",
@@ -9477,8 +9477,8 @@
        null
       ]
      ],
-     "maturityClose": 2632.0,
-     "ret": -0.035968,
+     "maturityClose": 2707.89990234375,
+     "ret": -0.008168,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -11470,8 +11470,8 @@
        null
       ]
      ],
-     "maturityClose": 25148.0,
-     "ret": -0.084003,
+     "maturityClose": 26066.5,
+     "ret": -0.050548,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
