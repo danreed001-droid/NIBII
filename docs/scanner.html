@@ -628,6 +628,63 @@ footer li { margin-bottom: 6px; }
 
 <div class="wrap">
   <div class="banner" id="banner"></div>
+<!--story-->
+<style>
+.story { padding: 18px 20px; }
+.story .st-kick { font: 600 .7rem ui-monospace, Menlo, monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.story h2 { font-family: "Fraunces", Georgia, serif; font-size: clamp(1.25rem, 4.6vw, 1.6rem); line-height: 1.2; margin: 6px 0 4px; text-wrap: balance; }
+.story .st-tape { display: flex; flex-wrap: wrap; gap: 4px 16px; font: .82rem ui-monospace, Menlo, monospace; color: var(--ink-2); margin: 8px 0 10px; }
+.story .st-chart { margin: 4px 0 6px; }
+.story .st-chart svg { display: block; width: 100%; max-width: 560px; height: auto; }
+.story p { color: var(--ink-2); font-size: .92rem; line-height: 1.6; margin: 10px 0; max-width: 72ch; }
+.story p b { color: var(--ink); }
+.story h3 { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 16px 0 6px; font-weight: 600; }
+.story ul { margin: 0; padding-left: 18px; color: var(--ink-2); font-size: .9rem; line-height: 1.6; }
+.story .st-plan { background: var(--surface-2); border-left: 3px solid var(--gold); padding: 10px 14px; border-radius: 6px; font-size: .9rem; color: var(--ink-2); line-height: 1.55; }
+.story .st-plan div + div { margin-top: 3px; }
+.story .st-plan .st-back b { color: var(--gold); }
+.story .st-copy { margin-top: 12px; font: .78rem ui-monospace, Menlo, monospace; color: var(--accent); background: transparent; border: 1px solid var(--accent); border-radius: 6px; padding: 6px 11px; cursor: pointer; }
+.story .st-copied { font-size: .78rem; color: var(--muted); margin-left: 8px; }
+.story textarea.st-wa { width: 100%; min-height: 12rem; margin-top: 8px; font: .8rem ui-monospace, Menlo, monospace; color: var(--ink); background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 6px; padding: 8px; }
+.story .st-src { font-size: .74rem; color: var(--muted); margin-top: 12px; line-height: 1.5; }
+.story .st-src a { color: var(--muted); }
+.story .st-arch { margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 8px; }
+.story .st-arch summary { cursor: pointer; font-size: .8rem; color: var(--muted); }
+.story .st-row { display: grid; grid-template-columns: 6.2rem 1fr; gap: 8px; padding: 5px 0; font-size: .84rem; color: var(--ink-2); border-top: 1px solid var(--hairline); }
+.story .st-row:first-of-type { border-top: 0; }
+.story .st-row .d { font: .76rem ui-monospace, Menlo, monospace; color: var(--muted); padding-top: 2px; }
+.story .st-empty { color: var(--muted); font-size: .88rem; }
+</style><section id="story"><p class="section-label">Today’s story <span class="hint">what moved the market and why, written each weekday evening · information only</span></p><div class="card story"><div class="st-kick">Today’s story · Tue Nov 24, 2026</div><h2>The Nvidia bounce fades; stocks give back a little</h2><div class="st-tape"><span>NVDA <span class="neg">−5.9%</span></span></div><p><b>What happened.</b> After Monday&#x27;s jump on Jensen Huang&#x27;s return, buyers didn&#x27;t follow through. Nvidia gave back about 6% as analysts said his return isn&#x27;t the all-clear while the SEC question is open. Anthropic slipped below its $83 IPO price, talk of new US tariffs returned and a report on AI-safety worries hit the AI names again. Outside tech, Sanofi agreed to buy Insmed for about $41 billion.</p><p><b>Why it matters.</b> The weekend fixed one problem (the CEO) but not the bigger ones: the SEC question and doubt about AI spending. One good day hasn&#x27;t undone a seven-day rout.</p><h3>What to watch</h3><ul><li>Wednesday: last full session before Thanksgiving; thin trading can mean bigger moves</li><li>Thursday: market closed. Friday: half day (1pm close)</li><li>Any news on the SEC&#x27;s Nvidia look, and on tariffs</li><li>Fri Dec 4: November jobs report</li></ul><h3>Where the plan stands <span class="muted" style="text-transform:none;letter-spacing:0;font-weight:400">· from Tue Nov 24’s close</span></h3><div class="st-plan"><div class="st-state">Holds cash since Fri Nov 13.</div><div class="st-note">Tonight: no change.</div></div><button type="button" class="st-copy" id="st-copy">⧉ Copy WhatsApp version</button><span class="st-copied" id="st-copied" aria-live="polite"></span><textarea class="st-wa" id="st-wa" readonly hidden aria-label="WhatsApp version">*Market story – Tue Nov 24*
+
+*The Nvidia bounce fades; stocks give back a little*
+
+*What happened*
+• Nvidia&#x27;s comeback faded (−5.9%) after Monday&#x27;s +31%
+• Anthropic slipped below its IPO price; tariff talk returned
+• Sanofi to buy Insmed for about $41B
+
+*Why it matters*
+• The weekend fixed one problem (the CEO) but not the bigger ones: the SEC question and doubt about AI spending. One good day hasn&#x27;t undone a seven-day rout.
+
+*Watch*
+• Wednesday: last full session before Thanksgiving; thin trading can mean bigger moves
+• Thursday: market closed. Friday: half day (1pm close)
+• Any news on the SEC&#x27;s Nvidia look, and on tariffs
+• Fri Dec 4: November jobs report
+
+*Plan*
+• In cash.</textarea><div class="st-src">Sources: <a href="https://www.cnbc.com/2026/11/24/nvidia-stock-jensen-huang-return.html" target="_blank" rel="noopener">CNBC</a> · <a href="https://www.swissinfo.ch/eng/stocks-fall-as-nvidia-fades-and-trade-fears-return:-markets-wrap/92426361" target="_blank" rel="noopener">Swissinfo (Bloomberg)</a> · <a href="https://www.cnbc.com/2026/11/24/insmed-sanofi-deal-stock-pharma.html" target="_blank" rel="noopener">CNBC (Sanofi–Insmed)</a></div><details class="st-arch" open><summary>Earlier days (3)</summary><div class="st-row"><span class="d">Mon Nov 23</span><span>Huang back at Nvidia; NVDA +31.5%, still under the line.</span></div><div class="st-row"><span class="d">Fri Nov 20</span><span>Report of an SEC look at Nvidia&#x27;s accounts; NVDA −14%, seventh straight loss.</span></div><div class="st-row"><span class="d">Thu Nov 19</span><span>AI selloff deepens on Anthropic&#x27;s debut day; sixth straight loss.</span></div></details></div><script>
+(function () {
+  var b = document.getElementById('st-copy'), t = document.getElementById('st-wa'), m = document.getElementById('st-copied');
+  if (!b || !t) return;
+  b.addEventListener('click', function () {
+    var done = function () { m.textContent = 'Copied – paste it into WhatsApp'; };
+    var show = function () { t.hidden = false; t.focus(); t.select(); m.textContent = 'Select all and copy'; };
+    try { navigator.clipboard.writeText(t.value).then(done, show); } catch (e) { show(); }
+  });
+})();
+</script></section>
+<!--/story-->
 
   <p class="section-label" id="plan-hold-label">Holdings: the default plan <span class="hint" id="plan-hold-hint"></span></p>
   <div class="holdings" id="plan-holdings"></div>
