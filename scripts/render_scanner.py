@@ -613,10 +613,11 @@ __EVENTS__
       <p class="chart-title y2-mv-t">Your actual moves</p>
       <div class="y2-mv-row"><label>On <input type="date" id="y2-mv-date"></label><label>I moved to <select id="y2-mv-to">
         <option value="cash">cash</option><option value="stocks">my stocks</option><option value="GLD">gold (GLD)</option><option value="TLT">bonds (TLT)</option>
-        <option value="DBMF">managed futures (DBMF)</option><option value="plan">back to the plan’s timing</option></select></label></div>
+        <option value="DBMF">managed futures (DBMF)</option><option value="mix">a mix (type it below)</option><option value="plan">back to the plan’s timing</option></select></label></div>
+      <input id="y2-mv-mix" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" hidden placeholder="TLT 50, MRNA 50" aria-label="Your mix: tickers and the share of the account in each">
       <textarea id="y2-mv-note" class="why-note" maxlength="300" placeholder="Why? (optional, e.g. sold everything Friday before the weekend)"></textarea>
       <div class="call-actions"><a class="btn" id="y2-mv-submit" target="_blank" rel="noopener">Save move ↗</a><span id="y2-mv-status" role="status"></span></div>
-      <p class="note">Log what you actually did. A move counts from the close of the day you give: you trade on the day itself, unlike the plan, which trades at the next close. The <b>You (actual)</b> line follows You-2 until your first move, then holds what you moved into; “back to the plan’s timing” hands it back to You-2.</p>
+      <p class="note">Log what you actually did. A move counts from the close of the day you give: you trade on the day itself, unlike the plan, which trades at the next close. For a split, pick <b>a mix</b> and type each ticker with its share, e.g. <i>TLT 50, MRNA 50</i> (bought at that close and left to drift). The <b>You (actual)</b> line follows You-2 until your first move, then holds what you moved into; “back to the plan’s timing” hands it back to You-2.</p>
     </div>
     <div class="card">
       <p class="chart-title">You-2 record</p>
@@ -1647,15 +1648,33 @@ __ISSUES__
     var md_ = $('y2-mv-date'), mt = $('y2-mv-to'), mn = $('y2-mv-note'), ms = $('y2-mv-submit');
     if (md_ && mt && ms) {
       md_.max = today(); md_.min = (Y && Y.start) || '2026-10-14'; md_.value = today();
+      var mx = $('y2-mv-mix');
+      var mixOf = function () {   // "TLT 50, MRNA 50" (or "TLT, MRNA" for equal shares) -> {TLT: 50, MRNA: 50}
+        var w = {}, n = 0;
+        (mx.value || '').toUpperCase().split(/[,;\n]+/).forEach(function (part) {
+          var m = part.trim().match(/^([A-Z][A-Z0-9.\-]{0,9})\s*(?:[:=]?\s*(\d+(?:\.\d+)?)\s*%?)?$/);
+          if (m && n < 10 && !w[m[1]]) { w[m[1]] = m[2] ? parseFloat(m[2]) : 1; n++; }
+        });
+        return n ? w : null;
+      };
+      var mixText = function (w) {
+        var tot = 0, k; for (k in w) tot += w[k];
+        return Object.keys(w).map(function (t) { return Math.round(w[t] / tot * 100) + '% ' + t; }).join(' + ');
+      };
       var mvUpdate = function () {
         var d = md_.value, to = mt.value, ok = /^\d{4}-\d{2}-\d{2}$/.test(d) && d <= today() && d >= md_.min;
+        mx.hidden = to !== 'mix';
+        var w = to === 'mix' ? mixOf() : null;
+        if (to === 'mix' && !w) ok = false;
         var b = {}; b[d] = { to: to, note: (mn.value || '').trim().slice(0, 300), at: new Date().toISOString() };
+        if (w) b[d].mix = w;
         var body = 'Your actual move from the Top 5 dashboard. Leave the block below as-is: the Calls intake workflow records it in docs/my_calls.json and closes this issue.\n\n```json\n' + JSON.stringify({ moves: b }) + '\n```\n';
         ms.href = 'https://github.com/danreed001-droid/NIBII/issues/new?title=' + encodeURIComponent('calls moves ' + d) + '&body=' + encodeURIComponent(body);
-        $('y2-mv-status').textContent = ok ? fmtDate(d, { month: 'short', day: 'numeric', year: 'numeric' }) + ': ' + mt.options[mt.selectedIndex].text : 'Pick a date from ' + fmtDate(md_.min, { month: 'short', day: 'numeric' }) + ' to today';
+        $('y2-mv-status').textContent = ok ? fmtDate(d, { month: 'short', day: 'numeric', year: 'numeric' }) + ': ' + (w ? mixText(w) : mt.options[mt.selectedIndex].text)
+          : to === 'mix' && !w ? 'Type the mix, e.g. TLT 50, MRNA 50' : 'Pick a date from ' + fmtDate(md_.min, { month: 'short', day: 'numeric' }) + ' to today';
         ms.style.pointerEvents = ok ? '' : 'none'; ms.style.opacity = ok ? '' : '0.5';
       };
-      [md_, mt, mn].forEach(function (x) { x.addEventListener('input', mvUpdate); x.addEventListener('change', mvUpdate); });
+      [md_, mt, mn, mx].forEach(function (x) { x.addEventListener('input', mvUpdate); x.addEventListener('change', mvUpdate); });
       mvUpdate();
     }
   })();
