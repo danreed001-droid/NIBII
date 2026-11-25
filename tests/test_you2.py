@@ -136,3 +136,26 @@ def test_intake_reads_moves_and_merges_them(tmp_path, monkeypatch):
     import json as _j
     doc = _j.loads(path.read_text())
     assert doc['moves'] == {'2026-11-13': {'to': 'cash', 'note': 'sold Friday', 'at': '2026-11-17T01:00:00Z'}} and doc['you2']['2026-10-14']
+
+
+def test_a_mix_is_bought_at_the_move_close_and_drifts():
+    modes = {d: 'boost' for d in CAL}
+    y2 = you2.you2_curve(you2.entries_of(DOC), PX, GLD, CAL, modes, {}, start=CAL[0])
+    pk = you2.picks_curve(you2.entries_of(DOC), PX, CAL, CAL[0])
+    t = sorted(PX)[0]
+    mix = {'GLD': 0.5, t: 0.5}
+    mv = {CAL[3]: (mix, 'half and half')}
+    mc, y, c = dict(you2.mine_curve(y2, pk, GLD, CAL, mv, prices=PX)), dict(y2), 1 - you2.SWITCH_COST
+    assert abs(mc[CAL[3]] - y[CAL[3]] * c) < 1e-12                              # switch cost at the move's close
+    v3 = mc[CAL[3]]
+    want = v3 * (0.5 * GLD['GLD'][CAL[6]] / GLD['GLD'][CAL[3]] + 0.5 * PX[t][CAL[6]] / PX[t][CAL[3]])
+    assert abs(mc[CAL[6]] - want) < 1e-9                                        # buy-and-hold from that close
+
+
+def test_moves_of_reads_mixes_and_tickers_of_includes_them():
+    doc = dict(DOC, moves={'2026-11-23': {'to': 'mix', 'mix': {'TLT': 1, 'MRNA': 1}, 'note': '', 'at': 'x'},
+                           '2026-11-24': {'to': 'mix', 'mix': {}, 'note': '', 'at': 'x'}})
+    mv = you2.moves_of(doc)
+    assert mv == {'2026-11-23': ({'TLT': 0.5, 'MRNA': 0.5}, '')}
+    assert {'TLT', 'MRNA'} <= you2.tickers_of(doc)
+    assert you2.mix_label({'TLT': 0.5, 'MRNA': 0.5}) in ('50% TLT + 50% MRNA', '50% MRNA + 50% TLT')

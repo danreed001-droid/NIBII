@@ -52,3 +52,9 @@ def test_whole_account_calls_keep_no_swaps():
     calls = intake.parse(body)
     assert calls['2026-10-16']['m'] == 'mf' and 'swaps' not in calls['2026-10-16'] and 'drops' not in calls['2026-10-16']
     assert calls['2026-10-09']['m'] == 'gold'
+
+
+def test_parse_moves_takes_a_mix_and_normalizes_it():
+    body = '```json\n{"moves": {"2026-11-25": {"to": "mix", "mix": {"tlt": 50, "MRNA": 50, "bad ticker": 10, "X": -1}, "note": "split", "at": "2026-11-25T20:00:00Z"}, "2026-11-26": {"to": "mix", "mix": {}}}}\n```'
+    out = intake.parse_moves(body)
+    assert out == {'2026-11-25': {'to': 'mix', 'mix': {'TLT': 0.5, 'MRNA': 0.5}, 'note': 'split', 'at': '2026-11-25T20:00:00Z'}}

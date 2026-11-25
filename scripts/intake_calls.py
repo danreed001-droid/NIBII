@@ -92,7 +92,8 @@ def parse_you2(body):
     return out
 
 
-MOVE_TO = ('cash', 'stocks', 'GLD', 'TLT', 'DBMF', 'plan')
+MOVE_TO = ('cash', 'stocks', 'GLD', 'TLT', 'DBMF', 'plan', 'mix')
+MIX_MAX = 10
 
 
 def parse_moves(body):
@@ -106,6 +107,18 @@ def parse_moves(body):
         at = at if STAMP.match(at) else ''
         if c.get('m') == 'del':
             out[k] = {'m': 'del', 'at': at}
+        elif c.get('to') == 'mix':
+            m = c.get('mix') if isinstance(c.get('mix'), dict) else {}
+            w = {}
+            for t, v in m.items():
+                t = str(t).strip().upper()
+                if TICKER.match(t) and isinstance(v, (int, float)) and not isinstance(v, bool) and 0 < v <= 100:
+                    w[t] = float(v)
+            w = dict(list(w.items())[:MIX_MAX])
+            tot = sum(w.values())
+            if tot > 0:
+                out[k] = {'to': 'mix', 'mix': {t: round(v / tot, 4) for t, v in w.items()},
+                          'note': str(c.get('note') or '')[:300], 'at': at}
         elif c.get('to') in MOVE_TO:
             out[k] = {'to': c['to'], 'note': str(c.get('note') or '')[:300], 'at': at}
     return out
