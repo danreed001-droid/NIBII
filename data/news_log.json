@@ -6397,5 +6397,85 @@
       "time": "Pre-market",
       "vsExp": "GDP 4.3% vs ~3.5% expected (big upside beat); Q3 core PCE in line at 2.5%; deflator 1.8% vs 2.3% expected (cooler)"
     }
+  },
+  {
+    "id": "2026-11-26-1-tariff-proposal-less-severe-no-stacking",
+    "data": {
+      "addedAt": "2026-11-26",
+      "category": "Policy",
+      "date": "2026-11-26",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "The detail of Wednesday's tariff proposal landed far softer than the headline. Reuters reports the new duties on 14 trading partners will NOT stack on top of the tariffs imposed in July, are unlikely to take effect until February or March (versus the January timeline floated Wednesday), and leave several key import categories exempt, including tech goods; Irish pharmaceutical exports were also spared. China still faces the highest proposed rate at 20%. The measures stem from a Section 301 investigation launched after the Supreme Court struck down the earlier sweeping tariffs, and still face hearings and a comment period.",
+      "impact": "High",
+      "numbers": "14 trading partners covered (China, Japan, EU and others); China top proposed rate 20%; no stacking on July tariffs; earliest effective date February-March 2027 (vs January as reported Wed); exemptions include tech goods and Irish pharma. US-China truce still expires Jan 10. Dec 8-9 FOMC: ~98% priced for a 25bp hike, 50bp speculation faded",
+      "order": 1,
+      "reaction": "This is the unwind of Wednesday's worst-case reading: no stacking, a later start and a tech carve-out take the proposal from a growth shock to a negotiable one, and global equities repriced accordingly. US cash markets are shut for Thanksgiving so the reaction is in futures and overseas tape only - S&P 500 and Nasdaq futures each about +0.5% on thin holiday volume, which says little about where Friday's shortened session actually opens.",
+      "region": "US/Global",
+      "source": "https://www.theglobeandmail.com/investing/markets/inside-the-market/market-news/article-premarket-global-stocks-climb-as-traders-shrug-off-latest-us-tariff/",
+      "tickers": "SPY, S&P, QQQ, Nasdaq, IWM, Russell",
+      "time": "Pre-market",
+      "vsExp": "n/a (proposal terms clarified, rates not finalized)"
+    }
+  },
+  {
+    "id": "2026-11-26-2-global-chip-rebound-asia-europe-rally",
+    "data": {
+      "addedAt": "2026-11-26",
+      "category": "Market",
+      "date": "2026-11-26",
+      "day": "Thu",
+      "direction": "Bullish",
+      "event": "Yesterday's global chip rout reversed hard overnight with Wall Street closed. Japan's Nikkei 225 closed +0.9% at 57,499.16 with SoftBank +7.3% and Kioxia +12.6%, recovering part of Wednesday's 14.8% and 14.2% slides; Taiwan's Taiex jumped 2.5%, Hong Kong's Hang Seng +1.2%, and Korea's Kospi added 0.3% after Wednesday's 6.2% sidecar-triggering collapse, while the Shanghai Composite was flat. Europe followed in size: DAX +1.9%, CAC 40 +1.8%, FTSE 100 +1.6%, with the broad European tape up about 1.6% and the MSCI global index +0.4%.",
+      "impact": "High",
+      "numbers": "Nikkei 225 +0.9% to 57,499.16; Hang Seng +1.2%; Kospi +0.3% (after -6.16% Wed); Taiex +2.5%; Shanghai flat. SoftBank +7.3%, Kioxia +12.6%. DAX +1.9%, CAC 40 +1.8%, FTSE 100 +1.6%; Europe broad +1.6%; MSCI global +0.4%. S&P 500 futures +0.5% (some quotes to +0.7%), Nasdaq 100 futures +0.5-0.8%. Wed US close: S&P 500 -0.25% at 7,182.78 after being down as much as 3.2% intraday; Nasdaq Composite -0.62% to 23,585.80 after a 4.6% intraday drawdown",
+      "order": 2,
+      "reaction": "The tell is Wednesday's US close, not the overnight bounce: a 3.2% intraday S&P drawdown that finished down a quarter percent means dip buyers showed up in size in semis before the holiday, and Asia simply extended that. Three sessions of 5%+ round trips in Korea and Japan mean this is still positioning, not a trend; holiday-thinned books cut both ways into Friday's 1:00 PM ET early close.",
+      "region": "Asia/Europe/US",
+      "source": "https://www.bnnbloomberg.ca/markets/2026/11/26/world-shares-push-higher-while-markets-in-us-will-be-closed-for-thanksgiving/",
+      "tickers": "QQQ, Nasdaq, SPY, S&P, Nikkei, Kospi, SoftBank",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-26-3-oil-ras-tanura-attack-hormuz-mines",
+    "data": {
+      "addedAt": "2026-11-26",
+      "category": "Geopolitics",
+      "date": "2026-11-26",
+      "day": "Thu",
+      "direction": "Mixed",
+      "event": "Oil extended a three-day rally after the Houthis claimed a strike on Saudi Aramco's Ras Tanura refinery, the kingdom's largest at 550,000 b/d. Satellite imagery showed a large black smoke plume and CNN reported loadings at the terminal were suspended; the Saudi-led coalition confirmed destroying four drones over Ras Tanura but has not confirmed the refinery itself was hit. Separately, Iran's Revolutionary Guard claimed two tankers transiting the Strait of Hormuz without Tehran's permission were struck by sea mines north of Khasab - an Iranian claim with no independent confirmation. Hormuz traffic remains disrupted ahead of the OPEC+ meeting on Nov 29.",
+      "impact": "High",
+      "numbers": "Brent +0.5% to $95.10/bbl (intraday range cited $93.48-$96.20, some quotes to $95.58); WTI +1% to $84.51/bbl, with no official settlement today because of the US holiday. Ras Tanura capacity 550,000 b/d; coalition says 4 drones destroyed; 2 tankers claimed mined near Khasab; OPEC+ meets Nov 29",
+      "order": 3,
+      "reaction": "Brent back at $95 with a Saudi export terminal offline is the one overnight development that cuts against the risk-on tape, and it is why the futures bid is a half percent rather than a full recovery of Wednesday's drawdown. Front-curve backwardation says the market is pricing physical tightness, not speculation; with no WTI settlement today and OPEC+ on Sunday, Friday's shortened session carries the gap risk.",
+      "region": "Middle East/Global",
+      "source": "https://www.cnbc.com/2026/11/26/oil-wti-brent-hormuz-iran-saudi-arabia.html",
+      "tickers": "USO, oil, XLE, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-26-4-gold-one-year-lows-dollar-flat-us-closed",
+    "data": {
+      "addedAt": "2026-11-26",
+      "category": "Market",
+      "date": "2026-11-26",
+      "day": "Thu",
+      "direction": "Bearish",
+      "event": "Gold kept bleeding even with a live Middle East supply shock, dipping 0.4% to about $3,565/oz and leaving it down roughly 8% on the month at one-year lows. The dollar index was little changed at 103.78, the euro steadied at $1.09685 after a recent low of $1.0881, and the dollar was flat against the yen at 159.31 with 160.00 still the resistance level traders are watching. US equity and bond markets are closed for Thanksgiving; the NYSE reopens Friday with an early 1:00 PM ET close. December rate-hike pricing is unchanged at about 98% for 25bp, with half-point speculation faded.",
+      "impact": "Medium",
+      "numbers": "Spot gold -0.4% to ~$3,565/oz, about -8% month-to-date, one-year lows. DXY 103.78 (little changed). EUR/USD $1.09685 (recent low $1.0881); USD/JPY 159.31, resistance 160.00. CME odds ~98% for a 25bp Dec 8-9 hike from 3.75%-4.00%. US cash equities and Treasuries closed; Friday Nov 27 early close 1:00 PM ET",
+      "order": 4,
+      "reaction": "Gold refusing to bid on a refinery strike and mined tankers is the cleanest read available: with the Fed about to hike into 3.3% core PCE, real rates are doing more to set the gold price than geopolitics is. A flat dollar alongside that says this is a gold-specific unwind rather than dollar strength, and the yen sitting just under 160.00 keeps intervention risk on the board for Friday.",
+      "region": "Global",
+      "source": "https://www.theglobeandmail.com/investing/markets/inside-the-market/market-news/article-premarket-global-stocks-climb-as-traders-shrug-off-latest-us-tariff/",
+      "tickers": "GLD, gold, DXY, USD, dollar",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
   }
 ]
