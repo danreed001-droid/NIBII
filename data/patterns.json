@@ -1,12 +1,12 @@
 {
  "minSamples": 15,
- "settledHorizons": 696,
+ "settledHorizons": 714,
  "byAsset": {
   "equities": {
    "Earnings": {
-    "n": 144,
+    "n": 146,
     "agree": 44,
-    "rate": 0.306,
+    "rate": 0.301,
     "reliable": true
    },
    "Rates": {
@@ -16,15 +16,15 @@
     "reliable": true
    },
    "Market": {
-    "n": 693,
-    "agree": 180,
-    "rate": 0.26,
+    "n": 713,
+    "agree": 191,
+    "rate": 0.268,
     "reliable": true
    },
    "Macro": {
-    "n": 115,
-    "agree": 44,
-    "rate": 0.383,
+    "n": 122,
+    "agree": 49,
+    "rate": 0.402,
     "reliable": true
    },
    "Geopolitics": {
@@ -34,15 +34,15 @@
     "reliable": true
    },
    "Deals": {
-    "n": 37,
+    "n": 39,
     "agree": 0,
     "rate": 0.0,
     "reliable": true
    },
    "Fed": {
-    "n": 90,
-    "agree": 32,
-    "rate": 0.356,
+    "n": 95,
+    "agree": 36,
+    "rate": 0.379,
     "reliable": true
    },
    "Energy": {
@@ -52,23 +52,23 @@
     "reliable": true
    },
    "Policy": {
-    "n": 19,
-    "agree": 1,
-    "rate": 0.053,
+    "n": 22,
+    "agree": 3,
+    "rate": 0.136,
     "reliable": true
    },
    "Corporate": {
-    "n": 34,
-    "agree": 20,
-    "rate": 0.588,
+    "n": 36,
+    "agree": 22,
+    "rate": 0.611,
     "reliable": true
    }
   },
   "bonds": {
    "Macro": {
-    "n": 103,
+    "n": 109,
     "agree": 8,
-    "rate": 0.078,
+    "rate": 0.073,
     "reliable": true
    },
    "Policy": {
@@ -84,15 +84,15 @@
     "reliable": true
    },
    "Market": {
-    "n": 529,
+    "n": 533,
     "agree": 24,
     "rate": 0.045,
     "reliable": true
    },
    "Fed": {
-    "n": 159,
+    "n": 166,
     "agree": 8,
-    "rate": 0.05,
+    "rate": 0.048,
     "reliable": true
    },
    "Energy": {
@@ -114,7 +114,7 @@
     "reliable": true
    },
    "Commodities": {
-    "n": 10,
+    "n": 12,
     "agree": 0,
     "rate": null,
     "reliable": false
@@ -128,15 +128,15 @@
     "reliable": true
    },
    "Fed": {
-    "n": 15,
-    "agree": 3,
-    "rate": 0.2,
+    "n": 18,
+    "agree": 5,
+    "rate": 0.278,
     "reliable": true
    },
    "Macro": {
-    "n": 30,
-    "agree": 12,
-    "rate": 0.4,
+    "n": 34,
+    "agree": 15,
+    "rate": 0.441,
     "reliable": true
    },
    "Market": {
@@ -152,9 +152,9 @@
     "reliable": true
    },
    "Commodities": {
-    "n": 30,
-    "agree": 29,
-    "rate": 0.967,
+    "n": 36,
+    "agree": 35,
+    "rate": 0.972,
     "reliable": true
    }
   },
@@ -166,25 +166,25 @@
     "reliable": true
    },
    "Macro": {
-    "n": 53,
+    "n": 54,
     "agree": 7,
-    "rate": 0.132,
+    "rate": 0.13,
     "reliable": true
    },
    "Fed": {
-    "n": 120,
+    "n": 127,
     "agree": 23,
-    "rate": 0.192,
+    "rate": 0.181,
     "reliable": true
    },
    "Market": {
-    "n": 22,
+    "n": 25,
     "agree": 1,
-    "rate": 0.045,
+    "rate": 0.04,
     "reliable": true
    },
    "Commodities": {
-    "n": 22,
+    "n": 26,
     "agree": 0,
     "rate": 0.0,
     "reliable": true
@@ -198,9 +198,9 @@
     "reliable": true
    },
    "Market": {
-    "n": 225,
-    "agree": 65,
-    "rate": 0.289,
+    "n": 231,
+    "agree": 67,
+    "rate": 0.29,
     "reliable": true
    },
    "Earnings": {
@@ -214,31 +214,37 @@
     "agree": 6,
     "rate": 0.316,
     "reliable": true
+   },
+   "Policy": {
+    "n": 3,
+    "agree": 1,
+    "rate": null,
+    "reliable": false
    }
   },
   "qqq": {
    "Deals": {
-    "n": 53,
+    "n": 56,
     "agree": 3,
-    "rate": 0.057,
+    "rate": 0.054,
     "reliable": true
    },
    "Market": {
-    "n": 690,
-    "agree": 276,
-    "rate": 0.4,
+    "n": 711,
+    "agree": 288,
+    "rate": 0.405,
     "reliable": true
    },
    "Macro": {
-    "n": 65,
-    "agree": 33,
-    "rate": 0.508,
+    "n": 68,
+    "agree": 35,
+    "rate": 0.515,
     "reliable": true
    },
    "Earnings": {
-    "n": 222,
+    "n": 223,
     "agree": 103,
-    "rate": 0.464,
+    "rate": 0.462,
     "reliable": true
    },
    "Rates": {
@@ -272,15 +278,15 @@
     "reliable": true
    },
    "Policy": {
-    "n": 19,
-    "agree": 1,
-    "rate": 0.053,
+    "n": 22,
+    "agree": 3,
+    "rate": 0.136,
     "reliable": true
    },
    "Corporate": {
-    "n": 34,
-    "agree": 22,
-    "rate": 0.647,
+    "n": 36,
+    "agree": 24,
+    "rate": 0.667,
     "reliable": true
    }
   }
