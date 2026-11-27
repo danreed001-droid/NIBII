@@ -385,8 +385,8 @@
        false
       ]
      ],
-     "maturityClose": 7300.75,
-     "ret": 0.008774,
+     "maturityClose": 7254.75,
+     "ret": 0.002418,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -2460,8 +2460,8 @@
        null
       ]
      ],
-     "maturityClose": 106.6875,
-     "ret": -0.001316,
+     "maturityClose": 106.796875,
+     "ret": -0.000293,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5084,8 +5084,8 @@
        false
       ]
      ],
-     "maturityClose": 3665.800048828125,
-     "ret": 0.022196,
+     "maturityClose": 3663.0,
+     "ret": 0.021415,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7182,8 +7182,8 @@
        null
       ]
      ],
-     "maturityClose": 103.91699981689453,
-     "ret": 0.001523,
+     "maturityClose": 103.89600372314453,
+     "ret": 0.00132,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9282,8 +9282,8 @@
        null
       ]
      ],
-     "maturityClose": 2739.199951171875,
-     "ret": 0.0078,
+     "maturityClose": 2731.10009765625,
+     "ret": 0.00482,
      "correct": true,
      "shadowCorrect": true,
      "preReversionCorrect": true,
@@ -11240,12 +11240,12 @@
       [
        "bull",
        "The capitulation-and-reversal pattern on S is dated, specific and not being scored by the engine. At its low the Nasdaq-100 stood exactly 20% below its October closing peak, touching bear-market territory, and closed out of it; NQ=F printed 25027.50 at 09:00 ET and finished 5.00% above that. Inside the index Nvidia traded down more than 9% and closed -3.91%, Broadcom fell more than 6% and closed -0.07%, Microsoft slid more than 3% and closed -1.2%. CNN's Fear and Greed index printed in the 'extreme fear' band - 9 on one tracker, described as its lowest since March, 14 and 15 on two others - with AAII's bull-bear spread below its historical average for an 18th week. The overlay's oscillator does not fire at RSI 38.88 and its range component does not fire at 16.53% below the 252-session closing high, so none of this is double-counted. A 1-day positive.",
-       true
+       false
       ],
       [
        "bull",
        "Positioning is washed out on percentile-based figures and the session's own tech flow was positive. Technology ETFs took in $2.30 billion on 25 November, the third-largest category inflow of the day (CappNotes flow table, 25 November). Goldman told clients on 25 November that its Sentiment and Positioning Indicator had fallen to the 36th percentile, its lowest since April 2025; the 23 November desk material puts Nasdaq-100 CTA positioning 'near the bottom of its 10-year range', with CTAs having sold about $57 billion of equities over the month to sit net short roughly $19 billion, and adds beta-adjusted net leverage of 48.2% described as a five-year low. The named offsets are real: disruptive-tech funds lost $1.35 billion and thematic multi-sector funds $1.54 billion on the same session, and the same desk estimates CTAs could sell up to $80.6 billion more. Net, a 1-day positive.",
-       true
+       false
       ],
       [
        "neu",
@@ -11255,12 +11255,12 @@
       [
        "bull",
        "The 1-session window matures 27 November and contains no first-tier release. Thursday 26 November is a holiday; Friday is a half session with equities closing at 1pm ET and only the Advance Goods Trade Balance and Retail and Wholesale Inventories at 8:30am. Everything that drove the morning rout - October PCE at 8:30, the Q3 GDP second estimate, personal income, durable goods, the Beige Book at 2pm - landed on S and is behind the tape. For the index with the largest duration exposure of the six, a window with nothing in it that can reprice the policy path, immediately after it closed 5.00% above its low, is a 1-day positive.",
-       true
+       false
       ],
       [
        "bull",
        "The dated seasonal statistics point up for this window, which contains the half session inside Thanksgiving week: the S&P 500 has averaged a 0.54% gain in Thanksgiving week over the last 50 years and risen 68% of the time, with a separate study back to 1950 putting the holiday week near +0.6%. No Nasdaq-100-specific seasonality series was obtainable, so these are broad US equity figures applied to a US equity index, and the underlying articles are general statistics pages rather than prints dated on S, some measuring relative rather than raw returns (see nullInputs). An average is not a forecast, but it is the only dated seasonal fact available. A 1-day positive.",
-       true
+       false
       ],
       [
        "bear",
@@ -11273,9 +11273,9 @@
        false
       ]
      ],
-     "maturityClose": 26649.25,
-     "ret": 0.014118,
-     "correct": false,
+     "maturityClose": 26356.0,
+     "ret": 0.002959,
+     "correct": true,
      "shadowCorrect": false,
      "preReversionCorrect": false,
      "settlementNote": "graded against NQ=F",
