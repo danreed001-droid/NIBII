@@ -327,7 +327,7 @@
       [
        "bull",
        "This is the day's strongest single fact and it is the opposite of the index print: 370 advancers to 128 decliners with roughly three quarters of the S&P 500's members higher, nine of eleven sectors up - Materials +2.07%, Real Estate +0.92%, Communication Services +0.89%, Industrials +0.83%, Energy +0.74%, Financials +0.71%, Utilities +0.48%, Consumer Staples +0.46% - against only Consumer Discretionary -0.20%, Health Care -0.56% and Technology -0.83%, with equal-weight RSP +0.83% against the cap-weighted index's -0.25%, a 108bp gap in favour of the average stock, and the S&P MidCap 400 +1.23% and SmallCap 600 +0.81% (CappNotes Closing Look and gsmglobalnews, 25 November). An index that falls while three quarters of it rises is a 1-day positive.",
-       false
+       true
       ],
       [
        "neu",
@@ -352,12 +352,12 @@
       [
        "bull",
        "The contrarian reading is at a dated extreme and it is not the engine's. CNN's Fear and Greed index printed in the 'extreme fear' band on 25 November - reported at 9 by Wall St Engine and two outlets repeating it, described as its lowest level since March, and at 14 and 15 by two other trackers, a disagreement recorded in nullInputs - while AAII's most recent published survey, for the week ending 19 November, has 33.3% bulls against 42.2% bears, a bull-bear spread of -8.9% that has been below its 6.5% historical average for 18 consecutive weeks. Neither the overlay's oscillator (RSI 40.71) nor its range component fires, so this is not double-counted. Extreme fear on a session that closed 3.65% above its low is a 1-day positive.",
-       false
+       true
       ],
       [
        "bull",
        "Positioning is washed out on figures that name their own percentiles, and the session's flows went with the index. Goldman Sachs told clients on 25 November that its Sentiment and Positioning Indicator had fallen to the 36th percentile, its lowest since April 2025; the 23-24 November prime-brokerage material adds fundamental long/short net leverage of 42.3% at the 1st or 5th percentile of the past year depending on the account, beta-adjusted net leverage of 48.2% described as a five-year low, and the largest weekly single-stock shorting flow since June 2022. On S itself US large-cap blend ETFs took in $6.57 billion, the largest category inflow of the day (CappNotes flow table, 25 November). Against it, the same desk estimates CTAs could sell up to $80.6 billion more. Net, a 1-day positive.",
-       false
+       true
       ],
       [
        "neu",
@@ -367,12 +367,12 @@
       [
        "bull",
        "The 1-session window matures 27 November and it is as close to empty as the calendar gets. Thursday 26 November is a holiday; Friday is a half session with equities closing at 1pm ET and bonds at 2pm, carrying only the Advance Goods Trade Balance and Retail and Wholesale Inventories at 8:30am (CappNotes calendar, 25 November). The entire first-tier block - October PCE, the Q3 GDP second estimate, personal income, durable goods and the Beige Book - landed on S itself and is now behind the tape. A window with no first-tier release in it, immediately after the index absorbed the month's hottest inflation print and closed 3.65% above its low, is a 1-day positive.",
-       false
+       true
       ],
       [
        "bull",
        "The seasonal statistics all point one way for this window. The S&P 500 has averaged a 0.54% gain in Thanksgiving week over the last 50 years and risen 68% of the time, with a separate study back to 1950 putting the holiday week at about +0.6%; the half session after Thanksgiving sits inside that week. These are general statistics pages rather than prints dated on S, and some of the underlying studies measure performance relative to each year's total return rather than as raw averages, which is recorded in nullInputs. An average is not a forecast, but it is the only dated seasonal fact available and it is a 1-day positive.",
-       false
+       true
       ],
       [
        "bear",
@@ -385,11 +385,11 @@
        false
       ]
      ],
-     "maturityClose": 7254.75,
-     "ret": 0.002418,
-     "correct": true,
-     "shadowCorrect": true,
-     "preReversionCorrect": true,
+     "maturityClose": 7308.25,
+     "ret": 0.00981,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
      "settlementNote": "graded against ES=F",
      "provisional": true
     },
@@ -2460,8 +2460,8 @@
        null
       ]
      ],
-     "maturityClose": 106.796875,
-     "ret": -0.000293,
+     "maturityClose": 106.53125,
+     "ret": -0.002779,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -5084,8 +5084,8 @@
        false
       ]
      ],
-     "maturityClose": 3663.0,
-     "ret": 0.021415,
+     "maturityClose": 3668.5,
+     "ret": 0.022949,
      "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
@@ -7144,7 +7144,7 @@
       [
        "bull",
        "The policy backdrop is unambiguously dollar-positive and it firmed on S. October core PCE accelerated to 3.3% year-on-year against a 3.2% consensus with headline at 3.8%, the highest annual reading in three years; the Q3 GDP second estimate was revised up to a 4.3% annualised rate from 3.4% against a consensus near 3.5%; personal income rose 0.7%; and the Beige Book described input costs outrunning output prices with wage growth picking up in Philadelphia, Minneapolis and Dallas (Federal Reserve and news log entries 1 and 4, 25 November). A 25bp hike on 9 December is priced at 97.8% on CME FedWatch, 94% on Polymarket and 93% on Kalshi, Governor Waller has said he could back 50bp, and Vice Chair Jefferson named the inflation path as the key guide while declining to signal the move. A 1-day tailwind.",
-       false
+       true
       ],
       [
        "neu",
@@ -7182,8 +7182,8 @@
        null
       ]
      ],
-     "maturityClose": 103.89600372314453,
-     "ret": 0.00132,
+     "maturityClose": 104.01399993896484,
+     "ret": 0.002458,
      "correct": null,
      "shadowCorrect": null,
      "preReversionCorrect": null,
@@ -9224,7 +9224,7 @@
       [
        "bull",
        "Breadth was the day's whole story and it ran small-cap. The S&P MidCap 400 rose 1.23% to 3,577.34 and the SmallCap 600 0.81% to 1,657.97 against the cap-weighted S&P 500's -0.25% and the Nasdaq-100's -0.64%, with 370 advancers to 128 decliners in the S&P 500, roughly three quarters of its members higher, nine of eleven sectors up - Materials +2.07% leading - and equal-weight RSP +0.83%, a 108bp gap over the cap-weighted index (CappNotes Closing Look and gsmglobalnews, 25 November). No Russell-specific advance/decline series was obtainable, which is stated in nullInputs, but the mid- and small-cap indices are themselves dated evidence. A 1-day positive.",
-       false
+       true
       ],
       [
        "neu",
@@ -9239,7 +9239,7 @@
       [
        "bull",
        "The front end moved this index's way, and the front end is the channel it actually trades on. The Russell's measured 21-session correlation to the 2-year is -0.386, the largest rate correlation of any asset in this document, and the 2-year fell 2bp to 4.61% with the 10-year down 6bp to 4.85% and 2s10s flattening to about 24bp (CappNotes, 25 November). On the six sessions in the window where the 2-year moved at least 5bp, this asset's correlation to it is -0.843, the strongest big-day relationship in the document - so the sign is well established even though 2bp is not itself a big day. A $44 billion 7-year auction cleared at 4.708% with a 1bp tail and a 2.43x cover, absorbed without pushing the curve higher. A 1-day positive.",
-       false
+       true
       ],
       [
        "bear",
@@ -9249,7 +9249,7 @@
       [
        "bull",
        "The contrarian reading is at a dated extreme. CNN's Fear and Greed index printed in the 'extreme fear' band on 25 November - reported at 9 by Wall St Engine and two outlets repeating it, described as its lowest level since March, and at 14 and 15 by two other trackers, a disagreement recorded in nullInputs - against AAII's most recent published survey, for the week ending 19 November, at 33.3% bulls to 42.2% bears with the bull-bear spread below its 6.5% historical average for an 18th consecutive week. These are broad US equity readings rather than Russell-specific ones, which is stated honestly, but this is a US equity index. The overlay's stretch score here is 0, so nothing is double-counted. A 1-day positive.",
-       false
+       true
       ],
       [
        "bear",
@@ -9264,12 +9264,12 @@
       [
        "bull",
        "The 1-session window matures 27 November and carries no first-tier release at all. Thursday 26 November is a holiday; Friday is a half session with equities closing at 1pm ET, carrying only the Advance Goods Trade Balance and Retail and Wholesale Inventories at 8:30am. The entire block that drove the morning rout - October PCE, the Q3 GDP second estimate, personal income, durable goods, the Beige Book - landed on S and is behind the tape. For the asset with the largest measured sensitivity to front-end repricing in this document, a window containing nothing that can reprice the front end is a 1-day positive.",
-       false
+       true
       ],
       [
        "bull",
        "The dated seasonal statistics point up and the half session after Thanksgiving sits inside the window they describe: the S&P 500 has averaged a 0.54% gain in Thanksgiving week over the last 50 years and risen 68% of the time, with a separate study back to 1950 putting the holiday week near +0.6%. No Russell 2000-specific seasonality series was obtainable, so these are broad US equity figures applied to a US equity index, and the underlying articles are general statistics pages rather than prints dated on S, with some measuring performance relative to each year's total return rather than as raw averages (see nullInputs). An average is not a forecast, but it is the only dated seasonal fact available. A 1-day positive.",
-       false
+       true
       ],
       [
        "bear",
@@ -9282,11 +9282,11 @@
        null
       ]
      ],
-     "maturityClose": 2731.10009765625,
-     "ret": 0.00482,
-     "correct": true,
-     "shadowCorrect": true,
-     "preReversionCorrect": true,
+     "maturityClose": 2754.39990234375,
+     "ret": 0.013392,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
      "settlementNote": "graded against RTY=F",
      "provisional": true
     },
@@ -11240,12 +11240,12 @@
       [
        "bull",
        "The capitulation-and-reversal pattern on S is dated, specific and not being scored by the engine. At its low the Nasdaq-100 stood exactly 20% below its October closing peak, touching bear-market territory, and closed out of it; NQ=F printed 25027.50 at 09:00 ET and finished 5.00% above that. Inside the index Nvidia traded down more than 9% and closed -3.91%, Broadcom fell more than 6% and closed -0.07%, Microsoft slid more than 3% and closed -1.2%. CNN's Fear and Greed index printed in the 'extreme fear' band - 9 on one tracker, described as its lowest since March, 14 and 15 on two others - with AAII's bull-bear spread below its historical average for an 18th week. The overlay's oscillator does not fire at RSI 38.88 and its range component does not fire at 16.53% below the 252-session closing high, so none of this is double-counted. A 1-day positive.",
-       false
+       true
       ],
       [
        "bull",
        "Positioning is washed out on percentile-based figures and the session's own tech flow was positive. Technology ETFs took in $2.30 billion on 25 November, the third-largest category inflow of the day (CappNotes flow table, 25 November). Goldman told clients on 25 November that its Sentiment and Positioning Indicator had fallen to the 36th percentile, its lowest since April 2025; the 23 November desk material puts Nasdaq-100 CTA positioning 'near the bottom of its 10-year range', with CTAs having sold about $57 billion of equities over the month to sit net short roughly $19 billion, and adds beta-adjusted net leverage of 48.2% described as a five-year low. The named offsets are real: disruptive-tech funds lost $1.35 billion and thematic multi-sector funds $1.54 billion on the same session, and the same desk estimates CTAs could sell up to $80.6 billion more. Net, a 1-day positive.",
-       false
+       true
       ],
       [
        "neu",
@@ -11255,12 +11255,12 @@
       [
        "bull",
        "The 1-session window matures 27 November and contains no first-tier release. Thursday 26 November is a holiday; Friday is a half session with equities closing at 1pm ET and only the Advance Goods Trade Balance and Retail and Wholesale Inventories at 8:30am. Everything that drove the morning rout - October PCE at 8:30, the Q3 GDP second estimate, personal income, durable goods, the Beige Book at 2pm - landed on S and is behind the tape. For the index with the largest duration exposure of the six, a window with nothing in it that can reprice the policy path, immediately after it closed 5.00% above its low, is a 1-day positive.",
-       false
+       true
       ],
       [
        "bull",
        "The dated seasonal statistics point up for this window, which contains the half session inside Thanksgiving week: the S&P 500 has averaged a 0.54% gain in Thanksgiving week over the last 50 years and risen 68% of the time, with a separate study back to 1950 putting the holiday week near +0.6%. No Nasdaq-100-specific seasonality series was obtainable, so these are broad US equity figures applied to a US equity index, and the underlying articles are general statistics pages rather than prints dated on S, some measuring relative rather than raw returns (see nullInputs). An average is not a forecast, but it is the only dated seasonal fact available. A 1-day positive.",
-       false
+       true
       ],
       [
        "bear",
@@ -11273,9 +11273,9 @@
        false
       ]
      ],
-     "maturityClose": 26356.0,
-     "ret": 0.002959,
-     "correct": true,
+     "maturityClose": 26765.0,
+     "ret": 0.018523,
+     "correct": false,
      "shadowCorrect": false,
      "preReversionCorrect": false,
      "settlementNote": "graded against NQ=F",
