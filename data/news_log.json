@@ -6477,5 +6477,85 @@
       "time": "Pre-market",
       "vsExp": "n/a"
     }
+  },
+  {
+    "id": "2026-11-27-1-ai-chip-rebound-global-rally",
+    "data": {
+      "addedAt": "2026-11-27",
+      "category": "Market",
+      "date": "2026-11-27",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "The AI unwind went into reverse on the biggest scale of the week. Asia ripped: Korea's Kospi jumped 4.3% to 4,915.68, the Shanghai Composite rose 3.73%, Japan's Nikkei 225 added 2.11% to 58,711.11 and Hong Kong's Hang Seng gained about 2.1% to 22,694.77 with Hang Seng Tech up more than 6%. Europe followed with the Stoxx 600 up roughly 1.1-1.8% and the DAX about 2.1%. US futures surged into the shortened Black Friday session (9:30 AM-1:00 PM ET) with Nasdaq 100 futures +2.38%, S&P 500 +1.74% and Dow +1.30%. Nvidia rose about 4.2% premarket to $155.20 and AMD 5% to $426.60; Anthropic traded back above its $83 IPO price. Deutsche Bank said the tech selloff showed signs of stabilising.",
+      "impact": "High",
+      "numbers": "Asia close: Kospi +4.3% to 4,915.68, Shanghai Composite +3.73%, Nikkei 225 +2.11% to 58,711.11, Hang Seng +2.1% to 22,694.77, Hang Seng Tech +6%. Europe: Stoxx 600 +1.07% to +1.75%, DAX +2.08%. US futures 05:41 ET: Nasdaq 100 +2.38%, S&P 500 +1.74% (7,321.00), Dow +1.30% (~50,900). NVDA +4.2% to $155.20, AMD +5.0% to $426.60, Anthropic back above $83 IPO price. Nasdaq 100 still on track for its worst month in nearly four years; NVDA ~30-37% below its October record",
+      "order": 1,
+      "reaction": "Third round trip in four sessions, and the biggest: Korea and Taiwan led again, which says this is still positioning and a tariff-cap relief trade rather than a change in the AI thesis. Note the shape - futures up 1.7-2.4% while the Nasdaq 100 is still heading for its worst month since early 2023, so this is dip buying inside a drawdown, not a recovery. A 1:00 PM ET close on holiday-thin books means a gap this size can be unwound or doubled in three and a half hours, and the cost-and-financing questions behind the selloff are untouched.",
+      "region": "Asia/Europe/US",
+      "source": "https://www.bnnbloomberg.ca/markets/2026/11/27/global-shares-mostly-rise-ahead-of-wall-streets-reopening-after-thanksgiving/",
+      "tickers": "QQQ, Nasdaq, SPY, S&P, Nikkei, Kospi, NVDA, AMD",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-27-2-brent-97-kuwait-drone-attack-opec",
+    "data": {
+      "addedAt": "2026-11-27",
+      "category": "Geopolitics",
+      "date": "2026-11-27",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Brent pushed through $97 to near monthly highs, on track for its first weekly gain in four, as the Iran conflict widened to a third Gulf state. Kuwait's army said two Italian Rheinmetall Italia technicians working at an air-defence surveillance station were killed and two others injured - a Pakistani national and a Kuwaiti army captain - by debris from Iranian drone/missile attacks; Iran denied involvement, with its foreign minister calling the incident \"suspicious\" and offering a joint investigation, while Italy summoned Iran's embassy and the EU Commission head called for more pressure on Tehran. Trump told PBS the US has \"victory at hand\" and that it will come \"whenever I want it to be,\" while an Israeli military spokesman said Israel is ready to strike Iran \"at any moment\" even without US participation. This follows the claimed Houthi strike on Saudi Aramco's Ras Tanura and mined tankers in the Strait of Hormuz. OPEC+ meets Sunday Nov 29 and is expected to hold production targets at least through Q1 2027.",
+      "impact": "High",
+      "numbers": "Brent +0.72% to $97.27/bbl (quotes $97.02-$97.63 through the morning); WTI +2.60% to $85.80/bbl. First weekly Brent gain in four weeks; near monthly highs. Kuwait attack: 2 Italians killed, 2 injured; Kuwait air defences activated days earlier for the first time since early September. Ras Tanura capacity 550,000 b/d. OPEC+ meeting Nov 29; targets expected unchanged through Q1 2027",
+      "order": 2,
+      "reaction": "The single thing arguing against today's risk-on tape. A NATO member's nationals killed at a Gulf air-defence site turns an energy-supply story into an escalation story, and Trump's \"whenever I want it\" plus Israel's \"any moment\" leave the timing entirely headline-driven. WTI up 2.6% against Brent up 0.7% is the honest tell: this is the US front curve catching up after no Thanksgiving settlement, not a fresh $3 shock. Two gap risks straddle the 1:00 PM ET close - a weekend of Gulf headlines and OPEC+ on Sunday - with equities getting a crude tax at $97 that nobody is pricing while chips are up 4%.",
+      "region": "Middle East/Global",
+      "source": "https://www.cnbc.com/2026/11/27/us-iran-war-trump-hormuz-italian-killed-trump.html",
+      "tickers": "USO, oil, XLE, SPY, S&P",
+      "time": "Pre-market",
+      "vsExp": "n/a"
+    }
+  },
+  {
+    "id": "2026-11-27-3-gold-snaps-back-yields-up-6bp",
+    "data": {
+      "addedAt": "2026-11-27",
+      "category": "Rates",
+      "date": "2026-11-27",
+      "day": "Fri",
+      "direction": "Mixed",
+      "event": "Gold snapped back hard as Treasury cash trading reopened. Spot gold rose roughly 1.6-2.6% to about $3,645-3,660/oz, recovering from a low near $3,427 earlier in the week and clawing back part of an 8% monthly loss that had taken it to one-year lows. Yields moved the other way: the 10-year Treasury rose about 5-6bp to 4.90-4.92% and the 2-year to 4.683% as risk appetite returned, with the dollar index stalling just below 104.00 at about 103.7-103.9. Hawkish Fed pricing is intact - markets put roughly 96-98% odds on a 25bp hike at the Dec 8-9 FOMC from the current 3.75%-4.00% range after October core PCE at 3.3% y/y. No US data releases on the calendar for the shortened session.",
+      "impact": "Medium",
+      "numbers": "Spot gold +1.6% to +2.6%, ~$3,645-3,660/oz (week's low ~$3,427; month-to-date still roughly -8%); gold futures quoted $3,702.20 (+2.9%). US 10Y 4.90-4.92% (+5.2 to +6bp), 2Y 4.683%. DXY ~103.70-103.905 (+0.23%), below 104.00. CME odds ~96-98% for a 25bp Dec 8-9 hike; Oct core PCE 3.3% y/y. No scheduled US data releases",
+      "order": 3,
+      "reaction": "Gold up 2% and the 10-year up 6bp on the same morning is not a haven bid - it is a short squeeze in a market that was down 8% on the month and sitting at one-year lows a day ago. Yesterday's signal was gold refusing to bid on a refinery strike; today's is gold bidding on nothing new, which marks the November liquidation as positioning-driven and largely done. For equities the relevant line is the 10-year back near 4.90% with a December hike effectively locked: the rate side has not improved at all, so today's 2% futures rally rests on sentiment alone. An empty data calendar means nothing can break the tie before 1:00 PM ET.",
+      "region": "US/Global",
+      "source": "https://www.fxstreet.com/news/us-dollar-index-stalls-below-10400-as-hawkish-fed-bets-cushion-downside-202611271247",
+      "tickers": "GLD, gold, DXY, USD, dollar, TLT, 10Y, yield, Treasury",
+      "time": "Pre-market",
+      "vsExp": "n/a (no scheduled releases)"
+    }
+  },
+  {
+    "id": "2026-11-27-4-ustr-15pct-cap-eu-japan-korea-taiwan",
+    "data": {
+      "addedAt": "2026-11-27",
+      "category": "Policy",
+      "date": "2026-11-27",
+      "day": "Fri",
+      "direction": "Bullish",
+      "event": "The USTR Section 301 excess-capacity notice turns out to preserve the 15% ceiling for the EU, Japan, South Korea, Taiwan and Switzerland, and the 15% is calculated net of ordinary MFN duties and pre-existing Section 301 duties rather than stacked on them. Taiwan's Executive Yuan confirmed its 15% will not stack on MFN rates or on the July forced-labour duty, and the EU figure matches the ceiling already in last year's US-EU framework agreement. China remains the outlier at a proposed 20%. Nothing is in force and no effective date is set: comments are due January 5, 2027 and hearings begin January 25, 2027. Reported fallback rates if talks fail are up to 25% for South Korea, Taiwan and several Southeast Asian economies, 20% for the EU, Japan and Switzerland, and up to 40% for China. India is among the 14 economies covered.",
+      "impact": "Medium",
+      "numbers": "14 economies covered. Primary rate up to 15% for EU, Japan, South Korea, Taiwan, Switzerland, net of MFN and prior Section 301 duties; China 20%. Reported fallbacks: up to 25% (South Korea, Taiwan, Cambodia, Indonesia, Malaysia, Thailand), 20% (EU, Japan, Switzerland), 40% (China). Comments due Jan 5, 2027; hearings from Jan 25, 2027; no effective date set. US-China truce expires Jan 10",
+      "order": 4,
+      "reaction": "This is why Korea and Taiwan led Asia with 4%+ gains rather than merely following the chip bounce: both had been priced for something worse than a cap they already live under, and \"net of MFN\" removes the arithmetic that produced Wednesday's above-40% scare. Two caveats before treating it as resolved - the fallback tiers are the real negotiating threat and would land on exactly the Asian supply chains that just rallied, and a Jan 5 comment deadline plus a Jan 10 China truce expiry stack the decision risk into the first full week of January, not into year-end.",
+      "region": "US/Global",
+      "source": "https://www.koreatimes.co.kr/world/20261126/us-proposes-tariffs-over-excess-production-retains-15-cap-for-korea-japan-eu",
+      "tickers": "SPY, S&P, QQQ, Nasdaq",
+      "time": "Pre-market",
+      "vsExp": "n/a (proposal, rates not finalized)"
+    }
   }
 ]
