@@ -688,6 +688,75 @@
     "Fri Nov 27: half day (closes 1pm ET)"
    ],
    "by": "script"
+  },
+  {
+   "date": "2026-11-27",
+   "headline": "Stocks rise 1.6%",
+   "tape": [
+    {
+     "t": "SPY",
+     "n": "S&P 500",
+     "pct": 0.0162,
+     "close": 728.32
+    },
+    {
+     "t": "QQQ",
+     "n": "Nasdaq-100",
+     "pct": 0.0269
+    },
+    {
+     "t": "RSP",
+     "n": "Equal-weight S&P",
+     "pct": 0.0122
+    }
+   ],
+   "facts": [
+    "SPY is 6.5% under its 1-year high (Tue Oct 6, 2026).",
+    "407 of 502 S&P 500 stocks rose."
+   ],
+   "up": [
+    {
+     "t": "COHR",
+     "n": "Coherent Corp.",
+     "pct": 0.1407
+    },
+    {
+     "t": "LITE",
+     "n": "Lumentum",
+     "pct": 0.0798
+    },
+    {
+     "t": "STX",
+     "n": "Seagate Technology",
+     "pct": 0.079
+    }
+   ],
+   "down": [
+    {
+     "t": "VRTX",
+     "n": "Vertex Pharmaceuticals",
+     "pct": -0.0524
+    },
+    {
+     "t": "PODD",
+     "n": "Insulet Corporation",
+     "pct": -0.0265
+    },
+    {
+     "t": "SJM",
+     "n": "J.M. Smucker Company (The)",
+     "pct": -0.0246
+    }
+   ],
+   "headlines": [
+    {
+     "src": "MarketWatch",
+     "t": "These stocks soared the most during a wild week highlighted by Huang’s return to Nvidia",
+     "link": "https://www.marketwatch.com/story/these-stocks-soared-the-most-during-a-wild-week-highlighted-by-huangs-return-to-nvidia-578b3f9a?mod=mw_rss_topstories"
+    }
+   ],
+   "coming": [],
+   "by": "script"
   }
  ],
  "about": "Today's story on the scanner page (docs/scanner.html), built each weekday evening by scripts/story_build.py from the scanner's prices (docs/ohlc.json), the saved news headlines (data/headlines_log.json) and the exchange and Fed calendars - no AI writing. Oldest first, the last 60 sessions. Information only: never part of the plan."

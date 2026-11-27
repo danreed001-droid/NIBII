@@ -759,6 +759,7 @@ BETRW,Finance: Consumer Services
 BFAM,Other Consumer Services
 BFC,Major Banks
 BFH,Finance: Consumer Services
+BFLR,Computer Software: Prepackaged Software
 BFLY,Medical Electronics
 BFRG,Biotechnology: Pharmaceutical Preparations
 BFRGW,Biotechnology: Pharmaceutical Preparations
@@ -2733,7 +2734,6 @@ HCM,Biotechnology: Pharmaceutical Preparations
 HCMA,Hotels/Resorts
 HCMAW,Hotels/Resorts
 HCSG,Hospital/Nursing Management
-HCTI,EDP Services
 HCWB,Biotechnology: Pharmaceutical Preparations
 HCXY,Investment Managers
 HD,RETAIL: Building Materials
@@ -4304,6 +4304,7 @@ OBAWW,Blank Checks
 OBDC,Diversified Financial Services
 OBE,Oil & Gas Production
 OBIO,Medicinal Chemicals and Botanical Products
+OBMT,Major Banks
 OBT,Major Banks
 OBTC,Investment Bankers/Brokers/Service
 OBX,Biotechnology: Pharmaceutical Preparations
@@ -5058,6 +5059,7 @@ RMSG,Computer Software: Programming Data Processing
 RMSGW,Computer Software: Programming Data Processing
 RMT,Investment Managers
 RMTI,Biotechnology: Pharmaceutical Preparations
+RMTX,Biotechnology: Biological Products (No Diagnostic Substances)
 RNA,Biotechnology: Pharmaceutical Preparations
 RNAC,Biotechnology: Pharmaceutical Preparations
 RNAQ,Blank Checks
@@ -5180,6 +5182,7 @@ SAFE,Real Estate Investment Trusts
 SAFT,Property-Casualty Insurers
 SAGT,Computer Software: Prepackaged Software
 SAGU,Blank Checks
+SAGU-U,Blank Checks
 SAGU-WS,Blank Checks
 SAH,Retail-Auto Dealers and Gas Stations
 SAIA,Trucking Freight/Courier Services
@@ -5368,6 +5371,7 @@ SKY,Homebuilding
 SKYA,Medical/Dental Instruments
 SKYAW,EDP Services
 SKYD,Broadcasting
+SKYD-WS,Broadcasting
 SKYE,Biotechnology: Pharmaceutical Preparations
 SKYH,Real Estate
 SKYH-WS,Real Estate
@@ -5494,6 +5498,9 @@ SPCB,Semiconductors
 SPCE,Transportation Services
 SPCX,Computer Software: Programming Data Processing
 SPE,Finance/Investors Services
+SPEG,Blank Checks
+SPEGR,Blank Checks
+SPEGU,Blank Checks
 SPFI,Major Banks
 SPG,Real Estate Investment Trusts
 SPGI,Finance: Consumer Services
@@ -5871,6 +5878,7 @@ TPTS,Real Estate Investment Trusts
 TPVG,Other Consumer Services
 TR,Specialty Foods
 TRAD,Investment Bankers/Brokers/Service
+TRAD-U,Blank Checks
 TRAK,EDP Services
 TRAW,Biotechnology: Pharmaceutical Preparations
 TRAX,Biotechnology: Pharmaceutical Preparations
@@ -6248,7 +6256,6 @@ VTS,Oil & Gas Production
 VTSI,Miscellaneous manufacturing industries
 VTVT,Biotechnology: Pharmaceutical Preparations
 VUZI,Radio And Television Broadcasting And Communications Equipment
-VVOS,Medical/Dental Instruments
 VVR,Trusts Except Educational Religious and Charitable
 VVV,Major Chemicals
 VVVV,Medical/Dental Instruments
@@ -6433,6 +6440,7 @@ XELLL,Power Generation
 XENE,Biotechnology: Pharmaceutical Preparations
 XERS,Biotechnology: Pharmaceutical Preparations
 XFLH,Blank Checks
+XFLH-U,Blank Checks
 XFLT,Investment Managers
 XFOR,Biotechnology: Biological Products (No Diagnostic Substances)
 XGN,Medical Specialities

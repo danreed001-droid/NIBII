@@ -631,6 +631,28 @@
    "at": "2026-11-25T23:12:39+00:00",
    "fp": "1d06935a71dc8c0b",
    "src": "scanner run"
+  },
+  {
+   "d": "2026-11-27",
+   "mode": "boost",
+   "half": null,
+   "list": [
+    "CRL",
+    "MPWR",
+    "MRNA",
+    "MU",
+    "OKTA"
+   ],
+   "w": {
+    "MRNA": 0.4,
+    "CRL": 0.1,
+    "OKTA": 0.2,
+    "MU": 0.2,
+    "MPWR": 0.1
+   },
+   "at": "2026-11-27T23:25:44+00:00",
+   "fp": "1d06935a71dc8c0b",
+   "src": "scanner run"
   }
  ],
  "updates": [
