@@ -480,62 +480,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for ES=F on 19 November (last labeled weekly swings HL/HH/HL/HH); RSI 30.92, close (7193.0) below the 50-day (7677.68) and below the 200-day (7377.05); the swing read is a run of higher highs and higher lows, so bullish; note the 19 November close sits below the 14 September weekly swing low (7509.25), but the computed weekly read has not flipped and the vote follows it"
+       "structure.weekly reads uptrend for ES=F on 19 November (last labeled weekly swings HL/HH/HL/HH); RSI 30.92, close (7193.0) below the 50-day (7677.68) and below the 200-day (7377.05); the swing read is a run of higher highs and higher lows, so bullish; note the 19 November close sits below the 14 September weekly swing low (7509.25), but the computed weekly read has not flipped and the vote follows it",
+       false
       ],
       [
        "neu",
-       "Breadth is a 1-day factor only; no horizon-wide dated breadth read for S&P 500, so neutral"
+       "Breadth is a 1-day factor only; no horizon-wide dated breadth read for S&P 500, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral"
+       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No horizon-wide dated credit read for S&P 500; the three-session high-yield widening is used at 1D only, so neutral"
+       "No horizon-wide dated credit read for S&P 500; the three-session high-yield widening is used at 1D only, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates is a 1-day factor only; no horizon-wide dated rates read for S&P 500, so neutral"
+       "Rates is a 1-day factor only; no horizon-wide dated rates read for S&P 500, so neutral",
+       null
       ],
       [
        "bear",
-       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for equity multiples"
+       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for equity multiples",
+       false
       ],
       [
        "bull",
-       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish vs a 31.5% historical average (AAII Sentiment Survey page; the 19 November release could not be obtained); heavy bearishness is a contrarian positive over a multi-day window; bullish for S&P 500 over this window"
+       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish vs a 31.5% historical average (AAII Sentiment Survey page; the 19 November release could not be obtained); heavy bearishness is a contrarian positive over a multi-day window; bullish for S&P 500 over this window",
+       false
       ],
       [
        "bull",
-       "JP Morgan put aggregate US equity positioning at about the 20th percentile since 2015 (Strategitz Global Markets Close, 19 November): light positioning leaves room for re-risking over a multi-day window, so a modest bullish vote"
+       "JP Morgan put aggregate US equity positioning at about the 20th percentile since 2015 (Strategitz Global Markets Close, 19 November): light positioning leaves room for re-risking over a multi-day window, so a modest bullish vote",
+       false
       ],
       [
        "neu",
-       "No scheduled S&P 500 megacap earnings with a dated directional read fall in this window (Nvidia and Walmart have reported), so neutral"
+       "No scheduled S&P 500 megacap earnings with a dated directional read fall in this window (Nvidia and Walmart have reported), so neutral",
+       null
       ],
       [
        "neu",
-       "The window holds Waller (8:25am) and Cook (12:15pm) on 20 November, the final November UMich sentiment (CappNotes Closing Look, 19 November) and Thanksgiving week; binary event risk with no dated directional read, so neutral"
+       "The window holds Waller (8:25am) and Cook (12:15pm) on 20 November, the final November UMich sentiment (CappNotes Closing Look, 19 November) and Thanksgiving week; binary event risk with no dated directional read, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for S&P 500, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for S&P 500, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH."
+       "Weekly structure is uptrend - last labeled swings: HL/HH/HL/HH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
-     "correct": null,
-     "shadowCorrect": null,
-     "preReversionCorrect": null
+     "maturityClose": 7300.75,
+     "ret": 0.01498,
+     "correct": false,
+     "shadowCorrect": false,
+     "preReversionCorrect": false,
+     "settlementNote": "graded against ES=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -2581,62 +2596,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for ZN=F on 19 November (last labeled weekly swings LL/LH/LL/LH); RSI 49.9, close (105.9531) above the 50-day (105.62) and below the 200-day (109.05); the swing read is a run of lower highs and lower lows, so bearish"
+       "structure.weekly reads downtrend for ZN=F on 19 November (last labeled weekly swings LL/LH/LL/LH); RSI 49.9, close (105.9531) above the 50-day (105.62) and below the 200-day (109.05); the swing read is a run of lower highs and lower lows, so bearish",
+       false
       ],
       [
        "neu",
-       "Equity breadth has no direct bearing on Treasuries, so neutral"
+       "Equity breadth has no direct bearing on Treasuries, so neutral",
+       null
       ],
       [
        "neu",
-       "No MOVE or Treasury implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "No MOVE or Treasury implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit read bears directly on Treasuries over this window, so neutral"
+       "No dated credit read bears directly on Treasuries over this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates is a 1-day factor only; no horizon-wide dated rates read for 10-Year Treasury Note, so neutral"
+       "Rates is a 1-day factor only; no horizon-wide dated rates read for 10-Year Treasury Note, so neutral",
+       null
       ],
       [
        "bear",
-       "Fed-path pricing stayed hawkish on 19 November: Kalshi 89.3% for a 25bp hike on 9 December and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), with the October minutes ('almost all' saw further tightening as likely appropriate) and Waller's 50bp push still the reference (Strategitz Global Markets Close, 19 November); more hikes priced is bearish for note prices"
+       "Fed-path pricing stayed hawkish on 19 November: Kalshi 89.3% for a 25bp hike on 9 December and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), with the October minutes ('almost all' saw further tightening as likely appropriate) and Waller's 50bp push still the reference (Strategitz Global Markets Close, 19 November); more hikes priced is bearish for note prices",
+       false
       ],
       [
        "neu",
-       "No dated Treasury sentiment survey was obtained, so neutral"
+       "No dated Treasury sentiment survey was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated Treasury-fund flow or CFTC figure for this window was obtained, so neutral"
+       "No dated Treasury-fund flow or CFTC figure for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts have no direct bearing on Treasuries, so neutral"
+       "Earnings catalysts have no direct bearing on Treasuries, so neutral",
+       null
       ],
       [
        "neu",
-       "The window holds Fed speakers (Waller, Cook on 20 November), final UMich inflation expectations and Thanksgiving week (CappNotes Closing Look, 19 November); binary, so neutral"
+       "The window holds Fed speakers (Waller, Cook on 20 November), final UMich inflation expectations and Thanksgiving week (CappNotes Closing Look, 19 November); binary, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for 10-Year Treasury Note, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for 10-Year Treasury Note, so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LL/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LL/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 106.6875,
+     "ret": 0.006931,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against ZN=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -5218,62 +5248,77 @@
      "votes": [
       [
        "bear",
-       "structure.weekly reads downtrend for GC=F on 19 November (last labeled weekly swings LH/LH/LL/LH); RSI 24.72, close (3617.7) below the 50-day (4127.38) and below the 200-day (4451.21); the swing read is a run of lower highs and lower lows, so bearish"
+       "structure.weekly reads downtrend for GC=F on 19 November (last labeled weekly swings LH/LH/LL/LH); RSI 24.72, close (3617.7) below the 50-day (4127.38) and below the 200-day (4451.21); the swing read is a run of lower highs and lower lows, so bearish",
+       false
       ],
       [
        "neu",
-       "Equity breadth has no direct bearing on gold, so neutral"
+       "Equity breadth has no direct bearing on gold, so neutral",
+       null
       ],
       [
        "neu",
-       "No gold implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "No gold implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit read bears directly on gold, so neutral"
+       "No dated credit read bears directly on gold, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates is a 1-day factor only; no horizon-wide dated rates read for Gold, so neutral"
+       "Rates is a 1-day factor only; no horizon-wide dated rates read for Gold, so neutral",
+       null
       ],
       [
        "bear",
-       "Fed path is hawkish for a non-yielding asset: Kalshi 89.3% for a 25bp 9 December hike and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), the October minutes and Waller's 50bp push (Strategitz Global Markets Close, 19 November); bearish for gold"
+       "Fed path is hawkish for a non-yielding asset: Kalshi 89.3% for a 25bp 9 December hike and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), the October minutes and Waller's 50bp push (Strategitz Global Markets Close, 19 November); bearish for gold",
+       false
       ],
       [
        "neu",
-       "No dated gold sentiment survey was obtained, so neutral"
+       "No dated gold sentiment survey was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated CFTC or gold-ETF flow figure covering this window was obtained, so neutral"
+       "No dated CFTC or gold-ETF flow figure covering this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts have no direct bearing on gold, so neutral"
+       "Earnings catalysts have no direct bearing on gold, so neutral",
+       null
       ],
       [
        "neu",
-       "The window holds Fed speakers, final UMich inflation expectations and Thanksgiving week, plus Middle East risk (Iran's navy reported two tankers hit mines in Hormuz, unverified; Houthi strike on Riyadh) (CappNotes Closing Look, 19 November); binary, so neutral"
+       "The window holds Fed speakers, final UMich inflation expectations and Thanksgiving week, plus Middle East risk (Iran's navy reported two tankers hit mines in Hormuz, unverified; Houthi strike on Riyadh) (CappNotes Closing Look, 19 November); binary, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for Gold, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for Gold, so neutral",
+       null
       ],
       [
        "bear",
-       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH."
+       "Weekly structure is downtrend - last labeled swings: LH/LH/LL/LH.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 3665.800048828125,
+     "ret": 0.013296,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against GC=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -7288,62 +7333,77 @@
      "votes": [
       [
        "bull",
-       "structure.weekly reads uptrend for DX-Y.NYB on 19 November (last labeled weekly swings HL/HL/HH/HL); RSI 70.35, close (103.924) above the 50-day (101.79) and above the 200-day (99.98); the swing read is a run of higher highs and higher lows, so bullish"
+       "structure.weekly reads uptrend for DX-Y.NYB on 19 November (last labeled weekly swings HL/HL/HH/HL); RSI 70.35, close (103.924) above the 50-day (101.79) and above the 200-day (99.98); the swing read is a run of higher highs and higher lows, so bullish",
+       false
       ],
       [
        "neu",
-       "Equity breadth has no direct bearing on the dollar index, so neutral"
+       "Equity breadth has no direct bearing on the dollar index, so neutral",
+       null
       ],
       [
        "neu",
-       "No FX implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral"
+       "No FX implied-volatility print naming a percentile, record or multi-year extreme was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated credit read bears directly on the dollar, so neutral"
+       "No dated credit read bears directly on the dollar, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates is a 1-day factor only; no horizon-wide dated rates read for US Dollar Index, so neutral"
+       "Rates is a 1-day factor only; no horizon-wide dated rates read for US Dollar Index, so neutral",
+       null
       ],
       [
        "bull",
-       "Fed path is hawkish relative to peers: Kalshi 89.3% for a 25bp 9 December hike and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), the October minutes and Waller's 50bp push (Strategitz Global Markets Close, 19 November) keep the US rate advantage; bullish for the dollar"
+       "Fed path is hawkish relative to peers: Kalshi 89.3% for a 25bp 9 December hike and 6.3% for 50bp, CME FedWatch 96.4% (CappNotes Closing Look, 19 November), the October minutes and Waller's 50bp push (Strategitz Global Markets Close, 19 November) keep the US rate advantage; bullish for the dollar",
+       false
       ],
       [
        "neu",
-       "No dated dollar sentiment survey was obtained, so neutral"
+       "No dated dollar sentiment survey was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated CFTC or FX-flow figure for this window was obtained, so neutral"
+       "No dated CFTC or FX-flow figure for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "Earnings catalysts have no direct bearing on the dollar, so neutral"
+       "Earnings catalysts have no direct bearing on the dollar, so neutral",
+       null
       ],
       [
        "neu",
-       "The window holds Fed speakers, final UMich inflation expectations and Thanksgiving week (CappNotes Closing Look, 19 November); binary, so neutral"
+       "The window holds Fed speakers, final UMich inflation expectations and Thanksgiving week (CappNotes Closing Look, 19 November); binary, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for US Dollar Index, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for US Dollar Index, so neutral",
+       null
       ],
       [
        "bull",
-       "Weekly structure is uptrend - last labeled swings: HL/HL/HH/HL."
+       "Weekly structure is uptrend - last labeled swings: HL/HL/HH/HL.",
+       false
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 103.91699981689453,
+     "ret": -6.7e-05,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against DX-Y.NYB",
+     "provisional": true
     },
     {
      "h": 10,
@@ -9413,62 +9473,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for RTY=F on 19 November (last labeled weekly swings HH/HL/HH/LH); RSI 34.82, close (2660.3) below the 50-day (2818.26) and below the 200-day (2822.76); the swing read gives no consistent direction, so neutral"
+       "structure.weekly reads choppy for RTY=F on 19 November (last labeled weekly swings HH/HL/HH/LH); RSI 34.82, close (2660.3) below the 50-day (2818.26) and below the 200-day (2822.76); the swing read gives no consistent direction, so neutral",
+       null
       ],
       [
        "neu",
-       "Breadth is a 1-day factor only; no horizon-wide dated breadth read for Russell 2000, so neutral"
+       "Breadth is a 1-day factor only; no horizon-wide dated breadth read for Russell 2000, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral"
+       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No horizon-wide dated credit read for Russell 2000; the high-yield widening is used at 1D only, so neutral"
+       "No horizon-wide dated credit read for Russell 2000; the high-yield widening is used at 1D only, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates is a 1-day factor only; no horizon-wide dated rates read for Russell 2000, so neutral"
+       "Rates is a 1-day factor only; no horizon-wide dated rates read for Russell 2000, so neutral",
+       null
       ],
       [
        "bear",
-       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for small-cap financing costs"
+       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for small-cap financing costs",
+       false
       ],
       [
        "bull",
-       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish vs a 31.5% historical average (AAII Sentiment Survey page; the 19 November release could not be obtained); heavy bearishness is a contrarian positive over a multi-day window; bullish for Russell 2000 over this window"
+       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish vs a 31.5% historical average (AAII Sentiment Survey page; the 19 November release could not be obtained); heavy bearishness is a contrarian positive over a multi-day window; bullish for Russell 2000 over this window",
+       true
       ],
       [
        "neu",
-       "No dated small-cap fund-flow, CFTC or positioning figure for this window was obtained, so neutral"
+       "No dated small-cap fund-flow, CFTC or positioning figure for this window was obtained, so neutral",
+       null
       ],
       [
        "neu",
-       "No scheduled small-cap earnings with a dated directional read fall in this window, so neutral"
+       "No scheduled small-cap earnings with a dated directional read fall in this window, so neutral",
+       null
       ],
       [
        "neu",
-       "The window holds Waller (8:25am) and Cook (12:15pm) on 20 November, the final November UMich sentiment (CappNotes Closing Look, 19 November) and Thanksgiving week; binary event risk with no dated directional read, so neutral"
+       "The window holds Waller (8:25am) and Cook (12:15pm) on 20 November, the final November UMich sentiment (CappNotes Closing Look, 19 November) and Thanksgiving week; binary event risk with no dated directional read, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for Russell 2000, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for Russell 2000, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 2739.199951171875,
+     "ret": 0.029658,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against RTY=F",
+     "provisional": true
     },
     {
      "h": 10,
@@ -11398,62 +11473,77 @@
      "votes": [
       [
        "neu",
-       "structure.weekly reads choppy for NQ=F on 19 November (last labeled weekly swings LH/HL/HH/LL); RSI 33.14, close (26538.25) below the 50-day (29475.91) and below the 200-day (28198.18); the swing read gives no consistent direction, so neutral"
+       "structure.weekly reads choppy for NQ=F on 19 November (last labeled weekly swings LH/HL/HH/LL); RSI 33.14, close (26538.25) below the 50-day (29475.91) and below the 200-day (28198.18); the swing read gives no consistent direction, so neutral",
+       null
       ],
       [
        "neu",
-       "Breadth is a 1-day factor only; no horizon-wide dated breadth read for Nasdaq-100, so neutral"
+       "Breadth is a 1-day factor only; no horizon-wide dated breadth read for Nasdaq-100, so neutral",
+       null
       ],
       [
        "neu",
-       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral"
+       "Volatility context is in the sigma input (VIX +15.80% to 28.44, intraday high 29.13 (CappNotes Closing Look, 19 November), its highest since March per CNBC (StockTitan Stock Market Today, 19 November); GVZ 28.70; VXN 36.48); an eight-month high is not a percentile, record or multi-year extreme, so neutral",
+       null
       ],
       [
        "neu",
-       "No horizon-wide dated credit read for Nasdaq-100; the credit widening is used at 1D only, so neutral"
+       "No horizon-wide dated credit read for Nasdaq-100; the credit widening is used at 1D only, so neutral",
+       null
       ],
       [
        "neu",
-       "Rates is a 1-day factor only; no horizon-wide dated rates read for Nasdaq-100, so neutral"
+       "Rates is a 1-day factor only; no horizon-wide dated rates read for Nasdaq-100, so neutral",
+       null
       ],
       [
        "bear",
-       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for long-duration tech multiples"
+       "Fed-path pricing stayed hawkish on 19 November: Kalshi priced a 25bp hike on 9 December at 89.3% and 50bp at 6.3% (hold 3.4%), CME FedWatch 96.4% for 25bp (CappNotes Closing Look, 19 November), after October minutes in which 'almost all' participants saw further tightening as likely appropriate and Waller pushed for 50bp (Strategitz Global Markets Close, 19 November); more tightening priced is a headwind for long-duration tech multiples",
+       false
       ],
       [
        "bull",
-       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish vs a 31.5% historical average (AAII Sentiment Survey page; the 19 November release could not be obtained); heavy bearishness is a contrarian positive over a multi-day window; bullish for Nasdaq-100 over this window"
+       "AAII's latest obtainable survey (week ending 11 November) showed 51.4% bearish vs a 31.5% historical average (AAII Sentiment Survey page; the 19 November release could not be obtained); heavy bearishness is a contrarian positive over a multi-day window; bullish for Nasdaq-100 over this window",
+       false
       ],
       [
        "neu",
-       "Positioning is mixed: Morgan Stanley has hedge funds underweight large-cap tech at -7.2% active weight (light), but JP Morgan puts global semis exposure near the 80th percentile (heavy) (Strategitz Global Markets Close, 19 November); no clean read, so neutral"
+       "Positioning is mixed: Morgan Stanley has hedge funds underweight large-cap tech at -7.2% active weight (light), but JP Morgan puts global semis exposure near the 80th percentile (heavy) (Strategitz Global Markets Close, 19 November); no clean read, so neutral",
+       null
       ],
       [
        "neu",
-       "No scheduled megacap earnings with a dated directional read fall in this window (Nvidia has reported), so neutral"
+       "No scheduled megacap earnings with a dated directional read fall in this window (Nvidia has reported), so neutral",
+       null
       ],
       [
        "neu",
-       "The window holds Waller (8:25am) and Cook (12:15pm) on 20 November, the final November UMich sentiment (CappNotes Closing Look, 19 November) and Thanksgiving week; binary event risk with no dated directional read, so neutral"
+       "The window holds Waller (8:25am) and Cook (12:15pm) on 20 November, the final November UMich sentiment (CappNotes Closing Look, 19 November) and Thanksgiving week; binary event risk with no dated directional read, so neutral",
+       null
       ],
       [
        "neu",
-       "No dated seasonality statistic is available for this window, so neutral"
+       "No dated seasonality statistic is available for this window, so neutral",
+       null
       ],
       [
        "neu",
-       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for Nasdaq-100, so neutral"
+       "Cross-asset is a 1-day factor only; no horizon-wide dated cross-asset read for Nasdaq-100, so neutral",
+       null
       ],
       [
        "neu",
-       "Weekly structure is choppy - no consistent run of higher or lower swings."
+       "Weekly structure is choppy - no consistent run of higher or lower swings.",
+       null
       ]
      ],
-     "maturityClose": null,
-     "ret": null,
+     "maturityClose": 26649.25,
+     "ret": 0.004183,
      "correct": null,
      "shadowCorrect": null,
-     "preReversionCorrect": null
+     "preReversionCorrect": null,
+     "settlementNote": "graded against NQ=F",
+     "provisional": true
     },
     {
      "h": 10,
